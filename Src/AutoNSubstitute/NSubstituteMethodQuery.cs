@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>Selects appropriate methods to create substitutes.</summary>
     public class NSubstituteMethodQuery : IMethodQuery
@@ -18,7 +19,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            if (type.IsInterface)
+            if (type.GetTypeInfo().IsInterface)
                 return new[] { SubstituteMethod.Create(type) };
 
             return from ci in type.GetPublicAndProtectedConstructors()
@@ -46,6 +47,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", 
+            Justification = "It's activated via reflection.")]
         private class SubstituteMethod<T> : IMethod where T : class
         {
             private readonly IEnumerable<ParameterInfo> parameterInfos;

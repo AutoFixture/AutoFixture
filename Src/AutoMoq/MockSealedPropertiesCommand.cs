@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using AutoFixture.AutoMoq.Extensions;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.Extensions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// If the type of the object being mocked contains any fields and/or non-virtual/sealed settable properties,
     /// this initializer will resolve them from a given context.
     /// </summary>
-    [Obsolete("This class will be removed in a future version of AutoFixture. Use AutoMockPropertiesCommand instead, which will populate both sealed and overridable properties.")]
+    [Obsolete("This class will be removed in a future version of AutoFixture. Use AutoMockPropertiesCommand instead, which will populate both sealed and overridable properties.", true)]
     public class MockSealedPropertiesCommand : ISpecimenCommand
     {
         private readonly ISpecimenCommand autoPropertiesCommand =
@@ -34,7 +31,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (mock == null)
                 return;
 
-            autoPropertiesCommand.Execute(mock.Object, context);
+            this.autoPropertiesCommand.Execute(mock.Object, context);
         }
 
         private class MockSealedPropertySpecification : IRequestSpecification
@@ -62,7 +59,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             /// </summary>
             private static bool IsDynamicProxyMember(FieldInfo fi)
             {
-                return fi.Name == "__interceptors";
+                return string.Equals(fi.Name, "__interceptors", StringComparison.Ordinal);
             }
         }
     }

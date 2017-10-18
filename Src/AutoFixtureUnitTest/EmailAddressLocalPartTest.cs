@@ -1,12 +1,8 @@
-﻿using Ploeh.AutoFixture;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using AutoFixture;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class EmailAddressLocalPartTest
     {

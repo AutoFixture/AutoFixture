@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     /// <summary>
     /// These tests mostly deal with boundary cases (like null

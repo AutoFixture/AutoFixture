@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Generates enum values in a round-robin fashion.
@@ -47,9 +47,7 @@ namespace Ploeh.AutoFixture
             var t = request as Type;
             if (!EnumGenerator.IsEnumType(t))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             lock (this.syncRoot)
@@ -60,7 +58,7 @@ namespace Ploeh.AutoFixture
 
         private static bool IsEnumType(Type t)
         {
-            return (t != null) && t.IsEnum;
+            return (t != null) && t.IsEnum();
         }
 
         private object CreateValue(Type t)
@@ -81,6 +79,8 @@ namespace Ploeh.AutoFixture
             return enumerator;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1010:Collections should implement generic interface", 
+            Justification = "This is not a usual enumerable and for our purpose generic interface is not required.")]
         private class RoundRobinEnumEnumerable : IEnumerable
         {
             private readonly IEnumerable<object> values;

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Dsl
+namespace AutoFixture.Dsl
 {
     /// <summary>
     /// Aggregates an arbitrary number of
@@ -443,7 +442,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can
+        /// An <see cref="System.Collections.IEnumerator" /> object that can
         /// be used to iterate through the collection.
         /// </returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

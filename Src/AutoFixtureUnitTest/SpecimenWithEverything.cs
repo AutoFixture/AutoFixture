@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     /// <summary>
     /// A specimen that contains just about everything that AutoFixture can handle

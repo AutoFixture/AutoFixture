@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for <see cref="IEnumerator{T}" /> to 
@@ -40,16 +42,12 @@ namespace Ploeh.AutoFixture.Kernel
 
             var t = request as Type;
             if (t == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
-            var typeArguments = t.GetGenericArguments();
+            var typeArguments = t.GetTypeInfo().GetGenericArguments();
             if (typeArguments.Length != 1 ||
                 typeof (IEnumerator<>) != t.GetGenericTypeDefinition())
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var specimenBuilder = (ISpecimenBuilder) Activator.CreateInstance(
                 typeof (EnumeratorRelay<>).MakeGenericType(typeArguments));
@@ -57,6 +55,8 @@ namespace Ploeh.AutoFixture.Kernel
         }
     }
 
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", 
+        Justification = "It's activated via reflection.")]
     internal class EnumeratorRelay<T> : ISpecimenBuilder
     {
         public object Create(object request, ISpecimenContext context)
@@ -66,22 +66,16 @@ namespace Ploeh.AutoFixture.Kernel
 
             var t = request as Type;
             if (t == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             if (t != typeof(IEnumerator<T>))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var enumerable =
                 context.Resolve(typeof (IEnumerable<T>)) as IEnumerable<T>;
 
             if (enumerable == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return enumerable.GetEnumerator();
         }

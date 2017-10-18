@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Rhino.Mocks;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock
+namespace AutoFixture.AutoRhinoMock
 {
     /// <summary>
     /// Encapsulates how to create a mock instance with Rhino Mocks, using a constructor with

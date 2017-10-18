@@ -1,7 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
+using NSubstitute.Core;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Enables auto-mocking and auto-setup with NSubstitute.
@@ -9,8 +10,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// </summary>
     public class AutoConfiguredNSubstituteCustomization : ICustomization
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoConfiguredNSubstituteCustomization"/> class.
         /// </summary>
@@ -27,9 +26,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         public AutoConfiguredNSubstituteCustomization(ISpecimenBuilder builder)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
 
-            this.builder = builder;
+            this.Builder = builder;
         }
 
         /// <summary>
@@ -37,26 +36,23 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <see cref="Customize"/> is invoked.
         /// </summary>
         /// <seealso cref="AutoConfiguredNSubstituteCustomization(ISpecimenBuilder)"/>
-        public ISpecimenBuilder Builder
-        {
-            get { return builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>Customizes an <see cref="IFixture"/> to enable auto-mocking with NSubstitute.</summary>
         /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customizations.Insert(0, 
                 new Postprocessor(
                     new SubstituteRequestHandler(new MethodInvoker(new NSubstituteMethodQuery())),
                     new CompositeSpecimenCommand(
-                        new NSubstituteVirtualMethodsCommand(),
+                        new NSubstituteRegisterCallHandlerCommand(SubstitutionContext.Current),
                         new NSubstituteSealedPropertiesCommand())));
             fixture.Customizations.Insert(0, new SubstituteAttributeRelay());
-            fixture.ResidueCollectors.Add(Builder);
+            fixture.ResidueCollectors.Add(this.Builder);
         }
     }
 }

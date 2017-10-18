@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class ReflectionExceptionUnwrappingCommandTest
     {
@@ -31,6 +30,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome
             Assert.Equal(expectedCommand, result);
             // Teardown
+        }
+        
+        [Fact]
+        public void RequestedParamNameIsCorrect()
+        {
+            const string expected = "foo";
+            var commandStub = new DelegatingGuardClauseCommand { RequestedParameterName = expected };
+            var sut = new ReflectionExceptionUnwrappingCommand(commandStub);
+
+            var actual = sut.RequestedParameterName;
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

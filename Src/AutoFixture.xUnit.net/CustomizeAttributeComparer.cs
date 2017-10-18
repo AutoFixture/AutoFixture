@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Ploeh.AutoFixture.Xunit
+namespace AutoFixture.Xunit
 {
-    internal class CustomizeAttributeComparer : Comparer<CustomizeAttribute>
+    internal class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
     {
-        public override int Compare(CustomizeAttribute x, CustomizeAttribute y)
+        public override int Compare(IParameterCustomizationSource x, IParameterCustomizationSource y)
         {
             var xfrozen = x is FrozenAttribute;
             var yfrozen = y is FrozenAttribute;

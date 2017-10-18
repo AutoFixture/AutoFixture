@@ -1,11 +1,10 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class SortedDictionarySpecificationTests
     {
@@ -51,7 +50,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(SortedDictionary<string,int>))]
         [InlineData(typeof(SortedDictionary<int,string>))]
         [InlineData(typeof(SortedDictionary<object,object>))]
-        [InlineData(typeof(SortedDictionary<Version, OperatingSystem>))]
+        [InlineData(typeof(SortedDictionary<Version, ConcreteType>))]
         public void IsSatisfiedBySortedSetRequestReturnsCorrectResult(object request)
         {
             // Fixture setup

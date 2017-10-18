@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates a static method.
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        /// <exception cref="T:System.NullReferenceException">
+        /// <exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
         ///   </exception>
         public override bool Equals(object obj)

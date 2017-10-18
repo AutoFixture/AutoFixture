@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
+using AutoFixture.Kernel;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Relays a request for an interface or an abstract class to a request for a substitute of that type.
@@ -36,11 +36,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             }
 
             var requestedType = request as Type;
-            if (requestedType == null || !requestedType.IsAbstract)
+            if (requestedType == null || !requestedType.GetTypeInfo().IsAbstract)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             object substitute = context.Resolve(new SubstituteRequest(requestedType));

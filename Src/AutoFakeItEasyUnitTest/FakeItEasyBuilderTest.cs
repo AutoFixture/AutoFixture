@@ -1,11 +1,10 @@
 ﻿using System;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace AutoFixture.AutoFakeItEasy.UnitTest
 {
     public class FakeItEasyBuilderTest
     {
@@ -58,9 +57,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var dummyContext = A.Fake<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -97,9 +94,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -119,9 +114,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -140,9 +133,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }

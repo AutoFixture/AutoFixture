@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class AutoConfiguredNSubstituteCustomizationTest
     {
@@ -68,7 +66,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substituteFactory = Assert.IsType<MethodInvoker>(substituteRequestHandler.SubstituteFactory);
             Assert.IsType<NSubstituteMethodQuery>(substituteFactory.Query);
             var compositeCommand = Assert.IsAssignableFrom<CompositeSpecimenCommand>(postprocessor.Command);
-            Assert.True(compositeCommand.Commands.OfType<NSubstituteVirtualMethodsCommand>().Any());
+            Assert.True(compositeCommand.Commands.OfType<NSubstituteRegisterCallHandlerCommand>().Any());
             Assert.True(compositeCommand.Commands.OfType<NSubstituteSealedPropertiesCommand>().Any());
             // Teardown
         }

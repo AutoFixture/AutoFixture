@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class SpecimenFactoryWithSingleParameterFuncTest
     {
@@ -60,11 +60,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var dtSpecimen = DateTimeOffset.Now;
             var expectedParameterRequest = typeof(DateTimeOffset);
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => expectedParameterRequest.Equals(r) ? (object)dtSpecimen : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedParameterRequest.Equals(r) ? (object)dtSpecimen : new NoSpecimen() };
 
-            Func<DateTimeOffset, object> f = dt => dtSpecimen.Equals(dt) ? expectedSpecimen : new NoSpecimen(dt);
-#pragma warning restore 618
+            Func<DateTimeOffset, object> f = dt => dtSpecimen.Equals(dt) ? expectedSpecimen : new NoSpecimen();
             var sut = new SpecimenFactory<DateTimeOffset, object>(f);
             // Exercise system
             var dummyRequest = new object();

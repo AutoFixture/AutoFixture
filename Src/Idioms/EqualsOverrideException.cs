@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Represents an error about an ill-behaved override of the <see cref="Object.Equals(object)"/>
@@ -47,11 +47,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// Initializes a new instance of the <see cref="EqualsOverrideException"/> class.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the
         /// serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
         protected EqualsOverrideException(SerializationInfo info, StreamingContext context)

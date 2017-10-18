@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
+using AutoFixture;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class MultipleCustomizationTest
     {
@@ -46,7 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            Assert.True(fixture.ResidueCollectors.Any(b => relayType.IsAssignableFrom(b.GetType())));
+            Assert.Contains(fixture.ResidueCollectors, relayType.IsInstanceOfType);
             // Teardown
         }
 
@@ -174,7 +175,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.Create<Dictionary<string, OperatingSystem>>();
+            var result = fixture.Create<Dictionary<string, ConcreteType>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown

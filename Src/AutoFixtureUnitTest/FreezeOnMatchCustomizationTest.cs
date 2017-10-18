@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using System.Reflection;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class FreezeOnMatchCustomizationTest
     {
@@ -51,19 +51,20 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new FreezeOnMatchCustomization(typeof(object));
             // Verify outcome
+#pragma warning disable 618
             Assert.Equal(targetType, sut.TargetType);
+#pragma warning restore 618
         }
 
         [Fact]
-        public void InitializeWithTargetTypeShouldSetMatcherToMatchThatExactType()
+        public void InitializeWithTargetTypeAndMatcherShouldSetCorrespondingProperty()
         {
-            // Fixture setup
             var targetType = typeof(object);
-            // Exercise system
-            var sut = new FreezeOnMatchCustomization(targetType);
-            // Verify outcome
-            var matcher = Assert.IsType<ExactTypeSpecification>(sut.Matcher);
-            Assert.Equal(targetType, matcher.TargetType);
+            var matcher = new TrueRequestSpecification();
+            var sut = new FreezeOnMatchCustomization(typeof(object), matcher);
+#pragma warning disable 618
+            Assert.Equal(targetType, sut.TargetType);
+#pragma warning restore 618
         }
 
         [Fact]
@@ -75,6 +76,55 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new FreezeOnMatchCustomization(typeof(object), matcher);
             // Verify outcome
             Assert.Equal(matcher, sut.Matcher);
+        }
+
+
+        [Fact]
+        public void InitializeWithSingleNullRequestArgumentShouldThrowArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization((object)null));
+        }
+
+        [Fact]
+        public void InitializeWithNullRequestShouldThrowArgumentNullException()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization((object)null, new FalseRequestSpecification()));
+            Assert.Equal("request", ex.ParamName);
+        }
+
+        [Fact]
+        public void InitializeWithRequestAndNullMatcherShouldThrowArgumentNullException()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+                  new FreezeOnMatchCustomization(new object(), null));
+            Assert.Equal("matcher", ex.ParamName);
+        }
+
+        [Fact]
+        public void InitializeWithSingleRequestShouldSetCorrespondingProperty()
+        {
+            var request = new object();
+            var sut = new FreezeOnMatchCustomization(request);
+            Assert.Same(request, sut.Request);
+        }
+
+        [Fact]
+        public void InitializeWithRequestShouldSetCorrespondingProperty()
+        {
+            var request = new object();
+            var matcher = new TrueRequestSpecification();
+            var sut = new FreezeOnMatchCustomization(request, matcher);
+            Assert.Same(request, sut.Request);
+        }
+
+        [Fact]
+        public void InitializeWithRequestAndMatcherShouldSetCorrespondingProperty()
+        {
+            var matcher = new TrueRequestSpecification();
+            var sut = new FreezeOnMatchCustomization(new object(), matcher);
+            Assert.Same(matcher, sut.Matcher);
         }
 
         [Fact]
@@ -100,8 +150,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 OnCreate = (request, ctx) =>
                     request.Equals(frozenType)
                         ? new object()
-#pragma warning disable 618
-                        : new NoSpecimen(request)
+                        : new NoSpecimen()
 #pragma warning restore 618
             };
             var sut = new FreezeOnMatchCustomization(
@@ -112,6 +161,73 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize(fixture);
             // Verify outcome
             Assert.Equal(context.Resolve(frozenType), context.Resolve(frozenType));
+        }
+
+        [Fact]
+        public void CustomizeWithCompetingSpecimenBuilderForTheSameRequestShouldReturnTheFrozenSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+            var request = new object();
+            var requestType = typeof(object);
+            var competingBuilder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (req, ctx) =>
+                    req.Equals(request)
+                        ? new object()
+                        : new NoSpecimen()
+            };
+            var sut = new FreezeOnMatchCustomization(
+                request,
+                new ExactTypeSpecification(requestType));
+            // Exercise system
+            fixture.Customizations.Add(competingBuilder);
+            sut.Customize(fixture);
+            // Verify outcome
+            Assert.Equal(context.Resolve(requestType), context.Resolve(requestType));
+        }
+
+        [Fact]
+        public void CustomizeWithEqualRequestsShouldFreezeSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+
+            var freezingRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property1));
+            var equalRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property1));
+
+            var sut = new FreezeOnMatchCustomization(freezingRequest);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            var frozen = context.Resolve(freezingRequest);
+            var requested = context.Resolve(equalRequest);
+            Assert.True(frozen.Equals(requested));
+        }
+
+        [Fact]
+        public void CustomizeWithNotEqualRequestsShouldNotFreezeSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+
+            var freezingRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property1));
+            var anotherRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property2));
+
+            var sut = new FreezeOnMatchCustomization(freezingRequest);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            var frozen = context.Resolve(freezingRequest);
+            var requested = context.Resolve(anotherRequest);
+            Assert.False(frozen.Equals(requested));
         }
 
         [Theory]

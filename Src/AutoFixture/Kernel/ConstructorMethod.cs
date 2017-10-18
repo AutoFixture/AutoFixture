@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates a constructor as a method.
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture.Kernel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "tinyurl", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Invoke(IEnumerable<object> parameters)
         {
-            if (this.Constructor.DeclaringType.IsAbstract && this.Constructor.IsPublic)
+            if (this.Constructor.DeclaringType.IsAbstract() && this.Constructor.IsPublic)
             {
                 throw new ObjectCreationException(
                                 string.Format(

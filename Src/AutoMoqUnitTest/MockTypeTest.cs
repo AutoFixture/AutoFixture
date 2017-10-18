@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using AutoFixture.AutoMoq.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class MockTypeTest
     {

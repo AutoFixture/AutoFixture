@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Supplies <see cref="ISpecimenBuilder"/> instances that can be used to implement the default
@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate
+        /// A <see cref="IEnumerator{T}"/> that can be used to iterate
         /// through the collection.
         /// </returns>
         public override IEnumerator<ISpecimenBuilder> GetEnumerator()

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Represents a URI scheme name. Scheme names consist of a sequence of characters beginning 
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture
         ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; 
         /// otherwise, <c>false</c>.
         /// </returns>
-        /// <exception cref="T:System.NullReferenceException">
+        /// <exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
         ///   </exception>
         public override bool Equals(object obj)
@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixture
                 return false;
             }
 
-            return this.Scheme.Equals(other.Scheme, StringComparison.CurrentCulture);
+            return this.Scheme.Equals(other.Scheme, StringComparison.Ordinal);
         }
 
         private static bool IsValid(string scheme)

@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Ploeh.Albedo;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
+using Albedo;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class CopyAndUpdateAssertionTest
     {
@@ -128,8 +126,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CopyAndUpdateAssertion(dummyComposer);
             var method = typeWithCopyUpdateMethod.GetMethod(copyUpdateMethodName);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(method));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(method)));
             // Teardown
         }
 
@@ -190,9 +188,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public ImmutableWellBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
             {
-                First = first;
-                Second = second;
-                Third = third;
+                this.First = first;
+                this.Second = second;
+                this.Third = third;
             }
 
             public ImmutableWellBehavedCopyMethods WithFirst(int first)
@@ -219,9 +217,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public MutableWellBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
             {
-                First = first;
-                Second = second;
-                Third = third;
+                this.First = first;
+                this.Second = second;
+                this.Third = third;
             }
 
             public MutableWellBehavedCopyMethods WithFirst(int first)
@@ -248,9 +246,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public ImmutableIllBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
             {
-                First = first;
-                Second = second;
-                Third = third;
+                this.First = first;
+                this.Second = second;
+                this.Third = third;
             }
 
             public ImmutableIllBehavedCopyMethods WithFirstButSecondDefault(int first)
@@ -277,9 +275,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public MutableIllBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
             {
-                First = first;
-                Second = second;
-                Third = third;
+                this.First = first;
+                this.Second = second;
+                this.Third = third;
             }
 
             public MutableIllBehavedCopyMethods WithFirstButFirstDifferent(int first)

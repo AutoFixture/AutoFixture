@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Selects public static methods that has the same parameters of another method,
@@ -90,18 +90,18 @@ namespace Ploeh.AutoFixture.Kernel
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            return from method in type.GetMethods()
-                   where method.Name == Template.Name && (Owner != null || method.IsStatic)
+            return from method in type.GetTypeInfo().GetMethods()
+                   where string.Equals(method.Name, this.Template.Name, StringComparison.Ordinal) && (this.Owner != null || method.IsStatic)
                    let methodParameters = method.GetParameters()
-                   let templateParameters = Template.GetParameters()
+                   let templateParameters = this.Template.GetParameters()
                    where methodParameters.Length >= templateParameters.Length
                    let score = new LateBindingParameterScore(methodParameters, templateParameters)
                    orderby score descending
                    where methodParameters.All(p =>
                        p.Position >= templateParameters.Length ?
                            p.IsOptional || p.IsDefined(typeof(ParamArrayAttribute), true) :
-                           Compare(p.ParameterType, templateParameters[p.Position].ParameterType))
-                   select new GenericMethod(method, GetMethodFactory(method));
+                           this.Compare(p.ParameterType, templateParameters[p.Position].ParameterType))
+                   select new GenericMethod(method, this.GetMethodFactory(method));
         }
 
         private IMethodFactory GetMethodFactory(MethodInfo method)
@@ -109,12 +109,12 @@ namespace Ploeh.AutoFixture.Kernel
             if (method.IsStatic)
                 return new MissingParametersSupplyingStaticMethodFactory();
 
-            return new MissingParametersSupplyingMethodFactory(Owner);
+            return new MissingParametersSupplyingMethodFactory(this.Owner);
         }
 
         private bool Compare(Type parameterType, Type templateParameterType)
         {
-            if (parameterType.IsAssignableFrom(templateParameterType))
+            if (parameterType.GetTypeInfo().IsAssignableFrom(templateParameterType))
                 return true;
 
             if (parameterType.IsGenericParameter)
@@ -127,14 +127,14 @@ namespace Ploeh.AutoFixture.Kernel
             if (genericArguments.Length == 0 || genericArguments.Length != templateGenericArguments.Length)
                 return false;
 
-            return genericArguments.Zip(templateGenericArguments, Compare).All(x => x);
+            return genericArguments.Zip(templateGenericArguments, this.Compare).All(x => x);
         }
 
         private static Type[] GetTypeArguments(Type type)
         {
             return type.HasElementType ?
                 new[] { type.GetElementType() } :
-                type.GetGenericArguments();
+                type.GetTypeInfo().GetGenericArguments();
         }
 
         private class LateBindingParameterScore : IComparable<LateBindingParameterScore>
@@ -181,9 +181,9 @@ namespace Ploeh.AutoFixture.Kernel
 
                 var hierarchy = GetHierarchy(templateParameterType).ToList();
                 
-                var matches = methodParameterType.IsClass ? 
-                    hierarchy.Count(t => t.IsAssignableFrom(methodParameterType)) : 
-                    hierarchy.Count(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(methodParameterType)));
+                var matches = methodParameterType.IsClass() ? 
+                    hierarchy.Count(t => t.GetTypeInfo().IsAssignableFrom(methodParameterType)) : 
+                    hierarchy.Count(t => t.GetTypeInfo().GetInterfaces().Any(i => i.GetTypeInfo().IsAssignableFrom(methodParameterType)));
 
                 var score = 50 * -(hierarchy.Count - matches);
 
@@ -193,7 +193,7 @@ namespace Ploeh.AutoFixture.Kernel
                 score += CalculateScore(methodTypeArguments, templateTypeArguments) / 10;
                 score += 50 * -Math.Abs(methodTypeArguments.Length - templateTypeArguments.Length);
 
-                if (methodParameterType.IsClass)
+                if (methodParameterType.IsClass())
                     score += 5;
                 
                 return score;
@@ -201,14 +201,14 @@ namespace Ploeh.AutoFixture.Kernel
 
             private static IEnumerable<Type> GetHierarchy(Type type)
             {
-                if (!type.IsClass)
-                    foreach (var interfaceType in type.GetInterfaces())
+                if (!type.IsClass())
+                    foreach (var interfaceType in type.GetTypeInfo().GetInterfaces())
                         yield return interfaceType;
 
                 while (type != null)
                 {
                     yield return type;
-                    type = type.BaseType;
+                    type = type.BaseType();
                 }
             }
         }

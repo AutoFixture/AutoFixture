@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a <see cref="MultipleRequest" /> to a request for
@@ -50,17 +48,13 @@ namespace Ploeh.AutoFixture.Kernel
             
             var multipleRequest = request as MultipleRequest;
             if (multipleRequest == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var innerRequest = GetInnerRequest(multipleRequest);
 
             var itemType = innerRequest as Type;
             if (itemType == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return context.Resolve(
                 typeof(IEnumerable<>).MakeGenericType(itemType));

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
+using TypeEnvy = AutoFixture.Kernel.TypeEnvy;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Relays a request for a range number to a <see cref="RangedNumberRequest"/>.
@@ -34,20 +34,10 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
-            }
-
-            var rangeAttribute = customAttributeProvider.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().SingleOrDefault();
+            var rangeAttribute = TypeEnvy.GetAttribute<RangeAttribute>(request);
             if (rangeAttribute == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return context.Resolve(RangeAttributeRelay.Create(rangeAttribute, request));

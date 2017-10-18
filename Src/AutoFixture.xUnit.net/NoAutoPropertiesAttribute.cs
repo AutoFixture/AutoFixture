@@ -1,7 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Reflection;
-namespace Ploeh.AutoFixture.Xunit
+
+namespace AutoFixture.Xunit
 {
     /// <summary>
     /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven

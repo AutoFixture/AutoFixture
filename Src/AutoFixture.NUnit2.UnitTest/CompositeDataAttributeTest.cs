@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.NUnit2.Addins;
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit2.Addins;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
     public class CompositeDataAttributeTest

@@ -1,8 +1,7 @@
-﻿using System.Reflection;
-using Ploeh.AutoFixture;
+﻿using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
+namespace AutoFixtureDocumentationTest.Contact.Parsing
 {
     public class ContactTest
     {
@@ -16,7 +15,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
             // Fixture setup
             Fixture fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<TargetInvocationException>(() =>
+            Assert.Throws<ObjectCreationException>(() =>
                 fixture.Create<Contact>());
             // Teardown
         }

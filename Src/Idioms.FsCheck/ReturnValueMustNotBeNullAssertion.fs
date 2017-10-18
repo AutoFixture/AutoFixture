@@ -1,7 +1,7 @@
-﻿namespace Ploeh.AutoFixture.Idioms.FsCheck
+﻿namespace AutoFixture.Idioms.FsCheck
 
-open Ploeh.AutoFixture.Idioms
-open Ploeh.AutoFixture.Kernel
+open AutoFixture.Idioms
+open AutoFixture.Kernel
 open System
 open System.Reflection
 

@@ -1,9 +1,10 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that will freeze a specimen of a given <see cref="Type"/>.
@@ -47,7 +48,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(registeredType));
             }
 
-            if (!registeredType.IsAssignableFrom(targetType))
+            if (!registeredType.GetTypeInfo().IsAssignableFrom(targetType))
             {
                 var message = String.Format(
                     CultureInfo.CurrentCulture,

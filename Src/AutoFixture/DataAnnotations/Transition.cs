@@ -34,7 +34,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     ///<summary>
     ///  <tt>Automaton</tt> transition. 
@@ -43,6 +43,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
     ///    and a destination state.
     ///  </p>
     ///</summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation", "RS0010: Avoid using cref tags with a prefix",
+        Justification = "This code has been copied from another project and is used as-is.")]
     internal sealed class Transition : IEquatable<Transition>
     {
         /// <summary>
@@ -128,14 +130,14 @@ namespace Ploeh.AutoFixture.DataAnnotations
         public override string ToString()
         {
             var sb = new StringBuilder();
-            Transition.AppendCharString(Min, sb);
-            if (Min != Max)
+            Transition.AppendCharString(this.Min, sb);
+            if (this.Min != this.Max)
             {
                 sb.Append("-");
-                Transition.AppendCharString(Max, sb);
+                Transition.AppendCharString(this.Max, sb);
             }
 
-            sb.Append(" -> ").Append(To.Number);
+            sb.Append(" -> ").Append(this.To.Number);
             return sb.ToString();
         }
 
@@ -185,9 +187,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             unchecked
             {
-                int result = Min.GetHashCode();
-                result = (result*397) ^ Max.GetHashCode();
-                result = (result*397) ^ (To != null ? To.GetHashCode() : 0);
+                int result = this.Min.GetHashCode();
+                result = (result*397) ^ this.Max.GetHashCode();
+                result = (result*397) ^ (this.To != null ? this.To.GetHashCode() : 0);
                 return result;
             }
         }
@@ -212,9 +214,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return true;
             }
 
-            return other.Min == Min
-                   && other.Max == Max
-                   && object.Equals(other.To, To);
+            return other.Min == this.Min
+                   && other.Max == this.Max
+                   && object.Equals(other.To, this.To);
         }
 
         private static void AppendCharString(char c, StringBuilder sb)

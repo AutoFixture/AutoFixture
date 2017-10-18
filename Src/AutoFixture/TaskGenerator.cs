@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates instances of <see cref="Task"/> and <see cref="Task{TResult}"/>.
@@ -31,12 +29,10 @@ namespace Ploeh.AutoFixture
 
             var type = request as Type;
             if (type == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             //check if type is a constructed generic type whose definition matches Task<>
-            if (type.IsGenericType && !type.IsGenericTypeDefinition &&
+            if (type.IsGenericType() && !type.IsGenericTypeDefinition() &&
                 type.GetGenericTypeDefinition() == typeof (Task<>))
                 return CreateGenericTask(type, context);
 
@@ -44,14 +40,12 @@ namespace Ploeh.AutoFixture
             if (type == typeof (Task))
                 return CreateNonGenericTask();
 
-#pragma warning disable 618
-            return new NoSpecimen(request);
-#pragma warning restore 618
+            return new NoSpecimen();
         }
 
         private static object CreateGenericTask(Type taskType, ISpecimenContext context)
         {
-            var resultType = taskType.GetGenericArguments().Single();
+            var resultType = taskType.GetTypeInfo().GetGenericArguments().Single();
             var result = context.Resolve(resultType);
             return CreateTask(resultType, result);
         }
@@ -66,10 +60,10 @@ namespace Ploeh.AutoFixture
             var taskSourceType = typeof (TaskCompletionSource<>).MakeGenericType(resultType);
             var taskSource = Activator.CreateInstance(taskSourceType);
 
-            taskSourceType.GetMethod("SetResult")
+            taskSourceType.GetTypeInfo().GetMethod("SetResult")
                           .Invoke(taskSource, new[] {result});
 
-            var task = taskSourceType.GetProperty("Task")
+            var task = taskSourceType.GetTypeInfo().GetProperty("Task")
                                      .GetValue(taskSource, null);
 
             return task;

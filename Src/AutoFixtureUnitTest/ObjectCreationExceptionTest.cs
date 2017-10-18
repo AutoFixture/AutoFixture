@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class ObjectCreationExceptionTest
     {
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Message;
             // Verify outcome
-            Assert.Equal<string>(expectedMessage, result);
+            Assert.Equal(expectedMessage, result);
             // Teardown
         }
 

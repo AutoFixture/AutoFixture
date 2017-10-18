@@ -4,23 +4,18 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net.Mail;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Grean.Exude;
-using Ploeh.Albedo;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.DataAnnotations;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.DataAnnotations;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class FixtureTest
     {
@@ -300,6 +295,20 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
 
             // Exercise system
+            IEnumerable<object> GetPropertyAndFieldValues(object obj, BindingFlags flags)
+            {
+                var type = obj.GetType();
+                foreach (var fieldInfo in type.GetFields(flags))
+                {
+                    yield return fieldInfo.GetValue(obj);
+                }
+
+                foreach (var propertyInfo in type.GetProperties(flags))
+                {
+                    yield return propertyInfo.GetValue(obj);
+                }
+            }
+
             var specimensByThread = Enumerable.Range(0, threadCount)
                 .AsParallel()
                     .WithDegreeOfParallelism(threadCount)
@@ -311,10 +320,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     {
                         Specimen = s,
                         threadNumber,
-                        ValuesNotPopulated = s.GetType()
-                            .GetPropertiesAndFields(BindingFlags.Public | BindingFlags.Instance)
-                            .Accept(new ValueCollectingVisitor(s))
-                            .Value
+                        ValuesNotPopulated = GetPropertyAndFieldValues(s, BindingFlags.Public | BindingFlags.Instance)
                             .Where(v => v == null || 0.Equals(v))
                             .ToArray()
                     })
@@ -403,35 +409,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousStringWillPrefixName()
-        {
-            // Fixture setup
-            string expectedText = "Anonymous text";
-            Fixture sut = new Fixture();
-            // Exercise system
-            string result = sut.Create(expectedText);
-            // Verify outcome
-            string actualText = new TextGuidRegex().GetText(result);
-            Assert.Equal<string>(expectedText, actualText);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateAnonymousStringWillAppendGuid()
-        {
-            // Fixture setup
-            string anonymousText = "Anonymous text";
-            Fixture sut = new Fixture();
-            // Exercise system
-            string result = sut.Create(anonymousText);
-            // Verify outcome
-            string guidString = new TextGuidRegex().GetGuid(result);
-            Guid g = new Guid(guidString);
-            Assert.NotEqual<Guid>(Guid.Empty, g);
-            // Teardown
-        }
-
-        [Fact]
         public void CreateAnonymousWithStringPropertyWillAssignNonEmptyString()
         {
             // Fixture setup
@@ -454,7 +431,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             string propertyValue = result.Property;
             string text = new TextGuidRegex().GetText(propertyValue);
-            Assert.Equal<string>(expectedName, text);
+            Assert.Equal(expectedName, text);
             // Teardown
         }
 
@@ -1164,7 +1141,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create<PropertyHolder<Action>>();
             // Verify outcome
-            Assert.DoesNotThrow(() => ((Action)result.Property).Invoke());
+            Assert.Null(Record.Exception(() => ((Action)result.Property).Invoke()));
             // Teardown
         }
 
@@ -1776,7 +1753,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var result = fixture.Create<RegularExpressionValidatedType>();
             // Verify outcome
-            Assert.True(Regex.IsMatch(result.Property, RegularExpressionValidatedType.Pattern));
+            Assert.Matches(result.Property, RegularExpressionValidatedType.Pattern);
             // Teardown
         }
 
@@ -1818,18 +1795,6 @@ namespace Ploeh.AutoFixtureUnitTest
                 out result);
             // Verify outcome
             Assert.True(succeed && result != null);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateAnonymousWithMailAddressReturnsValidResult()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            // Exercise system
-            var mailAddress = fixture.Create<MailAddress>();
-            // Verify outcome
-            Assert.True(mailAddress != null);
             // Teardown
         }
 
@@ -1911,7 +1876,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<string>(c => c.FromSeed(s => expectedText));
             // Verify outcome
             string result = sut.Create<string>();
-            Assert.Equal<string>(expectedText, result);
+            Assert.Equal(expectedText, result);
             // Teardown
         }
 
@@ -2022,40 +1987,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateManyWithSeedWillCreateManyCorrectItems()
-        {
-            // Fixture setup
-            string anonymousPrefix = "AnonymousPrefix";
-            var sut = new Fixture();
-            int expectedItemCount = sut.RepeatCount;
-            // Exercise system
-            IEnumerable<string> result = sut.CreateMany(anonymousPrefix);
-            // Verify outcome
-            int actualCount = (from s in result
-                               where s.StartsWith(anonymousPrefix)
-                               select s).Count();
-            Assert.Equal<int>(expectedItemCount, actualCount);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateManyWithSeedWillCreateCorrectNumberOfItems()
-        {
-            // Fixture setup
-            string anonymousPrefix = "Prefix";
-            int expectedItemCount = 73;
-            var sut = new Fixture();
-            // Exercise system
-            IEnumerable<string> result = sut.CreateMany(anonymousPrefix, expectedItemCount);
-            // Verify outcome
-            int actualCount = (from s in result
-                               where s.StartsWith(anonymousPrefix)
-                               select s).Count();
-            Assert.Equal<int>(expectedItemCount, actualCount);
-            // Teardown
-        }
-
-        [Fact]
         public void CustomizeNullTransformationThrows()
         {
             // Fixture setup
@@ -2076,21 +2007,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, expectedValue));
             PropertyHolder<string> result = sut.Create<PropertyHolder<string>>();
             // Verify outcome
-            Assert.Equal<string>(expectedValue, result.Property);
-            // Teardown
-        }
-
-        [Fact]
-        public void CustomizeWithEchoInt32GeneratorWillReturnSeed()
-        {
-            // Fixture setup
-            int expectedValue = 4;
-            Fixture sut = new Fixture();
-            sut.Customize<int>(c => c.FromSeed(s => s));
-            // Exercise system
-            int result = sut.Create(expectedValue);
-            // Verify outcome
-            Assert.Equal<int>(expectedValue, result);
+            Assert.Equal(expectedValue, result.Property);
             // Teardown
         }
 
@@ -2282,7 +2199,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new CommandMock<double, uint, string>();
-            mock.OnCommand = (x1, x2, x3) => Assert.Equal<string>(expectedText, x3);
+            mock.OnCommand = (x1, x2, x3) => Assert.Equal(expectedText, x3);
             // Exercise system
             sut.Do((double x1, uint x2, string x3) => mock.Command(x1, x2, x3));
             // Verify outcome (done by mock)
@@ -2371,15 +2288,15 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectFourthParameter()
         {
             // Fixture setup
-            var expectedOS = new OperatingSystem(PlatformID.Win32NT, new Version(5, 0));
+            var expectedObj = new ConcreteType();
 
             var sut = new Fixture();
-            sut.Register<OperatingSystem>(() => expectedOS);
+            sut.Register<ConcreteType>(() => expectedObj);
 
-            var mock = new CommandMock<int?, DateTime, TimeSpan, OperatingSystem>();
-            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<OperatingSystem>(expectedOS, x4);
+            var mock = new CommandMock<int?, DateTime, TimeSpan, ConcreteType>();
+            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<ConcreteType>(expectedObj, x4);
             // Exercise system
-            sut.Do((int? x1, DateTime x2, TimeSpan x3, OperatingSystem x4) => mock.Command(x1, x2, x3, x4));
+            sut.Do((int? x1, DateTime x2, TimeSpan x3, ConcreteType x4) => mock.Command(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
@@ -2592,7 +2509,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new QueryMock<long, short, string, decimal?>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<string>(expectedText, x3); return 111.11m; };
+            mock.OnQuery = (x1, x2, x3) => { Assert.Equal(expectedText, x3); return 111.11m; };
             // Exercise system
             sut.Get((long x1, short x2, string x3) => mock.Query(x1, x2, x3));
             // Verify outcome (done by mock)
@@ -2685,8 +2602,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Register<DayOfWeek>(() => expectedDayOfWeek);
 
-            var mock = new QueryMock<int, float, DayOfWeek, string, LoaderOptimization>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return LoaderOptimization.MultiDomain; };
+            var mock = new QueryMock<int, float, DayOfWeek, string, ConsoleColor>();
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return ConsoleColor.Black; };
             // Exercise system
             sut.Get((int x1, float x2, DayOfWeek x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
@@ -2702,8 +2619,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Register<int>(() => expectedNumber);
 
-            var mock = new QueryMock<Version, ushort, string, int, PlatformID>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return PlatformID.WinCE; };
+            var mock = new QueryMock<Version, ushort, string, int, ConsoleColor>();
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return ConsoleColor.Cyan; };
             // Exercise system
             sut.Get((Version x1, ushort x2, string x3, int x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
@@ -2739,7 +2656,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2755,7 +2672,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2772,7 +2689,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2788,7 +2705,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2805,7 +2722,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2821,7 +2738,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2838,7 +2755,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2854,7 +2771,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2868,7 +2785,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create<SingleParameterType<string>>();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter);
+            Assert.Equal(expectedText, result.Parameter);
             // Teardown
         }
 
@@ -3013,18 +2930,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void FreezeWithSeedWillCauseFixtureToKeepReturningTheFrozenInstance()
-        {
-            // Fixture setup
-            var sut = new Fixture();
-            var expectedResult = sut.Freeze("Frozen");
-            // Exercise system
-            var result = sut.Create("Something else");
-            // Verify outcome
-            Assert.Equal<string>(expectedResult, result);
-            // Teardown
-        }
+
 
         [Fact]
         public void FreezeWithNullTransformationThrows()
@@ -3507,22 +3413,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void BuildFromSeedWillCreateUsingCorrectSeed()
-        {
-            // Fixture setup
-            var sut = new Fixture();
-            var seed = new object();
-
-            var verified = false;
-            Func<object, object> mock = s => verified = seed.Equals(s);
-            // Exercise system
-            sut.Build<object>().FromSeed(mock).Create(seed);
-            // Verify outcome
-            Assert.True(verified, "Mock verified");
-            // Teardown
-        }
-
-        [Fact]
         public void CustomizeFromSeedWithUnmodifiedSeedValueWillPopulatePropertyOfSameType()
         {
             // Fixture setup
@@ -3538,11 +3428,11 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var seed = new Version();
+            var seed = new ConcreteType();
             // Exercise system
-            fixture.Customize<Version>(c => c.FromSeed(s => seed));
+            fixture.Customize<ConcreteType>(c => c.FromSeed(s => seed));
             // Verify outcome
-            Assert.Equal(seed, fixture.Create<PropertyHolder<Version>>().Property);
+            Assert.Equal(seed, fixture.Create<PropertyHolder<ConcreteType>>().Property);
         }
 
         [Fact]
@@ -3663,7 +3553,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Property);
+            Assert.Equal(expectedText, result.Property);
             // Teardown
         }
 
@@ -3676,7 +3566,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Property);
+            Assert.Equal(expectedText, result.Property);
             // Teardown
         }
 
@@ -3690,7 +3580,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Field);
+            Assert.Equal(expectedText, result.Field);
             // Teardown
         }
 
@@ -3703,7 +3593,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Field);
+            Assert.Equal(expectedText, result.Field);
             // Teardown
         }
 
@@ -4325,45 +4215,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void BuildAndCreateManyWithSeedWillCreateManyCorrectItems()
-        {
-            // Fixture setup
-            string anonymousPrefix = "AnonymousPrefix";
-            var sut = new Fixture();
-            var expectedItemCount = sut.RepeatCount;
-            // Exercise system
-            IEnumerable<string> result = sut.Build<string>()
-                .FromSeed(seed => seed + Guid.NewGuid())
-                .CreateMany(anonymousPrefix);
-            // Verify outcome
-            int actualCount = (from s in result
-                               where s.StartsWith(anonymousPrefix)
-                               select s).Count();
-            Assert.Equal<int>(expectedItemCount, actualCount);
-            // Teardown
-        }
-
-        [Fact]
-        public void BuildAndCreateManyWithSeedWillCreateCorrectNumberOfItems()
-        {
-            // Fixture setup
-            string anonymousPrefix = "Prefix";
-            int expectedItemCount = 29;
-            var sut = new Fixture();
-            sut.RepeatCount = expectedItemCount;
-            // Exercise system
-            IEnumerable<string> result = sut.Build<string>()
-                .FromSeed(seed => seed + Guid.NewGuid())
-                .CreateMany(anonymousPrefix, expectedItemCount);
-            // Verify outcome
-            int actualCount = (from s in result
-                               where s.StartsWith(anonymousPrefix)
-                               select s).Count();
-            Assert.Equal<int>(expectedItemCount, actualCount);
-            // Teardown
-        }
-
-        [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillCreateObject()
         {
@@ -4854,8 +4705,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<IllegalRequestException>(() =>
+           var creationEx = Assert.Throws<ObjectCreationException>(() =>
                 sut.Create<IntPtr>());
+            Assert.IsAssignableFrom<IllegalRequestException>(creationEx.InnerException);
             // Teardown
         }
 
@@ -4999,7 +4851,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
-            var result = sut.Create<Collection<OperatingSystem>>();
+            var result = sut.Create<Collection<ConcreteType>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -5277,7 +5129,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = fixture.Create<MutableValueType>();
             // Verify outcome
-            Assert.NotNull(result);
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
             Assert.NotNull(result.Property3);
@@ -5304,7 +5155,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<decimal>());
+            Assert.Null(Record.Exception(() => fixture.Create<decimal>()));
             // Teardown
         }
 
@@ -5318,7 +5169,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system and verify outcome
             var result = fixture.Create<MutableValueTypeWithoutConstructor>();
             // Verify outcome
-            Assert.NotNull(result);
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
             // Teardown
@@ -5603,7 +5453,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CustomizationOfChildADoesNotAffectChildB()
+        public void CustomizationOfOverriddenPropOfChildADoesNotAffectChildB()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -5613,6 +5463,80 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.NotEqual(default(int), actual.Value);
             // Teardown
+        }
+        
+        /// <summary>
+        /// Checks the scenario: https://github.com/AutoFixture/AutoFixture/issues/531
+        /// </summary>
+        [Fact]
+        public void CustomizationOfBasePropOfChildADoesNotAffectChildB()
+        {
+            // arrange
+            var sut = new Fixture();
+            sut.Customize<AcwaacpChildA>(c => c.With(x => x.Text, "foo"));
+            
+            // act
+            var actual = sut.Create<AcwaacpChildB>();
+            
+            // assert
+            Assert.NotNull(actual.Text);
+            Assert.NotEqual("foo", actual.Text);
+        }
+
+        /// <summary>
+        /// Checks the scenario reported in https://github.com/AutoFixture/AutoFixture/issues/772
+        /// </summary>
+        [Fact]
+        public void CustomizatonOfSamePropertyIsIgnoredDuringTheBuild()
+        {
+            //arrange
+            var sut = new Fixture();
+            sut.Customize<DoublePropertyHolder<string, int>>(c => c.With(x => x.Property1, "foo"));
+            
+            //act
+            var result = sut
+                .Build<DoublePropertyHolder<string, int>>()
+                .With(x => x.Property2, 42)
+                .Create();
+            
+            //assert
+            Assert.NotEqual("foo", result.Property1);
+            Assert.Equal(42, result.Property2);
+        }
+
+        /// <summary>
+        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321 
+        /// </summary>
+        [Fact]
+        public void CustomizationOfIntPropertyDoesntThrowInBuild()
+        {
+            //arrange
+            var sut = new Fixture();
+            sut.Customize<PropertyHolder<long>>(c => c.Without(x => x.Property));
+            
+            //act
+            var result = sut.Build<PropertyHolder<long>>().With(x => x.Property).Create();
+            
+            //assert
+            Assert.NotEqual(0L, result.Property);
+        }
+
+        [Fact]
+        public void EnableDisableAutoPropertiesDoesntBreakCustomization()
+        {
+            //arrange
+            var sut = new Fixture();
+            sut.Customize<PropertyHolder<string>>(c =>
+                c
+                    .Without(x => x.Property)
+                    .OmitAutoProperties()
+                    .WithAutoProperties());
+            
+            //act
+            var result = sut.Create<PropertyHolder<string>>();
+            
+            //assert
+            Assert.Null(result.Property);
         }
 
         private abstract class AbstractClassWithAbstractAndConcreteProperties
@@ -5678,20 +5602,14 @@ namespace Ploeh.AutoFixtureUnitTest
             }
         }
 
-        [FirstClassTests]
-        public IEnumerable<ITestCase> CreateComplexArrayTypeReturnsCorrectResult()
+        [Theory]
+        [InlineData(typeof(string[][,,][]))]
+        [InlineData(typeof(object[,,][][,]))]
+        public void CreateComplexArrayTypeReturnsCorrectResult(Type request)
         {
-            var requests = new[]
-            {
-                typeof(string[][,,][]),
-                typeof(object[,,][][,])
-            };
-            return requests.Select(r => new TestCase(() =>
-            {
-                var sut = new Fixture();
-                var context = new SpecimenContext(sut);
-                Assert.NotNull(context.Resolve(r));
-            }));
+            var sut = new Fixture();
+            var context = new SpecimenContext(sut);
+            Assert.NotNull(context.Resolve(request));
         }
 
         [Theory]
@@ -5775,7 +5693,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             // Exercise system and verify outcome
             IEnumerator<int> result = null;
-            Assert.DoesNotThrow(() => result = fixture.Create<IEnumerator<int>>());
+            Assert.Null(Record.Exception(() => result = fixture.Create<IEnumerator<int>>()));
             Assert.NotNull(result);
             // Teardown
         }
@@ -5833,7 +5751,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             fixture.Customize<string>(x => x.FromFactory(() => null));
 
-            Assert.DoesNotThrow(() => fixture.Create<string>());
+            Assert.Null(Record.Exception(() => fixture.Create<string>()));
         }
 
         [Theory]
@@ -5917,7 +5835,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             var fixture = new Fixture();
             var actual = fixture.Create<Expression<Action<string, int>>>();
-            Assert.DoesNotThrow(() => actual.Compile()("foo", 42));
+            Assert.Null(Record.Exception(() => actual.Compile()("foo", 42)));
         }
 
         [Fact]
@@ -5927,5 +5845,163 @@ namespace Ploeh.AutoFixtureUnitTest
             var actual = fixture.Create<Expression<Func<object>>>();
             Assert.NotNull(actual.Compile()());
         }
+
+        [Fact]
+        public void Issue691_DontUseCastOperatorsToCreateSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+
+            // Exercise system and verify outcome
+            var ex = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<TypeWithCastOperatorsWithoutPublicConstructor>());
+
+            Assert.Contains("most likely because it has no public constructor", ex.Message);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithValue()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                return fixture
+                    .Build<PropertyHolder<ConcreteType>>()
+                    .With(x => x.Property.Property1, "Dummy");
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWith()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                return fixture
+                    .Build<PropertyHolder<ConcreteType>>()
+                    .With(x => x.Property.Property1);
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithout()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                return fixture
+                    .Build<PropertyHolder<ConcreteType>>()
+                    .Without(x => x.Property.Property1);
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWithValue()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1, "dummy"));
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWith()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1));
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWithout()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                fixture.Customize<PropertyHolder<ConcreteType>>(c => c.Without(x => x.Property.Property1));
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Issue871_FailsWithArgumentExceptionForNullRequest()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var specimenContext = new DelegatingSpecimenContext();
+
+            // Exercise system and Verify outcome
+            Assert.Throws<ArgumentNullException>(() => sut.Create(null, specimenContext));
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Issue871_FailsWithArgumentExceptionForNullRequestContext()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var request = new object();
+
+            // Exercise system and Verify outcome
+            Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
+
+            // Teardown
+        }
+
+#if SYSTEM_NET_MAIL
+        [Fact]
+        public void CreateAnonymousWithMailAddressReturnsValidResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var mailAddress = fixture.Create<System.Net.Mail.MailAddress>();
+            // Verify outcome
+            Assert.True(mailAddress != null);
+            // Teardown
+        }
+#endif
     }
 }

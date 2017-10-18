@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using AutoFixture.AutoMoq.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class MockVirtualMethodsCommandTest
     {
@@ -21,8 +16,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>();
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
-                () => sut.Execute(validNonMockSpecimen, context.Object));
+            Assert.Null(
+                Record.Exception(() => sut.Execute(validNonMockSpecimen, context.Object)));
             // Teardown
         }
 
@@ -235,7 +230,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
         }
 
         [Fact]
@@ -248,7 +243,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.ImplicitlySealedMethod());
             Assert.NotEqual(frozenString, mock.Object.ExplicitlySealedMethod());
         }
@@ -262,7 +257,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
         }
 
         [Fact]
@@ -275,7 +270,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.GenericMethod<string>());
         }
 
@@ -288,7 +283,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
         }
 
         [Fact]
@@ -301,7 +296,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
+            Assert.Null(Record.Exception(() => sut.Execute(specimen, context.Object)));
         }
 
         [Fact]

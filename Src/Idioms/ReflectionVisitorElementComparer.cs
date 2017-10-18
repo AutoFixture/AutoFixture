@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.Albedo;
+using Albedo;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Allows comparing <see cref="IReflectionElement"/> instances, where the comparison
@@ -12,7 +11,7 @@ namespace Ploeh.AutoFixture.Idioms
     /// then comparing them using
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class ReflectionVisitorElementComparer<T> : IEqualityComparer<IReflectionElement>
+    internal abstract class ReflectionVisitorElementComparer<T> : IEqualityComparer<IReflectionElement>
     {
         private readonly IReflectionVisitor<IEnumerable<T>> visitor;
         private readonly IEqualityComparer<T> comparer;

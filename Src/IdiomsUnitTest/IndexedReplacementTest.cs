@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     #region <object>
     public class IndexedReplacementTestOfObject : IndexedReplacementTest<object>
@@ -23,7 +22,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         protected override int CreateItem()
         {
-            return i++;
+            return this.i++;
         }
     }
     #endregion

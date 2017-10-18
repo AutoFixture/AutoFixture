@@ -1,0 +1,83 @@
+<Project>
+  <PropertyGroup>
+    <Product>AutoFixture</Product>
+    <Company>AutoFixture</Company>
+    <Copyright>Copyright © AutoFixture 2011</Copyright>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <Features>IOperation</Features>
+
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\AutoFixture.snk</AssemblyOriginatorKeyFile>
+
+    <Configurations>Debug;Release;Verify</Configurations>
+
+    <!-- NuGet options -->
+    <Authors>Mark Seemann,AutoFixture</Authors>
+    <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="$(TargetFramework.StartsWith('netstandard')) Or $(TargetFramework.StartsWith('netcoreapp'))">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS</DefineConstants>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <_IsFullFramework>true</_IsFullFramework>
+        <DefineConstants>$(DefineConstants);SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION;SERIALIZABLE_MEMBERINFO;SYSTEM_THREADING_THREAD_CULTURESETTERS;SYSTEM_TYPE_FULL</DefineConstants>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Release' ">
+      <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- Ensure that we create Windows PDB for Full framework and Portable PDB for NET Core -->
+        <DebugType Condition=" '$(_IsFullFramework)'=='true' ">pdbonly</DebugType>
+        <DebugType Condition=" '$(_IsFullFramework)'!='true' ">portable</DebugType>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='Verify' ">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DebugType>pdbonly</DebugType>
+        <!-- Temporarily disable code analysis for the .NET Standard as it fails due to unknown framework version. -->
+        <RunCodeAnalysis Condition=" '$(_IsFullFramework)'=='true' " >true</RunCodeAnalysis>
+        <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+        <Optimize>true</Optimize>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.3.0-beta1" ExcludeAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="SourceLink.Create.GitHub" Version="2.4.0" PrivateAssets="All" />
+    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.4.0" />
+  </ItemGroup>
+  <PropertyGroup>
+    <SourceLinkCreate Condition=" '$(SourceLinkCreateOverride)'!='' ">$(SourceLinkCreateOverride)</SourceLinkCreate>
+    <SourceLinkNotInGit>error</SourceLinkNotInGit>
+    <SourceLinkHashMismatch>error</SourceLinkHashMismatch>
+    <SourceLinkNoAutoLF>true</SourceLinkNoAutoLF>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludePDBsInPackage</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+  <Target Name="IncludePDBsInPackage" Condition=" '$(IncludeBuildOutput)'!='false' ">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(OutputPath)\$(AssemblyName).pdb" PackagePath="lib\$(TargetFramework)" />
+    </ItemGroup>
+  </Target>
+</Project>

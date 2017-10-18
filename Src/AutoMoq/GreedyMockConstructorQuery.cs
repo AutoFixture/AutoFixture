@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Selects appropriate constructors to create <see cref="Moq.Mock{T}"/> instances.
@@ -41,7 +42,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             }
 
             var mockType = type.GetMockedType();
-            if (mockType.IsInterface)
+            if (mockType.GetTypeInfo().IsInterface)
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }

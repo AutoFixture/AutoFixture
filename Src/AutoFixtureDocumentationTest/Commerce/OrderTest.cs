@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture;
+﻿using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Commerce
+namespace AutoFixtureDocumentationTest.Commerce
 {
     public class OrderTest
     {
@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
                     .Create())
                 .Create();
             // Verify outcome
-            Assert.Equal<string>("Denmark", order.ShippingAddress.Country);
+            Assert.Equal("Denmark", order.ShippingAddress.Country);
             // Teardown
         }
 
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
             var order = fixture.Create<Order>();
             order.ShippingAddress.Country = "Denmark";
             // Verify outcome
-            Assert.Equal<string>("Denmark", order.ShippingAddress.Country);
+            Assert.Equal("Denmark", order.ShippingAddress.Country);
             // Teardown
         }
 

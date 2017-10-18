@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RangedNumberGeneratorTest
     {
@@ -58,9 +56,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(dummyRequest), result);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
@@ -186,9 +182,7 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var loopTest = new LoopTest<RangedNumberGenerator, object>(sut => (object)sut.Create(request, context));
             // Exercise system and verify outcome
-#pragma warning disable 618
-            loopTest.Execute(2, new NoSpecimen(request));
-#pragma warning restore 618
+            loopTest.Execute(2, new NoSpecimen());
             // Teardown
         }
 
@@ -231,14 +225,16 @@ namespace Ploeh.AutoFixtureUnitTest
                     if (r.Equals(typeof(decimal)))
                         return Convert.ToDecimal(numbers.Next());
 
-#pragma warning disable 618
-                    return new NoSpecimen(r);
-#pragma warning restore 618
+                    return new NoSpecimen();
                 }
             };
             var sut = new RangedNumberGenerator();
             // Exercise system and verify outcome
-            Array.ForEach(request, r => Assert.DoesNotThrow(() => sut.Create(r, context)));
+            foreach (var r in request)
+            {
+                Assert.Null(Record.Exception(() => sut.Create(r, context)));
+            }
+            
             // Teardown
         }
 
@@ -286,8 +282,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Func<int, object> actual = i =>
                 sut.Create(testCases[i].request, testCases[i].contextStub);
 
-            Assert.DoesNotThrow(() =>
-                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
+            Assert.Null(Record.Exception(() =>
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList()));
         }
 
         [Fact]
@@ -334,8 +330,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Func<int, object> actual = i =>
                 sut.Create(testCases[i].request, testCases[i].contextStub);
 
-            Assert.DoesNotThrow(() =>
-                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
+            Assert.Null(Record.Exception(() =>
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList()));
         }
 
         private sealed class RangedNumberRequestTestCases : IEnumerable<object[]>
@@ -355,9 +351,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: 21, expectedResult: 10);
                 yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 13, contextValue:  4, expectedResult: 10);
                 yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(int), 10, 20)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (uint)11);
                 yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (uint)12);
@@ -368,9 +362,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (uint)10);
                 yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (uint)10);
                 yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(uint), 10, 20)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(double), minimum: -5.0, maximum: -1.0, contextValue:  1.0, expectedResult: -5.0);
                 yield return CreateTestCase(operandType: typeof(double), minimum: -5.0, maximum: -1.0, contextValue: -1.0, expectedResult: -1.0);
@@ -385,9 +377,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(double), minimum: 10.0, maximum: 20.0, contextValue: 21.0, expectedResult: 10.0);
                 yield return CreateTestCase(operandType: typeof(double), minimum: 10.0, maximum: 13.0, contextValue:  4.0, expectedResult: 10.0);
                 yield return CreateTestCase(operandType: typeof(double), minimum: 10.0, maximum: 20.0, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(double), 10.0, 20.0)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(long), minimum: -50000000000, maximum: -10000000000, contextValue:  10000000000, expectedResult: -50000000000);
                 yield return CreateTestCase(operandType: typeof(long), minimum: -50000000000, maximum: -10000000000, contextValue: -10000000000, expectedResult: -10000000000);
@@ -402,9 +392,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(long), minimum: 100000000000, maximum: 200000000000, contextValue: 210000000000, expectedResult: 100000000000);
                 yield return CreateTestCase(operandType: typeof(long), minimum: 100000000000, maximum: 130000000000, contextValue:  40000000000, expectedResult: 100000000000);
                 yield return CreateTestCase(operandType: typeof(long), minimum: 100000000000, maximum: 200000000000, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(long), 100000000000, 200000000000)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (ulong)11);
                 yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (ulong)12);
@@ -415,9 +403,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (ulong)10);
                 yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (ulong)10);
                 yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(ulong), 10, 20)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: -5.0m, maximum: -1.0m, contextValue:  1.0m, expectedResult: -5.0m);
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: -5.0m, maximum: -1.0m, contextValue: -1.0m, expectedResult: -1.0m);
@@ -432,17 +418,13 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: 10.0m, maximum: 20.0m, contextValue: 21.0m, expectedResult: 10.0m);
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: 10.0m, maximum: 13.0m, contextValue:  4.0m, expectedResult: 10.0m);
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: 10.0m, maximum: 20.0m, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(decimal), 10.0m, 20.0m)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(char), minimum: 'a', maximum: 'b', contextValue: 'a', expectedResult: 'a');
                 yield return CreateTestCase(operandType: typeof(char), minimum: 'a', maximum: 'b', contextValue: 'b', expectedResult: 'b');
                 yield return CreateTestCase(operandType: typeof(char), minimum: 'a', maximum: 'b', contextValue: 'c', expectedResult: 'a');
                 yield return CreateTestCase(operandType: typeof(char), minimum: 'b', maximum: 'c', contextValue: 'a',
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(char), 'b', 'c')));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (byte)11);
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (byte)12);
@@ -453,9 +435,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (byte)10);
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (byte)10);
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(byte), 10, 20)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(sbyte), minimum: -5, maximum: -1, contextValue:  1, expectedResult: (sbyte)-5);
                 yield return CreateTestCase(operandType: typeof(sbyte), minimum: -5, maximum: -1, contextValue: -1, expectedResult: (sbyte)-1);
@@ -470,9 +450,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (sbyte)10);
                 yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (sbyte)10);
                 yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(sbyte), 10, 20)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue:  1.0f, expectedResult: -5.0f);
                 yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue: -1.0f, expectedResult: -1.0f);
@@ -487,9 +465,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue: 21.0f, expectedResult: 10.0f);
                 yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 13.0f, contextValue:  4.0f, expectedResult: 10.0f);
                 yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(float), 10.0f, 20.0f)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(short), minimum: -5, maximum: -1, contextValue:  1, expectedResult: (short)-5);
                 yield return CreateTestCase(operandType: typeof(short), minimum: -5, maximum: -1, contextValue: -1, expectedResult: (short)-1);
@@ -504,9 +480,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (short)10);
                 yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (short)10);
                 yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 20, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(short), 10, 20)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
 
                 yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (ushort)11);
                 yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (ushort)12);
@@ -517,14 +491,12 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (ushort)10);
                 yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (ushort)10);
                 yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: new object(),
-#pragma warning disable 618
-                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(ushort), 10, 20)));
-#pragma warning restore 618
+                    expectedResult: new NoSpecimen());
             }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return GetEnumerator();
+                return this.GetEnumerator();
             }
 
             private static object[] CreateTestCase(Type operandType, object minimum, object maximum, object contextValue, object expectedResult)

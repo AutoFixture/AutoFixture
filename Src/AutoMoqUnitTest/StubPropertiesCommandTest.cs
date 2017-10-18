@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AutoFixture.AutoMoq.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class StubPropertiesCommandTest
     {
@@ -21,7 +16,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(validNonMockSpecimen, context));
+            Assert.Null(Record.Exception(() => sut.Execute(validNonMockSpecimen, context)));
         }
 
         [Fact]
@@ -32,7 +27,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(request, context));
+            Assert.Null(Record.Exception(() => sut.Execute(request, context)));
         }
 
         [Fact]
@@ -62,7 +57,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var sut = new StubPropertiesCommand();
             // Exercise system
             var task = Task.Factory.StartNew(() => sut.Execute(request, context));
-            bool ranToCompletion = task.Wait(1000) && task.Status == TaskStatus.RanToCompletion;
+            bool ranToCompletion = task.Wait(5000) && task.Status == TaskStatus.RanToCompletion;
             // Verify outcome
             Assert.True(ranToCompletion);
         }

@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class DefaultPrimitiveBuildersTest
     {
@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(RandomCharSequenceGenerator),
                     typeof(UriGenerator),
                     typeof(UriSchemeGenerator),
-                    typeof(RangedNumberGenerator),
+                    typeof(RandomRangedNumberGenerator),
                     typeof(RegularExpressionGenerator),
                     typeof(RandomDateTimeSequenceGenerator),
                     typeof(BooleanSwitch),
@@ -43,7 +43,9 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(DelegateGenerator),
                     typeof(TaskGenerator),
                     typeof(IntPtrGuard),
+#if SYSTEM_NET_MAIL
                     typeof(MailAddressGenerator),
+#endif
                     typeof(EmailAddressLocalPartGenerator),
                     typeof(DomainNameGenerator)
                  };

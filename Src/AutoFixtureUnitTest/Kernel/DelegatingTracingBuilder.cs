@@ -1,6 +1,6 @@
-﻿using Ploeh.AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     internal class DelegatingTracingBuilder : TracingBuilder
     {

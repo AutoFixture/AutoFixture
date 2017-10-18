@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Xunit2
+namespace AutoFixture.Xunit2
 {
     /// <summary>
     /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
@@ -14,6 +14,8 @@ namespace Ploeh.AutoFixture.Xunit2
     public sealed class FrozenAttribute : CustomizeAttribute
     {
         private readonly Matching by;
+        [Obsolete("The As property is deprecated.")]
+        private Type _as;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
@@ -21,7 +23,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// <remarks>
         /// The <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value
-        /// is <see cref="F:Matching.ExactType"/>.
+        /// is <see cref="Matching.ExactType"/>.
         /// </remarks>
         public FrozenAttribute()
             : this(Matching.ExactType)
@@ -44,8 +46,12 @@ namespace Ploeh.AutoFixture.Xunit2
         /// Gets or sets the <see cref="Type"/> that the frozen parameter value
         /// should be mapped to in the <see cref="IFixture"/>.
         /// </summary>
-        [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].")]
-        public Type As { get; set; }
+        [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].", true)]
+        public Type As
+        {
+            get => this._as;
+            set => this._as = value;
+        }
 
         /// <summary>
         /// Gets the <see cref="Matching"/> criteria used to determine
@@ -53,7 +59,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// </summary>
         public Matching By
         {
-            get { return by; }
+            get { return this.@by; }
         }
 
         /// <summary>
@@ -76,15 +82,15 @@ namespace Ploeh.AutoFixture.Xunit2
                 throw new ArgumentNullException("parameter");
             }
 
-            return ShouldMatchBySpecificType()
-                ? FreezeAsType(parameter.ParameterType)
-                : FreezeByCriteria(parameter);
+            return this.ShouldMatchBySpecificType()
+                ? this.FreezeAsType(parameter.ParameterType)
+                : this.FreezeByCriteria(parameter);
         }
 
         private bool ShouldMatchBySpecificType()
         {
 #pragma warning disable 0618
-            return this.As != null;
+            return this._as != null;
 #pragma warning restore 0618
         }
 
@@ -93,7 +99,7 @@ namespace Ploeh.AutoFixture.Xunit2
             return new FreezingCustomization(
                 type,
 #pragma warning disable 0618
-                this.As ?? type);
+                this._as ?? type);
 #pragma warning restore 0618
         }
 
@@ -103,14 +109,14 @@ namespace Ploeh.AutoFixture.Xunit2
             var name = parameter.Name;
 
             var filter = new Filter(ByEqual(parameter))
-                .Or(ByExactType(type))
-                .Or(ByBaseType(type))
-                .Or(ByImplementedInterfaces(type))
-                .Or(ByPropertyName(type, name))
-                .Or(ByParameterName(type, name))
-                .Or(ByFieldName(type, name));
+                .Or(this.ByExactType(type))
+                .Or(this.ByBaseType(type))
+                .Or(this.ByImplementedInterfaces(type))
+                .Or(this.ByPropertyName(type, name))
+                .Or(this.ByParameterName(type, name))
+                .Or(this.ByFieldName(type, name));
 
-            return new FreezeOnMatchCustomization(type, filter);
+            return new FreezeOnMatchCustomization(parameter, filter);
         }
 
         private static IRequestSpecification ByEqual(object target)
@@ -120,7 +126,7 @@ namespace Ploeh.AutoFixture.Xunit2
 
         private IRequestSpecification ByExactType(Type type)
         {
-            return ShouldMatchBy(Matching.ExactType)
+            return this.ShouldMatchBy(Matching.ExactType)
                 ? new OrRequestSpecification(
                     new ExactTypeSpecification(type),
                     new SeedRequestSpecification(type))
@@ -129,7 +135,7 @@ namespace Ploeh.AutoFixture.Xunit2
 
         private IRequestSpecification ByBaseType(Type type)
         {
-            return ShouldMatchBy(Matching.DirectBaseType)
+            return this.ShouldMatchBy(Matching.DirectBaseType)
                 ? new AndRequestSpecification(
                     new InverseRequestSpecification(
                         new ExactTypeSpecification(type)),
@@ -139,7 +145,7 @@ namespace Ploeh.AutoFixture.Xunit2
 
         private IRequestSpecification ByImplementedInterfaces(Type type)
         {
-            return ShouldMatchBy(Matching.ImplementedInterfaces)
+            return this.ShouldMatchBy(Matching.ImplementedInterfaces)
                 ? new AndRequestSpecification(
                     new InverseRequestSpecification(
                         new ExactTypeSpecification(type)),
@@ -149,7 +155,7 @@ namespace Ploeh.AutoFixture.Xunit2
 
         private IRequestSpecification ByParameterName(Type type, string name)
         {
-            return ShouldMatchBy(Matching.ParameterName)
+            return this.ShouldMatchBy(Matching.ParameterName)
                 ? new ParameterSpecification(
                     new ParameterTypeAndNameCriterion(
                         DerivesFrom(type),
@@ -159,7 +165,7 @@ namespace Ploeh.AutoFixture.Xunit2
 
         private IRequestSpecification ByPropertyName(Type type, string name)
         {
-            return ShouldMatchBy(Matching.PropertyName)
+            return this.ShouldMatchBy(Matching.PropertyName)
                 ? new PropertySpecification(
                     new PropertyTypeAndNameCriterion(
                         DerivesFrom(type),
@@ -169,7 +175,7 @@ namespace Ploeh.AutoFixture.Xunit2
 
         private IRequestSpecification ByFieldName(Type type, string name)
         {
-            return ShouldMatchBy(Matching.FieldName)
+            return this.ShouldMatchBy(Matching.FieldName)
                 ? new FieldSpecification(
                     new FieldTypeAndNameCriterion(
                         DerivesFrom(type),
@@ -232,7 +238,7 @@ namespace Ploeh.AutoFixture.Xunit2
                     return true;
                 if (y == null)
                     return false;
-                return y.IsAssignableFrom(x);
+                return y.GetTypeInfo().IsAssignableFrom(x);
             }
 
             public int GetHashCode(Type obj)

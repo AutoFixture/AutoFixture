@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using System.Reflection;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class ArrayFavoringConstructorQueryTest
     {
@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.SelectMethods(type);
             // Verify outcome
-            Assert.True(result.First().Parameters.Any(p => p.ParameterType.IsArray));
+            Assert.Contains(result.First().Parameters, p => p.ParameterType.IsArray);
             // Teardown
         }
 

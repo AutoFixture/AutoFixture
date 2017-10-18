@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="DateTime"/> specimens based on a incremental sequence of days.
@@ -34,9 +34,7 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(DateTime).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return this.seed.AddDays(this.GetNextNumberInSequence());

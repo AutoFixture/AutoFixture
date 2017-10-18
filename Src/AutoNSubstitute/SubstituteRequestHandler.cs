@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Creates a substitute in response to the <see cref="SubstituteRequest"/>.
@@ -55,9 +55,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             var substituteRequest = request as SubstituteRequest;
             if (substituteRequest == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return this.substituteFactory.Create(substituteRequest.TargetType, context);

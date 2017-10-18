@@ -1,9 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class EmptyGuidBehaviorExpectationTest
     {
@@ -84,8 +83,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             };
             var sut = new EmptyGuidBehaviorExpectation();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(cmd));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(cmd)));
             // Teardown
         }
 

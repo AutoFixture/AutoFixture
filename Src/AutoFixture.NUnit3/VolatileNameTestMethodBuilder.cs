@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework.Internal.Builders;
 
-namespace Ploeh.AutoFixture.NUnit3
+namespace AutoFixture.NUnit3
 {
     /// Creates <see cref="TestMethod"/> instances with name that includes actual argument values.
-    /// Name is volatile and varies on the argument values.
+    /// <para>
+    /// Notice, this strategy might break compatibility with some test runners that rely on stable test names
+    /// (e.g. Visual Studio with NUnit3TestAdapter, NCrunch), therefore use this strategy with caution.
+    /// </para>
     public class VolatileNameTestMethodBuilder : ITestMethodBuilder
     {
         /// <inheritdoc />

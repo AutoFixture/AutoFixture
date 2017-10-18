@@ -32,7 +32,7 @@
 
 using System;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Pair of states.
@@ -127,22 +127,22 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return true;
             }
 
-            return object.Equals(other.S, S)
+            return object.Equals(other.S, this.S)
                 && object.Equals(other.FirstState, this.FirstState)
                 && object.Equals(other.SecondState, this.SecondState);
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current 
-        /// <see cref="T:System.Object"/>.
+        /// Determines whether the specified <see cref="System.Object"/> is equal to the current 
+        /// <see cref="System.Object"/>.
         /// </summary>
         /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current
-        ///  <see cref="T:System.Object"/>; otherwise, false.
+        /// true if the specified <see cref="System.Object"/> is equal to the current
+        ///  <see cref="System.Object"/>; otherwise, false.
         /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current
-        ///  <see cref="T:System.Object"/>. 
-        ///                 </param><exception cref="T:System.NullReferenceException">The 
+        /// <param name="obj">The <see cref="System.Object"/> to compare with the current
+        ///  <see cref="System.Object"/>. 
+        ///                 </param><exception cref="System.NullReferenceException">The 
         /// <paramref name="obj"/> parameter is null.
         ///                 </exception><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
@@ -169,14 +169,14 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Serves as a hash function for a particular type. 
         /// </summary>
         /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// A hash code for the current <see cref="System.Object"/>.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
             unchecked
             {
-                int result = (S != null ? S.GetHashCode() : 0);
+                int result = (this.S != null ? this.S.GetHashCode() : 0);
                 result = (result * 397) ^ (this.FirstState != null ? this.FirstState.GetHashCode() : 0);
                 result = (result * 397) ^ (this.SecondState != null ? this.SecondState.GetHashCode() : 0);
                 return result;

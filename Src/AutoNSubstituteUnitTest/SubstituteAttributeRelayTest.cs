@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class SubstituteAttributeRelayTest
     {
@@ -28,9 +28,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object specimen = sut.Create(null, context);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(null);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, specimen);
             // Teardown
         }
@@ -45,9 +43,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object specimen = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, specimen);
             // Teardown
         }
@@ -63,9 +59,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object specimen = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, specimen);
             // Teardown
         }
@@ -129,9 +123,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         {
             // Fixture setup
             var sut = new SubstituteAttributeRelay();
-            var request = Substitute.For<EventInfo>();
+            var request = Substitute.For<ICustomAttributeProvider>();
             var attribute = new SubstituteAttribute();
-            request.GetCustomAttributes(Arg.Any<Type>(), Arg.Any<bool>()).Returns(new[] { attribute });
+            request.GetCustomAttributes(Arg.Any<Type>(), Arg.Any<bool>()).Returns(new object[] { attribute });
             var context = Substitute.For<ISpecimenContext>();
             // Exercise system
             var e = Assert.Throws<NotSupportedException>(() => sut.Create(request, context));

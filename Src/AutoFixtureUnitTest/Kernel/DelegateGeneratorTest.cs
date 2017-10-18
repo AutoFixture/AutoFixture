@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class DelegateGeneratorTest
     {
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             var sut = new DelegateGenerator();
             // Exercise system and verify outcome
-            Assert.Throws(typeof(ArgumentNullException), () => sut.Create(dummyRequest, null));
+            Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 
@@ -51,9 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonDelegateRequest, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(nonDelegateRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -138,7 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(delegateRequest, dummyContainer);
             // Verify outcome
-            Assert.DoesNotThrow(() => ((Action)result).Invoke());
+            Assert.Null(Record.Exception(() => ((Action)result).Invoke()));
             // Teardown
         }
 

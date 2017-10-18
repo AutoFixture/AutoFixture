@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Decorates another method invoking it supplying missing parameters
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         public IEnumerable<ParameterInfo> Parameters
         {
-            get { return Method.Parameters; }
+            get { return this.Method.Parameters; }
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        /// <exception cref="T:System.NullReferenceException">
+        /// <exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
         ///   </exception>
         public override bool Equals(object obj)
@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixture.Kernel
                 parameter.ParameterType.IsArray)
                 return Array.CreateInstance(parameter.ParameterType.GetElementType(), 0);
 
-            return parameter.ParameterType.IsValueType ? 
+            return parameter.ParameterType.IsValueType() ? 
                 Activator.CreateInstance(parameter.ParameterType) : 
                 null;
         }
@@ -113,8 +113,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The result of the method call.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            var arguments = GetArguments(Method.Parameters, parameters.ToArray());
-            return Method.Invoke(arguments);
+            var arguments = GetArguments(this.Method.Parameters, parameters.ToArray());
+            return this.Method.Invoke(arguments);
         }
     }
 }

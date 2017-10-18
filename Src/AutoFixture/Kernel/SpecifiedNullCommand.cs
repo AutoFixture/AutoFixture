@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A no-op that identifies a certain property or field.
@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// with it.
     /// </para>
     /// </remarks>
-    [Obsolete("This class is no longer used, and will be removed in future versions.")]
+    [Obsolete("This class is no longer used, and will be removed in future versions.", true)]
     public class SpecifiedNullCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
     {
         /// <summary>

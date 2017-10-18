@@ -5,14 +5,13 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Ploeh.Albedo;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using Albedo;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class ConstructorInitializedMemberAssertionTest
     {
@@ -151,9 +150,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Exercise system and verify outcome
             var constructorWithNoParameters = typeof (PropertyHolder<object>).GetConstructors().First();
-            Assert.Equal(0, constructorWithNoParameters.GetParameters().Length);
-            Assert.DoesNotThrow(() =>
-                sut.Verify(constructorWithNoParameters));
+            Assert.Empty(constructorWithNoParameters.GetParameters());
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(constructorWithNoParameters)));
             // Teardown
         }
 
@@ -165,8 +164,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(composer);
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(propertyInfo)));
             // Teardown
         }
 
@@ -178,8 +177,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(composer);
             var propertyInfo = typeof(FieldHolder<object>).GetField("Field");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(propertyInfo)));
             // Teardown
         }
 
@@ -219,7 +218,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyInitializedViaConstructor<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
             // Teardown
         }
 
@@ -248,7 +247,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructor<object>).GetField("Field");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(fieldInfo));
+            Assert.Null(Record.Exception(() => sut.Verify(fieldInfo)));
             // Teardown
         }
 
@@ -275,9 +274,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var ctor2 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
             var ctor3 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(ctor1));
-            Assert.DoesNotThrow(() => sut.Verify(ctor2));
-            Assert.DoesNotThrow(() => sut.Verify(ctor3));
+            Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
+            Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
+            Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
             // Teardown
         }
 
@@ -306,9 +305,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var ctor2 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
             var ctor3 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(ctor1));
-            Assert.DoesNotThrow(() => sut.Verify(ctor2));
-            Assert.DoesNotThrow(() => sut.Verify(ctor3));
+            Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
+            Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
+            Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
             // Teardown
         }
 
@@ -342,14 +341,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeDoesNotThrow()
+        public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeShouldThrow()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(PropertyIsAssignableFromConstructorArgumentType).GetConstructors().First();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
+            Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(ctor));
             // Teardown
         }
@@ -363,7 +362,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
                 .GetConstructor(new[] { typeof(ComplexType), typeof(object) });
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(ctor));
+            Assert.Null(Record.Exception(() => sut.Verify(ctor)));
             // Teardown
         }
 
@@ -391,8 +390,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(WriteOnlyPropertyHolder<ComplexType>).GetConstructors().First();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
-                () => sut.Verify(ctor));
+            Assert.Null(
+                Record.Exception(() => sut.Verify(ctor)));
             // Teardown
         }
 
@@ -404,7 +403,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(WriteOnlyPropertyHolder<ComplexType>).GetProperty("WriteOnlyProperty");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
             // Teardown
         }
 
@@ -416,7 +415,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(InternalGetterPropertyHolder<ComplexType>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
             // Teardown
         }
 
@@ -428,7 +427,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(PropertyHolder<ComplexType>);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
+            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
             // Teardown
         }
 
@@ -440,7 +439,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(StaticPropertyHolder<ComplexType>);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
+            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
             // Teardown
         }
 
@@ -452,7 +451,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(StaticFieldHolder<ComplexType>);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
+            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
             // Teardown
         }
 
@@ -464,7 +463,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyField<ComplexType, int>);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
+            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
             // Teardown
         }
 
@@ -476,7 +475,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyProperty<ComplexType, int>);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
+            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
             // Teardown
         }
 
@@ -549,7 +548,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(fixture);
 
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(type));
+            Assert.Null(Record.Exception(() => sut.Verify(type)));
         }
 
         [Theory]
@@ -585,7 +584,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestDefaultOnlyEnum>))]
         [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestDefaultOnlyEnum>))]
         [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
         public void VerifyDefaultOnlyEnumDoesThrowBecauseOfPotentialFalsePositive(Type type)
         {
             // Fixture setup
@@ -601,26 +599,26 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(param, ex.MissingParameter);
             Assert.Equal(ctor, ex.MemberInfo);
             Assert.Equal(ctor, ex.ConstructorInfo);
-            Assert.Equal(null, ex.FieldInfo);
-            Assert.Equal(null, ex.PropertyInfo);
+            Assert.Null(ex.FieldInfo);
+            Assert.Null(ex.PropertyInfo);
         }
 
         static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, PropertyInfo pi)
         {
-            Assert.Equal(null, ex.ConstructorInfo);
-            Assert.Equal(null, ex.MissingParameter);
+            Assert.Null(ex.ConstructorInfo);
+            Assert.Null(ex.MissingParameter);
             Assert.Equal(pi, ex.MemberInfo);
-            Assert.Equal(null, ex.FieldInfo);
+            Assert.Null(ex.FieldInfo);
             Assert.Equal(pi, ex.PropertyInfo);
         }
 
         static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, FieldInfo fi)
         {
-            Assert.Equal(null, ex.ConstructorInfo);
-            Assert.Equal(null, ex.MissingParameter);
+            Assert.Null(ex.ConstructorInfo);
+            Assert.Null(ex.MissingParameter);
             Assert.Equal(fi, ex.MemberInfo);
             Assert.Equal(fi, ex.FieldInfo);
-            Assert.Equal(null, ex.PropertyInfo);
+            Assert.Null(ex.PropertyInfo);
         }
 
         class PublicReadOnlyFieldNotInitializedByConstructor
@@ -655,14 +653,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public T GetWriteOnlyProperty()
             {
-                return writeOnlyPropertyBackingField;
+                return this.writeOnlyPropertyBackingField;
             }
 
             public T WriteOnlyProperty
             {
                 set
                 {
-                    writeOnlyPropertyBackingField = value;
+                    this.writeOnlyPropertyBackingField = value;
                 }
             }
         }
@@ -671,7 +669,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             public ComplexType()
             {
-                Children = new Collection<ComplexTypeChild>();
+                this.Children = new Collection<ComplexTypeChild>();
             }
 
             public ICollection<ComplexTypeChild> Children { get; set; }

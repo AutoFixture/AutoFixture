@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates a generic method, inferring the type parameters bases on invocation arguments.
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return type.HasElementType ?
                 new[] { type.GetElementType() } :
-                type.GetGenericArguments();
+                type.GetTypeInfo().GetGenericArguments();
         }
 
         private static MethodInfo InferMethodInfo(MethodInfo methodInfo, IEnumerable<object> arguments)
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (methodInfo.ContainsGenericParameters)
             {
                 var typeMap = arguments.Zip(methodInfo.GetParameters(),
-                (argument, parameter) => ResolveGenericType(GetType(argument), parameter.ParameterType))
+                (argument, parameter) => ResolveGenericType(GetArgumentTypeOrObjectType(argument), parameter.ParameterType))
                 .SelectMany(x => x)
                 .ToLookup(x => x.Item1, x => x.Item2);
 
@@ -93,7 +93,7 @@ namespace Ploeh.AutoFixture.Kernel
                         if (!typeMap.Contains(x))
                             throw new TypeArgumentsCannotBeInferredException(methodInfo);
 
-                        return typeMap[x].Aggregate((t1, t2) => t1.IsAssignableFrom(t2) ? t2 : t1);
+                        return typeMap[x].Aggregate((t1, t2) => t1.GetTypeInfo().IsAssignableFrom(t2) ? t2 : t1);
                     });
 
                 return methodInfo.MakeGenericMethod(actuals.ToArray());
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixture.Kernel
             return methodInfo;
         }
 
-        private static Type GetType(object argument)
+        private static Type GetArgumentTypeOrObjectType(object argument)
         {
             return argument == null ? typeof(object) : argument.GetType();
         }
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.Kernel
         public object Invoke(IEnumerable<object> parameters)
         {
             var arguments = parameters.ToArray();
-            return Factory.Create(InferMethodInfo(Method, arguments))
+            return this.Factory.Create(InferMethodInfo(this.Method, arguments))
                 .Invoke(arguments);
         }
     }

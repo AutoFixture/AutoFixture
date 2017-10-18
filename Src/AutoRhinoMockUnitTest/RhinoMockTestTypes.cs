@@ -1,4 +1,4 @@
-namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
+namespace AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoMockTestTypes
     {

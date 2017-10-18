@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class WritablePropertyExceptionTest
     {
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = sut.Message;
             // Verify outcome
-            Assert.Equal<string>(expected, result);
+            Assert.Equal(expected, result);
             // Teardown
         }
 
@@ -167,6 +167,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             }
         }
 
+#if SERIALIZABLE_MEMBERINFO
         [Fact]
         public void PropertyInfosSerializesCorrectly()
         {
@@ -189,5 +190,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 // Teardown
             }
         }
+#endif
     }
 }

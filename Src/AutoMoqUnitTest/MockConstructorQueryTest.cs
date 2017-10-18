@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class MockConstructorQueryTest
     {
@@ -47,7 +46,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
+            var mockType = t.GetTypeInfo().GetGenericArguments().Single();
             var expectedCount = mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
 
             var sut = new MockConstructorQuery();
@@ -66,7 +65,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void MethodsDefineCorrectParameters(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
+            var mockType = t.GetTypeInfo().GetGenericArguments().Single();
             var mockTypeCtorArgs = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
 
@@ -89,7 +88,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void MethodsAreReturnedInCorrectOrder(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
+            var mockType = t.GetTypeInfo().GetGenericArguments().Single();
             var mockTypeCtorArgCounts = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                         let paramCount = ci.GetParameters().Length
                                         orderby paramCount ascending
@@ -113,7 +112,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             var result = sut.SelectMethods(typeof(Mock<ConcreteTypeWithPrivateParameterlessConstructor>));
             // Verify outcome
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
             // Teardown
         }
     }

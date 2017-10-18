@@ -1,14 +1,14 @@
-﻿using System.Globalization;
-using Ploeh.AutoFixture.Kernel;
-using System;
+﻿using System;
+using System.Globalization;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Handles creation requests for <see cref="CultureInfo"/> instances, 
     /// returning always the same <see cref="CultureInfo.InvariantCulture"/>.
     /// </summary>
-    [Obsolete("Please use a 'Ploeh.AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", false)]
+    [Obsolete("Please use a 'AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]
     public class InvariantCultureGenerator : ISpecimenBuilder
     {
         private readonly ExactTypeSpecification cultureTypeSpecification 
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture
             if (request == null)
                 return new NoSpecimen();
 
-            if (!cultureTypeSpecification.IsSatisfiedBy(request))
+            if (!this.cultureTypeSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen(); ;
 
             return CultureInfo.InvariantCulture;

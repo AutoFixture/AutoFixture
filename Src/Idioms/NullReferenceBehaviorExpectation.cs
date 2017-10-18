@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Encapsulates expectations about the behavior of a method or constructor when it's invoked
@@ -25,8 +25,8 @@ namespace Ploeh.AutoFixture.Idioms
         /// <para>
         /// The Verify method attempts to invoke the <paramref name="command" /> instance's
         /// <see cref="IGuardClauseCommand.Execute" /> with <see langword="null" />. The expected
-        /// result is that this action throws an <see cref="ArgumentNullException" />, in which
-        /// case the expected behavior is considered verified. If any other exception is thrown, or
+        /// result is that this action throws an <see cref="ArgumentNullException" /> with proper parameter name, 
+        /// in which case the expected behavior is considered verified. If any other exception is thrown, or
         /// if no exception is thrown at all, the verification fails and an exception is thrown.
         /// </para>
         /// <para>
@@ -50,9 +50,11 @@ namespace Ploeh.AutoFixture.Idioms
             {
                 command.Execute(null);
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
-                return;
+                if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
+                    return;
+                throw command.CreateException("null", e);
             }
             catch (Exception e)
             {

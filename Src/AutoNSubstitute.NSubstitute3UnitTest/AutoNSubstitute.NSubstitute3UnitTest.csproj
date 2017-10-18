@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+  <Import Project="..\Common.Test.props" />
+  <Import Project="..\Common.Test.xUnit.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netcoreapp1.1</TargetFrameworks>
+    <AssemblyTitle>AutoNSubstitute.NSubstitute3.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.AutoNSubstitute.NSubstitute3UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoNSubstitute.UnitTest</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSubstitute" Version="[3.0.1]" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AutoNSubstituteUnitTest\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Remove="..\AutoNSubstituteUnitTest\obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoNSubstitute\AutoNSubstitute.csproj" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+</Project>

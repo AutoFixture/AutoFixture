@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NUnit.Framework;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     [TestFixture]
     public class Scenario
@@ -28,7 +29,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         }
 
         [Test, AutoData]
-        public void AutoTestCaseProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<OperatingSystem> spt)
+        public void AutoTestCaseProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<ConcreteType> spt)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);
@@ -386,6 +387,13 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             Assert.That(ph1.Property, Is.EqualTo(default(object)));
             Assert.That(ph2.Property, Is.EqualTo(default(string)));
             Assert.That(ph3.Property, Is.EqualTo(default(int)));
+        }
+
+        [Theory, AutoData]
+        public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
+            [Frozen, StringLength(3)]string p)
+        {
+            Assert.True(p.Length == 3);
         }
     }
 }

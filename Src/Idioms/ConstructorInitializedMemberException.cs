@@ -3,9 +3,8 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security;
-using System.Security.Permissions;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Represents a verification error when testing whether a read-only property is correctly
@@ -15,7 +14,9 @@ namespace Ploeh.AutoFixture.Idioms
     [Serializable]
     public class ConstructorInitializedMemberException : Exception
     {
+        [NonSerialized]
         private readonly MemberInfo memberInfo;
+        [NonSerialized]
         private readonly ParameterInfo missingParameter;
 
         /// <summary>
@@ -144,11 +145,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// serialized data.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the
         /// serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
         protected ConstructorInitializedMemberException(SerializationInfo info, StreamingContext context)
@@ -199,14 +200,14 @@ namespace Ploeh.AutoFixture.Idioms
 
         /// <summary>
         /// Adds <see cref="PropertyInfo" /> to a
-        /// <see cref="T:System.Runtime.Serialization.SerializationInfo"/>.
+        /// <see cref="System.Runtime.Serialization.SerializationInfo"/>.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the
         /// serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
         [SecurityCritical]

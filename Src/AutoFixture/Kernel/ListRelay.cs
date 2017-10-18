@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for an <see cref="IList{T}" /> to a request for a
@@ -34,16 +34,12 @@ namespace Ploeh.AutoFixture.Kernel
 
             var t = request as Type;
             if (t == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
-            var typeArguments = t.GetGenericArguments();
+            var typeArguments = t.GetTypeInfo().GetGenericArguments();
             if (typeArguments.Length != 1 ||
                 typeof(IList<>) != t.GetGenericTypeDefinition())
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return context.Resolve(
                 typeof(List<>).MakeGenericType(typeArguments));

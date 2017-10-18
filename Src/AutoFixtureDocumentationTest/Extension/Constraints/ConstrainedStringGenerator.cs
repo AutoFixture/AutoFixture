@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
+namespace AutoFixtureDocumentationTest.Extension.Constraints
 {
     public class ConstrainedStringGenerator
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Holds a name and type. Instances are equal when the names are the
@@ -9,6 +9,7 @@ namespace Ploeh.AutoFixture.Idioms
     internal class NameAndType
     {
         public string Name { get; private set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "It's fine to have the 'Type' property and we cannot re-use the GetType() method intead.")]
         public Type Type { get; private set; }
 
         public NameAndType(string name, Type type)

@@ -1,6 +1,6 @@
-﻿using Ploeh.AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a sequence of printable ASCII characters (Dec 33-126), starting at '!' (Dec 33).
@@ -30,9 +30,7 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(char).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return this.Create();
@@ -42,9 +40,9 @@ namespace Ploeh.AutoFixture
         {
             lock (this.syncRoot)
             {
-                if (c > 126)
+                if (this.c > 126)
                 {
-                    c = '!';
+                    this.c = '!';
                 }
 
                 return this.c++;

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class GenericMethodTests
     {
@@ -17,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             Action dummy = delegate { };
             var anonymousFactory = new DelegatingMethodFactory();
-            var sut = new GenericMethod(dummy.Method, anonymousFactory);
+            var sut = new GenericMethod(dummy.GetMethodInfo(), anonymousFactory);
             Assert.IsAssignableFrom<IMethod>(sut);
         }
 
@@ -35,13 +33,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action dummy = delegate { };
             
             Assert.Throws<ArgumentNullException>(() =>
-                new GenericMethod(dummy.Method, null));
+                new GenericMethod(dummy.GetMethodInfo(), null));
         }
 
         [Fact]
         public void MethodIsCorrect()
         {
-            var expectedMethod = ((Action)delegate { }).Method;
+            var expectedMethod = ((Action)delegate { }).GetMethodInfo();
             var anonymousFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(expectedMethod, anonymousFactory);
 
@@ -53,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void FactoryIsCorrect()
         {
-            var anonymousMethod = ((Action)delegate { }).Method;
+            var anonymousMethod = ((Action)delegate { }).GetMethodInfo();
             var expectedFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(anonymousMethod, expectedFactory);
 
@@ -67,8 +65,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             Action<int, double> dummy = delegate { };
             var anonymousFactory = new DelegatingMethodFactory();
-            var expectedParameters = dummy.Method.GetParameters();
-            var sut = new GenericMethod(dummy.Method, anonymousFactory);
+            var expectedParameters = dummy.GetMethodInfo().GetParameters();
+            var sut = new GenericMethod(dummy.GetMethodInfo(), anonymousFactory);
 
             var result = sut.Parameters;
 
@@ -133,7 +131,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [ClassData(typeof(GenericMethodTestCase))]
+        [MemberData(nameof(GenericMethodTestCases))]
         public void InvokeWithGenericMethodReturnsCorrectResult(Type targetType, int index, object values)
         {
             var method = (from mi in targetType
@@ -168,23 +166,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 () => sut.Invoke((object[])values));
             Assert.Contains(method.Name, exception.Message);
         }
-    }
 
-    public class GenericMethodTestCase : IEnumerable<object[]>
-    {
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            yield return new object[] { typeof(TypeWithGenericMethod), 0, new object[] { "abc" } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 1, new object[] { new string[] { "ab", "c" } } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 2, new object[] { "ab", 2 } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 3, new object[] { "ab", new Func<string, int>(x => x.Length) } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 4, new object[] { new int[] { 1, 2 }, new string[] { "ab", "c" } } };
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public static TheoryData<Type, int, object> GenericMethodTestCases =>
+            new TheoryData<Type, int, object>
+            {
+                { typeof(TypeWithGenericMethod), 0, new object[] { "abc" } },
+                { typeof(TypeWithGenericMethod), 1, new object[] { new string[] { "ab", "c" } } },
+                { typeof(TypeWithGenericMethod), 2, new object[] { "ab", 2 } },
+                { typeof(TypeWithGenericMethod), 3, new object[] { "ab", new Func<string, int>(x => x.Length) } },
+                { typeof(TypeWithGenericMethod), 4, new object[] { new int[] { 1, 2 }, new string[] { "ab", "c" } } }
+            };
     }
 
     public class TypeWithGenericMethod

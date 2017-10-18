@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class EnumGeneratorTest
     {
@@ -36,9 +35,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -58,7 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new EnumGenerator();
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
-            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).Last();
+            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).ToArray().Last();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -105,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new EnumGenerator();
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
-            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).Last();
+            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).ToArray().Last();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown

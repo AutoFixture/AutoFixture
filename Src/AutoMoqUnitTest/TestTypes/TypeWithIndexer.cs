@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
 {
     public class TypeWithIndexer
     {
@@ -11,8 +6,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
 
         public int this[int index]
         {
-            get { return array[index]; }
-            set { array[index] = value; }
+            get { return this.array[index]; }
+            set { this.array[index] = value; }
         }
     }
 }

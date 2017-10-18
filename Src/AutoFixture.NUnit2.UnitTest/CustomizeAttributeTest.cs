@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
     public class CustomizeAttributeTest
@@ -25,6 +25,17 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             var sut = new DelegatingCustomizeAttribute();
             // Verify outcome
             Assert.IsInstanceOf<Attribute>(sut);
+            // Teardown
+        }
+        
+        [Test]
+        public void SutImplementsIParameterCustomizationSource()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new DelegatingCustomizeAttribute();
+            // Verify outcome
+            Assert.IsInstanceOf<IParameterCustomizationSource>(sut);
             // Teardown
         }
     }

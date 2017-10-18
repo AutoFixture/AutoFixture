@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Dsl;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Dsl
+namespace AutoFixtureUnitTest.Dsl
 {
     public class CompositePostprocessComposerTest
     {

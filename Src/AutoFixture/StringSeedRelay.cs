@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Unwraps a request for a string <see cref="SeededRequest"/> to a request for a string and
@@ -36,17 +36,13 @@ namespace Ploeh.AutoFixture
             if (seededRequest == null ||
                 (!seededRequest.Request.Equals(typeof(string))))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var seed = seededRequest.Seed as string;
             if (seed == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var containerResult = context.Resolve(typeof(string));

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="Guid"/> instances.
@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <remarks>Obsolete Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
         /// <returns>A new <see cref="Guid"/> instance.</returns>
-        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public static Guid CreateAnonymous()
         {
             return Create();
@@ -41,9 +41,7 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(Guid).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return GuidGenerator.Create();

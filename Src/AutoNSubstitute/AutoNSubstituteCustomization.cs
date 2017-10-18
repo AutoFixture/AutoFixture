@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>Enables auto-mocking with NSubstitute.</summary>
     public class AutoNSubstituteCustomization : ICustomization
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <seealso cref="AutoNSubstituteCustomization(ISpecimenBuilder)"/>
         public ISpecimenBuilder Builder
         {
-            get { return builder; }
+            get { return this.builder; }
         }
 
         /// <summary>Customizes an <see cref="IFixture"/> to enable auto-mocking with NSubstitute.</summary>
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             fixture.Customizations.Insert(0, new SubstituteRequestHandler(new MethodInvoker(new NSubstituteMethodQuery())));
             fixture.Customizations.Insert(0, new SubstituteAttributeRelay());
-            fixture.ResidueCollectors.Add(Builder);
+            fixture.ResidueCollectors.Add(this.Builder);
         }
     }
 }

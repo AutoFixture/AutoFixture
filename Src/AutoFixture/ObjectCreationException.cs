@@ -1,12 +1,17 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
-namespace Ploeh.AutoFixture
+#if SYSTEM_RUNTIME_SERIALIZATION
+using System.Runtime.Serialization;
+#endif
+
+namespace AutoFixture
 {
     /// <summary>
     /// The exception that is thrown when AutoFixture is unable to create an object.
     /// </summary>
+#if SYSTEM_RUNTIME_SERIALIZATION
     [Serializable]
+#endif
     public class ObjectCreationException : Exception
     {
         /// <summary>
@@ -45,6 +50,7 @@ namespace Ploeh.AutoFixture
         {
         }
 
+#if SYSTEM_RUNTIME_SERIALIZATION
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectCreationException"/> class with
         /// serialized data.
@@ -57,5 +63,6 @@ namespace Ploeh.AutoFixture
             : base(info, context)
         {
         }
+#endif
     }
 }

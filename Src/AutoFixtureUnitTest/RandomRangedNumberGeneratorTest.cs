@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RandomRangedNumberGeneratorTest
     {
@@ -59,9 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(dummyRequest), result);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
@@ -69,6 +63,8 @@ namespace Ploeh.AutoFixtureUnitTest
         [Theory]
         [InlineData(typeof(int), "a", "b")]
         [InlineData(typeof(long), 'd', 'e')]
+        [InlineData(typeof(double), 'f', 'g')]
+        [InlineData(typeof(decimal), 'h', 'j')]
         public void CreateWithNonnumericLimitsReturnsNoSpecimen(Type operandType, object minimum, object maximum)
         {
             // Fixture setup
@@ -78,9 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(request), result);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), result);
         }
 
 
@@ -201,7 +195,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
 
         [Theory]
-        [ClassData(typeof(RandomRangedNumberGeneratorTestCases))]
+        [MemberData(nameof(PairsOfDifferentIntegerTypes))]
         public void CreateReturnsValuesFromCorrectSetForRequestsWithDifferentTypesAndSameLimits(
                                                                       Type primaryRequestType, Type otherRequestType)
         {
@@ -267,59 +261,148 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        private sealed class RandomRangedNumberGeneratorTestCases : IEnumerable<object[]>
+        [Theory]
+        [MemberData(nameof(MinLimitToMaxLimitRequests))]
+        public void CreationOnFullRangeShouldntFail(Type type, object minimum, object maximum)
         {
-            public IEnumerator<object[]> GetEnumerator()
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System And Verify
+            Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
+
+            // Teardown
+        }
+
+        [Theory]
+        [MemberData(nameof(MinLimitToMaxLimitRequests))]
+        public void CreationOnFullRangeShouldReturnValue(Type type, object minimum, object maximum)
+        {
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System
+            var result = sut.Create(request, dummyContext);
+
+            // Verify
+            Assert.IsType(type, result);
+
+            // Teardown
+        }
+
+        [Theory]
+        [MemberData(nameof(RequestsWithLimitsToZeroRange))]
+        public void CreationWithLimitsInBoundariesShouldReturnValueInRange(Type type, object minimum, object maximum)
+        {
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System
+            var result = (IComparable) sut.Create(request, dummyContext);
+
+            // Verify
+            Assert.InRange(result, (IComparable) minimum, (IComparable) maximum);
+
+            // Teardown
+        }
+
+
+        public static TheoryData<Type, IConvertible, IConvertible> MinLimitToMaxLimitRequests =>
+            new TheoryData<Type, IConvertible, IConvertible>
             {
-                yield return new object[] { typeof(double), typeof(int) };
-                yield return new object[] { typeof(double), typeof(byte) };
-                yield return new object[] { typeof(double), typeof(short) };
-                yield return new object[] { typeof(double), typeof(long) };
-                yield return new object[] { typeof(double), typeof(float) };
-                yield return new object[] { typeof(double), typeof(decimal) };
+                { typeof(float), float.MinValue, float.MaxValue },
+                { typeof(double), double.MinValue, double.MaxValue },
+                { typeof(decimal), decimal.MinValue, decimal.MaxValue },
+                { typeof(sbyte), sbyte.MinValue, sbyte.MaxValue },
+                { typeof(byte), byte.MinValue, byte.MaxValue },
+                { typeof(short), short.MinValue, short.MaxValue },
+                { typeof(ushort), ushort.MinValue, ushort.MaxValue },
+                { typeof(int), int.MinValue, int.MaxValue },
+                { typeof(uint), uint.MinValue, uint.MaxValue },
+                { typeof(long), long.MinValue, long.MaxValue },
+                { typeof(ulong), ulong.MinValue, ulong.MaxValue }
+            };
 
-                yield return new object[] { typeof(float), typeof(int) };
-                yield return new object[] { typeof(float), typeof(byte) };
-                yield return new object[] { typeof(float), typeof(short) };
-                yield return new object[] { typeof(float), typeof(long) };
-                yield return new object[] { typeof(float), typeof(double) };
-                yield return new object[] { typeof(float), typeof(decimal) };
-
-
-                yield return new object[] { typeof(int), typeof(float) };
-                yield return new object[] { typeof(int), typeof(byte) };
-                yield return new object[] { typeof(int), typeof(short) };
-                yield return new object[] { typeof(int), typeof(long) };
-                yield return new object[] { typeof(int), typeof(double) };
-                yield return new object[] { typeof(int), typeof(decimal) };
-
-                yield return new object[] { typeof(short), typeof(int) };
-                yield return new object[] { typeof(short), typeof(byte) };
-                yield return new object[] { typeof(short), typeof(float) };
-                yield return new object[] { typeof(short), typeof(long) };
-                yield return new object[] { typeof(short), typeof(double) };
-                yield return new object[] { typeof(short), typeof(decimal) };
-
-                yield return new object[] { typeof(byte), typeof(int) };
-                yield return new object[] { typeof(byte), typeof(short) };
-                yield return new object[] { typeof(byte), typeof(float) };
-                yield return new object[] { typeof(byte), typeof(long) };
-                yield return new object[] { typeof(byte), typeof(double) };
-                yield return new object[] { typeof(byte), typeof(decimal) };
-
-                yield return new object[] { typeof(decimal), typeof(int) };
-                yield return new object[] { typeof(decimal), typeof(short) };
-                yield return new object[] { typeof(decimal), typeof(float) };
-                yield return new object[] { typeof(decimal), typeof(long) };
-                yield return new object[] { typeof(decimal), typeof(double) };
-                yield return new object[] { typeof(decimal), typeof(byte) };               
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
+        public static TheoryData<Type, IConvertible, IConvertible> RequestsWithLimitsToZeroRange =>
+            new TheoryData<Type, IConvertible, IConvertible>
             {
-                return GetEnumerator();
-            }
-        }     
+                { typeof(float), float.MinValue, (float) 0 },
+                { typeof(float), (float) 0, float.MaxValue },
 
+                { typeof(double), double.MinValue, (double) 0 },
+                { typeof(double), (double) 0, double.MaxValue },
+
+                { typeof(decimal), decimal.MinValue, (decimal) 0 },
+                { typeof(decimal), (decimal) 0, decimal.MaxValue },
+
+                { typeof(sbyte), sbyte.MinValue, (sbyte) 0 },
+                { typeof(sbyte), (sbyte) 0, sbyte.MaxValue },
+                { typeof(byte), (byte) 0, byte.MaxValue },
+
+                { typeof(short), short.MinValue, (short) 0 },
+                { typeof(short), (short) 0, short.MaxValue },
+                { typeof(ushort), (ushort) 0, ushort.MaxValue },
+
+                { typeof(int), int.MinValue, (int) 0 },
+                { typeof(int), (int) 0, int.MaxValue },
+                { typeof(uint), (uint) 0, uint.MaxValue },
+
+                { typeof(long), long.MinValue, (long) 0 },
+                { typeof(long), (long) 0, long.MaxValue },
+                { typeof(ulong), (ulong) 0, ulong.MaxValue }
+            };
+
+        public static TheoryData<Type, Type> PairsOfDifferentIntegerTypes =>
+            new TheoryData<Type, Type>
+            {
+                { typeof(sbyte), typeof(int) },
+                { typeof(sbyte), typeof(byte) },
+                { typeof(sbyte), typeof(short) },
+                { typeof(sbyte), typeof(long) },
+                { typeof(sbyte), typeof(ulong) },
+                { typeof(sbyte), typeof(ushort) },
+
+                { typeof(long), typeof(int) },
+                { typeof(long), typeof(byte) },
+                { typeof(long), typeof(short) },
+                { typeof(long), typeof(sbyte) },
+                { typeof(long), typeof(ushort) },
+                { typeof(long), typeof(uint) },
+
+
+                { typeof(int), typeof(ulong) },
+                { typeof(int), typeof(byte) },
+                { typeof(int), typeof(short) },
+                { typeof(int), typeof(long) },
+                { typeof(int), typeof(ushort) },
+                { typeof(int), typeof(sbyte) },
+
+                { typeof(short), typeof(int) },
+                { typeof(short), typeof(byte) },
+                { typeof(short), typeof(ushort) },
+                { typeof(short), typeof(long) },
+                { typeof(short), typeof(sbyte) },
+                { typeof(short), typeof(ulong) },
+
+                { typeof(byte), typeof(int) },
+                { typeof(byte), typeof(short) },
+                { typeof(byte), typeof(sbyte) },
+                { typeof(byte), typeof(long) },
+                { typeof(byte), typeof(ushort) },
+                { typeof(byte), typeof(ulong) },
+
+                { typeof(uint), typeof(int) },
+                { typeof(uint), typeof(short) },
+                { typeof(uint), typeof(sbyte) },
+                { typeof(uint), typeof(long) },
+                { typeof(uint), typeof(ulong) },
+                { typeof(uint), typeof(byte) }
+            };
     }
 }

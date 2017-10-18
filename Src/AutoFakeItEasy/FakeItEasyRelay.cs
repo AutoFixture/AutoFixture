@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Reflection;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// Relays a request for an interface or an abstract class to a request for a
@@ -70,24 +71,18 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 throw new ArgumentNullException("context");
 
             if (!this.fakeableSpecification.IsSatisfiedBy(request))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var type = request as Type;
             if (type == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
             var fake = context.Resolve(fakeType);
             if (!fakeType.IsInstanceOfType(fake))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
@@ -98,7 +93,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             public bool IsSatisfiedBy(object request)
             {
                 var t = request as Type;
-                return (t != null) && ((t.IsAbstract) || (t.IsInterface));
+                return (t != null) && ((t.GetTypeInfo().IsAbstract) || (t.GetTypeInfo().IsInterface));
             }
         }
     }

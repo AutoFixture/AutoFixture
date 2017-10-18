@@ -1,13 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using Ploeh.AutoFixture.DataAnnotations;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture.DataAnnotations;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class StringLengthAttributeRelayTest
     {
@@ -57,9 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(dummyRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -80,9 +76,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -96,14 +90,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var stringLengthAttribute = new StringLengthAttribute(maximum);
             var providedAttribute = new ProvidedAttribute(stringLengthAttribute, true);
-            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
+            var request = new FakeMemberInfo(providedAttribute);
             var expectedRequest = new ConstrainedStringRequest(stringLengthAttribute.MaximumLength);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-#pragma warning disable 618
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
-#pragma warning restore 618
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new StringLengthAttributeRelay();
             // Exercise system
@@ -122,7 +114,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var stringLengthAttribute = new StringLengthAttribute(maximum) { MinimumLength = 1 };
             var providedAttribute = new ProvidedAttribute(stringLengthAttribute, true);
-            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
+            var request = new FakeMemberInfo(providedAttribute);
             var expectedRequest = new ConstrainedStringRequest(stringLengthAttribute.MinimumLength, stringLengthAttribute.MaximumLength);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext

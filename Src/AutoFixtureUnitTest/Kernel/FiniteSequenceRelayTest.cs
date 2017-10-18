@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class FiniteSequenceRelayTest
     {
@@ -42,9 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -61,9 +58,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -105,9 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var q = new Queue<object>(results);
             var context = new DelegatingSpecimenContext
             {
-#pragma warning disable 618
-                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen(r)
-#pragma warning restore 618
+                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen()
             };
 
             var sut = new FiniteSequenceRelay();

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class PostprocessorGenericTest
     {
@@ -33,8 +33,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void InitializeSingleActionWithNullBuilderThrows()
         {
             // Fixture setup
@@ -45,6 +45,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeSingleActionWithNullActionThrows()
         {
             // Fixture setup
@@ -55,6 +56,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeDoubleActionWithNullBuilderThrows()
         {
             // Fixture setup
@@ -65,6 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeDoubleActionWithNullActionThrows()
         {
             // Fixture setup
@@ -75,6 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeDoubleActionAndSpecificationWithNullBuilderThrows()
         {
             // Fixture setup
@@ -86,6 +90,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeDoubleActionAndSpecificationWithNullActionThrows()
         {
             // Fixture setup
@@ -101,6 +106,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeDoubleActionAndSpecificationWithNullSpecificationThrows()
         {
             // Fixture setup
@@ -110,7 +116,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(dummyBuilder, dummyAction, null));
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void SutYieldsInjectedBuilder()
@@ -164,8 +169,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void ComposePreservesAction()
         {
             // Fixture setup
@@ -179,7 +184,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, pp.Action);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void ComposePreservesCommand()
@@ -435,8 +439,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void ActionIsNotNullWhenConstructedWithMinimalConstructor()
         {
             // Fixture setup
@@ -450,7 +454,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.NotNull(actual);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void SpecificationIsCorrectWhenConstructedWithMinimalConstructor()
@@ -540,8 +543,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void ActionIsNotNullWhenConstructedWithFullConstructor()
         {
             // Fixture setup
@@ -559,7 +562,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.NotNull(actual);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void ConstructFullWithNullBuilderThrows()

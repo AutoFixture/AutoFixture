@@ -1,9 +1,10 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using System.Reflection;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class FieldRequestRelayTest
     {
@@ -54,9 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonFieldRequest, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(nonFieldRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -66,16 +65,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(fieldInfo) };
-#pragma warning restore 618
+            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new FieldRequestRelay();
             // Exercise system
             var result = sut.Create(fieldInfo, container);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(fieldInfo);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }

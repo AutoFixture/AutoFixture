@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates logic that determines whether a request is a request for a dictionary.
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return type.IsGenericType
+            return type.IsGenericType()
                 && typeof(Dictionary<,>) == type.GetGenericTypeDefinition();
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
+﻿namespace AutoFixtureDocumentationTest.Contact.Parsing
 {
     public class Contact
     {

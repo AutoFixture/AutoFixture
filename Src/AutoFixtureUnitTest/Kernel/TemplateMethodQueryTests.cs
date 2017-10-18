@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class TemplateMethodQueryTests
     {
@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutIsIMethodQuery()
         {
             Action dummy = delegate { };
-            var sut = new TemplateMethodQuery(dummy.Method);
+            var sut = new TemplateMethodQuery(dummy.GetMethodInfo());
             Assert.IsAssignableFrom<IMethodQuery>(sut);
         }
 
@@ -35,15 +35,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InitializeWithNullOwnerThrows()
         {
             Action dummy = delegate { };
-            Assert.Throws<ArgumentNullException>(() => new TemplateMethodQuery(dummy.Method, null));
+            Assert.Throws<ArgumentNullException>(() => new TemplateMethodQuery(dummy.GetMethodInfo(), null));
         }
 
         [Fact]
         public void TemplateIsCorrect()
         {
             Action dummy = delegate { };
-            var sut = new TemplateMethodQuery(dummy.Method);
-            Assert.Equal(dummy.Method, sut.Template);
+            var sut = new TemplateMethodQuery(dummy.GetMethodInfo());
+            Assert.Equal(dummy.GetMethodInfo(), sut.Template);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action dummy = delegate { };
             var owner = new object();
 
-            var sut = new TemplateMethodQuery(dummy.Method, owner);
+            var sut = new TemplateMethodQuery(dummy.GetMethodInfo(), owner);
 
             Assert.Equal(owner, sut.Owner);
         }
@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectMethodsWithNullThrows()
         {
             Action dummy = delegate { };
-            var sut = new TemplateMethodQuery(dummy.Method);
+            var sut = new TemplateMethodQuery(dummy.GetMethodInfo());
 
             Assert.Throws<ArgumentNullException>(() => sut.SelectMethods(null));
         }
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 .Select(m => m.Invoke(new[] { new Func<string>(() => string.Empty) }));
 
             var result = Assert.Single(results);
-            Assert.Equal(true, result);
+            Assert.True((bool)result);
         }
 
         [Theory]

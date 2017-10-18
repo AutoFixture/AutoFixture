@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Xunit
+namespace AutoFixture.Xunit
 {
     /// <summary>
     /// Base class for customizing parameters in methods decorated with
     /// <see cref="AutoDataAttribute"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
-    public abstract class CustomizeAttribute : Attribute
+    public abstract class CustomizeAttribute : Attribute, IParameterCustomizationSource
     {
         /// <summary>
         /// Gets a customization for a parameter.

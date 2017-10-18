@@ -1,12 +1,8 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class CriterionTests
     {
@@ -94,9 +90,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Version))]
         public void SutDoesNotEqualAnyObject(object other)
         {
-            var sut = new Criterion<PlatformID>(
-                PlatformID.Unix,
-                new DelegatingEqualityComparer<PlatformID>());
+            var sut = new Criterion<ConsoleColor>(
+                ConsoleColor.Cyan,
+                new DelegatingEqualityComparer<ConsoleColor>());
             var actual = sut.Equals(other);
             Assert.False(actual, "SUT should not equal object of other type.");
         }

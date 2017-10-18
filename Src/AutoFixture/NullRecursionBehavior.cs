@@ -1,11 +1,10 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
-using System.Collections.Generic;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
-    /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="NullRecursionGuard"/>.
+    /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="RecursionGuard"/> with <see cref="NullRecursionHandler"/>.
     /// </summary>
     public class NullRecursionBehavior : ISpecimenBuilderTransformation
     {
@@ -32,7 +31,7 @@ namespace Ploeh.AutoFixture
 
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
-        /// <see cref="NullRecursionGuard"/>.
+        /// <see cref="RecursionGuard"/> with <see cref="NullRecursionHandler"/>.
         /// </summary>
         /// <param name="builder">The builder to decorate.</param>
         /// <returns>
@@ -45,7 +44,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            return new RecursionGuard(builder, new NullRecursionHandler(), recursionDepth);
+            return new RecursionGuard(builder, new NullRecursionHandler(), this.recursionDepth);
         }
     }
 }

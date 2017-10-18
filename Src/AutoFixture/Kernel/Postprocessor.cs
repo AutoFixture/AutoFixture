@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Performs post-processing on a created specimen.
@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
-        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead")]
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead", true)]
         public Postprocessor(ISpecimenBuilder builder, Action<object> action)
             : base(builder, action)
         {
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
-        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead")]
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead", true)]
         public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContext> action)
             : base(builder, action)
         {
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specification which is used to determine whether postprocessing should be performed
         /// for a request.
         /// </param>
-        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand, IRequestSpecification) instead")]
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand, IRequestSpecification) instead", true)]
         public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContext> action, IRequestSpecification specification)
             : base(builder, action, specification)
         {
@@ -97,7 +97,9 @@ namespace Ploeh.AutoFixture.Kernel
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             var pp = new Postprocessor(composedBuilder, this.Command, this.Specification);
-            pp.action = this.action;
+#pragma warning disable 618
+            ObsoletedMemberShims.Postprocessor_SetAction(pp, ObsoletedMemberShims.Postprocessor_GetAction(this));
+#pragma warning restore 618
             return pp;
         }
     }
@@ -109,7 +111,7 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class Postprocessor<T> : ISpecimenBuilderNode
     {
-        internal Action<T, ISpecimenContext> action;
+        private Action<T, ISpecimenContext> action;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
@@ -117,7 +119,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
-        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead")]
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead", true)]
         public Postprocessor(ISpecimenBuilder builder, Action<T> action)
             : this(builder, action == null ? (Action<T, ISpecimenContext>)null : (s, c) => action(s))
         {
@@ -129,7 +131,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
-        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead")]
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead", true)]
         public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContext> action)
             : this(builder, action, new TrueRequestSpecification())
         {
@@ -160,7 +162,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specification which is used to determine whether postprocessing should be performed
         /// for a request.
         /// </param>
-        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand, IRequestSpecification) instead")]
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand, IRequestSpecification) instead", true)]
         public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContext> action, IRequestSpecification specification)
         {
             if (builder == null)
@@ -220,10 +222,11 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the action to perform on created specimens.
         /// </summary>
-        [Obsolete("Use the Command property instead.")]
+        [Obsolete("Use the Command property instead.", true)]
         public Action<T, ISpecimenContext> Action
         {
-            get { return this.action; }
+            get => this.action;
+            internal set => this.action = value;
         }
 
         /// <summary>
@@ -238,7 +241,7 @@ namespace Ploeh.AutoFixture.Kernel
         public ISpecimenBuilder Builder { get; }
 
         /// <summary>
-        /// Gets the filter that determines whether <see cref="Action"/> should be executed.
+        /// Gets the filter that determines whether <see cref="Command"/> should be executed.
         /// </summary>
         public IRequestSpecification Specification { get; }
 

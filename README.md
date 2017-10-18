@@ -1,5 +1,11 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/v/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
 
+## Announcement - v4 was released 🎈
+
+Refer to the [v4 Release Notes](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes) for information about the breaking changes, new features, enhancements and fixes.
+
+❗️❗️❗️ Notice, the default namespace prefix has been changed from `Phoeh.AutoFixture` to `AutoFixture`. Please use the text replace feature of your IDE to quickly fix all the namespace imports in your code. See more detail [here](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes#%EF%B8%8F%EF%B8%8F-removed-the-phoeh-namespace-and-assembly-name-prefix).
+
 ## Project Description ##
 
 Write maintainable unit tests, faster.
@@ -70,15 +76,30 @@ Notice how we can reduce unit tests to state only the relevant parts of the test
 
 Using AutoFixture is as easy as referencing the library and creating a new instance of the Fixture class!
 
-#### NUnit3 Known Issue
+## .NET platforms compatibility table
 
-You might need to change the test name strategy for compatibility with specific test runners. Read more about that [on our wiki](https://github.com/AutoFixture/AutoFixture/wiki/Known-Issues#test-name-strategies-for-nunit3).
+| Product                    | .NET Framework            | .NET Standard            |
+| -------------------------- | ------------------------  | ------------------------ |
+| AutoFixture                | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoFixture.SeedExtensions | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoFixture.xUnit          | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| AutoFixture.xUnit2         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoFixture.NUnit2         | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| AutoFixture.NUnit3         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoFakeItEasy             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.6   |
+| AutoFoq                    | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| AutoMoq                    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoNSubstitute            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoRhinoMock              | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| Idioms                     | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0   |
+| Idioms.FsCheck             | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
 
 ## Downloads
 
 AutoFixture is available via NuGet:
 
 * [AutoFixture](http://nuget.org/packages/AutoFixture)
+* [AutoFixture.SeedExtensions](http://nuget.org/packages/AutoFixture.SeedExtensions)
 * [AutoFixture.AutoMoq](http://nuget.org/packages/AutoFixture.AutoMoq)
 * [AutoFixture.AutoRhinoMocks](http://nuget.org/packages/AutoFixture.AutoRhinoMocks)
 * [AutoFixture.AutoFakeItEasy](http://nuget.org/packages/AutoFixture.AutoFakeItEasy)
@@ -89,7 +110,6 @@ AutoFixture is available via NuGet:
 * [AutoFixture.NUnit2](http://nuget.org/packages/AutoFixture.NUnit2)
 * [AutoFixture.NUnit3](http://nuget.org/packages/AutoFixture.NUnit3)
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
-* [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 
 ### vNext feed
 The artifacts of the next major version are published to [the MyGet feed](https://www.myget.org/gallery/autofixture):

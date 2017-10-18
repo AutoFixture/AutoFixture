@@ -1,10 +1,7 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="EmailAddressLocalPart"/> instances.
@@ -28,18 +25,14 @@ namespace Ploeh.AutoFixture
 
             if (request == null || !typeof(EmailAddressLocalPart).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var localPart = context.Resolve(typeof(string)) as string;
 
             if (string.IsNullOrEmpty(localPart))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return new EmailAddressLocalPart(localPart);

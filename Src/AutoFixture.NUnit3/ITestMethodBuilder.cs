@@ -1,8 +1,8 @@
-﻿using NUnit.Framework.Interfaces;
+﻿using System.Collections.Generic;
+using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using System.Collections.Generic;
 
-namespace Ploeh.AutoFixture.NUnit3
+namespace AutoFixture.NUnit3
 {
     /// <summary>
     /// Utility used to create a <see cref="TestMethod"/> instance.

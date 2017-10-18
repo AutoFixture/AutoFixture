@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System.Reflection;
 using Xunit;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     public class DependencyConstraints
     {
@@ -20,9 +20,9 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(AutoDataAttribute).Assembly.GetReferencedAssemblies();
+            var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
-            Assert.False(references.Any(an => an.Name == assemblyName));
+            Assert.DoesNotContain(references, an => an.Name == assemblyName);
             // Teardown
         }
 
@@ -41,9 +41,9 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = this.GetType().Assembly.GetReferencedAssemblies();
+            var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
-            Assert.False(references.Any(an => an.Name == assemblyName));
+            Assert.DoesNotContain(references, an => an.Name == assemblyName);
             // Teardown
         }
     }

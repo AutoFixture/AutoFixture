@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for an array to a <see cref="MultipleRequest"/> and converts the result
@@ -38,33 +38,31 @@ namespace Ploeh.AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
             if (type == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             if (!type.IsArray)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             var elementType = type.GetElementType();
             var specimen = context.Resolve(new MultipleRequest(elementType));
             if (specimen is OmitSpecimen)
                 return specimen;
             var elements = specimen as IEnumerable;
             if (elements == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
-            return ArrayRelay.ToArray(elements, elementType);
+                return new NoSpecimen();
+            return ToArray(elements, elementType);
         }
 
-        private static object ToArray(IEnumerable e, Type elementType)
+        private static object ToArray(IEnumerable elements, Type elementType)
         {
-            var al = new ArrayList();
-            foreach (var element in e)
+            var collection = elements as ICollection;
+            var count = (collection != null) ? collection.Count : elements.Cast<object>().Count();
+            var array = Array.CreateInstance(elementType, count);
+            int index = 0;
+            foreach(var element in elements)
             {
-                al.Add(element);
+                array.SetValue(element, index);
+                index++;
             }
-            return al.ToArray(elementType);
+            return array;
         }
     }
 }

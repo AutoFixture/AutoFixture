@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class DictionarySpecificationTest
     {
@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Dictionary<object, object>))]
         [InlineData(typeof(Dictionary<int, string>))]
         [InlineData(typeof(Dictionary<string, int>))]
-        [InlineData(typeof(Dictionary<Version, OperatingSystem>))]
+        [InlineData(typeof(Dictionary<Version, ConcreteType>))]
         public void IsSatisfiedByDictionaryRequestReturnsCorrectResult(Type request)
         {
             // Fixture setup

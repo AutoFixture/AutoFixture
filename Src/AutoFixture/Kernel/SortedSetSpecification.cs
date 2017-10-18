@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates logic that determines whether a request is a request for a
@@ -27,7 +28,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return type.IsGenericType && typeof(SortedSet<>) == type.GetGenericTypeDefinition();
+            return type.IsGenericType() && typeof(SortedSet<>) == type.GetTypeInfo().GetGenericTypeDefinition();
         }
     }
 }

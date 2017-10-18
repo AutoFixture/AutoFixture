@@ -1,8 +1,9 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class MissingParametersSupplyingStaticMethodFactoryTests
     {
@@ -19,9 +20,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action dummy = delegate { };
             var sut = new MissingParametersSupplyingStaticMethodFactory();
 
-            var result = sut.Create(dummy.Method);
+            var result = sut.Create(dummy.GetMethodInfo());
 
-            var expected = new MissingParametersSupplyingMethod(new StaticMethod(dummy.Method));
+            var expected = new MissingParametersSupplyingMethod(new StaticMethod(dummy.GetMethodInfo()));
             Assert.Equal(expected, result);
         }
 

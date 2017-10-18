@@ -1,107 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+  <Import Project="..\Common.Test.props" />
+  <Import Project="..\Common.Test.xUnit.props" />
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>b3ce0fc0-bb92-47f3-b43e-92b87f7956b8</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Idioms.FsCheckUnitTest</RootNamespace>
-    <AssemblyName>Ploeh.AutoFixture.Idioms.FsCheckUnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <SignAssembly>false</SignAssembly>
-    <Name>Idioms.FsCheckUnitTest</Name>
+    <TargetFramework>net452</TargetFramework>
+    <AssemblyTitle>AutoFixture.Idioms.FsCheckUnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.Idioms.FsCheckUnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <Tailcalls>false</Tailcalls>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\Idioms.FsCheckUnitTest.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
-  </PropertyGroup>
-  <Choose>
-    <When Condition="'$(VisualStudioVersion)' == '11.0'">
-      <PropertyGroup Condition="Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')">
-        <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets')">
-        <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
-  <Import Project="$(FSharpTargetsPath)" />
+
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="app.config" />
     <Compile Include="TestDsl.fs" />
     <Compile Include="TestTypes.fs" />
     <Compile Include="ReturnValueMustNotBeNullAssertionTest.fs" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj">
-      <Name>Idioms.FsCheck</Name>
-      <Project>{dcaaf1db-bea0-4a6f-8f67-a35a9891a7a9}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <Reference Include="FsCheck">
-      <HintPath>..\..\Packages\FsCheck.0.9.2.0\lib\net40-Client\FsCheck.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Grean.Exude">
-      <HintPath>..\..\Packages\Exude.0.2.0\lib\net35\Grean.Exude.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="Unquote">
-      <HintPath>..\..\Packages\Unquote.3.1.0\lib\net40\Unquote.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit">
-      <HintPath>..\..\Packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Name>AutoFixture</Name>
-      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Idioms\Idioms.csproj">
-      <Name>Idioms</Name>
-      <Project>{35de0e35-4e3a-46d7-b175-80ca10276be7}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <PackageReference Include="Unquote" Version="3.1.0" />
+    <PackageReference Include="FSharp.Core" Version="3.1.2" PrivateAssets="All" />
+    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\Idioms\Idioms.csproj" />
+    <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj" />
+  </ItemGroup>
+
 </Project>

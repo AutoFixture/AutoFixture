@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
+namespace AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoMockConstructorQueryTest
     {
@@ -60,7 +59,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
             // Teardown
         }
 

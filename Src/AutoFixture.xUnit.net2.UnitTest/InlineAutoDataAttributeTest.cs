@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     public class InlineAutoDataAttributeTest
     {
@@ -36,7 +38,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             var autoDataAttribute = new AutoDataAttribute();
-            var sut = new InlineAutoDataAttribute(autoDataAttribute);
+            var sut = new DerivedInlineAutoDataAttribute(autoDataAttribute);
             // Exercise system
             var result = sut.Attributes;
             // Verify outcome
@@ -90,7 +92,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             // Fixture setup
             var dummyAutoDataAttribute = new AutoDataAttribute();
             var expectedValues = new[] { new object(), new object(), new object() };
-            var sut = new InlineAutoDataAttribute(dummyAutoDataAttribute, expectedValues);
+            var sut = new DerivedInlineAutoDataAttribute(dummyAutoDataAttribute, expectedValues);
             // Exercise system
             var result = sut.Values;
             // Verify outcome
@@ -115,12 +117,74 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             var expected = new AutoDataAttribute();
-            var sut = new InlineAutoDataAttribute(expected);
+            var sut = new DerivedInlineAutoDataAttribute(expected);
             // Exercise system
             var result = sut.AutoDataAttribute;
             // Verify outcome
             Assert.Equal(expected, result);
             // Teardown
+        }
+        
+        
+        [Fact]
+        public void DoesntActivateFixtureImmediately()
+        {
+            // Fixture setup
+            bool wasInvoked = false;
+            var autoData = new DerivedAutoDataAttribute(() =>
+            {
+                wasInvoked = true;
+                return null;
+            });
+
+            // Exercise system
+            var sut = new DerivedInlineAutoDataAttribute(autoData);
+
+            // Verify outcome
+            Assert.False(wasInvoked);
+            // Teardown
+        }
+        
+        
+        [Fact]
+        public void PreDiscoveryShouldBeDisabled()
+        {
+            // Fixture setup
+            var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
+            var discovererAttr = typeof(InlineAutoDataAttribute).GetTypeInfo()
+                .CustomAttributes
+                .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
+
+            var expectedType = expectedDiscovererType.FullName;
+            var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
+
+            // Exercise system
+            var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
+            var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
+
+            // Verify outcome
+            Assert.Equal(expectedType, actualType);
+            Assert.Equal(expectedAssembly, actualAssembly);
+
+            // Teardown
+        }
+
+        private class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute
+        {
+            public DerivedInlineAutoDataAttribute(
+                AutoDataAttribute autoDataAttribute,
+                params object[] values)
+                : base(autoDataAttribute, values)
+            {
+            }
+        }
+        
+        private class DerivedAutoDataAttribute : AutoDataAttribute
+        {
+            public DerivedAutoDataAttribute(Func<IFixture> fixtureFactory)
+                : base(fixtureFactory)
+            {
+            }
         }
     }
 }

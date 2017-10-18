@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class SpecimenFactoryWithQuadrupleParameterFuncTest
     {
@@ -33,10 +34,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void FactoryIsCorrect()
         {
             // Fixture setup
-            Func<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor> expectedFactory = (x, y, z, æ) => ConsoleColor.Black;
-            var sut = new SpecimenFactory<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor>(expectedFactory);
+            Func<ConcreteType, TimeZoneInfo, StringBuilder, DateTime, ConsoleColor> expectedFactory = (x, y, z, æ) => ConsoleColor.Black;
+            var sut = new SpecimenFactory<ConcreteType, TimeZoneInfo, StringBuilder, DateTime, ConsoleColor>(expectedFactory);
             // Exercise system
-            Func<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor> result = sut.Factory;
+            Func<ConcreteType, TimeZoneInfo, StringBuilder, DateTime, ConsoleColor> result = sut.Factory;
             // Verify outcome
             Assert.Equal(expectedFactory, result);
             // Teardown
@@ -69,9 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var container = new DelegatingSpecimenContext();
             container.OnResolve = r => (from x in subRequests
                                         where x.ExpectedRequest.Equals(r)
-#pragma warning disable 618
-                                        select x.Specimen).DefaultIfEmpty(new NoSpecimen(r)).SingleOrDefault();
-#pragma warning restore 618
+                                        select x.Specimen).DefaultIfEmpty(new NoSpecimen()).SingleOrDefault();
 
             Func<decimal, TimeSpan, string, int, object> f = (d, ts, s, i) =>
                 param1.Specimen.Equals(d) && param2.Specimen.Equals(ts) && param3.Specimen.Equals(s) && param4.Specimen.Equals(i) ? expectedSpecimen : new NoSpecimen();

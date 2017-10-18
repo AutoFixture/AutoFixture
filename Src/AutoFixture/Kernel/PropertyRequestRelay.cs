@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for a property to a <see cref="SeededRequest"/> with a seed based
@@ -29,9 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
             var propertyInfo = request as PropertyInfo;
             if (propertyInfo == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return context.Resolve(new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name));

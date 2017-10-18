@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
-using NUnit.Framework.Internal;
-using System;
+﻿using System;
 using System.Linq;
-using static Ploeh.AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture;
+using System.Reflection;
+using NUnit.Framework;
+using NUnit.Framework.Internal;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     public class TestNameStrategiesTest
     {
@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             var sut = new AutoDataAttribute();
             // Verify outcome
             Assert.That(sut.TestMethodBuilder,
-                Is.TypeOf<VolatileNameTestMethodBuilder>());
+                Is.TypeOf<FixedNameTestMethodBuilder>());
             // Teardown
         }
 
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             var sut = new InlineAutoDataAttribute();
             // Verify outcome
             Assert.That(sut.TestMethodBuilder,
-                Is.TypeOf<VolatileNameTestMethodBuilder>());
+                Is.TypeOf<FixedNameTestMethodBuilder>());
             // Teardown
         }
 
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<AutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.FixedNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.AutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.FixedNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.Name,
                 Is.EqualTo(@"FixedNameDecoratedMethod(auto<Int32>,auto<MyClass>)"));
@@ -49,10 +49,10 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<AutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.FixedNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.AutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.FixedNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.FullName,
-                Is.EqualTo(@"Ploeh.AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.FixedNameDecoratedMethod(auto<Int32>,auto<MyClass>)"));
+                Is.EqualTo(@"AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.FixedNameDecoratedMethod(auto<Int32>,auto<MyClass>)"));
             // Teardown
         }
 
@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<AutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.AutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.Name,
                 Is.EqualTo(@"VolatileNameDecoratedMethod(42,""foo"")"));
@@ -73,10 +73,10 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<AutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.AutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.FullName,
-                Is.EqualTo(@"Ploeh.AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.VolatileNameDecoratedMethod(42,""foo"")"));
+                Is.EqualTo(@"AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.VolatileNameDecoratedMethod(42,""foo"")"));
             // Teardown
         }
 
@@ -85,7 +85,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<InlineAutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.InlineFixedNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.InlineAutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.InlineFixedNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.Name,
                 Is.EqualTo(@"InlineFixedNameDecoratedMethod(""alpha"",""beta"",auto<String>)"));
@@ -97,10 +97,10 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<InlineAutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.InlineFixedNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.InlineAutoDataFixedNameAttribute>(nameof(TestNameStrategiesFixture.InlineFixedNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.FullName,
-                Is.EqualTo(@"Ploeh.AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.InlineFixedNameDecoratedMethod(""alpha"",""beta"",auto<String>)"));
+                Is.EqualTo(@"AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.InlineFixedNameDecoratedMethod(""alpha"",""beta"",auto<String>)"));
             // Teardown
         }
 
@@ -109,7 +109,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<InlineAutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.InlineVolatileNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.InlineAutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.InlineVolatileNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.Name,
                 Is.EqualTo(@"InlineVolatileNameDecoratedMethod(""alpha"",""beta"",""foo"")"));
@@ -121,17 +121,17 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var testMethod = GetTestMethod<InlineAutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.InlineVolatileNameDecoratedMethod));
+            var testMethod = GetTestMethod<TestNameStrategiesFixture.InlineAutoDataVolatileNameAttribute>(nameof(TestNameStrategiesFixture.InlineVolatileNameDecoratedMethod));
             // Verify outcome
             Assert.That(testMethod.FullName,
-                Is.EqualTo(@"Ploeh.AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.InlineVolatileNameDecoratedMethod(""alpha"",""beta"",""foo"")"));
+                Is.EqualTo(@"AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.InlineVolatileNameDecoratedMethod(""alpha"",""beta"",""foo"")"));
             // Teardown
         }
 
         private static TestMethod GetTestMethod<TAttribute>(string testName) where TAttribute : Attribute, NUnit.Framework.Interfaces.ITestBuilder
         {
             var method = new MethodWrapper(typeof(TestNameStrategiesFixture), testName);
-            var inlineAttribute = (TAttribute)Attribute.GetCustomAttribute(method.MethodInfo, typeof(TAttribute));
+            var inlineAttribute = (TAttribute)method.MethodInfo.GetCustomAttribute(typeof(TAttribute));
             var testMethod = inlineAttribute.BuildFrom(method, null).Single();
             return testMethod;
         }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class DelegatingExpansion<T> : IExpansion<T>
     {

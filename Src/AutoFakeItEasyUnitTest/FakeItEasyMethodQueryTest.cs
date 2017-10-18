@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace AutoFixture.AutoFakeItEasy.UnitTest
 {
     public class FakeItEasyMethodQueryTest
     {
@@ -46,7 +45,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
+            var fakeType = t.GetTypeInfo().GetGenericArguments().Single();
             var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
@@ -64,7 +63,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void MethodsDefineCorrectParameters(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
+            var fakeType = t.GetTypeInfo().GetGenericArguments().Single();
             var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
             var sut = new FakeItEasyMethodQuery();
@@ -85,7 +84,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void MethodsAreReturnedInCorrectOrder(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
+            var fakeType = t.GetTypeInfo().GetGenericArguments().Single();
             var fakeTypeCtorArgCounts = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                         let paramCount = ci.GetParameters().Length
                                         orderby paramCount ascending

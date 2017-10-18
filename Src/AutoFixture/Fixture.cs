@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Ploeh.AutoFixture.DataAnnotations;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
 using System.Globalization;
-using System.Text;
+using System.Linq;
 using System.Net;
+using System.Text;
+using AutoFixture.DataAnnotations;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Provides anonymous object creation services.
@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixture
 
             this.graph =
                 new BehaviorRoot(
-                    new TerminatingWithPathSpecimenBuilder(new TracingBuilder(new CompositeSpecimenBuilder(
+                    new TerminatingWithPathSpecimenBuilder(new CompositeSpecimenBuilder(
                         new CustomizationNode(
                             new CompositeSpecimenBuilder(
                                 new FilteringSpecimenBuilder(
@@ -147,7 +147,7 @@ namespace Ploeh.AutoFixture
                             new MutableValueTypeWarningThrower(),
                             new AndRequestSpecification(
                                 new ValueTypeSpecification(),
-                                new NoConstructorsSpecification()))))));
+                                new NoConstructorsSpecification())))));
 
             this.UpdateCustomizer();
             this.UpdateResidueCollector();
@@ -381,6 +381,9 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (context == null) throw new ArgumentNullException(nameof(context));
+
             return this.graph.Create(request, context);
         }
 
@@ -399,7 +402,7 @@ namespace Ploeh.AutoFixture
 
         /// <summary>Returns an enumerator that iterates through a collection.</summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// An <see cref="IEnumerator{T}" /> object that can be used to iterate through the collection.
         /// </returns>
         /// <seealso cref="GetEnumerator()" />
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

@@ -1,51 +1,44 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
-    [TestClass]
     public class CompositeSpecimenBuilderTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new CompositeSpecimenBuilder();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildersWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
         {
             // Fixture setup
             var sut = new CompositeSpecimenBuilder();
             // Exercise system
-            IList<ISpecimenBuilder> result = sut.Builders;
+            var result = sut.Builders;
             // Verify outcome
-            Assert.IsNotNull(result, "Builders");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullEnumerableWillThrow()
         {
-            // Fixture setup
-            IEnumerable<ISpecimenBuilder> nullEnumerable = null;
-            // Exercise system
-            new CompositeSpecimenBuilder(nullEnumerable);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new CompositeSpecimenBuilder(null));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildersWillMatchListParameter()
         {
             // Fixture setup
@@ -54,28 +47,26 @@ namespace Ploeh.AutoFixtureUnitTest
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder()
-            }.AsEnumerable();
+            };
             var sut = new CompositeSpecimenBuilder(expectedBuilders);
             // Exercise system
             var result = sut.Builders;
             // Verify outcome
-            Assert.IsTrue(expectedBuilders.SequenceEqual(result), "Builders");
+            Assert.Equal(expectedBuilders, result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullArrayWillThrow()
         {
             // Fixture setup
             ISpecimenBuilder[] nullArray = null;
-            // Exercise system
-            new CompositeSpecimenBuilder(nullArray);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new CompositeSpecimenBuilder(nullArray));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildersWillMatchParamsArray()
         {
             // Fixture setup
@@ -89,32 +80,31 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Builders;
             // Verify outcome
-            Assert.IsTrue(expectedBuilders.SequenceEqual(result), "Builders");
+            Assert.Equal(expectedBuilders, result);
             // Teardown
         }
 
-        [TestMethod]
-        public void CreateWillReturnFirstNonNullResultFromBuilders()
+        [Fact]
+        public void CreateWillReturnFirstNonNoSpecimenResultFromBuilders()
         {
             // Fixture setup
-            var expectedResult = new object();
             var builders = new ISpecimenBuilder[]
             {
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => null },
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() }
             };
             var sut = new CompositeSpecimenBuilder(builders);
             // Exercise system
             var anonymousRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
-            var result = sut.Create(anonymousRequest, dummyContainer);
+            var dummycontext = new DelegatingSpecimenContext();
+            var result = sut.Create(anonymousRequest, dummycontext);
             // Verify outcome
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Null(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnNullIfAllBuildersReturnNull()
         {
             // Fixture setup
@@ -127,14 +117,14 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new CompositeSpecimenBuilder(builders);
             // Exercise system
             var anonymousRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
-            var result = sut.Create(anonymousRequest, dummyContainer);
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(anonymousRequest, dummyContext);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            Assert.Null(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillInvokeBuilderWithCorrectRequest()
         {
             // Fixture setup
@@ -143,42 +133,42 @@ namespace Ploeh.AutoFixtureUnitTest
             var mockVerified = false;
             var builderMock = new DelegatingSpecimenBuilder();
             builderMock.OnCreate = (r, c) =>
-                {
-                    Assert.AreEqual(expectedRequest, r, "Create");
-                    mockVerified = true;
-                    return new object();
-                };
+            {
+                if (expectedRequest != r) throw new ArgumentException("Invalid context");
+                mockVerified = true;
+                return new object();
+            };
 
             var sut = new CompositeSpecimenBuilder(builderMock);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
-            sut.Create(expectedRequest, dummyContainer);
+            var dummyContext = new DelegatingSpecimenContext();
+            sut.Create(expectedRequest, dummyContext);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillInvokeBuilderWithCorrectContainer()
         {
             // Fixture setup
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
 
             var mockVerified = false;
             var builderMock = new DelegatingSpecimenBuilder();
             builderMock.OnCreate = (r, c) =>
-                {
-                    Assert.AreEqual(expectedContainer, c, "Create");
-                    mockVerified = true;
-                    return new object();
-                };
+            {
+                if (expectedContainer != c) throw new ArgumentException("Invalid context");
+                mockVerified = true;
+                return new object();
+            };
 
             var sut = new CompositeSpecimenBuilder(builderMock);
             // Exercise system
             var dummyRequest = new object();
             sut.Create(dummyRequest, expectedContainer);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
     }

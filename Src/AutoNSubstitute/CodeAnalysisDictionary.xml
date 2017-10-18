@@ -1,0 +1,10 @@
+﻿<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>NSubstitute</Word>
+    </Recognized>
+    <DiscreteExceptions>
+      <Term>NSubstitute</Term>
+    </DiscreteExceptions>
+  </Words>
+</Dictionary>

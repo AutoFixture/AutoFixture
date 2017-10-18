@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a strictly increasing sequence of ranged numbers, starting at range minimum.  
@@ -45,17 +45,13 @@ namespace Ploeh.AutoFixture
             var range = request as RangedNumberRequest;
             if (range == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var value = context.Resolve(range.OperandType) as IComparable;
             if (value == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             try
@@ -64,9 +60,7 @@ namespace Ploeh.AutoFixture
             }
             catch (InvalidOperationException)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return this.rangedValue;

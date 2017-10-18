@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Xunit.Extensions;
-using Ploeh.AutoFixtureUnitTest.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class SpecimenBuilderNodeAdapterCollectionTest
     {
@@ -125,7 +123,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             this.sut.RemoveAt(index);
             // Verify outcome
-            Assert.False(this.sut.Contains(itemToBeRemoved));
+            Assert.DoesNotContain(itemToBeRemoved, this.sut);
             // Teardown
         }
 
@@ -177,7 +175,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             this.sut[index] = new DelegatingSpecimenBuilder();
             // Verify outcome
-            Assert.False(this.sut.Contains(itemToReplace));
+            Assert.DoesNotContain(itemToReplace, this.sut);
             // Teardown
         }
 
@@ -269,7 +267,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             this.sut.Remove(item);
             // Verify outcome
-            Assert.False(this.sut.Contains(item));
+            Assert.DoesNotContain(item, this.sut);
             // Teardown
         }
 

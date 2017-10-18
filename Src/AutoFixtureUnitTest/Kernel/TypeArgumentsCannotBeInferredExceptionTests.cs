@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class TypeArgumentsCannotBeInferredExceptionTests
     {
@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void MessageWillBeDefineWhenInitializedWithMethodInfo()
         {
             Action dummy = delegate { };
-            var sut = new TypeArgumentsCannotBeInferredException(dummy.Method);
+            var sut = new TypeArgumentsCannotBeInferredException(dummy.GetMethodInfo());
 
             var result = sut.Message;
 

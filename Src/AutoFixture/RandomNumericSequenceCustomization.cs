@@ -1,7 +1,6 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
+﻿using System;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that enables numeric specimens to be random and unique.

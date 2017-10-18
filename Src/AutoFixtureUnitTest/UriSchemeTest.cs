@@ -1,9 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class UriSchemeTest
     {
@@ -12,7 +11,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new UriScheme());
+            Assert.Null(Record.Exception(() => new UriScheme()));
             // Teardown
         }
 

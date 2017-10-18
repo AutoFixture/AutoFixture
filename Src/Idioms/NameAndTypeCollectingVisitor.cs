@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.Albedo;
+using Albedo;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Collections <see cref="NameAndType"/> instances from <see cref="FieldInfoElement"/>,

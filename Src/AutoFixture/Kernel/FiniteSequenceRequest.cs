@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Signals that many similar instances are requested.
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see langword="true"/> if the specified <see cref="Object"/> is equal to this instance;
         /// otherwise, <see langword="false"/>.
         /// </returns>
-        /// <exception cref="T:System.NullReferenceException">
+        /// <exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
         /// </exception>
         public override bool Equals(object obj)

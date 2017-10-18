@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Reflection;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple
 {
     public class MyViewModelTest
     {
@@ -46,7 +45,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             // Exercise system
             // Verify outcome (expected exception)
-            Assert.Throws<TargetInvocationException>(() =>
+            Assert.Throws<ObjectCreationException>(() =>
                 fixture.Create<MyViewModel>());
             // Teardown
         }

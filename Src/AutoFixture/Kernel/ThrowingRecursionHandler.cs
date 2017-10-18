@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Breaks a recursion by throwing a descriptive exception.
@@ -69,7 +69,7 @@ fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             foreach (object r in recordedRequests)
             {
                 Type type = r.GetType();
-                if (type.Assembly != typeof(RecursionGuard).Assembly)
+                if (type.Assembly() != typeof(RecursionGuard).Assembly())
                 {
                     requestInfos.Append("\t\t");
                     requestInfos.Append(r);

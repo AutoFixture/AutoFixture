@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Ploeh.Albedo;
-using Ploeh.Albedo.Refraction;
-using Ploeh.AutoFixture.Kernel;
+using Albedo;
+using Albedo.Refraction;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Encapsulates a unit test that verifies that a member (property or field) is correctly intialized
@@ -105,7 +105,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public IEqualityComparer Comparer
         {
-            get { return comparer; }
+            get { return this.comparer; }
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public IEqualityComparer<IReflectionElement> ParameterMemberMatcher
         {
-            get { return parameterMemberMatcher; }
+            get { return this.parameterMemberMatcher; }
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Ploeh.AutoFixture.Idioms
             IEqualityComparer<IReflectionElement> matcher =
                 this.parameterMemberMatcher is DefaultParameterMemberMatcher
                     ? new DefaultParameterMemberMatcher(
-                        new DefaultParameterMemberMatcher.NameIgnoreCaseAndTypeAssignableComparer())
+                        new DefaultParameterMemberMatcher.NameIgnoreCaseAndTypeEqualComparer())
                     : this.parameterMemberMatcher;
 
             var firstParameterNotExposed = parameters.FirstOrDefault(
@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo == null)
                 throw new ArgumentNullException("propertyInfo");
 
-            var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
+            var matchingConstructors = this.GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
 
             if (!matchingConstructors.Any())
             {
@@ -200,7 +200,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             var expectedAndActuals = matchingConstructors
-                .Select(ctor => BuildSpecimenFromConstructor(ctor, propertyInfo));
+                .Select(ctor => this.BuildSpecimenFromConstructor(ctor, propertyInfo));
 
             // Compare the value passed into the constructor with the value returned from the property
             if (expectedAndActuals.Any(s => !this.comparer.Equals(s.Expected, s.Actual)))
@@ -231,7 +231,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (fieldInfo == null)
                 throw new ArgumentNullException("fieldInfo");
 
-            var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
+            var matchingConstructors = this.GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
                 if (IsMemberThatRequiresConstructorInitialization(fieldInfo))
@@ -251,7 +251,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             var expectedAndActuals = matchingConstructors
-                .Select(ctor => BuildSpecimenFromConstructor(ctor, fieldInfo));
+                .Select(ctor => this.BuildSpecimenFromConstructor(ctor, fieldInfo));
 
             // Compare the value passed into the constructor with the value returned from the property
             if (expectedAndActuals.Any(s => !this.comparer.Equals(s.Expected, s.Actual)))
@@ -318,7 +318,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             // Get the value expected to be assigned to the matching member
             var expectedValueForMember = parametersAndValues
-                .Single(p => IsMatchingParameterAndMember(p.Parameter, propertyOrField))
+                .Single(p => this.IsMatchingParameterAndMember(p.Parameter, propertyOrField))
                 .Value;
 
             // Construct an instance of the specimen class
@@ -361,7 +361,7 @@ namespace Ploeh.AutoFixture.Idioms
         {
             return member.ReflectedType
                 .GetConstructors()
-                .Where(ci => IsConstructorWithMatchingArgument(ci, member));
+                .Where(ci => this.IsConstructorWithMatchingArgument(ci, member));
         }
 
         private bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
@@ -373,7 +373,7 @@ namespace Ploeh.AutoFixture.Idioms
         private bool IsConstructorWithMatchingArgument(ConstructorInfo ci, MemberInfo memberInfo)
         {
             return ci.GetParameters().Any(parameterElement =>
-                IsMatchingParameterAndMember(parameterElement, memberInfo));
+                this.IsMatchingParameterAndMember(parameterElement, memberInfo));
         }
 
         private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
@@ -411,14 +411,14 @@ namespace Ploeh.AutoFixture.Idioms
 
         private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
         {
-            public class NameIgnoreCaseAndTypeAssignableComparer : IEqualityComparer<NameAndType>
+            public class NameIgnoreCaseAndTypeEqualComparer : IEqualityComparer<NameAndType>
             {
                 public bool Equals(NameAndType x, NameAndType y)
                 {
                     if (x == null) throw new ArgumentNullException("x");
                     if (y == null) throw new ArgumentNullException("y");
-                    return x.Name.Equals(y.Name, StringComparison.CurrentCultureIgnoreCase)
-                           && (x.Type.IsAssignableFrom(y.Type) || y.Type.IsAssignableFrom(x.Type));
+                    return x.Name.Equals(y.Name, StringComparison.OrdinalIgnoreCase)
+                           && x.Type == y.Type;
                 }
 
                 public int GetHashCode(NameAndType obj)

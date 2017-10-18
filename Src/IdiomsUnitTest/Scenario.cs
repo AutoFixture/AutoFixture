@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.Albedo;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.TestTypeFoundation;
-using Xunit;
 using System.Linq;
+using Albedo;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
+using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class Scenario
     {
@@ -302,26 +303,26 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var typesToExclude = new[] {
                 // Needs parameters of type object to be IComparable
-                typeof(Ploeh.AutoFixture.Kernel.RangedNumberRequest),
+                typeof(RangedNumberRequest),
 
                 // Needs parameters of type IMethod
-                typeof(Ploeh.AutoFixture.Kernel.MissingParametersSupplyingMethod),
+                typeof(MissingParametersSupplyingMethod),
 
                 // Constructors needs reflection types (e.g. ConstructorInfo, MethodInfo)
-                typeof(Ploeh.AutoFixture.Kernel.ConstructorMethod),
-                typeof(Ploeh.AutoFixture.Kernel.InstanceMethod),
-                typeof(Ploeh.AutoFixture.Kernel.StaticMethod),
+                typeof(ConstructorMethod),
+                typeof(InstanceMethod),
+                typeof(StaticMethod),
 
                 // Autofixture interprets a value of this type as a creation
                 // failure
-                typeof(Ploeh.AutoFixture.Kernel.NoSpecimen),
+                typeof(NoSpecimen),
 
                 // Takes one or more values involving a generic type argument
                 // in the constructor
-                typeof(Ploeh.AutoFixture.Kernel.Criterion<>),
-                typeof(Ploeh.AutoFixture.Kernel.FieldTypeAndNameCriterion),
-                typeof(Ploeh.AutoFixture.Kernel.ParameterTypeAndNameCriterion),
-                typeof(Ploeh.AutoFixture.Kernel.PropertyTypeAndNameCriterion),
+                typeof(Criterion<>),
+                typeof(FieldTypeAndNameCriterion),
+                typeof(ParameterTypeAndNameCriterion),
+                typeof(PropertyTypeAndNameCriterion),
             };
 
             var typesToVerify = typeof(IFixture).Assembly

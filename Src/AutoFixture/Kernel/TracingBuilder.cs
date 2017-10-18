@@ -1,6 +1,6 @@
 using System;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Tracks any request and passes it on to the container.

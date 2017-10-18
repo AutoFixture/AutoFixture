@@ -1,6 +1,6 @@
 using System;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A specification that evaluates whether a request is a request for a value type such as a structure.

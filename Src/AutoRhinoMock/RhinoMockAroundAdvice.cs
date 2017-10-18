@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Rhino.Mocks.Interfaces;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock
+namespace AutoFixture.AutoRhinoMock
 {
     /// <summary>
     /// Provides pre- and post-condition checks for requests for mock instances.
@@ -68,18 +68,14 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         {
             if (!request.IsMockable())
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var built = this.builder.Create(request, context);
             var m = built as IMockedObject;
             if (m == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return m;

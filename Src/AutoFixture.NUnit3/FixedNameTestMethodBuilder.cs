@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
-using System.Diagnostics.CodeAnalysis;
 
-namespace Ploeh.AutoFixture.NUnit3
+namespace AutoFixture.NUnit3
 {
     /// <summary>
     /// Builder that generates <see cref="TestMethod"/> with fixed names.
@@ -80,14 +81,14 @@ namespace Ploeh.AutoFixture.NUnit3
                 
                 // Unfortunately the property has a private setter, so can be updated via reflection only.
                 // Should use the type where the property is declared as otherwise the private setter is not available.
-                var property = typeof(TestParameters).GetProperty(nameof(TestCaseParameters.OriginalArguments));
+                var property = typeof(TestParameters).GetTypeInfo().GetProperty(nameof(TestCaseParameters.OriginalArguments));
                 property.SetValue(parameters, clonedArguments, null);
             }
         }
 
         private class TypeNameRenderer
         {
-            public Type Type { get; }
+            private Type Type { get; }
 
             public TypeNameRenderer(Type type)
             {

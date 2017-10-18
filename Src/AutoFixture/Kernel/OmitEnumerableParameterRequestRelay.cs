@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays requests for enumerable parameters, and returns an empty array
@@ -60,19 +59,13 @@ namespace Ploeh.AutoFixture.Kernel
 
             var pi = request as ParameterInfo;
             if (pi == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
-            if (!pi.ParameterType.IsGenericType)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+            if (!pi.ParameterType.IsGenericType())
+                return new NoSpecimen();
 
             if (IsNotEnumerable(pi))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var returnValue = context.Resolve(
                 new SeededRequest(
@@ -81,7 +74,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             if (returnValue is OmitSpecimen)
                 return Array.CreateInstance(
-                    pi.ParameterType.GetGenericArguments().Single(),
+                    pi.ParameterType.GetTypeInfo().GetGenericArguments().Single(),
                     0);
 
             return returnValue;

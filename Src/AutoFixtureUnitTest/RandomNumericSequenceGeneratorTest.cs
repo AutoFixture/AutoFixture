@@ -1,15 +1,13 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RandomNumericSequenceGeneratorTest
     {
@@ -18,7 +16,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new RandomNumericSequenceGenerator());
+            Assert.Null(Record.Exception(() => new RandomNumericSequenceGenerator()));
             // Teardown
         }
 
@@ -149,8 +147,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyRequest = typeof(byte);
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
-                () => sut.Create(dummyRequest, null));
+            Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
             // Teardown
         }
 
@@ -161,9 +158,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
             object result = sut.Create(request, dummyContext);
@@ -180,9 +175,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
             object result = sut.Create(request, dummyContext);
@@ -216,7 +209,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(LimitSequenceTestCases))]
+        [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsNumberInCorrectRange(long[] limits)
         {
             // Fixture setup
@@ -235,7 +228,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(LimitSequenceTestCases))]
+        [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsNumberInCorrectRangeOnMultipleCall(long[] limits)
         {
             // Fixture setup
@@ -295,16 +288,16 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 0, 1 })]
-        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 1, 2 })]
-        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 2, 3 })]
-        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 3, 4 })]
-        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 4, 5 })]
-        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 0, 1 })]
-        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 1, 2 })]
-        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 2, 3 })]
-        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 3, 5 })]
-        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 4, 5 })]
+        [InlineData(new long[] { -30, -9, -5, 2, 9, 15 }, 0, 1)]
+        [InlineData(new long[] { -30, -9, -5, 2, 9, 15 }, 1, 2)]
+        [InlineData(new long[] { -30, -9, -5, 2, 9, 15 }, 2, 3)]
+        [InlineData(new long[] { -30, -9, -5, 2, 9, 15 }, 3, 4)]
+        [InlineData(new long[] { -30, -9, -5, 2, 9, 15 }, 4, 5)]
+        [InlineData(new long[] { 1, 5, 9, 30, 128, 255 }, 0, 1)]
+        [InlineData(new long[] { 1, 5, 9, 30, 128, 255 }, 1, 2)]
+        [InlineData(new long[] { 1, 5, 9, 30, 128, 255 }, 2, 3)]
+        [InlineData(new long[] { 1, 5, 9, 30, 128, 255 }, 3, 5)]
+        [InlineData(new long[] { 1, 5, 9, 30, 128, 255 }, 4, 5)]
         public void CreateReturnsNumberInCorrectRangeProgressivelyOnMultipleCall(
             long[] limits, int indexOfLower, int indexOfUpper)
         {
@@ -319,6 +312,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = Enumerable
                 .Range(0, repeatCount)
                 .Select(i => sut.Create(typeof(int), dummyContext))
+                .ToArray()
                 .Skip(lowerBounds)
                 .Cast<int>();
             // Verify outcome
@@ -327,7 +321,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(LimitSequenceTestCases))]
+        [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateWhenLimitIsReachedStartsFromTheBeginning(long[] limits)
         {
             // Fixture setup
@@ -352,7 +346,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(LimitSequenceTestCases))]
+        [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsUniqueNumbersOnMultipleCall(long[] limits)
         {
             // Fixture setup
@@ -374,7 +368,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(LimitSequenceTestCases))]
+        [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(long[] limits)
         {
             // Fixture setup
@@ -411,19 +405,13 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        private sealed class LimitSequenceTestCases : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
+        public static TheoryData<long[]> LimitSequenceTestCases =>
+            new TheoryData<long[]>
             {
-                yield return new object[] { new long[] { 2, 5, 9, 30, 255 } };
-                yield return new object[] { new long[] { 2, 5, 9, 30, 255, 512 } };
-                yield return new object[] { new long[] { -30, -9, -5, 2, 5, 9, 30 } };
-            }
+                new long[] { 2, 5, 9, 30, 255 },
+                new long[] { 2, 5, 9, 30, 255, 512 },
+                new long[] { -30, -9, -5, 2, 5, 9, 30 }
+            };
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
     }
 }

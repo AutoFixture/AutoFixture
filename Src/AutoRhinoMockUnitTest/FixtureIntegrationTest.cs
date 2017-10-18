@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.TestTypeFoundation;
 using Rhino.Mocks;
 using Rhino.Mocks.Interfaces;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
+namespace AutoFixture.AutoRhinoMock.UnitTest
 {
     public class FixtureIntegrationTest
     {
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             var result = (IMockedObject)fixture.Create<IInterface>();
             // Verify outcome
-            Assert.DoesNotThrow(() => { var repo = result.Repository; });
+            Assert.Null(Record.Exception(() => { var repo = result.Repository; }));
             // Teardown
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Kernel
+﻿namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Transforms one <see cref="ISpecimenBuilder"/> instance into another.

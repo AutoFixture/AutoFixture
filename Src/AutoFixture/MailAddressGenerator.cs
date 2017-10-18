@@ -1,9 +1,11 @@
-﻿using System;
+﻿#if SYSTEM_NET_MAIL
+
+using System;
 using System.Globalization;
 using System.Net.Mail;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="MailAddress"/> instances.
@@ -31,33 +33,27 @@ namespace Ploeh.AutoFixture
 
             if (!typeof(MailAddress).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             try
             {
-                return TryCreateMailAddress(request, context);
+                return TryCreateMailAddress(context);
             }                    
             catch (FormatException)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
         }
 
-        private static object TryCreateMailAddress(object request, ISpecimenContext context)
+        private static object TryCreateMailAddress(ISpecimenContext context)
         {
             var localPart = context.Resolve(typeof(EmailAddressLocalPart)) as EmailAddressLocalPart;
             var domainName = context.Resolve(typeof(DomainName)) as DomainName;
 
             if (localPart == null || domainName == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, domainName);
@@ -65,3 +61,5 @@ namespace Ploeh.AutoFixture
         }
     }       
 }
+
+#endif

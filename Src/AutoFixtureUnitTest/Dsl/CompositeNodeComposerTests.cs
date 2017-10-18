@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.TestTypeFoundation;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Dsl
+namespace AutoFixtureUnitTest.Dsl
 {
     public class CompositeNodeComposerTests
     {
@@ -87,9 +85,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => r == request && c == context ?
                     expected :
-#pragma warning disable 618
-                    new NoSpecimen(r)
-#pragma warning restore 618
+                    new NoSpecimen()
             };
             var sut = new CompositeNodeComposer<ushort>(
                 new CompositeSpecimenBuilder(
@@ -344,22 +340,22 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var node = new CompositeSpecimenBuilder(
                 new DelegatingSpecimenBuilder(),
-                SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>(),
+                SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>(),
                 SpecimenBuilderNodeFactory.CreateComposer<bool>(),
-                SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>(),
+                SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>(),
                 new DelegatingSpecimenBuilder());
-            var sut = new CompositeNodeComposer<AppDomainSetup>(node);
-            Action<AppDomainSetup> a =
-                ads => ads.DisallowApplicationBaseProbing = false;
+            var sut = new CompositeNodeComposer<ConcreteType>(node);
+            Action<ConcreteType> a =
+                ads => ads.Property1 = null;
             // Exercise system
             var actual = sut.Do(a);
             // Verify outcome
-            var expected = new CompositeNodeComposer<AppDomainSetup>(
+            var expected = new CompositeNodeComposer<ConcreteType>(
                 new CompositeSpecimenBuilder(
                     new DelegatingSpecimenBuilder(),
-                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>().Do(a),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>().Do(a),
                     SpecimenBuilderNodeFactory.CreateComposer<bool>(),
-                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>().Do(a),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>().Do(a),
                     new DelegatingSpecimenBuilder()));
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));

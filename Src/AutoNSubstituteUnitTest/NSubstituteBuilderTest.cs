@@ -1,11 +1,10 @@
 ﻿using System;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class NSubstituteBuilderTest
     {
@@ -101,9 +100,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Create(request, context);
 
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, result);
         }
 
@@ -139,9 +136,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Create(request, context);
 
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, result);
         }
 
@@ -160,9 +155,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Create(request, context);
 
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, result);
         }
     }

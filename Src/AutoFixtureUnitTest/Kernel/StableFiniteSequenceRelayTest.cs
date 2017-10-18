@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class StableFiniteSequenceRelayTest
     {
@@ -42,9 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -61,9 +58,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -96,9 +91,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
 
-#pragma warning disable 618
-            var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? new object() : new NoSpecimen(r) };
-#pragma warning restore 618
+            var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? new object() : new NoSpecimen() };
 
             var sut = new StableFiniteSequenceRelay();
             // Exercise system
@@ -126,9 +119,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var q = new Queue<object>(results);
             var context = new DelegatingSpecimenContext
             {
-#pragma warning disable 618
-                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen(r)
-#pragma warning restore 618
+                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen()
             };
 
             var sut = new StableFiniteSequenceRelay();

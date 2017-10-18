@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Represents an action which can be invoked to verify whether or not an expectation about
@@ -24,6 +24,17 @@ namespace Ploeh.AutoFixture.Idioms
         /// </para>
         /// </remarks>
         Type RequestedType { get; }
+
+        /// <summary>
+        /// Gets the name of the requested parameter.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The RequestedParameterName property identifies the name of parameter which should be supplied to
+        /// the <see cref="Execute" /> method.
+        /// </para>
+        /// </remarks>
+        string RequestedParameterName { get; }
 
         /// <summary>
         /// Executes the action with the specified value.

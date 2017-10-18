@@ -1,7 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates random <see cref="DateTime"/> specimens.
@@ -59,15 +60,13 @@ namespace Ploeh.AutoFixture
             }
 
             return IsNotDateTimeRequest(request)
-#pragma warning disable 618
-                       ? new NoSpecimen(request)
-#pragma warning restore 618
+                       ? new NoSpecimen()
                        : this.CreateRandomDate(context);
         }
 
         private static bool IsNotDateTimeRequest(object request)
         {
-            return !typeof(DateTime).IsAssignableFrom(request as Type);
+            return !typeof(DateTime).GetTypeInfo().IsAssignableFrom(request as Type);
         }
 
         private object CreateRandomDate(ISpecimenContext context)

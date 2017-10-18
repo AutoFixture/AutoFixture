@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using System.Collections.ObjectModel;
+using System.Linq;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A collection of <see cref="ISpecimenBuilderTransformation" />
@@ -176,7 +174,7 @@ namespace Ploeh.AutoFixture
             this.UpdateGraph();
         }
 
-        /// <summary>Raises the <see cref="E:GraphChanged" /> event.</summary>
+        /// <summary>Raises the <see cref="GraphChanged" /> event.</summary>
         /// <param name="e">
         /// The <see cref="SpecimenBuilderNodeEventArgs" /> instance containing
         /// the event data.

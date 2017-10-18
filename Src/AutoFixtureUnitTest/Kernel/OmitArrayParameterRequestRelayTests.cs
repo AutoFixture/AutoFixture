@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Xunit.Extensions;
-using Ploeh.TestTypeFoundation;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class OmitArrayParameterRequestRelayTests
     {
@@ -69,9 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             var sut = new OmitArrayParameterRequestRelay();
             var actual = sut.Create(request, new DelegatingSpecimenContext());
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(request), actual);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), actual);
         }
 
         [Theory]
@@ -95,9 +91,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(parameterInfo, dummyContext);
 
-#pragma warning disable 618
-            var expected = new NoSpecimen(parameterInfo);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, actual);
         }
 

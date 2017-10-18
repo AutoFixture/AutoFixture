@@ -1,13 +1,12 @@
-﻿namespace Ploeh.AutoFixtureUnitTest
-{
-    using System;
-    using System.Linq.Expressions;
-    using AutoFixture;
-    using AutoFixture.Kernel;
-    using Kernel;
-    using Xunit;
-    using Xunit.Extensions;
+﻿using System;
+using System.Linq.Expressions;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using Xunit;
 
+namespace AutoFixtureUnitTest
+{
     public class LambdaExpressionGeneratorTest
     {
         [Fact]
@@ -58,7 +57,7 @@
 
             var result = sut.Create(expressionRequest, dummyContainer);
 
-            Assert.IsType<Expression<Func<object>>>(result);
+            Assert.IsAssignableFrom<Expression<Func<object>>>(result);
         }
 
         [Theory]
@@ -77,7 +76,7 @@
 
             var result = sut.Create(expressionRequest, context);
 
-            Assert.IsType(expected, result);
+            Assert.IsAssignableFrom(expected, result);
         }
     }
 }

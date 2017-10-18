@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
+﻿namespace AutoFixtureDocumentationTest.Extension.Constraints
 {
     public class MyClass
     {

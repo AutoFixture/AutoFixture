@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.AutoNSubstitute.Extensions;
+using AutoFixture.Kernel;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
-using Ploeh.AutoFixture.AutoNSubstitute.Extensions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// If the type of the object being substituted contains any fields and/or non-virtual/sealed
@@ -64,8 +64,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             /// </summary>
             private static bool IsDynamicProxyMember(FieldInfo fi)
             {
-                return fi.Name == "__interceptors" || 
-                    fi.Name == "__mixin_NSubstitute_Core_ICallRouter";
+                return string.Equals(fi.Name, "__interceptors", StringComparison.Ordinal) ||
+                       string.Equals(fi.Name, "__mixin_NSubstitute_Core_ICallRouter", StringComparison.Ordinal);
             }
         }
     }

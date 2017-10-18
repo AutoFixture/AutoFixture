@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Relays a request for a constrained string to a <see cref="ConstrainedStringRequest"/>.
@@ -33,20 +31,10 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
-            }
-
-            var stringLengthAttribute = customAttributeProvider.GetCustomAttributes(typeof(StringLengthAttribute), inherit: true).Cast<StringLengthAttribute>().SingleOrDefault();
+            var stringLengthAttribute = TypeEnvy.GetAttribute<StringLengthAttribute>(request);
             if (stringLengthAttribute == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return context.Resolve(new ConstrainedStringRequest(stringLengthAttribute.MinimumLength, stringLengthAttribute.MaximumLength));

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Dsl
+namespace AutoFixture.Dsl
 {
     /// <summary>
     /// Provides statements that can be used to control how specimens are created.

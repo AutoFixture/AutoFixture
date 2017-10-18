@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Selects public constructors ordered by the most modest constructor first.
@@ -36,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return from ci in type.GetConstructors()
+            return from ci in type.GetTypeInfo().GetConstructors()
                    let parameters = ci.GetParameters()
                    orderby parameters.Length ascending
                    select new ConstructorMethod(ci) as IMethod;

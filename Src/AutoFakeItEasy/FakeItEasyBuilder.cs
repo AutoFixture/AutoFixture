@@ -1,7 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// Provides pre- and post-condition checks for requests for fake instances.
@@ -68,17 +69,13 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             var type = request as Type;
             if (!type.IsFake())
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var fake = this.builder.Create(request, context);
             if (!type.IsInstanceOfType(fake))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return fake;

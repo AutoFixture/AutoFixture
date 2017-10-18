@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Issues <see cref="OmitSpecimen" /> instances if its encapsulated
@@ -63,10 +60,8 @@ namespace Ploeh.AutoFixture.Kernel
 
             if (this.Specification.IsSatisfiedBy(request))
                 return new OmitSpecimen();
-
-#pragma warning disable 618
-            return new NoSpecimen(request);
-#pragma warning restore 618
+            
+            return new NoSpecimen();
         }
 
         /// <summary>

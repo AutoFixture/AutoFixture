@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     internal static class ExpressionReflector
     {
@@ -21,6 +21,16 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The property \"{0}\" is read-only.", pi.Name), nameof(propertyPicker));
             }
             return me;
+        }
+
+        internal static void VerifyIsNonNestedWritableMemberExpression(LambdaExpression expression)
+        {
+            var me = expression.GetWritableMember();
+            if (!(me.Expression is ParameterExpression))
+                throw new ArgumentException(
+                    "The expression contains access to a nested property or field. " +
+                    "Configuration API doesn't support this feature, therefore please rewrite the expression to avoid nested fields or properties.",
+                    nameof(expression));
         }
 
         /// <summary>

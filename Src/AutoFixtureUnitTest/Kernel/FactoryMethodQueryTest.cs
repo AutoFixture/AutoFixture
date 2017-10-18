@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class FactoryMethodQueryTest
     {
@@ -76,6 +75,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.SelectMethods(type);
             // Verify outcome
             Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void SelectMethodsFromTypeWithConversionOperatorsOnlyReturnsEmptyResult()
+        {
+            // Fixture setup
+            var type = typeof(TypeWithCastOperatorsWithoutPublicConstructor);
+            var sut = new FactoryMethodQuery();
+
+            // Exercise system
+            var result = sut.SelectMethods(type);
+
+            // Verify outcome
+            Assert.Empty(result);
+
             // Teardown
         }
     }

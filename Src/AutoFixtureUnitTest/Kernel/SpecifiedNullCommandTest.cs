@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
-#pragma warning disable 618
+    [Obsolete]
     public class SpecifiedNullCommandTest
     {
         [Fact]
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(null, null));
+            Assert.Null(Record.Exception(() => sut.Execute(null, null)));
             // Teardown
         }
 
@@ -145,5 +145,4 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
     }
-#pragma warning restore 618
 }

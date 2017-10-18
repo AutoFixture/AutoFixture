@@ -1,17 +1,23 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixtureUnitTest", "AutoFixtureUnitTest\AutoFixtureUnitTest.csproj", "{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixtureUnitTest", "AutoFixtureUnitTest\AutoFixtureUnitTest.csproj", "{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFakeItEasy", "AutoFakeItEasy\AutoFakeItEasy.csproj", "{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy", "AutoFakeItEasy\AutoFakeItEasy.csproj", "{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFakeItEasyUnitTest", "AutoFakeItEasyUnitTest\AutoFakeItEasyUnitTest.csproj", "{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasyUnitTest", "AutoFakeItEasyUnitTest\AutoFakeItEasyUnitTest.csproj", "{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFakeItEasy.FakeItEasy2UnitTest", "AutoFakeItEasy.FakeItEasy2UnitTest\AutoFakeItEasy.FakeItEasy2UnitTest.csproj", "{7F957CC0-79C3-48A1-9A3E-47BED7539248}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy2UnitTest", "AutoFakeItEasy.FakeItEasy2UnitTest\AutoFakeItEasy.FakeItEasy2UnitTest.csproj", "{7F957CC0-79C3-48A1-9A3E-47BED7539248}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy3UnitTest", "AutoFakeItEasy.FakeItEasy3UnitTest\AutoFakeItEasy.FakeItEasy3UnitTest.csproj", "{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy4UnitTest", "AutoFakeItEasy.FakeItEasy4UnitTest\AutoFakeItEasy.FakeItEasy4UnitTest.csproj", "{5283E529-A1D8-4E5E-9717-A5F5D3A28A3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,8 +42,8 @@ Global
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.ActiveCfg = Release|Any CPU
-		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.Build.0 = Verify|Any CPU
 		{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,16 +54,31 @@ Global
 		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Verify|Any CPU.ActiveCfg = Release|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Verify|Any CPU.Build.0 = Verify|Any CPU
 		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Verify|Any CPU.ActiveCfg = Release|Any CPU
-		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{5283E529-A1D8-4E5E-9717-A5F5D3A28A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5283E529-A1D8-4E5E-9717-A5F5D3A28A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5283E529-A1D8-4E5E-9717-A5F5D3A28A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5283E529-A1D8-4E5E-9717-A5F5D3A28A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5283E529-A1D8-4E5E-9717-A5F5D3A28A3B}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{5283E529-A1D8-4E5E-9717-A5F5D3A28A3B}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A628223C-22B0-4BDF-AE2A-494645CBC82C}
 	EndGlobalSection
 EndGlobal

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using System.Reflection;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class ListFavoringConstructorQueryTest
     {
@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.SelectMethods(type);
             // Verify outcome
             var genericParameterType = type.GetGenericArguments().Single();
-            Assert.True(result.First().Parameters.Any(p => typeof(IList<>).MakeGenericType(genericParameterType).IsAssignableFrom(p.ParameterType)));
+            Assert.Contains(result.First().Parameters, p => typeof(IList<>).MakeGenericType(genericParameterType).IsAssignableFrom(p.ParameterType));
             // Teardown
         }
 
@@ -113,7 +113,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.SelectMethods(type);
             // Verify outcome
-            Assert.True(result.First().Parameters.Any(p => typeof(IList<object>) == p.ParameterType));
+            Assert.Contains(result.First().Parameters, p => typeof(IList<object>) == p.ParameterType);
             // Teardown
         }
     }

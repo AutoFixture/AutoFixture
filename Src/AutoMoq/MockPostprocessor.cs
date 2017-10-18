@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Post-processes a <see cref="Mock{T}"/> instance by setting appropriate default behavioral
@@ -51,9 +52,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             var t = request as Type;
             if (!t.IsMock())
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var specimen = this.builder.Create(request, context);
@@ -63,17 +62,13 @@ namespace Ploeh.AutoFixture.AutoMoq
             var m = specimen as Mock;
             if (m == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var mockType = t.GetMockedType();
             if (m.GetType().GetMockedType() != mockType)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var configurator = (IMockConfigurator)Activator.CreateInstance(typeof(MockConfigurator<>).MakeGenericType(mockType));
@@ -82,6 +77,8 @@ namespace Ploeh.AutoFixture.AutoMoq
             return m;
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class MockConfigurator<T> : IMockConfigurator where T : class
         {
             public void Configure(Mock mock)

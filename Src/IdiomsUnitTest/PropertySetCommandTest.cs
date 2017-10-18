@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Idioms;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class PropertySetCommandTest
     {
@@ -76,6 +76,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome
             Assert.Equal(property.PropertyType, result);
             // Teardown
+        }
+
+        [Fact]
+        public void RequestedParameterNameIsCorrect()
+        {
+            var dummyOwner = new PropertyHolder<object>();
+            var propertyDummy = dummyOwner.GetType().GetProperty("Property");
+
+            var sut = new PropertySetCommand(propertyDummy, dummyOwner);
+
+            Assert.Equal("value", sut.RequestedParameterName);
         }
 
         [Fact]

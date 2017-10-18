@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using AutoFixture.Kernel;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class OmitSpecimenTest
     {
@@ -24,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var actual = BothEquals(sut, null);
             // Verify outcome
-            Assert.False(actual.Any(b => b));
+            Assert.DoesNotContain(actual, b => b);
             // Teardown
         }
 

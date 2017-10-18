@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Maps a request for one <see cref="Type" /> to a request for another Type.
@@ -84,9 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
             
             var t = request as Type;
             if (t == null || t != this.from)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return context.Resolve(this.to);
         }

@@ -1,103 +1,59 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{786AFDB3-B705-49DD-A565-34F44A4A2DAD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.NUnit2</RootNamespace>
-    <AssemblyName>Ploeh.AutoFixture.NUnit2</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <Configurations>Debug;Release;Verify</Configurations>
+    <TargetFramework>net452</TargetFramework>
+    <AssemblyTitle>AutoFixture.NUnit2</AssemblyTitle>
+    <AssemblyName>AutoFixture.NUnit2</AssemblyName>
+    <RootNamespace>AutoFixture.NUnit2</RootNamespace>
+    <Copyright>Copyright © Ploeh 2011</Copyright>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.NUnit2</PackageId>
+    <Title>AutoFixture with NUnit2</Title>
+    <Description>By leveraging the some features of NUnit, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
+    <Authors>Gert Jansen van Rensburg,AutoFixture</Authors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\Ploeh.AutoFixture.NUnit2.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\Ploeh.AutoFixture.NUnit2.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
-    <OutputPath>bin\Verify\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <DocumentationFile>bin\Verify\Ploeh.AutoFixture.NUnit2.XML</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AutoDataAttribute.cs" />
-    <Compile Include="CustomizeAttributeComparer.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Matching.cs" />
-    <Compile Include="ModestAttribute.cs" />
-    <Compile Include="NoAutoPropertiesAttribute.cs" />
-    <Compile Include="GreedyAttribute.cs" />
-    <Compile Include="FavorListsAttribute.cs" />
-    <Compile Include="FrozenAttribute.cs" />
-    <Compile Include="FavorEnumerablesAttribute.cs" />
-    <Compile Include="FavorArraysAttribute.cs" />
-    <Compile Include="CompositeDataAttribute.cs" />
-    <Compile Include="CustomizeAttribute.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixture.NUnit2.Addins\AutoFixture.NUnit2.Addins.csproj">
-      <Project>{79d2a714-bef4-40e2-b1e6-90feb060093a}</Project>
-      <Name>AutoFixture.NUnit2.Addins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
-      <Name>AutoFixture</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <Reference Include="nunit.core">
+      <HintPath>..\..\References\NUnit.2.6.2\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\References\NUnit.2.6.2\nunit.core.interfaces.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <!-- Isn't actually needed by this library, but is present as a NuGet guard to prevent installation of this package 
+     together with NUnit3 and higher. -->
+    <PackageReference Include="NUnit" Version="[2.6.2,3.0.0)" />
+  </ItemGroup>
+
+  <!-- Include additional files to NuGet package -->
+  <ItemGroup>
+    <Content Include="Readme.txt">
+      <Pack>true</Pack>
+      <PackagePath>readme.txt</PackagePath>
+    </Content>
+
+    <Content Include="LocalAddin.cs.pp">
+      <Pack>true</Pack>
+      <PackagePath>content</PackagePath>
+    </Content>
+
+    <!-- A bit hacky (but working) way to include the referenced assembly to the package. -->
+    <Content Include="$(TargetDir)nunit.core.interfaces.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </Content>
+  </ItemGroup>
 </Project>

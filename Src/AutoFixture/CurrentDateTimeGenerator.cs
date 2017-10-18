@@ -1,10 +1,10 @@
-﻿﻿using System;
-using Ploeh.AutoFixture.Kernel;
+﻿using System;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
-    /// Creates new <see cref="DateTime"/> specimens based on the current <see cref="P:DateTime.Now"/> value.
+    /// Creates new <see cref="DateTime"/> specimens based on the current <see cref="DateTime.Now"/> value.
     /// </summary>
     public class CurrentDateTimeGenerator : ISpecimenBuilder
     {
@@ -21,9 +21,7 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(DateTime).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return DateTime.Now;

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for <see cref="IEnumerable{T}" /> to a <see cref="MultipleRequest"/> and
@@ -39,33 +40,27 @@ namespace Ploeh.AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
             if (type == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
-            var typeArgs = type.GetGenericArguments();
+                return new NoSpecimen();
+            var typeArgs = type.GetTypeInfo().GetGenericArguments();
             if (typeArgs.Length != 1)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             if (type.GetGenericTypeDefinition() != typeof(IEnumerable<>))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             var specimen = context.Resolve(new MultipleRequest(typeArgs[0]));
             if (specimen is OmitSpecimen)
                 return specimen;
             var enumerable = specimen as IEnumerable<object>;
             if (enumerable == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return typeof (ConvertedEnumerable<>)
                 .MakeGenericType(typeArgs)
-                .GetConstructor(new[] {typeof (IEnumerable<object>)})
+                .GetTypeInfo().GetConstructor(new[] {typeof (IEnumerable<object>)})
                 .Invoke(new[] {enumerable});
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class ConvertedEnumerable<T> : IEnumerable<T>
         {
             private readonly IEnumerable<object> enumerable;

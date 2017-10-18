@@ -1,8 +1,8 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+﻿using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Greedy
+namespace AutoFixtureDocumentationTest.Greedy
 {
     public class Scenario
     {

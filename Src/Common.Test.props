@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <SignAssembly>False</SignAssembly>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\Empty.ruleset</CodeAnalysisRuleSet>
+
+    <IsPackable>false</IsPackable>
+    <!-- Disable source link support for test projects as they are not publishable. -->
+    <SourceLinkCreate>false</SourceLinkCreate>
+  </PropertyGroup>
+</Project>

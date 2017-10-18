@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class WritablePropertyAssertionTest
     {
@@ -94,8 +94,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new WritablePropertyAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(propertyInfo)));
             // Teardown
         }
 
@@ -108,8 +108,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(propertyInfo)));
             // Teardown
         }
     }

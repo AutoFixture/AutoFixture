@@ -1,10 +1,11 @@
-﻿namespace Ploeh.AutoFixture
-{
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using Kernel;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoFixture.Kernel;
 
+namespace AutoFixture
+{
     /// <summary>
     /// Creates new lambda expressions represented by the <see cref="Expression{TDelegate}"/> type.
     /// </summary>
@@ -38,13 +39,13 @@
                 return new NoSpecimen();
             }
 
-            if (requestType.BaseType != typeof(LambdaExpression))
+            if (requestType.BaseType() != typeof(LambdaExpression))
             {
                 return new NoSpecimen();
             }
 
-            var delegateType = requestType.GetGenericArguments().Single();
-            var genericArguments = delegateType.GetGenericArguments().Select(Expression.Parameter).ToList();
+            var delegateType = requestType.GetTypeInfo().GetGenericArguments().Single();
+            var genericArguments = delegateType.GetTypeInfo().GetGenericArguments().Select(Expression.Parameter).ToList();
 
             if (delegateType == typeof(Action))
             {
@@ -56,7 +57,7 @@
                 return Expression.Lambda(Expression.Empty(), genericArguments);
             }
 
-            var body = context.Resolve(delegateType.GetGenericArguments().Last());
+            var body = context.Resolve(delegateType.GetTypeInfo().GetGenericArguments().Last());
             var parameters = genericArguments.Except(new[] { genericArguments.Last() });
 
             return Expression.Lambda(Expression.Constant(body), parameters);

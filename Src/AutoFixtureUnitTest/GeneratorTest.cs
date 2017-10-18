@@ -2,19 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class GeneratorTestOfObject : GeneratorTest<object> { }
     public class GeneratorTestOfString : GeneratorTest<string> { }
     public class GeneratorTestOfInt32 : GeneratorTest<int> { }
     public class GeneratorTestOfGuid : GeneratorTest<Guid> { }
-    public class GeneratorTestOfNetPipeStyleUriParser : GeneratorTest<NetPipeStyleUriParser> { }
+    public class GeneratorTestOfNetPipeStyleUriParser : GeneratorTest<ConcreteType> { }
     public abstract class GeneratorTest<T>
     {
         [Theory, ClassData(typeof(CountTestCases))]

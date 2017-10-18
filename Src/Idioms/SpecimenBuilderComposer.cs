@@ -1,6 +1,6 @@
-﻿using Ploeh.AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     internal static class SpecimenBuilderComposer
     {

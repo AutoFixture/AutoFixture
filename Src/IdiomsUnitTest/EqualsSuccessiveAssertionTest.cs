@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class EqualsSuccessiveAssertionTest
     {
@@ -65,8 +62,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new EqualsSuccessiveAssertion(dummyComposer);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals)));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals))));
             // Teardown
         }
 
@@ -77,8 +74,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new EqualsSuccessiveAssertion(dummyComposer);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(typeof(WellBehavedEqualsSuccessiveObjectOverride)));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(typeof(WellBehavedEqualsSuccessiveObjectOverride))));
             // Teardown            
         }
 
@@ -109,7 +106,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public override bool Equals(object obj)
             {
-                return (++equalsCallCount % 2 == 0);
+                return (++this.equalsCallCount % 2 == 0);
             }
         }
 #pragma warning restore 659

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class AutoConfiguredMoqCustomizationTest
     {
@@ -54,7 +52,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Customize(fixture.Object);
             // Verify outcome
-            Assert.True(customizations.Any(builder => builder is Postprocessor));
+            Assert.Contains(customizations, builder => builder is Postprocessor);
             // Teardown
         }
 
@@ -77,7 +75,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var postprocessor = (Postprocessor) customizations.Single(builder => builder is Postprocessor);
             var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
 
-            Assert.True(compositeCommand.Commands.Any(command => command.GetType() == expectedCommandType));
+            Assert.Contains(compositeCommand.Commands, command => command.GetType() == expectedCommandType);
             // Teardown
         }
 

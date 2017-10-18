@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     internal static class MethodInfoExtensions
     {
         internal static bool IsEqualsMethod(this MethodInfo method)
         {
-            return method.Name == "Equals"
-                && method.GetParameters().Length == 1
-                && method.ReturnType == typeof(bool);
+            return string.Equals(method.Name, "Equals", StringComparison.Ordinal)
+                   && method.GetParameters().Length == 1
+                   && method.ReturnType == typeof(bool);
         }
 
         internal static bool IsGetHashCodeMethod(this MethodInfo method)
         {
-            return method.Name == "GetHashCode"
-                && method.GetParameters().Length == 0
-                && method.ReturnType == typeof(int);
+            return string.Equals(method.Name, "GetHashCode", StringComparison.Ordinal)
+                   && method.GetParameters().Length == 0
+                   && method.ReturnType == typeof(int);
         }
 
         internal static bool IsToString(this MethodInfo method)
         {
-            return method.Name == "ToString"
+            return string.Equals(method.Name, "ToString", StringComparison.Ordinal)
                    && method.GetParameters().Length == 0
                    && method.ReturnType == typeof(string);
         }
 
         internal static bool IsGetType(this MethodInfo method)
         {
-            return method.Name == "GetType"
+            return string.Equals(method.Name, "GetType", StringComparison.Ordinal)
                    && method.GetParameters().Length == 0
                    && method.ReturnType == typeof(Type);
         }

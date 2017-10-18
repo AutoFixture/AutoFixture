@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// Selects appropriate methods to create <see cref="FakeItEasy.Fake{T}"/> instances.
@@ -33,7 +34,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             }
 
             var fakeType = type.GetFakedType();
-            if (fakeType.IsInterface)
+            if (fakeType.GetTypeInfo().IsInterface)
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
@@ -58,6 +59,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class FakeMethod<T> : IMethod
         {
             private readonly IEnumerable<ParameterInfo> parameterInfos;
@@ -85,7 +88,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                     }
 
                     var parameterType = constructorParameterInfos[0].ParameterType;
-                    if (!parameterType.IsGenericType ||
+                    if (!parameterType.GetTypeInfo().IsGenericType ||
                         parameterType.GetGenericTypeDefinition() != typeof (Action<>))
                     {
                         continue;

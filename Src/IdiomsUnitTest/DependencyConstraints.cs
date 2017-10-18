@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using Ploeh.AutoFixture.Idioms;
+﻿using AutoFixture.Idioms;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class DependencyConstraints
     {
@@ -18,7 +16,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var references = typeof(IIdiomaticAssertion).Assembly.GetReferencedAssemblies();
             // Verify outcome
-            Assert.False(references.Any(an => an.Name == assemblyName));
+            Assert.DoesNotContain(references, an => an.Name == assemblyName);
             // Teardown
         }
 
@@ -31,7 +29,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var references = this.GetType().Assembly.GetReferencedAssemblies();
             // Verify outcome
-            Assert.False(references.Any(an => an.Name == assemblyName));
+            Assert.DoesNotContain(references, an => an.Name == assemblyName);
             // Teardown
         }
     }

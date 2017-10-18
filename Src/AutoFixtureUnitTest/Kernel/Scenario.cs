@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class Scenario
     {
@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(1, result.Parameter1.Parameter1);
             Assert.NotEqual(default(Guid), result.Parameter1.Parameter2);
             Assert.Equal(1m, result.Parameter2.Parameter1);
-            Assert.Equal(true, result.Parameter2.Parameter2);
+            Assert.True(result.Parameter2.Parameter2);
             // Teardown
         }
 
@@ -282,30 +282,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Fact][Obsolete]
-        public void CreateAnonymousWithSeedReturnsCorrectResult()
-        {
-            // Fixture setup
-            var container = Scenario.CreateContainer();
-            // Exercise system
-            var result = container.CreateAnonymous("Seed");
-            // Verify outcome
-            Assert.Contains("Seed", result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithSeedReturnsCorrectResult()
-        {
-            // Fixture setup
-            var container = Scenario.CreateContainer();
-            // Exercise system
-            var result = container.Create("Seed");
-            // Verify outcome
-            Assert.Contains("Seed", result);
-            // Teardown
-        }
-
         [Fact]
         public void CreateManyReturnsCorrectResult()
         {
@@ -319,19 +295,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateManyWithSeedReturnsCorrectResult()
-        {
-            // Fixture setup
-            var container = Scenario.CreateContainer();
-            // Exercise system
-            var result = container.CreateMany("Seed").ToList();
-            // Verify outcome
-            Assert.NotEmpty(result);
-            Assert.True(result.All(s => s.Contains("Seed")));
-            // Teardown
-        }
-
-        [Fact]
         public void CreateManyWithCountReturnsCorrectResult()
         {
             // Fixture setup
@@ -341,21 +304,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = container.CreateMany<long>(count);
             // Verify outcome
             Assert.True(Enumerable.Range(1, count).Select(i => (long)i).SequenceEqual(result));
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateManyWithSeedAndCountReturnsCorrectResult()
-        {
-            // Fixture setup
-            var seed = "Seed";
-            var count = 2;
-            var container = Scenario.CreateContainer();
-            // Exercise system
-            var result = container.CreateMany(seed, count).ToList();
-            // Verify outcome
-            Assert.Equal(count, result.Count);
-            Assert.True(result.All(s => s.Contains(seed)));
             // Teardown
         }
 

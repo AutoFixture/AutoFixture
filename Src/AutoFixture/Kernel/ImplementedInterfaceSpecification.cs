@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A specification that determines whether the request is a request
@@ -51,7 +52,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForType(request) &&
-                   IsTargetTypeOrImplementedInterface(request);
+                   this.IsTargetTypeOrImplementedInterface(request);
         }
 
         private static bool IsRequestForType(object request)
@@ -61,8 +62,8 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool IsTargetTypeOrImplementedInterface(object request)
         {
-            return IsSameAsTargetType(request) ||
-                   IsInterfaceImplementedByTargetType(request);
+            return this.IsSameAsTargetType(request) ||
+                   this.IsInterfaceImplementedByTargetType(request);
         }
 
         private bool IsSameAsTargetType(object request)
@@ -73,6 +74,7 @@ namespace Ploeh.AutoFixture.Kernel
         private bool IsInterfaceImplementedByTargetType(object request)
         {
             return this.TargetType
+                       .GetTypeInfo()
                        .GetInterfaces()
                        .Contains((Type)request);
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Creates new <see cref="Delegate"/> instances.
@@ -32,19 +32,15 @@ namespace Ploeh.AutoFixture.Kernel
 
             if (delegateType == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
-            if (!typeof(Delegate).IsAssignableFrom(delegateType))
+            if (!typeof(Delegate).GetTypeInfo().IsAssignableFrom(delegateType))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
-            var delegateMethod = delegateType.GetMethod("Invoke");
+            var delegateMethod = delegateType.GetTypeInfo().GetMethod("Invoke");
             var methodSpecimenParams = DelegateGenerator.CreateMethodSpecimenParameters(delegateMethod);
             var methodSpecimenBody = DelegateGenerator.CreateMethodSpecimenBody(delegateMethod, context);
 

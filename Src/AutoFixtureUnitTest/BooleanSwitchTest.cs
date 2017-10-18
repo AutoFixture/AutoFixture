@@ -1,10 +1,10 @@
 ﻿using System;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class BooleanSwitchTest
     {
@@ -160,9 +160,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonBooleanRequest, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(nonBooleanRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -177,7 +175,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(true, result);
+            Assert.True((bool)result);
             // Teardown
         }
 
@@ -192,7 +190,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(false, result);
+            Assert.False((bool)result);
             // Teardown
         }
 
@@ -208,7 +206,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(true, result);
+            Assert.True((bool)result);
             // Teardown
         }
 
@@ -225,7 +223,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(false, result);
+            Assert.False((bool)result);
             // Teardown
         }
     }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Dsl
+namespace AutoFixtureUnitTest.Dsl
 {
     internal static class ComposerAssert
     {
@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         internal static FilteringSpecimenBuilder ShouldContain(this FilteringSpecimenBuilder filter, Func<ISpecimenBuilder, bool> predicate)
         {
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(filter.Builder);
-            Assert.True(composite.Any(predicate));
+            Assert.Contains(composite, c => predicate(c));
             return filter;
         }
 

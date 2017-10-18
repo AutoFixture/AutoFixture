@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+  <Import Project="..\Common.Test.props" />
+  <Import Project="..\Common.Test.xUnit.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
+    <AssemblyTitle>AutoFakeItEasy.FakeItEasy3.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.AutoFakeItEasy.FakeItEasy3UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is FakeItEasy dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FakeItEasy" Version="[3.0.0]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AutoFakeItEasyUnitTest\*.cs" Link="%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFakeItEasy\AutoFakeItEasy.csproj" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+</Project>

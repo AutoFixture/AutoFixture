@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class FixtureIntegrationWithAutoConfiguredMoqCustomizationTest
     {
@@ -203,7 +199,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Mock<TypeWithSealedMembers> result = null;
-            Assert.DoesNotThrow(() => result = fixture.Create<Mock<TypeWithSealedMembers>>());
+            Assert.Null(Record.Exception(() => result = fixture.Create<Mock<TypeWithSealedMembers>>()));
             Assert.NotEqual(frozenString, result.Object.ImplicitlySealedMethod());
             Assert.NotEqual(frozenString, result.Object.ExplicitlySealedMethod());
         }
@@ -216,7 +212,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             IInterfaceWithRefMethod result = null;
-            Assert.DoesNotThrow(() => result = fixture.Create<IInterfaceWithRefMethod>());
+            Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithRefMethod>()));
 
             string refResult = "";
             string returnValue = result.Method(ref refResult);
@@ -232,7 +228,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             IInterfaceWithGenericMethod result = null;
-            Assert.DoesNotThrow(() => result = fixture.Create<IInterfaceWithGenericMethod>());
+            Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithGenericMethod>()));
 
             Assert.NotEqual(frozenString, result.GenericMethod<string>());
         }
@@ -244,7 +240,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticMethod>>());
+            Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithStaticMethod>>()));
         }
 
         [Fact]
@@ -254,7 +250,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticProperty>>());
+            Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithStaticProperty>>()));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
 
@@ -266,7 +262,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Mock<TypeWithPrivateField> result = null;
-            Assert.DoesNotThrow(() => result = fixture.Create<Mock<TypeWithPrivateField>>());
+            Assert.Null(Record.Exception(() => result = fixture.Create<Mock<TypeWithPrivateField>>()));
 
             Assert.NotEqual(frozenString, result.Object.GetPrivateField());
         }
@@ -279,7 +275,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Mock<TypeWithReadonlyField> result = null;
-            Assert.DoesNotThrow(() => result = fixture.Create<Mock<TypeWithReadonlyField>>());
+            Assert.Null(Record.Exception(() => result = fixture.Create<Mock<TypeWithReadonlyField>>()));
 
             Assert.NotEqual(frozenString, result.Object.ReadonlyField);
         }
@@ -291,7 +287,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithConstField>>());
+            Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithConstField>>()));
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
 
@@ -302,7 +298,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticField>>());
+            Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithStaticField>>()));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
 

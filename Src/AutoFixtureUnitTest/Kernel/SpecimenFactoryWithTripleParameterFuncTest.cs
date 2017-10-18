@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class SpecimenFactoryWithTripleParameterFuncTest
     {
@@ -67,9 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var container = new DelegatingSpecimenContext();
             container.OnResolve = r => (from x in subRequests
                                         where x.ExpectedRequest.Equals(r)
-#pragma warning disable 618
-                                        select x.Specimen).DefaultIfEmpty(new NoSpecimen(r)).SingleOrDefault();
-#pragma warning restore 618
+                                        select x.Specimen).DefaultIfEmpty(new NoSpecimen()).SingleOrDefault();
 
             Func<decimal, TimeSpan, string, object> f = (d, ts, s) => 
                 param1.Specimen.Equals(d) && param2.Specimen.Equals(ts) && param3.Specimen.Equals(s) ? expectedSpecimen : new NoSpecimen();

@@ -32,7 +32,7 @@
 
 using System.Collections.Generic;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     internal sealed class TransitionComparer : IComparer<Transition>
     {
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="t2">The second Transition.</param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "This method has been ported as-is.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "This method has been ported as-is.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1725:Parameter names should match base declaration", Justification = "This code has been copied from another project and is used as-is.")]
         public int Compare(Transition t1, Transition t2)
         {
             if (this.toFirst)

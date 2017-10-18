@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple
 {
     /// <summary>
     /// This class contains code snippets written for documentation
@@ -132,7 +131,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             string result = fixture.Create<string>();
             // Verify outcome
-            Assert.Equal<string>("ploeh", result);
+            Assert.Equal("ploeh", result);
             // Teardown
         }
 
@@ -145,7 +144,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             string result = fixture.Create<string>();
             // Verify outcome
-            Assert.Equal<string>("fnaah", result);
+            Assert.Equal("fnaah", result);
             // Teardown
         }
 
@@ -312,7 +311,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             mc.MyText = "Ploeh";
             // Verify outcome
             string result = mc.MyText;
-            Assert.Equal<string>("Ploeh", result);
+            Assert.Equal("Ploeh", result);
             // Teardown
         }
 
@@ -327,7 +326,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
                 .Create();
             // Verify outcome
             string result = mc.MyText;
-            Assert.Equal<string>("Ploeh", result);
+            Assert.Equal("Ploeh", result);
             // Teardown
         }
 
@@ -338,7 +337,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             fixture.Customizations.Add(new NumericSequenceGenerator());
             // Exercise system and verify outcome
-            Assert.Throws<TargetInvocationException>(()=>
+            Assert.Throws<ObjectCreationException>(()=>
                 fixture.Create<Filter>());
             // Teardown
         }
@@ -381,7 +380,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             something.Initialize(new MyClass());
             something.Message = "Ploeh";
             // Verify outcome
-            Assert.Equal<string>("Ploeh", something.Message);
+            Assert.Equal("Ploeh", something.Message);
             // Teardown
         }
 
@@ -391,7 +390,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<TargetInvocationException>(() =>
+            Assert.Throws<ObjectCreationException>(() =>
                 fixture.Create<SomeImp>());
             // Teardown
         }

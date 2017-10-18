@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class EnumeratorRelayTest
     {
@@ -40,10 +39,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
 
             var result = sut.Create(request, dummyContext);
-
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
         }
 
@@ -65,9 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => expectedRequest.Equals(r)
                     ? (object)enumerable
-#pragma warning disable 618
-                    : new NoSpecimen(r)
-#pragma warning restore 618
+                    : new NoSpecimen()
             };
             var sut = new EnumeratorRelay();
 
@@ -93,10 +88,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new EnumeratorRelay();
 
             var result = sut.Create(request, context);
-
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
         }
     }

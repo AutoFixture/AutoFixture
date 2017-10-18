@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Guards against requests for <see cref="IntPtr"/> by throwing an exception.
@@ -39,9 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (!typeof(IntPtr).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             throw new IllegalRequestException("A request for an IntPtr was detected. This is an unsafe resource that will crash the process if used, so the request is denied. A common source of IntPtr requests are requests for delegates such as Func<T> or Action<T>. If this is the case, the expected workaround is to Customize (Register or Inject) the offending type by specifying a proper creational strategy.");

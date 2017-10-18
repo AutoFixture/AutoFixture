@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using AutoFixture;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Xunit.Extensions;
-using Ploeh.AutoFixture;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class TypeRelayTests
     {
@@ -41,16 +38,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             object request)
         {
             // Fixture setup
-            var from = typeof(OperatingSystem);
+            var from = typeof(ConcreteType);
             var dummyTo = typeof(object);
             var sut = new TypeRelay(from, dummyTo);
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, actual);
             // Teardown
         }

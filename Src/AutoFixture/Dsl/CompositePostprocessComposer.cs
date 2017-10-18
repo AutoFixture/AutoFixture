@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Dsl
+namespace AutoFixture.Dsl
 {
     /// <summary>
     /// Aggregates an arbitrary number of <see cref="IPostprocessComposer{T}"/> instances.

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class DelegatingGuardClauseCommand : IGuardClauseCommand
     {
@@ -20,6 +20,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public Func<string, Exception, Exception> OnCreateExceptionWithInner { get; set; }
 
         public Type RequestedType { get; set; }
+
+        public string RequestedParameterName { get; set; }
 
         public void Execute(object value)
         {

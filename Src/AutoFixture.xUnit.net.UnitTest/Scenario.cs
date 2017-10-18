@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class Scenario
     {
@@ -35,14 +36,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
             Assert.NotNull(spt);
             Assert.NotNull(spt.Parameter);
-        }
-
-#pragma warning disable 618
-        [Theory, AutoData(typeof(CustomizedFixture))]
-#pragma warning restore 618
-        public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
-        {
-            Assert.Equal("Ploeh", ph.Property);
         }
 
         [Theory]
@@ -99,7 +92,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         private class MyCustomAutoDataAttribute : AutoDataAttribute
         {
             public MyCustomAutoDataAttribute() :
-                base(new Fixture().Customize(new TheAnswer()))
+                base(() => new Fixture().Customize(new TheAnswer()))
             {
             }
 
@@ -166,24 +159,36 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.True(numbers.SequenceEqual(container.Items));
         }
 
-        [Theory, AutoData]
-        public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
-#pragma warning disable 0618
-            [Frozen(As = typeof(AbstractType))]ConcreteType p1,
-#pragma warning restore 0618
-            AbstractType p2)
+        [Obsolete]
+        public class Obsoleted
         {
-            Assert.Equal(p1, p2);
-        }
+#pragma warning disable 618
+            [Theory, AutoData(typeof(CustomizedFixture))]
+#pragma warning restore 618
+            public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
+            {
+                Assert.Equal("Ploeh", ph.Property);
+            }
 
-        [Theory, AutoData]
-        public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
+            [Theory, AutoData]
+            public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
 #pragma warning disable 0618
-            [Frozen(As = null)]ConcreteType p1,
+                [Frozen(As = typeof(AbstractType))] ConcreteType p1,
 #pragma warning restore 0618
-            ConcreteType p2)
-        {
-            Assert.Equal(p1, p2);
+                AbstractType p2)
+            {
+                Assert.Equal(p1, p2);
+            }
+
+            [Theory, AutoData]
+            public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
+#pragma warning disable 0618
+                [Frozen(As = null)] ConcreteType p1,
+#pragma warning restore 0618
+                ConcreteType p2)
+            {
+                Assert.Equal(p1, p2);
+            }
         }
 
         [Theory, AutoData]
@@ -416,6 +421,13 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             FieldHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Field);
+        }
+
+        [Theory, AutoData]
+        public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
+            [Frozen, StringLength(3)]string p)
+        {
+            Assert.True(p.Length == 3);
         }
     }
 }

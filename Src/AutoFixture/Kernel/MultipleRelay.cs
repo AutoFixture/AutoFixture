@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays requests for multiple (an unspecified count) specimens to a request for a specific
@@ -57,9 +57,7 @@ namespace Ploeh.AutoFixture.Kernel
             var manyRequest = request as MultipleRequest;
             if (manyRequest == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return context.Resolve(new FiniteSequenceRequest(manyRequest.Request, this.Count));

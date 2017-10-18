@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A command that assigns anonymous values to all writable properties and fields of a type.
@@ -100,10 +100,13 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     /// <typeparam name="T">The specimen type on which properties are assigned.</typeparam>
 #pragma warning disable 618
-    public class AutoPropertiesCommand<T> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
+    public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.ISpecifiedSpecimenCommand<T>
 #pragma warning restore 618
     {
-        private readonly IRequestSpecification specification;
+        /// <summary>
+        /// Specification that filters properties and files that should be populated.
+        /// </summary>
+        public IRequestSpecification Specification { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoPropertiesCommand{T}"/> class.
@@ -133,7 +136,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(specification));
             }
 
-            this.specification = specification;
+            this.Specification = specification;
         }
 
         /// <summary>
@@ -145,6 +148,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="context">
         /// An <see cref="ISpecimenContext"/> that is used to create property and field values.
         /// </param>
+        [Obsolete("This method is no longer used and will be removed in future versions. Please use the Execute(object, ISpecimenContext) overload instead.")]
         public void Execute(T specimen, ISpecimenContext context)
         {
             if (specimen == null)
@@ -180,6 +184,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// or <see cref="FieldInfo"/> that identifies a property or field affected by this
         /// <see cref="AutoPropertiesCommand{T}"/>; otherwise, <see langword="false"/>.
         /// </returns>
+        [Obsolete("This method is no longer used and will be removed in future versions. Please use the this.Specification.IsSpecifiedBy(request) method instead.")]
         public bool IsSatisfiedBy(object request)
         {
             if (request == null)
@@ -218,18 +223,18 @@ namespace Ploeh.AutoFixture.Kernel
 
         private IEnumerable<FieldInfo> GetFields(object specimen)
         {
-            return from fi in this.GetSpecimenType(specimen).GetFields(BindingFlags.Public | BindingFlags.Instance)
+            return from fi in this.GetSpecimenType(specimen).GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance)
                    where !fi.IsInitOnly
-                   && this.specification.IsSatisfiedBy(fi)
+                   && this.Specification.IsSatisfiedBy(fi)
                    select fi;
         }
 
         private IEnumerable<PropertyInfo> GetProperties(object specimen)
         {
-            return from pi in this.GetSpecimenType(specimen).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            return from pi in this.GetSpecimenType(specimen).GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                    where pi.GetSetMethod() != null
                    && pi.GetIndexParameters().Length == 0
-                   && this.specification.IsSatisfiedBy(pi)
+                   && this.Specification.IsSatisfiedBy(pi)
                    select pi;
         }
 

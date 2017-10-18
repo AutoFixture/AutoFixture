@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for a multidimensional array to a jagged array and converts the result
@@ -29,9 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             var arrayType = request as Type;
             if (arrayType == null || !IsMultidimensionalArray(arrayType))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return CreateMultidimensionalArray(arrayType, context);
         }

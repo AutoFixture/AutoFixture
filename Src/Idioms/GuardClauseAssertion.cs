@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Encapsulates a unit test that verifies that a method or constructor has appropriate Guard
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture.Idioms
             constructorInfo = this.ResolveUnclosedGenericType(constructorInfo);
 
             var method = new ConstructorMethod(constructorInfo);
-            this.Verify(method, false, false);
+            this.DoVerify(method, false, false);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Ploeh.AutoFixture.Idioms
             var isReturnValueTask =
                 typeof(System.Threading.Tasks.Task).IsAssignableFrom(methodInfo.ReturnType);
 
-            this.Verify(method, isReturnValueDeferable, isReturnValueTask);
+            this.DoVerify(method, isReturnValueDeferable, isReturnValueTask);
         }
 
         private static bool IsNonDeferredEnumerable(Type t)
@@ -202,10 +202,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         private static bool IsMatched(MethodBase resolved, MethodBase method, AutoGenericType autoGenericType)
         {
-            return resolved.Name == method.Name &&
-                resolved.GetParameters()
-                    .Select(pi => pi.ParameterType)
-                    .SequenceEqual(autoGenericType.ResolveUnclosedParameterTypes(method.GetParameters()));
+            return string.Equals(resolved.Name, method.Name, StringComparison.Ordinal) &&
+                   resolved.GetParameters()
+                       .Select(pi => pi.ParameterType)
+                       .SequenceEqual(autoGenericType.ResolveUnclosedParameterTypes(method.GetParameters()));
         }
 
         private IMethod CreateMethod(MethodInfo methodInfo)
@@ -244,19 +244,19 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
-        private void Verify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
+        private void DoVerify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
         {
             if (isReturnValueDeferable)
-                VerifyDeferrableIterator(method);
+                this.VerifyDeferrableIterator(method);
             else if (isReturnValueTask)
-                VerifyDeferrableTask(method);
+                this.VerifyDeferrableTask(method);
             else
-                VerifyNormal(method);
+                this.VerifyNormal(method);
         }
 
         private void VerifyDeferrableIterator(IMethod method)
         {
-            foreach (var command in GetParameterGuardCommands(method))
+            foreach (var command in this.GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(new IteratorMethodInvokeCommand(command));
             }
@@ -264,7 +264,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private void VerifyDeferrableTask(IMethod method)
         {
-            foreach (var command in GetParameterGuardCommands(method))
+            foreach (var command in this.GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(new TaskReturnMethodInvokeCommand(command));
             }
@@ -272,7 +272,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private void VerifyNormal(IMethod method)
         {
-            foreach (var command in GetParameterGuardCommands(method))
+            foreach (var command in this.GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(command);
             }
@@ -335,7 +335,7 @@ namespace Ploeh.AutoFixture.Idioms
                 ? new AutoGenericType(this.Builder, propertyInfo.ReflectedType)
                     .Value
                     .GetProperties()
-                    .Single(pi => pi.Name == propertyInfo.Name)
+                    .Single(pi => string.Equals(pi.Name, propertyInfo.Name, StringComparison.Ordinal))
                 : propertyInfo;
         }
 
@@ -381,6 +381,11 @@ See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
                 get { return this.command.RequestedType; }
             }
 
+            public string RequestedParameterName
+            {
+                get { return this.command.RequestedParameterName; }
+            }
+
             public void Execute(object value)
             {
                 this.command.Execute(value);
@@ -419,6 +424,11 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             public Type RequestedType
             {
                 get { return this.command.RequestedType; }
+            }
+
+            public string RequestedParameterName
+            {
+                get { return this.command.RequestedParameterName; }
             }
 
             public void Execute(object value)
@@ -479,17 +489,17 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             private Type ResolveUnclosedParameterType(Type parameterType)
             {
                 if (parameterType.IsArray)
-                    return ResolveNestedArrayParameterType(parameterType);
+                    return this.ResolveNestedArrayParameterType(parameterType);
 
                 if (parameterType.IsGenericType)
-                    return ReosolveNestedGenericParameterType(parameterType);
+                    return this.ReosolveNestedGenericParameterType(parameterType);
 
-                return ResolveGenericParameter(parameterType);
+                return this.ResolveGenericParameter(parameterType);
             }
 
             private Type ResolveNestedArrayParameterType(Type parameterType)
             {
-                var elementType = ResolveUnclosedParameterType(parameterType.GetElementType());
+                var elementType = this.ResolveUnclosedParameterType(parameterType.GetElementType());
                 var rank = parameterType.GetArrayRank();
                 return rank == 1 ? elementType.MakeArrayType() : elementType.MakeArrayType(rank);
             }
@@ -497,7 +507,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             private Type ReosolveNestedGenericParameterType(Type parameterType)
             {
                 var genericArguments = parameterType.GetGenericArguments();
-                var typeArguments = genericArguments.Select(ResolveUnclosedParameterType).ToArray();
+                var typeArguments = genericArguments.Select(this.ResolveUnclosedParameterType).ToArray();
                 return parameterType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
             }
 
@@ -651,7 +661,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             private const string specimenBuilderFieldName = "specimenBuilder";
 
             private static readonly AssemblyBuilder assemblyBuilder =
-                AppDomain.CurrentDomain.DefineDynamicAssembly(
+                AssemblyBuilder.DefineDynamicAssembly(
                     new AssemblyName("AutoFixture.DynamicProxyAssembly"),
                     AssemblyBuilderAccess.Run);
 
@@ -686,7 +696,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
                     this.ImplementDefaultConstructor();
                     this.ImplementAbstractMethods();
                     this.ImplementInterfaceMethods();
-                    var dummyType = this.typeBuilder.CreateType();
+                    var dummyType = this.typeBuilder.CreateTypeInfo();
                     this.SetStaticSpecimenBuilderField(dummyType);
                     return dummyType;
                 }

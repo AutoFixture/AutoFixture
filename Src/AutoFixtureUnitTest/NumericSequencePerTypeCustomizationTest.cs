@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class NumericSequencePerTypeCustomizationTest
     {
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new NumericSequencePerTypeCustomization();
             // Exercise system and verify outcome
-            Assert.Throws(typeof(ArgumentNullException), () => sut.Customize(null));
+            Assert.Throws<ArgumentNullException>(() => sut.Customize(null));
             // Teardown
         }
 

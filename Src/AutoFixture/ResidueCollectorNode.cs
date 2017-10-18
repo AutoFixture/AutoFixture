@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A marker class, used to explicitly identify the <i>residue
@@ -89,7 +87,7 @@ namespace Ploeh.AutoFixture
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can
+        /// An <see cref="System.Collections.IEnumerator" /> object that can
         /// be used to iterate through the collection.
         /// </returns>
         /// <seealso cref="GetEnumerator()" />

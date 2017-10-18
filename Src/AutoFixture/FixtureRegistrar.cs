@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Contains extension methods for registering specimens in <see cref="IFixture"/> instances.

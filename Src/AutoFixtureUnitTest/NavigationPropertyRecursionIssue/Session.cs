@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.AutoFixtureUnitTest.NavigationPropertyRecursionIssue
+﻿namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue
 {
     public class Session
     {

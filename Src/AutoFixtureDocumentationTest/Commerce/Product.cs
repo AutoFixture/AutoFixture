@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixtureDocumentationTest.Commerce
+﻿namespace AutoFixtureDocumentationTest.Commerce
 {
     public class Product
     {

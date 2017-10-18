@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Relays a request for a string that matches a regular expression to a <see cref="RegularExpressionRequest"/>.
@@ -31,20 +29,10 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
-            }
-
-            var regularExpressionAttribute = customAttributeProvider.GetCustomAttributes(typeof(RegularExpressionAttribute), inherit: true).Cast<RegularExpressionAttribute>().SingleOrDefault();
+            var regularExpressionAttribute = TypeEnvy.GetAttribute<RegularExpressionAttribute>(request);
             if (regularExpressionAttribute == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return context.Resolve(new RegularExpressionRequest(regularExpressionAttribute.Pattern));

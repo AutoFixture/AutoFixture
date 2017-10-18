@@ -2,13 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
-using Ploeh.AutoFixture.DataAnnotations;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture.DataAnnotations;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class RangeAttributeRelayTest
     {
@@ -58,9 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(dummyRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -81,9 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -102,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var rangeAttribute = new RangeAttribute(type, minimum.ToString(), maximum.ToString());
             var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
-            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
+            var request = new FakeMemberInfo(providedAttribute);
             Type conversionType = rangeAttribute.OperandType;
             var expectedRequest = new RangedNumberRequest(
                 conversionType,
@@ -112,9 +107,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-#pragma warning disable 618
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
-#pragma warning restore 618
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RangeAttributeRelay();
             // Exercise system
@@ -125,26 +118,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData("Property", 10, 20)]
-        [InlineData("Property", -2, -1)]
-        [InlineData("Property", "10.1", "20.2")]
-        [InlineData("Property", "-2.2", "-1.1")]
-        [InlineData("Property", 10.0, 20.0)]
-        [InlineData("Property", -2.0, -1.0)]
-        [InlineData("Property", 10, 20)]
-        [InlineData("Property", -2, -1)]
-        [InlineData("NullableTypeProperty", 10, 20)]
-        [InlineData("NullableTypeProperty", -2, -1)]
-        [InlineData("NullableTypeProperty", "10.1", "20.2")]
-        [InlineData("NullableTypeProperty", "-2.2", "-1.1")]
-        [InlineData("NullableTypeProperty", 10.0, 20.0)]
-        [InlineData("NullableTypeProperty", -2.0, -1.0)]
-        [InlineData("NullableTypeProperty", 10, 20)]
-        [InlineData("NullableTypeProperty", -2, -1)]
-        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
-            string name,
-            object attributeMinimum, 
-            object attributeMaximum)
+        [InlineData("Property")]
+        [InlineData("NullableTypeProperty")]
+        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(string name)
         {
             // Fixture setup
             var request = typeof(RangeValidatedType).GetProperty(name);
@@ -160,9 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-#pragma warning disable 618
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
-#pragma warning restore 618
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RangeAttributeRelay();
             // Exercise system
@@ -173,26 +147,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData("Field", 10, 20)]
-        [InlineData("Field", -2, -1)]
-        [InlineData("Field", "10.1", "20.2")]
-        [InlineData("Field", "-2.2", "-1.1")]
-        [InlineData("Field", 10.0, 20.0)]
-        [InlineData("Field", -2.0, -1.0)]
-        [InlineData("Field", 10, 20)]
-        [InlineData("Field", -2, -1)]
-        [InlineData("NullableTypeField", 10, 20)]
-        [InlineData("NullableTypeField", -2, -1)]
-        [InlineData("NullableTypeField", "10.1", "20.2")]
-        [InlineData("NullableTypeField", "-2.2", "-1.1")]
-        [InlineData("NullableTypeField", 10.0, 20.0)]
-        [InlineData("NullableTypeField", -2.0, -1.0)]
-        [InlineData("NullableTypeField", 10, 20)]
-        [InlineData("NullableTypeField", -2, -1)]
-        public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
-            string name,
-            object attributeMinimum,
-            object attributeMaximum)
+        [InlineData("Field")]
+        [InlineData("NullableTypeField")]
+        public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(string name)
         {
             // Fixture setup
             var request = typeof(RangeValidatedType).GetField(name);
@@ -208,9 +165,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-#pragma warning disable 618
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
-#pragma warning restore 618
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RangeAttributeRelay();
             // Exercise system

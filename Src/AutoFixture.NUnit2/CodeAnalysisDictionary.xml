@@ -4,12 +4,16 @@
         <Unrecognized>
         </Unrecognized>
         <Recognized>
-            <Word>ploeh</Word>
             <Word>nunit</Word>
             <Word>enumerables</Word>
+            <Word>Addins</Word>
+            <Word>Addin</Word>
         </Recognized>
         <Deprecated>
         </Deprecated>
+      <Compound>
+        <Term CompoundAlternate="NUnit">nunit</Term>
+      </Compound>
     </Words>
     <Acronyms>
         <CasingExceptions>

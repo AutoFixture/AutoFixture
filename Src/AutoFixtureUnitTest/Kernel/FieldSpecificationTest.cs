@@ -1,11 +1,10 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
-using Xunit;
-using Xunit.Extensions;
 using System.Reflection;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
+using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class FieldSpecificationTest
     {
@@ -21,6 +20,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithFieldNameShouldSetCorrespondingProperty()
         {
             // Fixture setup

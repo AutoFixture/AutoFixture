@@ -8,4 +8,4 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "Ploeh.AutoFixture.AutoFakeItEasy2", Justification = "This should be a separate assembly because it provides extensions to AutoFixture that are specific to the use of FakeItEasy.")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "AutoFixture.AutoFakeItEasy2", Justification = "This should be a separate assembly because it provides extensions to AutoFixture that are specific to the use of FakeItEasy.")]

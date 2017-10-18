@@ -1,6 +1,6 @@
-﻿using Ploeh.AutoFixture;
+﻿using AutoFixture;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
+namespace AutoFixtureDocumentationTest.Multiple.General
 {
     public class StableMultipeCustomization : 
         CompositeCustomization

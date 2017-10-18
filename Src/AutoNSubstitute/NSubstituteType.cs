@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using NSubstitute;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     internal static class NSubstituteType
     {
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             return type.GetInterfaces()
                 .Where(i => !interfaces.Contains(i))
-                .Concat(new[] {type.BaseType});
+                .Concat(new[] {type.GetTypeInfo().BaseType});
         }
     }
 }

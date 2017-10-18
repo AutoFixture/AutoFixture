@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class CharSequenceGeneratorTest
     {
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new CharSequenceGenerator();
             var dummyRequest = new object();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
             // Teardown
         }
 
@@ -54,9 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(dummyRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }

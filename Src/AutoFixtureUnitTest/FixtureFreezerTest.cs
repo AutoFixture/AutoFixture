@@ -1,10 +1,10 @@
 ﻿using System;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     /// <summary>
     /// These tests mostly deal with boundary cases (like null
@@ -21,17 +21,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureFreezer.Freeze<object>(null));
-            // Teardown
-        }
-
-        [Fact]
-        public void FreezeSeededWithNullFixtureThrows()
-        {
-            // Fixture setup
-            var dummySeed = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                FixtureFreezer.Freeze<object>(null, dummySeed));
             // Teardown
         }
 

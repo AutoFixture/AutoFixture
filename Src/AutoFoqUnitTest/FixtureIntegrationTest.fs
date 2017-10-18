@@ -1,9 +1,10 @@
-﻿module Ploeh.AutoFixture.AutoFoq.UnitTest.FixtureIntegrationTest
+﻿module AutoFixture.AutoFoq.UnitTest.FixtureIntegrationTest
 
-open Ploeh.AutoFixture
-open Ploeh.AutoFixture.AutoFoq
-open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
-open Ploeh.TestTypeFoundation
+open AutoFixture
+open AutoFixture.AutoFoq
+open AutoFixture.AutoFoq.UnitTest.TestDsl
+open AutoFixture.Kernel
+open TestTypeFoundation
 open System
 open System.Collections.Generic
 open Xunit
@@ -66,3 +67,24 @@ let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructorWithMulti
     verify <@ not <| (Unchecked.defaultof<int> = result.Property1) @>
     verify <@ not <| (Unchecked.defaultof<int> = result.Property2) @>
     // Teardown
+
+type IInterface =
+    abstract ReturnSomething : unit -> string
+
+[<Fact>]
+let ``Fixture supplies return values for non-explicitly setup test-doubles`` () =
+    let sut = (Fixture().Customize(AutoFoqCustomization())).Create<IInterface>()
+    let actual = sut.ReturnSomething()
+    verify <@ not (isNull actual) @>
+
+[<Fact>]
+let ``Fixture customizations are propagated in Foq for non-explicitly setup test-doubles`` () =
+    let fixture = Fixture()
+    let expected = "Friday, 14 December 1984"
+    fixture.Register<string>(fun () -> expected)
+    fixture.Customize(AutoFoqCustomization()) |> ignore
+    let sut = fixture.Create<IInterface>()
+
+    let actual = sut.ReturnSomething()
+
+    verify <@ expected = actual @>

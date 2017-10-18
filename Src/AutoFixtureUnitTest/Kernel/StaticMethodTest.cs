@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class StaticMethodTest
     {
@@ -16,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             Action dummy = delegate { };
             // Exercise system
-            var sut = new StaticMethod(dummy.Method);
+            var sut = new StaticMethod(dummy.GetMethodInfo());
             // Verify outcome
             Assert.IsAssignableFrom<IMethod>(sut);
             // Teardown
@@ -39,7 +38,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action dummy = delegate { };
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new StaticMethod(null, dummy.Method.GetParameters()));
+                new StaticMethod(null, dummy.GetMethodInfo().GetParameters()));
             // Teardown
         }
 
@@ -50,7 +49,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action dummy = delegate { };
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new StaticMethod(dummy.Method, null));
+                new StaticMethod(dummy.GetMethodInfo(), null));
             // Teardown
         }
 
@@ -58,7 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void MethodIsCorrect()
         {
             // Fixture setup
-            var expectedMethod = ((Action)delegate { }).Method;
+            var expectedMethod = ((Action)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(expectedMethod);
             // Exercise system
             var result = sut.Method;
@@ -72,8 +71,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             Action<object> dummy = delegate { };
-            var expectedParameters = dummy.Method.GetParameters();
-            var sut = new StaticMethod(dummy.Method);
+            var expectedParameters = dummy.GetMethodInfo().GetParameters();
+            var sut = new StaticMethod(dummy.GetMethodInfo());
             // Exercise system
             var result = sut.Parameters;
             // Verify outcome
@@ -86,8 +85,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             Action<int, double> dummy = delegate { };
-            var expectedParameters = dummy.Method.GetParameters();
-            var sut = new StaticMethod(dummy.Method, expectedParameters);
+            var expectedParameters = dummy.GetMethodInfo().GetParameters();
+            var sut = new StaticMethod(dummy.GetMethodInfo(), expectedParameters);
             // Exercise system
             var result = sut.Parameters;
             // Verify outcome
@@ -119,7 +118,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutIsEquatable()
         {
             // Fixture setup
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             // Exercise system
             var sut = new StaticMethod(method);
             // Verify outcome
@@ -131,7 +130,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullObject()
         {
             // Fixture setup
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals((object)null);
@@ -144,7 +143,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullSut()
         {
             // Fixture setup
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals((StaticMethod)null);
@@ -157,7 +156,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualSomeOtherObject()
         {
             // Fixture setup
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals(new object());
@@ -170,10 +169,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWithDifferentMethod()
         {
             // Fixture setup
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(method);
 
-            var otherMethod = ((Action<int>)delegate { }).Method;
+            var otherMethod = ((Action<int>)delegate { }).GetMethodInfo();
             object other = new StaticMethod(otherMethod);
 
             // Exercise system
@@ -187,10 +186,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWithDifferentParameters()
         {
             // Fixture setup
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(method, method.GetParameters());
 
-            var otherParameters = ((Action<int>)delegate { }).Method.GetParameters();
+            var otherParameters = ((Action<int>)delegate { }).GetMethodInfo().GetParameters();
             object other = new StaticMethod(method, otherParameters);
 
             // Exercise system
@@ -203,7 +202,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutEqualsOtherObjectWithSameMethod()
         {
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(method);
             object other = new StaticMethod(method);
             // Exercise system
@@ -216,7 +215,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutEqualsOtherObjectWithSameMethodAndSameParameters()
         {
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var parameters = method.GetParameters();
             var sut = new StaticMethod(method, parameters);
             object other = new StaticMethod(method, parameters);
@@ -231,7 +230,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeReturnsCorrectResult()
         {
             // Fixture setup
-            var method = ((Action<object>)delegate { }).Method;
+            var method = ((Action<object>)delegate { }).GetMethodInfo();
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.GetHashCode();

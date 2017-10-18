@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// A command that populates all public writable properties/fields of a mock object with anonymous values.
@@ -29,7 +26,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (mock == null)
                 return;
 
-            autoPropertiesCommand.Execute(mock.Object, context);
+            this.autoPropertiesCommand.Execute(mock.Object, context);
         }
 
         /// <summary>
@@ -50,7 +47,8 @@ namespace Ploeh.AutoFixture.AutoMoq
 
             private static bool IsProxyMember(FieldInfo fi)
             {
-                return fi.Name == "__interceptors" || fi.Name == "__target";
+                return string.Equals(fi.Name, "__interceptors", StringComparison.Ordinal) ||
+                       string.Equals(fi.Name, "__target", StringComparison.Ordinal);
             }
         }
     }

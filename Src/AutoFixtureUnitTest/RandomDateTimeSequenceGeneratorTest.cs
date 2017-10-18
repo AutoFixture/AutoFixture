@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RandomDateTimeSequenceGeneratorTest
     {
@@ -80,9 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(request), result);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
@@ -99,9 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(request), result);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 

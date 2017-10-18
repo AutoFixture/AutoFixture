@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Decorates another <see cref="IGuardClauseCommand" /> and unwraps
@@ -41,6 +41,20 @@ namespace Ploeh.AutoFixture.Idioms
         public Type RequestedType
         {
             get { return this.command.RequestedType; }
+        }
+
+        /// <summary>
+        /// Gets the parameter name of the requested value.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The return value is the return value of the decorated <see cref="Command" /> instance's
+        /// <see cref="IGuardClauseCommand.RequestedParameterName" /> property.
+        /// </para>
+        /// </remarks>
+        public string RequestedParameterName
+        {
+            get { return this.command.RequestedParameterName; }
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Array
+namespace AutoFixtureDocumentationTest.Array
 {
     public class MyClassATest
     {

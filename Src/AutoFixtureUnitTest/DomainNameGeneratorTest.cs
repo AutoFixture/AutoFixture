@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using System.Text.RegularExpressions;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class DomainNameGeneratorTest
     {
@@ -41,9 +40,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(nonDomainNameRequest, null);
             // Verify outcome
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(nonDomainNameRequest), result);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
@@ -56,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(typeof(DomainName), null);
             // Verify outcome
             var actualDomainName = Assert.IsAssignableFrom<DomainName>(result);
-            Assert.True(Regex.IsMatch(actualDomainName.Domain, @"example\.(com|org|net)"));
+            Assert.Matches(@"example\.(com|org|net)", actualDomainName.Domain);
             // Teardown
         }
 

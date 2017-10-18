@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using AutoFixture.Kernel;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
-#pragma warning disable 618
+    [Obsolete]
     public class OmitOnRecursionGuardTest
     {
         [Fact]
@@ -101,5 +99,4 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
     }
-#pragma warning restore 618
 }

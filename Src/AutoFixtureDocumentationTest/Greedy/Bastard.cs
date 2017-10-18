@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Greedy
+namespace AutoFixtureDocumentationTest.Greedy
 {
     public class Bastard
     {

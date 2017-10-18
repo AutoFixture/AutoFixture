@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a sequence of consecutive numbers, starting at 1.
@@ -32,10 +32,10 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
         /// <returns>The next number in a consecutive sequence.</returns>
-        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public int CreateAnonymous()
         {
-            return Create();
+            return this.Create();
         }
 
         /// <summary>
@@ -51,9 +51,7 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(int).Equals(request))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return this.Create();

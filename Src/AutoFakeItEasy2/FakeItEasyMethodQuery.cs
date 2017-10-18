@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy2
+namespace AutoFixture.AutoFakeItEasy2
 {
     /// <summary>
     /// Selects appropriate methods to create <see cref="FakeItEasy.Fake{T}"/> instances.
     /// </summary>
-    [Obsolete("The AutoFakeItEasy2 package has been retired; use the AutoFakeItEasy (without the trailing \"2\") package instead. Details: it's turned out that it's possible to enable AutoFakeItEasy to also work with FakeItEasy 2. From version 3.49.1, you should be able to use AutoFakeItEasy with FakeItEasy 2 by adding an assembly binding redirect. This enables us, the maintainers of AutoFixture, to maintain only one code base for FakeItEasy, instead of two. If this causes problems, please create an issue at https://github.com/AutoFixture/AutoFixture/issues. We apologise for any inconvenience this may cause.")]
+    [Obsolete("The AutoFakeItEasy2 package has been retired; use the AutoFakeItEasy (without the trailing \"2\") package instead. Details: it's turned out that it's possible to enable AutoFakeItEasy to also work with FakeItEasy 2. From version 3.49.1, you should be able to use AutoFakeItEasy with FakeItEasy 2 by adding an assembly binding redirect. This enables us, the maintainers of AutoFixture, to maintain only one code base for FakeItEasy, instead of two. If this causes problems, please create an issue at https://github.com/AutoFixture/AutoFixture/issues. We apologise for any inconvenience this may cause.", true)]
     public class FakeItEasyMethodQuery : IMethodQuery
     {
         /// <summary>
@@ -59,6 +60,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class FakeMethod<T> : IMethod
         {
             private readonly IEnumerable<ParameterInfo> parameterInfos;

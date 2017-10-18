@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class DelegatingCriterion<T> : IEquatable<T>
     {

@@ -1,13 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using System.Collections;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RecursionGuardTest
     {
@@ -412,6 +411,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderSetsRecursionDepthCorrectly()
         {
             // Fixture setup
@@ -438,6 +438,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectBuilder()
         {
             // Fixture setup
@@ -455,6 +456,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectHandler()
         {
             // Fixture setup
@@ -472,6 +474,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectComparer()
         {
             // Fixture setup

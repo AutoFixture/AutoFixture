@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
-using Ploeh.AutoFixture;
-using System.Collections;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
+namespace AutoFixtureUnitTest.AbstractRecursionIssue
 {
     public class Repro
     {
@@ -46,7 +42,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
             fixture.Behaviors.Add(new NullRecursionBehavior());
             fixture.Register<ItemBase>(fixture.Create<FunkyItem>);
 
-            Assert.DoesNotThrow(() => fixture.Create<FunkyItem>());
+            Assert.Null(Record.Exception(() => fixture.Create<FunkyItem>()));
         }
 
         /// <summary>
@@ -65,7 +61,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
                     typeof(ItemBase),
                     typeof(FunkyItem)));
 
-            Assert.DoesNotThrow(() => fixture.Create<FunkyItem>());
+            Assert.Null(Record.Exception(() => fixture.Create<FunkyItem>()));
         }
     }
 }

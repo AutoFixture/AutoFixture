@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class DelegatingIdiomaticAssertion : IdiomaticAssertion
     {

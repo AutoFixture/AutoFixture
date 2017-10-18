@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Idioms.FsCheck
+﻿namespace AutoFixture.Idioms.FsCheck
 
 open System
 open System.Reflection
@@ -11,7 +11,7 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyTitle("AutoFixture.Idioms.FsCheck")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
-[<assembly: AssemblyCompany("Ploeh")>]
+[<assembly: AssemblyCompany("AutoFixture")>]
 [<assembly: AssemblyProduct("AutoFixture")>]
 [<assembly: AssemblyCopyright("Copyright © Ploeh 2014")>]
 [<assembly: AssemblyTrademark("")>]

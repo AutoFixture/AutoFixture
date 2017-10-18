@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class MethodInvokeCommandTest
     {
@@ -101,6 +101,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome
             Assert.Equal(parameter.ParameterType, result);
             // Teardown
+        }
+
+        [Fact]
+        public void RequestedParameterNameIsCorrect()
+        {
+            var dummyMethod = new DelegatingMethod();
+            var dummyExpansion = new DelegatingExpansion<object>();
+            var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
+
+            var actual = sut.RequestedParameterName;
+
+            Assert.Equal(parameter.Name, actual);
         }
 
         [Fact]

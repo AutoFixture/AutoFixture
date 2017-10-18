@@ -2,12 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class MemberInfoEqualityComparerTest
     {
@@ -55,6 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable xUnit1010 // Value is not convertiable to the MemberInfo - it's wrong and test doesn't fail during execution.
         [Theory]
         [InlineData(null, null, true)]
         [InlineData(null, typeof(object), false)]
@@ -62,6 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(object), typeof(object), true)]
         [InlineData(typeof(string), typeof(object), false)]
         [InlineData(typeof(string), typeof(string), true)]
+#pragma warning restore xUnit1010 // Value is not convertiable to the MemberInfo
         public void StronglyTypedEqualsReturnsCorrectResult(MemberInfo x, MemberInfo y, bool expectedResult)
         {
             // Fixture setup
@@ -135,7 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new MemberInfoEqualityComparer();
             var pi = typeof(ConcreteType).GetProperty("Property4");
-            var t = typeof(object);
+            var t = typeof(object).GetTypeInfo();
             // Exercise system
             var actual = sut.Equals(pi, t);
             // Verify outcome
@@ -202,13 +203,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void StronglyTypedGetHashCodeWithNullSutThrows()
+        public void StronglyTypedGetHashCodeWithNullShouldNotThrowAsExceptionIsNotExpectedThere()
         {
             // Fixture setup
             var sut = new MemberInfoEqualityComparer();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetHashCode(null));
+            Assert.Null(Record.Exception(() =>
+                sut.GetHashCode(null)));
             // Teardown
         }
     }

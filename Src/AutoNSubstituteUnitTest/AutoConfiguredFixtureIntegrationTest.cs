@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
+using NSubstitute.ClearExtensions;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class AutoConfiguredFixtureIntegrationTest
     {
@@ -151,15 +151,17 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void GenericMethodsAreIgnored()
+        public void GenericMethodsReturnValueFromFixture()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
-            var result = fixture.Create<IInterfaceWithGenericMethod>();
+            // Exercise system
+            var obj = fixture.Create<IInterfaceWithGenericMethod>();
+            var result = obj.GenericMethod<string>();
 
-            Assert.NotEqual(frozenString, result.GenericMethod<string>());
+            // Verify outcome
+            Assert.Equal(frozenString, result);
         }
 
         [Fact]
@@ -169,7 +171,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticMethod>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticMethod>()));
             Assert.NotEqual(frozenString, TypeWithStaticMethod.StaticMethod());
         }
 
@@ -180,7 +182,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticProperty>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticProperty>()));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
 
@@ -215,7 +217,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithConstField>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithConstField>()));
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
 
@@ -226,7 +228,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticField>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticField>()));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
 
@@ -236,7 +238,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<IInterfaceWithCircularDependency>());
+            Assert.Null(Record.Exception(() => fixture.Create<IInterfaceWithCircularDependency>()));
         }
 
         [Fact]
@@ -310,7 +312,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void VoidMethodsAreIgnored()
+        public void VoidMethodsWithOutParameterIsFilled()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenInt = fixture.Freeze<int>();
@@ -319,11 +321,29 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             int result;
             substitute.Method(out result);
 
-            Assert.NotEqual(frozenInt, result);
+            Assert.Equal(frozenInt, result);
         }
 
         [Fact]
-        public void VoidMethodsReturnValuesSetup()
+        public void VoidMethodsWithRefParameterIsFilled()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var frozenInt = fixture.Freeze<int>();
+            var substitute = fixture.Create<IInterfaceWithRefVoidMethod>();
+
+            // Exercise system
+            int result = 0;
+            substitute.Method(ref result);
+
+            // Verify outcome
+            Assert.Equal(frozenInt, result);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void VoidOutMethodsReturnValuesSetup()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithOutVoidMethod>();
@@ -334,6 +354,27 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             substitute.Method(out result);
 
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void VoidRefMethodsReturnValuesSetup()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var subsitute = fixture.Create<IInterfaceWithRefVoidMethod>();
+            var expected = fixture.Create<int>();
+
+            int origIntValue = -10;
+            subsitute.When(x => x.Method(ref origIntValue)).Do(x => x[0] = expected);
+
+            // Exercise system
+            int result = -10;
+            subsitute.Method(ref result);
+
+            // Verify outcome
+            Assert.Equal(expected, result);
+
+            // Teardown
         }
 
         [Fact]
@@ -449,7 +490,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void PropertiesOmittingSpecimenReturnsCorrectResult()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(string))));
+            fixture.Customizations.Add(new Omitter(new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));
             var sut = fixture.Create<IInterfaceWithProperty>();
 
             var result = sut.Property;
@@ -541,12 +582,216 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void GenericMethodsWithRefReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expectedInt = fixture.Freeze<int>();
+            var expectedStr = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericRefMethod>();
+
+            // Exercise system
+            string refValue = "dummy";
+            int retValue = substitute.GenericMethod<string>(ref refValue);
+
+            // Verify outcome
+            Assert.Equal(expectedInt, retValue);
+            Assert.Equal(expectedStr, refValue);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void GenericMethodsWithOutReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expectedInt = fixture.Freeze<int>();
+            var expectedStr = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericOutMethod>();
+
+            // Exercise system
+            string outvalue;
+            int retValue = substitute.GenericMethod<string>(out outvalue);
+
+            // Verify outcome
+            Assert.Equal(expectedInt, retValue);
+            Assert.Equal(expectedStr, outvalue);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void VoidGenericMethodsWithRefReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expected = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericRefVoidMethod>();
+
+            // Exercise system
+            string refValue = "dummy";
+            substitute.GenericMethod<string>(ref refValue);
+
+            // Verify outcome
+            Assert.Equal(expected, refValue);
+            // Teardown
+        }
+
+        [Fact]
+        public void VoidGenericMethodsWithOutReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expected = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericOutVoidMethod>();
+
+            // Exercise system
+            string outValue;
+            substitute.GenericMethod<string>(out outValue);
+
+            // Verify outcome
+            Assert.Equal(expected, outValue);
+            // Teardown
+        }
+
+        [Fact]
+        public void ReturnValueIsSameForSameArgumentForGenerics()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
+
+            var inputValue = 42;
+
+            // Exercise system
+            var result1 = substitute.GenericMethod<int>(inputValue);
+            var result2 = substitute.GenericMethod<int>(inputValue);
+
+            // Verify outcome
+            Assert.Equal(result1, result2);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void ReturnValueIsDifferentForDifferentArgumentForGenerics()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
+
+            // Exercise system
+            var result1 = substitute.GenericMethod<int>(42);
+            var result2 = substitute.GenericMethod<int>(10);
+
+            // Verify outcome
+            Assert.NotEqual(result1, result2);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void ResultIsDifferentForDifferentGeneticInstantiations()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericMethod>();
+
+            // Exercise system
+            var intResult = substitute.GenericMethod<int>();
+            var longResult = substitute.GenericMethod<long>();
+
+            // Verify outcome
+            Assert.NotEqual(intResult, longResult);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void CachedResultIsMatchedByOtherInterfaceSubstituteForGenerics()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
+            var arg = fixture.Create<IInterfaceWithMethod>();
+
+            // Exercise system
+            int result1 = substitute.GenericMethod<IInterfaceWithMethod>(arg);
+            int result2 = substitute.GenericMethod<IInterfaceWithMethod>(arg);
+
+            // Verify outcome
+            Assert.Equal(result1, result2);
+
+            // Teardown
+        }
+
+        /// <summary>
+        /// Subsitute clear is used to reset manually configured user returns.
+        /// The values configured by AutoFixture are not being manually-configured.
+        /// 
+        /// If user needs that, it could easily override the auto-generated value using the
+        /// substitute.Method(...).Returns(...); 
+        /// </summary>
+        [Theory]
+        [InlineData(ClearOptions.CallActions)]
+        [InlineData(ClearOptions.ReceivedCalls)]
+        [InlineData(ClearOptions.ReturnValues)]
+        [InlineData(ClearOptions.All)]
+        public void ShouldNotResetCachedValuesOnSubsituteClear(ClearOptions options)
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethod>();
+            string arg = "argValue";
+
+            // Exercise system
+            var resultBefore = substitute.Method(arg);
+            substitute.ClearSubstitute(options);
+            var resultAfter = substitute.Method(arg);
+
+            // Verify outcome
+            Assert.Equal(resultBefore, resultAfter);
+
+            // Teardown
+        }
+
+        /// <summary>
+        /// Current implementation of NSubsitute doesn't call custom handlers for the Received.InOrder() scope (which
+        /// we use for our integration with NSubstitute). That shouldsn't cause any usability issues for users.
+        ///  
+        /// Asserting that behavior via test to get a notification when that behavior changes, so we can make a decision
+        /// whether we need to alter something in AF or not to respect that change.
+        /// </summary>
+        [Fact]
+        public void IsNotExpectedToReturnValueInReceivedInOrderBlock()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
+
+            var actualResult = substitute.Method();
+
+            // Exercise system
+            IInterfaceWithMethod capturedResult = null;
+            Received.InOrder(() =>
+            {
+                capturedResult = substitute.Method();
+            });
+
+            // Verify outcome
+            Assert.NotEqual(actualResult, capturedResult);
+
+            // Teardown
+        }
+
+        [Fact]
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
             //Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
 
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            var interfaceSource = fixture.Create<IInterfaceWithMethodSource>();
+            var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
             var scheduler = new TryingAlwaysSatisfyInlineTaskScheduler();
 
@@ -558,7 +803,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
              * Schedulers are propagated to the nested tasks, so we are resolving IInterfaceWithMethod inside the task.
              * All the tasks created during that resolve will be inlined, if that is possible.
              */
-            var task = new Task<IInterfaceWithMethod>(() => interfaceSource.Get());
+            var task = new Task<IInterfaceWithMethod>(() => interfaceSource.Method());
             task.Start(scheduler);
 
             var instance = task.Result;
@@ -574,16 +819,92 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             {
                 //arrange
                 var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-                var interfaceSource = fixture.Create<IInterfaceWithMethodSource>();
+                var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
                 //act & assert not throw
-                var result = interfaceSource.Get();
+                var result = interfaceSource.Method();
             });
             task.Start(new InlineOnQueueTaskScheduler());
 
             task.Wait();
         }
 
+        [Fact]
+        public void Issue653_ResolvesPropertyValueViaPropertyRequest()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var subsitute = fixture.Create<IInterfaceWithProperty>();
+
+            var expected = fixture.Create<string>();
+            fixture.Customizations.Insert(0, 
+                new FilteringSpecimenBuilder(
+                    new FixedBuilder(expected),
+                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))
+                ));
+
+            // Exercise system
+            var result = subsitute.Property;
+
+            // Verify outcome
+            Assert.Equal(expected, result);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Issue707_CanConfigureOutMethodParameters()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithParameterAndOutMethod>();
+
+            var parameter = fixture.Create<string>();
+            var result = fixture.Create<int>();
+
+            // Exercise system
+            substitute.Method(parameter, out int dummy).Returns(c => { c[1] = result; return true; });
+
+            int actualResult;
+            substitute.Method(parameter, out actualResult);
+
+            // Verify outcome
+            Assert.Equal(result, actualResult);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(32), InlineData(64), InlineData(128), InlineData(256)]
+        public async Task Issue592_ShouldNotFailForConcurrency(int degreeOfParallelism)
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
+
+            var start = new SemaphoreSlim(0, degreeOfParallelism);
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+
+            var tasks = Enumerable
+                .Range(0, degreeOfParallelism)
+                .Select(_ => Task.Run
+                (async () =>
+                    {
+                        await start.WaitAsync(cts.Token).ConfigureAwait(false);
+                        substitute.Method();
+                    },
+                    cts.Token));
+
+
+            // Exercise system
+            start.Release(degreeOfParallelism);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            // Verify outcome
+            substitute.Received(degreeOfParallelism).Method();
+
+            // Teardown
+        }
 
         public interface IMyList<out T> : IEnumerable<T>
         {
@@ -598,11 +919,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             int Method();
         }
 
-        public interface IInterfaceWithMethodSource
-        {
-            IInterfaceWithMethod Get();
-        }
-
         private class TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
         {
             private const int DELAY_MSEC = 100;
@@ -611,9 +927,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             protected override void QueueTask(Task task)
             {
-                lock (_syncRoot)
+                lock (this._syncRoot)
                 {
-                    Tasks.Add(task);
+                    this.Tasks.Add(task);
                 }
 
                 ThreadPool.QueueUserWorkItem(delegate
@@ -630,9 +946,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             protected override bool TryDequeue(Task task)
             {
-                lock (_syncRoot)
+                lock (this._syncRoot)
                 {
-                    return Tasks.Remove(task);
+                    return this.Tasks.Remove(task);
                 }
             }
 
@@ -651,10 +967,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             protected override IEnumerable<Task> GetScheduledTasks()
             {
-                lock (_syncRoot)
+                lock (this._syncRoot)
                 {
                     //Create copy to ensure that it's not modified during enumeration
-                    return Tasks.ToArray();
+                    return this.Tasks.ToArray();
                 }
             }
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Supplies <see cref="ISpecimenBuilder"/> instances that can resolve requests for many common
@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate
+        /// A <see cref="IEnumerator{T}"/> that can be used to iterate
         /// through the collection.
         /// </returns>
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture
             yield return new RandomCharSequenceGenerator();
             yield return new UriGenerator();
             yield return new UriSchemeGenerator();
-            yield return new RangedNumberGenerator();
+            yield return new RandomRangedNumberGenerator();
             yield return new RegularExpressionGenerator();
             yield return new RandomDateTimeSequenceGenerator();
             yield return new BooleanSwitch();
@@ -37,7 +37,9 @@ namespace Ploeh.AutoFixture
             yield return new DelegateGenerator();
             yield return new TaskGenerator();
             yield return new IntPtrGuard();
+#if SYSTEM_NET_MAIL
             yield return new MailAddressGenerator();
+#endif
             yield return new EmailAddressLocalPartGenerator();
             yield return new DomainNameGenerator();
         }
@@ -46,7 +48,7 @@ namespace Ploeh.AutoFixture
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate
+        /// An <see cref="System.Collections.IEnumerator"/> object that can be used to iterate
         /// through the collection.
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()

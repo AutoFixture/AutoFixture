@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using AutoFixture.AutoMoq.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
-#pragma warning disable 618
+    [Obsolete]
     public class MockSealedPropertiesCommandTest
     {
         [Fact]
@@ -81,7 +77,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             //Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
         }
 
         [Fact]
@@ -94,7 +90,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.VirtualProperty);
         }
 
@@ -108,7 +104,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.PropertyWithPrivateSetter);
         }
 
@@ -125,7 +121,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, privateProperty.GetValue(mock.Object, null));
         }
 
@@ -139,7 +135,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.Property);
         }
 
@@ -153,7 +149,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
 
@@ -167,7 +163,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenInt, mock.Object[2]);
         }
 
@@ -181,7 +177,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.GetPrivateField());
         }
 
@@ -195,7 +191,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.ReadonlyField);
         }
 
@@ -209,7 +205,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
 
@@ -223,7 +219,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
 
@@ -237,8 +233,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
+            Assert.Null(Record.Exception(() => sut.Execute(specimen, context.Object)));
         }
     }
-#pragma warning restore 618
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     internal sealed class StateEqualityComparer : IEqualityComparer<State>
     {
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures
         /// like a hash table. 
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="System.ArgumentNullException">
         /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
         ///   </exception>
         public int GetHashCode(State obj)

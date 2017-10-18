@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Invokes a method.
@@ -66,6 +66,19 @@ namespace Ploeh.AutoFixture.Idioms
         public Type RequestedType
         {
             get { return this.ParameterInfo.ParameterType; }
+        }
+
+        /// <summary>
+        /// Gets the parameter name of the requested value.
+        /// </summary>
+        /// <remarks>
+        /// The RequestedParameterName property identifies the parameter name of object which should be supplied to
+        /// the <see cref="Execute"/> method - in this case the name of the
+        /// <see cref="ParameterInfo" />.
+        /// </remarks>
+        public string RequestedParameterName
+        {
+            get { return this.ParameterInfo.Name; }
         }
 
         /// <summary>

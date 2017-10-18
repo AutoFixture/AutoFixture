@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Creates a new instance of the requested type by invoking the first method it can
@@ -67,9 +67,7 @@ namespace Ploeh.AutoFixture.Kernel
                 }
             }
 
-#pragma warning disable 618
-            return new NoSpecimen(request);
-#pragma warning restore 618
+            return new NoSpecimen();
         }
 
         private IEnumerable<IMethod> GetConstructors(object request)

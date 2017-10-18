@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
-#pragma warning disable 618
+    [Obsolete]
     public class ThrowingRecursionGuardTest
     {
         [Fact]
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             container.OnResolve = r => sut.Create(r, container); // Provoke recursion
 
             // Exercise system
-            Assert.Throws(typeof(ObjectCreationException), () => sut.Create(Guid.NewGuid(), container));
+            Assert.Throws<ObjectCreationException>(() => sut.Create(Guid.NewGuid(), container));
         }
 
         [Fact]
@@ -98,5 +98,4 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
     }
-#pragma warning restore 618
 }

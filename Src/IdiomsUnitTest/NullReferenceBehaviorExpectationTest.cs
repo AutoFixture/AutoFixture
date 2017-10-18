@@ -1,10 +1,9 @@
 ﻿using System;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Idioms;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class NullReferenceBehaviorExpectationTest
     {
@@ -78,15 +77,29 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifySuccedsWhenCommandThrowsCorrectException()
+        public void VerifySucceedsWhenCommandThrowsCorrectException()
         {
             // Fixture setup
             var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new ArgumentNullException(); } };
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(cmd));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(cmd)));
             // Teardown
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("invalidParamName")]
+        public void VerifyThrowsWhenCommandThrowsArgumentNullExceptionWithInvalidParamName(string invalidParamName)
+        {
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnExecute = v => { throw new ArgumentNullException(invalidParamName); }
+            };
+            var sut = new NullReferenceBehaviorExpectation();
+            Assert.Throws<Exception>(() => 
+                sut.Verify(cmd));
         }
 
         [Fact]

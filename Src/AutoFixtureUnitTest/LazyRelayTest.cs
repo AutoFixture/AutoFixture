@@ -1,15 +1,12 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public abstract class LazyRelayTest<T>
     {
@@ -55,9 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var actual = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, actual);
             // Teardown
         }
@@ -75,9 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var actual = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, actual);
             // Teardown
         }
@@ -95,9 +88,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var actual = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, actual);
             // Teardown
         }

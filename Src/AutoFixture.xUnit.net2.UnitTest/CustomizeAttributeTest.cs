@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     public class CustomizeAttributeTest
     {
@@ -24,6 +24,17 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             var sut = new DelegatingCustomizeAttribute();
             // Verify outcome
             Assert.IsAssignableFrom<Attribute>(sut);
+            // Teardown
+        }
+        
+        [Fact]
+        public void SutImplementsIParameterCustomizationSource()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new DelegatingCustomizeAttribute();
+            // Verify outcome
+            Assert.IsAssignableFrom<IParameterCustomizationSource>(sut);
             // Teardown
         }
     }

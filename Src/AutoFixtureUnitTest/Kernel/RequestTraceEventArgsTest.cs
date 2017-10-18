@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class RequestTraceEventArgsTest
     {
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyDepth = 0;
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new RequestTraceEventArgs(null, dummyDepth));
+            Assert.Null(Record.Exception(() => new RequestTraceEventArgs(null, dummyDepth)));
             // Teardown
         }
 

@@ -1,12 +1,11 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using System;
+﻿using System;
 using System.Linq;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RandomCharSequenceGeneratorTest
     {
@@ -26,8 +25,8 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
-                () => new RandomCharSequenceGenerator());
+            Assert.Null(
+                Record.Exception(() => new RandomCharSequenceGenerator()));
             // Teardown
         }
 
@@ -52,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyRequest = new object();
             var sut = new RandomCharSequenceGenerator();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
             // Teardown
         }
 
@@ -68,9 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -91,9 +88,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }

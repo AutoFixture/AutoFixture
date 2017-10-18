@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Assigns a value to a property.
@@ -58,6 +58,19 @@ namespace Ploeh.AutoFixture.Idioms
         public Type RequestedType
         {
             get { return this.propertyInfo.PropertyType; }
+        }
+
+
+        /// <summary>
+        /// Gets the parameter name of the requested value.
+        /// </summary>
+        /// <value></value>
+        /// <remarks>
+        /// The RequestedParameterName always returns "value".
+        /// </remarks>
+        public string RequestedParameterName
+        {
+            get { return "value"; }
         }
 
         /// <summary>

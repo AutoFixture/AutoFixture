@@ -36,11 +36,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// <tt>Automaton</tt> state.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types",
+        Justification = "This code has been copied from another project and is used as-is.")]
     internal sealed class State : IEquatable<State>, IComparable<State>
     {
         private static int nextId;
@@ -52,7 +54,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         internal State()
         {
             this.ResetTransitions();
-            Id = Interlocked.Increment(ref nextId);
+            this.Id = Interlocked.Increment(ref nextId);
         }
 
         /// <summary>
@@ -102,16 +104,16 @@ namespace Ploeh.AutoFixture.DataAnnotations
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current
-        ///  <see cref="T:System.Object"/>.
+        /// Determines whether the specified <see cref="System.Object"/> is equal to the current
+        ///  <see cref="System.Object"/>.
         /// </summary>
         /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current
-        ///  <see cref="T:System.Object"/>; otherwise, false.
+        /// true if the specified <see cref="System.Object"/> is equal to the current
+        ///  <see cref="System.Object"/>; otherwise, false.
         /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current 
-        /// <see cref="T:System.Object"/>. 
-        ///                 </param><exception cref="T:System.NullReferenceException">
+        /// <param name="obj">The <see cref="System.Object"/> to compare with the current 
+        /// <see cref="System.Object"/>. 
+        ///                 </param><exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
         ///                 </exception><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
@@ -138,16 +140,16 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Serves as a hash function for a particular type. 
         /// </summary>
         /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// A hash code for the current <see cref="System.Object"/>.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
             unchecked
             {
-                int result = Id;
-                result = (result * 397) ^ Accept.GetHashCode();
-                result = (result * 397) ^ Number;
+                int result = this.Id;
+                result = (result * 397) ^ this.Accept.GetHashCode();
+                result = (result * 397) ^ this.Number;
                 return result;
             }
         }
@@ -172,9 +174,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return true;
             }
 
-            return other.Id == Id 
-                && other.Accept.Equals(Accept)
-                && other.Number == Number;
+            return other.Id == this.Id 
+                && other.Accept.Equals(this.Accept)
+                && other.Number == this.Number;
         }
 
         /// <summary>
