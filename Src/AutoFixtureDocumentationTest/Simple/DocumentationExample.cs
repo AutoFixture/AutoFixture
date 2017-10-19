@@ -337,7 +337,7 @@ namespace AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             fixture.Customizations.Add(new NumericSequenceGenerator());
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(()=>
+            Assert.ThrowsAny<ObjectCreationException>(()=>
                 fixture.Create<Filter>());
             // Teardown
         }
@@ -390,7 +390,7 @@ namespace AutoFixtureDocumentationTest.Simple
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<SomeImp>());
             // Teardown
         }

@@ -257,7 +257,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             Fixture sut = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<AbstractType>());
             // Teardown
         }
@@ -3082,7 +3082,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<RecursionTestObjectWithReferenceOutA>());
         }
 
@@ -3092,7 +3092,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
@@ -3103,7 +3103,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
                         sut.Build<RecursionTestObjectWithReferenceOutA>()
@@ -3117,7 +3117,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new RecursionGuard(
                         sut.Build<RecursionTestObjectWithReferenceOutA>(),
@@ -3133,7 +3133,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
                         sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
@@ -3147,7 +3147,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new RecursionGuard(
                         sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
@@ -4706,7 +4706,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system and verify outcome
-           var creationEx = Assert.Throws<ObjectCreationException>(() =>
+           var creationEx = Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<IntPtr>());
             Assert.IsAssignableFrom<IllegalRequestException>(creationEx.InnerException);
             // Teardown
@@ -5142,7 +5142,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() => fixture.Create<MutableValueTypeWithoutConstructor>());
+            Assert.ThrowsAny<ObjectCreationException>(() => fixture.Create<MutableValueTypeWithoutConstructor>());
             // Teardown
         }
 
@@ -5197,13 +5197,13 @@ namespace AutoFixtureUnitTest
             var fixture = new Fixture();
 
             // Exercise system and verify outcome
-            var ocex1 = Assert.Throws<ObjectCreationException>(() =>
+            var ocex1 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<AbstractType>>());
 
-            var ocex2 = Assert.Throws<ObjectCreationException>(() =>
+            var ocex2 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<AbstractType>>());
 
-            var ocex3 = Assert.Throws<ObjectCreationException>(() =>
+            var ocex3 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<AbstractType>>());
 
             Assert.Equal(ocex1.Message, ocex2.Message);
@@ -5218,13 +5218,13 @@ namespace AutoFixtureUnitTest
             var fixture = new Fixture();
 
             // Exercise system and verify outcome
-            var ocex1 = Assert.Throws<ObjectCreationException>(() =>
+            var ocex1 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
 
-            var ocex2 = Assert.Throws<ObjectCreationException>(() =>
+            var ocex2 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
 
-            var ocex3 = Assert.Throws<ObjectCreationException>(() =>
+            var ocex3 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
 
             Assert.Equal(ocex1.Message, ocex2.Message);
@@ -5241,13 +5241,13 @@ namespace AutoFixtureUnitTest
             fixture.Behaviors.Add(new TracingBehavior(outputWriter));
 
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
 
             var traceOutput1 = outputWriter.ToString();
             outputWriter.GetStringBuilder().Clear();
 
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
 
             var traceOutput2 = outputWriter.ToString();
@@ -5854,7 +5854,7 @@ namespace AutoFixtureUnitTest
             var fixture = new Fixture();
 
             // Exercise system and verify outcome
-            var ex = Assert.Throws<ObjectCreationException>(() =>
+            var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<TypeWithCastOperatorsWithoutPublicConstructor>());
 
             Assert.Contains("most likely because it has no public constructor", ex.Message);

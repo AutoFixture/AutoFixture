@@ -59,7 +59,7 @@ namespace AutoFixture.Kernel
                 var result = this.Builder.Create(request, context);
                 if (result is NoSpecimen)
                 {
-                    throw new ObjectCreationException(string.Format(
+                    throw new ObjectCreationExceptionWithPath(string.Format(
                         CultureInfo.CurrentCulture,
                         BuildCoreMessageTemplate(request, null),
                         request,
@@ -69,14 +69,14 @@ namespace AutoFixture.Kernel
 
                 return result;
             }
-            catch (ObjectCreationException)
+            catch (ObjectCreationExceptionWithPath)
             {
                 // Do not modify exception thrown before as it already contains the full requests path. 
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ObjectCreationException(
+                throw new ObjectCreationExceptionWithPath(
                     string.Format(
                         CultureInfo.CurrentCulture,
                         BuildCoreMessageTemplate(request, ex),

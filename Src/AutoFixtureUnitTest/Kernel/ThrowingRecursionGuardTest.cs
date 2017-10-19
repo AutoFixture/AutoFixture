@@ -44,7 +44,7 @@ namespace AutoFixtureUnitTest.Kernel
             container.OnResolve = r => sut.Create(r, container); // Provoke recursion
 
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() => sut.Create(Guid.NewGuid(), container));
+            Assert.ThrowsAny<ObjectCreationException>(() => sut.Create(Guid.NewGuid(), container));
         }
 
         [Fact]
