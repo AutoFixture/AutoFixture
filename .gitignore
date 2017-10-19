@@ -3,34 +3,38 @@
 [Bb]in/
 [Oo]bj/
 [Hh]elp/
-NuGetPackages/
-_[Rr]e[Ss]harper.*/
-TestResults/
-_NCrunch_*/
-Packages.dgml
+
+# User-specific files
 *.suo
-*.sln.cache
 *.user
-*.cache
-*.orig
-*.vsmdi
-*.testrunconfig
-*.docstates
-*.[Rr]e[Ss]harper*
+
+# DotCover is a Code Coverage Tool
 *.dotCover
-*.ncrunchsolution
-*.ncrunchproject
-*.crunchsolution.local.xml
-*.crunchproject.local.xml
-*_mm_cache.bin
-AutoFixture character.design
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+# FAKE - F# Make
 .fake/
+
+# JetBrains Rider
 .idea/
+
+# Visual Studio 2015 cache/options directory
 .vs/
-project.lock.json
 
 # package files can be ignored because of the NuGet restore
 **/packages/*
+
+# Tmp modified files
+*.orig
 
 # Temp build artifacts and tools
 /build/
