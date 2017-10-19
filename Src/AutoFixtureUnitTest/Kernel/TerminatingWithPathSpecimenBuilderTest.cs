@@ -448,5 +448,29 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedInnerException, actualEx.InnerException);
             // Teardown
         }
+        
+        [Fact]
+        public void ThrownExceptionIncludesInnerExceptionMessages()
+        {
+            // Fixture setup
+            var innerInnerException = new InvalidOperationException("INNER_INNER_EXCEPTION");
+            var innerException = new InvalidOperationException("WRAPPED_INNER_EXCEPTION", innerInnerException);
+
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => throw innerException
+            };
+
+            var request = new object();
+            var context = new DelegatingSpecimenContext();
+            var sut = new TerminatingWithPathSpecimenBuilder(builder);
+
+            // Exercise system and verify outcome
+            var actualEx = Assert.ThrowsAny<ObjectCreationException>(() => sut.Create(request, context));
+            Assert.Contains("WRAPPED_INNER_EXCEPTION", actualEx.Message);
+            Assert.Contains("INNER_INNER_EXCEPTION", actualEx.Message);
+
+            // Teardown
+        }
     }
 }

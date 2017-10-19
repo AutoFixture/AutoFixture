@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading;
 
 namespace AutoFixture.Kernel
@@ -64,7 +65,8 @@ namespace AutoFixture.Kernel
                         BuildCoreMessageTemplate(request, null),
                         request,
                         Environment.NewLine,
-                        BuildRequestPathText(this.SpecimenRequests)));
+                        BuildRequestPathText(this.SpecimenRequests),
+                        string.Empty));
                 }
 
                 return result;
@@ -82,7 +84,8 @@ namespace AutoFixture.Kernel
                         BuildCoreMessageTemplate(request, ex),
                         request,
                         Environment.NewLine,
-                        BuildRequestPathText(this.SpecimenRequests)),
+                        BuildRequestPathText(this.SpecimenRequests),
+                        BuildInnerExceptionMessages(ex)),
                     ex);
             }
             finally
@@ -100,7 +103,11 @@ namespace AutoFixture.Kernel
                     "Please refer to the inner exception to investigate the root cause of the failure." +
                     "{1}" +
                     "{1}" +
-                    "Request path:{1}{2}{1}{1}";
+                    "Request path:{1}{2}" +
+                    "{1}" +
+                    "{1}" +
+                    "Inner exception messages:{1}{3}" +
+                    "{1}";
 
             var t = request as Type;
 
@@ -169,6 +176,24 @@ namespace AutoFixture.Kernel
                 .Where(r => r.GetType().Assembly() != thisAssembly)
                 .Select((r, i) => string.Format(CultureInfo.CurrentCulture, "\t{0} {1}", " ".PadLeft(i+1), r))
                 .Aggregate((s1, s2) => s1 + " --> " + Environment.NewLine + s2);
+        }
+
+        private static string BuildInnerExceptionMessages(Exception ex)
+        {
+            var messages = new StringBuilder();
+           
+            var level = 2;
+            while (ex != null)
+            {
+                messages.AppendFormat(
+                    CultureInfo.InvariantCulture, "{0}{1}: {2}", " ".PadLeft(level), ex.GetType().FullName, ex.Message);
+                messages.AppendLine();
+
+                level += 2;
+                ex = ex.InnerException;
+            }
+
+            return messages.ToString();
         }
 
         /// <summary>Composes the supplied builders.</summary>
