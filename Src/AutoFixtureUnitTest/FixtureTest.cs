@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -6025,6 +6026,23 @@ namespace AutoFixtureUnitTest
         {
             [Range(short.MinValue, long.MaxValue, ErrorMessage = "Id is not in range")]
             public long CustomerId { get; set; }
+        }
+
+        [Fact]
+        public void ShouldNotDuplicateRequestPathTwiceInCaseOfRecursionGuardException()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var requestToLookFor = typeof(RecursiveArrayNode).GetConstructors().Single().GetParameters().Single();
+
+            // Exercise system and verify outcome
+            var actualEx = Assert.ThrowsAny<ObjectCreationException>(() => sut.Create<RecursiveArrayNode>());
+            int numberOfRequestOccurence =
+                new Regex(Regex.Escape(requestToLookFor.ToString())).Matches(actualEx.Message).Count;
+
+            Assert.Equal(1, numberOfRequestOccurence);
+
+            // Teardown
         }
     }
 }
