@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -6003,5 +6004,27 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 #endif
+
+        [Fact]
+        public void Issue453_RangeAttributeShouldFailWithMeaningfulException()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+
+            // Exercise system and verify outcome
+            var actualEx = Assert.ThrowsAny<ObjectCreationException>(
+                () => fixture.Create<Issue453_AnnotationWithOverflow>());
+
+            Assert.IsType<OverflowException>(actualEx.InnerException);
+            Assert.Contains("To solve the issue", actualEx.InnerException.Message);
+
+            // Teardown
+        }
+
+        private class Issue453_AnnotationWithOverflow
+        {
+            [Range(short.MinValue, long.MaxValue, ErrorMessage = "Id is not in range")]
+            public long CustomerId { get; set; }
+        }
     }
 }
