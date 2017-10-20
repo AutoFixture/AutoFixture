@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using AutoFixture.Kernel;
-using TypeEnvy = AutoFixture.Kernel.TypeEnvy;
 
 namespace AutoFixture.DataAnnotations
 {
@@ -40,29 +40,27 @@ namespace AutoFixture.DataAnnotations
                 return new NoSpecimen();
             }
 
-            return context.Resolve(RangeAttributeRelay.Create(rangeAttribute, request));
+            return context.Resolve(Create(rangeAttribute, request));
         }
 
+        [SuppressMessage("Performance", "CA1801:Review unused parameters",
+            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1294")]
         private static RangedNumberRequest Create(RangeAttribute rangeAttribute, object request)
         {
-            Type conversionType = null;
+            Type conversionType;
+            switch (request)
+            {
+                case PropertyInfo pi:
+                    conversionType = pi.PropertyType;
+                    break;
 
-            var pi = request as PropertyInfo;
-            if (pi != null)
-            {
-                conversionType = pi.PropertyType;
-            }
-            else
-            {
-                var fi = request as FieldInfo;
-                if (fi != null)
-                {
+                case FieldInfo fi:
                     conversionType = fi.FieldType;
-                }
-                else
-                {
+                    break;
+
+                default:
                     conversionType = rangeAttribute.OperandType;
-                }
+                    break;
             }
 
             Type underlyingType = Nullable.GetUnderlyingType(conversionType);
