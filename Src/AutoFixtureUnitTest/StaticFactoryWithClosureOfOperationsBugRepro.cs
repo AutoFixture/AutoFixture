@@ -19,7 +19,7 @@ namespace AutoFixtureUnitTest
                 .ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<ClosureOfOperationsHost>());
             // Teardown
         }

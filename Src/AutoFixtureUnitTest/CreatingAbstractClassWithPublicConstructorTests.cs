@@ -13,7 +13,7 @@ namespace AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<AbstractClassWithPublicConstructor>());
         }
 

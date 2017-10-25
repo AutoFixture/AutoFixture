@@ -23,7 +23,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new ThrowingRecursionHandler();
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(
+            Assert.ThrowsAny<ObjectCreationException>(
                 () => sut.HandleRecursiveRequest(
                     new object(),
                     new[] { new object() }));

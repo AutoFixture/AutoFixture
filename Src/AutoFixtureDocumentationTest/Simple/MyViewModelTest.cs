@@ -45,7 +45,7 @@ namespace AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             // Exercise system
             // Verify outcome (expected exception)
-            Assert.Throws<ObjectCreationException>(() =>
+            Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<MyViewModel>());
             // Teardown
         }

@@ -682,12 +682,12 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
 
             var e =
-                Assert.Throws<GuardClauseException>(
+                Assert.ThrowsAny<GuardClauseException>(
                     () => sut.Verify(typeof(TypeWithMethodWithParameterWithoutImplementers)));
             Assert.Contains("parameter", e.Message, StringComparison.CurrentCultureIgnoreCase);
             Assert.Contains("TypeWithMethodWithParameterWithoutImplementers", e.Message);
             Assert.Contains("MethodWithParameterWithoutImplementers", e.Message);
-            Assert.IsType<ObjectCreationException>(e.InnerException);
+            Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
         [Fact]
@@ -696,10 +696,10 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
 
             var e =
-                Assert.Throws<GuardClauseException>(
+                Assert.ThrowsAny<GuardClauseException>(
                     () => sut.Verify(typeof(TypeWithPropertyOfTypeWithoutImplementers)));
             Assert.Contains("TypeWithPropertyOfTypeWithoutImplementers", e.Message);
-            Assert.IsType<ObjectCreationException>(e.InnerException);
+            Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
         [Fact]
@@ -708,7 +708,7 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
 
             var e =
-                Assert.Throws<GuardClauseException>(
+                Assert.ThrowsAny<GuardClauseException>(
                     () =>
                     sut.Verify(
                         typeof(
@@ -716,7 +716,7 @@ namespace AutoFixture.IdiomsUnitTest
                         .GetMethod("Method")));
             Assert.Contains(
                 "TypeWithPropertyOfTypeWithoutImplementersAndMethod", e.Message);
-            Assert.IsType<ObjectCreationException>(e.InnerException);
+            Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
         [Fact]
@@ -725,7 +725,7 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
 
             var e =
-                Assert.Throws<GuardClauseException>(
+                Assert.ThrowsAny<GuardClauseException>(
                     () =>
                     sut.Verify(
                         typeof(
@@ -733,7 +733,7 @@ namespace AutoFixture.IdiomsUnitTest
                         .GetProperty("Property")));
             Assert.Contains(
                 "TypeWithPropertyOfTypeWithoutImplementersAndMethod", e.Message);
-            Assert.IsType<ObjectCreationException>(e.InnerException);
+            Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
         [Fact]

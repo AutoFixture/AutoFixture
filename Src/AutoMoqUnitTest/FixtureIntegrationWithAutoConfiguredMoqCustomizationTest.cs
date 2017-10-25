@@ -308,7 +308,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() => fixture.Create<IInterfaceWithPropertyWithCircularDependency>());
+            Assert.ThrowsAny<ObjectCreationException>(() => fixture.Create<IInterfaceWithPropertyWithCircularDependency>());
         }
     }
 }
