@@ -118,8 +118,8 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData("Property")]
-        [InlineData("NullableTypeProperty")]
+        [InlineData(nameof(RangeValidatedType.Property))]
+        [InlineData(nameof(RangeValidatedType.NullableTypeProperty))]
         public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(string name)
         {
             // Fixture setup
@@ -147,8 +147,8 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData("Field")]
-        [InlineData("NullableTypeField")]
+        [InlineData(nameof(RangeValidatedType.Field))]
+        [InlineData(nameof(RangeValidatedType.NullableTypeField))]
         public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(string name)
         {
             // Fixture setup
@@ -174,5 +174,42 @@ namespace AutoFixtureUnitTest.DataAnnotations
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Range(0, long.MaxValue)]
+        public static long FieldWithOverflowedRange = 0;
+        
+        [Fact]
+        public void FailsWithMeaningfulExceptionWhenBoundaryCannotBeConvertedWithoutOverflow()
+        {
+            // Fixture setup
+            var request = typeof(RangeAttributeRelayTest).GetField(nameof(FieldWithOverflowedRange));
+            
+            var sut = new RangeAttributeRelay();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Exercise system and verify outcome
+            var actualEx = Assert.Throws<OverflowException>(() => sut.Create(request, dummyContext));
+            Assert.Contains("To solve the issue", actualEx.Message);
+            // Teardown
+        }
+
+        [Range(typeof(long), /* long.MinValue */ "-9223372036854775808", /* long.MaxValue */ "9223372036854775807")]
+        public static long FieldWithStringValueRange = 0;
+
+        [Fact]
+        public void ShouldNotFailIfRangeIsSpecifiedAsString()
+        {
+            // Fixture setup
+            var request = typeof(RangeAttributeRelayTest).GetField(nameof(FieldWithStringValueRange));
+
+            var sut = new RangeAttributeRelay();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Exercise system and verify outcome
+            Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
+            
+            // Teardown
+        }
+
     }
 }

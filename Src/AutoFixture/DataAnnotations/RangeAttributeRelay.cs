@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using AutoFixture.Kernel;
-using TypeEnvy = AutoFixture.Kernel.TypeEnvy;
 
 namespace AutoFixture.DataAnnotations
 {
@@ -40,29 +40,27 @@ namespace AutoFixture.DataAnnotations
                 return new NoSpecimen();
             }
 
-            return context.Resolve(RangeAttributeRelay.Create(rangeAttribute, request));
+            return context.Resolve(Create(rangeAttribute, request));
         }
 
+        [SuppressMessage("Performance", "CA1801:Review unused parameters",
+            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1294")]
         private static RangedNumberRequest Create(RangeAttribute rangeAttribute, object request)
         {
-            Type conversionType = null;
+            Type conversionType;
+            switch (request)
+            {
+                case PropertyInfo pi:
+                    conversionType = pi.PropertyType;
+                    break;
 
-            var pi = request as PropertyInfo;
-            if (pi != null)
-            {
-                conversionType = pi.PropertyType;
-            }
-            else
-            {
-                var fi = request as FieldInfo;
-                if (fi != null)
-                {
+                case FieldInfo fi:
                     conversionType = fi.FieldType;
-                }
-                else
-                {
+                    break;
+
+                default:
                     conversionType = rangeAttribute.OperandType;
-                }
+                    break;
             }
 
             Type underlyingType = Nullable.GetUnderlyingType(conversionType);
@@ -73,9 +71,50 @@ namespace AutoFixture.DataAnnotations
 
             return new RangedNumberRequest(
                 conversionType,
-                Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture),
-                Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture)
-                );
+                GetConvertedRangeBoundary(rangeAttribute.Minimum, conversionType),
+                GetConvertedRangeBoundary(rangeAttribute.Maximum, conversionType)
+            );
+        }
+
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "RangeAttribute",
+            Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "OverflowException",
+            Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "typeof",
+            Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        private static object GetConvertedRangeBoundary(object attributeValue, Type conversionType)
+        {
+            try
+            {
+                return Convert.ChangeType(attributeValue, conversionType, CultureInfo.CurrentCulture);
+            }
+            catch (OverflowException ex)
+            {
+                throw new OverflowException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Conversion of RangeAttribute boundary value of {1} type to {2} type caused the overflow " +
+                        "exception. Notice, the RangeAttribute type contains the following constructors taking two " +
+                        "arguments only:{0}" +
+                        "RangeAttribute(int, int){0}" +
+                        "RangeAttribute(double, double){0}" +
+                        "{0}" +
+                        "When you pass a value of other type (e.g. long, decimal), it is converted to either int or " +
+                        "double depending on the type. Some conversion (e.g. long to double) could lead to the value " +
+                        "distortion due to the double type precision and conversion back to the original type might " +
+                        "fail with OverflowException.{0}" +
+                        "{0}" +
+                        "To solve the issue rather specify the range value that could be safely converted to double " +
+                        "and back without overflow or use the constructor overload taking value as a string.{0}" +
+                        "{0}" +
+                        "Example:{0}" +
+                        "RangeAttribute(typeof(long), \"0\", \"9223372036854775807\")",
+                        Environment.NewLine,
+                        attributeValue.GetType().FullName,
+                        conversionType.FullName
+                    ),
+                    ex);
+            }
         }
     }
 }
