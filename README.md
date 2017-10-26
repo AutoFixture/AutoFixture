@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/vpre/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
+[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/vpre/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture) <a href="https://twitter.com/AutoFixture"><img src="https://img.shields.io/twitter/follow/AutoFixture.svg?style=social&label=@AutoFixture" alt="AutoFixture" align="right" /></a>
 
 ## Announcement - v4 was released 🎈
 
