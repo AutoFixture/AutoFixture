@@ -84,7 +84,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            return this.composedBuilders.Cast<ISpecimenBuilder>().GetEnumerator();
+            return this.composedBuilders.AsEnumerable().GetEnumerator();
         }
 
         /// <summary>
