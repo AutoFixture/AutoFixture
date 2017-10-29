@@ -48,6 +48,11 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
+            if (range.Minimum.Equals(range.Maximum))
+            {
+                return range.Minimum;
+            }
+
             var value = context.Resolve(range.OperandType) as IComparable;
             if (value == null)
             {

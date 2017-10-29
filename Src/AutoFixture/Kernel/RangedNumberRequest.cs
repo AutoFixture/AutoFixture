@@ -30,9 +30,9 @@ namespace AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(maximum));
             }
 
-            if (((IComparable)minimum).CompareTo((IComparable)maximum) >= 0)
+            if (((IComparable)minimum).CompareTo((IComparable)maximum) > 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(minimum), "Minimum must be lower than Maximum.");
+                throw new ArgumentOutOfRangeException(nameof(minimum), "Minimum must be lower or equal Maximum.");
             }
 
             this.OperandType = operandType;

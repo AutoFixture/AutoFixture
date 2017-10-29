@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -263,7 +264,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [MemberData(nameof(MinLimitToMaxLimitRequests))]
-        public void CreationOnFullRangeShouldntFail(Type type, object minimum, object maximum)
+        public void CreationOnFullRangeShouldNotFail(Type type, object minimum, object maximum)
         {
             // Fixture setup
             var request = new RangedNumberRequest(type, minimum, maximum);
@@ -312,6 +313,33 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(typeof(byte))] 
+        [InlineData(typeof(sbyte))] 
+        [InlineData(typeof(short))]  
+        [InlineData(typeof(ushort))]
+        [InlineData(typeof(int))]  
+        [InlineData(typeof(uint))]  
+        [InlineData(typeof(long))] 
+        [InlineData(typeof(ulong))] 
+        [InlineData(typeof(decimal))]
+        [InlineData(typeof(float))]  
+        [InlineData(typeof(double))]
+        public void ShouldCorrectlyHandleRequestsWithSameMinimumAndMaximumValue(Type type)
+        {
+            // Fixture setup
+            var range = Convert.ChangeType(42, type, CultureInfo.InvariantCulture);
+            var sut = new RandomRangedNumberGenerator();
+            var request = new RangedNumberRequest(type, range, range);
+            var dummyContext = new DelegatingSpecimenContext();
+            
+            // Exercise system
+            var result = sut.Create(request, dummyContext);
+
+            // Verify outcome
+            Assert.Equal(range, result);
+            // Teardown
+        }
 
         public static TheoryData<Type, IConvertible, IConvertible> MinLimitToMaxLimitRequests =>
             new TheoryData<Type, IConvertible, IConvertible>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -164,6 +165,35 @@ namespace AutoFixtureUnitTest
             var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(request, context));
             // Exercise system and verify outcome
             loopTest.Execute(loopCount, expectedResult);
+            // Teardown
+        }
+        
+        [Theory]
+        [InlineData(typeof(byte))] 
+        [InlineData(typeof(sbyte))] 
+        [InlineData(typeof(short))]  
+        [InlineData(typeof(ushort))]
+        [InlineData(typeof(int))]  
+        [InlineData(typeof(uint))]  
+        [InlineData(typeof(long))] 
+        [InlineData(typeof(ulong))] 
+        [InlineData(typeof(decimal))]
+        [InlineData(typeof(float))]  
+        [InlineData(typeof(double))]
+        public void ReturnsSameNumberWhenMinimumAndMaximumAreSame(Type requestType)
+        {
+            // Fixture setup
+            var range = Convert.ChangeType(42, requestType, CultureInfo.InvariantCulture);
+            var sut = new RangedNumberGenerator();
+            var request = new RangedNumberRequest(requestType, range, range);
+
+            var dummyContext = new DelegatingSpecimenContext();
+            
+            // Exercise system
+            var result = sut.Create(request, dummyContext);
+
+            // Verify outcome
+            Assert.Equal(range, result);
             // Teardown
         }
 
