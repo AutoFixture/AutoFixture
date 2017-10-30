@@ -37,7 +37,7 @@ namespace AutoFixture
         /// <returns>
         /// <paramref name="builder"/> decorated with a <see cref="RecursionGuard"/>.
         /// </returns>
-        public ISpecimenBuilder Transform(ISpecimenBuilder builder)
+        public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
         {
             if (builder == null)
             {

@@ -314,14 +314,5 @@ namespace AutoFixtureUnitTest
                     null));
             // Teardown
         }
-
-        [Fact]
-        public void AddThrowsOnNonNode()
-        {
-            var nonNode = new DelegatingSpecimenBuilder();
-
-            Assert.Throws<InvalidOperationException>(() =>
-                this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = _ => nonNode }));
-        }
     }
 }

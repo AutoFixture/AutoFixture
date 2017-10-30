@@ -1,7 +1,7 @@
 ﻿namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Transforms one <see cref="ISpecimenBuilder"/> instance into another.
+    /// Transforms <see cref="ISpecimenBuilder"/> instance into <see cref="ISpecimenBuilderNode"/>.
     /// </summary>
     public interface ISpecimenBuilderTransformation
     {
@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="builder">The builder to transform.</param>
         /// <returns>
-        /// A new <see cref="ISpecimenBuilder"/> created from <paramref name="builder"/>.
+        /// A new <see cref="ISpecimenBuilderNode"/> created from <paramref name="builder"/>.
         /// </returns>
         /// <remarks>
         /// <para>
@@ -18,6 +18,6 @@
         /// behavior of <paramref name="builder"/>; usually by applying a Decorator.
         /// </para>
         /// </remarks>
-        ISpecimenBuilder Transform(ISpecimenBuilder builder);
+        ISpecimenBuilderNode Transform(ISpecimenBuilder builder);
     }
 }

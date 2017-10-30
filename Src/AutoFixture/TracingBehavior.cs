@@ -47,7 +47,7 @@ namespace AutoFixture
         /// A new <see cref="TraceWriter"/> that decorates <paramref name="builder"/> using
         /// <see cref="Writer"/>.
         /// </returns>
-        public ISpecimenBuilder Transform(ISpecimenBuilder builder)
+        public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
         {
             if (builder == null)
             {
