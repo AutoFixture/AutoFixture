@@ -78,16 +78,12 @@ namespace AutoFixtureUnitTest.Kernel
 
         [Theory]
         [InlineData(typeof(int), 20, 10)]
-        [InlineData(typeof(int), 10, 10)]
         [InlineData(typeof(int), -1, -2)]
         [InlineData(typeof(decimal), 20, 10)]
-        [InlineData(typeof(decimal), 10, 10)]
         [InlineData(typeof(decimal), -1, -2)]
         [InlineData(typeof(double), 20, 10)]
-        [InlineData(typeof(double), 10, 10)]
         [InlineData(typeof(double), -1, -2)]
         [InlineData(typeof(long), 20, 10)]
-        [InlineData(typeof(long), 10, 10)]
         [InlineData(typeof(long), -1, -2)]
         public void CreateWithEqualOrBiggerMinimumThanMaximumWillThrow(Type type, object minimum, object maximum)
         {
@@ -95,6 +91,20 @@ namespace AutoFixtureUnitTest.Kernel
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new RangedNumberRequest(type, minimum, maximum));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(int), 10, 10)]
+        [InlineData(typeof(decimal), 10, 10)]
+        [InlineData(typeof(double), 10, 10)]
+        [InlineData(typeof(long), 10, 10)]
+        public void CreateWithLowerEqualToMaximunDoesNotThrow(Type type, object minimum, object maximum)
+        {
+            // Exercise system
+            Assert.Null(Record.Exception(() =>
+                new RangedNumberRequest(type, minimum, maximum)));
+            // Verify outcome
             // Teardown
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -263,7 +264,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [MemberData(nameof(MinLimitToMaxLimitRequests))]
-        public void CreationOnFullRangeShouldntFail(Type type, object minimum, object maximum)
+        public void CreationOnFullRangeShouldNotFail(Type type, object minimum, object maximum)
         {
             // Fixture setup
             var request = new RangedNumberRequest(type, minimum, maximum);
@@ -312,6 +313,33 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(typeof(byte))] 
+        [InlineData(typeof(sbyte))] 
+        [InlineData(typeof(short))]  
+        [InlineData(typeof(ushort))]
+        [InlineData(typeof(int))]  
+        [InlineData(typeof(uint))]  
+        [InlineData(typeof(long))] 
+        [InlineData(typeof(ulong))] 
+        [InlineData(typeof(decimal))]
+        [InlineData(typeof(float))]  
+        [InlineData(typeof(double))]
+        public void ShouldCorrectlyHandleRequestsWithSameMinimumAndMaximumValue(Type type)
+        {
+            // Fixture setup
+            var range = Convert.ChangeType(42, type, CultureInfo.InvariantCulture);
+            var sut = new RandomRangedNumberGenerator();
+            var request = new RangedNumberRequest(type, range, range);
+            var dummyContext = new DelegatingSpecimenContext();
+            
+            // Exercise system
+            var result = sut.Create(request, dummyContext);
+
+            // Verify outcome
+            Assert.Equal(range, result);
+            // Teardown
+        }
 
         public static TheoryData<Type, IConvertible, IConvertible> MinLimitToMaxLimitRequests =>
             new TheoryData<Type, IConvertible, IConvertible>
@@ -332,30 +360,30 @@ namespace AutoFixtureUnitTest
         public static TheoryData<Type, IConvertible, IConvertible> RequestsWithLimitsToZeroRange =>
             new TheoryData<Type, IConvertible, IConvertible>
             {
-                { typeof(float), float.MinValue, (float) 0 },
-                { typeof(float), (float) 0, float.MaxValue },
+                { typeof(float), float.MinValue, (float)0 },
+                { typeof(float), (float)0, float.MaxValue },
 
-                { typeof(double), double.MinValue, (double) 0 },
-                { typeof(double), (double) 0, double.MaxValue },
+                { typeof(double), double.MinValue, (double)0 },
+                { typeof(double), (double)0, double.MaxValue },
 
-                { typeof(decimal), decimal.MinValue, (decimal) 0 },
-                { typeof(decimal), (decimal) 0, decimal.MaxValue },
+                { typeof(decimal), decimal.MinValue, (decimal)0 },
+                { typeof(decimal), (decimal)0, decimal.MaxValue },
 
-                { typeof(sbyte), sbyte.MinValue, (sbyte) 0 },
-                { typeof(sbyte), (sbyte) 0, sbyte.MaxValue },
-                { typeof(byte), (byte) 0, byte.MaxValue },
+                { typeof(sbyte), sbyte.MinValue, (sbyte)0 },
+                { typeof(sbyte), (sbyte)0, sbyte.MaxValue },
+                { typeof(byte), (byte)0, byte.MaxValue },
 
-                { typeof(short), short.MinValue, (short) 0 },
-                { typeof(short), (short) 0, short.MaxValue },
-                { typeof(ushort), (ushort) 0, ushort.MaxValue },
+                { typeof(short), short.MinValue, (short)0 },
+                { typeof(short), (short)0, short.MaxValue },
+                { typeof(ushort), (ushort)0, ushort.MaxValue },
 
-                { typeof(int), int.MinValue, (int) 0 },
-                { typeof(int), (int) 0, int.MaxValue },
-                { typeof(uint), (uint) 0, uint.MaxValue },
+                { typeof(int), int.MinValue, (int)0 },
+                { typeof(int), (int)0, int.MaxValue },
+                { typeof(uint), (uint)0, uint.MaxValue },
 
-                { typeof(long), long.MinValue, (long) 0 },
-                { typeof(long), (long) 0, long.MaxValue },
-                { typeof(ulong), (ulong) 0, ulong.MaxValue }
+                { typeof(long), long.MinValue, (long)0 },
+                { typeof(long), (long)0, long.MaxValue },
+                { typeof(ulong), (ulong)0, ulong.MaxValue }
             };
 
         public static TheoryData<Type, Type> PairsOfDifferentIntegerTypes =>

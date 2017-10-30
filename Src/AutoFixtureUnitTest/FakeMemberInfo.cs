@@ -17,22 +17,32 @@ namespace AutoFixtureUnitTest
         public object[] GetCustomAttributes(bool inherit)
         {
             return (from p in this.providedAttributes
-                    where p.Inherited == inherit
+                    where MatchesInheritance(p, inherit)
                     select p.Attribute).ToArray();
         }
 
         public object[] GetCustomAttributes(Type attributeType, bool inherit)
         {
             return (from p in this.providedAttributes
-                    where p.Attribute.GetType() == attributeType && p.Inherited == inherit
+                    where p.Attribute.GetType() == attributeType && MatchesInheritance(p, inherit)
                     select p.Attribute).ToArray();
         }
 
         public bool IsDefined(Type attributeType, bool inherit)
         {
             return (from p in this.providedAttributes
-                    where p.Attribute.GetType() == attributeType && p.Inherited == inherit
+                    where p.Attribute.GetType() == attributeType && MatchesInheritance(p, inherit)
                     select p.Attribute).Any();
+        }
+
+        private static bool MatchesInheritance(ProvidedAttribute attribute, bool inherit)
+        {
+            if (!inherit && attribute.Inherited)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

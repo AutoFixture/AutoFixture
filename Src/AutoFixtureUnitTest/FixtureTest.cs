@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -6042,6 +6043,38 @@ namespace AutoFixtureUnitTest
 
             Assert.Equal(1, numberOfRequestOccurence);
 
+            // Teardown
+        }
+        
+        [Theory]
+        [InlineData(typeof(byte))] 
+        [InlineData(typeof(sbyte))] 
+        [InlineData(typeof(short))]  
+        [InlineData(typeof(ushort))]
+        [InlineData(typeof(int))]  
+        [InlineData(typeof(uint))]  
+        [InlineData(typeof(long))] 
+        [InlineData(typeof(ulong))] 
+        [InlineData(typeof(decimal))]
+        [InlineData(typeof(float))]  
+        [InlineData(typeof(double))]
+        public void Issue897_ShouldCorrectlyHandleRequestsWithSameMinimumAndMaximumValue(Type type)
+        {
+            // Fixture setup
+            var expectedValue = Convert.ChangeType(42, type, CultureInfo.InvariantCulture);
+            var fakeMember = new FakeMemberInfo(
+                new ProvidedAttribute(
+                    new RangeAttribute(type, "42", "42"),
+                    inherited: false
+                ));
+            
+            var sut = new Fixture();
+            
+            // Exercise system
+            var result = sut.Create(fakeMember, new SpecimenContext(sut));
+
+            // Verify outcome
+            Assert.Equal(expectedValue, result);
             // Teardown
         }
     }

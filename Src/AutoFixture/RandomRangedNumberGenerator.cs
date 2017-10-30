@@ -99,6 +99,11 @@ namespace AutoFixture
                 throw new ArgumentException("Limit values should be of numeric type.", nameof(request));
             }
 
+            if (request.Minimum.Equals(request.Maximum))
+            {
+                return new FixedBuilder(request.Minimum);
+            }
+
             switch (typeCode)
             {
                 // Can be safely converted to long without overflow.
