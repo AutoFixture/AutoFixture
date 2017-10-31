@@ -185,33 +185,36 @@ namespace AutoFixture
                 if (value == this.OmitAutoProperties)
                     return;
 
-                var g = this.graph;
+                var updatedGraph = this.graph;
                 if (value)
                 {
-                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTarget))
+                    foreach (var parent in this.graph.Parents(b => b is AutoPropertiesTarget))
                     {
-                        foreach (var b in p)
+                        foreach (var builder in parent)
                         {
-                            var aptn = b as AutoPropertiesTarget;
-                            if (aptn != null)
-                                g = g.ReplaceNodes(with: aptn, when: p.Equals);
+                            if (builder is AutoPropertiesTarget targetNode)
+                                updatedGraph = updatedGraph.ReplaceNodes(
+                                    with: targetNode,
+                                    when: parent.Equals);
                         }
                     }
                 }
                 else
                 {
-                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTarget))
+                    foreach (var parent in this.graph.Parents(b => b is AutoPropertiesTarget))
                     {
-                        var pps = p
+                        var decoratedParent = parent
                             .Select(b => new Postprocessor(
                                 b,
                                 new AutoPropertiesCommand(),
-                                new AnyTypeSpecification()))
-                            .Cast<ISpecimenBuilder>();
-                        g = g.ReplaceNodes(with: pps, when: p.Equals);
+                                new AnyTypeSpecification()));
+                        updatedGraph = updatedGraph.ReplaceNodes(
+                            with: decoratedParent, 
+                            when: parent.Equals);
                     }
                 }
-                this.OnGraphChanged(this, new SpecimenBuilderNodeEventArgs(g));
+                
+                this.OnGraphChanged(this, new SpecimenBuilderNodeEventArgs(updatedGraph));
             }
         }
 
