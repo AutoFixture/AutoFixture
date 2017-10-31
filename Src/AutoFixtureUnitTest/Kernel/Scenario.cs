@@ -216,7 +216,7 @@ namespace AutoFixtureUnitTest.Kernel
                 new Postprocessor(
                     new MethodInvoker(new ModestConstructorQuery()),
                     specifiedCommand),
-                new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(reservedProperty),
+                new AutoPropertiesCommand(reservedProperty),
                 new AnyTypeSpecification());
 
             var builder = new CompositeSpecimenBuilder(

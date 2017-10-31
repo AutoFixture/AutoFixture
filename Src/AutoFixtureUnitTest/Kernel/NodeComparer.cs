@@ -12,11 +12,13 @@ namespace AutoFixtureUnitTest.Kernel
     {
         private readonly IEqualityComparer<IRequestSpecification> specificationComparer;
         private readonly IEqualityComparer<IMethodQuery> queryComparer;
+        private readonly IEqualityComparer<ISpecimenCommand> commandComparer;
 
         public NodeComparer()
         {
             this.specificationComparer = new SpecificationComparer();
             this.queryComparer = new QueryComparer();
+            this.commandComparer = new CommandComparer(this.specificationComparer);
         }
 
         public bool Equals(ISpecimenBuilder x, ISpecimenBuilder y)
@@ -52,6 +54,12 @@ namespace AutoFixtureUnitTest.Kernel
             if (x is DelegatingSpecimenBuilder dx &&
                 y is DelegatingSpecimenBuilder dy &&
                 object.Equals(dx.OnCreate, dy.OnCreate))
+                return true;
+
+            if (x is Postprocessor px &&
+                y is Postprocessor py &&
+                this.commandComparer.Equals(px.Command, py.Command) &&
+                this.specificationComparer.Equals(px.Specification, py.Specification))
                 return true;
 
             if (GenericComparer.CreateFromTemplate(x).Equals(y))
@@ -156,6 +164,34 @@ namespace AutoFixtureUnitTest.Kernel
             }
         }
 
+        private class CommandComparer : IEqualityComparer<ISpecimenCommand>
+        {
+            private readonly IEqualityComparer<IRequestSpecification> specificationComparer;
+
+            public CommandComparer(IEqualityComparer<IRequestSpecification> specificationComparer)
+            {
+                this.specificationComparer = specificationComparer;
+            }
+            
+            public bool Equals(ISpecimenCommand x, ISpecimenCommand y)
+            {
+                if (x is AutoPropertiesCommand apx &&
+                    y is AutoPropertiesCommand apy)
+                {
+                    return
+                        this.specificationComparer.Equals(apx.Specification, apy.Specification) &&
+                        apx.ExplicitSpecimenType == apy.ExplicitSpecimenType;
+                }
+
+                return x.GetType() == y.GetType();
+            }
+
+            public int GetHashCode(ISpecimenCommand obj)
+            {
+                return EqualityComparer<ISpecimenCommand>.Default.GetHashCode(obj);
+            }
+        }
+        
         private static class GenericComparer
         {
             private static readonly Dictionary<Type, Type> equatables =
@@ -167,7 +203,6 @@ namespace AutoFixtureUnitTest.Kernel
                     { typeof(SpecimenFactory<,,>), typeof(SpecimenFactoryEquatable<,,>) },
                     { typeof(SpecimenFactory<,,,>), typeof(SpecimenFactoryEquatable<,,,>) },
                     { typeof(SpecimenFactory<,,,,>), typeof(SpecimenFactoryEquatable<,,,,>) },
-                    { typeof(Postprocessor), typeof(PostprocessorEquatable) },
                     { typeof(NodeComposer<>), typeof(NodeComposerEquatable<>) },
                     { typeof(CompositeNodeComposer<>), typeof(CompositeNodeComposerEquatable<>) }
                 };
@@ -187,34 +222,6 @@ namespace AutoFixtureUnitTest.Kernel
                 }
 
                 return new object();
-            }
-        }
-
-        private class PostprocessorEquatable : GenericEquatable<Postprocessor>
-        {
-            private readonly IEqualityComparer<IRequestSpecification> specificationComparer;
-
-            public PostprocessorEquatable(Postprocessor pp)
-                : base(pp)
-            {
-                this.specificationComparer = new SpecificationComparer();
-            }
-
-            protected override bool EqualsInstance(Postprocessor other)
-            {
-                return this.CommandsAreEqual(this.Item.Command, other.Command)
-                    && this.specificationComparer.Equals(this.Item.Specification, other.Specification);                
-            }
-
-            private bool CommandsAreEqual(ISpecimenCommand x, ISpecimenCommand y)
-            {
-                if (x is AutoPropertiesCommand apx &&
-                    y is AutoPropertiesCommand apy)
-                {
-                    return this.specificationComparer.Equals(apx.Specification, apy.Specification);
-                }
-
-                return x.GetType() == y.GetType();
             }
         }
 

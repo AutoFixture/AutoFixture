@@ -511,7 +511,7 @@ namespace AutoFixture.Dsl
                     {
                         new Postprocessor(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            new AutoPropertiesCommand<T>(),
+                            new AutoPropertiesCommand(typeof(T)),
                             new FalseRequestSpecification()),
                         new SeedIgnoringRelay()
                     }),
@@ -522,7 +522,7 @@ namespace AutoFixture.Dsl
         {
             return (Postprocessor) graph
                 .FindFirstNodeOrDefault(n => n is Postprocessor postprocessor &&
-                                             postprocessor.Command is AutoPropertiesCommand<T>);
+                                             postprocessor.Command is AutoPropertiesCommand);
         }
         
         /// <summary>
@@ -535,7 +535,7 @@ namespace AutoFixture.Dsl
             var autoPropertiesNode = FindAutoPropertiesNode(graph);
             if (autoPropertiesNode == null) return graph;
 
-            var currentSpecification = ((AutoPropertiesCommand<T>) autoPropertiesNode.Command).Specification;
+            var currentSpecification = ((AutoPropertiesCommand) autoPropertiesNode.Command).Specification;
             var newRule = new InverseRequestSpecification(
                 new EqualRequestSpecification(
                     member,
@@ -559,7 +559,7 @@ namespace AutoFixture.Dsl
             return graph.ReplaceNodes(
                 with: _ => new Postprocessor(
                     autoPropertiesNode.Builder,
-                    new AutoPropertiesCommand<T>(specification),
+                    new AutoPropertiesCommand(typeof(T), specification),
                     autoPropertiesNode.Specification),
                 when: autoPropertiesNode.Equals);
         }

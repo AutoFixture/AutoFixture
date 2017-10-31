@@ -21,6 +21,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWithNullSpecimenThrows()
         {
             // Fixture setup
@@ -32,6 +33,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWithNullContainerThrows()
         {
             // Fixture setup
@@ -43,6 +45,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWillAssignCorrectFieldValue()
         {
             // Fixture setup
@@ -60,6 +63,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWillAssignCorrectPropertyValue()
         {
             // Fixture setup
@@ -77,6 +81,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteDoesNotSetReadOnlyProperty()
         {
             // Fixture setup
@@ -92,6 +97,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteDoesNotThrowOnIndexedProperty()
         {
             // Fixture setup
@@ -105,6 +111,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteDoesNotSetStaticProperty()
         {
             // Fixture setup
@@ -119,7 +126,8 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void ExecuteDoesNotSetStaticField()
+        [Obsolete]
+        void ExecuteDoesNotSetStaticField()
         {
             // Fixture setup
             var sut = new AutoPropertiesCommand<StaticFieldHolder<object>>();
@@ -133,6 +141,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteDoesNotSetReadonlyField()
         {
             // Fixture setup
@@ -148,6 +157,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithNullSpecificationThrows()
         {
             // Fixture setup
@@ -157,6 +167,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteDoesNotAssignPropertyWhenSpecificationIsNotSatisfied()
         {
             // Fixture setup
@@ -172,6 +183,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWillQuerySpecificationWithCorrectPropertyInfo()
         {
             // Fixture setup
@@ -189,6 +201,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWillNotAssignPropertyWhenContextReturnsOmitSpecimen()
         {
             // Fixture setup
@@ -206,6 +219,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteDoesNotAssignFieldWhenSpecificationIsNotSatisfied()
         {
             // Fixture setup
@@ -221,6 +235,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWillQuerySpecificationWithCorrectFieldInfo()
         {
             // Fixture setup
@@ -238,6 +253,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ExecuteWillNotAssignFieldWhenContextReturnsOmitSpecimen()
         {
             // Fixture setup
@@ -255,6 +271,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByNullThrows()
         {
             // Fixture setup
@@ -267,6 +284,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByAnonymousRequestReturnsCorrectResult()
         {
             // Fixture setup
@@ -282,6 +300,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByUnfilteredPropertyInfoReturnsCorrectResult()
         {
             // Fixture setup
@@ -297,6 +316,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByReadOnlyPropertyReturnsCorrectResult()
         {
             // Fixture setup
@@ -312,6 +332,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByIndexedPropertyReturnsCorrectResult()
         {
             // Fixture setup
@@ -327,6 +348,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByFilteredPropertyInfoReturnsCorrectResult()
         {
             // Fixture setup
@@ -343,6 +365,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByWillInvokeSpecificationWithCorrectPropertyInfo()
         {
             // Fixture setup
@@ -360,6 +383,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByUnfilteredFieldInfoReturnsCorrectResult()
         {
             // Fixture setup
@@ -375,6 +399,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByFilteredFieldInfoReturnsCorrectResult()
         {
             // Fixture setup
@@ -391,6 +416,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void IsSatisfiedByWillInvokeSpecificationWithCorrectFieldInfo()
         {
             // Fixture setup
@@ -408,6 +434,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void NonGenericSutIsCorrectGenericSut()
         {
             // Fixture setup
@@ -524,6 +551,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutIsSpecimenCommand()
         {
             var sut = new AutoPropertiesCommand<object>();

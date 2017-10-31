@@ -8,7 +8,9 @@ namespace AutoFixture.Kernel
     /// <summary>
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
+#pragma warning disable 618
     public class AutoPropertiesCommand : AutoPropertiesCommand<object>
+#pragma warning restore 618
     {
         /// <summary>
         /// The explicitly specified <see cref="Type"/> that should be used to resolve fields and properties 
@@ -98,9 +100,8 @@ namespace AutoFixture.Kernel
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
     /// <typeparam name="T">The specimen type on which properties are assigned.</typeparam>
-#pragma warning disable 618
+    [Obsolete("The generic version of the AutoPropertiesCommand is no longer used and will be removed in future versions. Please use the non-generic version of the AutoPropertiesCommand type.")]
     public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.ISpecifiedSpecimenCommand<T>
-#pragma warning restore 618
     {
         /// <summary>
         /// Specification that filters properties and files that should be populated.

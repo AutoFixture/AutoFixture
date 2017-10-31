@@ -15,7 +15,7 @@ namespace AutoFixture.Kernel
     /// <see langword="null" />.
     /// </para>
     /// <para>
-    /// The OmitSpecimen type is explicitly understood by <see cref="AutoPropertiesCommand{T}" />,
+    /// The OmitSpecimen type is explicitly understood by <see cref="AutoPropertiesCommand" />,
     /// but can be returned by any ISpecimenBuilder.
     /// </para>
     /// </remarks>

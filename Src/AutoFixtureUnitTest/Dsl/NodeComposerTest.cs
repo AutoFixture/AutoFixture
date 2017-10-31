@@ -348,7 +348,7 @@ namespace AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -393,7 +393,7 @@ namespace AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new FalseRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -460,7 +460,8 @@ namespace AutoFixtureUnitTest.Dsl
                                     new InverseRequestSpecification(
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<string>)))),
-                                new AutoPropertiesCommand<PropertyHolder<string>>(
+                                new AutoPropertiesCommand(
+                                    typeof(PropertyHolder<string>),
                                     new InverseRequestSpecification(
                                         new EqualRequestSpecification(
                                             pi,
@@ -512,7 +513,8 @@ namespace AutoFixtureUnitTest.Dsl
                                         new InverseRequestSpecification(
                                             new SeedRequestSpecification(
                                                 typeof(DoublePropertyHolder<string, int>)))),
-                                    new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(
+                                    new AutoPropertiesCommand(
+                                        typeof(DoublePropertyHolder<string, int>),
                                         new AndRequestSpecification(
                                             new InverseRequestSpecification(
                                                 new EqualRequestSpecification(
@@ -560,7 +562,8 @@ namespace AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(FieldHolder<short>)))),
-                            new AutoPropertiesCommand<FieldHolder<short>>(
+                            new AutoPropertiesCommand(
+                                typeof(FieldHolder<short>),
                                 new InverseRequestSpecification(
                                     new EqualRequestSpecification(
                                         fi,
@@ -595,7 +598,7 @@ namespace AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -640,7 +643,7 @@ namespace AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new FalseRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -671,7 +674,7 @@ namespace AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(PropertyHolder<string>)))),
-                            new AutoPropertiesCommand<PropertyHolder<string>>(),
+                            new AutoPropertiesCommand(typeof(PropertyHolder<string>)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -704,7 +707,7 @@ namespace AutoFixtureUnitTest.Dsl
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<int>)))),
                                 new ActionSpecimenCommand<PropertyHolder<int>>(a)),
-                            new AutoPropertiesCommand<PropertyHolder<int>>(),
+                            new AutoPropertiesCommand(typeof(PropertyHolder<int>)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
