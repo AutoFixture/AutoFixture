@@ -530,6 +530,99 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<ISpecimenCommand>(sut);
         }
 
+        [Fact]
+        public void NonTypedUsesExplicitlySpecifiedTypeForFieldsAndPropertiesResolve()
+        {
+            // Fixture setup
+            var sut = new AutoPropertiesCommand(typeof(object));
+            
+            var dummyPropertyValue = new object();
+            var context = new DelegatingSpecimenContext { OnResolve = r => dummyPropertyValue };
+            
+            var specimen = new PropertyHolder<object>();
+
+            // Exercise system
+            sut.Execute(specimen, context);
+            
+            // Verify outcome
+            Assert.NotEqual(dummyPropertyValue, specimen.Property);
+            // Teardown
+        }
+        
+        [Fact]
+        public void NonTypedWithSpecificationUsesExplicitlySpecifiedTypeForFieldsAndPropertiesResolve()
+        {
+            // Fixture setup
+            var trueSpec = new TrueRequestSpecification();
+            var sut = new AutoPropertiesCommand(typeof(object), trueSpec);
+            
+            var dummyPropertyValue = new object();
+            var context = new DelegatingSpecimenContext { OnResolve = r => dummyPropertyValue };
+            
+            var specimen = new PropertyHolder<object>();
+
+            // Exercise system
+            sut.Execute(specimen, context);
+            
+            // Verify outcome
+            Assert.NotEqual(dummyPropertyValue, specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void NonTypedReturnsSpecimenTypeIfProvidedInCtor()
+        {
+            // Fixture setup
+            var type = typeof(string);
+
+            // Exercise system
+            var sut = new AutoPropertiesCommand(type);
+
+            // Verify outcome
+            Assert.Equal(type, sut.ExplicitSpecimenType);
+            // Teardown
+        }
+        
+        [Fact]
+        public void NonTypedWithSpecificationReturnsSpecimenTypeIfProvidedInCtor()
+        {
+            // Fixture setup
+            var type = typeof(string);
+            var spec = new TrueRequestSpecification();
+
+            // Exercise system
+            var sut = new AutoPropertiesCommand(type, spec);
+
+            // Verify outcome
+            Assert.Equal(type, sut.ExplicitSpecimenType);
+            // Teardown
+        }
+        
+        [Fact]
+        public void NonTypedReturnsNullSpecimenTypeIfNotProvided()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new AutoPropertiesCommand();
+
+            // Verify outcome
+            Assert.Null(sut.ExplicitSpecimenType);
+            // Teardown
+        }
+        
+        [Fact]
+        public void NonTypedWithSpecificationReturnsNullSpecimenTypeIfNotProvided()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new AutoPropertiesCommand();
+
+            // Verify outcome
+            Assert.Null(sut.ExplicitSpecimenType);
+            // Teardown
+        }
+        
+
         public void Dispose()
         {
             StaticPropertyHolder<object>.Property = null;
