@@ -60,7 +60,7 @@ namespace AutoFixture
             this.Engine = engine ?? throw new ArgumentNullException(nameof(engine));
             this.multiple = multiple ?? throw new ArgumentNullException(nameof(multiple));
 
-            this.graph =
+            ISpecimenBuilderNode newGraph =
                 new BehaviorRoot(
                     new TerminatingWithPathSpecimenBuilder(new CompositeSpecimenBuilder(
                         new CustomizationNode(
@@ -146,11 +146,9 @@ namespace AutoFixture
                                 new ValueTypeSpecification(),
                                 new NoConstructorsSpecification())))));
 
-            this.UpdateCustomizer();
-            this.UpdateResidueCollector();
-            this.UpdateBehaviors(new ISpecimenBuilderTransformation[0]);
-
-            this.behaviors.Add(new ThrowingRecursionBehavior());
+            this.UpdateGraphAndSetupAdapters(newGraph, Enumerable.Empty<ISpecimenBuilderTransformation>());
+            
+            this.Behaviors.Add(new ThrowingRecursionBehavior());
         }
 
         /// <inheritdoc />
@@ -215,7 +213,7 @@ namespace AutoFixture
                     }
                 }
                 
-                this.OnGraphChanged(this, new SpecimenBuilderNodeEventArgs(updatedGraph));
+                this.UpdateGraphAndSetupAdapters(updatedGraph);
             }
         }
 
@@ -290,15 +288,25 @@ namespace AutoFixture
 
         private bool EnableAutoProperties => !this.OmitAutoProperties;
 
-        private void OnGraphChanged(object sender, SpecimenBuilderNodeEventArgs e)
+        private void UpdateGraphAndSetupAdapters(ISpecimenBuilderNode newGraph)
         {
-            var transformations = this.Behaviors.ToArray();
+            if (this.Behaviors == null)
+            {
+                throw new InvalidOperationException(
+                    "Behaviors should be already initialized. Please verify the method invocation logic to fix that.");
+            }
 
-            this.graph = e.Graph;
+            this.UpdateGraphAndSetupAdapters(newGraph, this.Behaviors);
+        }
+
+        private void UpdateGraphAndSetupAdapters(
+            ISpecimenBuilderNode newGraph, IEnumerable<ISpecimenBuilderTransformation> existingBehaviors)
+        {
+            this.graph = newGraph;
 
             this.UpdateCustomizer();
             this.UpdateResidueCollector();
-            this.UpdateBehaviors(transformations);
+            this.UpdateBehaviors(existingBehaviors.ToArray());
         }
 
         private void UpdateCustomizer()
@@ -307,7 +315,7 @@ namespace AutoFixture
                 new SpecimenBuilderNodeAdapterCollection(
                     this.graph,
                     n => n is CustomizationNode);
-            this.customizer.GraphChanged += this.OnGraphChanged;
+            this.customizer.GraphChanged += (_, args) => this.UpdateGraphAndSetupAdapters(args.Graph);
         }
 
         private void UpdateResidueCollector()
@@ -316,17 +324,17 @@ namespace AutoFixture
                 new SpecimenBuilderNodeAdapterCollection(
                     this.graph,
                     n => n is ResidueCollectorNode);
-            this.residueCollector.GraphChanged += this.OnGraphChanged;
+            this.residueCollector.GraphChanged += (_, args) => this.UpdateGraphAndSetupAdapters(args.Graph);
         }
 
-        private void UpdateBehaviors(ISpecimenBuilderTransformation[] transformations)
+        private void UpdateBehaviors(ISpecimenBuilderTransformation[] existingTransformations)
         {
             this.behaviors =
                 new SingletonSpecimenBuilderNodeStackAdapterCollection(
                     this.graph,
                     n => n is BehaviorRoot,
-                    transformations);
-            this.behaviors.GraphChanged += this.OnGraphChanged;
+                    existingTransformations);
+            this.behaviors.GraphChanged += (_, args) => this.UpdateGraphAndSetupAdapters(args.Graph);
         }
 
         private static ISpecimenBuilder CreateDefaultValueBuilder<T>(T value)
