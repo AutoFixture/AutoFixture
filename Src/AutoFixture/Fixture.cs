@@ -22,12 +22,13 @@ namespace AutoFixture
                         "Besides, fixing this CA error would be a breaking change.")]
     public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
     {
-        private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
-        private SpecimenBuilderNodeAdapterCollection customizer;
-        private SpecimenBuilderNodeAdapterCollection residueCollector;
         private readonly MultipleRelay multiple;
 
         private ISpecimenBuilderNode graph;
+
+        private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
+        private SpecimenBuilderNodeAdapterCollection customizer;
+        private SpecimenBuilderNodeAdapterCollection residueCollector;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Fixture"/> class.
