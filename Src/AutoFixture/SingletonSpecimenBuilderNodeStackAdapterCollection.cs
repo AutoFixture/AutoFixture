@@ -189,14 +189,10 @@ namespace AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderNode"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderTransformation", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private void UpdateGraph()
         {
-            ISpecimenBuilder g = this.Graph.FindFirstNode(this.isWrappedGraph);
-            var builder = this.Aggregate(g, (b, t) => t.Transform(b));
+            ISpecimenBuilderNode g = this.Graph.FindFirstNode(this.isWrappedGraph);
+            ISpecimenBuilderNode builder = this.Aggregate(g, (b, t) => t.Transform(b));
 
-            var node = builder as ISpecimenBuilderNode;
-            if (node == null)
-                throw new InvalidOperationException("An ISpecimenBuilderTransformation returned a result which cannot be converted to an ISpecimenBuilderNode. To be used in the current context, all ISpecimenBuilderTransformation Transform methods must return an ISpecimenBuilderNode instance.");
-
-            this.Graph = node;
+            this.Graph = builder;
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }

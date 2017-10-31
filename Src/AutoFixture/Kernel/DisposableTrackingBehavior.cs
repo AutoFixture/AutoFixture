@@ -43,7 +43,7 @@ namespace AutoFixture.Kernel
         /// <see cref="Trackers"/> property.
         /// </para>
         /// </remarks>
-        public ISpecimenBuilder Transform(ISpecimenBuilder builder)
+        public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
         {
             var tracker = new DisposableTracker(builder);
             this.trackers.Add(tracker);
