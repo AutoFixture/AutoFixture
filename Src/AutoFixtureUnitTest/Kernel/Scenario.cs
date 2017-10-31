@@ -141,8 +141,8 @@ namespace AutoFixtureUnitTest.Kernel
             var ctorInvoker = new MethodInvoker(new ModestConstructorQuery());
             var strCmd = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1);
             var intCmd = new BindingCommand<DoublePropertyHolder<string, int>, int>(ph => ph.Property2);
-            var strPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(ctorInvoker, strCmd);
-            var intPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(strPostprocessor, intCmd);
+            var strPostprocessor = new Postprocessor(ctorInvoker, strCmd);
+            var intPostprocessor = new Postprocessor(strPostprocessor, intCmd);
 
             var builder = new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(intPostprocessor, new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>))),
@@ -212,8 +212,8 @@ namespace AutoFixtureUnitTest.Kernel
             var specifiedCommand = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, expectedText);
             var reservedProperty = new InverseRequestSpecification(specifiedCommand);
 
-            var customizedBuilder = new Postprocessor<DoublePropertyHolder<string, int>>(
-                new Postprocessor<DoublePropertyHolder<string, int>>(
+            var customizedBuilder = new Postprocessor(
+                new Postprocessor(
                     new MethodInvoker(new ModestConstructorQuery()),
                     specifiedCommand),
                 new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(reservedProperty),

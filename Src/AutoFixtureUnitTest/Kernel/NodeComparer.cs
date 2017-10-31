@@ -167,7 +167,7 @@ namespace AutoFixtureUnitTest.Kernel
                     { typeof(SpecimenFactory<,,>), typeof(SpecimenFactoryEquatable<,,>) },
                     { typeof(SpecimenFactory<,,,>), typeof(SpecimenFactoryEquatable<,,,>) },
                     { typeof(SpecimenFactory<,,,,>), typeof(SpecimenFactoryEquatable<,,,,>) },
-                    { typeof(Postprocessor<>), typeof(PostprocessorEquatable<>) },
+                    { typeof(Postprocessor), typeof(PostprocessorEquatable) },
                     { typeof(NodeComposer<>), typeof(NodeComposerEquatable<>) },
                     { typeof(CompositeNodeComposer<>), typeof(CompositeNodeComposerEquatable<>) }
                 };
@@ -190,17 +190,17 @@ namespace AutoFixtureUnitTest.Kernel
             }
         }
 
-        private class PostprocessorEquatable<T> : GenericEquatable<Postprocessor<T>>
+        private class PostprocessorEquatable : GenericEquatable<Postprocessor>
         {
             private readonly IEqualityComparer<IRequestSpecification> specificationComparer;
 
-            public PostprocessorEquatable(Postprocessor<T> pp)
+            public PostprocessorEquatable(Postprocessor pp)
                 : base(pp)
             {
                 this.specificationComparer = new SpecificationComparer();
             }
 
-            protected override bool EqualsInstance(Postprocessor<T> other)
+            protected override bool EqualsInstance(Postprocessor other)
             {
                 return this.CommandsAreEqual(this.Item.Command, other.Command)
                     && this.specificationComparer.Equals(this.Item.Specification, other.Specification);                
@@ -208,8 +208,8 @@ namespace AutoFixtureUnitTest.Kernel
 
             private bool CommandsAreEqual(ISpecimenCommand x, ISpecimenCommand y)
             {
-                if (x is AutoPropertiesCommand<T> apx &&
-                    y is AutoPropertiesCommand<T> apy)
+                if (x is AutoPropertiesCommand apx &&
+                    y is AutoPropertiesCommand apy)
                 {
                     return this.specificationComparer.Equals(apx.Specification, apy.Specification);
                 }

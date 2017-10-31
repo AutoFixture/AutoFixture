@@ -279,7 +279,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<ConcreteType>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<ConcreteType>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -310,8 +310,8 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<string>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<string>>(
-                            new Postprocessor<PropertyHolder<string>>(
+                        new Postprocessor(
+                            new Postprocessor(
                                 new NoSpecimenOutputGuard(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
@@ -341,7 +341,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -386,7 +386,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -416,7 +416,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<int>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<int>>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -452,8 +452,8 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<string>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<string>>(
-                            new Postprocessor<PropertyHolder<string>>(
+                        new Postprocessor(
+                            new Postprocessor(
                                 new NoSpecimenOutputGuard(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
@@ -503,9 +503,9 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<DoublePropertyHolder<string, int>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<DoublePropertyHolder<string, int>>(
-                            new Postprocessor<DoublePropertyHolder<string, int>>(
-                                new Postprocessor<DoublePropertyHolder<string, int>>(
+                        new Postprocessor(
+                            new Postprocessor(
+                                new Postprocessor(
                                     new NoSpecimenOutputGuard(
                                         new MethodInvoker(
                                             new ModestConstructorQuery()),
@@ -553,7 +553,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<FieldHolder<short>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<FieldHolder<short>>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -588,7 +588,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -633,7 +633,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -665,7 +665,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<string>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<string>>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new SpecimenFactory<PropertyHolder<string>>(f),
                                 new InverseRequestSpecification(
@@ -695,8 +695,8 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<int>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<int>>(
-                            new Postprocessor<PropertyHolder<int>>(
+                        new Postprocessor(
+                            new Postprocessor(
                                 new NoSpecimenOutputGuard(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
