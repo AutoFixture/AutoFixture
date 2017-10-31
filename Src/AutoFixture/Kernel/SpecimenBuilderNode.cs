@@ -158,24 +158,6 @@ namespace AutoFixture.Kernel
             return graph.Compose(nodes);
         }
 
-        internal static IEnumerable<ISpecimenBuilderNode> Parents(
-            this ISpecimenBuilderNode graph,
-            Func<ISpecimenBuilder, bool> predicate)
-        {
-            foreach (var b in graph)
-            {
-                if (predicate(b))
-                    yield return graph;
-
-                var n = b as ISpecimenBuilderNode;
-                if (n != null)
-                {
-                    foreach (var n1 in n.Parents(predicate))
-                        yield return n1;
-                }
-            }
-        }
-
         /// <summary>
         /// Finds the first node in the passed graph that matches the specified predicate.
         /// If nothing is found - null is returned.
