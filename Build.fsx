@@ -1,4 +1,5 @@
 ﻿#r @"build/tools/FAKE.Core/tools/FakeLib.dll"
+#r @"build/tools/FAKE.Core/tools/ICSharpCode.SharpZipLib.dll"
 
 open Fake
 open Fake.AppVeyor
@@ -181,9 +182,7 @@ let rebuild configuration = runMsBuild "Rebuild" (Some configuration) []
 
 Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
 
-let restoreNugetPackages() = runMsBuild "Restore" None []
-
-Target "RestoreNuGetPackages" (fun _ -> restoreNugetPackages())
+Target "RestoreNuGetPackages" (fun _ -> runMsBuild "Restore" None [])
 
 Target "EnableSourceLinkGeneration" (fun _ ->
     let areEqual a b = String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
@@ -271,16 +270,29 @@ Target "CleanNuGetPackages" (fun _ ->
 )
 
 Target "NuGetPack" (fun _ ->
-    // We have an issue that each ProjectReference is set to 1.0.0 in the produced NuGet package.
-    // We apply a workaround for the issue: https://github.com/NuGet/Home/issues/4337.
-    // Restore again immediately before the pack to ensure that version is correct for sure.
-    restoreNugetPackages()
-
     // Pack projects using MSBuild.
     runMsBuild "Pack" (Some configuration) [ "IncludeSource", "true"
                                              "IncludeSymbols", "true"
                                              "PackageOutputPath", FullName nuGetOutputFolder
                                              "NoBuild", "true" ]
+    
+    // Verify that AutoFixture reference is valid.
+    let nuspecDoc = !! "AutoFixture.AutoNSubstitute*"
+                    |> SetBaseDir nuGetOutputFolder
+                    |> Seq.head
+                    |> ZipHelper.UnzipFirstMatchingFileInMemory (fun ze -> ze.Name.EndsWith ".nuspec")
+                    |> XMLDoc
+
+    let dependencyVersion = nuspecDoc.SelectSingleNode("//*[local-name()='dependency' and @id='AutoFixture']")
+                            |> getAttribute "version"
+
+    if(buildVersion.nugetVersion <> dependencyVersion) 
+        then failwithf "Invalid dependency version in the produced package. Actual: '%s' Expected: '%s'"
+                       dependencyVersion
+                       buildVersion.nugetVersion 
+        else logfn "Verified the dependency version. Actual: '%s' Expected: '%s'"
+                   dependencyVersion
+                   buildVersion.nugetVersion
 )
 
 let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
