@@ -21,7 +21,7 @@ namespace AutoFixture.Kernel
         {
             return request is Type type &&
                        type.IsGenericType() &&
-                       type.GetGenericTypeDefinition() == typeof(IDictionary<,>);
+                       type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
         }
     }
 }
