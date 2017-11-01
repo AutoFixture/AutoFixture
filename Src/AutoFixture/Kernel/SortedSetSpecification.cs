@@ -21,14 +21,12 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            var type = request as Type;
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
-            if (type == null)
-            {
-                return false;
-            }
 
-            return type.IsGenericType() && typeof(SortedSet<>) == type.GetTypeInfo().GetGenericTypeDefinition();
+            return request is Type type &&
+                   type.IsGenericType() &&
+                   type.GetTypeInfo().GetGenericTypeDefinition() == typeof(SortedSet<>);
         }
     }
 }

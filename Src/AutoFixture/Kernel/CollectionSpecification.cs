@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace AutoFixture.Kernel
@@ -20,14 +21,9 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            var type = request as Type;
-            if (type == null)
-            {
-                return false;
-            }
-
-            return type.IsGenericType()
-                && typeof(Collection<>) == type.GetGenericTypeDefinition();
+            return request is Type type &&
+                   type.IsGenericType()
+                   && type.GetGenericTypeDefinition() == typeof(ICollection<>);
         }
     }
 }

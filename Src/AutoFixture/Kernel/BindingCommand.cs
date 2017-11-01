@@ -30,10 +30,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker)
         {
-            if (propertyPicker == null)
-            {
-                throw new ArgumentNullException(nameof(propertyPicker));
-            }
+            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
 
             this.Member = propertyPicker.GetWritableMember().Member;
             this.ValueCreator = this.CreateAnonymousValue;
@@ -51,10 +48,7 @@ namespace AutoFixture.Kernel
         /// </param>
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, TProperty propertyValue)
         {
-            if (propertyPicker == null)
-            {
-                throw new ArgumentNullException(nameof(propertyPicker));
-            }
+            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
 
             this.Member = propertyPicker.GetWritableMember().Member;
             this.ValueCreator = c => propertyValue;
@@ -72,14 +66,8 @@ namespace AutoFixture.Kernel
         /// </param>
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContext, TProperty> valueCreator)
         {
-            if (propertyPicker == null)
-            {
-                throw new ArgumentNullException(nameof(propertyPicker));
-            }
-            if (valueCreator == null)
-            {
-                throw new ArgumentNullException(nameof(valueCreator));
-            }
+            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
+            if (valueCreator == null) throw new ArgumentNullException(nameof(valueCreator));
 
             this.Member = propertyPicker.GetWritableMember().Member;
             this.ValueCreator = valueCreator;
@@ -117,14 +105,8 @@ namespace AutoFixture.Kernel
         [Obsolete("This method is no longer used and will be removed in future versions. Please use the Execute(object, ISpecimenContext) overload instead.")]
         public void Execute(T specimen, ISpecimenContext context)
         {
-            if (specimen == null)
-            {
-                throw new ArgumentNullException(nameof(specimen));
-            }
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (specimen == null) throw new ArgumentNullException(nameof(specimen));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var bindingValue = this.ValueCreator(context);
 
@@ -153,10 +135,7 @@ namespace AutoFixture.Kernel
         [Obsolete("This method is no longer used and will be removed in future versions. Please use this.Member property for specification instead.")]
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
             return comparer.Equals(this.Member, request);
@@ -194,10 +173,8 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (specimen == null)
-                throw new ArgumentNullException(nameof(specimen));
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            if (specimen == null) throw new ArgumentNullException(nameof(specimen));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var bindingValue = this.ValueCreator(context);
 

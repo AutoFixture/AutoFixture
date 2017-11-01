@@ -23,13 +23,9 @@ namespace AutoFixture.Kernel
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var delegateType = request as Type;
-
             if (delegateType == null)
             {
                 return new NoSpecimen();

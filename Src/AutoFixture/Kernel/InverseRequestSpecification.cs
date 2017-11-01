@@ -16,12 +16,7 @@ namespace AutoFixture.Kernel
         /// </param>
         public InverseRequestSpecification(IRequestSpecification specification)
         {
-            if (specification == null)
-            {
-                throw new ArgumentNullException(nameof(specification));
-            }
-
-            this.Specification = specification;
+            this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
         }
 
         /// <summary>

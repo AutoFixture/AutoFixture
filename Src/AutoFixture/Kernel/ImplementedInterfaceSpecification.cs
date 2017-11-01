@@ -22,12 +22,7 @@ namespace AutoFixture.Kernel
         /// </exception>
         public ImplementedInterfaceSpecification(Type targetType)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-
-            this.TargetType = targetType;
+            this.TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
         }
 
         /// <summary>
@@ -46,10 +41,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             return IsRequestForType(request) &&
                    this.IsTargetTypeOrImplementedInterface(request);

@@ -27,10 +27,7 @@ namespace AutoFixture.Kernel
         /// <param name="propertyPicker">An expression that identifies a property or field.</param>
         public SpecifiedNullCommand(Expression<Func<T, TProperty>> propertyPicker)
         {
-            if (propertyPicker == null)
-            {
-                throw new ArgumentNullException(nameof(propertyPicker));
-            }
+            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
 
             this.Member = propertyPicker.GetWritableMember().Member;
         }
@@ -60,10 +57,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
             return comparer.Equals(this.Member, request);

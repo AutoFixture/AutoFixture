@@ -39,10 +39,8 @@ namespace AutoFixture.Kernel
         /// <seealso cref="GraphEquals(ISpecimenBuilderNode, ISpecimenBuilderNode, IEqualityComparer{ISpecimenBuilder})"/>
         public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second)
         {
-            if (first == null)
-                throw new ArgumentNullException(nameof(first));
-            if (second == null)
-                throw new ArgumentNullException(nameof(second));
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
 
             return first.GraphEquals(second, EqualityComparer<ISpecimenBuilder>.Default);
         }
@@ -81,12 +79,9 @@ namespace AutoFixture.Kernel
         /// <seealso cref="GraphEquals(ISpecimenBuilderNode, ISpecimenBuilderNode)"/>
         public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second, IEqualityComparer<ISpecimenBuilder> comparer)
         {
-            if (first == null)
-                throw new ArgumentNullException(nameof(first));
-            if (second == null)
-                throw new ArgumentNullException(nameof(second));
-            if (comparer == null)
-                throw new ArgumentNullException(nameof(comparer));
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
+            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
 
             if (!comparer.Equals(first, second))
                 return false;

@@ -29,21 +29,13 @@ namespace AutoFixture.Kernel
         /// <param name="builders">The child builders.</param>
         public CompositeSpecimenBuilder(params ISpecimenBuilder[] builders)
         {
-            if (builders == null)
-            {
-                throw new ArgumentNullException(nameof(builders));
-            }
-
-            this.composedBuilders = builders;
+            this.composedBuilders = builders ?? throw new ArgumentNullException(nameof(builders));
         }
 
         /// <summary>
         /// Gets the child builders.
         /// </summary>
-        public IEnumerable<ISpecimenBuilder> Builders
-        {
-            get { return this.composedBuilders; }
-        }
+        public IEnumerable<ISpecimenBuilder> Builders => this.composedBuilders;
 
         /// <summary>
         /// Creates a new specimen by delegating to <see cref="Builders"/>.
@@ -154,8 +146,7 @@ namespace AutoFixture.Kernel
             var isSingle = c.composedBuilders.Length == 1;
             if (isSingle)
             {
-                var n = c.composedBuilders[0] as ISpecimenBuilderNode;
-                if (n != null)
+                if (c.composedBuilders[0] is ISpecimenBuilderNode n)
                     return n;
             }
             return node;

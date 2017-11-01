@@ -26,12 +26,7 @@ namespace AutoFixture.Kernel
         /// <param name="request">A single request which will be multiplied.</param>
         public MultipleRequest(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            this.Request = request;
+            this.Request = request ?? throw new ArgumentNullException(nameof(request));
         }
 
         /// <summary>
@@ -51,8 +46,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as MultipleRequest;
-            if (other != null)
+            if (obj is MultipleRequest other)
             {
                 return this.Equals(other);
             }
@@ -86,8 +80,8 @@ namespace AutoFixture.Kernel
             {
                 return false;
             }
-        
-            return object.Equals(this.Request, other.Request);
+
+            return this.Request.Equals(other.Request);
         }
     }
 }

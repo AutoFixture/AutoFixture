@@ -28,10 +28,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             var type = request as Type;
             return type != null && !this.modestConstructorQuery.SelectMethods(type).Any();

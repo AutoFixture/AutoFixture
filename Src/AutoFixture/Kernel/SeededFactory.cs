@@ -14,12 +14,7 @@ namespace AutoFixture.Kernel
         /// <param name="factory">The function that will create the specimen from a seed.</param>
         public SeededFactory(Func<T, T> factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            this.Factory = factory;
+            this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         /// <summary>

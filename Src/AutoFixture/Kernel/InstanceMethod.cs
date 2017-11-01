@@ -29,17 +29,11 @@ namespace AutoFixture.Kernel
         /// <seealso cref="Owner" />
         public InstanceMethod(MethodInfo instanceMethod, object owner)
         {
-            if (instanceMethod == null)
-            {
-                throw new ArgumentNullException(nameof(instanceMethod));
-            }
-            if (owner == null)
-            {
-                throw new ArgumentNullException(nameof(owner));
-            }
+            if (instanceMethod == null) throw new ArgumentNullException(nameof(instanceMethod));
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
 
             this.Method = instanceMethod;
-            this.paramInfos = this.Method.GetParameters();
+            this.paramInfos = instanceMethod.GetParameters();
             this.Owner = owner;
         }
 
@@ -68,8 +62,7 @@ namespace AutoFixture.Kernel
         /// </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as InstanceMethod;
-            if (other != null)
+            if (obj is InstanceMethod other)
             {
                 return this.Equals(other);
             }
@@ -91,10 +84,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.paramInfos; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
 
         /// <summary>
         /// Invokes the method with the supplied parameters.

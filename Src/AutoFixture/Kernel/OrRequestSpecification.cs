@@ -18,12 +18,7 @@ namespace AutoFixture.Kernel
         /// <param name="specifications">An array of <see cref="IRequestSpecification"/>.</param>
         public OrRequestSpecification(params IRequestSpecification[] specifications)
         {
-            if (specifications == null)
-            {
-                throw new ArgumentNullException(nameof(specifications));
-            }
-
-            this.specifications = specifications;
+            this.specifications = specifications ?? throw new ArgumentNullException(nameof(specifications));
         }
 
         /// <summary>
@@ -39,10 +34,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Gets the decorated specifications.
         /// </summary>
-        public IEnumerable<IRequestSpecification> Specifications
-        {
-            get { return this.specifications; }
-        }
+        public IEnumerable<IRequestSpecification> Specifications => this.specifications;
 
         /// <summary>
         /// Evaluates a request for a specimen.

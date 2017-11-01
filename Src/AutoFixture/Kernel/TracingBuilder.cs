@@ -28,12 +28,7 @@ namespace AutoFixture.Kernel
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         public TracingBuilder(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            this.Builder = builder;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
             this.filter = new TrueRequestSpecification();
         }
 
@@ -57,16 +52,8 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public IRequestSpecification Filter
         {
-            get { return this.filter; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                this.filter = value;
-            }
+            get => this.filter;
+            set => this.filter = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -118,11 +105,7 @@ namespace AutoFixture.Kernel
         /// <param name="e">The event arguments for the event.</param>
         protected virtual void OnSpecimenCreated(SpecimenCreatedEventArgs e)
         {
-            EventHandler<SpecimenCreatedEventArgs> handler = this.SpecimenCreated;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.SpecimenCreated?.Invoke(this, e);
         }
 
         /// <summary>
@@ -131,11 +114,7 @@ namespace AutoFixture.Kernel
         /// <param name="e">The event arguments for the event.</param>
         protected virtual void OnSpecimenRequested(RequestTraceEventArgs e)
         {
-            EventHandler<RequestTraceEventArgs> handler = this.SpecimenRequested;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            this.SpecimenRequested?.Invoke(this, e);
         }
     }
 }

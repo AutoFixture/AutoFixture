@@ -84,17 +84,8 @@ namespace AutoFixture.Kernel
         [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
         public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-            if (comparer == null)
-            {
-                throw new ArgumentNullException(nameof(comparer));
-            }
-
-            this.Builder = builder;
-            this.Comparer = comparer;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+            this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             this.RecursionDepth = 1;
         }
 
@@ -160,13 +151,9 @@ namespace AutoFixture.Kernel
             IEqualityComparer comparer,
             int recursionDepth)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-            if (recursionHandler == null)
-                throw new ArgumentNullException(nameof(recursionHandler));
-            if (comparer == null)
-                throw new ArgumentNullException(nameof(comparer));
-
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (recursionHandler == null) throw new ArgumentNullException(nameof(recursionHandler));
+            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
             if (recursionDepth < 1)
                 throw new ArgumentOutOfRangeException(nameof(recursionDepth), "Recursion depth must be greater than 0.");
 
@@ -203,10 +190,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Gets the recorded requests so far.
         /// </summary>
-        protected IEnumerable RecordedRequests
-        {
-            get { return this.GetMonitoredRequestsForCurrentThread(); }
-        }
+        protected IEnumerable RecordedRequests => this.GetMonitoredRequestsForCurrentThread();
 
         /// <summary>
         /// Handles a request that would cause recursion.

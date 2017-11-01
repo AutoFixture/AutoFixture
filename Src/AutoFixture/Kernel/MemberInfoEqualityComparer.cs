@@ -29,7 +29,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public bool Equals(MemberInfo x, MemberInfo y)
         {
-            if ((x == null) && (y == null))
+            if (x == null && y == null)
             {
                 return true;
             }
@@ -57,7 +57,7 @@ namespace AutoFixture.Kernel
                 return false;
             }
 
-            return MemberInfoEqualityComparer.AreTypesRelated(x.DeclaringType, y.DeclaringType)
+            return AreTypesRelated(x.DeclaringType, y.DeclaringType)
                 && string.Equals(x.Name, y.Name, StringComparison.Ordinal);
         }
 

@@ -17,7 +17,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <param name="methodInfo">The methodInfo.</param>
         public StaticMethod(MethodInfo methodInfo)
-            : this(methodInfo, StaticMethod.GetMethodParameters(methodInfo))
+            : this(methodInfo, GetMethodParameters(methodInfo))
         {
         }
 
@@ -28,18 +28,8 @@ namespace AutoFixture.Kernel
         /// <param name="methodParameters">The method parameters.</param>
         public StaticMethod(MethodInfo methodInfo, ParameterInfo[] methodParameters)
         {
-            if (methodInfo == null)
-            {
-                throw new ArgumentNullException(nameof(methodInfo));
-            }
-
-            if (methodParameters == null)
-            {
-                throw new ArgumentNullException(nameof(methodParameters));
-            }
-
-            this.Method = methodInfo;
-            this.paramInfos = methodParameters;
+            this.Method = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
+            this.paramInfos = methodParameters ?? throw new ArgumentNullException(nameof(methodParameters));
         }
 
         /// <summary>
@@ -50,10 +40,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.paramInfos; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
@@ -67,8 +54,7 @@ namespace AutoFixture.Kernel
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as StaticMethod;
-            if (other != null)
+            if (obj is StaticMethod other)
             {
                 return this.Equals(other);
             }

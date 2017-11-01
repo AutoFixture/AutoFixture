@@ -35,17 +35,10 @@ namespace AutoFixture.Kernel
         /// <seealso cref="Target" />
         /// <exception cref="System.ArgumentNullException">target</exception>
         /// <exception cref="System.ArgumentNullException">comparer</exception>
-        public EqualRequestSpecification(
-            object target,
-            IEqualityComparer comparer)
+        public EqualRequestSpecification(object target, IEqualityComparer comparer)
         {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-            if (comparer == null)
-                throw new ArgumentNullException(nameof(comparer));
-
-            this.Target = target;
-            this.Comparer = comparer;
+            this.Target = target ?? throw new ArgumentNullException(nameof(target));
+            this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
         }
 
         /// <summary>

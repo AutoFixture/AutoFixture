@@ -31,10 +31,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             // This is performance-sensitive code when used repeatedly over many requests.
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
@@ -67,12 +64,7 @@ namespace AutoFixture.Kernel
 
             public ConvertedEnumerable(IEnumerable<object> enumerable)
             {
-                if (enumerable == null)
-                {
-                    throw new ArgumentNullException(nameof(enumerable));
-                }
-
-                this.enumerable = enumerable;
+                this.enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
             }
 
             public IEnumerator<T> GetEnumerator()

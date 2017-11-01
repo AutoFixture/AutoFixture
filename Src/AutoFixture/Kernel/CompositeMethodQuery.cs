@@ -24,12 +24,7 @@ namespace AutoFixture.Kernel
         /// <param name="queries">The queries.</param>
         public CompositeMethodQuery(params IMethodQuery[] queries)
         {
-            if (queries == null)
-            {
-                throw new ArgumentNullException(nameof(queries));
-            }
-            
-            this.Queries = queries;
+            this.Queries = queries ?? throw new ArgumentNullException(nameof(queries));
         }
 
         /// <summary>

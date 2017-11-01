@@ -14,12 +14,7 @@ namespace AutoFixture.Kernel
         /// <param name="seed">The seed.</param>
         public SeededRequest(object request, object seed)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-        
-            this.Request = request;
+            this.Request = request ?? throw new ArgumentNullException(nameof(request));
             this.Seed = seed;
         }
 
@@ -43,8 +38,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as SeededRequest;
-            if (other != null)
+            if (obj is SeededRequest other)
             {
                 return this.Equals(other);
             }

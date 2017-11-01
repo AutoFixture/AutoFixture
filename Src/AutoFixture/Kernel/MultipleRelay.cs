@@ -23,7 +23,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         public int Count
         {
-            get { return this.count; }
+            get => this.count;
             set
             {
                 if (value < 0)
@@ -49,10 +49,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var manyRequest = request as MultipleRequest;
             if (manyRequest == null)

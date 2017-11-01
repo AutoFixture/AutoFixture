@@ -51,8 +51,7 @@ namespace AutoFixture.Kernel
         /// </exception>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var pi = request as ParameterInfo;
             if (pi == null)

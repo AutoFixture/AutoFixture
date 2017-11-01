@@ -30,10 +30,7 @@ namespace AutoFixture.Kernel
         /// <seealso cref="Specification" />
         public Omitter(IRequestSpecification specification)
         {
-            if (specification == null)
-                throw new ArgumentNullException(nameof(specification));
-
-            this.Specification = specification;
+            this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
         }
 
         /// <summary>
@@ -55,8 +52,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             if (this.Specification.IsSatisfiedBy(request))
                 return new OmitSpecimen();

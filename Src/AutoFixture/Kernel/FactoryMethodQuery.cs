@@ -35,10 +35,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             return from mi in type.GetTypeInfo().GetMethods(BindingFlags.Static | BindingFlags.Public)
                    where mi.ReturnType == type &&

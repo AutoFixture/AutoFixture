@@ -17,13 +17,9 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
-            var type = request as Type;
-            return type != null && type.IsAbstract();
+            return request is Type type && type.IsAbstract();
         }
     }
 }

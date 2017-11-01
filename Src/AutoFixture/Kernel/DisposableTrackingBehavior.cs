@@ -25,10 +25,7 @@ namespace AutoFixture.Kernel
         /// invoked, a new <see cref="DisposableTracker"/> instance is created and added to this
         /// list.
         /// </summary>
-        public IEnumerable<DisposableTracker> Trackers
-        {
-            get { return this.trackers; }
-        }
+        public IEnumerable<DisposableTracker> Trackers => this.trackers;
 
         /// <summary>
         /// Decorates the supplied builder with a <see cref="DisposableTracker"/>.

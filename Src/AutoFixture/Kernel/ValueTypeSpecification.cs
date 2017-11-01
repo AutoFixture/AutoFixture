@@ -7,7 +7,6 @@ namespace AutoFixture.Kernel
     /// </summary>
     public class ValueTypeSpecification : IRequestSpecification
     {
-
         /// <summary>
         /// Evaluates a request for a specimen.
         /// </summary>
@@ -18,13 +17,18 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
-            var type = request as Type;
-            return type != null && type.IsValueTypeButNotPrimitiveOrEnum();
+            return request is Type typeRequest && IsValueTypeButNotPrimitiveOrEnum(typeRequest);
+        }
+        
+        /// <summary>
+        /// Checks if type is a struct. This will exclude primitive types (int, char etc.) considered as IsPrimitive as 
+        /// well as enums but not .NET structs. 
+        /// </summary>
+        private static bool IsValueTypeButNotPrimitiveOrEnum(Type type)
+        {
+            return type.IsValueType() && !type.IsEnum() && !type.IsPrimitive();
         }
     }
 }

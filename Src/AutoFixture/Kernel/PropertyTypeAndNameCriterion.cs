@@ -40,13 +40,8 @@ namespace AutoFixture.Kernel
             IEquatable<Type> typeCriterion,
             IEquatable<string> nameCriterion)
         {
-            if (typeCriterion == null)
-                throw new ArgumentNullException(nameof(typeCriterion));
-            if (nameCriterion == null)
-                throw new ArgumentNullException(nameof(nameCriterion));
-
-            this.TypeCriterion = typeCriterion;
-            this.NameCriterion = nameCriterion;
+            this.TypeCriterion = typeCriterion ?? throw new ArgumentNullException(nameof(typeCriterion));
+            this.NameCriterion = nameCriterion ?? throw new ArgumentNullException(nameof(nameCriterion));
         }
 
         /// <summary>

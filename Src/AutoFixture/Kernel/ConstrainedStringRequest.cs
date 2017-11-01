@@ -64,8 +64,7 @@ namespace AutoFixture.Kernel
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as ConstrainedStringRequest;
-            if (other != null)
+            if (obj is ConstrainedStringRequest other)
             {
                 return this.Equals(other);
             }
@@ -99,8 +98,8 @@ namespace AutoFixture.Kernel
                 return false;
             }
 
-            return this.MinimumLength == other.MinimumLength 
-                && this.MaximumLength == other.MaximumLength;
+            return this.MinimumLength == other.MinimumLength &&
+                   this.MaximumLength == other.MaximumLength;
         }
     }
 }

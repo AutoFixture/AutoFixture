@@ -16,10 +16,7 @@ namespace AutoFixture.Kernel
         /// <param name="method">The <see cref="IMethod"/> to decorate.</param>
         public MissingParametersSupplyingMethod(IMethod method)
         {
-            if (method == null)
-                throw new ArgumentNullException(nameof(method));
-
-            this.Method = method;
+            this.Method = method ?? throw new ArgumentNullException(nameof(method));
         }
 
         /// <summary>
@@ -30,10 +27,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.Method.Parameters; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.Method.Parameters;
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
@@ -47,8 +41,7 @@ namespace AutoFixture.Kernel
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as MissingParametersSupplyingMethod;
-            if (other != null)
+            if (obj is MissingParametersSupplyingMethod other)
             {
                 return this.Equals(other);
             }

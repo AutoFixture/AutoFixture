@@ -15,20 +15,9 @@ namespace AutoFixture.Kernel
         /// <param name="maximum">The maximum.</param>
         public RangedNumberRequest(Type operandType, object minimum, object maximum)
         {
-            if (operandType == null)
-            {
-                throw new ArgumentNullException(nameof(operandType));
-            }
-
-            if (minimum == null)
-            {
-                throw new ArgumentNullException(nameof(minimum));
-            }
-
-            if (maximum == null)
-            {
-                throw new ArgumentNullException(nameof(maximum));
-            }
+            if (operandType == null) throw new ArgumentNullException(nameof(operandType));
+            if (minimum == null) throw new ArgumentNullException(nameof(minimum));
+            if (maximum == null) throw new ArgumentNullException(nameof(maximum));
 
             if (((IComparable)minimum).CompareTo((IComparable)maximum) > 0)
             {
@@ -70,8 +59,7 @@ namespace AutoFixture.Kernel
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as RangedNumberRequest;
-            if (other != null)
+            if (obj is RangedNumberRequest other)
             {
                 return this.Equals(other);
             }

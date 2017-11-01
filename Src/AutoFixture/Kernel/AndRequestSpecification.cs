@@ -16,12 +16,7 @@ namespace AutoFixture.Kernel
         /// <param name="specifications">An array of <see cref="IRequestSpecification"/>.</param>
         public AndRequestSpecification(params IRequestSpecification[] specifications)
         {
-            if (specifications == null)
-            {
-                throw new ArgumentNullException(nameof(specifications));
-            }
-
-            this.Specifications = specifications;
+            this.Specifications = specifications ?? throw new ArgumentNullException(nameof(specifications));
         }
 
         /// <summary>

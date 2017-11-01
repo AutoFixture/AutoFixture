@@ -14,12 +14,7 @@ namespace AutoFixture.Kernel
         /// <param name="factory">The func that will create specimens.</param>
         public SpecimenFactory(Func<T> factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            this.Factory = factory;
+            this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         /// <summary>
@@ -66,12 +61,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public SpecimenFactory(Func<TInput, T> factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            this.Factory = factory;
+            this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         /// <summary>
@@ -96,10 +86,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var p = (TInput)context.Resolve(typeof(TInput));
             return this.Factory(p);
@@ -112,7 +99,9 @@ namespace AutoFixture.Kernel
     /// <typeparam name="TInput1">The type of the first parameter provided to the Func.</typeparam>
     /// <typeparam name="TInput2">The type of the second parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", 
+        Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended " +
+                        "to be used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, T> : ISpecimenBuilder
     {
         /// <summary>
@@ -128,12 +117,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public SpecimenFactory(Func<TInput1, TInput2, T> factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            this.Factory = factory;
+            this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         /// <summary>
@@ -158,10 +142,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var p1 = (TInput1)context.Resolve(typeof(TInput1));
             var p2 = (TInput2)context.Resolve(typeof(TInput2));
@@ -176,7 +157,9 @@ namespace AutoFixture.Kernel
     /// <typeparam name="TInput2">The type of the second parameter provided to the Func.</typeparam>
     /// <typeparam name="TInput3">The type of the third parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", 
+        Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be " +
+                        "used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, TInput3, T> : ISpecimenBuilder
     {
         /// <summary>
@@ -192,12 +175,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public SpecimenFactory(Func<TInput1, TInput2, TInput3, T> factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            this.Factory = factory;
+            this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         /// <summary>
@@ -222,10 +200,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var p1 = (TInput1)context.Resolve(typeof(TInput1));
             var p2 = (TInput2)context.Resolve(typeof(TInput2));
@@ -242,7 +217,9 @@ namespace AutoFixture.Kernel
     /// <typeparam name="TInput3">The type of the third parameter provided to the Func.</typeparam>
     /// <typeparam name="TInput4">The type of the fourth parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", 
+        Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended " +
+                        "to be used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> : ISpecimenBuilder
     {
         /// <summary>
@@ -258,12 +235,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public SpecimenFactory(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            this.Factory = factory;
+            this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         /// <summary>
@@ -288,10 +260,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var p1 = (TInput1)context.Resolve(typeof(TInput1));
             var p2 = (TInput2)context.Resolve(typeof(TInput2));

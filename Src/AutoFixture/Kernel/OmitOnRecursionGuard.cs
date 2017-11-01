@@ -58,8 +58,7 @@ namespace AutoFixture.Kernel
         public override ISpecimenBuilderNode Compose(
             IEnumerable<ISpecimenBuilder> builders)
         {
-            var composedBuilder = 
-                CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new OmitOnRecursionGuard(composedBuilder, this.Comparer);
         }
     }

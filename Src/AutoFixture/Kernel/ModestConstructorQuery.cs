@@ -32,10 +32,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             return from ci in type.GetTypeInfo().GetConstructors()
                    let parameters = ci.GetParameters()

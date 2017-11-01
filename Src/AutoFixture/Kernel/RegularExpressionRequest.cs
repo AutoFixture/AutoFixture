@@ -13,12 +13,7 @@ namespace AutoFixture.Kernel
         /// <param name="pattern">The pattern.</param>
         public RegularExpressionRequest(string pattern)
         {
-            if (pattern == null)
-            {
-                throw new ArgumentNullException(nameof(pattern));
-            }
-
-            this.Pattern = pattern;
+            this.Pattern = pattern ?? throw new ArgumentNullException(nameof(pattern));
         }
 
         /// <summary>
@@ -38,8 +33,7 @@ namespace AutoFixture.Kernel
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as RegularExpressionRequest;
-            if (other != null)
+            if (obj is RegularExpressionRequest other)
             {
                 return this.Equals(other);
             }

@@ -38,10 +38,7 @@ namespace AutoFixture.Kernel
         /// <seealso cref="ListFavoringConstructorQuery" />
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             return from ci in type.GetTypeInfo().GetConstructors()
                    let score = new ParameterScore(type, typeof(IList<>), ci.GetParameters())

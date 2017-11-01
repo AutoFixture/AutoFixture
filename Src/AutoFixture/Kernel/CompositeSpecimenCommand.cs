@@ -27,18 +27,13 @@ namespace AutoFixture.Kernel
         /// <param name="commands">The child commands.</param>
         public CompositeSpecimenCommand(params ISpecimenCommand[] commands)
         {
-            if (commands == null) throw new ArgumentNullException(nameof(commands));
-
-            this.commands = commands;
+            this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
         }
 
         /// <summary>
         /// Gets the child commands.
         /// </summary>
-        public IEnumerable<ISpecimenCommand> Commands
-        {
-            get { return this.commands; }
-        }
+        public IEnumerable<ISpecimenCommand> Commands => this.commands;
 
         /// <summary>
         /// Executes all child commands using a given specimen and context.
@@ -48,7 +43,9 @@ namespace AutoFixture.Kernel
         public void Execute(object specimen, ISpecimenContext context)
         {
             foreach (var command in this.commands)
+            {
                 command.Execute(specimen, context);
+            }
         }
     }
 }

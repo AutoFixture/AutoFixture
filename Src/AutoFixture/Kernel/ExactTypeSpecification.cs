@@ -13,12 +13,7 @@ namespace AutoFixture.Kernel
         /// <param name="type">The target type.</param>
         public ExactTypeSpecification(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            this.TargetType = type;
+            this.TargetType = type ?? throw new ArgumentNullException(nameof(type));
         }
 
         /// <summary>
@@ -36,10 +31,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
 
             return this.TargetType.Equals(request);
         }

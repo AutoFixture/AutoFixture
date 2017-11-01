@@ -16,10 +16,7 @@ namespace AutoFixture.Kernel
         /// <param name="owner">The owner.</param>
         public MissingParametersSupplyingMethodFactory(object owner)
         {
-            if (owner == null)
-                throw new ArgumentNullException(nameof(owner));
-
-            this.Owner = owner;
+            this.Owner = owner ?? throw new ArgumentNullException(nameof(owner));
         }
 
         /// <summary>

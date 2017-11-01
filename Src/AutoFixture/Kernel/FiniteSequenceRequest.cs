@@ -20,14 +20,9 @@ namespace AutoFixture.Kernel
         /// <param name="count">The number of instances requested.</param>
         public FiniteSequenceRequest(object request, int count)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            if (request == null) throw new ArgumentNullException(nameof(request));
             if (count < 0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(count), string.Format(CultureInfo.CurrentCulture, "The requested count must be a positive number (or zero), but was {0}.", count));
-            }        
 
             this.request = request;
             this.count = count;
@@ -46,8 +41,7 @@ namespace AutoFixture.Kernel
         /// </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as FiniteSequenceRequest;
-            if (other != null)
+            if (obj is FiniteSequenceRequest other)
             {
                 return this.Equals(other);
             }

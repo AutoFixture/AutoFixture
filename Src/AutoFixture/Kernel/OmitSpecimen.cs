@@ -35,9 +35,9 @@ namespace AutoFixture.Kernel
         /// <seealso cref="Equals(OmitSpecimen)" />
         public override bool Equals(object obj)
         {
-            var other = obj as OmitSpecimen;
-            if (other != null)
+            if (obj is OmitSpecimen other)
                 return this.Equals(other);
+            
             return base.Equals(obj);
         }
 

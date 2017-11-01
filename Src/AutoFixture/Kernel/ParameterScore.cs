@@ -13,20 +13,11 @@ namespace AutoFixture.Kernel
 
         internal ParameterScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
         {
-            if (parentType == null)
-            {
-                throw new ArgumentNullException(nameof(parentType));
-            }
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
+            if (parentType == null) throw new ArgumentNullException(nameof(parentType));
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            this.score = ParameterScore.CalculateScore(parentType, targetType, parameters);
+            this.score = CalculateScore(parentType, targetType, parameters);
         }
 
         public int CompareTo(ParameterScore other)
@@ -51,7 +42,7 @@ namespace AutoFixture.Kernel
 
         private static int CalculateScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
         {
-            var exactMatchScore = parameters.Count(p => ParameterScore.IsExactMatch(targetType, p));
+            var exactMatchScore = parameters.Count(p => IsExactMatch(targetType, p));
             if (exactMatchScore > 0)
                 return exactMatchScore;
 

@@ -22,11 +22,8 @@ namespace AutoFixture.Kernel
         /// </param>
         public GenericMethod(MethodInfo method, IMethodFactory factory)
         {
-            if (method == null)
-                throw new ArgumentNullException(nameof(method));
-
-            if (factory == null)
-                throw new ArgumentNullException(nameof(factory));
+            if (method == null) throw new ArgumentNullException(nameof(method));
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
 
             this.Method = method;
             this.Factory = factory;
@@ -36,10 +33,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.parametersInfo; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.parametersInfo;
 
         /// <summary>
         /// Gets information about the method.
@@ -104,7 +98,7 @@ namespace AutoFixture.Kernel
 
         private static Type GetArgumentTypeOrObjectType(object argument)
         {
-            return argument == null ? typeof(object) : argument.GetType();
+            return argument?.GetType() ?? typeof(object);
         }
 
         /// <summary>

@@ -27,10 +27,7 @@ namespace AutoFixture.Kernel
         /// <param name="template">The method info to compare.</param>
         public TemplateMethodQuery(MethodInfo template)
         {
-            if (template == null)
-                throw new ArgumentNullException(nameof(template));
-
-            this.Template = template;
+            this.Template = template ?? throw new ArgumentNullException(nameof(template));
         }
 
         /// <summary>
@@ -40,14 +37,8 @@ namespace AutoFixture.Kernel
         /// <param name="owner">The owner.</param>
         public TemplateMethodQuery(MethodInfo template, object owner)
         {
-            if (template == null)
-                throw new ArgumentNullException(nameof(template));
-
-            if (owner == null)
-                throw new ArgumentNullException(nameof(owner));
-
-            this.Owner = owner;
-            this.Template = template;
+            this.Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+            this.Template = template ?? throw new ArgumentNullException(nameof(template));
         }
 
         /// <summary>
@@ -87,8 +78,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             return from method in type.GetTypeInfo().GetMethods()
                    where string.Equals(method.Name, this.Template.Name, StringComparison.Ordinal) && (this.Owner != null || method.IsStatic)

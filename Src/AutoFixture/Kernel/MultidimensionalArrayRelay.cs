@@ -24,8 +24,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var arrayType = request as Type;
             if (arrayType == null || !IsMultidimensionalArray(arrayType))

@@ -44,11 +44,8 @@ namespace AutoFixture.Kernel
         /// <seealso cref="Comparer" />
         public Criterion(T target, IEqualityComparer<T> comparer)
         {
-            if (comparer == null)
-                throw new ArgumentNullException(nameof(comparer));
-
             this.Target = target;
-            this.Comparer = comparer;
+            this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
         }
 
         /// <summary>
@@ -86,11 +83,14 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as Criterion<T>;
-            if (other == null)
-                return base.Equals(obj);
-            return object.Equals(this.Target, other.Target)
-                && object.Equals(this.Comparer, other.Comparer);
+            if (obj is Criterion<T> other &&
+                Equals(this.Target, other.Target) &&
+                Equals(this.Comparer, other.Comparer))
+            {
+                return true;
+            }
+
+            return base.Equals(obj);
         }
 
         /// <summary>

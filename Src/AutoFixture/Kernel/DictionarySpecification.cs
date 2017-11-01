@@ -19,14 +19,9 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            var type = request as Type;
-            if (type == null)
-            {
-                return false;
-            }
-
-            return type.IsGenericType()
-                && typeof(Dictionary<,>) == type.GetGenericTypeDefinition();
+            return request is Type type &&
+                       type.IsGenericType() &&
+                       type.GetGenericTypeDefinition() == typeof(IDictionary<,>);
         }
     }
 }

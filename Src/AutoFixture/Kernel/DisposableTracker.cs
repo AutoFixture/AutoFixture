@@ -32,12 +32,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public DisposableTracker(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            this.Builder = builder;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
             this.disposables = new HashSet<IDisposable>();
         }
 
@@ -61,10 +56,7 @@ namespace AutoFixture.Kernel
         /// method.
         /// </para>
         /// </remarks>
-        public IEnumerable<IDisposable> Disposables
-        {
-            get { return this.disposables; }
-        }
+        public IEnumerable<IDisposable> Disposables => this.disposables;
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -86,8 +78,7 @@ namespace AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             var specimen = this.Builder.Create(request, context);
-            var d = specimen as IDisposable;
-            if (d != null)
+            if (specimen is IDisposable d)
             {
                 this.disposables.Add(d);
             }

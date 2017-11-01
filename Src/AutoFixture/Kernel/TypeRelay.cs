@@ -44,13 +44,8 @@ namespace AutoFixture.Kernel
         /// </example>
         public TypeRelay(Type from, Type to)
         {
-            if (from == null)
-                throw new ArgumentNullException(nameof(@from));
-            if (to == null)
-                throw new ArgumentNullException(nameof(to));
-
-            this.from = from;
-            this.to = to;
+            this.from = from ?? throw new ArgumentNullException(nameof(from));
+            this.to = to ?? throw new ArgumentNullException(nameof(to));
         }
 
         /// <summary>
@@ -76,8 +71,7 @@ namespace AutoFixture.Kernel
         /// <seealso cref="TypeRelay(Type, Type)" />
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            if (context == null) throw new ArgumentNullException(nameof(context));
             
             var t = request as Type;
             if (t == null || t != this.from)

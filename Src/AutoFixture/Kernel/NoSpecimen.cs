@@ -58,8 +58,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as NoSpecimen;
-            if (other != null)
+            if (obj is NoSpecimen other)
             {
                 return this.Equals(other);
             }

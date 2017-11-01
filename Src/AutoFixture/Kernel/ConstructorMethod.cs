@@ -19,12 +19,7 @@ namespace AutoFixture.Kernel
         /// <param name="constructor">The constructor.</param>
         public ConstructorMethod(ConstructorInfo constructor)
         {
-            if (constructor == null)
-            {
-                throw new ArgumentNullException(nameof(constructor));
-            }
-
-            this.Constructor = constructor;
+            this.Constructor = constructor ?? throw new ArgumentNullException(nameof(constructor));
             this.paramInfos = this.Constructor.GetParameters();
         }
 
@@ -43,8 +38,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as ConstructorMethod;
-            if (other != null)
+            if (obj is ConstructorMethod other)
             {
                 return this.Equals(other);
             }
@@ -66,10 +60,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.paramInfos; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
 
         /// <summary>
         /// Invokes the method with the supplied parameters.

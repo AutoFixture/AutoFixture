@@ -30,17 +30,8 @@ namespace AutoFixture.Kernel
         /// <param name="specification">The specification.</param>
         public NoSpecimenOutputGuard(ISpecimenBuilder builder, IRequestSpecification specification)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-            if (specification == null)
-            {
-                throw new ArgumentNullException(nameof(specification));
-            }
-
-            this.Builder = builder;
-            this.Specification = specification;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+            this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
         }
 
         /// <summary>
