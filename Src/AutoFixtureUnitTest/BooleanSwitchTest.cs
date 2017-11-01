@@ -8,7 +8,7 @@ namespace AutoFixtureUnitTest
 {
     public class BooleanSwitchTest
     {
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnTrueOnFirstCall()
         {
             // Fixture setup
@@ -32,7 +32,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnFalseOnSecondCall()
         {
             // Fixture setup
@@ -71,7 +71,7 @@ namespace AutoFixtureUnitTest
             Assert.True(result, "CreateAnonymous called an uneven number of times");
             // Teardown
         }
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnTrueOnThirdCall()
         {
             // Fixture setup
@@ -99,7 +99,7 @@ namespace AutoFixtureUnitTest
             Assert.False(result, "CreateAnonymous called an even number of times");
             // Teardown
         }
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnFalseOnFourthCall()
         {
             // Fixture setup

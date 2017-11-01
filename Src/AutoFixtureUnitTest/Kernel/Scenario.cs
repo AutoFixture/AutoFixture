@@ -108,7 +108,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
         {
             // Fixture setup

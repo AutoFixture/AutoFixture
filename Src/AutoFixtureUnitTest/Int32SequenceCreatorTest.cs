@@ -26,19 +26,19 @@ namespace AutoFixtureUnitTest
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.CreateAnonymous()).Execute(10);
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(1);
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(2);
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(10);
