@@ -207,7 +207,7 @@ Target "EnableSourceLinkGeneration" (fun _ ->
     enableSourceLink <- true
 )
 
-Target "Verify" (fun _ -> rebuild "Verify")
+Target "VerifyOnly" (fun _ -> rebuild "Verify")
 
 Target "BuildOnly" (fun _ -> rebuild configuration)
 Target "TestOnly" (fun _ ->
@@ -266,8 +266,9 @@ Target "TestOnly" (fun _ ->
     )
 )
 
-Target "Build" DoNothing
-Target "Test"  DoNothing
+Target "Verify" DoNothing
+Target "Build"  DoNothing
+Target "Test"   DoNothing
 
 Target "CleanNuGetPackages" (fun _ ->
     CleanDir nuGetOutputFolder
@@ -326,6 +327,7 @@ Target "PublishNuGetAll" DoNothing
 "CleanAll"                   ==> "Verify"
 "RestoreNuGetPackages"       ==> "Verify"
 "EnableSourceLinkGeneration" ?=> "Verify"
+"VerifyOnly"                 ==> "Verify"
 
 "Verify"                             ==> "Build"
 "PatchAssemblyVersions"              ==> "Build"
