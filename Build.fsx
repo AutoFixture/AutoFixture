@@ -177,12 +177,8 @@ let runMsBuild target configuration properties =
                                 Targets = [ target ]
                                 Properties = properties })
 
-let cleanBuild configuration = runMsBuild "Clean" (Some configuration) []
 let rebuild configuration = runMsBuild "Rebuild" (Some configuration) []
 
-Target "CleanAll"               DoNothing 
-Target "CleanVerify"            (fun _ -> cleanBuild "Verify")
-Target "CleanRelease"           (fun _ -> cleanBuild configuration)
 Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
 
 let restoreNugetPackages() = runMsBuild "Restore" None []
@@ -321,10 +317,6 @@ Target "PublishNuGetPrivate" (fun _ ->
 Target "CompleteBuild"   DoNothing
 Target "PublishNuGetAll" DoNothing
 
-"CleanVerify"  ==> "CleanAll"
-"CleanRelease" ==> "CleanAll"
-
-"CleanAll"                   ==> "Verify"
 "RestoreNuGetPackages"       ==> "Verify"
 "EnableSourceLinkGeneration" ?=> "Verify"
 "VerifyOnly"                 ==> "Verify"
