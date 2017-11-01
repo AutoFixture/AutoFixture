@@ -17,8 +17,7 @@ namespace AutoFixture
         /// </summary>
         public RandomCharSequenceGenerator()
         {
-            this.randomPrintableCharNumbers =
-                new RandomNumericSequenceGenerator(33, 126);
+            this.randomPrintableCharNumbers = new RandomNumericSequenceGenerator(33, 126);
         }
 
         /// <summary>

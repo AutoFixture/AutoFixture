@@ -25,14 +25,13 @@ namespace AutoFixture
         /// <param name="scheme">The scheme name.</param>
         public UriScheme(string scheme)
         {
-            if (scheme == null)
-            {
-                throw new ArgumentNullException(nameof(scheme));
-            }
+            if (scheme == null) throw new ArgumentNullException(nameof(scheme));
 
-            if (!UriScheme.IsValid(scheme))
+            if (!IsValid(scheme))
             {
-                throw new ArgumentException("The provided scheme is not valid. Scheme names consist of a sequence of characters beginning with a letter and followed by any combination of letters, digits, plus ('+'), period ('.'), or hyphen ('-').");
+                throw new ArgumentException(
+                    "The provided scheme is not valid. Scheme names consist of a sequence of characters beginning with " +
+                    "a letter and followed by any combination of letters, digits, plus ('+'), period ('.'), or hyphen ('-').");
             }
 
             this.Scheme = scheme;
@@ -64,8 +63,7 @@ namespace AutoFixture
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as UriScheme;
-            if (other != null)
+            if (obj is UriScheme other)
             {
                 return this.Equals(other);
             }

@@ -18,10 +18,7 @@ namespace AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             if (!typeof(Uri).Equals(request))
             {
@@ -40,10 +37,10 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
-            return UriGenerator.CreateAnonymous(scheme, authority);
+            return MakeUri(scheme, authority);
         }
 
-        private static Uri CreateAnonymous(UriScheme scheme, string authority)
+        private static Uri MakeUri(UriScheme scheme, string authority)
         {
             return new Uri(scheme + "://" + authority);
         }

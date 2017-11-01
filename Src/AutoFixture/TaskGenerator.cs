@@ -24,8 +24,7 @@ namespace AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var type = request as Type;
             if (type == null)
@@ -57,7 +56,7 @@ namespace AutoFixture
 
         private static object CreateTask(Type resultType, object result)
         {
-            var taskSourceType = typeof (TaskCompletionSource<>).MakeGenericType(resultType);
+            var taskSourceType = typeof(TaskCompletionSource<>).MakeGenericType(resultType);
             var taskSource = Activator.CreateInstance(taskSourceType);
 
             taskSourceType.GetTypeInfo().GetMethod("SetResult")

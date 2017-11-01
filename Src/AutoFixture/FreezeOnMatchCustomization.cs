@@ -26,12 +26,7 @@ namespace AutoFixture
         /// </exception>
         public FreezeOnMatchCustomization(object request)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            this.Request = request;
+            this.Request = request ?? throw new ArgumentNullException(nameof(request));
             this.Matcher = new EqualRequestSpecification(request);
         }
 
@@ -50,18 +45,8 @@ namespace AutoFixture
             object request,
             IRequestSpecification matcher)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            if (matcher == null)
-            {
-                throw new ArgumentNullException(nameof(matcher));
-            }
-
-            this.Request = request;
-            this.Matcher = matcher;
+            this.Request = request ?? throw new ArgumentNullException(nameof(request));
+            this.Matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
         }
 
         /// <summary>
@@ -87,10 +72,7 @@ namespace AutoFixture
         /// <param name="fixture">The fixture to customize.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             this.FreezeSpecimenForMatchingRequests(fixture);
         }

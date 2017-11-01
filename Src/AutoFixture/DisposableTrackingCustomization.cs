@@ -30,10 +30,7 @@ namespace AutoFixture
         /// Gets the behavior that this customization adds to <see cref="IFixture"/> instances.
         /// </summary>
         /// <seealso cref="DisposableTrackingBehavior"/>
-        public DisposableTrackingBehavior Behavior
-        {
-            get { return this.behavior; }
-        }
+        public DisposableTrackingBehavior Behavior => this.behavior;
 
         /// <summary>
         /// Customizes the specified fixture by applying <see cref="Behavior"/>.
@@ -41,10 +38,7 @@ namespace AutoFixture
         /// <param name="fixture">The fixture to customize.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Behaviors.Add(this.Behavior);
         }

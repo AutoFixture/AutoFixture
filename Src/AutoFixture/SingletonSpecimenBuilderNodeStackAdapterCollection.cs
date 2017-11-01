@@ -65,15 +65,10 @@ namespace AutoFixture
             Func<ISpecimenBuilderNode, bool> wrappedGraphPredicate,
             params ISpecimenBuilderTransformation[] transformations)
         {
-            if (graph == null)
-                throw new ArgumentNullException(nameof(graph));
-            if (wrappedGraphPredicate == null)
-                throw new ArgumentNullException(nameof(wrappedGraphPredicate));
-            if (transformations == null)
-                throw new ArgumentNullException(nameof(transformations));
+            if (transformations == null) throw new ArgumentNullException(nameof(transformations));
             
-            this.Graph = graph;
-            this.isWrappedGraph = wrappedGraphPredicate;
+            this.Graph = graph ?? throw new ArgumentNullException(nameof(graph));
+            this.isWrappedGraph = wrappedGraphPredicate ?? throw new ArgumentNullException(nameof(wrappedGraphPredicate));
 
             foreach (var t in transformations)
                 base.Add(t);

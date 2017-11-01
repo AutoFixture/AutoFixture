@@ -24,15 +24,8 @@ namespace AutoFixture
         /// <param name="localPart">The local part.</param>                
         public EmailAddressLocalPart(string localPart)
         {
-            if (localPart == null)
-            {
-                throw new ArgumentNullException(nameof(localPart));
-            }
-
-            if (localPart.Length == 0)
-            {
-                throw new ArgumentException("localPart cannot be empty");
-            }
+            if (localPart == null) throw new ArgumentNullException(nameof(localPart));
+            if (localPart.Length == 0) throw new ArgumentException("Value cannot be empty", nameof(localPart));
 
             this.LocalPart = localPart;
         }
@@ -56,8 +49,7 @@ namespace AutoFixture
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as EmailAddressLocalPart;
-            if (other != null)
+            if (obj is EmailAddressLocalPart other)
             {
                 return this.LocalPart.Equals(other.LocalPart, StringComparison.Ordinal);
             }

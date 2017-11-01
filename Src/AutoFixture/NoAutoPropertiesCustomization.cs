@@ -19,10 +19,7 @@ namespace AutoFixture
         /// </exception>
         public NoAutoPropertiesCustomization(Type targetType)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
             this.targetType = targetType;
         }

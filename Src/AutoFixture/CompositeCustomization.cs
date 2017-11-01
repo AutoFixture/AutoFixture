@@ -24,12 +24,7 @@ namespace AutoFixture
         /// <param name="customizations">The customizations.</param>
         public CompositeCustomization(params ICustomization[] customizations)
         {
-            if (customizations == null)
-            {
-                throw new ArgumentNullException(nameof(customizations));
-            }
-
-            this.Customizations = customizations;
+            this.Customizations = customizations ?? throw new ArgumentNullException(nameof(customizations));
         }
 
         /// <summary>

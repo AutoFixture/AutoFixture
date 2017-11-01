@@ -8,7 +8,7 @@ namespace AutoFixture
     /// </summary>
     public class MutableValueTypeGenerator : ISpecimenBuilder
     {
-        private IRequestSpecification valueTypeWithoutConstructorsSpecification;
+        private readonly IRequestSpecification valueTypeWithoutConstructorsSpecification;
 
         /// <summary>
         /// Creates new instance.

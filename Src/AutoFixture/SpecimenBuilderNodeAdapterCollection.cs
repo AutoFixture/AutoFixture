@@ -75,8 +75,8 @@ namespace AutoFixture
             ISpecimenBuilderNode graph,
             Func<ISpecimenBuilderNode, bool> adaptedBuilderPredicate)
         {
-            this.graph = graph;
-            this.isAdaptedBuilder = adaptedBuilderPredicate;
+            this.graph = graph ?? throw new ArgumentNullException(nameof(graph));
+            this.isAdaptedBuilder = adaptedBuilderPredicate ?? throw new ArgumentNullException(nameof(adaptedBuilderPredicate));
         }
 
         /// <summary>

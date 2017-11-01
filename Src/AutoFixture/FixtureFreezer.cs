@@ -28,10 +28,7 @@ namespace AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T Freeze<T>(this IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             var value = fixture.Create<T>();
             fixture.Inject(value);
@@ -62,14 +59,8 @@ namespace AutoFixture
         /// <seealso cref="Freeze{T}(IFixture)"/>
         public static T Freeze<T>(this IFixture fixture, Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
-            if (composerTransformation == null)
-            {
-                throw new ArgumentNullException(nameof(composerTransformation));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (composerTransformation == null) throw new ArgumentNullException(nameof(composerTransformation));
 
             var c = fixture.Build<T>();
             var value = composerTransformation(c).Create<T>();

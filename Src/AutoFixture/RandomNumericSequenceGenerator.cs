@@ -44,15 +44,9 @@ namespace AutoFixture
         /// <exception cref="System.ArgumentException"></exception>
         public RandomNumericSequenceGenerator(params long[] limits)
         {
-            if (limits == null)
-            {
-                throw new ArgumentNullException(nameof(limits));
-            }
-
-            if (limits.Length < 2)
-            {
+            if (limits == null) throw new ArgumentNullException(nameof(limits));
+            if (limits.Length < 2) 
                 throw new ArgumentException("Limits must be at least two ascending numbers.", nameof(limits));
-            }
 
             ValidateThatLimitsAreStrictlyAscending(limits);
 

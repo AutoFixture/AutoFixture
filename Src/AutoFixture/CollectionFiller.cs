@@ -44,10 +44,7 @@ namespace AutoFixture
         /// <seealso cref="AddManyTo{T}(IFixture, ICollection{T}, Func{T})"/>
         public static void AddManyTo<T>(this IFixture fixture, ICollection<T> collection)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.AddManyTo(collection, fixture.Create<T>);
         }
@@ -65,10 +62,7 @@ namespace AutoFixture
         /// <seealso cref="AddManyTo{T}(IFixture, ICollection{T}, Func{T})"/>
         public static void AddManyTo<T>(this IFixture fixture, ICollection<T> collection, int repeatCount)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             collection.AddMany(fixture.Create<T>, repeatCount);
         }
@@ -95,10 +89,7 @@ namespace AutoFixture
         /// <seealso cref="AddManyTo{T}(IFixture, ICollection{T}, int)"/>
         public static void AddManyTo<T>(this IFixture fixture, ICollection<T> collection, Func<T> creator)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             collection.AddMany(creator, fixture.RepeatCount);
         }

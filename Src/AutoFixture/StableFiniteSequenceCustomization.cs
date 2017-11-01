@@ -31,8 +31,7 @@ namespace AutoFixture
         /// <seealso cref="StableFiniteSequenceCustomization" />
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-                throw new ArgumentNullException(nameof(fixture));
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customizations.Add(new StableFiniteSequenceRelay());
         }

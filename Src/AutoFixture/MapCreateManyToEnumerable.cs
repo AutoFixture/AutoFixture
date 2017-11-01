@@ -45,8 +45,7 @@ namespace AutoFixture
         /// <seealso cref="MapCreateManyToEnumerable" />
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-                throw new ArgumentNullException(nameof(fixture));
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customizations.Insert(0, new MultipleToEnumerableRelay());
         }

@@ -20,10 +20,7 @@ namespace AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
+            if (request == null) return new NoSpecimen();
 
             var regularExpressionRequest = request as RegularExpressionRequest;
             if (regularExpressionRequest == null)
@@ -31,10 +28,10 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
-            return RegularExpressionGenerator.CreateAnonymous(regularExpressionRequest);
+            return GenerateRegularExpression(regularExpressionRequest);
         }
 
-        private static object CreateAnonymous(RegularExpressionRequest request)
+        private static object GenerateRegularExpression(RegularExpressionRequest request)
         {
             string pattern = request.Pattern;
 

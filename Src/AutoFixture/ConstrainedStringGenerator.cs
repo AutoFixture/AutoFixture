@@ -19,15 +19,7 @@ namespace AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
-
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var constrain = request as ConstrainedStringRequest;
             if (constrain == null)
@@ -35,7 +27,7 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
-            return ConstrainedStringGenerator.Create(constrain.MinimumLength, constrain.MaximumLength, context);
+            return Create(constrain.MinimumLength, constrain.MaximumLength, context);
         }
 
         private static string Create(int minimumLength, int maximumLength, ISpecimenContext context)

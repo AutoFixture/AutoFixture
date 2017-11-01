@@ -38,15 +38,8 @@ namespace AutoFixture
         /// </exception>
         public FreezingCustomization(Type targetType, Type registeredType)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-
-            if (registeredType == null)
-            {
-                throw new ArgumentNullException(nameof(registeredType));
-            }
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
+            if (registeredType == null) throw new ArgumentNullException(nameof(registeredType));
 
             if (!registeredType.GetTypeInfo().IsAssignableFrom(targetType))
             {
@@ -82,10 +75,7 @@ namespace AutoFixture
         /// </exception>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             var specimen = fixture.Create(
                     this.TargetType);

@@ -30,10 +30,7 @@ namespace AutoFixture
         /// </remarks>
         public static IEnumerable<T> Repeat<T>(this IFixture fixture, Func<T> function)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException("fixture");
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             return from f in Enumerable.Repeat(function, fixture.RepeatCount)
                    select f();

@@ -26,12 +26,7 @@ namespace AutoFixture
         /// <param name="writer">The writer to which diagnostics is written.</param>
         public TracingBehavior(TextWriter writer)
         {
-            if (writer == null)
-            {
-                throw new ArgumentNullException(nameof(writer));
-            }
-
-            this.Writer = writer;
+            this.Writer = writer ?? throw new ArgumentNullException(nameof(writer));
         }
 
         /// <summary>
@@ -49,10 +44,7 @@ namespace AutoFixture
         /// </returns>
         public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
 
             return new TraceWriter(this.Writer, new TracingBuilder(builder));
         }

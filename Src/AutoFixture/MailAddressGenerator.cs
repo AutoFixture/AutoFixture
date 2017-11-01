@@ -26,10 +26,7 @@ namespace AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             if (!typeof(MailAddress).Equals(request))
             {

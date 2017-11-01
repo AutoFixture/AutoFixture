@@ -13,11 +13,7 @@ namespace AutoFixture
         /// </summary>
         public DomainName(string domainName)
         {
-            if (domainName == null)
-            {
-                throw new ArgumentNullException(nameof(domainName));
-            }
-            this.Domain = domainName;
+            this.Domain = domainName ?? throw new ArgumentNullException(nameof(domainName));
         }
 
         /// <summary>
@@ -50,9 +46,7 @@ namespace AutoFixture
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as DomainName;
-
-            if (other != null)
+            if (obj is DomainName other)
             {
                 return this.Domain.Equals(other.Domain, StringComparison.Ordinal);
             }

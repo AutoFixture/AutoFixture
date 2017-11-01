@@ -75,10 +75,7 @@ namespace AutoFixture
         /// <seealso cref="Register{TInput1, TInput2, TInput3, TInput4, T}(IFixture, Func{TInput1, TInput2, TInput3, TInput4, T})" />
         public static void Inject<T>(this IFixture fixture, T item)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Register(() => item);
         }
@@ -96,10 +93,7 @@ namespace AutoFixture
         /// </param>
         public static void Register<T>(this IFixture fixture, Func<T> creator)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
@@ -121,10 +115,7 @@ namespace AutoFixture
         /// </param>
         public static void Register<TInput, T>(this IFixture fixture, Func<TInput, T> creator)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
@@ -149,10 +140,7 @@ namespace AutoFixture
         /// </param>
         public static void Register<TInput1, TInput2, T>(this IFixture fixture, Func<TInput1, TInput2, T> creator)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
@@ -180,10 +168,7 @@ namespace AutoFixture
         /// </param>
         public static void Register<TInput1, TInput2, TInput3, T>(this IFixture fixture, Func<TInput1, TInput2, TInput3, T> creator)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
@@ -214,10 +199,7 @@ namespace AutoFixture
         /// </param>
         public static void Register<TInput1, TInput2, TInput3, TInput4, T>(this IFixture fixture, Func<TInput1, TInput2, TInput3, TInput4, T> creator)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }

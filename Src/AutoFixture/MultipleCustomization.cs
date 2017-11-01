@@ -39,10 +39,7 @@ namespace AutoFixture
         /// <seealso cref="MultipleCustomization" />
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.ResidueCollectors.Add(new DictionaryRelay());
             fixture.ResidueCollectors.Add(new CollectionRelay());

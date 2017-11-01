@@ -17,10 +17,7 @@ namespace AutoFixture
         /// <exception cref="System.ArgumentNullException">graph</exception>
         public SpecimenBuilderNodeEventArgs(ISpecimenBuilderNode graph)
         {
-            if (graph == null)
-                throw new ArgumentNullException(nameof(graph));
-
-            this.Graph = graph;
+            this.Graph = graph ?? throw new ArgumentNullException(nameof(graph));
         }
 
         /// <summary>

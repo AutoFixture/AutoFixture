@@ -23,16 +23,13 @@ namespace AutoFixture
         /// <param name="fixture">The fixture to customize.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             var dataAnnotationsRelayTypes = new[]
             {
                 typeof (RangeAttributeRelay),
                 typeof (StringLengthAttributeRelay),
-                typeof (RegularExpressionAttributeRelay),
+                typeof (RegularExpressionAttributeRelay)
             };
 
             fixture

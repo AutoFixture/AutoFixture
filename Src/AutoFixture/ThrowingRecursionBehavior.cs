@@ -18,10 +18,7 @@ namespace AutoFixture
         /// </returns>
         public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
 
             return new RecursionGuard(builder, new ThrowingRecursionHandler());
         }

@@ -21,10 +21,7 @@ namespace AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T Create<T>(this ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             return (T)context.Resolve(new SeededRequest(typeof(T), default(T)));
         }
@@ -37,7 +34,7 @@ namespace AutoFixture
         /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
         /// <remarks>Obsolete: Please move over to using <see cref="Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create&lt;T&gt;()</see> as this method will be removed in the next release</remarks>
         [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
-         public static T CreateAnonymous<T>(this ISpecimenContext context)
+        public static T CreateAnonymous<T>(this ISpecimenContext context)
         {
             return Create<T>(context);
         }

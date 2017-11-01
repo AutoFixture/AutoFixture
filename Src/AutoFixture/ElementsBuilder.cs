@@ -18,7 +18,9 @@ namespace AutoFixture
         /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
         /// </summary>
         /// <param name="elements">The elements from which to draw from.</param>
-        public ElementsBuilder(params T[] elements) : this(elements.AsEnumerable()) { }
+        public ElementsBuilder(params T[] elements) : this(elements.AsEnumerable())
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
@@ -27,13 +29,16 @@ namespace AutoFixture
         /// It must contain at least one element.</param>
         public ElementsBuilder(IEnumerable<T> elements)
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            if (elements == null) throw new ArgumentNullException(nameof(elements));
 
             this.elements = elements.ToArray();
 
             if (this.elements.Length < 1)
-                throw new ArgumentException("The supplied collection of elements must contain at least one element. This collection is expected to contain the elements from which the randomized algorithm will draw; if the collection is empty, there are no elements to draw.", nameof(elements));
+                throw new ArgumentException(
+                    "The supplied collection of elements must contain at least one element. " +
+                    "This collection is expected to contain the elements from which the randomized algorithm will draw; " +
+                    "if the collection is empty, there are no elements to draw.",
+                    nameof(elements));
 
             //The RandomNumericSequenceGenerator is only created for collections of minimum 2 elements
             if (this.elements.Length > 1)

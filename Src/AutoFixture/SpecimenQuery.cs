@@ -29,10 +29,8 @@ namespace AutoFixture
             this ISpecimenBuilder builder,
             Func<T, TResult> function)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-            if (function == null)
-                throw new ArgumentNullException(nameof(function));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (function == null) throw new ArgumentNullException(nameof(function));
 
             return function(builder.Create<T>());
         }
@@ -61,10 +59,8 @@ namespace AutoFixture
             this ISpecimenBuilder builder,
             Func<T1, T2, TResult> function)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-            if (function == null)
-                throw new ArgumentNullException(nameof(function));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (function == null) throw new ArgumentNullException(nameof(function));
 
             return function(builder.Create<T1>(), builder.Create<T2>());
         }
@@ -96,10 +92,8 @@ namespace AutoFixture
             this ISpecimenBuilder builder,
             Func<T1, T2, T3, TResult> function)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-            if (function == null)
-                throw new ArgumentNullException(nameof(function));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (function == null) throw new ArgumentNullException(nameof(function));
 
             return function(
                 builder.Create<T1>(),
@@ -137,10 +131,8 @@ namespace AutoFixture
             this ISpecimenBuilder builder,
             Func<T1, T2, T3, T4, TResult> function)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-            if (function == null)
-                throw new ArgumentNullException(nameof(function));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (function == null) throw new ArgumentNullException(nameof(function));
 
             return function(
                 builder.Create<T1>(),

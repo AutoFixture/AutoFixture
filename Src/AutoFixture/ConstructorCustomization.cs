@@ -21,17 +21,8 @@ namespace AutoFixture
         /// </param>
         public ConstructorCustomization(Type targetType, IMethodQuery query)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-            if (query == null)
-            {
-                throw new ArgumentNullException(nameof(query));
-            }
-
-            this.TargetType = targetType;
-            this.Query = query;
+            this.TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+            this.Query = query ?? throw new ArgumentNullException(nameof(query));
         }
 
         /// <summary>
@@ -52,10 +43,7 @@ namespace AutoFixture
         /// <param name="fixture">The fixture to customize.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             var factory = new MethodInvoker(this.Query);
             var builder = SpecimenBuilderNodeFactory.CreateTypedNode(

@@ -35,10 +35,7 @@ namespace AutoFixture
         /// </exception>
         public Generator(ISpecimenBuilder builder)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-
-            this.builder = builder;
+            this.builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         /// <summary>

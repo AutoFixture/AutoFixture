@@ -16,8 +16,7 @@ namespace AutoFixture
         /// </summary>
         public RandomBooleanSequenceGenerator()
         {
-            this.randomBooleanNumbers =
-                new RandomNumericSequenceGenerator(0, 1);
+            this.randomBooleanNumbers = new RandomNumericSequenceGenerator(0, 1);
         }
 
         /// <summary>

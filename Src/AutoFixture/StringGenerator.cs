@@ -19,12 +19,7 @@ namespace AutoFixture
         /// </param>
         public StringGenerator(Func<object> specimenFactory)
         {
-            if (specimenFactory == null)
-            {
-                throw new ArgumentNullException(nameof(specimenFactory));
-            }
-
-            this.Factory = specimenFactory;
+            this.Factory = specimenFactory ?? throw new ArgumentNullException(nameof(specimenFactory));
         }
 
         /// <summary>
