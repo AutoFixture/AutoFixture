@@ -1,4 +1,5 @@
 ﻿#r @"build/tools/FAKE.Core/tools/FakeLib.dll"
+#r @"build/tools/FAKE.Core/tools/ICSharpCode.SharpZipLib.dll"
 
 open Fake
 open Fake.AppVeyor
@@ -177,17 +178,11 @@ let runMsBuild target configuration properties =
                                 Targets = [ target ]
                                 Properties = properties })
 
-let cleanBuild configuration = runMsBuild "Clean" (Some configuration) []
 let rebuild configuration = runMsBuild "Rebuild" (Some configuration) []
 
-Target "CleanAll"               DoNothing 
-Target "CleanVerify"            (fun _ -> cleanBuild "Verify")
-Target "CleanRelease"           (fun _ -> cleanBuild configuration)
 Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
 
-let restoreNugetPackages() = runMsBuild "Restore" None []
-
-Target "RestoreNuGetPackages" (fun _ -> restoreNugetPackages())
+Target "RestoreNuGetPackages" (fun _ -> runMsBuild "Restore" None [])
 
 Target "EnableSourceLinkGeneration" (fun _ ->
     let areEqual a b = String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
@@ -207,7 +202,7 @@ Target "EnableSourceLinkGeneration" (fun _ ->
     enableSourceLink <- true
 )
 
-Target "Verify" (fun _ -> rebuild "Verify")
+Target "VerifyOnly" (fun _ -> rebuild "Verify")
 
 Target "BuildOnly" (fun _ -> rebuild configuration)
 Target "TestOnly" (fun _ ->
@@ -266,24 +261,38 @@ Target "TestOnly" (fun _ ->
     )
 )
 
-Target "Build" DoNothing
-Target "Test"  DoNothing
+Target "Verify" DoNothing
+Target "Build"  DoNothing
+Target "Test"   DoNothing
 
 Target "CleanNuGetPackages" (fun _ ->
     CleanDir nuGetOutputFolder
 )
 
 Target "NuGetPack" (fun _ ->
-    // We have an issue that each ProjectReference is set to 1.0.0 in the produced NuGet package.
-    // We apply a workaround for the issue: https://github.com/NuGet/Home/issues/4337.
-    // Restore again immediately before the pack to ensure that version is correct for sure.
-    restoreNugetPackages()
-
     // Pack projects using MSBuild.
     runMsBuild "Pack" (Some configuration) [ "IncludeSource", "true"
                                              "IncludeSymbols", "true"
                                              "PackageOutputPath", FullName nuGetOutputFolder
                                              "NoBuild", "true" ]
+    
+    // Verify that AutoFixture reference is valid.
+    let nuspecDoc = !! "AutoFixture.AutoNSubstitute*"
+                    |> SetBaseDir nuGetOutputFolder
+                    |> Seq.head
+                    |> ZipHelper.UnzipFirstMatchingFileInMemory (fun ze -> ze.Name.EndsWith ".nuspec")
+                    |> XMLDoc
+
+    let dependencyVersion = nuspecDoc.SelectSingleNode("//*[local-name()='dependency' and @id='AutoFixture']")
+                            |> getAttribute "version"
+
+    if(buildVersion.nugetVersion <> dependencyVersion) 
+        then failwithf "Invalid dependency version in the produced package. Actual: '%s' Expected: '%s'"
+                       dependencyVersion
+                       buildVersion.nugetVersion 
+        else logfn "Verified the dependency version. Actual: '%s' Expected: '%s'"
+                   dependencyVersion
+                   buildVersion.nugetVersion
 )
 
 let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
@@ -320,12 +329,9 @@ Target "PublishNuGetPrivate" (fun _ ->
 Target "CompleteBuild"   DoNothing
 Target "PublishNuGetAll" DoNothing
 
-"CleanVerify"  ==> "CleanAll"
-"CleanRelease" ==> "CleanAll"
-
-"CleanAll"                   ==> "Verify"
 "RestoreNuGetPackages"       ==> "Verify"
 "EnableSourceLinkGeneration" ?=> "Verify"
+"VerifyOnly"                 ==> "Verify"
 
 "Verify"                             ==> "Build"
 "PatchAssemblyVersions"              ==> "Build"
