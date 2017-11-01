@@ -106,9 +106,10 @@ namespace AutoFixture.Xunit2.UnitTest
             // Fixture setup
             var sut = new InlineAutoDataAttribute();
             // Exercise system
-            AutoDataAttribute result = sut.AutoDataAttribute;
+            DataAttribute result = sut.AutoDataAttribute;
             // Verify outcome
             Assert.NotNull(result);
+            Assert.IsType<AutoDataAttribute>(result);
             // Teardown
         }
 
@@ -168,11 +169,11 @@ namespace AutoFixture.Xunit2.UnitTest
 
             // Teardown
         }
-
+        
         private class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute
         {
             public DerivedInlineAutoDataAttribute(
-                AutoDataAttribute autoDataAttribute,
+                DataAttribute autoDataAttribute,
                 params object[] values)
                 : base(autoDataAttribute, values)
             {
