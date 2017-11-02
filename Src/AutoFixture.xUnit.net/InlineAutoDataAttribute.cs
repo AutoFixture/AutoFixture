@@ -66,7 +66,7 @@ namespace AutoFixture.Xunit
         /// private class MyCustomAutoDataAttribute : AutoDataAttribute
         /// {
         ///     public MyCustomAutoDataAttribute() :
-        ///         base(new Fixture().Customize(new TheAnswer()))
+        ///         base(() => new Fixture().Customize(new TheAnswer()))
         ///     {
         ///     }
         /// 
