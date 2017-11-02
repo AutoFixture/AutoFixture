@@ -76,6 +76,7 @@ namespace AutoFixture
                                         new ExactTypeSpecification(
                                             typeof(ISpecimenBuilder)))),
                                 new StableFiniteSequenceRelay(),
+                                new ReadOnlyCollectionRelay(),
                                 new FilteringSpecimenBuilder(
                                     new Postprocessor(
                                         new MethodInvoker(
