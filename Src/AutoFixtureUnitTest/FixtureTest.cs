@@ -6077,5 +6077,19 @@ namespace AutoFixtureUnitTest
             Assert.Equal(expectedValue, result);
             // Teardown
         }
+
+        [Fact]
+        public void ShouldResolveReadOnlyCollectionByDefault()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+
+            // Exercise system
+            var result = sut.Create<IReadOnlyCollection<string>>();
+
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
     }
 }
