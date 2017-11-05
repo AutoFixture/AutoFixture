@@ -6091,5 +6091,47 @@ namespace AutoFixtureUnitTest
             Assert.NotNull(result);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void OmitAutoProperitesIsChangedAfterAssignment(bool value)
+        {
+            // Fixture setup
+            var sut = new Fixture
+            {
+                OmitAutoProperties = !value
+            };
+
+            // Exercise system
+            sut.OmitAutoProperties = value;
+
+            // Verify outcome
+            Assert.Equal(value, sut.OmitAutoProperties);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Optimization_GraphIsNotMutatedWhenActualOmitAutoPropertiesValueIsNotChanged(bool initialValue)
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.OmitAutoProperties = initialValue;
+
+            var oldBehaviors = sut.Behaviors;
+            var oldCustomizations = sut.Customizations;
+            var oldResidueCollectors = sut.ResidueCollectors;
+
+            // Exercise system
+            sut.OmitAutoProperties = initialValue;
+            
+            // Verify outcome
+            Assert.Same(oldBehaviors, sut.Behaviors);
+            Assert.Same(oldCustomizations, sut.Customizations);
+            Assert.Same(oldResidueCollectors, sut.ResidueCollectors);
+            // Teardown
+        }
     }
 }

@@ -127,13 +127,13 @@ namespace AutoFixture
                                 CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
                                 CreateDefaultValueBuilder(Encoding.UTF8),
                                 CreateDefaultValueBuilder(IPAddress.Loopback))),
-                        new Postprocessor(
-                            new AutoPropertiesTarget(
+                        new AutoPropertiesTarget(
+                            new Postprocessor(
                                 new CompositeSpecimenBuilder(
                                     engine,
-                                    multiple)),
-                            new AutoPropertiesCommand(),
-                            new AnyTypeSpecification()),
+                                    multiple),
+                                new AutoPropertiesCommand(),
+                                new AnyTypeSpecification())),
                         new ResidueCollectorNode(
                             new CompositeSpecimenBuilder(
                                 new DictionaryRelay(),
@@ -176,44 +176,28 @@ namespace AutoFixture
         /// <inheritdoc />
         public bool OmitAutoProperties
         {
-            get
-            {
-                return !this.graph.Parents(b => b is AutoPropertiesTarget).Any(n => n is Postprocessor);
-            }
+            get => this.FindAutoPropertiesPostProcessor().Specification is FalseRequestSpecification;
             set
             {
-                if (value == this.OmitAutoProperties)
+                IRequestSpecification newSpecification = value
+                    ? (IRequestSpecification) new FalseRequestSpecification()
+                    : new AnyTypeSpecification();
+
+                var existingPostProcessor = this.FindAutoPropertiesPostProcessor();
+                
+                // Optimization. Do nothing if no change is required (i.e. you set property to its current value).
+                if (existingPostProcessor.Specification.GetType() == newSpecification.GetType())
                     return;
 
-                var updatedGraph = this.graph;
-                if (value)
-                {
-                    foreach (var parent in this.graph.Parents(b => b is AutoPropertiesTarget))
-                    {
-                        foreach (var builder in parent)
-                        {
-                            if (builder is AutoPropertiesTarget targetNode)
-                                updatedGraph = updatedGraph.ReplaceNodes(
-                                    with: targetNode,
-                                    when: parent.Equals);
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var parent in this.graph.Parents(b => b is AutoPropertiesTarget))
-                    {
-                        var decoratedParent = parent
-                            .Select(b => new Postprocessor(
-                                b,
-                                new AutoPropertiesCommand(),
-                                new AnyTypeSpecification()));
-                        updatedGraph = updatedGraph.ReplaceNodes(
-                            with: decoratedParent, 
-                            when: parent.Equals);
-                    }
-                }
-                
+                var updatedPostProcessor = new Postprocessor(
+                    existingPostProcessor.Builder,
+                    existingPostProcessor.Command,
+                    newSpecification);
+
+                var updatedGraph = this.graph.ReplaceNodes(
+                    with: updatedPostProcessor,
+                    when: existingPostProcessor.Equals);
+
                 this.UpdateGraphAndSetupAdapters(updatedGraph);
             }
         }
@@ -343,6 +327,12 @@ namespace AutoFixture
             return new FilteringSpecimenBuilder(
                 new FixedBuilder(value),
                 new ExactTypeSpecification(typeof(T)));
+        }
+        
+        private Postprocessor FindAutoPropertiesPostProcessor()
+        {
+            var postprocessorHolder = (AutoPropertiesTarget) this.graph.FindFirstNode(b => b is AutoPropertiesTarget);
+            return (Postprocessor) postprocessorHolder.Builder;
         }
     }
 }
