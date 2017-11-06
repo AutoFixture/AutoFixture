@@ -24,6 +24,7 @@ namespace AutoFixture
         /// </summary>
         /// <returns>The next number in a consecutive sequence.</returns>
         [CLSCompliant(false)]
+        [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
         public sbyte Create()
         {
             lock (this.syncRoot)
@@ -60,7 +61,9 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
+#pragma warning disable 618
             return this.Create();
+#pragma warning restore 618
         }
     }
 }

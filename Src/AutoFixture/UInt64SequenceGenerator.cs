@@ -24,12 +24,10 @@ namespace AutoFixture
         /// </summary>
         /// <returns>The next number in a consecutive sequence.</returns>
         [CLSCompliant(false)]
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public ulong CreateAnonymous()
         {
-            lock (this.syncRoot)
-            {
-                return ++this.u;
-            }
+            return (ulong)this.Create(typeof(ulong), null);
         }
 
         /// <summary>
@@ -47,8 +45,11 @@ namespace AutoFixture
             {
                 return new NoSpecimen();
             }
-
-            return this.CreateAnonymous();
+            
+            lock (this.syncRoot)
+            {
+                return ++this.u;
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace AutoFixture
         /// Creates an anonymous number.
         /// </summary>
         /// <returns>The next number in a consecutive sequence.</returns>
+        [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
         public short Create()
         {
             lock (this.syncRoot)
@@ -58,7 +59,9 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
+#pragma warning disable 618
             return this.Create();
+#pragma warning restore 618
         }
     }
 }

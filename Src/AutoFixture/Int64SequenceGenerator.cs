@@ -12,16 +12,10 @@ namespace AutoFixture
         private long l;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Int64SequenceGenerator"/> class.
-        /// </summary>
-        public Int64SequenceGenerator()
-        {
-        }
-
-        /// <summary>
         /// Creates an anonymous number.
         /// </summary>
         /// <returns>The next number in a consecutive sequence.</returns>
+        [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
         public long Create()
         {
             return Interlocked.Increment(ref this.l);
@@ -54,7 +48,9 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
+#pragma warning disable 618
             return this.Create();
+#pragma warning restore 618
         }
     }
 }

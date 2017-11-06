@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
 using Xunit;
@@ -7,19 +8,19 @@ namespace AutoFixtureUnitTest
 {
     public class UInt64SequenceGeneratorTest
     {
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<UInt64SequenceGenerator, ulong>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<UInt64SequenceGenerator, ulong>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<UInt64SequenceGenerator, ulong>(sut => sut.CreateAnonymous()).Execute(10);

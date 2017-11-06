@@ -20,7 +20,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateWillReturnNonDefaultGuid()
         {
             // Fixture setup
@@ -44,7 +44,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateTwiceWillReturnDifferentValues()
         {
             // Fixture setup

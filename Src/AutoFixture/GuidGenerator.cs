@@ -12,6 +12,7 @@ namespace AutoFixture
         /// Creates a new <see cref="Guid"/> instance.
         /// </summary>
         /// <returns>A new <see cref="Guid"/> instance.</returns>
+        [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
         public static Guid Create()
         {
             return Guid.NewGuid();
@@ -44,7 +45,9 @@ namespace AutoFixture
                 return new NoSpecimen();
             }
 
-            return GuidGenerator.Create();
+#pragma warning disable 618
+            return Create();
+#pragma warning restore 618
         }
     }
 }
