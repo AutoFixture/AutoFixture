@@ -8,10 +8,22 @@ namespace AutoFixture.Kernel
     /// <summary>
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
+#pragma warning disable 618
     public class AutoPropertiesCommand : AutoPropertiesCommand<object>
+#pragma warning restore 618
     {
-        private readonly Func<object, Type> getSpecimenType;
-
+        /// <summary>
+        /// The explicitly specified <see cref="Type"/> that should be used to resolve fields and properties 
+        /// to populate for the specimen.
+        /// <remarks>
+        /// <para>
+        /// Property will return null if no explicit specimen type was specified during the command construction.
+        /// In this case command uses the runtime type of the generated specimen to resolve its fields and properties.
+        /// </para>
+        /// </remarks>
+        /// </summary>
+        public Type ExplicitSpecimenType { get; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class.
         /// </summary>
@@ -23,7 +35,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public AutoPropertiesCommand()
         {
-            this.getSpecimenType = s => s.GetType();
+            this.ExplicitSpecimenType = null;
         }
 
         /// <summary>
@@ -33,12 +45,7 @@ namespace AutoFixture.Kernel
         /// <param name="specimenType">The specimen type on which properties are assigned.</param>
         public AutoPropertiesCommand(Type specimenType)
         {
-            if (specimenType == null)
-            {
-                throw new ArgumentNullException(nameof(specimenType));
-            }
-
-            this.getSpecimenType = s => specimenType;
+            this.ExplicitSpecimenType = specimenType ?? throw new ArgumentNullException(nameof(specimenType));
         }
 
         /// <summary>
@@ -57,7 +64,7 @@ namespace AutoFixture.Kernel
         public AutoPropertiesCommand(IRequestSpecification specification)
             : base(specification)
         {
-            this.getSpecimenType = s => s.GetType();
+            this.ExplicitSpecimenType = null;
         }
 
         /// <summary>
@@ -77,21 +84,15 @@ namespace AutoFixture.Kernel
         public AutoPropertiesCommand(Type specimenType, IRequestSpecification specification)
             : base(specification)
         {
-            this.getSpecimenType = s => specimenType;
+            this.ExplicitSpecimenType = specimenType ?? throw new ArgumentNullException(nameof(specimenType));
         }
 
-        /// <summary>
-        /// Gets the type of the specimen.
-        /// </summary>
-        /// <param name="specimen">The specimen.</param>
-        /// <returns>The type of the specimen.</returns>
-        /// <remarks>
-        /// This implementation may ignore <paramref name="specimen"/> and instead return the type
-        /// passed to the <see cref="AutoPropertiesCommand"/> constructor.
-        /// </remarks>
+        /// <inheritdoc />
         protected override Type GetSpecimenType(object specimen)
         {
-            return this.getSpecimenType(specimen);
+            if (specimen == null) throw new ArgumentNullException(nameof(specimen));
+
+            return this.ExplicitSpecimenType ?? specimen.GetType();
         }
     }
 
@@ -99,9 +100,8 @@ namespace AutoFixture.Kernel
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
     /// <typeparam name="T">The specimen type on which properties are assigned.</typeparam>
-#pragma warning disable 618
+    [Obsolete("The generic version of the AutoPropertiesCommand is no longer used and will be removed in future versions. Please use the non-generic version of the AutoPropertiesCommand type.")]
     public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.ISpecifiedSpecimenCommand<T>
-#pragma warning restore 618
     {
         /// <summary>
         /// Specification that filters properties and files that should be populated.

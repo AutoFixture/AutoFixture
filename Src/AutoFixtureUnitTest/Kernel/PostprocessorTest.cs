@@ -21,6 +21,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutIsPostProcessor()
         {
             // Fixture setup
@@ -329,7 +330,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Exercise system
             var actual = sut.Compose(new ISpecimenBuilder[0]);
             // Verify outcome
-            var pp = Assert.IsAssignableFrom<Postprocessor<object>>(actual);
+            var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
             Assert.Equal(expected, pp.Command);
             // Teardown
         }

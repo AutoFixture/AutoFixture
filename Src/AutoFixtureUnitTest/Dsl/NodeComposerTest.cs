@@ -279,7 +279,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<ConcreteType>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<ConcreteType>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -310,8 +310,8 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<string>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<string>>(
-                            new Postprocessor<PropertyHolder<string>>(
+                        new Postprocessor(
+                            new Postprocessor(
                                 new NoSpecimenOutputGuard(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
@@ -341,14 +341,14 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -386,14 +386,14 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new FalseRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -416,7 +416,7 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<int>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<int>>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
@@ -452,15 +452,16 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<string>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<string>>(
-                            new Postprocessor<PropertyHolder<string>>(
+                        new Postprocessor(
+                            new Postprocessor(
                                 new NoSpecimenOutputGuard(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
                                     new InverseRequestSpecification(
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<string>)))),
-                                new AutoPropertiesCommand<PropertyHolder<string>>(
+                                new AutoPropertiesCommand(
+                                    typeof(PropertyHolder<string>),
                                     new InverseRequestSpecification(
                                         new EqualRequestSpecification(
                                             pi,
@@ -503,16 +504,17 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<DoublePropertyHolder<string, int>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<DoublePropertyHolder<string, int>>(
-                            new Postprocessor<DoublePropertyHolder<string, int>>(
-                                new Postprocessor<DoublePropertyHolder<string, int>>(
+                        new Postprocessor(
+                            new Postprocessor(
+                                new Postprocessor(
                                     new NoSpecimenOutputGuard(
                                         new MethodInvoker(
                                             new ModestConstructorQuery()),
                                         new InverseRequestSpecification(
                                             new SeedRequestSpecification(
                                                 typeof(DoublePropertyHolder<string, int>)))),
-                                    new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(
+                                    new AutoPropertiesCommand(
+                                        typeof(DoublePropertyHolder<string, int>),
                                         new AndRequestSpecification(
                                             new InverseRequestSpecification(
                                                 new EqualRequestSpecification(
@@ -553,14 +555,15 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<FieldHolder<short>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<FieldHolder<short>>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(FieldHolder<short>)))),
-                            new AutoPropertiesCommand<FieldHolder<short>>(
+                            new AutoPropertiesCommand(
+                                typeof(FieldHolder<short>),
                                 new InverseRequestSpecification(
                                     new EqualRequestSpecification(
                                         fi,
@@ -588,14 +591,14 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -633,14 +636,14 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<Version>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<Version>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>(),
+                            new AutoPropertiesCommand(typeof(Version)),
                             new FalseRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -665,13 +668,13 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<string>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<string>>(
+                        new Postprocessor(
                             new NoSpecimenOutputGuard(
                                 new SpecimenFactory<PropertyHolder<string>>(f),
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(PropertyHolder<string>)))),
-                            new AutoPropertiesCommand<PropertyHolder<string>>(),
+                            new AutoPropertiesCommand(typeof(PropertyHolder<string>)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
@@ -695,8 +698,8 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new NodeComposer<PropertyHolder<int>>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<PropertyHolder<int>>(
-                            new Postprocessor<PropertyHolder<int>>(
+                        new Postprocessor(
+                            new Postprocessor(
                                 new NoSpecimenOutputGuard(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
@@ -704,7 +707,7 @@ namespace AutoFixtureUnitTest.Dsl
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<int>)))),
                                 new ActionSpecimenCommand<PropertyHolder<int>>(a)),
-                            new AutoPropertiesCommand<PropertyHolder<int>>(),
+                            new AutoPropertiesCommand(typeof(PropertyHolder<int>)),
                             new TrueRequestSpecification()),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(

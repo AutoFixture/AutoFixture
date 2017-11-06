@@ -238,7 +238,7 @@ namespace AutoFixture.Dsl
                 with: n => n.Compose(
                     new[]
                     {
-                        new Postprocessor<T>(
+                        new Postprocessor(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
                             new ActionSpecimenCommand<T>(action))
                     }),
@@ -265,7 +265,7 @@ namespace AutoFixture.Dsl
             // (e.g. if user does smth like fixture.Build().Without(x => x.P).OmitAutoProperties().WithAutoProperties()
             // the information from "Without" should not be missed)
             return (NodeComposer<T>) this.ReplaceNodes(
-                with: n => new Postprocessor<T>(
+                with: n => new Postprocessor(
                     autoPropertiesNode.Builder,
                     autoPropertiesNode.Command,
                     new FalseRequestSpecification()),
@@ -296,7 +296,7 @@ namespace AutoFixture.Dsl
             var targetToDecorate = this.FindFirstNode(n => n is NoSpecimenOutputGuard);
 
             return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => new Postprocessor<T>(
+                with: n => new Postprocessor(
                     n,
                     new BindingCommand<T, TProperty>(propertyPicker),
                     CreateSpecification()),
@@ -336,7 +336,7 @@ namespace AutoFixture.Dsl
                 with: n => n.Compose(
                     new ISpecimenBuilder[]
                     {
-                        new Postprocessor<T>(
+                        new Postprocessor(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
                             new BindingCommand<T, TProperty>(propertyPicker, value),
                             CreateSpecification()),
@@ -361,7 +361,7 @@ namespace AutoFixture.Dsl
             var autoProperties = FindAutoPropertiesNode(g);
 
             return (NodeComposer<T>) g.ReplaceNodes(
-                with: n => new Postprocessor<T>(
+                with: n => new Postprocessor(
                     autoProperties.Builder,
                     autoProperties.Command,
                     new TrueRequestSpecification()),
@@ -509,20 +509,20 @@ namespace AutoFixture.Dsl
                 with: n => n.Compose(
                     new ISpecimenBuilder[]
                     {
-                        new Postprocessor<T>(
+                        new Postprocessor(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            new AutoPropertiesCommand<T>(),
+                            new AutoPropertiesCommand(typeof(T)),
                             new FalseRequestSpecification()),
                         new SeedIgnoringRelay()
                     }),
                 when: filter.Equals);
         }
 
-        private static Postprocessor<T> FindAutoPropertiesNode(ISpecimenBuilderNode graph)
+        private static Postprocessor FindAutoPropertiesNode(ISpecimenBuilderNode graph)
         {
-            return (Postprocessor<T>) graph
-                .FindFirstNodeOrDefault(n => n is Postprocessor<T> postprocessor &&
-                                             postprocessor.Command is AutoPropertiesCommand<T>);
+            return (Postprocessor) graph
+                .FindFirstNodeOrDefault(n => n is Postprocessor postprocessor &&
+                                             postprocessor.Command is AutoPropertiesCommand);
         }
         
         /// <summary>
@@ -535,7 +535,7 @@ namespace AutoFixture.Dsl
             var autoPropertiesNode = FindAutoPropertiesNode(graph);
             if (autoPropertiesNode == null) return graph;
 
-            var currentSpecification = ((AutoPropertiesCommand<T>) autoPropertiesNode.Command).Specification;
+            var currentSpecification = ((AutoPropertiesCommand) autoPropertiesNode.Command).Specification;
             var newRule = new InverseRequestSpecification(
                 new EqualRequestSpecification(
                     member,
@@ -557,9 +557,9 @@ namespace AutoFixture.Dsl
             }
 
             return graph.ReplaceNodes(
-                with: _ => new Postprocessor<T>(
+                with: _ => new Postprocessor(
                     autoPropertiesNode.Builder,
-                    new AutoPropertiesCommand<T>(specification),
+                    new AutoPropertiesCommand(typeof(T), specification),
                     autoPropertiesNode.Specification),
                 when: autoPropertiesNode.Equals);
         }
