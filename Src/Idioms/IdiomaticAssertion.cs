@@ -29,8 +29,7 @@ namespace AutoFixture.Idioms
         /// <param name="assemblies">The assemblies.</param>
         public virtual void Verify(params Assembly[] assemblies)
         {
-            if (assemblies == null)
-                throw new ArgumentNullException("assemblies");
+            if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
 
             foreach (var a in assemblies)
             {
@@ -55,8 +54,7 @@ namespace AutoFixture.Idioms
         /// <param name="assembly">The assembly.</param>
         public virtual void Verify(Assembly assembly)
         {
-            if (assembly == null)
-                throw new ArgumentNullException("assembly");
+            if (assembly == null) throw new ArgumentNullException(nameof(assembly));
 
             this.Verify(assembly.GetExportedTypes());
         }
@@ -67,8 +65,7 @@ namespace AutoFixture.Idioms
         /// <param name="types">The types.</param>
         public virtual void Verify(params Type[] types)
         {
-            if (types == null)
-                throw new ArgumentNullException("types");
+            if (types == null) throw new ArgumentNullException(nameof(types));
 
             foreach (var t in types)
             {
@@ -93,11 +90,10 @@ namespace AutoFixture.Idioms
         /// <param name="type">The type.</param>
         public virtual void Verify(Type type)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             this.Verify(type.GetConstructors());
-            this.Verify(IdiomaticAssertion.GetMethodsForAssertion(type));
+            this.Verify(GetMethodsForAssertion(type));
             this.Verify(type.GetProperties());
             this.Verify(type.GetFields());
         }
@@ -109,8 +105,7 @@ namespace AutoFixture.Idioms
         /// <param name="memberInfos">The members.</param>
         public virtual void Verify(params MemberInfo[] memberInfos)
         {
-            if (memberInfos == null)
-                throw new ArgumentNullException("memberInfos");
+            if (memberInfos == null) throw new ArgumentNullException(nameof(memberInfos));
 
             foreach (var m in memberInfos)
             {
@@ -136,31 +131,23 @@ namespace AutoFixture.Idioms
         /// <param name="memberInfo">The member.</param>
         public virtual void Verify(MemberInfo memberInfo)
         {
-            var c = memberInfo as ConstructorInfo;
-            if (c != null)
+            switch (memberInfo)
             {
-                this.Verify(c);
-                return;
-            }
+                case ConstructorInfo c:
+                    this.Verify(c);
+                    break;
 
-            var m = memberInfo as MethodInfo;
-            if (m != null)
-            {
-                this.Verify(m);
-                return;
-            }
+                case MethodInfo m:
+                    this.Verify(m);
+                    break;
 
-            var p = memberInfo as PropertyInfo;
-            if (p != null)
-            {
-                this.Verify(p);
-                return;
-            }
+                case PropertyInfo p:
+                    this.Verify(p);
+                    break;
 
-            var f = memberInfo as FieldInfo;
-            if (f != null)
-            {
-                this.Verify(f);
+                case FieldInfo f:
+                    this.Verify(f);
+                    break;
             }
         }
 
@@ -171,8 +158,7 @@ namespace AutoFixture.Idioms
         /// <param name="constructorInfos">The constructors.</param>
         public virtual void Verify(params ConstructorInfo[] constructorInfos)
         {
-            if (constructorInfos == null)
-                throw new ArgumentNullException("constructorInfos");
+            if (constructorInfos == null) throw new ArgumentNullException(nameof(constructorInfos));
 
             foreach (var c in constructorInfos)
             {
@@ -205,8 +191,7 @@ namespace AutoFixture.Idioms
         /// <param name="fieldInfos">The fields.</param>
         public virtual void Verify(params FieldInfo[] fieldInfos)
         {
-            if (fieldInfos == null)
-                throw new ArgumentNullException("fieldInfos");
+            if (fieldInfos == null) throw new ArgumentNullException(nameof(fieldInfos));
 
             foreach (var f in fieldInfos)
             {
@@ -239,8 +224,7 @@ namespace AutoFixture.Idioms
         /// <param name="methodInfos">The methods.</param>
         public virtual void Verify(params MethodInfo[] methodInfos)
         {
-            if (methodInfos == null)
-                throw new ArgumentNullException("methodInfos");
+            if (methodInfos == null) throw new ArgumentNullException(nameof(methodInfos));
 
             foreach (var m in methodInfos)
             {
@@ -273,8 +257,7 @@ namespace AutoFixture.Idioms
         /// <param name="propertyInfos">The properties.</param>
         public virtual void Verify(params PropertyInfo[] propertyInfos)
         {
-            if (propertyInfos == null)
-                throw new ArgumentNullException("propertyInfos");
+            if (propertyInfos == null) throw new ArgumentNullException(nameof(propertyInfos));
 
             foreach (var p in propertyInfos)
             {
@@ -302,9 +285,9 @@ namespace AutoFixture.Idioms
 
         private static IEnumerable<MethodInfo> GetMethodsForAssertion(Type type)
         {
-            return IdiomaticAssertion.IsStaticClass(type) 
-                ? IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type).Where(m => m.IsStatic) 
-                : IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type);
+            return IsStaticClass(type) 
+                ? GetMethodsExceptPropertyAccessors(type).Where(m => m.IsStatic) 
+                : GetMethodsExceptPropertyAccessors(type);
         }
 
         private static bool IsStaticClass(Type type)

@@ -10,10 +10,6 @@ namespace AutoFixture.Idioms
     /// </summary>
     public class MethodInvokeCommand : IGuardClauseCommand
     {
-        private readonly IMethod method;
-        private readonly IExpansion<object> expansion;
-        private readonly ParameterInfo parameterInfo;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodInvokeCommand"/> class.
         /// </summary>
@@ -25,35 +21,26 @@ namespace AutoFixture.Idioms
         /// <param name="parameterInfo">The parameter.</param>
         public MethodInvokeCommand(IMethod method, IExpansion<object> expansion, ParameterInfo parameterInfo)
         {
-            this.method = method;
-            this.expansion = expansion;
-            this.parameterInfo = parameterInfo;
+            this.Method = method;
+            this.Expansion = expansion;
+            this.ParameterInfo = parameterInfo;
         }
 
         /// <summary>
         /// Gets the method supplied via the constructor.
         /// </summary>
-        public IMethod Method
-        {
-            get { return this.method; }
-        }
+        public IMethod Method { get; }
 
         /// <summary>
         /// Gets the expansion supplied via the constructor.
         /// </summary>
         /// <seealso cref="Execute" />
-        public IExpansion<object> Expansion
-        {
-            get { return this.expansion; }
-        }
+        public IExpansion<object> Expansion { get; }
 
         /// <summary>
         /// Gets the parameter supplied via the constructor.
         /// </summary>
-        public ParameterInfo ParameterInfo
-        {
-            get { return this.parameterInfo; }
-        }
+        public ParameterInfo ParameterInfo { get; }
 
         /// <summary>
         /// Gets the type of the requested value.
@@ -63,10 +50,7 @@ namespace AutoFixture.Idioms
         /// the <see cref="Execute"/> method - in this case the type of the
         /// <see cref="ParameterInfo" />.
         /// </remarks>
-        public Type RequestedType
-        {
-            get { return this.ParameterInfo.ParameterType; }
-        }
+        public Type RequestedType => this.ParameterInfo.ParameterType;
 
         /// <summary>
         /// Gets the parameter name of the requested value.
@@ -76,10 +60,7 @@ namespace AutoFixture.Idioms
         /// the <see cref="Execute"/> method - in this case the name of the
         /// <see cref="ParameterInfo" />.
         /// </remarks>
-        public string RequestedParameterName
-        {
-            get { return this.ParameterInfo.Name; }
-        }
+        public string RequestedParameterName => this.ParameterInfo.Name;
 
         /// <summary>
         /// Invokes the mthod with the specified value.
@@ -93,7 +74,7 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public void Execute(object value)
         {
-            this.method.Invoke(this.expansion.Expand(value));
+            this.Method.Invoke(this.Expansion.Expand(value));
         }
 
         /// <summary>
@@ -126,7 +107,9 @@ namespace AutoFixture.Idioms
         private string CreateExceptionMessage(string value)
         {
             return string.Format(CultureInfo.CurrentCulture,
-                "An attempt was made to assign the value {0} to the parameter \"{1}\" of the method \"{2}\", and no Guard Clause prevented this. Are you missing a Guard Clause?{7}Method Signature: {3}{7}Parameter Type: {4}{7}Declaring Type: {5}{7}Reflected Type: {6}",
+                "An attempt was made to assign the value {0} to the parameter \"{1}\" of the method \"{2}\", " +
+                "and no Guard Clause prevented this. Are you missing a Guard Clause? " +
+                "{7}Method Signature: {3}{7}Parameter Type: {4}{7}Declaring Type: {5}{7}Reflected Type: {6}",
                 value,
                 this.ParameterInfo.Name,
                 this.ParameterInfo.Member.Name,

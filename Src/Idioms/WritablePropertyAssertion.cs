@@ -22,8 +22,6 @@ namespace AutoFixture.Idioms
     /// </remarks>
     public class WritablePropertyAssertion : IdiomaticAssertion
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WritablePropertyAssertion"/> class.
         /// </summary>
@@ -39,21 +37,13 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public WritablePropertyAssertion(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            this.builder = builder;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         /// <summary>
         /// Gets the builder supplied via the constructor.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Verifies that a writable property is correctly implemented.
@@ -75,14 +65,13 @@ namespace AutoFixture.Idioms
         /// <exception cref="WritablePropertyException">The verification fails.</exception>
         public override void Verify(PropertyInfo propertyInfo)
         {
-            if (propertyInfo == null)
-                throw new ArgumentNullException("propertyInfo");
+            if (propertyInfo == null) throw new ArgumentNullException(nameof(propertyInfo));
 
             if (propertyInfo.GetSetMethod() == null)
                 return;
 
-            var specimen = this.builder.CreateAnonymous(propertyInfo.ReflectedType);
-            var propertyValue = this.builder.CreateAnonymous(propertyInfo.PropertyType);
+            var specimen = this.Builder.CreateAnonymous(propertyInfo.ReflectedType);
+            var propertyValue = this.Builder.CreateAnonymous(propertyInfo.PropertyType);
 
             propertyInfo.SetValue(specimen, propertyValue, null);
             var result = propertyInfo.GetValue(specimen, null);

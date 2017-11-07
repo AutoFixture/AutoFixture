@@ -16,6 +16,7 @@ namespace AutoFixture.Idioms
     {
         [NonSerialized]
         private readonly MemberInfo memberInfo;
+        
         [NonSerialized]
         private readonly ParameterInfo missingParameter;
 
@@ -25,8 +26,7 @@ namespace AutoFixture.Idioms
         /// <param name="constructorInfo">The Constructor.</param>
         /// <param name="missingParameter">The parameter that was not exposed as a field or property.</param>
         public ConstructorInitializedMemberException(ConstructorInfo constructorInfo, ParameterInfo missingParameter)
-            : this(constructorInfo, missingParameter,
-                ConstructorInitializedMemberException.FormatDefaultMessage(constructorInfo, missingParameter))
+            : this(constructorInfo, missingParameter, FormatDefaultMessage(constructorInfo, missingParameter))
         {
         }
 
@@ -56,8 +56,8 @@ namespace AutoFixture.Idioms
         /// <param name="innerException">
         /// The exception that is the cause of the current exception.
         /// </param>
-        public ConstructorInitializedMemberException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message,
-            Exception innerException)
+        public ConstructorInitializedMemberException(
+            ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message, Exception innerException)
             : base(message, innerException)
         {
             this.memberInfo = constructorInfo;
@@ -69,7 +69,7 @@ namespace AutoFixture.Idioms
         /// </summary>
         /// <param name="fieldInfo">The field.</param>
         public ConstructorInitializedMemberException(FieldInfo fieldInfo)
-            : this(fieldInfo, ConstructorInitializedMemberException.FormatDefaultMessage(fieldInfo))
+            : this(fieldInfo, FormatDefaultMessage(fieldInfo))
         {
         }
 
@@ -161,42 +161,27 @@ namespace AutoFixture.Idioms
         /// <summary>
         /// Gets the property or field supplied via the constructor.
         /// </summary>
-        public MemberInfo MemberInfo
-        {
-            get { return this.memberInfo; }
-        }
+        public MemberInfo MemberInfo => this.memberInfo;
 
         /// <summary>
         /// Gets the property supplied via the constructor.
         /// </summary>
-        public PropertyInfo PropertyInfo
-        {
-            get { return this.memberInfo as PropertyInfo; }
-        }
+        public PropertyInfo PropertyInfo => this.memberInfo as PropertyInfo;
 
         /// <summary>
         /// Gets the property supplied via the constructor.
         /// </summary>
-        public FieldInfo FieldInfo
-        {
-            get { return this.memberInfo as FieldInfo; }
-        }
+        public FieldInfo FieldInfo => this.memberInfo as FieldInfo;
 
         /// <summary>
         /// Gets the constructor which has a <see cref="MissingParameter"/>.
         /// </summary>
-        public ConstructorInfo ConstructorInfo
-        {
-            get { return this.memberInfo as ConstructorInfo; }
-        }
+        public ConstructorInfo ConstructorInfo => this.memberInfo as ConstructorInfo;
 
         /// <summary>
         /// Gets the parameter that was not exposed as a field or property.
         /// </summary>
-        public ParameterInfo MissingParameter
-        {
-            get { return this.missingParameter; }
-        }
+        public ParameterInfo MissingParameter => this.missingParameter;
 
         /// <summary>
         /// Adds <see cref="PropertyInfo" /> to a
@@ -232,12 +217,28 @@ namespace AutoFixture.Idioms
 
         private static string FormatDefaultMessage(PropertyInfo propertyInfo)
         {
-            return string.Format(CultureInfo.CurrentCulture, "The property {0} failed a test for being well-behaved read-only property. The getter does not return the value assigned to the constructor.{3}Declaring type: {1}{3}Reflected type: {2}{3}", propertyInfo, propertyInfo.DeclaringType.AssemblyQualifiedName, propertyInfo.ReflectedType.AssemblyQualifiedName, Environment.NewLine);
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "The property {0} failed a test for being well-behaved read-only property. " +
+                "The getter does not return the value assigned to the constructor.{3}" +
+                "Declaring type: {1}{3}Reflected type: {2}{3}",
+                propertyInfo,
+                propertyInfo.DeclaringType.AssemblyQualifiedName,
+                propertyInfo.ReflectedType.AssemblyQualifiedName,
+                Environment.NewLine);
         }
 
         private static string FormatDefaultMessage(FieldInfo fieldInfo)
         {
-            return string.Format(CultureInfo.CurrentCulture, "The property {0} failed a test for being well-behaved read-only field. The field does not return the value assigned to the constructor.{3}Declaring type: {1}{3}Reflected type: {2}{3}", fieldInfo, fieldInfo.DeclaringType.AssemblyQualifiedName, fieldInfo.ReflectedType.AssemblyQualifiedName, Environment.NewLine);
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "The property {0} failed a test for being well-behaved read-only field. " +
+                "The field does not return the value assigned to the constructor.{3}" +
+                "Declaring type: {1}{3}Reflected type: {2}{3}",
+                fieldInfo,
+                fieldInfo.DeclaringType.AssemblyQualifiedName,
+                fieldInfo.ReflectedType.AssemblyQualifiedName,
+                Environment.NewLine);
         }
     }
 }

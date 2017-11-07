@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -13,8 +14,6 @@ namespace AutoFixture.Idioms
     /// </summary>
     public class GetHashCodeSuccessiveAssertion : IdiomaticAssertion
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GetHashCodeSuccessiveAssertion"/> class.
         /// </summary>
@@ -30,21 +29,13 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public GetHashCodeSuccessiveAssertion(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            this.builder = builder;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         /// <summary>
         /// Gets the builder supplied by the constructor.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Verifies that `x.GetHashCode()` 3 times on the same instance of the type returns 
@@ -52,11 +43,12 @@ namespace AutoFixture.Idioms
         /// <see cref="object.GetHashCode()"/>.
         /// </summary>
         /// <param name="methodInfo">The method to verify</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "GetHashCode", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", 
+            MessageId = "GetHashCode", 
+            Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public override void Verify(MethodInfo methodInfo)
         {
-            if (methodInfo == null)
-                throw new ArgumentNullException("methodInfo");
+            if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
 
             if (methodInfo.ReflectedType == null ||
                 !methodInfo.IsObjectGetHashCodeOverrideMethod())
@@ -65,7 +57,7 @@ namespace AutoFixture.Idioms
                 return;
             }
 
-            var instance = this.builder.CreateAnonymous(methodInfo.ReflectedType);
+            var instance = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
 
             var results = Enumerable.Range(1, 3)
                 .Select(i => instance.GetHashCode())

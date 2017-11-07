@@ -19,15 +19,12 @@ namespace AutoFixture.Idioms
             this.values = values;
         }
 
-        public override IEnumerable<NameAndType> Value
-        {
-            get { return this.values; }
-        }
+        public override IEnumerable<NameAndType> Value => this.values;
 
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
             FieldInfoElement fieldInfoElement)
         {
-            if (fieldInfoElement == null) throw new ArgumentNullException("fieldInfoElement");
+            if (fieldInfoElement == null) throw new ArgumentNullException(nameof(fieldInfoElement));
             var v = new NameAndType(
                 fieldInfoElement.FieldInfo.Name,
                 fieldInfoElement.FieldInfo.FieldType);
@@ -38,7 +35,7 @@ namespace AutoFixture.Idioms
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
             ParameterInfoElement parameterInfoElement)
         {
-            if (parameterInfoElement == null) throw new ArgumentNullException("parameterInfoElement");
+            if (parameterInfoElement == null) throw new ArgumentNullException(nameof(parameterInfoElement));
             var v = new NameAndType(
                 parameterInfoElement.ParameterInfo.Name,
                 parameterInfoElement.ParameterInfo.ParameterType);
@@ -49,7 +46,7 @@ namespace AutoFixture.Idioms
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
             PropertyInfoElement propertyInfoElement)
         {
-            if (propertyInfoElement == null) throw new ArgumentNullException("propertyInfoElement");
+            if (propertyInfoElement == null) throw new ArgumentNullException(nameof(propertyInfoElement));
             var v = new NameAndType(
                 propertyInfoElement.PropertyInfo.Name,
                 propertyInfoElement.PropertyInfo.PropertyType);
