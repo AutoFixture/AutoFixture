@@ -41,10 +41,7 @@ namespace AutoFixture
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static T Freeze<T>(this IFixture fixture, T seed)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
+            if (fixture == null)throw new ArgumentNullException(nameof(fixture));
 
             var value = fixture.Create<T>(seed);
             fixture.Inject(value);
