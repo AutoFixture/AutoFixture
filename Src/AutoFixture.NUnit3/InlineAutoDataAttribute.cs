@@ -17,19 +17,19 @@ namespace AutoFixture.NUnit3
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class InlineAutoDataAttribute : Attribute, ITestBuilder
     {
-        private readonly object[] _existingParameterValues;
+        private readonly object[] existingParameterValues;
         private readonly Lazy<IFixture> fixtureLazy;
         private IFixture Fixture => this.fixtureLazy.Value;
 
-        private ITestMethodBuilder _testMethodBuilder = new FixedNameTestMethodBuilder();
+        private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
         
         /// <summary>
         /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
         /// </summary>
         public ITestMethodBuilder TestMethodBuilder
         {
-            get { return this._testMethodBuilder; }
-            set { this._testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
+            get { return this.testMethodBuilder; }
+            set { this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace AutoFixture.NUnit3
             }
 
             this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
-            this._existingParameterValues = arguments;
+            this.existingParameterValues = arguments;
         }
         
         /// <summary>
@@ -81,7 +81,7 @@ namespace AutoFixture.NUnit3
             }
 
             this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
-            this._existingParameterValues = arguments;
+            this.existingParameterValues = arguments;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace AutoFixture.NUnit3
         /// </summary>
         public IEnumerable<object> Arguments
         {
-            get { return this._existingParameterValues; }
+            get { return this.existingParameterValues; }
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace AutoFixture.NUnit3
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
             var test = this.TestMethodBuilder.Build(
-                method, suite, this.GetParameterValues(method), this._existingParameterValues.Length);
+                method, suite, this.GetParameterValues(method), this.existingParameterValues.Length);
 
             yield return test;
         }
@@ -113,12 +113,12 @@ namespace AutoFixture.NUnit3
         private IEnumerable<object> GetParameterValues(IMethodInfo method)
         {
             var parameters = method.GetParameters();
-            return this._existingParameterValues.Concat(this.GetMissingValues(parameters));
+            return this.existingParameterValues.Concat(this.GetMissingValues(parameters));
         }
 
         private IEnumerable<object> GetMissingValues(IEnumerable<IParameterInfo> parameters)
         {
-            var parametersWithoutValues = parameters.Skip(this._existingParameterValues.Count());
+            var parametersWithoutValues = parameters.Skip(this.existingParameterValues.Count());
 
             return parametersWithoutValues.Select(this.GetValueForParameter);
         }

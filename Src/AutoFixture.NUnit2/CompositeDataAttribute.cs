@@ -15,7 +15,7 @@ namespace AutoFixture.NUnit2
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
-        private readonly IEnumerable<DataAttribute> _attributes;
+        private readonly IEnumerable<DataAttribute> attributes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
@@ -39,7 +39,7 @@ namespace AutoFixture.NUnit2
                 throw new ArgumentNullException("attributes");
             }
 
-            this._attributes = attributes;
+            this.attributes = attributes;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace AutoFixture.NUnit2
         /// </summary>
         public IEnumerable<DataAttribute> Attributes
         {
-            get { return this._attributes; }
+            get { return this.attributes; }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AutoFixture.NUnit2
 
             do
             {
-                foreach (var attribute in this._attributes)
+                foreach (var attribute in this.attributes)
                 {
                     var attributeData = attribute.GetData(method).ToArray();
 

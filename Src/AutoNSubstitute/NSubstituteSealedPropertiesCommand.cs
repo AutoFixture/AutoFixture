@@ -13,7 +13,7 @@ namespace AutoFixture.AutoNSubstitute
     /// </summary>
     public class NSubstituteSealedPropertiesCommand : ISpecimenCommand
     {
-        private static readonly AutoPropertiesCommand autoPropertiesCommand =
+        private static readonly AutoPropertiesCommand AutoPropertiesCommand =
             new AutoPropertiesCommand(new NSubstituteSealedPropertySpecification());
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace AutoFixture.AutoNSubstitute
                 return;
             }
 
-            autoPropertiesCommand.Execute(specimen, context);
+            AutoPropertiesCommand.Execute(specimen, context);
         }
 
         private class NSubstituteSealedPropertySpecification : IRequestSpecification

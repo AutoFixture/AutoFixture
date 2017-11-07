@@ -16,10 +16,10 @@ namespace AutoFixture.Kernel
         Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
     public class RecursionGuard : ISpecimenBuilderNode
     {
-        private readonly ThreadLocal<Stack<object>> _requestsByThread
+        private readonly ThreadLocal<Stack<object>> requestsByThread
             = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-        private Stack<object> GetMonitoredRequestsForCurrentThread() => this._requestsByThread.Value;
+        private Stack<object> GetMonitoredRequestsForCurrentThread() => this.requestsByThread.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.

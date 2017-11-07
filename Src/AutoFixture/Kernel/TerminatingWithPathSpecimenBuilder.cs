@@ -19,10 +19,10 @@ namespace AutoFixture.Kernel
         Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
     public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
     {
-        private readonly ThreadLocal<Stack<object>> _requestsByThread
+        private readonly ThreadLocal<Stack<object>> requestsByThread
             = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-        private Stack<object> GetPathForCurrentThread() => this._requestsByThread.Value;
+        private Stack<object> GetPathForCurrentThread() => this.requestsByThread.Value;
 
         /// <summary>
         /// Creates a new <see cref="TerminatingWithPathSpecimenBuilder"/> instance.
@@ -121,7 +121,7 @@ namespace AutoFixture.Kernel
                     "{1}" +
                     "If you have a concrete class implementing the " +
                     "interface, you can map the interface to that class:" +
-                    typeMappingOptionsHelp +
+                    TypeMappingOptionsHelp +
                     "{1}" +
                     "{1}" +
                     "Request path:{1}{2}{1}";
@@ -137,7 +137,7 @@ namespace AutoFixture.Kernel
                     "If you have a concrete class deriving from the abstract " +
                     "class, you can map the abstract class to that derived " + 
                     "class:" +
-                    typeMappingOptionsHelp +
+                    TypeMappingOptionsHelp +
                     "{1}" +
                     "{1}" +
                     "Request path:{1}{2}{1}";
@@ -148,7 +148,7 @@ namespace AutoFixture.Kernel
                 "abstract or non-public type.{1}{1}Request path:{1}{2}";
         }
 
-        private const string typeMappingOptionsHelp =
+        private const string TypeMappingOptionsHelp =
             "{1}" +
             "{1}" +
             "fixture.Customizations.Add({1}" +
