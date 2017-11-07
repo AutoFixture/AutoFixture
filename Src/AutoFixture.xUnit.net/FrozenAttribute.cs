@@ -13,7 +13,6 @@ namespace AutoFixture.Xunit
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class FrozenAttribute : CustomizeAttribute
     {
-        private readonly Matching by;
         [Obsolete("The As property is deprecated.")]
         private Type _as;
 
@@ -39,14 +38,16 @@ namespace AutoFixture.Xunit
         /// </param>
         public FrozenAttribute(Matching by)
         {
-            this.by = by;
+            this.By = by;
         }
 
         /// <summary>
         /// Gets or sets the <see cref="Type"/> that the frozen parameter value
         /// should be mapped to in the <see cref="IFixture"/>.
         /// </summary>
-        [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].", true)]
+        [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. " +
+                  "If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. " +
+                  "If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].", true)]
         public Type As
         {
             get => this._as;
@@ -57,10 +58,7 @@ namespace AutoFixture.Xunit
         /// Gets the <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value.
         /// </summary>
-        public Matching By
-        {
-            get { return this.@by; }
-        }
+        public Matching By { get; }
 
         /// <summary>
         /// Gets a <see cref="FreezeOnMatchCustomization"/> configured
@@ -77,10 +75,7 @@ namespace AutoFixture.Xunit
         /// </returns>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter == null)
-            {
-                throw new ArgumentNullException("parameter");
-            }
+            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
 
             return this.ShouldMatchBySpecificType()
                 ? this.FreezeAsType(parameter.ParameterType)

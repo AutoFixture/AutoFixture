@@ -11,11 +11,10 @@ namespace AutoFixture.Xunit
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
+        Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
-        private readonly IEnumerable<DataAttribute> attributes;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
@@ -33,21 +32,13 @@ namespace AutoFixture.Xunit
         /// </param>
         public CompositeDataAttribute(params DataAttribute[] attributes)
         {
-            if (attributes == null)
-            {
-                throw new ArgumentNullException("attributes");
-            }
-
-            this.attributes = attributes;
+            this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
         }
 
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<DataAttribute> Attributes
-        {
-            get { return this.attributes; }
-        }
+        public IEnumerable<DataAttribute> Attributes { get; }
 
         /// <summary>
         /// Returns the composition of data to be used to test the theory. Favors the data returned
@@ -64,17 +55,10 @@ namespace AutoFixture.Xunit
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
-            if (methodUnderTest == null)
-            {
-                throw new ArgumentNullException("methodUnderTest");
-            }
+            if (methodUnderTest == null) throw new ArgumentNullException(nameof(methodUnderTest));
+            if (parameterTypes == null) throw new ArgumentNullException(nameof(parameterTypes));
 
-            if (parameterTypes == null)
-            {
-                throw new ArgumentNullException("parameterTypes");
-            }
-
-            return this.attributes
+            return this.Attributes
                 .Select(attr => attr.GetData(methodUnderTest, parameterTypes))
                 .Zip(dataSets => dataSets.Collapse().ToArray());
         }
