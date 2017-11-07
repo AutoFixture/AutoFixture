@@ -29,12 +29,7 @@ namespace AutoFixture.Dsl
         /// <param name="composers">The composers to aggregate.</param>
         public CompositePostprocessComposer(params IPostprocessComposer<T>[] composers)
         {
-            if (composers == null)
-            {
-                throw new ArgumentNullException(nameof(composers));
-            }
-
-            this.Composers = composers;
+            this.Composers = composers ?? throw new ArgumentNullException(nameof(composers));
         }
 
         /// <summary>
@@ -161,11 +156,8 @@ namespace AutoFixture.Dsl
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            return new CompositeSpecimenBuilder(
-                this.Composers.Cast<ISpecimenBuilder>())
-                .Create(
-                    request,
-                    context);
+            return new CompositeSpecimenBuilder(this.Composers)
+                       .Create(request, context);
         }
     }
 }

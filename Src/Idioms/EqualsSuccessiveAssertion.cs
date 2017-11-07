@@ -13,8 +13,6 @@ namespace AutoFixture.Idioms
     /// </summary>
     public class EqualsSuccessiveAssertion : IdiomaticAssertion
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EqualsSuccessiveAssertion"/> class.
         /// </summary>
@@ -30,21 +28,13 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public EqualsSuccessiveAssertion(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            this.builder = builder;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         /// <summary>
         /// Gets the builder supplied by the constructor.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Verifies that `x.Equals(y)` 3 times on an instance of the type returns same
@@ -54,8 +44,7 @@ namespace AutoFixture.Idioms
         /// <param name="methodInfo">The method to verify</param>
         public override void Verify(MethodInfo methodInfo)
         {
-            if (methodInfo == null)
-                throw new ArgumentNullException("methodInfo");
+            if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
 
             if (methodInfo.ReflectedType == null ||
                 !methodInfo.IsObjectEqualsOverrideMethod())
@@ -64,8 +53,8 @@ namespace AutoFixture.Idioms
                 return;
             }
 
-            var instance = this.builder.CreateAnonymous(methodInfo.ReflectedType);
-            var other = this.builder.CreateAnonymous(methodInfo.ReflectedType);
+            var instance = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+            var other = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
 
             var results = Enumerable.Range(1, 3)
                 .Select(i => instance.Equals(other))

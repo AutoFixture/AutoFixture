@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using AutoFixture.Kernel;
@@ -14,13 +15,15 @@ namespace AutoFixture.NUnit3
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class InlineAutoDataAttribute : Attribute, ITestBuilder
     {
         private readonly object[] existingParameterValues;
         private readonly Lazy<IFixture> fixtureLazy;
         private IFixture Fixture => this.fixtureLazy.Value;
 
+        [SuppressMessage("Performance", "CA1823:Avoid unused private fields",
+            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1321")]
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
         
         /// <summary>
@@ -28,8 +31,8 @@ namespace AutoFixture.NUnit3
         /// </summary>
         public ITestMethodBuilder TestMethodBuilder
         {
-            get { return this.testMethodBuilder; }
-            set { this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
+            get => this.testMethodBuilder;
+            set => this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -49,15 +52,8 @@ namespace AutoFixture.NUnit3
                   "Please use the overload with a factory method, so fixture will be constructed only if needed.")]
         protected InlineAutoDataAttribute(IFixture fixture, params object[] arguments)
         {
-            if (null == fixture)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
-
-            if (null == arguments)
-            {
-                throw new ArgumentNullException(nameof(arguments));
-            }
+            if (null == fixture) throw new ArgumentNullException(nameof(fixture));
+            if (null == arguments) throw new ArgumentNullException(nameof(arguments));
 
             this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
             this.existingParameterValues = arguments;
@@ -70,15 +66,8 @@ namespace AutoFixture.NUnit3
         /// </summary>
         protected InlineAutoDataAttribute(Func<IFixture> fixtureFactory, params object[] arguments)
         {
-            if (null == fixtureFactory)
-            {
-                throw new ArgumentNullException(nameof(fixtureFactory));
-            }
-
-            if (null == arguments)
-            {
-                throw new ArgumentNullException(nameof(arguments));
-            }
+            if (null == fixtureFactory) throw new ArgumentNullException(nameof(fixtureFactory));
+            if (null == arguments) throw new ArgumentNullException(nameof(arguments));
 
             this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
             this.existingParameterValues = arguments;
@@ -87,10 +76,7 @@ namespace AutoFixture.NUnit3
         /// <summary>
         /// Gets the parameter values for the test method.
         /// </summary>
-        public IEnumerable<object> Arguments
-        {
-            get { return this.existingParameterValues; }
-        }
+        public IEnumerable<object> Arguments => this.existingParameterValues;
 
         /// <summary>
         ///     Construct one or more TestMethods from a given MethodInfo,
@@ -118,7 +104,7 @@ namespace AutoFixture.NUnit3
 
         private IEnumerable<object> GetMissingValues(IEnumerable<IParameterInfo> parameters)
         {
-            var parametersWithoutValues = parameters.Skip(this.existingParameterValues.Count());
+            var parametersWithoutValues = parameters.Skip(this.existingParameterValues.Length);
 
             return parametersWithoutValues.Select(this.GetValueForParameter);
         }

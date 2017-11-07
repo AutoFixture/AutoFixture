@@ -12,11 +12,10 @@ namespace AutoFixture.NUnit2
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", 
+        Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
-        private readonly IEnumerable<DataAttribute> attributes;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
@@ -34,21 +33,13 @@ namespace AutoFixture.NUnit2
         /// </param>
         public CompositeDataAttribute(params DataAttribute[] attributes)
         {
-            if (attributes == null)
-            {
-                throw new ArgumentNullException("attributes");
-            }
-
-            this.attributes = attributes;
+            this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
         }
 
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<DataAttribute> Attributes
-        {
-            get { return this.attributes; }
-        }
+        public IEnumerable<DataAttribute> Attributes { get; }
 
         /// <summary>
         /// Returns the composition of arguments to be used to test the testcase. Favors the arguments returned
@@ -60,10 +51,7 @@ namespace AutoFixture.NUnit2
         /// </returns>
         public override IEnumerable<object[]> GetData(MethodInfo method)
         {
-            if (method == null)
-            {
-                throw new ArgumentNullException("method");
-            }
+            if (method == null) throw new ArgumentNullException(nameof(method));
 
             int numberOfParameters = method.GetParameters().Length;
             if (numberOfParameters <= 0)
@@ -75,7 +63,7 @@ namespace AutoFixture.NUnit2
 
             do
             {
-                foreach (var attribute in this.attributes)
+                foreach (var attribute in this.Attributes)
                 {
                     var attributeData = attribute.GetData(method).ToArray();
 

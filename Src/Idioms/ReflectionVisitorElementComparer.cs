@@ -39,7 +39,7 @@ namespace AutoFixture.Idioms
 
         int IEqualityComparer<IReflectionElement>.GetHashCode(IReflectionElement obj)
         {
-            if (obj == null) throw new ArgumentNullException("obj");
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
             return obj
                 .Accept(this.visitor)
                 .Value

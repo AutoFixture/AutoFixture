@@ -26,7 +26,7 @@ namespace AutoFixture
         [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
         public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
         {
-            return CreateSeedExtensions.Create<T>(context, seed);
+            return Create<T>(context, seed);
         }
 
 
@@ -164,10 +164,7 @@ namespace AutoFixture
         /// </remarks>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed, int count)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var rawResult = context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), seed), count));
             return ((IEnumerable<object>)rawResult).Cast<T>();
@@ -204,10 +201,7 @@ namespace AutoFixture
         /// <returns>An anonymous object.</returns>
         public static T Create<T>(this ISpecimenContext context, T seed)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             return (T)context.Resolve(new SeededRequest(typeof(T), seed));
         }

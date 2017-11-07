@@ -11,9 +11,6 @@ namespace AutoFixture.Idioms
     /// </typeparam>
     public class IndexedReplacement<T> : IExpansion<T>
     {
-        private readonly int replacementIndex;
-        private readonly IEnumerable<T> source;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedReplacement&lt;T&gt;"/> class.
         /// </summary>
@@ -31,8 +28,8 @@ namespace AutoFixture.Idioms
         /// <seealso cref="Expand" />
         public IndexedReplacement(int replacementIndex, params T[] source)
         {
-            this.replacementIndex = replacementIndex;
-            this.source = source;
+            this.ReplacementIndex = replacementIndex;
+            this.Source = source;
         }
 
         /// <summary>
@@ -73,8 +70,8 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public IEnumerable<T> Expand(T value)
         {
-            var list = this.source.ToList();
-            list[this.replacementIndex] = value;
+            var list = this.Source.ToList();
+            list[this.ReplacementIndex] = value;
             return list;
         }
 
@@ -85,18 +82,12 @@ namespace AutoFixture.Idioms
         /// <remarks>
         /// <para>The index is zero-based.</para>
         /// </remarks>
-        public int ReplacementIndex
-        {
-            get { return this.replacementIndex; }
-        }
+        public int ReplacementIndex { get; }
 
         /// <summary>
         /// Gets the sequence of elements where one element will be replaced by the
         /// <see cref="Expand" /> method.
         /// </summary>
-        public IEnumerable<T> Source
-        {
-            get { return this.source; }
-        }
+        public IEnumerable<T> Source { get; }
     }
 }

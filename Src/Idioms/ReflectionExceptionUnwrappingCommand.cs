@@ -9,8 +9,6 @@ namespace AutoFixture.Idioms
     /// </summary>
     public class ReflectionExceptionUnwrappingCommand : IGuardClauseCommand
     {
-        private readonly IGuardClauseCommand command;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ReflectionExceptionUnwrappingCommand" />
         /// class.
@@ -18,16 +16,13 @@ namespace AutoFixture.Idioms
         /// <param name="command">The decorated command.</param>
         public ReflectionExceptionUnwrappingCommand(IGuardClauseCommand command)
         {
-            this.command = command;
+            this.Command = command;
         }
 
         /// <summary>
         /// Gets the decorated command supplied via the constructor.
         /// </summary>
-        public IGuardClauseCommand Command
-        {
-            get { return this.command; }
-        }
+        public IGuardClauseCommand Command { get; }
 
         /// <summary>
         /// Gets the type of the requested value.
@@ -38,10 +33,7 @@ namespace AutoFixture.Idioms
         /// <see cref="IGuardClauseCommand.RequestedType" /> property.
         /// </para>
         /// </remarks>
-        public Type RequestedType
-        {
-            get { return this.command.RequestedType; }
-        }
+        public Type RequestedType => this.Command.RequestedType;
 
         /// <summary>
         /// Gets the parameter name of the requested value.
@@ -52,10 +44,7 @@ namespace AutoFixture.Idioms
         /// <see cref="IGuardClauseCommand.RequestedParameterName" /> property.
         /// </para>
         /// </remarks>
-        public string RequestedParameterName
-        {
-            get { return this.command.RequestedParameterName; }
-        }
+        public string RequestedParameterName => this.Command.RequestedParameterName;
 
         /// <summary>
         /// Executes the action on the decorated <see cref="Command" />. If a

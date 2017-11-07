@@ -38,10 +38,7 @@ namespace AutoFixture.Dsl
         /// </param>
         public NullComposer(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
 
             this.compose = () => builder;
         }
@@ -55,12 +52,7 @@ namespace AutoFixture.Dsl
         /// </param>
         public NullComposer(Func<ISpecimenBuilder> factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            this.compose = factory;
+            this.compose = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         /// <summary>

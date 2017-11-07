@@ -14,10 +14,7 @@ namespace AutoFixture.AutoRhinoMock
         /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException("fixture");
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.ResidueCollectors.Add(
                 new RhinoMockAroundAdvice(

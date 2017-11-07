@@ -20,7 +20,7 @@ namespace AutoFixture.AutoMoq
         /// <param name="context">The context that is used to create anonymous values.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var mock = specimen as Mock;
             if (mock == null)
@@ -38,11 +38,17 @@ namespace AutoFixture.AutoMoq
         {
             public bool IsSatisfiedBy(object request)
             {
-                var fi = request as FieldInfo;
-                if (fi != null)
-                    return !IsProxyMember(fi);
+                switch (request)
+                {
+                    case FieldInfo fi:
+                        return !IsProxyMember(fi);
 
-                return request is PropertyInfo;
+                    case PropertyInfo _:
+                        return true;
+
+                    default:
+                        return false;
+                }
             }
 
             private static bool IsProxyMember(FieldInfo fi)

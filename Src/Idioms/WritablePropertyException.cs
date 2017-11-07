@@ -22,7 +22,7 @@ namespace AutoFixture.Idioms
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
         public WritablePropertyException(PropertyInfo propertyInfo)
-            : this(propertyInfo, WritablePropertyException.FormatDefaultMessage(propertyInfo))
+            : this(propertyInfo, FormatDefaultMessage(propertyInfo))
         {
         }
 
@@ -81,10 +81,7 @@ namespace AutoFixture.Idioms
         /// Notice, value might null after deserialization on platforms that don't support <see cref="PropertyInfo"/> serialization.
         /// </remarks> 
         /// </summary>
-        public PropertyInfo PropertyInfo
-        {
-            get { return this.propertyInfo; }
-        }
+        public PropertyInfo PropertyInfo => this.propertyInfo;
 
         /// <summary>
         /// Adds <see cref="PropertyInfo" /> to a

@@ -13,7 +13,6 @@ namespace AutoFixture.Xunit2
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class FrozenAttribute : CustomizeAttribute
     {
-        private readonly Matching by;
         [Obsolete("The As property is deprecated.")]
         private Type _as;
 
@@ -39,7 +38,7 @@ namespace AutoFixture.Xunit2
         /// </param>
         public FrozenAttribute(Matching by)
         {
-            this.by = by;
+            this.By = by;
         }
 
         /// <summary>
@@ -57,10 +56,7 @@ namespace AutoFixture.Xunit2
         /// Gets the <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value.
         /// </summary>
-        public Matching By
-        {
-            get { return this.@by; }
-        }
+        public Matching By { get; }
 
         /// <summary>
         /// Gets a <see cref="FreezeOnMatchCustomization"/> configured
@@ -77,10 +73,7 @@ namespace AutoFixture.Xunit2
         /// </returns>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter == null)
-            {
-                throw new ArgumentNullException("parameter");
-            }
+            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
 
             return this.ShouldMatchBySpecificType()
                 ? this.FreezeAsType(parameter.ParameterType)

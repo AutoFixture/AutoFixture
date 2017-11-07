@@ -36,10 +36,7 @@ namespace AutoFixture.Dsl
         /// <seealso cref="Node" />
         public CompositeNodeComposer(ISpecimenBuilderNode node)
         {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-
-            this.Node = node;
+            this.Node = node ?? throw new ArgumentNullException(nameof(node));
         }
 
         /// <summary>

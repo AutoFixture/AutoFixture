@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -36,7 +37,7 @@ namespace AutoFixture.AutoMoq
         /// <param name="context">The context of the mock.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var mock = specimen as Mock;
             if (mock == null)
@@ -56,14 +57,14 @@ namespace AutoFixture.AutoMoq
                     if (method.IsVoid())
                     {
                         this.GetType()
-                            .GetMethod("SetupVoidMethod", BindingFlags.NonPublic | BindingFlags.Static)
+                            .GetMethod(nameof(SetupVoidMethod), BindingFlags.NonPublic | BindingFlags.Static)
                             .MakeGenericMethod(mockedType)
                             .Invoke(this, new object[] {mock, methodInvocationLambda});
                     }
                     else
                     {
                         this.GetType()
-                            .GetMethod("SetupMethod", BindingFlags.NonPublic | BindingFlags.Static)
+                            .GetMethod(nameof(SetupMethod), BindingFlags.NonPublic | BindingFlags.Static)
                             .MakeGenericMethod(mockedType, returnType)
                             .Invoke(this, new object[] {mock, methodInvocationLambda, context});
                     }
@@ -77,12 +78,11 @@ namespace AutoFixture.AutoMoq
         /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
         /// <param name="mock">The mock being set up.</param>
         /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method is invoked through reflection.")]
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode",
+            Justification = "This method is invoked through reflection.")]
         private static void SetupVoidMethod<TMock>(Mock<TMock> mock, Expression<Action<TMock>> methodCallExpression)
             where TMock : class
         {
-            if (mock == null) throw new ArgumentNullException("mock");
-
             mock.Setup(methodCallExpression);
         }
 
@@ -94,11 +94,12 @@ namespace AutoFixture.AutoMoq
         /// <param name="mock">The mock being set up.</param>
         /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
         /// <param name="context">The context that will be used to resolve the method's return value.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method is invoked through reflection.")]
-        private static void SetupMethod<TMock, TResult>(Mock<TMock> mock, Expression<Func<TMock, TResult>> methodCallExpression, ISpecimenContext context) where TMock : class
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode",
+            Justification = "This method is invoked through reflection.")]
+        private static void SetupMethod<TMock, TResult>(
+            Mock<TMock> mock, Expression<Func<TMock, TResult>> methodCallExpression, ISpecimenContext context)
+            where TMock : class
         {
-            if (mock == null) throw new ArgumentNullException("mock");
-
             mock.Setup(methodCallExpression)
                 .ReturnsUsingContext(context);
         }
@@ -182,8 +183,7 @@ namespace AutoFixture.AutoMoq
             else
             {
                 //for any non-out parameter, invoke "It.IsAny<T>()"
-                var isAnyMethod = typeof (It).GetMethod("IsAny")
-                                             .MakeGenericMethod(parameter.ParameterType);
+                var isAnyMethod = typeof(It).GetMethod(nameof(It.IsAny)).MakeGenericMethod(parameter.ParameterType);
 
                 return Expression.Call(isAnyMethod);
             }

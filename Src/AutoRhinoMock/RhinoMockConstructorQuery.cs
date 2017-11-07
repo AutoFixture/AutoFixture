@@ -26,10 +26,7 @@ namespace AutoFixture.AutoRhinoMock
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             if (type.IsInterface)
             {

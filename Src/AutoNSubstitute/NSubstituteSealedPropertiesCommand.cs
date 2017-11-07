@@ -24,8 +24,8 @@ namespace AutoFixture.AutoNSubstitute
         /// <param name="context">The context.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (specimen == null) throw new ArgumentNullException("specimen");
-            if (context == null) throw new ArgumentNullException("context");
+            if (specimen == null) throw new ArgumentNullException(nameof(specimen));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             try
             {
@@ -46,15 +46,16 @@ namespace AutoFixture.AutoNSubstitute
             /// </summary>
             public bool IsSatisfiedBy(object request)
             {
-                //exclude non-sealed properties
-                var pi = request as PropertyInfo;
-                if (pi != null)
-                    return pi.GetSetMethod().IsSealed();
-
-                //exclude interceptor fields
-                var fi = request as FieldInfo;
-                if (fi != null)
-                    return !IsDynamicProxyMember(fi);
+                switch (request)
+                {
+                    //exclude non-sealed properties
+                    case PropertyInfo pi:
+                        return pi.GetSetMethod().IsSealed();
+                        
+                    //exclude interceptor fields
+                    case FieldInfo fi:
+                        return !IsDynamicProxyMember(fi);
+                }
 
                 return false;
             }

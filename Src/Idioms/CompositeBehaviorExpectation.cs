@@ -8,8 +8,6 @@ namespace AutoFixture.Idioms
     /// </summary>
     public class CompositeBehaviorExpectation : IBehaviorExpectation
     {
-        private readonly IEnumerable<IBehaviorExpectation> expectations;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeBehaviorExpectation"/> class with
         /// the supplied <see cref="IBehaviorExpectation" /> instances.
@@ -19,7 +17,7 @@ namespace AutoFixture.Idioms
         /// <seealso cref="BehaviorExpectations" />
         public CompositeBehaviorExpectation(params IBehaviorExpectation[] behaviorExpectations)
         {
-            this.expectations = behaviorExpectations;
+            this.BehaviorExpectations = behaviorExpectations;
         }
 
         /// <summary>
@@ -52,9 +50,6 @@ namespace AutoFixture.Idioms
         /// </summary>
         /// <seealso cref="CompositeBehaviorExpectation(IBehaviorExpectation[])" />
         /// <seealso cref="CompositeBehaviorExpectation(IEnumerable{IBehaviorExpectation})"/>
-        public IEnumerable<IBehaviorExpectation> BehaviorExpectations
-        {
-            get { return this.expectations; }
-        }
+        public IEnumerable<IBehaviorExpectation> BehaviorExpectations { get; }
     }
 }

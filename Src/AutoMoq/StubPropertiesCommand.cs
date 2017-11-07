@@ -22,7 +22,7 @@ namespace AutoFixture.AutoMoq
             if (mock == null)
                 return;
 
-            //disable generation of default values (if enabled), otherwise SetupAllProperties will hang if there's a circular dependency
+            // Disable generation of default values (if enabled), otherwise SetupAllProperties will hang if there's a circular dependency
             var mockDefaultValueSetting = mock.DefaultValue;
             mock.DefaultValue = DefaultValue.Empty;
 

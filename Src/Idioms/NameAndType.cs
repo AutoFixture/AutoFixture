@@ -8,9 +8,11 @@ namespace AutoFixture.Idioms
     /// </summary>
     internal class NameAndType
     {
-        public string Name { get; private set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "It's fine to have the 'Type' property and we cannot re-use the GetType() method intead.")]
-        public Type Type { get; private set; }
+        public string Name { get; }
+        
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1721:Property names should not match get methods",
+            Justification = "It's fine to have the 'Type' property and we cannot re-use the GetType() method intead.")]
+        public Type Type { get; }
 
         public NameAndType(string name, Type type)
         {
@@ -20,7 +22,7 @@ namespace AutoFixture.Idioms
 
         public override bool Equals(object obj)
         {
-            if (obj == null) throw new ArgumentNullException("obj");
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
             var other = obj as NameAndType;
             if (other == null)
                 return base.Equals(obj);

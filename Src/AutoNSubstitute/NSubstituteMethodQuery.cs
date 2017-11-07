@@ -16,8 +16,7 @@ namespace AutoFixture.AutoNSubstitute
         /// <returns>Methods for <paramref name="type"/>.</returns>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             if (type.GetTypeInfo().IsInterface)
                 return new[] { SubstituteMethod.Create(type) };
@@ -32,15 +31,14 @@ namespace AutoFixture.AutoNSubstitute
         {
             public static IMethod Create(Type type)
             {
-                return SubstituteMethod.Create(type, new ParameterInfo[0]);
+                return Create(type, new ParameterInfo[0]);
             }
 
             public static IMethod Create(
                 Type type,
                 IEnumerable<ParameterInfo> parameterInfos)
             {
-                var constructedType =
-                    typeof(SubstituteMethod<>).MakeGenericType(type);
+                var constructedType = typeof(SubstituteMethod<>).MakeGenericType(type);
                 return (IMethod)Activator.CreateInstance(
                     constructedType,
                     parameterInfos);
@@ -51,17 +49,12 @@ namespace AutoFixture.AutoNSubstitute
             Justification = "It's activated via reflection.")]
         private class SubstituteMethod<T> : IMethod where T : class
         {
-            private readonly IEnumerable<ParameterInfo> parameterInfos;
-
             public SubstituteMethod(IEnumerable<ParameterInfo> parameterInfos)
             {
-                this.parameterInfos = parameterInfos;
+                this.Parameters = parameterInfos;
             }
 
-            public IEnumerable<ParameterInfo> Parameters
-            {
-                get { return this.parameterInfos; }
-            }
+            public IEnumerable<ParameterInfo> Parameters { get; }
 
             public object Invoke(IEnumerable<object> parameters)
             {

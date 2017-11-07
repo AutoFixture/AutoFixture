@@ -21,9 +21,6 @@ namespace AutoFixture.AutoRhinoMock
     /// </remarks>
     public class RhinoMockConstructorMethod : IMethod
     {
-        private readonly Type mockTargetType;
-        private readonly ParameterInfo[] paramInfos;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RhinoMockConstructorMethod"/> class.
         /// </summary>
@@ -36,35 +33,21 @@ namespace AutoFixture.AutoRhinoMock
         /// </param>
         public RhinoMockConstructorMethod(Type mockTargetType, ParameterInfo[] parameterInfos)
         {
-            if (mockTargetType == null)
-            {
-                throw new ArgumentNullException("mockTargetType");
-            }
-            if (parameterInfos == null)
-            {
-                throw new ArgumentNullException("parameterInfos");
-            }
-
-            this.mockTargetType = mockTargetType;
-            this.paramInfos = parameterInfos;
+            this.MockTargetType = mockTargetType ?? throw new ArgumentNullException(nameof(mockTargetType));
+            this.Parameters = parameterInfos ?? throw new ArgumentNullException(nameof(parameterInfos));
         }
 
         /// <summary>
         /// Gets the type of which a mock instance should be created.
         /// </summary>
         /// <seealso cref="RhinoMockConstructorMethod(Type, ParameterInfo[])" />
-        public Type MockTargetType
-        {
-            get { return this.mockTargetType; }
-        }
+        public Type MockTargetType { get; }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.paramInfos; }
-        }
+        public IEnumerable<ParameterInfo> Parameters { get; }
 
         /// <summary>
         /// Creates a mock instance using Rhino Mocks.
@@ -75,7 +58,7 @@ namespace AutoFixture.AutoRhinoMock
         /// <returns>A mock instance created with Rhino Mocks.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            return MockRepository.GenerateMock(this.mockTargetType, new Type[0], parameters.ToArray());
+            return MockRepository.GenerateMock(this.MockTargetType, new Type[0], parameters.ToArray());
         }
     }
 }

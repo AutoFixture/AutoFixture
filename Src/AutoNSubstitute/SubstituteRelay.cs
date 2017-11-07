@@ -30,10 +30,7 @@ namespace AutoFixture.AutoNSubstitute
         /// </exception>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var requestedType = request as Type;
             if (requestedType == null || !requestedType.GetTypeInfo().IsAbstract)

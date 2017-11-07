@@ -18,9 +18,7 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
         /// </summary>
         public CallResultResolver(ISpecimenContext specimenContext)
         {
-            if (specimenContext == null) throw new ArgumentNullException(nameof(specimenContext));
-
-            this.SpecimenContext = specimenContext;
+            this.SpecimenContext = specimenContext ?? throw new ArgumentNullException(nameof(specimenContext));
         }
 
         /// <inheritdoc />
