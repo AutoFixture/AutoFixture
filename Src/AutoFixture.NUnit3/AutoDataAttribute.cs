@@ -21,14 +21,14 @@ namespace AutoFixture.NUnit3
         private readonly Lazy<IFixture> fixtureLazy;
         private IFixture Fixture => this.fixtureLazy.Value;
 
-        private ITestMethodBuilder _testMethodBuilder = new FixedNameTestMethodBuilder();
+        private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
         /// <summary>
         /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
         /// </summary>
         public ITestMethodBuilder TestMethodBuilder
         {
-            get { return this._testMethodBuilder; }
-            set { this._testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
+            get { return this.testMethodBuilder; }
+            set { this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
