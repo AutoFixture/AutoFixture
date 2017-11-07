@@ -13,8 +13,6 @@ namespace AutoFixture.NUnit3
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class FrozenAttribute : CustomizeAttribute
     {
-        private readonly Matching by;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
         /// </summary>
@@ -37,17 +35,14 @@ namespace AutoFixture.NUnit3
         /// </param>
         public FrozenAttribute(Matching by)
         {
-            this.by = by;
+            this.By = by;
         }
 
         /// <summary>
         /// Gets the <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value.
         /// </summary>
-        public Matching By
-        {
-            get { return this.@by; }
-        }
+        public Matching By { get; }
 
         /// <summary>
         /// Gets a <see cref="FreezeOnMatchCustomization"/> configured
@@ -64,10 +59,7 @@ namespace AutoFixture.NUnit3
         /// </returns>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter == null)
-            {
-                throw new ArgumentNullException("parameter");
-            }
+            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
 
             return this.FreezeByCriteria(parameter);
         }

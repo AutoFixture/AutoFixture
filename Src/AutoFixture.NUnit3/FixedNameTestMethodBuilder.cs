@@ -20,15 +20,8 @@ namespace AutoFixture.NUnit3
         public virtual TestMethod Build(
             IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)
         {
-            if (method == null)
-            {
-                throw new ArgumentNullException(nameof(method));
-            }
-
-            if (parameterValues == null)
-            {
-                throw new ArgumentNullException(nameof(parameterValues));
-            }
+            if (method == null) throw new ArgumentNullException(nameof(method));
+            if (parameterValues == null) throw new ArgumentNullException(nameof(parameterValues));
 
             return new NUnitTestCaseBuilder()
                 .BuildTestMethod(method, suite, GetParametersForMethod(method, parameterValues, autoDataStartIndex));

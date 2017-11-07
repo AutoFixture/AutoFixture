@@ -21,14 +21,16 @@ namespace AutoFixture.NUnit3
         private readonly Lazy<IFixture> fixtureLazy;
         private IFixture Fixture => this.fixtureLazy.Value;
 
+        [SuppressMessage("Performance", "CA1823:Avoid unused private fields",
+            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1321")]
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
         /// <summary>
         /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
         /// </summary>
         public ITestMethodBuilder TestMethodBuilder
         {
-            get { return this.testMethodBuilder; }
-            set { this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
+            get => this.testMethodBuilder;
+            set => this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
