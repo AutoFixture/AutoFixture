@@ -14,8 +14,6 @@ namespace AutoFixture.AutoNSubstitute
     /// </remarks>
     public class SubstituteRequestHandler : ISpecimenBuilder
     {
-        private readonly ISpecimenBuilder substituteFactory;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SubstituteRequestHandler"/> class with the specified 
         /// <paramref name="substituteFactory"/>.
@@ -26,22 +24,14 @@ namespace AutoFixture.AutoNSubstitute
         /// </param>
         public SubstituteRequestHandler(ISpecimenBuilder substituteFactory)
         {
-            if (substituteFactory == null)
-            {
-                throw new ArgumentNullException("substituteFactory");
-            }
-
-            this.substituteFactory = substituteFactory;
+            this.SubstituteFactory = substituteFactory ?? throw new ArgumentNullException(nameof(substituteFactory));
         }
 
         /// <summary>
         /// Returns an <see cref="ISpecimenBuilder"/> responsible for creating a substitute instance based on a target
         /// <see cref="Type"/> type.
         /// </summary>
-        public ISpecimenBuilder SubstituteFactory 
-        {
-            get { return this.substituteFactory; }
-        }
+        public ISpecimenBuilder SubstituteFactory { get; }
 
         /// <summary>
         /// Creates a substitute when <paramref name="request"/> is an explicit <see cref="SubstituteRequest"/>.
@@ -58,7 +48,7 @@ namespace AutoFixture.AutoNSubstitute
                 return new NoSpecimen();
             }
 
-            return this.substituteFactory.Create(substituteRequest.TargetType, context);
+            return this.SubstituteFactory.Create(substituteRequest.TargetType, context);
         }
     }
 }

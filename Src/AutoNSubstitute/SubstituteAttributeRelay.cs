@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -23,10 +24,7 @@ namespace AutoFixture.AutoNSubstitute
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var customAttributeProvider = request as ICustomAttributeProvider;
             if (customAttributeProvider == null)
@@ -45,31 +43,29 @@ namespace AutoFixture.AutoNSubstitute
             return context.Resolve(substituteRequest);
         }
 
+        [SuppressMessage("Performance", "CA1801:Review unused parameters",
+            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1294")]
         private static object CreateSubstituteRequest(ICustomAttributeProvider request, SubstituteAttribute attribute)
         {
-            var parameter = request as ParameterInfo;
-            if (parameter != null)
+            switch (request)
             {
-                return new SubstituteRequest(parameter.ParameterType);
-            }
+                case ParameterInfo parameter:
+                    return new SubstituteRequest(parameter.ParameterType);
 
-            var property = request as PropertyInfo;
-            if (property != null)
-            {
-                return new SubstituteRequest(property.PropertyType);
-            }
+                case PropertyInfo property:
+                    return new SubstituteRequest(property.PropertyType);
 
-            var field = request as FieldInfo;
-            if (field != null)
-            {
-                return new SubstituteRequest(field.FieldType);
-            }
+                case FieldInfo field:
+                    return new SubstituteRequest(field.FieldType);
 
-            throw new NotSupportedException(
-                string.Format(
-                    CultureInfo.CurrentCulture,
-                    "{0} is applied to an unsupported code element {1}",
-                    attribute, request));
+                default:
+                    throw new NotSupportedException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0} is applied to an unsupported code element {1}",
+                            attribute,
+                            request));
+            }
         }
     }
 }

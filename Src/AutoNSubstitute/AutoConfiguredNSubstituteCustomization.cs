@@ -25,10 +25,7 @@ namespace AutoFixture.AutoNSubstitute
         /// <param name="builder">The builder to use to create specimens for this customization.</param>
         public AutoConfiguredNSubstituteCustomization(ISpecimenBuilder builder)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-
-            this.Builder = builder;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         /// <summary>
@@ -45,7 +42,7 @@ namespace AutoFixture.AutoNSubstitute
             if (fixture == null)
                 throw new ArgumentNullException(nameof(fixture));
 
-            fixture.Customizations.Insert(0, 
+            fixture.Customizations.Insert(0,
                 new Postprocessor(
                     new SubstituteRequestHandler(new MethodInvoker(new NSubstituteMethodQuery())),
                     new CompositeSpecimenCommand(

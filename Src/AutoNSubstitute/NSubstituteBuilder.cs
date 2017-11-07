@@ -7,9 +7,6 @@ namespace AutoFixture.AutoNSubstitute
     /// <seealso cref="Create(object, ISpecimenContext)"/>
     public class NSubstituteBuilder : ISpecimenBuilder
     {
-        private readonly ISpecimenBuilder builder;
-        private readonly IRequestSpecification substitutionSpecification;
-
         /// <summary>Initializes a new instance of the <see cref="NSubstituteBuilder"/> class with an
         ///     <see cref="ISpecimenBuilder"/> to decorate.</summary>
         /// <param name="builder">The builder which must build mock instances.</param>
@@ -34,21 +31,13 @@ namespace AutoFixture.AutoNSubstitute
         /// <seealso cref="SubstitutionSpecification"/>
         public NSubstituteBuilder(ISpecimenBuilder builder, IRequestSpecification substitutionSpecification)
         {
-            if (builder == null)
-                throw new ArgumentNullException("builder");
-            if (substitutionSpecification == null)
-                throw new ArgumentNullException("substitutionSpecification");
-
-            this.builder = builder;
-            this.substitutionSpecification = substitutionSpecification;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+            this.SubstitutionSpecification = substitutionSpecification ?? throw new ArgumentNullException(nameof(substitutionSpecification));
         }
 
         /// <summary>Gets the decorated builder supplied through the constructor.</summary>
         /// <seealso cref="NSubstituteBuilder(ISpecimenBuilder)"/>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>Gets a specification that determines whether a substitute should be created for a given request.</summary>
         /// <remarks>
@@ -59,10 +48,7 @@ namespace AutoFixture.AutoNSubstitute
         ///     </para>
         /// </remarks>
         /// <seealso cref="NSubstituteBuilder(ISpecimenBuilder, IRequestSpecification)"/>
-        public IRequestSpecification SubstitutionSpecification
-        {
-            get { return this.substitutionSpecification; }
-        }
+        public IRequestSpecification SubstitutionSpecification { get; }
 
         /// <summary>Creates a new specimen based on a request.</summary>
         /// <param name="request">The request that describes what to create.</param>

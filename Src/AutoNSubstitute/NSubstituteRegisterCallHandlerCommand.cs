@@ -58,13 +58,9 @@ namespace AutoFixture.AutoNSubstitute
             ICallResultCacheFactory callResultCacheFactory,
             ICallResultResolverFactory callResultResolverFactory)
         {
-            if (substitutionContext == null) throw new ArgumentNullException(nameof(substitutionContext));
-            if (callResultCacheFactory == null) throw new ArgumentNullException(nameof(callResultCacheFactory));
-            if (callResultResolverFactory == null) throw new ArgumentNullException(nameof(callResultResolverFactory));
-
-            this.SubstitutionContext = substitutionContext;
-            this.CallResultCacheFactory = callResultCacheFactory;
-            this.CallResultResolverFactory = callResultResolverFactory;
+            this.SubstitutionContext = substitutionContext ?? throw new ArgumentNullException(nameof(substitutionContext));
+            this.CallResultCacheFactory = callResultCacheFactory ?? throw new ArgumentNullException(nameof(callResultCacheFactory));
+            this.CallResultResolverFactory = callResultResolverFactory ?? throw new ArgumentNullException(nameof(callResultResolverFactory));
         }
 
         /// <summary>
