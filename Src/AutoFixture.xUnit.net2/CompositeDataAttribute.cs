@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Xunit.Sdk;
@@ -11,11 +12,10 @@ namespace AutoFixture.Xunit2
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
+        Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
-        private readonly IReadOnlyCollection<DataAttribute> attributes;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
@@ -33,21 +33,13 @@ namespace AutoFixture.Xunit2
         /// </param>
         public CompositeDataAttribute(params DataAttribute[] attributes)
         {
-            if (attributes == null)
-            {
-                throw new ArgumentNullException("attributes");
-            }
-
-            this.attributes = attributes;
+            this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
         }
 
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<DataAttribute> Attributes
-        {
-            get { return this.attributes; }
-        }
+        public IEnumerable<DataAttribute> Attributes { get; }
 
         /// <summary>
         /// Returns the composition of data to be used to test the theory. Favors the data returned
@@ -63,12 +55,9 @@ namespace AutoFixture.Xunit2
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (testMethod == null)
-            {
-                throw new ArgumentNullException("testMethod");
-            }
+            if (testMethod == null) throw new ArgumentNullException(nameof(testMethod));
 
-            return this.attributes
+            return this.Attributes
                 .Select(attr => attr.GetData(testMethod))
                 .Zip(dataSets => dataSets.Collapse().ToArray());
         }

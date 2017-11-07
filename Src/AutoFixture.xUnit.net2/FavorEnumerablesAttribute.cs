@@ -24,8 +24,7 @@ namespace AutoFixture.Xunit2
         /// </returns>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter == null)
-                throw new ArgumentNullException("parameter");
+            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
 
             return new ConstructorCustomization(parameter.ParameterType, new EnumerableFavoringConstructorQuery());
         }
