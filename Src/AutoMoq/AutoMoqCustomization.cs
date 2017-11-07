@@ -8,8 +8,6 @@ namespace AutoFixture.AutoMoq
     /// </summary>
     public class AutoMoqCustomization : ICustomization
     {
-        private readonly ISpecimenBuilder relay;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoMoqCustomization"/> class.
         /// </summary>
@@ -25,12 +23,7 @@ namespace AutoFixture.AutoMoq
         /// <param name="relay">The relay.</param>
         public AutoMoqCustomization(ISpecimenBuilder relay)
         {
-            if (relay == null)
-            {
-                throw new ArgumentNullException("relay");
-            }
-
-            this.relay = relay;
+            this.Relay = relay ?? throw new ArgumentNullException(nameof(relay));
         }
 
         /// <summary>
@@ -38,10 +31,7 @@ namespace AutoFixture.AutoMoq
         /// <see cref="Customize"/> is invoked.
         /// </summary>
         /// <seealso cref="AutoMoqCustomization(ISpecimenBuilder)"/>
-        public ISpecimenBuilder Relay
-        {
-            get { return this.relay; }
-        }
+        public ISpecimenBuilder Relay { get; }
 
         /// <summary>
         /// Customizes a <see cref="IFixture"/> to enable auto-mocking with Moq.
@@ -49,10 +39,7 @@ namespace AutoFixture.AutoMoq
         /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException("fixture");
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customizations.Add(
                 new MockPostprocessor(

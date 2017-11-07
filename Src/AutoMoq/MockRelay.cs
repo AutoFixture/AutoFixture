@@ -11,8 +11,6 @@ namespace AutoFixture.AutoMoq
     /// </summary>
     public class MockRelay : ISpecimenBuilder
     {
-        private readonly IRequestSpecification mockableSpecification;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MockRelay"/> class.
         /// </summary>
@@ -30,12 +28,7 @@ namespace AutoFixture.AutoMoq
         /// </param>
         public MockRelay(IRequestSpecification mockableSpecification)
         {
-            if (mockableSpecification == null)
-            {
-                throw new ArgumentNullException("mockableSpecification");
-            }
-
-            this.mockableSpecification = mockableSpecification;
+            this.MockableSpecification = mockableSpecification ?? throw new ArgumentNullException(nameof(mockableSpecification));
         }
 
         /// <summary>
@@ -55,10 +48,7 @@ namespace AutoFixture.AutoMoq
         /// </para>
         /// </remarks>
         /// <seealso cref="MockRelay(IRequestSpecification)" />
-        public IRequestSpecification MockableSpecification
-        {
-            get { return this.mockableSpecification; }
-        }
+        public IRequestSpecification MockableSpecification { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -71,17 +61,16 @@ namespace AutoFixture.AutoMoq
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
-            if (!this.mockableSpecification.IsSatisfiedBy(request))
+            if (!this.MockableSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen();
 
             var t = request as Type;
             if (t == null)
                 return new NoSpecimen();
 
-            var result = MockRelay.ResolveMock(t, context);
+            var result = ResolveMock(t, context);
             // Note: null is a valid specimen (e.g., returned by NullRecursionHandler)
             if (result is NoSpecimen || result is OmitSpecimen || result == null)
                 return result;

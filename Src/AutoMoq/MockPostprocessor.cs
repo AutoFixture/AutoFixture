@@ -11,8 +11,6 @@ namespace AutoFixture.AutoMoq
     /// </summary>
     public class MockPostprocessor : ISpecimenBuilder
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MockPostprocessor"/> class with the
         /// supplied <see cref="ISpecimenBuilder"/>.
@@ -22,21 +20,13 @@ namespace AutoFixture.AutoMoq
         /// </param>
         public MockPostprocessor(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            this.builder = builder;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         /// <summary>
         /// Gets the builder decorated by this instance.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Modifies a <see cref="Mock{T}"/> instance created by <see cref="Builder"/>.
@@ -55,7 +45,7 @@ namespace AutoFixture.AutoMoq
                 return new NoSpecimen();
             }
 
-            var specimen = this.builder.Create(request, context);
+            var specimen = this.Builder.Create(request, context);
             if (specimen is NoSpecimen || specimen is OmitSpecimen || specimen == null)
                 return specimen;
 
@@ -83,7 +73,7 @@ namespace AutoFixture.AutoMoq
         {
             public void Configure(Mock mock)
             {
-                MockConfigurator<T>.Configure((Mock<T>)mock);
+                Configure((Mock<T>)mock);
             }
 
             private static void Configure(Mock<T> mock)
