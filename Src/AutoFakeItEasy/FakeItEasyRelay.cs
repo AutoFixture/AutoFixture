@@ -11,8 +11,6 @@ namespace AutoFixture.AutoFakeItEasy
     /// </summary>
     public class FakeItEasyRelay : ISpecimenBuilder
     {
-        private readonly IRequestSpecification fakeableSpecification;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeItEasyRelay"/> class.
         /// </summary>
@@ -30,10 +28,7 @@ namespace AutoFixture.AutoFakeItEasy
         /// </param>
         public FakeItEasyRelay(IRequestSpecification fakeableSpecification)
         {
-            if (fakeableSpecification == null)
-                throw new ArgumentNullException("fakeableSpecification");
-
-            this.fakeableSpecification = fakeableSpecification;
+            this.FakeableSpecification = fakeableSpecification ?? throw new ArgumentNullException(nameof(fakeableSpecification));
         }
 
         /// <summary>
@@ -51,10 +46,7 @@ namespace AutoFixture.AutoFakeItEasy
         /// </para>
         /// </remarks>
         /// <seealso cref="FakeItEasyRelay(IRequestSpecification)"/>
-        public IRequestSpecification FakeableSpecification
-        {
-            get { return this.fakeableSpecification; }
-        }
+        public IRequestSpecification FakeableSpecification { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -67,10 +59,9 @@ namespace AutoFixture.AutoFakeItEasy
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
-            if (!this.fakeableSpecification.IsSatisfiedBy(request))
+            if (!this.FakeableSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen();
 
             var type = request as Type;
@@ -92,8 +83,13 @@ namespace AutoFixture.AutoFakeItEasy
         {
             public bool IsSatisfiedBy(object request)
             {
-                var t = request as Type;
-                return (t != null) && ((t.GetTypeInfo().IsAbstract) || (t.GetTypeInfo().IsInterface));
+                var type = request as Type;
+                if (type == null)
+                {
+                    return false;
+                }
+
+                return type.GetTypeInfo().IsAbstract || type.GetTypeInfo().IsInterface;
             }
         }
     }

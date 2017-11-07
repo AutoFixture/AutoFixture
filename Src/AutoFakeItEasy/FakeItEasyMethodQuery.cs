@@ -63,17 +63,12 @@ namespace AutoFixture.AutoFakeItEasy
             Justification = "It's activated via reflection.")]
         private class FakeMethod<T> : IMethod
         {
-            private readonly IEnumerable<ParameterInfo> parameterInfos;
-
             public FakeMethod(IEnumerable<ParameterInfo> parameterInfos)
             {
-                this.parameterInfos = parameterInfos;
+                this.Parameters = parameterInfos;
             }
 
-            public IEnumerable<ParameterInfo> Parameters
-            {
-                get { return this.parameterInfos; }
-            }
+            public IEnumerable<ParameterInfo> Parameters { get; }
 
             public object Invoke(IEnumerable<object> parameters)
             {
