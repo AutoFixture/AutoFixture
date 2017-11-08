@@ -6011,11 +6011,11 @@ namespace AutoFixtureUnitTest
         public void Issue453_RangeAttributeShouldFailWithMeaningfulException()
         {
             // Fixture setup
-            var fixture = new Fixture();
+            var sut = new Fixture();
 
             // Exercise system and verify outcome
             var actualEx = Assert.ThrowsAny<ObjectCreationException>(
-                () => fixture.Create<Issue453_AnnotationWithOverflow>());
+                () => sut.Create<Issue453_AnnotationWithOverflow>());
 
             Assert.IsType<OverflowException>(actualEx.InnerException);
             Assert.Contains("To solve the issue", actualEx.InnerException.Message);
@@ -6027,6 +6027,30 @@ namespace AutoFixtureUnitTest
         {
             [Range(short.MinValue, long.MaxValue, ErrorMessage = "Id is not in range")]
             public long CustomerId { get; set; }
+        }
+
+        private class RangeAnnotationWithLargeStringBoundaries
+        {
+            [Range(typeof(long), "1", /* long.MaxValue */ "9223372036854775807")]
+            public long PropertyWithStringValueRange1 { get; set; }
+
+            [Range(typeof(long), /* long.MinValue */ "-9223372036854775808", "-1")]
+            public long PropertyWithStringValueRange2 { get; set; }
+        }
+
+        [Fact]
+        public void RangeAttributeWithLargeStringRangeShouldWork()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+
+            // Exercise system
+            var result = sut.Create<RangeAnnotationWithLargeStringBoundaries>();
+            
+            // Verify outcome
+            Assert.NotEqual(0, result.PropertyWithStringValueRange1);
+            Assert.NotEqual(0, result.PropertyWithStringValueRange2);
+            // Teardown
         }
 
         [Fact]
