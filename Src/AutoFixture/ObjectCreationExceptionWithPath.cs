@@ -63,6 +63,9 @@ namespace AutoFixture
 
         private static bool ShouldDisplayRequestInPath(object request)
         {
+            if (request.GetType().GetTypeInfo().GetCustomAttribute<PreserveInRequestPathAttribute>() != null)
+                return true;
+
             var autoFixtureAssembly = typeof(ObjectCreationExceptionWithPath).GetTypeInfo().Assembly;
             if (request.GetType().GetTypeInfo().Assembly.Equals(autoFixtureAssembly))
                 return false;
