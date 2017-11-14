@@ -185,7 +185,7 @@ Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
 Target "RestoreNuGetPackages" (fun _ -> runMsBuild "Restore" None [])
 
 Target "EnableSourceLinkGeneration" (fun _ ->
-    let areEqual a b = String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
+    let areEqual s1 s2 = String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase)
 
     // A set of sanity checks to fail with meaningful errors.
     let originUrl = Git.CommandHelper.runSimpleGitCommand "" "config --get remote.origin.url"
@@ -206,21 +206,23 @@ Target "VerifyOnly" (fun _ -> rebuild "Verify")
 
 Target "BuildOnly" (fun _ -> rebuild configuration)
 Target "TestOnly" (fun _ ->
-    let findTestProjects pattern = System.IO.Directory.GetDirectories("Src", pattern)
+    let findProjects pattern = System.IO.Directory.GetDirectories("Src", pattern)
     let getTestAssemblies framework projDirs =
         projDirs
         |> Seq.map (fun proj -> !! (sprintf "bin/%s/%s/*Test.dll" configuration framework)
                                 |> SetBaseDir proj)
         |> Seq.collect id
+    let flip f x y = f y x
 
-    let nUnit2TestProjects = findTestProjects "AutoFixture.NUnit2.*Test"
-    let nUnit3TestProjects = findTestProjects "AutoFixture.NUnit3.*Test"
-    let xUnitTestProjects = findTestProjects "*Test" 
-                             |> Seq.except (Seq.concat [nUnit2TestProjects; nUnit3TestProjects])
+    let nUnit2TestProjects = findProjects "AutoFixture.NUnit2.*Test"
+    let nUnit3TestProjects = findProjects "AutoFixture.NUnit3.*Test"
+    let xUnitTestProjects  = findProjects "*Test" 
+                             |> Seq.except nUnit2TestProjects
+                             |> Seq.except nUnit3TestProjects
 
     let xUnitCoreAppAssemblies = xUnitTestProjects
                                  |> getTestAssemblies "netcoreapp*"
-                                  
+
     let xUnitDesktopFrameworkAssemblies = xUnitTestProjects
                                           |> getTestAssemblies "*"
                                           |> Seq.except xUnitCoreAppAssemblies
@@ -228,7 +230,7 @@ Target "TestOnly" (fun _ ->
     // Run xUnit desktop tests.
     xUnitDesktopFrameworkAssemblies
     // A bit hacky way to pass custom parameter to xUnit, but it works.
-    |> (fun s -> Seq.append s [ "-noautoreporters" ])
+    |> flip Seq.append [ "-noautoreporters" ]
     |> xUnit2 (fun p -> { p with ToolPath = buildToolsDir </> "xunit.runner.console/tools/net452/xunit.console.exe"
                                  XmlOutputPath = testResultsFolder </> "xunit-desktop.xml" |> FullName |> Some
                                  Parallel = Collections })
@@ -252,8 +254,8 @@ Target "TestOnly" (fun _ ->
     // In future NUnit test runner should support AppVeyor directly.
     // See more detail: http://help.appveyor.com/discussions/questions/7805-nunit-test-results-on-net-core
     nUnit3TestProjects
-    |> Seq.iter (fun projPath ->
-        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projPath })
+    |> Seq.iter (fun projDir ->
+        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
                              (sprintf 
                                  "test --no-build --configuration %s --logger:trx --results-directory \"%s\""
                                  configuration
@@ -275,15 +277,17 @@ Target "NuGetPack" (fun _ ->
                                              "IncludeSymbols", "true"
                                              "PackageOutputPath", FullName nuGetOutputFolder
                                              "NoBuild", "true" ]
-    
-    // Verify that AutoFixture reference is valid.
-    let nuspecDoc = !! "AutoFixture.AutoNSubstitute*"
-                    |> SetBaseDir nuGetOutputFolder
-                    |> Seq.head
-                    |> ZipHelper.UnzipFirstMatchingFileInMemory (fun ze -> ze.Name.EndsWith ".nuspec")
-                    |> XMLDoc
 
-    let dependencyVersion = nuspecDoc.SelectSingleNode("//*[local-name()='dependency' and @id='AutoFixture']")
+    let findDependencyNode name (doc:Xml.XmlDocument) =
+            doc.SelectSingleNode(sprintf "//*[local-name()='dependency' and @id='%s']" name)
+
+    // Verify that AutoFixture reference is valid.
+    let dependencyVersion = !! "AutoFixture.AutoNSubstitute*"
+                            |> SetBaseDir nuGetOutputFolder
+                            |> Seq.head
+                            |> ZipHelper.UnzipFirstMatchingFileInMemory (fun ze -> ze.Name.EndsWith ".nuspec")
+                            |> XMLDoc
+                            |> findDependencyNode "AutoFixture"
                             |> getAttribute "version"
 
     if(buildVersion.nugetVersion <> dependencyVersion) 
