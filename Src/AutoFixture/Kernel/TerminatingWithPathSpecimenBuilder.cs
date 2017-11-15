@@ -60,13 +60,13 @@ namespace AutoFixture.Kernel
                 var result = this.Builder.Create(request, context);
                 if (result is NoSpecimen)
                 {
-                    throw new ObjectCreationExceptionWithPath(string.Format(
-                        CultureInfo.CurrentCulture,
-                        BuildCoreMessageTemplate(request, null),
-                        request,
-                        Environment.NewLine,
-                        BuildRequestPathText(this.SpecimenRequests),
-                        string.Empty));
+                    throw new ObjectCreationExceptionWithPath(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            BuildCoreMessageTemplate(request, null),
+                            request,
+                            Environment.NewLine),
+                        this.SpecimenRequests);
                 }
 
                 return result;
@@ -83,9 +83,8 @@ namespace AutoFixture.Kernel
                         CultureInfo.CurrentCulture,
                         BuildCoreMessageTemplate(request, ex),
                         request,
-                        Environment.NewLine,
-                        BuildRequestPathText(this.SpecimenRequests),
-                        BuildInnerExceptionMessages(ex)),
+                        Environment.NewLine),
+                    this.SpecimenRequests,
                     ex);
             }
             finally
@@ -100,14 +99,7 @@ namespace AutoFixture.Kernel
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because creation unexpectedly failed with exception. " +
-                    "Please refer to the inner exception to investigate the root cause of the failure." +
-                    "{1}" +
-                    "{1}" +
-                    "Request path:{1}{2}" +
-                    "{1}" +
-                    "{1}" +
-                    "Inner exception messages:{1}{3}" +
-                    "{1}";
+                    "Please refer to the inner exception to investigate the root cause of the failure.";
 
             var t = request as Type;
 
@@ -121,10 +113,7 @@ namespace AutoFixture.Kernel
                     "{1}" +
                     "If you have a concrete class implementing the " +
                     "interface, you can map the interface to that class:" +
-                    TypeMappingOptionsHelp +
-                    "{1}" +
-                    "{1}" +
-                    "Request path:{1}{2}{1}";
+                    TypeMappingOptionsHelp;
 
             if (t != null && t.IsAbstract())
                 return
@@ -137,15 +126,12 @@ namespace AutoFixture.Kernel
                     "If you have a concrete class deriving from the abstract " +
                     "class, you can map the abstract class to that derived " + 
                     "class:" +
-                    TypeMappingOptionsHelp +
-                    "{1}" +
-                    "{1}" +
-                    "Request path:{1}{2}{1}";
+                    TypeMappingOptionsHelp;
 
             return
                 "AutoFixture was unable to create an instance from {0}, " +
                 "most likely because it has no public constructor, is an " +
-                "abstract or non-public type.{1}{1}Request path:{1}{2}";
+                "abstract or non-public type.";
         }
 
         private const string TypeMappingOptionsHelp =
@@ -168,33 +154,6 @@ namespace AutoFixture.Kernel
             "{1}" +
             "See http://blog.ploeh.dk/2010/08/19/AutoFixtureasanauto-mockingcontainer " +
             "for more details.";
-
-        private static string BuildRequestPathText(IEnumerable<object> recordedRequests)
-        {
-            var thisAssembly = typeof(TerminatingWithPathSpecimenBuilder).Assembly();
-            return recordedRequests
-                .Where(r => r.GetType().Assembly() != thisAssembly)
-                .Select((r, i) => string.Format(CultureInfo.CurrentCulture, "\t{0} {1}", " ".PadLeft(i+1), r))
-                .Aggregate((s1, s2) => s1 + " --> " + Environment.NewLine + s2);
-        }
-
-        private static string BuildInnerExceptionMessages(Exception ex)
-        {
-            var messages = new StringBuilder();
-           
-            var level = 2;
-            while (ex != null)
-            {
-                messages.AppendFormat(
-                    CultureInfo.InvariantCulture, "{0}{1}: {2}", " ".PadLeft(level), ex.GetType().FullName, ex.Message);
-                messages.AppendLine();
-
-                level += 2;
-                ex = ex.InnerException;
-            }
-
-            return messages.ToString();
-        }
 
         /// <summary>Composes the supplied builders.</summary>
         /// <param name="builders">The builders to compose.</param>

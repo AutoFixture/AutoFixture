@@ -22,11 +22,6 @@ namespace AutoFixture.Kernel
                 "Member '{0}' contains more than one attribute of type '{1}'", candidate, typeof(TAttribute)));
         }
 
-        public static Assembly Assembly(this Type type)
-        {
-            return type.GetTypeInfo().Assembly;
-        }
-
         public static Type BaseType(this Type type)
         {
             return type.GetTypeInfo().BaseType;
