@@ -45,7 +45,7 @@ namespace AutoFixture.NUnit3
         /// Construct a <see cref="AutoDataAttribute"/> with an <see cref="IFixture"/> 
         /// </summary>
         /// <param name="fixture"></param>
-        [Obsolete("This constructor overload is deprecated as it ins't performance efficient and will be removed in a future version. " +
+        [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
                   "Please use the AutoDataAttribute(Func<IFixture> fixtureFactory) overload, so fixture will be constructed only if needed.")]
         protected AutoDataAttribute(IFixture fixture)
         {

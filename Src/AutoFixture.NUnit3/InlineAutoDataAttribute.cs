@@ -48,7 +48,7 @@ namespace AutoFixture.NUnit3
         /// Construct a <see cref="InlineAutoDataAttribute"/> with an <see cref="IFixture"/> 
         /// and parameter values for test method
         /// </summary>
-        [Obsolete("This constructor overload is deprecated as it ins't performance efficient and will be removed in a future version. " +
+        [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
                   "Please use the overload with a factory method, so fixture will be constructed only if needed.")]
         protected InlineAutoDataAttribute(IFixture fixture, params object[] arguments)
         {
