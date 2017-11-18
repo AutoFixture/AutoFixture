@@ -34,6 +34,7 @@ namespace AutoFixtureUnitTest
                 typeof(FieldRequestRelay),
                 typeof(FiniteSequenceRelay),
                 typeof(SeedIgnoringRelay),
+                typeof(NumericRangedRequestRelay),
                 typeof(MethodInvoker)
             };
             // Exercise system

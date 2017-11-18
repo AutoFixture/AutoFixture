@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using AutoFixture.DataAnnotations;
 using AutoFixture.Kernel;
@@ -99,11 +99,8 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
             var request = new FakeMemberInfo(providedAttribute);
             Type conversionType = rangeAttribute.OperandType;
-            var expectedRequest = new RangedNumberRequest(
-                conversionType,
-                Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture),
-                Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture)
-                );
+            var expectedRequest = new RangedRequest(conversionType, conversionType, rangeAttribute.Minimum,
+                rangeAttribute.Maximum);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
@@ -118,21 +115,16 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(nameof(RangeValidatedType.Property))]
-        [InlineData(nameof(RangeValidatedType.NullableTypeProperty))]
-        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(string name)
+        [InlineData(nameof(RangeValidatedType.Property), typeof(decimal), typeof(int))]
+        [InlineData(nameof(RangeValidatedType.NullableTypeProperty), typeof(decimal), typeof(int))]
+        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
+            string name, Type expectedMemberType, Type expectedOperandType)
         {
             // Fixture setup
             var request = typeof(RangeValidatedType).GetProperty(name);
-            Type target = Nullable.GetUnderlyingType(request.PropertyType) 
-                ?? request.PropertyType;
 
-            var expectedRequest = new RangedNumberRequest(
-                target,
-                Convert.ChangeType(RangeValidatedType.Minimum, target, CultureInfo.CurrentCulture),
-                Convert.ChangeType(RangeValidatedType.Maximum, target, CultureInfo.CurrentCulture)
-                );
-           
+            var expectedRequest = new RangedRequest(
+                expectedMemberType, expectedOperandType, RangeValidatedType.Minimum, RangeValidatedType.Maximum);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
@@ -147,20 +139,16 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(nameof(RangeValidatedType.Field))]
-        [InlineData(nameof(RangeValidatedType.NullableTypeField))]
-        public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(string name)
+        [InlineData(nameof(RangeValidatedType.Field), typeof(decimal), typeof(int))]
+        [InlineData(nameof(RangeValidatedType.NullableTypeField), typeof(decimal), typeof(int))]
+        public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
+            string name, Type expectedMemberType, Type expectedOperandType)
         {
             // Fixture setup
             var request = typeof(RangeValidatedType).GetField(name);
-            Type target = Nullable.GetUnderlyingType(request.FieldType)
-                ?? request.FieldType;
 
-            var expectedRequest = new RangedNumberRequest(
-                target,
-                Convert.ChangeType(RangeValidatedType.Minimum, target, CultureInfo.CurrentCulture),
-                Convert.ChangeType(RangeValidatedType.Maximum, target, CultureInfo.CurrentCulture)
-                );
+            var expectedRequest = new RangedRequest(
+                expectedMemberType, expectedOperandType, RangeValidatedType.Minimum, RangeValidatedType.Maximum);
 
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
@@ -175,41 +163,29 @@ namespace AutoFixtureUnitTest.DataAnnotations
             // Teardown
         }
 
-        [Range(0, long.MaxValue)]
-        public static long FieldWithOverflowedRange = 0;
-        
-        [Fact]
-        public void FailsWithMeaningfulExceptionWhenBoundaryCannotBeConvertedWithoutOverflow()
+        [Theory]
+        [InlineData(nameof(RangeValidatedType.MethodWithRangedParameter), typeof(decimal), typeof(int))]
+        [InlineData(nameof(RangeValidatedType.MethodWithRangedNullableParameter), typeof(decimal), typeof(int))]
+        public void CreateWithParameterDecoratedWithRangeAttributeReturnsCorrectResult(
+            string methodName, Type expectedMemberType, Type expectedOperandType)
         {
             // Fixture setup
-            var request = typeof(RangeAttributeRelayTest).GetField(nameof(FieldWithOverflowedRange));
-            
-            var sut = new RangeAttributeRelay();
-            var dummyContext = new DelegatingSpecimenContext();
+            var request = typeof(RangeValidatedType).GetMethod(methodName).GetParameters().Single();
 
-            // Exercise system and verify outcome
-            var actualEx = Assert.Throws<OverflowException>(() => sut.Create(request, dummyContext));
-            Assert.Contains("To solve the issue", actualEx.Message);
+            var expectedRequest = new RangedRequest(
+                expectedMemberType, expectedOperandType, RangeValidatedType.Minimum, RangeValidatedType.Maximum);
+
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
+            };
+            var sut = new RangeAttributeRelay();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
-
-        [Range(typeof(long), /* long.MinValue */ "-9223372036854775808", /* long.MaxValue */ "9223372036854775807")]
-        public static long FieldWithStringValueRange = 0;
-
-        [Fact]
-        public void ShouldNotFailIfRangeIsSpecifiedAsString()
-        {
-            // Fixture setup
-            var request = typeof(RangeAttributeRelayTest).GetField(nameof(FieldWithStringValueRange));
-
-            var sut = new RangeAttributeRelay();
-            var dummyContext = new DelegatingSpecimenContext();
-
-            // Exercise system and verify outcome
-            Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
-            
-            // Teardown
-        }
-
     }
 }
