@@ -317,9 +317,10 @@ namespace AutoFixtureUnitTest
                     .Range(0, repeatCount)
                     .Select(i => sut.Create(typeof(int), dummyContext))
                     .Cast<int>()
-                    .OrderBy(x => x);
+                    .OrderBy(x => x)
+                    .ToArray();
 
-                Assert.True(expectedResult.SequenceEqual(result));
+                Assert.Equal(expectedResult, result);
             }
         }
 
@@ -335,13 +336,16 @@ namespace AutoFixtureUnitTest
             var sut = new RandomNumericSequenceGenerator(limits);
             // Act
             var result = Enumerable
-                .Range(0, repeatCount)
-                .Select(i => sut.Create(typeof(int), dummyContext))
+                .Repeat(0, repeatCount)
+                .Select(_ => sut.Create(typeof(int), dummyContext))
                 .Cast<int>()
-                .OrderBy(x => x);
-            // Assert
+                .OrderBy(x => x)
+                .ToArray();
+
+            // Verify outcome
             var expectedResult = Enumerable.Range(min, repeatCount);
-            Assert.True(expectedResult.SequenceEqual(result));
+            Assert.Equal(expectedResult, result);
+            // Teardown
         }
 
         [Theory]
@@ -350,32 +354,26 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             int iterations = 5;
-            int completed = 0;
-            var done = new ManualResetEvent(false);
             var min = (int)limits.Min();
             var max = (int)limits.Max();
             int repeatCount = ((max - min) + 1) / iterations;
             int expectedResult = repeatCount * iterations;
             var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator(limits);
-            // Act
-            var numbers = new int[iterations][];
-            for (int i = 0; i < iterations; i++)
-            {
-                ThreadPool.QueueUserWorkItem(index =>
+            // Exercise system
+            var numbers = Enumerable.Repeat(0, iterations)
+                .AsParallel()
+                .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                .Select(iter =>
                 {
-                    numbers[(int)index] =
-                        Enumerable
-                            .Range(0, repeatCount)
-                            .Select(x => sut.Create(typeof(int), dummyContext))
-                            .Cast<int>()
-                            .ToArray();
+                    return Enumerable
+                        .Range(0, repeatCount)
+                        .Select(_ => sut.Create(typeof(int), dummyContext))
+                        .Cast<int>()
+                        .ToArray();
+                })
+                .ToArray();
 
-                    if (Interlocked.Increment(ref completed) == iterations)
-                        done.Set();
-                }, i);
-            }
-            done.WaitOne();
             int result = numbers.SelectMany(x => x).Distinct().Count();
             // Assert
             Assert.Equal(expectedResult, result);
