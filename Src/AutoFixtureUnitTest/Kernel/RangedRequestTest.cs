@@ -234,6 +234,63 @@ namespace AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void ShouldCorrectlyConvertTimeSpan()
+        {
+            // Fixture setup
+            var minimum = TimeSpan.Zero;
+            var maximum = TimeSpan.MaxValue;
+            var sut = new RangedRequest(typeof(TimeSpan), typeof(TimeSpan), minimum.ToString(), maximum.ToString());
+
+            // Exercise system
+            var convertedMinimumValue = sut.GetConvertedMinimum(typeof(TimeSpan));
+            var convertedMaximumValue = sut.GetConvertedMaximum(typeof(TimeSpan));
+
+            // Verify outcome
+            Assert.Equal(minimum, convertedMinimumValue);
+            Assert.Equal(maximum, convertedMaximumValue);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void ShouldCorrectlyConvertDateTimeOffset()
+        {
+            // Fixture setup
+            var minimum = DateTimeOffset.MinValue;
+            var maximum = DateTimeOffset.MaxValue;
+            var sut = new RangedRequest(typeof(DateTimeOffset), typeof(DateTimeOffset), minimum.ToString("o"), maximum.ToString("o"));
+
+            // Exercise system
+            var convertedMinimumValue = sut.GetConvertedMinimum(typeof(DateTimeOffset));
+            var convertedMaximumValue = sut.GetConvertedMaximum(typeof(DateTimeOffset));
+
+            // Verify outcome
+            Assert.Equal(minimum, convertedMinimumValue);
+            Assert.Equal(maximum, convertedMaximumValue);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void ShouldCorrectlyConvertDateTime()
+        {
+            // Fixture setup
+            var minimum = DateTime.MinValue;
+            var maximum = DateTime.MaxValue;
+            var sut = new RangedRequest(typeof(DateTime), typeof(DateTime), minimum.ToString("o"), maximum.ToString("o"));
+
+            // Exercise system
+            var convertedMinimumValue = sut.GetConvertedMinimum(typeof(DateTime));
+            var convertedMaximumValue = sut.GetConvertedMaximum(typeof(DateTime));
+
+            // Verify outcome
+            Assert.Equal(minimum, convertedMinimumValue);
+            Assert.Equal(maximum, convertedMaximumValue);
+
+            // Teardown
+        }
+
         [Theory]
         [InlineData((int)42)]
         [InlineData((uint)42)]

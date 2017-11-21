@@ -133,7 +133,13 @@ namespace AutoFixture.Kernel
         {
             try
             {
+                if (conversionType == typeof(TimeSpan))
+                    return TimeSpan.Parse(attributeValue.ToString(), CultureInfo.CurrentCulture);
+                if (conversionType == typeof(DateTimeOffset))
+                    return DateTimeOffset.Parse(attributeValue.ToString(), CultureInfo.CurrentCulture);
+
                 return Convert.ChangeType(attributeValue, conversionType, CultureInfo.CurrentCulture);
+
             }
             catch (OverflowException ex)
             {
