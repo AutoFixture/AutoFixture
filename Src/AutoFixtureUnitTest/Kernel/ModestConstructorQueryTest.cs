@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using AutoFixture.Kernel;
@@ -53,6 +53,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedConstructors = from ci in type.GetConstructors()
                                        let parameters = ci.GetParameters()
+                                       where parameters.All(p => p.ParameterType != type)
                                        orderby parameters.Length ascending
                                        select new ConstructorMethod(ci) as IMethod;
 
@@ -63,5 +64,21 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.True(expectedConstructors.SequenceEqual(result));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(SingleParameterType<object>))]
+        [InlineData(typeof(ConcreteType))]
+        [InlineData(typeof(MultiUnorderedConstructorType))]
+        public void SelectMethodsFromTypeReturnsCorrectParameterType(Type type)
+        {
+            // Fixture setup
+            var sut = new ModestConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(type);
+            // Verify outcome
+            Assert.True(result.All(r => r.Parameters.All(p => p.ParameterType != type)));
+            // Teardown
+        }
+
     }
 }
