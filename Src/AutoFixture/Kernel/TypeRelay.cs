@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
@@ -7,8 +8,17 @@ namespace AutoFixture.Kernel
     /// </summary>
     public class TypeRelay : ISpecimenBuilder
     {
-        private readonly Type from;
-        private readonly Type to;
+        private readonly IRequestSpecification fromSpecification;
+        
+        /// <summary>
+        /// Gets the type which is relayed from.
+        /// </summary>
+        public Type From { get; }
+        
+        /// <summary>
+        /// Gets the type which is relayed to.
+        /// </summary>
+        public Type To { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeRelay"/> class.
@@ -44,8 +54,14 @@ namespace AutoFixture.Kernel
         /// </example>
         public TypeRelay(Type from, Type to)
         {
-            this.from = from ?? throw new ArgumentNullException(nameof(from));
-            this.to = to ?? throw new ArgumentNullException(nameof(to));
+            this.From = from ?? throw new ArgumentNullException(nameof(from));
+            this.To = to ?? throw new ArgumentNullException(nameof(to));
+            
+            if(from.GetTypeInfo().IsGenericTypeDefinition ^ to.GetTypeInfo().IsGenericTypeDefinition)
+                throw new ArgumentException("Relaying from open generic type to open generic type " +
+                                            "or from closed type to closed type are supported only.");
+
+            this.fromSpecification = new ExactTypeSpecification(from);
         }
 
         /// <summary>
@@ -73,11 +89,19 @@ namespace AutoFixture.Kernel
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             
-            var t = request as Type;
-            if (t == null || t != this.from)
-                return new NoSpecimen();
+            if (request is Type t && this.fromSpecification.IsSatisfiedBy(request))
+                return context.Resolve(this.GetRedirectedTypeRequest(t));
 
-            return context.Resolve(this.to);
+            return new NoSpecimen();
+        }
+
+        private Type GetRedirectedTypeRequest(Type originalRequest)
+        {
+            if (!this.From.GetTypeInfo().IsGenericTypeDefinition)
+                return this.To;
+
+            var genericArguments = originalRequest.GetTypeInfo().GenericTypeArguments;
+            return this.To.GetTypeInfo().MakeGenericType(genericArguments);
         }
     }
 }
