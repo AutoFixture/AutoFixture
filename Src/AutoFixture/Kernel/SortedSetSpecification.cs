@@ -8,6 +8,7 @@ namespace AutoFixture.Kernel
     /// Encapsulates logic that determines whether a request is a request for a
     /// <see cref="SortedSet{T}"/>.
     /// </summary>
+    [Obsolete("This specification is obsolete. Use ExactTypeSpecification(typeof(SortedSet<>)) instead.")]
     public class SortedSetSpecification : IRequestSpecification
     {
         /// <summary>

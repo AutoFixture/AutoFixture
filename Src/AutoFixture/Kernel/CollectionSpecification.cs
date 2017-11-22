@@ -8,6 +8,7 @@ namespace AutoFixture.Kernel
     /// Encapsulates logic that determines whether a request is a request for a
     /// <see cref="Collection{T}"/>.
     /// </summary>
+    [Obsolete("This specification is obsolete. Use ExactTypeSpecification(typeof(Collection<>)) instead.")]
     public class CollectionSpecification : IRequestSpecification
     {
         /// <summary>

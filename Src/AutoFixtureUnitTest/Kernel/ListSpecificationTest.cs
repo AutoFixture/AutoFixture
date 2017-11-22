@@ -5,6 +5,7 @@ using Xunit;
 
 namespace AutoFixtureUnitTest.Kernel
 {
+    [Obsolete]
     public class ListSpecificationTest
     {
         [Fact]
