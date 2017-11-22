@@ -40,6 +40,7 @@ namespace AutoFixture.Kernel
 
             return from ci in type.GetTypeInfo().GetConstructors()
                    let score = new ArrayParameterScore(ci.GetParameters())
+                   where ci.GetParameters().All(p => p.ParameterType != type)
                    orderby score descending
                    select new ConstructorMethod(ci) as IMethod;
         }

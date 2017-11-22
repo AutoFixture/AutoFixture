@@ -116,5 +116,28 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Contains(result.First().Parameters, p => typeof(IList<object>) == p.ParameterType);
             // Teardown
         }
+
+        [Fact]
+        public void DoesNotReturnConstructorsWithParametersOfEnclosingType()
+        {
+            // Fixture setup
+            var sut = new ListFavoringConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(typeof(TypeWithCopyConstructorsOnly));
+            // Verify outcome
+            Assert.Empty(result);
+            // Teardown
+        }
+
+        public class TypeWithCopyConstructorsOnly
+        {
+            public TypeWithCopyConstructorsOnly(TypeWithCopyConstructorsOnly other)
+            {
+            }
+
+            public TypeWithCopyConstructorsOnly(TypeWithCopyConstructorsOnly other, List<int> nums)
+            {
+            }
+        }
     }
 }

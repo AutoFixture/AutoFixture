@@ -36,6 +36,7 @@ namespace AutoFixture.Kernel
 
             return from ci in type.GetTypeInfo().GetConstructors()
                    let parameters = ci.GetParameters()
+                   where parameters.All(p => p.ParameterType != type)
                    orderby parameters.Length ascending
                    select new ConstructorMethod(ci) as IMethod;
         }
