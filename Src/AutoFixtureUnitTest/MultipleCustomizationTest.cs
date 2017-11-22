@@ -10,6 +10,7 @@ using Xunit;
 
 namespace AutoFixtureUnitTest
 {
+    [Obsolete]
     public class MultipleCustomizationTest
     {
         [Fact]

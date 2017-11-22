@@ -29,6 +29,7 @@ namespace AutoFixture
     /// case latest customization to be added to a Fixture wins.
     /// </para>
     /// </remarks>
+    [Obsolete("This customization is no longer needed as builders are available out-of-the-box. It will be removed in future version of AutoFixture.")]
     public class MultipleCustomization : ICustomization
     {
         /// <summary>

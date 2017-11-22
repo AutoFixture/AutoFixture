@@ -14,7 +14,7 @@ namespace AutoFixtureUnitTest.AbstractRecursionIssue
         [Fact]
         public void IssueAsReported()
         {
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             fixture.RepeatCount = 3;
             fixture.Behaviors.Clear();
             fixture.Behaviors.Add(new NullRecursionBehavior());
@@ -35,7 +35,7 @@ namespace AutoFixtureUnitTest.AbstractRecursionIssue
         [Fact]
         public void IssueReduced()
         {
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList().ForEach(b => fixture.Behaviors.Remove(b));
@@ -51,7 +51,7 @@ namespace AutoFixtureUnitTest.AbstractRecursionIssue
         [Fact]
         public void Workaround()
         {
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             fixture.RepeatCount = 3;
             fixture.Behaviors.Clear();
             fixture.Behaviors.Add(new NullRecursionBehavior());
