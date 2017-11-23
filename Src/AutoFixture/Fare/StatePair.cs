@@ -32,7 +32,7 @@
 
 using System;
 
-namespace AutoFixture.DataAnnotations
+namespace Fare
 {
     /// <summary>
     /// Pair of states.

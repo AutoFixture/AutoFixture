@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoFixture.DataAnnotations
+namespace Fare
 {
     [Flags]
     internal enum RegExpSyntaxOptions
