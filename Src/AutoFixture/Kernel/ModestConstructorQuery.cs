@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,6 +26,10 @@ namespace AutoFixture.Kernel
         /// one returned.
         /// </para>
         /// <para>
+        /// Extension added so that only constructors who have no parameters of the supplied type,
+        /// are returned.
+        /// </para>
+        /// <para>
         /// In case of two constructors with an equal number of parameters, the ordering is
         /// unspecified.
         /// </para>
@@ -36,6 +40,7 @@ namespace AutoFixture.Kernel
 
             return from ci in type.GetTypeInfo().GetConstructors()
                    let parameters = ci.GetParameters()
+                   where parameters.All(p => p.ParameterType != type)
                    orderby parameters.Length ascending
                    select new ConstructorMethod(ci) as IMethod;
         }
