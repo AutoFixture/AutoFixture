@@ -8,6 +8,7 @@ namespace AutoFixture.Kernel
     /// Relays a request for an <see cref="IList{T}" /> to a request for a
     /// <see cref="List{T}"/> and returns the result.
     /// </summary>
+    [Obsolete("This relay has been deprecated, use \"new TypeRelay(typeof(IList<>), typeof(List<>))\" instead.")]
     public class ListRelay : ISpecimenBuilder
     {
         /// <summary>

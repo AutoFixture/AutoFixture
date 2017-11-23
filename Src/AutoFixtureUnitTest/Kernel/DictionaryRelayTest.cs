@@ -7,6 +7,7 @@ using Xunit;
 
 namespace AutoFixtureUnitTest.Kernel
 {
+    [Obsolete]
     public class DictionaryRelayTest
     {
         [Fact]

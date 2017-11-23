@@ -8,6 +8,7 @@ namespace AutoFixture.Kernel
     /// Relays a request for an <see cref="IReadOnlyCollection{T}" /> to a request for a
     /// <see cref="List{T}"/> and retuns the result.
     /// </summary>
+    [Obsolete("This relay has been deprecated, use \"new TypeRelay(typeof(IReadOnlyCollection<>), typeof(List<>))\" instead.")]
     public class ReadOnlyCollectionRelay : ISpecimenBuilder
     {
         /// <summary>

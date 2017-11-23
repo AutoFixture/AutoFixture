@@ -8,6 +8,7 @@ namespace AutoFixture.Kernel
     /// Relays a request for an <see cref="IDictionary{TKey, TValue}" /> to a request for a
     /// <see cref="Dictionary{TKey, TValue}"/> and returns the result.
     /// </summary>
+    [Obsolete("This relay has been deprecated, use \"new TypeRelay(typeof(IDictionary<>), typeof(Dictionary<>))\" instead.")]
     public class DictionaryRelay : ISpecimenBuilder
     {
         /// <summary>
