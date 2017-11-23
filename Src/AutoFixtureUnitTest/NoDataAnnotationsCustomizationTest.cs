@@ -33,6 +33,7 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(RangeAttributeRelay))]
         [InlineData(typeof(StringLengthAttributeRelay))]
         [InlineData(typeof(RegularExpressionAttributeRelay))]
+        [InlineData(typeof(NumericRangedRequestRelay))]
         public void CustomizeProperFixtureCorrectlyCustomizesIt(Type removedBuilderType)
         {
             // Fixture setup
@@ -41,10 +42,10 @@ namespace AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
 
-            var results = fixture.Customizations
-                .SingleOrDefault(c => c.GetType() == removedBuilderType);
             // Verify outcome
-            Assert.Null(results);
+            Assert.DoesNotContain(
+                fixture.Customizations,
+                b => b.GetType() == removedBuilderType);
             // Teardown
         }
     }

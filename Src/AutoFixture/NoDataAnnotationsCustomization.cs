@@ -27,9 +27,10 @@ namespace AutoFixture
 
             var dataAnnotationsRelayTypes = new[]
             {
-                typeof (RangeAttributeRelay),
-                typeof (StringLengthAttributeRelay),
-                typeof (RegularExpressionAttributeRelay)
+                typeof(RangeAttributeRelay),
+                typeof(NumericRangedRequestRelay),
+                typeof(StringLengthAttributeRelay),
+                typeof(RegularExpressionAttributeRelay)
             };
 
             fixture
