@@ -4786,7 +4786,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousListWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
@@ -4800,7 +4800,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousHashSetWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
@@ -4814,7 +4814,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousIListWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
@@ -4829,7 +4829,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousICollectionWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
@@ -4844,7 +4844,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousCollectionWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
@@ -4860,7 +4860,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousDictionaryWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
@@ -4873,7 +4873,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousIDictionaryWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
@@ -4887,7 +4887,7 @@ namespace AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateMultipleHoldersOfEnumsReturnsCorrectResultForLastItem()
         {
             // Fixture setup
@@ -5074,38 +5074,39 @@ namespace AutoFixtureUnitTest
         }
 
         [Theory]
-        [InlineData(typeof(ListSpecification), typeof(EnumerableFavoringConstructorQuery))]
-        [InlineData(typeof(HashSetSpecification), typeof(EnumerableFavoringConstructorQuery))]
-        [InlineData(typeof(CollectionSpecification), typeof(ListFavoringConstructorQuery))]
-        [InlineData(typeof(ObservableCollectionSpecification), typeof(EnumerableFavoringConstructorQuery))]
+        [InlineData(typeof(List<>), typeof(EnumerableFavoringConstructorQuery))]
+        [InlineData(typeof(HashSet<>), typeof(EnumerableFavoringConstructorQuery))]
+        [InlineData(typeof(Collection<>), typeof(ListFavoringConstructorQuery))]
+        [InlineData(typeof(ObservableCollection<>), typeof(EnumerableFavoringConstructorQuery))]
         public void CustomizationsContainBuilderForProperConcreteMultipleTypeByDefault(
-            Type specificationType,
+            Type matchingType,
             Type queryType)
         {
             var sut = new Fixture();
-            Assert.True(sut.Customizations
-                .OfType<FilteringSpecimenBuilder>()
-                .Where(b => specificationType.IsAssignableFrom(b.Specification.GetType()))
-                .Where(b => typeof(MethodInvoker).IsAssignableFrom(b.Builder.GetType()))
-                .Select(b => (MethodInvoker)b.Builder)
-                .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
-                .Any());
+            Assert.Contains(
+                sut.Customizations,
+                b => b is FilteringSpecimenBuilder fsb
+                     && fsb.Specification is ExactTypeSpecification ets && ets.TargetType == matchingType
+                     && fsb.Builder is MethodInvoker mi && mi.Query.GetType() == queryType
+            );
         }
 
-        [Fact]
-        public void CustomizationsContainBuilderForConcreteDictionariesByDefault()
+        [Theory]
+        [InlineData(typeof(Dictionary<,>), typeof(ModestConstructorQuery))]
+        [InlineData(typeof(SortedDictionary<,>), typeof(ModestConstructorQuery))]
+        [InlineData(typeof(SortedList<,>), typeof(ModestConstructorQuery))]
+        public void CustomizationsContainBuilderForConcreteDictionariesByDefault(
+            Type matchingType,
+            Type queryType)
         {
             var sut = new Fixture();
-            Assert.True(sut.Customizations
-                .OfType<FilteringSpecimenBuilder>()
-                .Where(b => typeof(DictionarySpecification).IsAssignableFrom(b.Specification.GetType()))
-                .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
-                .Select(b => (Postprocessor)b.Builder)
-                .Where(p => p.Command is DictionaryFiller)
-                .Where(p => typeof(MethodInvoker).IsAssignableFrom(p.Builder.GetType()))
-                .Select(p => (MethodInvoker)p.Builder)
-                .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
-                .Any());
+            Assert.Contains(
+                sut.Customizations,
+                b => b is FilteringSpecimenBuilder fsb
+                     && fsb.Specification is ExactTypeSpecification ets && ets.TargetType == matchingType
+                     && fsb.Builder is Postprocessor pp && pp.Command is DictionaryFiller
+                     && pp.Builder is MethodInvoker mi && mi.Query.GetType() == queryType
+            );
         }
 
         [Fact]

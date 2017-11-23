@@ -126,10 +126,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [InlineData(typeof(IEnumerable<object>))]
         [InlineData(typeof(ICollection<object>))]
         [InlineData(typeof(IList<object>))]
-        public void FixtureDoesNotHijackCollectionInterfacesIfAnotherCustomizationExistsForThem(Type collectionInterface)
+        public void FixtureDoesNotHijackCollectionInterfaces(Type collectionInterface)
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new MultipleCustomization()).Customize(new AutoNSubstituteCustomization());
+            var fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
             var context = new SpecimenContext(fixture);
             // Exercise system
             var result = context.Resolve(new SeededRequest(collectionInterface, null));

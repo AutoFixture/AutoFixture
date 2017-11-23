@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -82,39 +83,39 @@ namespace AutoFixture
                                         new MethodInvoker(
                                             new ModestConstructorQuery()),
                                         new DictionaryFiller()),
-                                    new DictionarySpecification()),
+                                    new ExactTypeSpecification(typeof(Dictionary<,>))),
                                 new FilteringSpecimenBuilder(
                                     new Postprocessor(
                                         new MethodInvoker(
                                             new ModestConstructorQuery()),
                                         new DictionaryFiller()),
-                                    new SortedDictionarySpecification()),
+                                    new ExactTypeSpecification(typeof(SortedDictionary<,>))),
                                 new FilteringSpecimenBuilder(
                                     new Postprocessor(
                                         new MethodInvoker(
                                             new ModestConstructorQuery()),
                                         new DictionaryFiller()),
-                                    new SortedListSpecification()),
+                                    new ExactTypeSpecification(typeof(SortedList<,>))),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
-                                    new ObservableCollectionSpecification()),
+                                    new ExactTypeSpecification(typeof(ObservableCollection<>))),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new ListFavoringConstructorQuery()),
-                                    new CollectionSpecification()),
+                                    new ExactTypeSpecification(typeof(Collection<>))),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
-                                    new HashSetSpecification()),
+                                    new ExactTypeSpecification(typeof(HashSet<>))),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
-                                    new SortedSetSpecification()),
+                                    new ExactTypeSpecification(typeof(SortedSet<>))),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
-                                    new ListSpecification()),
+                                    new ExactTypeSpecification(typeof(List<>))),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),

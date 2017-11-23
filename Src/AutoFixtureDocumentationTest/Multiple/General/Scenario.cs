@@ -13,8 +13,7 @@ namespace AutoFixtureDocumentationTest.Multiple.General
         public void CreateAnonymousEnumerableReturnsCorrectResult()
         {
             // Fixture setup
-            var fixture = new Fixture()
-                .Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             // Exercise system
             var integers =
                 fixture.Create<IEnumerable<int>>();
@@ -27,7 +26,7 @@ namespace AutoFixtureDocumentationTest.Multiple.General
         public void CreateAnonymousListReturnsCorrectResult()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             // Exercise system
             var list = fixture.Create<List<int>>();
             // Verify outcome
@@ -39,7 +38,7 @@ namespace AutoFixtureDocumentationTest.Multiple.General
         public void CreateAnonymousIListReturnsCorrectResult()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             // Exercise system
             var list = fixture.Create<IList<int>>();
             // Verify outcome
@@ -51,7 +50,7 @@ namespace AutoFixtureDocumentationTest.Multiple.General
         public void CreateAnonymousCollectionReturnsCorrectResult()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             // Exercise system
             var collection =
                 fixture.Create<Collection<int>>();
@@ -64,7 +63,7 @@ namespace AutoFixtureDocumentationTest.Multiple.General
         public void CreateEnumerableWithCustomCount()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             fixture.RepeatCount = 10;
             // Exercise system
             var integers = fixture.Create<IEnumerable<int>>();

@@ -14,7 +14,7 @@ namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue
         public void Issue()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList()

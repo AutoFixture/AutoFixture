@@ -7,6 +7,7 @@ namespace AutoFixture.Kernel
     /// Encapsulates logic that determines whether a request is a request for a
     /// <see cref="List{T}"/>.
     /// </summary>
+    [Obsolete("This specification is obsolete. Use ExactTypeSpecification(typeof(List<>)) instead.")]
     public class ListSpecification : IRequestSpecification
     {
         /// <summary>

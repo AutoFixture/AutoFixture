@@ -8,6 +8,7 @@ namespace AutoFixture.Kernel
     /// Encapsulates logic that determines whether a request is a request for a
     /// <see cref="SortedList{TKey,TValue}"/>.
     /// </summary>
+    [Obsolete("This specification is obsolete. Use ExactTypeSpecification(typeof(SortedList<,>)) instead.")]
     public class SortedListSpecification : IRequestSpecification
     {
         /// <summary>

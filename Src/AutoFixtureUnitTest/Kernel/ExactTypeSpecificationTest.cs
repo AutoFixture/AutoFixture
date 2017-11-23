@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
@@ -58,6 +59,26 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(string), typeof(int), false)]
         [InlineData(typeof(PropertyHolder<string>), typeof(FieldHolder<string>), false)]
         public void IsSatisfiedByReturnsCorrectResult(Type specType, Type requestType, bool expectedResult)
+        {
+            // Fixture setup
+            var sut = new ExactTypeSpecification(specType);
+            // Exercise system
+            var result = sut.IsSatisfiedBy(requestType);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(PropertyHolder<>), typeof(PropertyHolder<string>), true)]
+        [InlineData(typeof(PropertyHolder<>), typeof(PropertyHolder<int>), true)]
+        [InlineData(typeof(PropertyHolder<>), typeof(FieldHolder<string>), false)]
+        [InlineData(typeof(IEnumerable<>), typeof(List<string>), false)]
+        [InlineData(typeof(IEnumerable<>), typeof(IEnumerable<string>), true)]
+        [InlineData(typeof(IDictionary<,>), typeof(Dictionary<string, int>), false)]
+        [InlineData(typeof(IDictionary<,>), typeof(IDictionary<string, int>), true)]
+        [InlineData(typeof(IEnumerable<>), typeof(string), false)]
+        public void IsSatisfiedByMatchesExactlyOpenGenerics(Type specType, Type requestType, bool expectedResult)
         {
             // Fixture setup
             var sut = new ExactTypeSpecification(specType);

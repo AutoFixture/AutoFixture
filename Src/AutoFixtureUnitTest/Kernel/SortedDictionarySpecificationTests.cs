@@ -6,6 +6,7 @@ using Xunit;
 
 namespace AutoFixtureUnitTest.Kernel
 {
+    [Obsolete]
     public class SortedDictionarySpecificationTests
     {
         [Fact]
