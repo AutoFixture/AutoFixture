@@ -5060,17 +5060,29 @@ namespace AutoFixtureUnitTest
         [Theory]
         [InlineData(typeof(EnumeratorRelay))]
         [InlineData(typeof(EnumerableRelay))]
-        [InlineData(typeof(ListRelay))]
-        [InlineData(typeof(CollectionRelay))]
-        [InlineData(typeof(DictionaryRelay))]
-        public void ResidueCollectorsContainMultipleRelaysByDefault(
+        public void ResidueCollectorsContainEnumerableRelayByDefault(
             Type relayType)
         {
             var sut = new Fixture();
-            Assert.True(
-                sut.ResidueCollectors.Any(b =>
-                    relayType.IsAssignableFrom(b.GetType())),
-                relayType.Name + " not found.");
+            Assert.Contains(
+                sut.ResidueCollectors,
+                b => relayType.IsInstanceOfType(b));
+        }
+
+        [Theory]
+        [InlineData(typeof(IList<>), typeof(List<>))]
+        [InlineData(typeof(ICollection<>), typeof(List<>))]
+        [InlineData(typeof(IReadOnlyCollection<>), typeof(List<>))]
+        [InlineData(typeof(IDictionary<,>), typeof(Dictionary<,>))]
+        public void ResidueCollectorsContainForwardsByDefault(Type from, Type to)
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and Verify outcome
+            Assert.Contains(
+                sut.ResidueCollectors,
+                b => b is TypeRelay tr && tr.From == from && tr.To == to);
+            // Teardown
         }
 
         [Theory]

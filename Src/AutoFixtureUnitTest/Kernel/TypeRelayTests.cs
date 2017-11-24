@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using AutoFixture;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
@@ -21,6 +23,22 @@ namespace AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void ConstructorArgumentsShouldBeExposedByProperties()
+        {
+            // Fixture setup
+            var from = typeof(object);
+            var to = typeof(string);
+
+            // Exercise system
+            var sut = new TypeRelay(from, to);
+
+            // Verify outcome
+            Assert.Equal(from, sut.From);
+            Assert.Equal(to, sut.To);
+            // Teardown
+        }
+        
         [Theory]
         [InlineData("")]
         [InlineData("foo")]
@@ -123,6 +141,94 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<DerivedType>(actual);
         }
 
+
+        [Fact]
+        public void ShouldNotFailIfOpenGenericsIsPassedToConstructor()
+        {
+            // Fixture setup
+            var openFrom = typeof(IEnumerable<>);
+            var openTo = typeof(List<>);
+            
+            // Exercise system and verify outcome
+            Assert.Null(Record.Exception(() => 
+                new TypeRelay(openFrom, openTo)));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IEnumerable<>), typeof(string))]
+        [InlineData(typeof(string), typeof(IEnumerable<>))]
+        public void ShouldFailIfConstructedWithOpenAndNonOpenType(Type from, Type to)
+        {
+            // Exercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+                new TypeRelay(from, to));
+            Assert.Contains("open generic", ex.Message);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IEnumerable<>), typeof(List<>), typeof(IEnumerable<string>), typeof(List<string>))]
+        [InlineData(typeof(IReadOnlyDictionary<,>), typeof(IDictionary<,>), typeof(IReadOnlyDictionary<string, byte>), typeof(IDictionary<string, byte>))]
+        [InlineData(typeof(Nullable<>), typeof(IEnumerable<>), typeof(int?), typeof(IEnumerable<int>))]
+        public void ShouldRelayOpenGenericsCorrectly(Type from, Type to, Type request, Type expectedRelay)
+        {
+            // Fixture setup
+            var sut = new TypeRelay(from, to);
+
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRelay.Equals(r) ? expectedResult : new NoSpecimen()
+            };
+
+            // Exercise system
+            var result = sut.Create(request, context);
+
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void IgnoresRequestIfGenericTypeDoesNotMatchExactly()
+        {
+            // Fixture setup
+            var from = typeof(IEnumerable<>);
+            var to = typeof(List<>);
+            var sut = new TypeRelay(from, to);
+
+            var request = typeof(int[]);
+            var dummyContext = new DelegatingSpecimenContext
+            {
+                OnResolve = _ => new object()
+            };
+
+            // Exercise system
+            var result = sut.Create(request, dummyContext);
+
+            // Verify outcome
+            Assert.IsType<NoSpecimen>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void FailsAtResolveIfImproperMappingIsSpecified()
+        {
+            // Fixture setup
+            var from = typeof(IEnumerable<>);
+            var to = typeof(Nullable<>);
+            var sut = new TypeRelay(from, to);
+
+            var request = typeof(IEnumerable<string>);
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Exercise system and Verify outcome
+            Assert.Throws<ArgumentException>(() =>
+                sut.Create(request, dummyContext));
+            // Teardown
+        }
+        
         private abstract class BaseType { }
 
         private class DerivedType : BaseType { }

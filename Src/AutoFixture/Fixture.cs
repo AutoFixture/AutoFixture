@@ -77,7 +77,6 @@ namespace AutoFixture
                                         new ExactTypeSpecification(
                                             typeof(ISpecimenBuilder)))),
                                 new StableFiniteSequenceRelay(),
-                                new ReadOnlyCollectionRelay(),
                                 new FilteringSpecimenBuilder(
                                     new Postprocessor(
                                         new MethodInvoker(
@@ -137,9 +136,10 @@ namespace AutoFixture
                                 new AnyTypeSpecification())),
                         new ResidueCollectorNode(
                             new CompositeSpecimenBuilder(
-                                new DictionaryRelay(),
-                                new CollectionRelay(),
-                                new ListRelay(),
+                                new TypeRelay(typeof(IDictionary<,>), typeof(Dictionary<,>)),
+                                new TypeRelay(typeof(ICollection<>), typeof(List<>)),
+                                new TypeRelay(typeof(IList<>), typeof(List<>)),
+                                new TypeRelay(typeof(IReadOnlyCollection<>), typeof(List<>)),
                                 new EnumerableRelay(),
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(
