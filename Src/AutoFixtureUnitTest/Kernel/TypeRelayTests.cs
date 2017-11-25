@@ -171,6 +171,9 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(IEnumerable<>), typeof(List<>), typeof(IEnumerable<string>), typeof(List<string>))]
         [InlineData(typeof(IReadOnlyDictionary<,>), typeof(IDictionary<,>), typeof(IReadOnlyDictionary<string, byte>), typeof(IDictionary<string, byte>))]
         [InlineData(typeof(Nullable<>), typeof(IEnumerable<>), typeof(int?), typeof(IEnumerable<int>))]
+        [InlineData(typeof(IList<>), typeof(List<>), typeof(IList<string>), typeof(List<string>))]
+        [InlineData(typeof(IReadOnlyCollection<>), typeof(List<>), typeof(IReadOnlyCollection<string>), typeof(List<string>))]
+        [InlineData(typeof(IReadOnlyList<>), typeof(List<>), typeof(IReadOnlyList<string>), typeof(List<string>))]
         public void ShouldRelayOpenGenericsCorrectly(Type from, Type to, Type request, Type expectedRelay)
         {
             // Fixture setup
