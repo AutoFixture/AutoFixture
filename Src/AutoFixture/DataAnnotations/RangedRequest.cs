@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using AutoFixture.Kernel;
 
 namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Encapsulates a request of a specified type within the specified range.
     /// </summary>
+    [PreserveInRequestPath]
     public class RangedRequest : IEquatable<RangedRequest>
     {
         /// <summary>

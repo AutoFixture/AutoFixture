@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Globalization;
 
 namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates a range for values of a given type.
     /// </summary>
+    [PreserveInRequestPath]
     public class RangedNumberRequest : IEquatable<RangedNumberRequest>
     {
         /// <summary>
@@ -97,6 +99,20 @@ namespace AutoFixture.Kernel
             return this.OperandType == other.OperandType
                 && object.Equals(this.Minimum, other.Minimum)
                 && object.Equals(this.Maximum, other.Maximum);
+        }
+
+        /// <inheritdoc />
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "RangedNumberRequest (OperandType: {0}, Minimum: [{1}] {2}, Maximum: [{3}] {4})",
+                this.OperandType.FullName,
+                this.Minimum.GetType().Name,
+                this.Minimum,
+                this.Maximum.GetType().Name,
+                this.Maximum);
         }
     }
 }
