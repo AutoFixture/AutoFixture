@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoFixture.DataAnnotations;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.DataAnnotations;
@@ -6168,6 +6169,42 @@ namespace AutoFixtureUnitTest
             Assert.Same(oldBehaviors, sut.Behaviors);
             Assert.Same(oldCustomizations, sut.Customizations);
             Assert.Same(oldResidueCollectors, sut.ResidueCollectors);
+            // Teardown
+        }
+
+        [Fact]
+        public void RangedRequestIsPresentInFailurePath()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var request = new RangedRequest(typeof(ConcreteType), typeof(ConcreteType), 10, 42);
+            var context = new SpecimenContext(sut);
+
+            // Exercise system and verify outcome
+            var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
+                sut.Create(request, context));
+
+            var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:"));
+
+            Assert.Contains("RangedRequest", requestPath);
+            // Teardown
+        }
+
+        [Fact]
+        public void RangedNumberRequestIsPresentInFailurePath()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var request = new RangedNumberRequest(typeof(ConcreteType), 10, 42);
+            var context = new SpecimenContext(sut);
+
+            // Exercise system and verify outcome
+            var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
+                sut.Create(request, context));
+
+            var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:"));
+
+            Assert.Contains("RangedNumberRequest", requestPath);
             // Teardown
         }
     }

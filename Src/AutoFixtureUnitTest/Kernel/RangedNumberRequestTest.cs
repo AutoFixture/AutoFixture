@@ -301,5 +301,22 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedHashCode, result);
             // Teardown
         }
+
+        [Fact]
+        public void ToStringShouldBeOverridden()
+        {
+            // Fixture setup
+            var sut = new RangedNumberRequest(typeof(long), 42, 100);
+
+            // Exercise system
+            var stringResult = sut.ToString();
+
+            // Verify outcome
+            Assert.Contains("Int64", stringResult);
+            Assert.Contains("42", stringResult);
+            Assert.Contains("100", stringResult);
+
+            // Teardown
+        }
     }
 }
