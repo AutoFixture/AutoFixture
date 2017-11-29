@@ -1,11 +1,11 @@
 ﻿using System;
-using AutoFixture;
+using AutoFixture.DataAnnotations;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class NumericRangedRequestRelayTest
     {

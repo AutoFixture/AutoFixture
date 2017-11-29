@@ -1,8 +1,8 @@
 ﻿using System;
-using AutoFixture.Kernel;
+using AutoFixture.DataAnnotations;
 using Xunit;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class RangedRequestTest
     {

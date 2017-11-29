@@ -33,7 +33,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AutoFixture.DataAnnotations
+namespace Fare
 {
     internal static class MinimizationOperations
     {

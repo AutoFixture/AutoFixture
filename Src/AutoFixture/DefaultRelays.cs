@@ -28,7 +28,6 @@ namespace AutoFixture
             yield return new FieldRequestRelay();
             yield return new FiniteSequenceRelay();
             yield return new SeedIgnoringRelay();
-            yield return new NumericRangedRequestRelay();
             yield return new MethodInvoker(
                 new CompositeMethodQuery(
                     new ModestConstructorQuery(),

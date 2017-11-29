@@ -32,7 +32,7 @@
 
 using System.Collections.Generic;
 
-namespace AutoFixture.DataAnnotations
+namespace Fare
 {
     internal sealed class TransitionComparer : IComparer<Transition>
     {

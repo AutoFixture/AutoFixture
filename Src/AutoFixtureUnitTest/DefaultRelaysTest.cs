@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
+using AutoFixture.DataAnnotations;
 using AutoFixture.Kernel;
 using Xunit;
 
@@ -34,7 +35,6 @@ namespace AutoFixtureUnitTest
                 typeof(FieldRequestRelay),
                 typeof(FiniteSequenceRelay),
                 typeof(SeedIgnoringRelay),
-                typeof(NumericRangedRequestRelay),
                 typeof(MethodInvoker)
             };
             // Exercise system

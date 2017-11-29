@@ -119,14 +119,17 @@ namespace AutoFixture
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
                                     new NullableEnumRequestSpecification()),
-                                new RangeAttributeRelay(),
-                                new StringLengthAttributeRelay(),
-                                new RegularExpressionAttributeRelay(),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
                                 CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
                                 CreateDefaultValueBuilder(Encoding.UTF8),
-                                CreateDefaultValueBuilder(IPAddress.Loopback))),
+                                CreateDefaultValueBuilder(IPAddress.Loopback),
+                        
+                                /* Data annotations */
+                                new RangeAttributeRelay(),
+                                new NumericRangedRequestRelay(),
+                                new StringLengthAttributeRelay(),
+                                new RegularExpressionAttributeRelay())),
                         new AutoPropertiesTarget(
                             new Postprocessor(
                                 new CompositeSpecimenBuilder(

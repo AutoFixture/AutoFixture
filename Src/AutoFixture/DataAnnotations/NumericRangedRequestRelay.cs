@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Handles the <see cref="RangedRequest"/> for the number type by forwarding it 

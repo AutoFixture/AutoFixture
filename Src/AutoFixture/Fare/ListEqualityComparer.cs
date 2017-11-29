@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AutoFixture.DataAnnotations
+namespace Fare
 {
     internal sealed class ListEqualityComparer<T>  : IEqualityComparer<List<T>>, IEquatable<ListEqualityComparer<T>>
     {

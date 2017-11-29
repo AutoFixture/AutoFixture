@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace AutoFixture.Kernel
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Encapsulates a request of a specified type within the specified range.
