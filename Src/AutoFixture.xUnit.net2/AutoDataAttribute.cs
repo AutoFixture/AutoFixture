@@ -70,7 +70,7 @@ namespace AutoFixture.Xunit2
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
-        /// with the supplised <paramref name="fixtureFactory"/>. Fixture will be created
+        /// with the supplied <paramref name="fixtureFactory"/>. Fixture will be created
         /// on demand using the provided factory.
         /// </summary>
         /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
