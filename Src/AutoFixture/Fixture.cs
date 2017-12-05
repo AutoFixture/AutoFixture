@@ -141,8 +141,9 @@ namespace AutoFixture
                             new CompositeSpecimenBuilder(
                                 new TypeRelay(typeof(IDictionary<,>), typeof(Dictionary<,>)),
                                 new TypeRelay(typeof(ICollection<>), typeof(List<>)),
-                                new TypeRelay(typeof(IList<>), typeof(List<>)),
                                 new TypeRelay(typeof(IReadOnlyCollection<>), typeof(List<>)),
+                                new TypeRelay(typeof(IList<>), typeof(List<>)),
+                                new TypeRelay(typeof(IReadOnlyList<>), typeof(List<>)),
                                 new EnumerableRelay(),
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(

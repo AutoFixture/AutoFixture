@@ -5072,6 +5072,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [InlineData(typeof(IList<>), typeof(List<>))]
+        [InlineData(typeof(IReadOnlyList<>), typeof(List<>))]
         [InlineData(typeof(ICollection<>), typeof(List<>))]
         [InlineData(typeof(IReadOnlyCollection<>), typeof(List<>))]
         [InlineData(typeof(IDictionary<,>), typeof(Dictionary<,>))]
@@ -6127,6 +6128,20 @@ namespace AutoFixtureUnitTest
 
             // Verify outcome
             Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ShouldResolveReadOnlyListByDefault()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+
+            // Exercise system
+            var result = sut.Create<IReadOnlyList<string>>();
+
+            // Verify outcome
+            Assert.IsAssignableFrom<IReadOnlyList<string>>(result);
             // Teardown
         }
 
