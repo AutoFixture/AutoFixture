@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
-    <ProjectReference Include="..\AutoFixture.xUnit.net2\AutoFixture.xUnit.net2.csproj" />
+    <ProjectReference Include="..\AutoFixture.xUnit2\AutoFixture.xUnit2.csproj" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
