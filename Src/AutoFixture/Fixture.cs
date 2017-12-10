@@ -128,6 +128,7 @@ namespace AutoFixture
                                 /* Data annotations */
                                 new RangeAttributeRelay(),
                                 new NumericRangedRequestRelay(),
+                                new EnumRangedRequestRelay(),
                                 new StringLengthAttributeRelay(),
                                 new RegularExpressionAttributeRelay())),
                         new AutoPropertiesTarget(

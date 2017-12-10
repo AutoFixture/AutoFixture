@@ -6222,5 +6222,45 @@ namespace AutoFixtureUnitTest
             Assert.Contains("RangedNumberRequest", requestPath);
             // Teardown
         }
+
+        private class TypeWithRangedEnumProperties
+        {
+            [Range(1, 3)]
+            public EnumType RangedEnumProperty { get; set; }
+
+            [Range(2, 2)]
+            public EnumType Equal2EnumProperty { get; set; }
+
+            [Range(10, 20)]
+            public EnumType OutOfRangeEnumProperty { get; set; }
+        }
+
+        /// <summary>
+        /// Scenario for: https://github.com/AutoFixture/AutoFixture/issues/722
+        /// </summary>
+        [Fact]
+        public void ShouldCorrectlyResolveEnumPropertiesDecoratedWithRange()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithRangedEnumProperties>();
+            // Assert
+            Assert.InRange(result.RangedEnumProperty, EnumType.First, EnumType.Third);
+            Assert.Equal(EnumType.Second, result.Equal2EnumProperty);
+        }
+
+        [Fact]
+        public void ShouldGenerateOutOfRangeValueIfRangeAttributeIsOutOfEnumRange()
+        {
+            // Arrange
+            var sut = new Fixture();
+            // Act
+            var result = sut.Create<TypeWithRangedEnumProperties>();
+            // Assert
+            var numericValue = (int)result.OutOfRangeEnumProperty;
+            Assert.InRange(numericValue, 10, 20);
+        }
     }
 }

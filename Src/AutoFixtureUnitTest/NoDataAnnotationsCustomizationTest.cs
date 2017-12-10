@@ -34,6 +34,7 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(StringLengthAttributeRelay))]
         [InlineData(typeof(RegularExpressionAttributeRelay))]
         [InlineData(typeof(NumericRangedRequestRelay))]
+        [InlineData(typeof(EnumRangedRequestRelay))]
         public void CustomizeProperFixtureCorrectlyCustomizesIt(Type removedBuilderType)
         {
             // Fixture setup
