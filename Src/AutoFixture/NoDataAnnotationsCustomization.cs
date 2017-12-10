@@ -29,6 +29,7 @@ namespace AutoFixture
             {
                 typeof(RangeAttributeRelay),
                 typeof(NumericRangedRequestRelay),
+                typeof(EnumRangedRequestRelay),
                 typeof(StringLengthAttributeRelay),
                 typeof(RegularExpressionAttributeRelay)
             };
