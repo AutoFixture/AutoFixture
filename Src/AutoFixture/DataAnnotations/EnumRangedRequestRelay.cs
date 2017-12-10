@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using AutoFixture.Kernel;
 
@@ -23,10 +24,24 @@ namespace AutoFixture.DataAnnotations
                 return new NoSpecimen();
 
             var underlyingNumericType = rangedRequest.MemberType.GetTypeInfo().GetEnumUnderlyingType();
-            var minimum = rangedRequest.GetConvertedMinimum(underlyingNumericType);
-            var maximum = rangedRequest.GetConvertedMaximum(underlyingNumericType);
 
-            var numericValue = context.Resolve(new RangedNumberRequest(underlyingNumericType, minimum, maximum));
+            object numericMin;
+            object numericMax;
+            if (rangedRequest.Minimum.GetType().IsNumberType())
+            {
+                numericMin = rangedRequest.GetConvertedMinimum(underlyingNumericType);
+                numericMax = rangedRequest.GetConvertedMaximum(underlyingNumericType);
+            }
+            else
+            {
+                var enumMin = rangedRequest.GetConvertedMinimum(rangedRequest.MemberType);
+                var enumMax = rangedRequest.GetConvertedMaximum(rangedRequest.MemberType);
+
+                numericMin = Convert.ChangeType(enumMin, underlyingNumericType, CultureInfo.CurrentCulture);
+                numericMax = Convert.ChangeType(enumMax, underlyingNumericType, CultureInfo.CurrentCulture);
+            }
+
+            var numericValue = context.Resolve(new RangedNumberRequest(underlyingNumericType, numericMin, numericMax));
             if (numericValue is NoSpecimen)
                 return new NoSpecimen();
 
