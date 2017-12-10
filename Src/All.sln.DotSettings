@@ -20,8 +20,7 @@
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=F73C44A3DC4A0F43B9A093407932E609/Text/@EntryValue">[Fact]&#xD;
 public void $NAME$()&#xD;
 {&#xD;
-	// Fixture setup&#xD;
-	// Exercise system&#xD;
-	// Verify outcome&#xD;
-	// Teardown&#xD;
+	// Arrange$END$&#xD;
+	// Act&#xD;
+	// Assert&#xD;
 }</s:String></wpf:ResourceDictionary>
