@@ -30,10 +30,7 @@ namespace AutoFixture.AutoFakeItEasy2
         /// </param>
         public FakeItEasyRelay(IRequestSpecification fakeableSpecification)
         {
-            if (fakeableSpecification == null)
-                throw new ArgumentNullException("fakeableSpecification");
-
-            this.fakeableSpecification = fakeableSpecification;
+            this.fakeableSpecification = fakeableSpecification ?? throw new ArgumentNullException(nameof(fakeableSpecification));
         }
 
         /// <summary>
@@ -67,8 +64,7 @@ namespace AutoFixture.AutoFakeItEasy2
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             if (!this.fakeableSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen();

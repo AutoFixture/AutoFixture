@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AutoFixture.Kernel;
 
@@ -50,8 +49,6 @@ namespace AutoFixture.DataAnnotations
             return context.Resolve(rangedRequest);
         }
 
-        [SuppressMessage("Performance", "CA1801:Review unused parameters",
-            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1294")]
         private static Type GetMemberType(RangeAttribute rangeAttribute, object request)
         {
             Type conversionType;

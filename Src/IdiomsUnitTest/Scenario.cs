@@ -206,7 +206,7 @@ namespace AutoFixture.IdiomsUnitTest
             public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
                 FieldInfoElement fieldInfoElement)
             {
-                if (fieldInfoElement == null) throw new ArgumentNullException("fieldInfoElement");
+                if (fieldInfoElement == null) throw new ArgumentNullException(nameof(fieldInfoElement));
                 var v = new NameAndType(
                     fieldInfoElement.FieldInfo.Name,
                     fieldInfoElement.FieldInfo.FieldType);
@@ -217,7 +217,7 @@ namespace AutoFixture.IdiomsUnitTest
             public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
                 ParameterInfoElement parameterInfoElement)
             {
-                if (parameterInfoElement == null) throw new ArgumentNullException("parameterInfoElement");
+                if (parameterInfoElement == null) throw new ArgumentNullException(nameof(parameterInfoElement));
                 var v = new NameAndType(
                     parameterInfoElement.ParameterInfo.Name,
                     parameterInfoElement.ParameterInfo.ParameterType);
@@ -228,7 +228,7 @@ namespace AutoFixture.IdiomsUnitTest
             public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
                 PropertyInfoElement propertyInfoElement)
             {
-                if (propertyInfoElement == null) throw new ArgumentNullException("propertyInfoElement");
+                if (propertyInfoElement == null) throw new ArgumentNullException(nameof(propertyInfoElement));
                 var v = new NameAndType(
                     propertyInfoElement.PropertyInfo.Name,
                     propertyInfoElement.PropertyInfo.PropertyType);
@@ -264,7 +264,7 @@ namespace AutoFixture.IdiomsUnitTest
 
             int IEqualityComparer<IReflectionElement>.GetHashCode(IReflectionElement obj)
             {
-                if (obj == null) throw new ArgumentNullException("obj");
+                if (obj == null) throw new ArgumentNullException(nameof(obj));
                 return obj
                     .Accept(this.visitor)
                     .Value

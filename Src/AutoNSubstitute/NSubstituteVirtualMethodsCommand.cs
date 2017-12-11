@@ -50,8 +50,8 @@ namespace AutoFixture.AutoNSubstitute
         /// <param name="context">The context of the specimen.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (specimen == null) throw new ArgumentNullException("specimen");
-            if (context == null) throw new ArgumentNullException("context");
+            if (specimen == null) throw new ArgumentNullException(nameof(specimen));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             try
             {
@@ -143,14 +143,8 @@ namespace AutoFixture.AutoNSubstitute
 
             public SubstituteValueFactory(object substitute, ISpecimenContext context)
             {
-                if (substitute == null)
-                    throw new ArgumentNullException("substitute");
-
-                if (context == null)
-                    throw new ArgumentNullException("context");
-
-                this.substitute = substitute;
-                this.context = context;
+                this.substitute = substitute ?? throw new ArgumentNullException(nameof(substitute));
+                this.context = context ?? throw new ArgumentNullException(nameof(context));
             }
 
             public object Substitute

@@ -464,7 +464,7 @@ namespace AutoFixture.IdiomsUnitTest
             public IEnumerable<string> GetValues(string someString)
             {
                 if (someString == null)
-                    throw new ArgumentNullException("someString");
+                    throw new ArgumentNullException(nameof(someString));
 
                 yield return someString;
                 yield return someString;
@@ -479,7 +479,7 @@ namespace AutoFixture.IdiomsUnitTest
                 if (someGuid == null)
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
-                        "someGuid");
+                        nameof(someGuid));
 
                 yield return someGuid;
                 yield return someGuid;
@@ -494,7 +494,7 @@ namespace AutoFixture.IdiomsUnitTest
                 if (someGuid == null)
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
-                        "someGuid");
+                        nameof(someGuid));
 
                 yield return someGuid;
                 yield return someGuid;
@@ -780,7 +780,7 @@ namespace AutoFixture.IdiomsUnitTest
                 set
                 {
                     if(value == null)
-                        throw new ArgumentNullException("value");
+                        throw new ArgumentNullException(nameof(value));
                     this._propertyOfTypeWithoutImplementers = value;
                 }
             }
@@ -1093,7 +1093,7 @@ namespace AutoFixture.IdiomsUnitTest
             public System.Threading.Tasks.Task<string> TaskOfTWithCorrectGuardClause(object obj)
             {
                 if (obj == null)
-                    throw new ArgumentNullException("obj");
+                    throw new ArgumentNullException(nameof(obj));
 
                 return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
             }
@@ -1101,7 +1101,7 @@ namespace AutoFixture.IdiomsUnitTest
             public System.Threading.Tasks.Task TaskWithCorrectGuardClause(object obj)
             {
                 if (obj == null)
-                    throw new ArgumentNullException("obj");
+                    throw new ArgumentNullException(nameof(obj));
 
                 return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
             }
@@ -1111,7 +1111,7 @@ namespace AutoFixture.IdiomsUnitTest
                 return System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
                     if (obj == null)
-                        throw new ArgumentNullException("obj");
+                        throw new ArgumentNullException(nameof(obj));
 
                     return obj.ToString();
                 });
@@ -1122,7 +1122,7 @@ namespace AutoFixture.IdiomsUnitTest
                 return System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
                     if (obj == null)
-                        throw new ArgumentNullException("obj");
+                        throw new ArgumentNullException(nameof(obj));
 
                     return obj.ToString();
                 });
@@ -1530,7 +1530,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 if (argument == null)
                 {
-                    throw new ArgumentNullException("argument");
+                    throw new ArgumentNullException(nameof(argument));
                 }
                 if (argument.Argument1 == null || argument.Argument2 == null)
                 {
@@ -1539,7 +1539,7 @@ namespace AutoFixture.IdiomsUnitTest
                 }
                 if (test == null)
                 {
-                    throw new ArgumentNullException("test");
+                    throw new ArgumentNullException(nameof(test));
                 }
             }
         }
@@ -1653,15 +1653,15 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 if (argument1 == null)
                 {
-                    throw new ArgumentNullException("argument1");
+                    throw new ArgumentNullException(nameof(argument1));
                 }
                 if (argument3 == null)
                 {
-                    throw new ArgumentNullException("argument3");
+                    throw new ArgumentNullException(nameof(argument3));
                 }
                 if (argument5 == null)
                 {
-                    throw new ArgumentNullException("argument5");
+                    throw new ArgumentNullException(nameof(argument5));
                 }
             }
         }
@@ -1748,7 +1748,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 if (argument1 == null)
                 {
-                    throw new ArgumentNullException("argument1");
+                    throw new ArgumentNullException(nameof(argument1));
                 }
 
                 argument2 = null;
@@ -1760,49 +1760,49 @@ namespace AutoFixture.IdiomsUnitTest
             public NestedGenericParameterTestType(IEnumerable<T1> arg)
             {
                 if (arg == null)
-                    throw new ArgumentNullException("arg");
+                    throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(IEnumerable<IEnumerable<T2>> arg)
             {
                 if (arg == null)
-                    throw new ArgumentNullException("arg");
+                    throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1 arg1, Func<T1, IEnumerable<T2>> arg2)
             {
                 if (arg2 == null)
-                    throw new ArgumentNullException("arg2");
+                    throw new ArgumentNullException(nameof(arg2));
             }
 
             public NestedGenericParameterTestType(T1[] arg)
             {
                 if (arg == null)
-                    throw new ArgumentNullException("arg");
+                    throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1[,] arg)
             {
                 if (arg == null)
-                    throw new ArgumentNullException("arg");
+                    throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1[][] arg)
             {
                 if (arg == null)
-                    throw new ArgumentNullException("arg");
+                    throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1[,][][] arg)
             {
                 if (arg == null)
-                    throw new ArgumentNullException("arg");
+                    throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(Func<T1, IEnumerable<IEnumerable<T2>>, T1[][]> arg1, T2 arg2)
             {
                 if (arg1 == null)
-                    throw new ArgumentNullException("arg1");
+                    throw new ArgumentNullException(nameof(arg1));
             }
         }
 

@@ -26,12 +26,7 @@ namespace AutoFixture.AutoFakeItEasy2
         /// <param name="relay">The relay.</param>
         public AutoFakeItEasyCustomization(ISpecimenBuilder relay)
         {
-            if (relay == null)
-            {
-                throw new ArgumentNullException("relay");
-            }
-
-            this.relay = relay;
+            this.relay = relay ?? throw new ArgumentNullException(nameof(relay));
         }
 
         /// <summary>
@@ -50,10 +45,7 @@ namespace AutoFixture.AutoFakeItEasy2
         /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException("fixture");
-            }
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customizations.Add(
                 new FakeItEasyBuilder(

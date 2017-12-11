@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -20,8 +19,6 @@ namespace AutoFixture.Idioms
         [NonSerialized]
         private readonly MemberInfo memberWithInvalidValue;
 
-        [SuppressMessage("Performance", "CA1823:Avoid unused private fields",
-            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1321")]
         [NonSerialized]
         private ParameterInfo argumentWithNoMatchingPublicMember;
 

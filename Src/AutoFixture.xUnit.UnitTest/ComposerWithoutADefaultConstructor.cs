@@ -7,8 +7,7 @@ namespace AutoFixture.Xunit.UnitTest
     {
         public ComposerWithoutADefaultConstructor(Func<ISpecimenBuilder> onCompose)
         {
-            if (onCompose == null)
-                throw new ArgumentNullException("onCompose");
+            if (onCompose == null) throw new ArgumentNullException(nameof(onCompose));
         }
     }
 }

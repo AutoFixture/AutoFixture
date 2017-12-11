@@ -26,12 +26,7 @@ namespace AutoFixture.AutoFakeItEasy2
         /// <seealso cref="Builder" />
         public FakeItEasyBuilder(ISpecimenBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            this.builder = builder;
+            this.builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
 
         /// <summary>

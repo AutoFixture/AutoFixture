@@ -12,13 +12,8 @@ namespace AutoFixture.AutoNSubstitute
 
         public NoSetupCallbackHandler(ISubstituteState state, Action action)
         {
-            if (state == null)
-                throw new ArgumentNullException("state");
-            if (action == null)
-                throw new ArgumentNullException("action");
-
-            this.state = state;
-            this.action = action;
+            this.state = state ?? throw new ArgumentNullException(nameof(state));
+            this.action = action ?? throw new ArgumentNullException(nameof(action));
         }
 
         public bool HasResultFor(ICall call)
