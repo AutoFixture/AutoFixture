@@ -1,8 +1,8 @@
-﻿<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms.FsCheck</AssemblyTitle>
     <AssemblyName>AutoFixture.Idioms.FsCheck</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheck</RootNamespace>
@@ -26,9 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FsCheck" Version="[0.9.2,3.0.0)" />
-    <PackageReference Include="FSharp.Core" Version="3.1.2" PrivateAssets="All" />
-    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
+    <PackageReference Include="FsCheck" Version="[0.9.2,3.0.0)" Condition=" '$(TargetFramework)'=='net452' " />
+    <PackageReference Include="FSharp.Core" Version="3.1.2" Condition=" '$(TargetFramework)'=='net452' " PrivateAssets="All" />
+
+    <PackageReference Include="FsCheck" Version="[2.9.0,3.0.0)" Condition=" '$(TargetFramework)'=='netstandard2.0' " />    
+    <PackageReference Include="FSharp.Core" Version="4.1.17" Condition=" '$(TargetFramework)'=='netstandard2.0' " PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

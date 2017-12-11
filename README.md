@@ -92,7 +92,7 @@ Using AutoFixture is as easy as referencing the library and creating a new insta
 | AutoNSubstitute            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
 | AutoRhinoMock              | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
 | Idioms                     | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0   |
-| Idioms.FsCheck             | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| Idioms.FsCheck             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0   |
 
 ## Downloads
 

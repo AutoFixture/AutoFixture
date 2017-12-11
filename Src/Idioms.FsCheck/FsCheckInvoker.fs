@@ -1,7 +1,6 @@
 ﻿namespace AutoFixture.Idioms.FsCheck
 
 open FsCheck
-open FsCheck.Fluent
 open System
 open System.Reflection
 
