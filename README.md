@@ -4,7 +4,7 @@
 
 Refer to the [v4 Release Notes](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes) for information about the breaking changes, new features, enhancements and fixes.
 
-❗️❗️❗️ Notice, the default namespace prefix has been changed from `Phoeh.AutoFixture` to `AutoFixture` because [Mark](https://github.com/ploeh) stopped to maintain this project. Please use the text replace feature of your IDE to quickly fix all the namespace imports in your code. See more detail [here](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes#%EF%B8%8F%EF%B8%8F-removed-the-phoeh-namespace-and-assembly-name-prefix).
+❗️❗️❗️ Notice, the default namespace prefix has been changed from `Ploeh.AutoFixture` to `AutoFixture` because [Mark](https://github.com/ploeh) stopped to maintain this project. Please use the text replace feature of your IDE to quickly fix all the namespace imports in your code. See more detail [here](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes#%EF%B8%8F%EF%B8%8F-removed-the-ploeh-namespace-and-assembly-name-prefix).
 
 ## Project Description ##
 
