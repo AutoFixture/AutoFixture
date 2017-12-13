@@ -94,7 +94,7 @@ namespace AutoFixture.Idioms
         public override void Verify(ConstructorInfo constructorInfo)
         {
             if (constructorInfo == null)
-                throw new ArgumentNullException("constructorInfo");
+                throw new ArgumentNullException(nameof(constructorInfo));
 
             constructorInfo = this.ResolveUnclosedGenericType(constructorInfo);
 
@@ -115,7 +115,7 @@ namespace AutoFixture.Idioms
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null)
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException(nameof(methodInfo));
 
             if (methodInfo.IsEqualsMethod() ||
                 methodInfo.IsGetHashCodeMethod() ||
@@ -187,7 +187,7 @@ namespace AutoFixture.Idioms
         public override void Verify(PropertyInfo propertyInfo)
         {
             if (propertyInfo == null)
-                throw new ArgumentNullException("propertyInfo");
+                throw new ArgumentNullException(nameof(propertyInfo));
 
             if (propertyInfo.GetSetMethod() == null)
                 return;
@@ -578,10 +578,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
         {
             protected override string GetKeyForItem(AutoGenericArgument item)
             {
-                if (item == null)
-                {
-                    throw new ArgumentNullException("item");
-                }
+                if (item == null) throw new ArgumentNullException(nameof(item));
 
                 return item.GenericArgument.Name;
             }

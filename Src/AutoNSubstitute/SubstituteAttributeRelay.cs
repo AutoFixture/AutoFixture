@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -43,8 +42,6 @@ namespace AutoFixture.AutoNSubstitute
             return context.Resolve(substituteRequest);
         }
 
-        [SuppressMessage("Performance", "CA1801:Review unused parameters",
-            Justification = "False positive - request property is used. Bug: https://github.com/dotnet/roslyn-analyzers/issues/1294")]
         private static object CreateSubstituteRequest(ICustomAttributeProvider request, SubstituteAttribute attribute)
         {
             switch (request)

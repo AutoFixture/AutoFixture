@@ -28,8 +28,8 @@ namespace AutoFixture.AutoMoq
                                                                                 ISpecimenBuilder fixture)
             where TMock : class
         {
-            if (setup == null) throw new ArgumentNullException("setup");
-            if (fixture == null) throw new ArgumentNullException("fixture");
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             return setup.ReturnsUsingContext(new SpecimenContext(fixture));
         }
