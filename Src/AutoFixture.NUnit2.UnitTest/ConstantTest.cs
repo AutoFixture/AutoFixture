@@ -9,13 +9,11 @@ namespace AutoFixture.NUnit2.UnitTest
         [Test]
         public void AutoDataAttributeShouldPointToValidType()
         {
-            // Fixture setup
+            // Arrange
             var expectedName = typeof(AutoDataAttribute).FullName;
 
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.AreEqual(expectedName, Constants.AutoDataAttribute);
-
-            // Teardown
         }
     }
 }

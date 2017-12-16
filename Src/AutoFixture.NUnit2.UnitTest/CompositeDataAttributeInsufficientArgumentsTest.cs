@@ -23,12 +23,11 @@ namespace AutoFixture.NUnit2.UnitTest
         [TestCaseSource(typeof(CompositeDataAttributeInsufficientArgumentsTest))]
         public void GetArgumentsThrows(IEnumerable<DataAttribute> attributes)
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<InvalidOperationException>(
                 () => { new CompositeDataAttribute(attributes).GetData(this.method).ToList(); }
                 );
-            // Teardown
         }
 
         public IEnumerator<object[]> GetEnumerator()

@@ -9,34 +9,31 @@ namespace AutoFixture.NUnit2.UnitTest
         [Test]
         public void TestableSutIsSut()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingCustomizeAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsInstanceOf<CustomizeAttribute>(sut);
-            // Teardown
         }
 
         [Test]
         public void SutIsAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingCustomizeAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsInstanceOf<Attribute>(sut);
-            // Teardown
         }
         
         [Test]
         public void SutImplementsIParameterCustomizationSource()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingCustomizeAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsInstanceOf<IParameterCustomizationSource>(sut);
-            // Teardown
         }
     }
 }

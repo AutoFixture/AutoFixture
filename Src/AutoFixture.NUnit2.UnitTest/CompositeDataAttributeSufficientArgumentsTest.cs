@@ -22,12 +22,11 @@ namespace AutoFixture.NUnit2.UnitTest
         [TestCaseSource(typeof(CompositeDataAttributeSufficientArgumentsTest))]
         public void GetArgumentsReturnsCorrectResult(IEnumerable<DataAttribute> attributes, IEnumerable<object[]> expectedResult)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var result = new CompositeDataAttribute(attributes).GetData(this.method).ToList();
-            // Verify outcome 
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result, new TheoryComparer()));
-            // Teardown
         }
 
         public IEnumerator<object[]> GetEnumerator()
