@@ -12,40 +12,37 @@ namespace AutoFixtureDocumentationTest.Contact.Parsing
         [Fact]
         public void CreateWithDefaultStringWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<Contact>());
-            // Teardown
         }
 
         [Fact]
         public void CreateWithExplicitNumberStringWillSucceed()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             fixture.Register<string>(() => "112");
             Contact sut = fixture.Create<Contact>();
-            // Exercise system
+            // Act
             int result = sut.PhoneNumber;
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(default(int), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithAnonymousNumberStringWillSucceed()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             fixture.Register<int, string>(i => i.ToString());
             Contact sut = fixture.Create<Contact>();
-            // Exercise system
+            // Act
             int result = sut.PhoneNumber;
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(default(int), result);
-            // Teardown
         }
     }
 }

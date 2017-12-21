@@ -12,57 +12,53 @@ namespace AutoFixtureDocumentationTest.Commerce
         [Fact]
         public void BuildOrderWithShippingAddressInDenmark()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var order = fixture.Build<Order>()
                 .With(o => o.ShippingAddress, 
                     fixture.Build<Address>()
                     .With(a => a.Country, "Denmark")
                     .Create())
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal("Denmark", order.ShippingAddress.Country);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOrderAndThenSetShippingAddressInDenmark()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var order = fixture.Create<Order>();
             order.ShippingAddress.Country = "Denmark";
-            // Verify outcome
+            // Assert
             Assert.Equal("Denmark", order.ShippingAddress.Country);
-            // Teardown
         }
 
         [Fact]
         public void BuildOrderWithManyOrderLines()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var order = fixture.Build<Order>()
                 .Do(o => fixture.AddManyTo(o.OrderLines))
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOrderAndThenAddOrderLines()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var order = fixture.Create<Order>();
             fixture.AddManyTo(order.OrderLines);
             Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
-            // Teardown
         }
     }
 }

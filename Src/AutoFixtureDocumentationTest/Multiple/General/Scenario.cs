@@ -12,64 +12,59 @@ namespace AutoFixtureDocumentationTest.Multiple.General
         [Fact]
         public void CreateAnonymousEnumerableReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var integers =
                 fixture.Create<IEnumerable<int>>();
-            // Verify outcome
+            // Assert
             Assert.True(integers.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousListReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var list = fixture.Create<List<int>>();
-            // Verify outcome
+            // Assert
             Assert.True(list.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousIListReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var list = fixture.Create<IList<int>>();
-            // Verify outcome
+            // Assert
             Assert.True(list.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousCollectionReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var collection =
                 fixture.Create<Collection<int>>();
-            // Verify outcome
+            // Assert
             Assert.True(collection.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateEnumerableWithCustomCount()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.RepeatCount = 10;
-            // Exercise system
+            // Act
             var integers = fixture.Create<IEnumerable<int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(fixture.RepeatCount, integers.Count());
-            // Teardown
         }
 
         [Fact]

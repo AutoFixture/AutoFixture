@@ -12,25 +12,23 @@ namespace AutoFixtureDocumentationTest.Contact.ValueObject
         [Fact]
         public void CreateWillNotThrow()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
-            // Exercise system
+            // Act
             fixture.Create<Contact>();
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWillPopulatePhoneNumber()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             Contact sut = fixture.Create<Contact>();
-            // Exercise system
+            // Act
             int result = sut.PhoneNumber.RawNumber;
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(default(int), result);
-            // Teardown
         }
     }
 }
