@@ -11,67 +11,62 @@ namespace AutoFixture.Xunit.UnitTest
         [Fact]
         public void SutIsAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new FrozenAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeShouldSetDefaultMatchingStrategy()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new FrozenAttribute();
-            // Verify outcome
+            // Assert
             Assert.Equal(Matching.ExactType, sut.By);
-            // Teardown
         }
 
         [Fact]
         public void GetCustomizationFromNullParameterThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FrozenAttribute();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetCustomization(null));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void GetCustomizationWithSpecificTypeShouldReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var registeredType = typeof(AbstractType);
 #pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
 #pragma warning restore 0618
             var parameter = AParameter<ConcreteType>();
-            // Exercise system
+            // Act
             var result = sut.GetCustomization(parameter);
-            // Verify outcome
+            // Assert
             var freezer = Assert.IsAssignableFrom<FreezingCustomization>(result);
             Assert.Equal(registeredType, freezer.RegisteredType);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void GetCustomizationWithIncompatibleSpecificTypeThrowsArgumentException()
         {
-            // Fixture setup
+            // Arrange
             var registeredType = typeof(string);
 #pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
 #pragma warning restore 0618
             var parameter = AParameter<ConcreteType>();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => sut.GetCustomization(parameter));
-            // Teardown
         }
 
         private static ParameterInfo AParameter<T>()

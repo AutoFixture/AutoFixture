@@ -8,34 +8,31 @@ namespace AutoFixture.Xunit.UnitTest
         [Fact]
         public void TestableSutIsSut()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingCustomizeAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingCustomizeAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Attribute>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutImplementsIParameterCustomizationSource()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingCustomizeAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IParameterCustomizationSource>(sut);
-            // Teardown
         }
     }
 }

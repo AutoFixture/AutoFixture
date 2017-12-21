@@ -11,12 +11,11 @@ namespace AutoFixture.Xunit.UnitTest
         [InlineData("Rhino.Mocks")]
         public void AutoFixtureXunitDoesNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = typeof(AutoDataAttribute).Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.False(references.Any(an => an.Name == assemblyName));
-            // Teardown
         }
 
         [Theory]
@@ -24,12 +23,11 @@ namespace AutoFixture.Xunit.UnitTest
         [InlineData("Rhino.Mocks")]
         public void AutoFixtureXunitUnitTestsDoNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = this.GetType().Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.False(references.Any(an => an.Name == assemblyName));
-            // Teardown
         }
     }
 }
