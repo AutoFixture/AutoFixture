@@ -76,54 +76,50 @@ namespace AutoFixture
                                             typeof(IFixture)),
                                         new ExactTypeSpecification(
                                             typeof(ISpecimenBuilder)))),
+
                                 new StableFiniteSequenceRelay(),
-                                new FilteringSpecimenBuilder(
-                                    new Postprocessor(
-                                        new MethodInvoker(
-                                            new ModestConstructorQuery()),
-                                        new DictionaryFiller()),
-                                    new ExactTypeSpecification(typeof(Dictionary<,>))),
-                                new FilteringSpecimenBuilder(
-                                    new Postprocessor(
-                                        new MethodInvoker(
-                                            new ModestConstructorQuery()),
-                                        new DictionaryFiller()),
-                                    new ExactTypeSpecification(typeof(SortedDictionary<,>))),
-                                new FilteringSpecimenBuilder(
-                                    new Postprocessor(
-                                        new MethodInvoker(
-                                            new ModestConstructorQuery()),
-                                        new DictionaryFiller()),
-                                    new ExactTypeSpecification(typeof(SortedList<,>))),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new ExactTypeSpecification(typeof(ObservableCollection<>))),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new ListFavoringConstructorQuery()),
-                                    new ExactTypeSpecification(typeof(Collection<>))),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new ExactTypeSpecification(typeof(HashSet<>))),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new ExactTypeSpecification(typeof(SortedSet<>))),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new ExactTypeSpecification(typeof(List<>))),
+
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(Dictionary<,>),
+                                    new ModestConstructorQuery(),
+                                    new DictionaryFiller()),
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(SortedDictionary<,>),
+                                    new ModestConstructorQuery(),
+                                    new DictionaryFiller()),
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(SortedList<,>),
+                                    new ModestConstructorQuery(),
+                                    new DictionaryFiller()),
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(Collection<>),
+                                    new ListFavoringConstructorQuery()),
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(List<>),
+                                    new EnumerableFavoringConstructorQuery()),
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(HashSet<>),
+                                    new EnumerableFavoringConstructorQuery()),
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(SortedSet<>),
+                                    new EnumerableFavoringConstructorQuery()),
+                                MakeQueryBasedBuilderForMatchingType(
+                                    typeof(ObservableCollection<>),
+                                    new EnumerableFavoringConstructorQuery()),
+
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
                                     new NullableEnumRequestSpecification()),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
-                                CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
-                                CreateDefaultValueBuilder(Encoding.UTF8),
-                                CreateDefaultValueBuilder(IPAddress.Loopback),
+
+                                MakeFixedBuilder(
+                                    CultureInfo.InvariantCulture),
+                                MakeFixedBuilder(
+                                    Encoding.UTF8),
+                                MakeFixedBuilder(
+                                    IPAddress.Loopback),
                         
                                 /* Data annotations */
                                 new RangeAttributeRelay(),
@@ -140,11 +136,21 @@ namespace AutoFixture
                                 new AnyTypeSpecification())),
                         new ResidueCollectorNode(
                             new CompositeSpecimenBuilder(
-                                new TypeRelay(typeof(IDictionary<,>), typeof(Dictionary<,>)),
-                                new TypeRelay(typeof(ICollection<>), typeof(List<>)),
-                                new TypeRelay(typeof(IReadOnlyCollection<>), typeof(List<>)),
-                                new TypeRelay(typeof(IList<>), typeof(List<>)),
-                                new TypeRelay(typeof(IReadOnlyList<>), typeof(List<>)),
+                                new TypeRelay(
+                                    typeof(IDictionary<,>),
+                                    typeof(Dictionary<,>)),
+                                new TypeRelay(
+                                    typeof(ICollection<>),
+                                    typeof(List<>)),
+                                new TypeRelay(
+                                    typeof(IReadOnlyCollection<>),
+                                    typeof(List<>)),
+                                new TypeRelay(
+                                    typeof(IList<>),
+                                    typeof(List<>)),
+                                new TypeRelay(
+                                    typeof(IReadOnlyList<>),
+                                    typeof(List<>)),
                                 new EnumerableRelay(),
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(
@@ -328,17 +334,40 @@ namespace AutoFixture
             this.behaviors.GraphChanged += (_, args) => this.UpdateGraphAndSetupAdapters(args.Graph);
         }
 
-        private static ISpecimenBuilder CreateDefaultValueBuilder<T>(T value)
-        {
-            return new FilteringSpecimenBuilder(
-                new FixedBuilder(value),
-                new ExactTypeSpecification(typeof(T)));
-        }
-        
         private Postprocessor FindAutoPropertiesPostProcessor()
         {
             var postprocessorHolder = (AutoPropertiesTarget) this.graph.FindFirstNode(b => b is AutoPropertiesTarget);
             return (Postprocessor) postprocessorHolder.Builder;
+        }
+
+        private static ISpecimenBuilder MakeFixedBuilder<T>(T value)
+        {
+            return new FilteringSpecimenBuilder(
+                new FixedBuilder(
+                    value),
+                new ExactTypeSpecification(
+                    typeof(T)));
+        }
+
+        private static ISpecimenBuilder MakeQueryBasedBuilderForMatchingType(Type matchingType, IMethodQuery query)
+        {
+            return new FilteringSpecimenBuilder(
+                new MethodInvoker(
+                    query),
+                new ExactTypeSpecification(
+                    matchingType));
+        }
+
+        private static ISpecimenBuilder MakeQueryBasedBuilderForMatchingType(Type matchingType, IMethodQuery query,
+            ISpecimenCommand command)
+        {
+            return new FilteringSpecimenBuilder(
+                new Postprocessor(
+                    new MethodInvoker(
+                        query),
+                    command),
+                new ExactTypeSpecification(
+                    matchingType));
         }
     }
 }
