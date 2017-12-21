@@ -17,12 +17,11 @@ namespace AutoFixture.NUnit3.UnitTest
         [InlineAutoData("xunit.extensions")]
         public void AutoFixtureNUnit3DoesNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.False(references.Any(an => an.Name == assemblyName));
-            // Teardown
         }
 
         [Theory]
@@ -37,12 +36,11 @@ namespace AutoFixture.NUnit3.UnitTest
         [InlineAutoData("xunit.extensions")]
         public void AutoFixtureNUnit3UnitTestsDoNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.False(references.Any(an => an.Name == assemblyName));
-            // Teardown
         }
     }
 }
