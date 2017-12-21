@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using AutoFixture.Kernel;
@@ -87,23 +88,23 @@ namespace AutoFixture.DataAnnotations
         }
 
         /// <summary>
-        /// Gets minimum value converted to the specified type using the <see cref="Convert"/> helper.
+        /// Gets minimum value converted to the specified type.
         /// </summary>
-        public object GetConvertedMinimum(Type typeToConvert)
+        public object GetConvertedMinimum(Type targetType)
         {
-            if (typeToConvert == null) throw new ArgumentNullException(nameof(typeToConvert));
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
-            return GetConvertedRangeBoundary(this.Minimum, typeToConvert);
+            return GetConvertedRangeBoundary(this.Minimum, targetType);
         }
 
         /// <summary>
-        /// Gets maximum value converted to the specified type using the <see cref="Convert"/> helper.
+        /// Gets maximum value converted to the specified type.
         /// </summary>
-        public object GetConvertedMaximum(Type typeToConvert)
+        public object GetConvertedMaximum(Type targetType)
         {
-            if (typeToConvert == null) throw new ArgumentNullException(nameof(typeToConvert));
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
-            return GetConvertedRangeBoundary(this.Maximum, typeToConvert);
+            return GetConvertedRangeBoundary(this.Maximum, targetType);
         }
 
         /// <inheritdoc />
@@ -133,8 +134,28 @@ namespace AutoFixture.DataAnnotations
                 "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private static object GetConvertedRangeBoundary(object attributeValue, Type conversionType)
         {
+            if (attributeValue == null) throw new ArgumentNullException(nameof(attributeValue));
             try
             {
+                // Mimic RangeAttribute conversion behavior:
+                // https://github.com/Microsoft/referencesource/blob/b31308b03e8bd5bf779fb80fda71f31eb959fe0b/System.ComponentModel.DataAnnotations/DataAnnotations/RangeAttribute.cs#L140
+
+                if (attributeValue.GetType() == conversionType)
+                    return attributeValue;
+
+                if (conversionType == typeof(int))
+                    return Convert.ToInt32(attributeValue, CultureInfo.InvariantCulture);
+
+                if (conversionType == typeof(double))
+                    return Convert.ToDouble(attributeValue, CultureInfo.InvariantCulture);
+
+                // Type converter converts much more types, however it doesn't cover some primitive value conversions:
+                // https://stackoverflow.com/a/30877647/2009373
+                // That's why we resort to Convert.ChangeType() if we detect that we cannot convert.
+                var converter = TypeDescriptor.GetConverter(conversionType);
+                if(converter.CanConvertFrom(attributeValue.GetType()))
+                    return converter.ConvertFrom(attributeValue);
+
                 return Convert.ChangeType(attributeValue, conversionType, CultureInfo.CurrentCulture);
             }
             catch (OverflowException ex)

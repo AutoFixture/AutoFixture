@@ -147,7 +147,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             int minimum = 5;
             int maximum = 10;
 
-            var requst = new RangedRequest(typeof(EnumType), typeof(int), minimum, maximum);
+            var request = new RangedRequest(typeof(EnumType), typeof(int), minimum, maximum);
             RangedNumberRequest capturedNumericRequest = null;
             var context = new DelegatingSpecimenContext
             {
@@ -159,12 +159,32 @@ namespace AutoFixtureUnitTest.DataAnnotations
             };
 
             // Act
-            sut.Create(requst, context);
+            sut.Create(request, context);
 
             // Assert
             Assert.NotNull(capturedNumericRequest);
             Assert.Equal(minimum, capturedNumericRequest.Minimum);
             Assert.Equal(maximum, capturedNumericRequest.Maximum);
+        }
+
+        [Fact]
+        public void ShouldSupportRangeForLiteralBoundaries()
+        {
+            // Arrange
+            var sut = new EnumRangedRequestRelay();
+            var request
+                = new RangedRequest(typeof(EnumType), typeof(EnumType), nameof(EnumType.First), nameof(EnumType.Third));
+            var result = (int)EnumType.Second;
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => r is RangedNumberRequest ? (object)result : new NoSpecimen()
+            };
+
+            // Act
+            var actualResult = sut.Create(request, context);
+
+            // Assert
+            Assert.Equal(EnumType.Second, actualResult);
         }
 
         private enum ShortEnumType : short

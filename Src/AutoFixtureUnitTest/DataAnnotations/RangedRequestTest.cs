@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoFixture.DataAnnotations;
+using TestTypeFoundation;
 using Xunit;
 
 namespace AutoFixtureUnitTest.DataAnnotations
@@ -283,6 +284,22 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 sut.GetConvertedMaximum(typeof(long)));
             Assert.Contains("To solve the issue", actualEx.Message);
             // Teardown
+        }
+
+        [Fact]
+        public void ShouldConvertLiteralEnumValues()
+        {
+            // Arrange
+            var sut = new RangedRequest(
+                typeof(EnumType), typeof(string), nameof(EnumType.First), nameof(EnumType.Third));
+
+            // Act
+            var convertedMin = sut.GetConvertedMinimum(typeof(EnumType));
+            var convertedMax = sut.GetConvertedMaximum(typeof(EnumType));
+
+            // Assert
+            Assert.Equal(EnumType.First, convertedMin);
+            Assert.Equal(EnumType.Third, convertedMax);
         }
 
         [Fact]

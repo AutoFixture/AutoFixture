@@ -6228,6 +6228,12 @@ namespace AutoFixtureUnitTest
             [Range(1, 3)]
             public EnumType RangedEnumProperty { get; set; }
 
+            [Range(typeof(EnumType), nameof(EnumType.First), nameof(EnumType.Third))]
+            public EnumType LiteralRangedEnumProperty { get; set; }
+
+            [Range(typeof(EnumType), "1", "3")]
+            public EnumType NumericRangedEnumProperty { get; set; }
+
             [Range(2, 2)]
             public EnumType Equal2EnumProperty { get; set; }
 
@@ -6248,6 +6254,8 @@ namespace AutoFixtureUnitTest
             var result = sut.Create<TypeWithRangedEnumProperties>();
             // Assert
             Assert.InRange(result.RangedEnumProperty, EnumType.First, EnumType.Third);
+            Assert.InRange(result.LiteralRangedEnumProperty, EnumType.First, EnumType.Third);
+            Assert.InRange(result.NumericRangedEnumProperty, EnumType.First, EnumType.Third);
             Assert.Equal(EnumType.Second, result.Equal2EnumProperty);
         }
 
