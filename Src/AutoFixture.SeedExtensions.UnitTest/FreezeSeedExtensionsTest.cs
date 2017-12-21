@@ -8,12 +8,11 @@ namespace AutoFixture.SeedExtensions.UnitTest
         [Fact]
         public void FreezeSeededWithNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummySeed = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FreezeSeedExtensions.Freeze<object>(null, dummySeed));
-            // Teardown
         }
     }
 }
