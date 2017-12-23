@@ -11,12 +11,11 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CollectionSpecification();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Theory]
@@ -33,13 +32,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Version[]))]
         public void IsSatisfiedByNonCollectionRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new CollectionSpecification();
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Theory]
@@ -49,13 +47,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Collection<Version>))]
         public void IsSatisfiedByCollectionRequestReturnsCorrectResult(Type request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new CollectionSpecification();
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
     }
 }

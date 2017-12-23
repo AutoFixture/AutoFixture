@@ -8,19 +8,22 @@ namespace AutoFixtureUnitTest
 {
     public class UInt32SequenceGeneratorTest
     {
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<UInt32SequenceGenerator, uint>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<UInt32SequenceGenerator, uint>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<UInt32SequenceGenerator, uint>(sut => sut.CreateAnonymous()).Execute(10);
@@ -29,90 +32,83 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new UInt32SequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UInt32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UInt32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWithNonUInt32RequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonUInt32Request = new object();
             var sut = new UInt32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonUInt32Request, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithUInt32RequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var uInt32Request = typeof(uint);
             var sut = new UInt32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(uInt32Request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(1u, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithUInt32RequestWillReturnCorrectResultOnSecondCall()
         {
-            // Fixture setup
+            // Arrange
             var uInt32Request = typeof(uint);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<UInt32SequenceGenerator, uint>(sut => (uint)sut.Create(uInt32Request, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(2);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithUInt32RequestWillReturnCorrectResultOnTenthCall()
         {
-            // Fixture setup
+            // Arrange
             var uInt32Request = typeof(uint);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<UInt32SequenceGenerator, uint>(sut => (uint)sut.Create(uInt32Request, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(10);
-            // Teardown
         }
     }
 }

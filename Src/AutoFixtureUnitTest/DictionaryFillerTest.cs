@@ -16,23 +16,21 @@ namespace AutoFixtureUnitTest
             [Fact]
             public void AddManyToNullSpecimenThrows()
             {
-                // Fixture setup
+                // Arrange
                 var dummyContext = new DelegatingSpecimenContext();
-                // Exercise system and verify outcome
+                // Act & assert
                 Assert.Throws<ArgumentNullException>(() =>
                     DictionaryFiller.AddMany(null, dummyContext));
-                // Teardown
             }
 
             [Fact]
             public void AddManyWithNullContextThrows()
             {
-                // Fixture setup
+                // Arrange
                 var dummyDictionary = new Dictionary<object, object>();
-                // Exercise system and verify outcome
+                // Act & assert
                 Assert.Throws<ArgumentNullException>(() =>
                     DictionaryFiller.AddMany(dummyDictionary, null));
-                // Teardown
             }
 
             [Theory]
@@ -45,31 +43,29 @@ namespace AutoFixtureUnitTest
             [InlineData(typeof(int))]
             public void AddManyToNonDictionaryThrows(object specimen)
             {
-                // Fixture setup
+                // Arrange
                 var dummyContext = new DelegatingSpecimenContext();
-                // Exercise system and verify outcome
+                // Act & assert
                 Assert.Throws<ArgumentException>(() =>
                     DictionaryFiller.AddMany(specimen, dummyContext));
-                // Teardown
             }
 
             [Fact]
             public void AddManyFillsDictionary()
             {
-                // Fixture setup
+                // Arrange
                 var dictionary = new Dictionary<int, string>();
 
                 var expectedRequest = new MultipleRequest(typeof(KeyValuePair<int, string>));
                 var expectedResult = Enumerable.Range(1, 3).Select(i => new KeyValuePair<int, string>(i, i.ToString()));
                 var context = new DelegatingSpecimenContext
                 {
-                    OnResolve = r => expectedRequest.Equals(r) ? (object) expectedResult : new NoSpecimen()
+                    OnResolve = r => expectedRequest.Equals(r) ? (object)expectedResult : new NoSpecimen()
                 };
-                // Exercise system
+                // Act
                 DictionaryFiller.AddMany(dictionary, context);
-                // Verify outcome
+                // Assert
                 Assert.True(expectedResult.SequenceEqual(dictionary));
-                // Teardown
             }
         }
 
@@ -108,19 +104,18 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(int))]
         public void ExecuteNonDictionaryThrows(object specimen)
         {
-            // Fixture setup
+            // Arrange
             var sut = new DictionaryFiller();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() =>
                 sut.Execute(specimen, dummyContext));
-            // Teardown
         }
 
         [Fact]
         public void ExecuteFillsDictionary()
         {
-            // Fixture setup
+            // Arrange
             var dictionary = new Dictionary<int, string>();
 
             var expectedRequest = new MultipleRequest(typeof(KeyValuePair<int, string>));
@@ -128,17 +123,16 @@ namespace AutoFixtureUnitTest
             var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? (object)expectedResult : new NoSpecimen() };
 
             var sut = new DictionaryFiller();
-            // Exercise system
+            // Act
             sut.Execute(dictionary, context);
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(dictionary));
-            // Teardown
         }
 
         [Fact]
         public void DoesNotThrowWithDuplicateEntries()
         {
-            // Fixture setup
+            // Arrange
             var dictionary = new Dictionary<int, string>();
 
             var request = new MultipleRequest(typeof(KeyValuePair<int, string>));
@@ -146,9 +140,8 @@ namespace AutoFixtureUnitTest
             var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? (object)sequence : new NoSpecimen() };
 
             var sut = new DictionaryFiller();
-            // Exercise system & Verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(dictionary, context)));
-            // Teardown
         }
     }
 }

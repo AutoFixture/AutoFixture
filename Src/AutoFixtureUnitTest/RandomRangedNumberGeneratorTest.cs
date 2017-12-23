@@ -14,50 +14,46 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RandomRangedNumberGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomRangedNumberGenerator();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomRangedNumberGenerator();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomRangedNumberGenerator();
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(dummyRequest, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
 
@@ -68,11 +64,11 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(decimal), 'h', 'j')]
         public void CreateWithNonnumericLimitsReturnsNoSpecimen(Type operandType, object minimum, object maximum)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomRangedNumberGenerator();
             var dummyContext = new DelegatingSpecimenContext();
             var request = new RangedNumberRequest(operandType, minimum, maximum);
-            // Exercise system
+            // Act
             var result = sut.Create(request, dummyContext);
             // Verify
             Assert.Equal(new NoSpecimen(), result);
@@ -82,7 +78,7 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsAllValuesInSetBeforeRepeating()
         {
-            // Fixture setup
+            // Arrange
             int minimum = 0;
             int maximum = 2;
 
@@ -92,7 +88,7 @@ namespace AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
-            // Exercise system
+            // Act
             var generatedValues = Enumerable.Range(0, 3).Select(i => sut.Create(request, dummyContext)).Cast<int>();
             var shouldBeRepeatedValue = (int)sut.Create(request, dummyContext);
 
@@ -112,7 +108,7 @@ namespace AutoFixtureUnitTest
             int request2Min, int request2Max, int request2FirstGroup, int request2SecondGroup,
             int request3Min, int request3Max, int request3FirstGroup, int request3SecondGroup)
         {
-            // Fixture setup
+            // Arrange
             int request1Count = request1Max - request1Min + 1;
             int request2Count = request2Max - request2Min + 1;
             int request3Count = request3Max - request3Min + 1;
@@ -130,7 +126,7 @@ namespace AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
-            // Exercise system
+            // Act
             results[request1].AddMany(() => (int)sut.Create(request1, dummyContext), request1FirstGroup);
             results[request2].AddMany(() => (int)sut.Create(request2, dummyContext), request2FirstGroup);
             results[request3].AddMany(() => (int)sut.Create(request3, dummyContext), request3FirstGroup);
@@ -144,14 +140,14 @@ namespace AutoFixtureUnitTest
             Assert.True(Enumerable.Range(request2Min, request2Count)
                                   .Intersect(results[request2]).Count() == request2Count);
             Assert.True(Enumerable.Range(request3Min, request3Count)
-                                  .Intersect(results[request3]).Count() == request3Count); 
+                                  .Intersect(results[request3]).Count() == request3Count);
         }
-              
+
 
         [Fact]
         public void CreateReturnsValuesFromCorrectSetForTwoRequestsOfSameTypeAndDifferentLimits()
         {
-            // Fixture setup
+            // Arrange
             var request1 = new RangedNumberRequest(typeof(int), 0, 2);
             var request2 = new RangedNumberRequest(typeof(int), 10, 20);
 
@@ -159,7 +155,7 @@ namespace AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
-            // Exercise system
+            // Act
             var value1 = (int)sut.Create(request1, dummyContext);
             var value2 = (int)sut.Create(request2, dummyContext);
             var value3 = (int)sut.Create(request1, dummyContext);
@@ -173,7 +169,7 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsValuesFromCorrectSetForMultipleRequestsWithInterspersedDifferentRequestOfSameType()
         {
-            // Fixture setup
+            // Arrange
             var request1 = new RangedNumberRequest(typeof(int), 0, 2);
             var request2 = new RangedNumberRequest(typeof(int), 10, 20);
             var request3 = new RangedNumberRequest(typeof(int), 0, 2);
@@ -182,7 +178,7 @@ namespace AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
-            // Exercise system
+            // Act
             var value1 = (int)sut.Create(request1, dummyContext);
             var value2 = (int)sut.Create(request2, dummyContext);
             var value3 = (int)sut.Create(request3, dummyContext);
@@ -200,7 +196,7 @@ namespace AutoFixtureUnitTest
         public void CreateReturnsValuesFromCorrectSetForRequestsWithDifferentTypesAndSameLimits(
                                                                       Type primaryRequestType, Type otherRequestType)
         {
-            // Fixture setup          
+            // Arrange
             int minimum = 0, maximum = 2;
             int rangeCount = maximum - minimum + 1;
 
@@ -210,37 +206,37 @@ namespace AutoFixtureUnitTest
             var primaryResults = new List<IComparable>();
 
             var sut = new RandomRangedNumberGenerator();
-            
-            // Exercise system
+
+            // Act
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
-            var otherResult = ((IComparable)sut.Create(otherRequest, dummyContext));             
+            var otherResult = ((IComparable)sut.Create(otherRequest, dummyContext));
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
 
             // Verify
             Assert.True(primaryResults.Distinct().Count() == 3);
-            Assert.InRange(otherResult, minimum, maximum);              
+            Assert.InRange(otherResult, minimum, maximum);
 
             Assert.True(Enumerable.Range(minimum, rangeCount)
                       .Select(a => Convert.ChangeType(a, primaryRequestType))
                       .Cast<IComparable>()
-                      .All(a => primaryResults.Any(b => b.CompareTo(a)==0)));
+                      .All(a => primaryResults.Any(b => b.CompareTo(a) == 0)));
         }
-                
+
         [Theory]
         [InlineData(1, 50000, 5)]
         [InlineData(-50000, -1, 5)]
         [InlineData(-25000, 24999, 5)]
         public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int minimum, int maximum, int numberOfThreads)
         {
-            // Fixture setup           
-            int expectedDistinctCount = Math.Abs((maximum - minimum + 1));            
+            // Arrange
+            int expectedDistinctCount = Math.Abs((maximum - minimum + 1));
             int requestsPerThread = expectedDistinctCount / numberOfThreads;
             var dummyContext = new DelegatingSpecimenContext();
-            
+
             var sut = new RandomRangedNumberGenerator();
 
-            // Exercise System
+            // Act
 
             var numbers = Enumerable
                 .Range(0, numberOfThreads)
@@ -258,87 +254,82 @@ namespace AutoFixtureUnitTest
             // Verify
             int actualDistinctCount = numbers.SelectMany(a => a).Distinct().Count();
             Assert.Equal(expectedDistinctCount, actualDistinctCount);
-           
-            // Teardown
+
         }
 
         [Theory]
         [MemberData(nameof(MinLimitToMaxLimitRequests))]
         public void CreationOnFullRangeShouldNotFail(Type type, object minimum, object maximum)
         {
-            // Fixture setup
+            // Arrange
             var request = new RangedNumberRequest(type, minimum, maximum);
             var sut = new RandomRangedNumberGenerator();
             var dummyContext = new DelegatingSpecimenContext();
 
-            // Excercise System And Verify
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
 
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(MinLimitToMaxLimitRequests))]
         public void CreationOnFullRangeShouldReturnValue(Type type, object minimum, object maximum)
         {
-            // Fixture setup
+            // Arrange
             var request = new RangedNumberRequest(type, minimum, maximum);
             var sut = new RandomRangedNumberGenerator();
             var dummyContext = new DelegatingSpecimenContext();
 
-            // Excercise System
+            // Act
             var result = sut.Create(request, dummyContext);
 
-            // Verify
+            // Assert
             Assert.IsType(type, result);
 
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(RequestsWithLimitsToZeroRange))]
         public void CreationWithLimitsInBoundariesShouldReturnValueInRange(Type type, object minimum, object maximum)
         {
-            // Fixture setup
+            // Arrange
             var request = new RangedNumberRequest(type, minimum, maximum);
             var sut = new RandomRangedNumberGenerator();
             var dummyContext = new DelegatingSpecimenContext();
 
-            // Excercise System
-            var result = (IComparable) sut.Create(request, dummyContext);
+            // Act
+            var result = (IComparable)sut.Create(request, dummyContext);
 
-            // Verify
-            Assert.InRange(result, (IComparable) minimum, (IComparable) maximum);
+            // Assert
+            Assert.InRange(result, (IComparable)minimum, (IComparable)maximum);
 
-            // Teardown
         }
 
         [Theory]
-        [InlineData(typeof(byte))] 
-        [InlineData(typeof(sbyte))] 
-        [InlineData(typeof(short))]  
+        [InlineData(typeof(byte))]
+        [InlineData(typeof(sbyte))]
+        [InlineData(typeof(short))]
         [InlineData(typeof(ushort))]
-        [InlineData(typeof(int))]  
-        [InlineData(typeof(uint))]  
-        [InlineData(typeof(long))] 
-        [InlineData(typeof(ulong))] 
+        [InlineData(typeof(int))]
+        [InlineData(typeof(uint))]
+        [InlineData(typeof(long))]
+        [InlineData(typeof(ulong))]
         [InlineData(typeof(decimal))]
-        [InlineData(typeof(float))]  
+        [InlineData(typeof(float))]
         [InlineData(typeof(double))]
         public void ShouldCorrectlyHandleRequestsWithSameMinimumAndMaximumValue(Type type)
         {
-            // Fixture setup
+            // Arrange
             var range = Convert.ChangeType(42, type, CultureInfo.InvariantCulture);
             var sut = new RandomRangedNumberGenerator();
             var request = new RangedNumberRequest(type, range, range);
             var dummyContext = new DelegatingSpecimenContext();
-            
-            // Exercise system
+
+            // Act
             var result = sut.Create(request, dummyContext);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(range, result);
-            // Teardown
         }
 
         public static TheoryData<Type, IConvertible, IConvertible> MinLimitToMaxLimitRequests =>

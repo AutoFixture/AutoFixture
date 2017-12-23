@@ -9,51 +9,47 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsException()
         {
-            // Fixture setup
+            // Arrange
             Type expectedBase = typeof(Exception);
-            // Exercise system
+            // Act
             var sut = new ObjectCreationException();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom(expectedBase, sut);
-            // Teardown
         }
 
         [Fact]
         public void MessageWillBeDefineWhenDefaultConstructorIsUsed()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ObjectCreationException();
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void MessageWillMatchConstructorArgument()
         {
-            // Fixture setup
+            // Arrange
             string expectedMessage = "Anonymous exception message";
             var sut = new ObjectCreationException(expectedMessage);
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMessage, result);
-            // Teardown
         }
 
         [Fact]
         public void InnerExceptionWillMatchConstructorArgument()
         {
-            // Fixture setup
+            // Arrange
             var expectedException = new ArgumentOutOfRangeException();
             var sut = new ObjectCreationException("Anonymous message.", expectedException);
-            // Exercise system
+            // Act
             var result = sut.InnerException;
-            // Verify outcome
+            // Assert
             Assert.Equal<Exception>(expectedException, result);
-            // Teardown
         }
     }
 }

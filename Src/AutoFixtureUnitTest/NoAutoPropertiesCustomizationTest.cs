@@ -10,19 +10,19 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
+            // Arrange
             var dummy = typeof(object);
-            // Exercise system
+            // Act
             var sut = new NoAutoPropertiesCustomization(dummy);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
         }
 
         [Fact]
         public void InitializeWithNullTargetTypeThrowsArgumentNullException()
         {
-            // Fixture setup
-            // Exercise system and verify the outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new NoAutoPropertiesCustomization(null));
         }
@@ -30,10 +30,10 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummy = typeof(object);
             var sut = new NoAutoPropertiesCustomization(dummy);
-            // Exercise system and verify the outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
         }
@@ -41,16 +41,16 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CustomizeCorrectlyDisablesAutoPropertyPopulationForType()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(PropertyHolder<string>);
             var fixture = new Fixture();
             var sut = new NoAutoPropertiesCustomization(targetType);
-            // Exercise system
+            // Act
             var fixtureBeforeCustomization = fixture.Create<PropertyHolder<string>>();
             sut.Customize(fixture);
             var fixtureAfterCustomization = fixture.Create<PropertyHolder<string>>();
             var secondFixtureAfterCustomization = fixture.Create<PropertyHolder<string>>();
-            // Verify the outcome
+            // Assert
             Assert.NotNull(fixtureBeforeCustomization.Property);
             Assert.Null(fixtureAfterCustomization.Property);
             Assert.Null(secondFixtureAfterCustomization.Property);

@@ -46,130 +46,121 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void InitialGraphIsCorrect()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             ISpecimenBuilderNode actual = this.sut.Graph;
-            // Verify outcome
+            // Assert
             Assert.Equal(this.graph, actual);
-            // Teardown
         }
 
         [Fact]
         public void InsertRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
-            // Exercise system
+            // Act
             var dummyIndex = 0;
             var dummyItem = new DelegatingSpecimenBuilderTransformation();
             this.sut.Insert(dummyIndex, dummyItem);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void RemoveAtRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             this.sut.Add(new DelegatingSpecimenBuilderTransformation());
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
-            // Exercise system
+            // Act
             var dummyIndex = 0;
             this.sut.RemoveAt(dummyIndex);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void SetItemRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             this.sut.Add(new DelegatingSpecimenBuilderTransformation());
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
-            // Exercise system
+            // Act
             var dummyIndex = 0;
             var dummyItem = new DelegatingSpecimenBuilderTransformation();
             this.sut[dummyIndex] = dummyItem;
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void AddRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
-            // Exercise system
+            // Act
             var dummyItem = new DelegatingSpecimenBuilderTransformation();
             this.sut.Add(dummyItem);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void ClearNonEmptyCollectionRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             this.sut.Add(new DelegatingSpecimenBuilderTransformation());
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
-            // Exercise system
+            // Act
             this.sut.Clear();
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void ClearEmptyCollectionDoesNotRaiseGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             this.sut.Clear();
             var invoked = false;
             this.sut.GraphChanged += (s, e) => invoked = true;
-            // Exercise system
+            // Act
             this.sut.Clear();
-            // Verify outcome
+            // Assert
             Assert.False(invoked);
-            // Teardown
         }
 
         [Fact]
         public void RemoveContainedItemRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var item = new DelegatingSpecimenBuilderTransformation();
             this.sut.Add(item);
 
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
-            // Exercise system
+            // Act
             this.sut.Remove(item);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void RemoveUncontainedItemDoesNotRaiseGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var item = new DelegatingSpecimenBuilderTransformation();
             var invoked = false;
             this.sut.GraphChanged += (s, e) => invoked = true;
-            // Exercise system
+            // Act
             this.sut.Remove(item);
-            // Verify outcome
+            // Assert
             Assert.False(invoked);
-            // Teardown
         }
 
         [Theory]
@@ -178,36 +169,34 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void InsertItemCorrectlyChangesGraph(int index)
         {
-            // Fixture setup
+            // Arrange
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
-            // Exercise system
+            // Act
             var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(index, b) };
             this.sut.Insert(index, item);
-            // Verify outcome
+            // Assert
             var expected = this.sut.Aggregate(
                 this.graph,
                 (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
             Assert.True(expected.GraphEquals(this.sut.Graph,
                 new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
-            // Teardown
         }
 
         [Fact]
         public void ClearCorrectlyChangesGraph()
         {
-            // Fixture setup
+            // Arrange
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
-            // Exercise system
+            // Act
             this.sut.Clear();
-            // Verify outcome
+            // Assert
             Assert.True(this.graph.GraphEquals(this.sut.Graph,
                 new TrueComparer<ISpecimenBuilder>()));
-            // Teardown
         }
 
         [Theory]
@@ -216,20 +205,19 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void RemoveAtCorrectlyChangesGraph(int index)
         {
-            // Fixture setup
+            // Arrange
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
-            // Exercise system
+            // Act
             this.sut.RemoveAt(index);
-            // Verify outcome
+            // Assert
             var expected = this.sut.Aggregate(
                 this.graph,
                 (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
             Assert.True(expected.GraphEquals(this.sut.Graph,
                 new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
-            // Teardown
         }
 
         [Theory]
@@ -238,81 +226,76 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void SetItemCorrectlyChangesGraph(int index)
         {
-            // Fixture setup
+            // Arrange
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
-            // Exercise system
+            // Act
             var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(index, b) };
             this.sut[index] = item;
-            // Verify outcome
+            // Assert
             var expected = this.sut.Aggregate(
                 this.graph,
                 (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
             Assert.True(expected.GraphEquals(this.sut.Graph,
                 new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
-            // Teardown
         }
 
         [Fact]
         public void SutContainsItemsFromConstructor()
         {
-            // Fixture setup
+            // Arrange
             var x = new DelegatingSpecimenBuilderTransformation();
             var y = new DelegatingSpecimenBuilderTransformation();
             var z = new DelegatingSpecimenBuilderTransformation();
-            // Exercise system
+            // Act
             var s = new SingletonSpecimenBuilderNodeStackAdapterCollection(
                 this.graph, n => n is MarkerNode, x, y, z);
-            // Verify outcome
+            // Assert
             Assert.True(new[] { x, y, z }.SequenceEqual(s));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullGraphThrows()
         {
-            // Fixture setup
+            // Arrange
             Func<ISpecimenBuilderNode, bool> dummyPredicate = n => false;
             var dummyTransformations = new ISpecimenBuilderTransformation[0];
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new SingletonSpecimenBuilderNodeStackAdapterCollection(
                     null,
                     dummyPredicate,
                     dummyTransformations));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullPredicateThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyGraph = new CompositeSpecimenBuilder();
             var dummyTransformations = new ISpecimenBuilderTransformation[0];
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new SingletonSpecimenBuilderNodeStackAdapterCollection(
                     dummyGraph,
                     null,
                     dummyTransformations));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullTransformationsThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyGraph = new CompositeSpecimenBuilder();
             Func<ISpecimenBuilderNode, bool> dummyPredicate = n => false;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new SingletonSpecimenBuilderNodeStackAdapterCollection(
                     dummyGraph,
                     dummyPredicate,
                     null));
-            // Teardown
         }
     }
 }

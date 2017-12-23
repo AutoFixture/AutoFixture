@@ -3,7 +3,7 @@ using AutoFixture;
 using Xunit;
 
 namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue
-{    
+{
     public class Repro
     {
         /// <summary>
@@ -13,18 +13,17 @@ namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue
         [Fact]
         public void Issue()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList()
                 .ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-            // Exercise system
+            // Act
             var session = fixture.Create<Session>();
-            // Verify outcome
+            // Assert
             Assert.Empty(session.Language.Sessions);
-            // Teardown
         }
     }
 }

@@ -11,67 +11,62 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void NullIFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             IFixture fixture = null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => fixture.Repeat(() => new object()));
-            // Teardown
         }
 
         [Fact]
         public void RepeatWillPerformActionTheDefaultNumberOfTimes()
         {
-            // Fixture setup
+            // Arrange
             IFixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
-            // Exercise system
+            // Act
             int result = 0;
             sut.Repeat(() => result++).ToList();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result);
-            // Teardown
         }
 
         [Fact]
         public void RepeatWillReturnTheDefaultNumberOfItems()
         {
-            // Fixture setup
+            // Arrange
             IFixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
-            // Exercise system
+            // Act
             IEnumerable<object> result = sut.Repeat(() => new object());
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result.Count());
-            // Teardown
         }
 
         [Fact]
         public void RepeatWillPerformActionTheSpecifiedNumberOfTimes()
         {
-            // Fixture setup
+            // Arrange
             int expectedCount = 2;
             IFixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
-            // Exercise system
+            // Act
             int result = 0;
             sut.Repeat(() => result++).ToList();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result);
-            // Teardown
         }
 
         [Fact]
         public void RepeatWillReturnTheSpecifiedNumberOfItems()
         {
-            // Fixture setup
+            // Arrange
             int expectedCount = 13;
             IFixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
-            // Exercise system
+            // Act
             IEnumerable<object> result = sut.Repeat(() => new object());
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result.Count());
-            // Teardown
         }
     }
 }

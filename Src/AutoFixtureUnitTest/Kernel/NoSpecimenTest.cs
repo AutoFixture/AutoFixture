@@ -10,280 +10,261 @@ namespace AutoFixtureUnitTest.Kernel
         [Obsolete]
         public void DefaultConstructorWillSetRequestToNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.Request;
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Null(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void CreateWithNullRequestWillSetCorrectRequest()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
 #pragma warning disable 618
             var sut = new NoSpecimen(null);
-            // Verify outcome
+            // Assert
             Assert.Null(sut.Request);
 #pragma warning restore 618
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void RequestWillMatchConstructorArgument()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
 #pragma warning disable 618
             var sut = new NoSpecimen(expectedRequest);
-            // Exercise system
+            // Act
             var result = sut.Request;
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedRequest, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new NoSpecimen();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<NoSpecimen>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
             object other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
             NoSpecimen other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
             var anonymousObject = new object();
-            // Exercise system
+            // Act
             var result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutDoesNotEqualOtherObjectWhenSutRequestIsNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
 #pragma warning disable 618
             object other = new NoSpecimen(new object());
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutDoesNotEqualOtherSutWhenSutRequestIsNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
 #pragma warning disable 618
             var other = new NoSpecimen(new object());
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutDoesNotEqualOtherObjectWhenOtherRequestIsNull()
         {
-            // Fixture setup
+            // Arrange
 #pragma warning disable 618
             var sut = new NoSpecimen(new object());
 #pragma warning restore 618
             object other = new NoSpecimen();
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutDoesNotEqualOtherSutWhenOtherRequestIsNull()
         {
-            // Fixture setup
+            // Arrange
 #pragma warning disable 618
             var sut = new NoSpecimen(new object());
 #pragma warning restore 618
             var other = new NoSpecimen();
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutDoesNotEqualOtherObjectWhenRequestsDiffer()
         {
-            // Fixture setup
+            // Arrange
 #pragma warning disable 618
             var sut = new NoSpecimen(new object());
             object other = new NoSpecimen(new object());
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutDoesNotEqualOtherSutWhenRequestsDiffer()
         {
-            // Fixture setup
+            // Arrange
 #pragma warning disable 618
             var sut = new NoSpecimen(new object());
             var other = new NoSpecimen(new object());
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenBothRequestsAreNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
             object other = new NoSpecimen();
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenBothRequestsAreNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
             var other = new NoSpecimen();
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutEqualsOtherObjectWhenRequestsAreEqual()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
 #pragma warning disable 618
             var sut = new NoSpecimen(request);
             object other = new NoSpecimen(request);
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutEqualsOtherSutWhenRequestsAreEqual()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
 #pragma warning disable 618
             var sut = new NoSpecimen(request);
             var other = new NoSpecimen(request);
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeWhenRequestIsNullWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoSpecimen();
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             Assert.Equal(0, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void GetHashCodeWhenRequestIsNotNullWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
 #pragma warning disable 618
             var sut = new NoSpecimen(request);
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             var expectedHashCode = request.GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
     }
 }

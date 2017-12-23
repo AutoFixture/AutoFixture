@@ -11,36 +11,33 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new StableFiniteSequenceCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StableFiniteSequenceCustomization();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsCorrectItemToCustomizations()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StableFiniteSequenceCustomization();
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             Assert.True(fixture.Customizations.OfType<StableFiniteSequenceRelay>().Any());
-            // Teardown
         }
     }
 }

@@ -12,59 +12,54 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RandomDateTimeSequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithInvertedDateRangeThrowsArgumentException()
         {
-            // Fixture setup
+            // Arrange
             var minDate = DateTime.Now;
             var maxDate = minDate.AddDays(3);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(
                 () => new RandomDateTimeSequenceGenerator(maxDate, minDate));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithEmptyDateRangeThrowsArgumentException()
         {
-            // Fixture setup
+            // Arrange
             var date = DateTime.Now;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(
                 () => new RandomDateTimeSequenceGenerator(date, date));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrowsArgumentNullException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => sut.Create(typeof(DateTime), null));
-            // Teardown
         }
 
         [Theory]
@@ -73,14 +68,13 @@ namespace AutoFixtureUnitTest
         [InlineData(default(bool))]
         public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Theory]
@@ -90,74 +84,69 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(bool))]
         public void CreateWithNonDateTimeTypeRequestReturnsNoSpecimen(Type request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithDateTimeRequestReturnsDateTimeValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(typeof(DateTime), dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<DateTime>(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithDateTimeRequestReturnsADateWithinARangeOfPlusMinusTwoYearsFromToday()
         {
-            // Fixture setup
+            // Arrange
             var twoYearsAgo = DateTime.Today.AddYears(-2);
             var twoYearsForward = DateTime.Today.AddYears(2);
             var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.InRange(result, twoYearsAgo, twoYearsForward);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithMultipleDateTimeRequestsReturnsDifferentDates()
         {
-            // Fixture setup
+            // Arrange
             const int requestCount = 10;
             var times = Enumerable.Range(1, requestCount);
             var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var results = times
                 .Select(t => sut.Create(typeof(DateTime), dummyContainer))
                 .Cast<DateTime>();
-            // Verify outcome
+            // Assert
             Assert.Equal(requestCount, results.Distinct().Count());
-            // Teardown
         }
 
         [Fact]
         public void CreateWithDateTimeRequestAndDateRangeReturnsDateWithinThatRange()
         {
-            // Fixture setup
+            // Arrange
             var minDate = DateTime.Now;
             var maxDate = minDate.AddDays(3);
             var sut = new RandomDateTimeSequenceGenerator(minDate, maxDate);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.InRange(result, minDate, maxDate);
-            // Teardown
         }
     }
 }

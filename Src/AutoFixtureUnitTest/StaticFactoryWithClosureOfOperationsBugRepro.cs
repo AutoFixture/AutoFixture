@@ -11,17 +11,16 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateWithOmitOnRecursionThrowsAppropriateException()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList()
                 .ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<ClosureOfOperationsHost>());
-            // Teardown
         }
 
         private class ClosureOfOperationsHost

@@ -104,11 +104,11 @@ namespace AutoFixtureUnitTest.Kernel
                     sx.TargetType == sy.TargetType)
                     return true;
 
-                if (x is ExactTypeSpecification ex && 
+                if (x is ExactTypeSpecification ex &&
                     y is ExactTypeSpecification ey &&
                     ex.TargetType == ey.TargetType)
                     return true;
-                
+
                 if (x is TrueRequestSpecification && y is TrueRequestSpecification)
                     return true;
 
@@ -172,7 +172,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 this.specificationComparer = specificationComparer;
             }
-            
+
             public bool Equals(ISpecimenCommand x, ISpecimenCommand y)
             {
                 if (x is AutoPropertiesCommand apx &&
@@ -191,7 +191,7 @@ namespace AutoFixtureUnitTest.Kernel
                 return EqualityComparer<ISpecimenCommand>.Default.GetHashCode(obj);
             }
         }
-        
+
         private static class GenericComparer
         {
             private static readonly Dictionary<Type, Type> equatables =

@@ -13,77 +13,71 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new DelegatingRecursionGuard(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsNode()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new DelegatingRecursionGuard(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new DelegatingRecursionGuard(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullEqualityComparerThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new DelegatingRecursionGuard(dummyBuilder, null));
-            // Teardown
         }
 
         [Fact]
         public void SutYieldsInjectedBuilder()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var sut = new DelegatingRecursionGuard(expected);
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.Equal(expected, sut.Single());
             Assert.Equal(expected, ((System.Collections.IEnumerable)sut).Cast<object>().Single());
-            // Teardown
         }
 
         [Fact]
         public void ComparerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingEqualityComparer();
             var sut = new DelegatingRecursionGuard(dummyBuilder, expected);
-            // Exercise system
+            // Act
             IEqualityComparer actual = sut.Comparer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillUseEqualityComparer()
         {
-            // Fixture setup
+            // Arrange
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(r);
             bool comparerUsed = false;
@@ -93,49 +87,49 @@ namespace AutoFixtureUnitTest
             var container = new DelegatingSpecimenContext();
             container.OnResolve = (r) => sut.Create(r, container);
 
-            // Exercise system
+            // Act
             sut.Create(Guid.NewGuid(), container);
 
-            // Verify outcome
+            // Assert
             Assert.True(comparerUsed);
         }
 
         [Fact]
         public void CreateWillNotTriggerHandlingOnFirstRequest()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DelegatingRecursionGuard(new DelegatingSpecimenBuilder());
             bool handlingTriggered = false;
             sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
 
-            // Exercise system
+            // Act
             sut.Create(Guid.NewGuid(), new DelegatingSpecimenContext());
 
-            // Verify outcome
+            // Assert
             Assert.False(handlingTriggered);
         }
 
         [Fact]
         public void CreateWillNotTriggerHandlingOnSubsequentSimilarRequests()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DelegatingRecursionGuard(new DelegatingSpecimenBuilder());
             bool handlingTriggered = false;
             object request = Guid.NewGuid();
             sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
 
-            // Exercise system
+            // Act
             sut.Create(request, new DelegatingSpecimenContext());
             sut.Create(request, new DelegatingSpecimenContext());
 
-            // Verify outcome
+            // Assert
             Assert.False(handlingTriggered);
         }
 
         [Fact]
         public void CreateWillTriggerHandlingOnRecursiveRequests()
         {
-            // Fixture setup
+            // Arrange
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(r);
             var sut = new DelegatingRecursionGuard(builder);
@@ -144,31 +138,37 @@ namespace AutoFixtureUnitTest
             var container = new DelegatingSpecimenContext();
             container.OnResolve = (r) => sut.Create(r, container);
 
-            // Exercise system
+            // Act
             sut.Create(Guid.NewGuid(), container);
 
-            // Verify outcome
+            // Assert
             Assert.True(handlingTriggered);
         }
 
         [Fact]
         public void CreateWillNotTriggerHandlingOnSecondarySameRequestWhenDecoratedBuilderThrows()
         {
-            // Fixture setup
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) =>
+            // Arrange
+            var builder = new DelegatingSpecimenBuilder
             {
-                throw new PrivateExpectedException("The decorated builder always throws.");
-            }};
+                OnCreate = (r, c) =>
+{
+throw new PrivateExpectedException("The decorated builder always throws.");
+}
+            };
 
-            var sut = new DelegatingRecursionGuard(builder) { OnHandleRecursiveRequest = o =>
+            var sut = new DelegatingRecursionGuard(builder)
             {
-                throw new PrivateUnexpectedException("Recursive handling should not be triggered.");
-            }};
+                OnHandleRecursiveRequest = o =>
+{
+throw new PrivateUnexpectedException("Recursive handling should not be triggered.");
+}
+            };
 
             var dummyContext = new DelegatingSpecimenContext();
             var sameRequest = new object();
 
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<PrivateExpectedException>(() => sut.Create(sameRequest, dummyContext));
             Assert.Empty(sut.UnprotectedRecordedRequests);
             Assert.Throws<PrivateExpectedException>(() => sut.Create(sameRequest, dummyContext));
@@ -194,10 +194,10 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateWillTriggerHandlingOnSecondLevelRecursiveRequest()
         {
-            // Fixture setup
+            // Arrange
             object subRequest1 = Guid.NewGuid();
             object subRequest2 = Guid.NewGuid();
-            var requestScenario = new Stack<object>(new [] { subRequest1, subRequest2, subRequest1 });
+            var requestScenario = new Stack<object>(new[] { subRequest1, subRequest2, subRequest1 });
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(requestScenario.Pop());
 
@@ -208,17 +208,17 @@ namespace AutoFixtureUnitTest
             var container = new DelegatingSpecimenContext();
             container.OnResolve = (r) => sut.Create(r, container);
 
-            // Exercise system
+            // Act
             sut.Create(Guid.NewGuid(), container);
 
-            // Verify outcome
+            // Assert
             Assert.Same(subRequest1, recursiveRequest);
         }
 
         [Fact]
         public void CreateWillNotTriggerHandlingUntilDeeperThanRecursionDepth()
         {
-            // Fixture setup
+            // Arrange
             var requestScenario = new Queue<int>(new[] { 1, 2, 1, 3, 1, 4 });
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(requestScenario.Dequeue());
@@ -228,15 +228,15 @@ namespace AutoFixtureUnitTest
             object recursiveRequest = null;
 
             sut.OnHandleRecursiveRequest = obj => recursiveRequest = obj;
-            
+
 
             var container = new DelegatingSpecimenContext();
             container.OnResolve = r => sut.Create(r, container);
 
-            // Exercise system
+            // Act
             sut.Create(5, container);
 
-            // Verify outcome
+            // Assert
             // Check that recursion was actually detected as expected
             Assert.Equal(1, recursiveRequest);
             // Check that we passed the first recursion, but didn't go any further
@@ -246,194 +246,182 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void ConstructWithBuilderAndRecursionHandlerHasCorrectHandler()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingRecursionHandler();
             var sut = new RecursionGuard(dummyBuilder, expected);
-            // Exercise system
+            // Act
             IRecursionHandler actual = sut.RecursionHandler;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndRecursionHandlerHasCorrectBuilder()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var sut = new RecursionGuard(expected, dummyHandler);
-            // Exercise system
+            // Act
             var actual = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndRecursionHandlerHasCorrectComparer()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var sut = new RecursionGuard(dummyBuilder, dummyHandler);
-            // Exercise system
+            // Act
             var actual = sut.Comparer;
-            // Verify outcome
+            // Assert
             Assert.Equal(EqualityComparer<object>.Default, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullBuilderAndRecursionHandlerThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyHandler = new DelegatingRecursionHandler();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new RecursionGuard(null, dummyHandler));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndNullRecursionHandlerThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new RecursionGuard(dummyBuilder, (IRecursionHandler)null));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndHandlerAndComparerAndRecursionDepthHasCorrectBuilder()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             var dummyRecursionDepth = 2;
             var sut = new RecursionGuard(expected, dummyHandler, dummyComparer, dummyRecursionDepth);
-            // Exercise system
+            // Act
             var actual = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndHandlerAndComparerAndRecursionDepthHasCorrectHandler()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             var dummyRecursionDepth = 2;
             var sut = new RecursionGuard(dummyBuilder, expected, dummyComparer, dummyRecursionDepth);
-            // Exercise system
+            // Act
             var actual = sut.RecursionHandler;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndHandlerAndComparerAndRecursionDepthHasCorrectComparer()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var expected = new DelegatingEqualityComparer();
             var dummyRecursionDepth = 2;
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected, dummyRecursionDepth);
-            // Exercise system
+            // Act
             var actual = sut.Comparer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
-        }        
-        
+        }
+
         [Fact]
         public void ConstructWithBuilderAndHandlerAndComparerAndRecursionDepthHasCorrectRecursionDepth()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             var expected = 2;
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, expected);
-            // Exercise system
+            // Act
             var actual = sut.RecursionDepth;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullBuilderAndHandlerAndComparerAndRecursionDepthThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             var dummyRecursionDepth = 2;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new RecursionGuard(null, dummyHandler, dummyComparer, dummyRecursionDepth));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndNullHandlerAndComparerAndRecursionDepthThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyComparer = new DelegatingEqualityComparer();
             var dummyRecursionDepth = 2;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new RecursionGuard(dummyBuilder, null, dummyComparer, dummyRecursionDepth));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithBuilderAndHandlerAndNullComparerAndRecursionDepthThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyRecursionDepth = 2;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new RecursionGuard(dummyBuilder, dummyHandler, null, dummyRecursionDepth));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ConstructWithBuilderSetsRecursionDepthCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var sut = new RecursionGuard(dummyBuilder);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Equal(1, sut.RecursionDepth);
         }
 
         [Fact]
         public void ConstructWithBuilderAndHandlerSetsRecursionDepthCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
-            // Exercise system
+            // Act
             var sut = new RecursionGuard(dummyBuilder, dummyHandler);
-            // Verify outcome
+            // Assert
             Assert.Equal(1, sut.RecursionDepth);
         }
 
@@ -441,73 +429,70 @@ namespace AutoFixtureUnitTest
         [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectBuilder()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
 #pragma warning disable 618
             var sut = new RecursionGuard(expected, dummyHandler, dummyComparer);
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var actual = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectHandler()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
 #pragma warning disable 618
             var sut = new RecursionGuard(dummyBuilder, expected, dummyComparer);
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var actual = sut.RecursionHandler;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectComparer()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var expected = new DelegatingEqualityComparer();
 #pragma warning disable 618
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected);
 #pragma warning restore 618
-            // Exercise system
+            // Act
             var actual = sut.Comparer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
-        
+
         [Fact]
         public void ConstructWithBuilderAndHandlerAndRecursionDepthSetsRecursionDepthCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             const int explicitRecursionDepth = 2;
-            // Exercise system
+            // Act
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, explicitRecursionDepth);
-            // Verify outcome
+            // Assert
             Assert.Equal(explicitRecursionDepth, sut.RecursionDepth);
         }
 
         [Fact]
         public void CreateReturnsResultFromInjectedHandlerWhenRequestIsMatched()
         {
-            // Fixture setup
+            // Arrange
             var builder = new DelegatingSpecimenBuilder()
             {
                 OnCreate = (r, ctx) => ctx.Resolve(r)
@@ -534,23 +519,22 @@ namespace AutoFixtureUnitTest
 
             var context = new DelegatingSpecimenContext();
             context.OnResolve = r => sut.Create(r, context);
-            // Exercise system
+            // Act
             var actual = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             const int dummyRecursionDepth = 2;
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, dummyRecursionDepth);
-            // Exercise system
+            // Act
             var expectedBuilders = new[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -558,86 +542,81 @@ namespace AutoFixtureUnitTest
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(rg.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
         }
 
         [Fact]
         public void ComposeSingleItemReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             int dummyRecursionDepth = 2;
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, dummyRecursionDepth);
-            // Exercise system
+            // Act
             var expected = new DelegatingSpecimenBuilder();
             var actual = sut.Compose(new[] { expected });
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(actual);
             Assert.Equal(expected, rg.Builder);
-            // Teardown
         }
 
         [Fact]
         public void ComposeRetainsHandler()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             int dummyRecursionDepth = 2;
             var sut = new RecursionGuard(dummyBuilder, expected, dummyComparer, dummyRecursionDepth);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(actual);
             Assert.Equal(expected, rg.RecursionHandler);
-            // Teardown
         }
 
         [Fact]
         public void ComposeRetainsComparer()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var expected = new DelegatingEqualityComparer();
             int dummyRecursionDepth = 2;
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected, dummyRecursionDepth);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(actual);
             Assert.Equal(expected, rg.Comparer);
-            // Teardown
         }
 
         [Fact]
         public void ComposeRetainsRecursionDepth()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
             int expected = 2;
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, expected);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(actual);
             Assert.Equal(expected, rg.RecursionDepth);
-            // Teardown
         }
 
         [Fact]
         public void CreateOnMultipleThreadsConcurrentlyWorks()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder
             {
                 OnCreate = (r, ctx) => ctx.Resolve(r)
@@ -648,17 +627,16 @@ namespace AutoFixtureUnitTest
             {
                 OnResolve = (r) => 99
             };
-            // Exercise system
+            // Act
             int[] specimens = Enumerable.Range(0, 1000)
                 .AsParallel()
                     .WithDegreeOfParallelism(8)
                     .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                 .Select(x => (int)sut.Create(typeof(int), dummyContext))
                 .ToArray();
-            // Verify outcome
+            // Assert
             Assert.Equal(1000, specimens.Length);
             Assert.True(specimens.All(s => s == 99));
-            // Teardown
         }
 
         [Theory]
@@ -667,14 +645,13 @@ namespace AutoFixtureUnitTest
         [InlineData(-42)]
         public void ConstructorWithRecursionDepthLowerThanOneThrows(int recursionDepth)
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, recursionDepth));
-            // Teardown
         }
     }
 }

@@ -10,40 +10,37 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MutableValueTypeWarningThrower();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateThrowsCorrectException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MutableValueTypeWarningThrower();
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ObjectCreationException>(() =>
                 sut.Create(dummyRequest, dummyContext));
-            // Teardown
         }
 
         [Fact]
         public void ExceptionContainsInformationAboutRequest()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MutableValueTypeWarningThrower();
             var request = Guid.NewGuid();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var e = Assert.Throws<ObjectCreationException>(() =>
                 sut.Create(request, dummyContext));
-            // Verify outcome
+            // Assert
             Assert.Contains(request.ToString(), e.Message);
-            // Teardown
-        } 
+        }
     }
 }

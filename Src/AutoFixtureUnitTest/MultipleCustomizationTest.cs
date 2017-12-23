@@ -16,23 +16,21 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MultipleCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleCustomization();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Theory]
@@ -42,14 +40,13 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(DictionaryRelay))]
         public void CustomizeAddsRelayToFixture(Type relayType)
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleCustomization();
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             Assert.Contains(fixture.ResidueCollectors, relayType.IsInstanceOfType);
-            // Teardown
         }
 
         [Theory]
@@ -58,12 +55,12 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(CollectionSpecification), typeof(ListFavoringConstructorQuery))]
         public void CustomizeAddsBuilderForProperConcreteMultipleType(Type specificationType, Type queryType)
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleCustomization();
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             Assert.True(fixture.Customizations
                 .OfType<FilteringSpecimenBuilder>()
                 .Where(b => specificationType.IsAssignableFrom(b.Specification.GetType()))
@@ -71,18 +68,17 @@ namespace AutoFixtureUnitTest
                 .Select(b => (MethodInvoker)b.Builder)
                 .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
                 .Any());
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsBuilderForConcreteDictionaries()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleCustomization();
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             Assert.True(fixture.Customizations
                 .OfType<FilteringSpecimenBuilder>()
                 .Where(b => typeof(DictionarySpecification).IsAssignableFrom(b.Specification.GetType()))
@@ -93,7 +89,6 @@ namespace AutoFixtureUnitTest
                 .Select(p => (MethodInvoker)p.Builder)
                 .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
                 .Any());
-            // Teardown
         }
 
         #region Usage/scenario tests
@@ -101,97 +96,89 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateAnonymousEnumerableReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<IEnumerable<Version>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousListReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<List<long>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousHashSetReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<HashSet<string>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousIListReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<IList<DateTime>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousICollectionReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<ICollection<TimeSpan>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousCollectionReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<Collection<Guid>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousDictionaryReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<Dictionary<string, ConcreteType>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousIDictionaryReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new MultipleCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<IDictionary<float, object>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         #endregion

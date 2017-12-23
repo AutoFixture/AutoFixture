@@ -9,13 +9,12 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void FixtureCanResolveItself()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var actual = sut.Create<T>();
-            // Verify outcome
+            // Assert
             Assert.Equal<object>(sut, actual);
-            // Teardown
         }
     }
 

@@ -10,101 +10,93 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ImplementedInterfaceSpecification(typeof(object));
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithTargetTypeShouldSetCorrespondingProperty()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(object);
-            // Exercise system
+            // Act
             var sut = new ImplementedInterfaceSpecification(targetType);
-            // Verify outcome
+            // Assert
             Assert.Equal(targetType, sut.TargetType);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullTargetTypeShouldThrowArgumentNullException()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ImplementedInterfaceSpecification(null));
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByWithNullRequestShouldThrowArgumentNullException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ImplementedInterfaceSpecification(typeof(object));
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.IsSatisfiedBy(null));
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByWithRequestForSameTypeShouldReturnTrue()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(NoopInterfaceImplementer);
             var requestedType = typeof(NoopInterfaceImplementer);
             var sut = new ImplementedInterfaceSpecification(targetType);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(requestedType);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByWithRequestForImplementedInterfaceShouldReturnTrue()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(NoopInterfaceImplementer);
             var requestedType = typeof(IInterface);
             var sut = new ImplementedInterfaceSpecification(targetType);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(requestedType);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByWithRequestForNotImplementedInterfaceShouldReturnFalse()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(NoopInterfaceImplementer);
             var requestedType = typeof(IDisposable);
             var sut = new ImplementedInterfaceSpecification(targetType);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(requestedType);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByWithRequestForNonInterfaceTypeShouldReturnFalse()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(NoopInterfaceImplementer);
             var requestedType = typeof(string);
             var sut = new ImplementedInterfaceSpecification(targetType);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(requestedType);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Theory]
@@ -113,14 +105,13 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(false)]
         public void IsSatisfiedByWithInvalidRequestShouldReturnFalse(object request)
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(NoopInterfaceImplementer);
             var sut = new ImplementedInterfaceSpecification(targetType);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
     }
 }

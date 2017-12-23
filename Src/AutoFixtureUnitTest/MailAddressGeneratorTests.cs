@@ -14,57 +14,53 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MailAddressGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MailAddressGenerator();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNonMailAddressRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var sut = new MailAddressGenerator();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(MailAddress);
-            var sut = new MailAddressGenerator();            
-            // Exercise system and verify outcome
+            var sut = new MailAddressGenerator();
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithMailAddressRequestReturnsCorrectResultUsingLocalPartAndDomainNameFromContext()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(MailAddress);
             var expectedLocalPart = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             var expectedDomainName = new DomainName(Guid.NewGuid().ToString());
@@ -84,18 +80,17 @@ namespace AutoFixtureUnitTest
                }
             };
             var sut = new MailAddressGenerator();
-            // Exercise system
+            // Act
             var result = (MailAddress)sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedLocalPart.LocalPart, result.User);
             Assert.Equal(expectedDomainName.Domain, result.Host);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithMailAddressRequestReturnsNoSpecimenWhenContextReturnsNullLocalPart()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(MailAddress);
             var anonymousDomainName = new DomainName(Guid.NewGuid().ToString());
 
@@ -108,18 +103,17 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new MailAddressGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithMailAddressRequestReturnsNoSpecimenWhenContextReturnsNullDomainName()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(MailAddress);
             var anonymousLocalPart = new EmailAddressLocalPart(Guid.NewGuid().ToString());
 
@@ -132,18 +126,17 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new MailAddressGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsNoSpecimenWhenEmailAddressLocalPartIsInvalidForMailAddress()
         {
-            // Fixture setup
+            // Arrange
             var localPart = new EmailAddressLocalPart("@Invalid@");
             var anonymousDomainName = new DomainName(Guid.NewGuid().ToString());
             var request = typeof(MailAddress);
@@ -163,12 +156,11 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new MailAddressGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

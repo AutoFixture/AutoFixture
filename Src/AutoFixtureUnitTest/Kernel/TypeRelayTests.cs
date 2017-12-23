@@ -13,32 +13,30 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyFrom = typeof(object);
             var dummyTo = typeof(object);
             var sut = new TypeRelay(dummyFrom, dummyTo);
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ConstructorArgumentsShouldBeExposedByProperties()
         {
-            // Fixture setup
+            // Arrange
             var from = typeof(object);
             var to = typeof(string);
 
-            // Exercise system
+            // Act
             var sut = new TypeRelay(from, to);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(from, sut.From);
             Assert.Equal(to, sut.To);
-            // Teardown
         }
-        
+
         [Theory]
         [InlineData("")]
         [InlineData("foo")]
@@ -55,17 +53,16 @@ namespace AutoFixtureUnitTest.Kernel
         public void CreateFromNonMatchingRequestReturnsCorrectResult(
             object request)
         {
-            // Fixture setup
+            // Arrange
             var from = typeof(ConcreteType);
             var dummyTo = typeof(object);
             var sut = new TypeRelay(from, dummyTo);
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expected = new NoSpecimen();
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Theory]
@@ -77,54 +74,50 @@ namespace AutoFixtureUnitTest.Kernel
             Type from,
             Type to)
         {
-            // Fixture setup
+            // Arrange
             var sut = new TypeRelay(from, to);
             var expected = new object();
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => to.Equals(r) ? expected : new object()
             };
-            // Exercise system
+            // Act
             var actual = sut.Create(from, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullFromThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyTo = typeof(object);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new TypeRelay(null, dummyTo));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullToThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyFrom = typeof(object);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new TypeRelay(dummyFrom, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyFrom = typeof(object);
             var dummyTo = typeof(object);
             var sut = new TypeRelay(dummyFrom, dummyTo);
-            // Exercise system and verify outcome
+            // Act & assert
             var dummyRequest = new object();
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
@@ -145,14 +138,13 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ShouldNotFailIfOpenGenericsIsPassedToConstructor()
         {
-            // Fixture setup
+            // Arrange
             var openFrom = typeof(IEnumerable<>);
             var openTo = typeof(List<>);
-            
-            // Exercise system and verify outcome
-            Assert.Null(Record.Exception(() => 
+
+            // Act & assert
+            Assert.Null(Record.Exception(() =>
                 new TypeRelay(openFrom, openTo)));
-            // Teardown
         }
 
         [Theory]
@@ -160,11 +152,10 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(string), typeof(IEnumerable<>))]
         public void ShouldFailIfConstructedWithOpenAndNonOpenType(Type from, Type to)
         {
-            // Exercise system and verify outcome
+            // Act & assert
             var ex = Assert.Throws<ArgumentException>(() =>
                 new TypeRelay(from, to));
             Assert.Contains("open generic", ex.Message);
-            // Teardown
         }
 
         [Theory]
@@ -173,7 +164,7 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Nullable<>), typeof(IEnumerable<>), typeof(int?), typeof(IEnumerable<int>))]
         public void ShouldRelayOpenGenericsCorrectly(Type from, Type to, Type request, Type expectedRelay)
         {
-            // Fixture setup
+            // Arrange
             var sut = new TypeRelay(from, to);
 
             var expectedResult = new object();
@@ -182,18 +173,17 @@ namespace AutoFixtureUnitTest.Kernel
                 OnResolve = r => expectedRelay.Equals(r) ? expectedResult : new NoSpecimen()
             };
 
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void IgnoresRequestIfGenericTypeDoesNotMatchExactly()
         {
-            // Fixture setup
+            // Arrange
             var from = typeof(IEnumerable<>);
             var to = typeof(List<>);
             var sut = new TypeRelay(from, to);
@@ -204,18 +194,17 @@ namespace AutoFixtureUnitTest.Kernel
                 OnResolve = _ => new object()
             };
 
-            // Exercise system
+            // Act
             var result = sut.Create(request, dummyContext);
 
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         [Fact]
         public void FailsAtResolveIfImproperMappingIsSpecified()
         {
-            // Fixture setup
+            // Arrange
             var from = typeof(IEnumerable<>);
             var to = typeof(Nullable<>);
             var sut = new TypeRelay(from, to);
@@ -223,12 +212,11 @@ namespace AutoFixtureUnitTest.Kernel
             var request = typeof(IEnumerable<string>);
             var dummyContext = new DelegatingSpecimenContext();
 
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() =>
                 sut.Create(request, dummyContext));
-            // Teardown
         }
-        
+
         private abstract class BaseType { }
 
         private class DerivedType : BaseType { }

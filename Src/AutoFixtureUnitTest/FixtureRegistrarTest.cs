@@ -15,67 +15,61 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void InjectIntoNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyItem = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureRegistrar.Inject(null, dummyItem));
-            // Teardown
         }
 
         [Fact]
         public void RegisterParameterlessFuncWithNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             Func<object> dummyFunc = () => new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureRegistrar.Register(null, dummyFunc));
-            // Teardown
         }
 
         [Fact]
         public void RegisterSingleParameterFuncWithNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             Func<object, object> dummyFunc = x => x;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureRegistrar.Register(null, dummyFunc));
-            // Teardown
         }
 
         [Fact]
         public void RegisterDoubleParameterFuncWithNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             Func<object, object, object> dummyFunc = (x, y) => x;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureRegistrar.Register(null, dummyFunc));
-            // Teardown
         }
 
         [Fact]
         public void RegisterTripleParameterFuncWithNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             Func<object, object, object, object> dummyFunc = (x, y, z) => x;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureRegistrar.Register(null, dummyFunc));
-            // Teardown
         }
 
         [Fact]
         public void RegisterQuadrupleParameterFuncWithNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             Func<object, object, object, object, object> dummyFunc = (x, y, z, æ) => x;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureRegistrar.Register(null, dummyFunc));
-            // Teardown
         }
     }
 }

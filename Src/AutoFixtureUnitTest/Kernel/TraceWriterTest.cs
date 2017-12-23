@@ -11,140 +11,131 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyWriter = TextWriter.Null;
             var dummyBuilder = new DelegatingTracingBuilder();
-            // Exercise system
+            // Act
             var sut = new TraceWriter(dummyWriter, dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsSpecimenBuilderNode()
         {
-            // Fixture setup
+            // Arrange
             var dummyWriter = TextWriter.Null;
             var dummyBuilder = new DelegatingTracingBuilder();
-            // Exercise system
+            // Act
             var sut = new TraceWriter(dummyWriter, dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullWriterWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingTracingBuilder();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new TraceWriter(null, dummyBuilder));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuilderWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyWriter = TextWriter.Null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new TraceWriter(dummyWriter, null));
-            // Teardown
         }
 
         [Fact]
         public void TracerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyWriter = TextWriter.Null;
             var expectedTracer = new DelegatingTracingBuilder();
             var sut = new TraceWriter(dummyWriter, expectedTracer);
-            // Exercise system
+            // Act
             TracingBuilder result = sut.Tracer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedTracer, result);
-            // Teardown
         }
 
         [Fact]
         public void SutYieldsCorrectSequence()
         {
-            // Fixture setup
+            // Arrange
             var dummyWriter = TextWriter.Null;
             var expected = new DelegatingSpecimenBuilder();
             var tracer = new DelegatingTracingBuilder(expected);
             var sut = new TraceWriter(dummyWriter, tracer);
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.Equal(expected, sut.Single());
             Assert.Equal(expected, ((System.Collections.IEnumerable)sut).Cast<object>().Single());
-            // Teardown
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var writer = TextWriter.Null;
             var tracer = new DelegatingTracingBuilder();
             var sut = new TraceWriter(writer, tracer);
-            // Exercise system
-            var expectedBuilders = new []
+            // Act
+            var expectedBuilders = new[]
             {
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
-            // Verify outcome
+            // Assert
             var tw = Assert.IsAssignableFrom<TraceWriter>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(tw.Tracer.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
         }
 
         [Fact]
         public void ComposeSingleItemReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var writer = TextWriter.Null;
             var tracer = new DelegatingTracingBuilder();
             var sut = new TraceWriter(writer, tracer);
-            // Exercise system
+            // Act
             var expected = new DelegatingSpecimenBuilder();
             var actual = sut.Compose(new[] { expected });
-            // Verify outcome
+            // Assert
             var tw = Assert.IsAssignableFrom<TraceWriter>(actual);
             Assert.Equal(expected, tw.Tracer.Builder);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecimen = new object();
             var stubBuilder = new TracingBuilder(new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedSpecimen });
 
             var dummyWriter = TextWriter.Null;
             var sut = new TraceWriter(dummyWriter, stubBuilder);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpecimen, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillInvokeDecoratedBuilderWithCorrectParameters()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var expectedContainer = new DelegatingSpecimenContext();
 
@@ -153,17 +144,16 @@ namespace AutoFixtureUnitTest.Kernel
 
             var dummyWriter = TextWriter.Null;
             var sut = new TraceWriter(dummyWriter, mockBuilder);
-            // Exercise system
+            // Act
             sut.Create(expectedRequest, expectedContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         public void SpecimenRequestedWillWriteCorrectMessageToWriter()
         {
-            // Fixture setup
+            // Arrange
             var writer = new StringWriter();
             var builder = new DelegatingTracingBuilder();
 
@@ -171,18 +161,17 @@ namespace AutoFixtureUnitTest.Kernel
             var request = new object();
 
             var sut = new TraceWriter(writer, builder);
-            // Exercise system
+            // Act
             builder.RaiseSpecimenRequested(new RequestTraceEventArgs(request, depth));
-            // Verify outcome
+            // Assert
             var expected = new string(' ', depth * 2) + "Requested: " + request + Environment.NewLine;
             Assert.Equal(expected, writer.ToString());
-            // Teardown
         }
 
         [Fact]
         public void SpecimenCreatedWillWriteCorrectMessageToWriter()
         {
-            // Fixture setup
+            // Arrange
             var writer = new StringWriter();
             var builder = new DelegatingTracingBuilder();
 
@@ -190,99 +179,92 @@ namespace AutoFixtureUnitTest.Kernel
             var specimen = new object();
 
             var sut = new TraceWriter(writer, builder);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             builder.RaiseSpecimenCreated(new SpecimenCreatedEventArgs(dummyRequest, specimen, depth));
-            // Verify outcome
+            // Assert
             var expected = new string(' ', depth * 2) + "Created: " + specimen + Environment.NewLine;
             Assert.Equal(expected, writer.ToString());
-            // Teardown
         }
 
         [Fact]
         public void RequestFormatterIsGivenCorrectTextWriter()
         {
-            // Fixture setup
+            // Arrange
             var expectedWriter = new StringWriter();
             var sut = new TraceWriter(expectedWriter, new DelegatingTracingBuilder());
 
             bool verified = false;
             sut.TraceRequestFormatter = (tw, r, i) => verified = tw == expectedWriter;
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void SpecimenFormatterIsGivenCorrectTextWriter()
         {
-            // Fixture setup
+            // Arrange
             var expectedWriter = new StringWriter();
             var sut = new TraceWriter(expectedWriter, new DelegatingTracingBuilder());
 
             bool verified = false;
             sut.TraceSpecimenFormatter = (tw, r, i) => verified = tw == expectedWriter;
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void AssignNullRequestFormatterWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new TraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.TraceRequestFormatter = null);
-            // Teardown
         }
 
         [Fact]
         public void AssignNullSpecimenFormatterWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new TraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.TraceSpecimenFormatter = null);
-            // Teardown
         }
 
         [Fact]
         public void RequestFormatterIsProperWritableProperty()
         {
-            // Fixture setup
+            // Arrange
             Action<TextWriter, object, int> expected = (tw, r, i) => { };
             var sut = new TraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
-            // Exercise system
+            // Act
             sut.TraceRequestFormatter = expected;
             Action<TextWriter, object, int> result = sut.TraceRequestFormatter;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void SpecimenFormatterIsProperWritableProperty()
         {
-            // Fixture setup
+            // Arrange
             Action<TextWriter, object, int> expected = (tw, r, i) => { };
             var sut = new TraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
-            // Exercise system
+            // Act
             sut.TraceSpecimenFormatter = expected;
             Action<TextWriter, object, int> result = sut.TraceSpecimenFormatter;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
     }
 }

@@ -14,52 +14,48 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RangeAttributeRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangeAttributeRelay();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangeAttributeRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangeAttributeRelay();
             var dummyRequest = new object();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -72,15 +68,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(Version))]
         public void CreateWithNonRangeAttributeRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangeAttributeRelay();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -94,7 +89,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(long), -2, -1)]
         public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type, object minimum, object maximum)
         {
-            // Fixture setup
+            // Arrange
             var rangeAttribute = new RangeAttribute(type, minimum.ToString(), maximum.ToString());
             var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
             var request = new FakeMemberInfo(providedAttribute);
@@ -107,11 +102,10 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RangeAttributeRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -120,7 +114,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
             string name, Type expectedMemberType, Type expectedOperandType)
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(RangeValidatedType).GetProperty(name);
 
             var expectedRequest = new RangedRequest(
@@ -131,11 +125,10 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RangeAttributeRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -144,7 +137,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
             string name, Type expectedMemberType, Type expectedOperandType)
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(RangeValidatedType).GetField(name);
 
             var expectedRequest = new RangedRequest(
@@ -156,11 +149,10 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RangeAttributeRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -169,7 +161,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void CreateWithParameterDecoratedWithRangeAttributeReturnsCorrectResult(
             string methodName, Type expectedMemberType, Type expectedOperandType)
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(RangeValidatedType).GetMethod(methodName).GetParameters().Single();
 
             var expectedRequest = new RangedRequest(
@@ -181,11 +173,10 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RangeAttributeRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

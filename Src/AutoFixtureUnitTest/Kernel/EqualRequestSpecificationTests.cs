@@ -10,53 +10,49 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecification()
         {
-            // Fixture setup
+            // Arrange
             var dummyTarget = new object();
-            // Exercise system
+            // Act
             var sut = new EqualRequestSpecification(dummyTarget);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Fact]
         public void TargetIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expected = new object();
             var sut = new EqualRequestSpecification(expected);
-            // Exercise system
+            // Act
             var actual = sut.Target;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByTargetReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var target = new object();
             var sut = new EqualRequestSpecification(target);
-            // Exercise system
+            // Act
             var actual = sut.IsSatisfiedBy(target);
-            // Verify outcome
+            // Assert
             Assert.True(actual);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByOtherReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyTarget = new object();
             var sut = new EqualRequestSpecification(dummyTarget);
-            // Exercise system
+            // Act
             var other = new object();
             var actual = sut.IsSatisfiedBy(other);
-            // Verify outcome
+            // Assert
             Assert.False(actual);
-            // Teardown
         }
 
         [Fact]
@@ -71,7 +67,7 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(false)]
         public void IsSatisfiedByReturnsResultFromComparer(bool expected)
         {
-            // Fixture setup
+            // Arrange
             var target = new object();
             var other = new object();
             var comparer = new DelegatingEqualityComparer
@@ -79,48 +75,44 @@ namespace AutoFixtureUnitTest.Kernel
                 OnEquals = (x, y) => x == target && y == other && expected
             };
             var sut = new EqualRequestSpecification(target, comparer);
-            // Exercise system
+            // Act
             var actual = sut.IsSatisfiedBy(other);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullTargetAndDummyComparerThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComparer = new DelegatingEqualityComparer();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new EqualRequestSpecification(null, dummyComparer));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullComparerAndDummyTargetThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyTarget = new object();
-            // Exercise system and verify outcome
+            // Act & assert
 
             Assert.Throws<ArgumentNullException>(() =>
                 new EqualRequestSpecification(dummyTarget, null));
-            // Teardown
         }
 
         [Fact]
         public void ComparerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingEqualityComparer();
             var dummyTarget = new object();
             var sut = new EqualRequestSpecification(dummyTarget, expected);
-            // Exercise system
+            // Act
             IEqualityComparer actual = sut.Comparer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
     }
 }

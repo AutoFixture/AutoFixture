@@ -11,12 +11,11 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void InitializeWithNullRequestAndValidNumberThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyNumber = 1;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new FiniteSequenceRequest(null, dummyNumber));
-            // Teardown
         }
 
         [Theory]
@@ -24,12 +23,11 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(-3)]
         public void InitializeWithInvalidCountThrows(int count)
         {
-            // Fixture setup
+            // Arrange
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new FiniteSequenceRequest(dummyRequest, count));
-            // Teardown
         }
 
         [Theory]
@@ -39,167 +37,155 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(10)]
         public void CreateRequestsReturnsCorrectResult(int requestedCount)
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var sut = new FiniteSequenceRequest(expectedRequest, requestedCount);
-            // Exercise system
+            // Act
             var result = sut.CreateRequests().ToList();
-            // Verify outcome
+            // Assert
             Assert.Equal(requestedCount, result.Count);
             Assert.True(result.All(expectedRequest.Equals));
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
+            // Arrange
             var dummyCount = 3;
-            // Exercise system
+            // Act
             var sut = new FiniteSequenceRequest(new object(), dummyCount);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<FiniteSequenceRequest>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FiniteSequenceRequest(new object(), 3);
             object other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FiniteSequenceRequest(new object(), 3);
             FiniteSequenceRequest other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FiniteSequenceRequest(new object(), 3);
             object anonymousObject = new ConcreteType();
-            // Exercise system
+            // Act
             var result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenRequestsDifferButCountsMatch()
         {
-            // Fixture setup
+            // Arrange
             var count = 1;
             var sut = new FiniteSequenceRequest(new object(), count);
             object other = new FiniteSequenceRequest(new object(), count);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenRequestsDifferButCountsMatch()
         {
-            // Fixture setup
+            // Arrange
             var count = 1;
             var sut = new FiniteSequenceRequest(new object(), count);
             var other = new FiniteSequenceRequest(new object(), count);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenCountsDiffer()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var sut = new FiniteSequenceRequest(request, 1);
             object other = new FiniteSequenceRequest(request, 2);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenCountsDiffer()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var sut = new FiniteSequenceRequest(request, 1);
             var other = new FiniteSequenceRequest(request, 2);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenBothRequestsAndCountMatch()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var count = 4;
             var sut = new FiniteSequenceRequest(request, count);
             object other = new FiniteSequenceRequest(request, count);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenBothRequestsAndCountMatch()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var count = 4;
             var sut = new FiniteSequenceRequest(request, count);
             var other = new FiniteSequenceRequest(request, count);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeWhenCountIsSpecifiedReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var count = 19;
             var sut = new FiniteSequenceRequest(request, count);
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             var expectedHashCode = request.GetHashCode() ^ count.GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
     }
 }

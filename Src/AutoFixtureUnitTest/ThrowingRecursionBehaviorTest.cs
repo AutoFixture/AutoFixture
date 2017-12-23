@@ -11,51 +11,47 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilderTransformation()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ThrowingRecursionBehavior();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderTransformation>(sut);
-            // Teardown
         }
 
         [Fact]
         public void TransformNullBuilderThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ThrowingRecursionBehavior();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Transform(null));
-            // Teardown
         }
 
         [Fact]
         public void TransformReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ThrowingRecursionBehavior();
-            // Exercise system
+            // Act
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var result = sut.Transform(dummyBuilder);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
             Assert.IsAssignableFrom<ThrowingRecursionHandler>(rg.RecursionHandler);
-            // Teardown
         }
 
         [Fact]
         public void TransformResultCorrectlyDecoratesInput()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ThrowingRecursionBehavior();
             var expectedBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var result = sut.Transform(expectedBuilder);
-            // Verify outcome
+            // Assert
             var guard = Assert.IsAssignableFrom<RecursionGuard>(result);
             Assert.Equal(expectedBuilder, guard.Builder);
-            // Teardown
         }
     }
 }

@@ -10,12 +10,11 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new NullableEnumRequestSpecification();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Theory]
@@ -36,13 +35,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(DoubleFieldHolder<int, string>))]
         public void IsSatisfiedReturnsFalseOnRequestWhichIsNotRequestForNullableEnum(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NullableEnumRequestSpecification();
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Theory]
@@ -50,13 +48,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(ConsoleColor?))]
         public void IsSatisfiedReturnsTrueForRequestForNullableEnum(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NullableEnumRequestSpecification();
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
     }
 }

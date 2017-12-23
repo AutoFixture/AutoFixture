@@ -9,53 +9,49 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             Func<string, object> dummyFunc = s => new object();
-            // Exercise system
+            // Act
             var sut = new SpecimenFactory<string, object>(dummyFunc);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullFuncThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new SpecimenFactory<int, object>((Func<int, object>)null));
-            // Teardown
         }
 
         [Fact]
         public void FactoryIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             Func<int, string> expectedFactory = i => i.ToString();
             var sut = new SpecimenFactory<int, string>(expectedFactory);
-            // Exercise system
+            // Act
             Func<int, string> result = sut.Factory;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedFactory, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SpecimenFactory<object, object>(x => x);
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecimen = new object();
 
             var dtSpecimen = DateTimeOffset.Now;
@@ -64,12 +60,11 @@ namespace AutoFixtureUnitTest.Kernel
 
             Func<DateTimeOffset, object> f = dt => dtSpecimen.Equals(dt) ? expectedSpecimen : new NoSpecimen();
             var sut = new SpecimenFactory<DateTimeOffset, object>(f);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var result = sut.Create(dummyRequest, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpecimen, result);
-            // Teardown
         }
     }
 }

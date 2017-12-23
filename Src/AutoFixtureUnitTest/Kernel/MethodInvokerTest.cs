@@ -13,142 +13,132 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullPickerThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new MethodInvoker(null));
-            // Teardown
         }
 
         [Fact]
         public void QueryIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedPicker = new DelegatingMethodQuery();
             var sut = new MethodInvoker(expectedPicker);
-            // Exercise system
+            // Act
             IMethodQuery result = sut.Query;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedPicker, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MethodInvoker(new ModestConstructorQuery());
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateFromNonTypeRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonTypeRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Exercise system
+            // Act
             var result = sut.Create(nonTypeRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsCorrectResultWhenQueryReturnsEmptyConstructors()
         {
-            // Fixture setup
+            // Arrange
             var dummyRequest = typeof(object);
             var query = new DelegatingMethodQuery { OnSelectMethods = t => Enumerable.Empty<IMethod>() };
             var sut = new MethodInvoker(query);
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromTypeRequestWhenContainerCannotSatisfyParameterRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var type = typeof(string);
             var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Exercise system
+            // Act
             var result = sut.Create(type, container);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromTypeWithNoPublicConstructorWhenContainerCanSatisfyRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Exercise system
+            // Act
             var result = sut.Create(typeof(AbstractType), container);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromTypeWhenParentCanGenerateOneParameterButNotTheOtherWillReturnCorrectNull()
         {
-            // Fixture setup
+            // Arrange
             var requestedType = typeof(DoubleParameterType<string, int>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
             var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen() };
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Exercise system
+            // Act
             var result = sut.Create(requestedType, container);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<NoSpecimen>(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromTypeWhenParentCanGenerateBothParametersWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedParameterValues = new object[] { 1, 2m };
             var parameterQueue = new Queue<object>(expectedParameterValues);
 
@@ -166,19 +156,18 @@ namespace AutoFixtureUnitTest.Kernel
             };
 
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Exercise system
+            // Act
             var result = sut.Create(requestedType, container);
-            // Verify outcome
+            // Assert
             var actual = (DoubleParameterType<int, decimal>)result;
             Assert.Equal(expectedParameterValues[0], actual.Parameter1);
             Assert.Equal(expectedParameterValues[1], actual.Parameter2);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromTypeWillInvokeContainerCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var requestedType = typeof(DoubleParameterType<long, short>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
 
@@ -203,17 +192,16 @@ namespace AutoFixtureUnitTest.Kernel
             };
 
             var sut = new MethodInvoker(new ModestConstructorQuery());
-            // Exercise system
+            // Act
             sut.Create(requestedType, contextMock);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
 
         [Fact]
         public void CreateFromTypeWillUseFirstConstructorItCanSatisfy()
         {
-            // Fixture setup
+            // Arrange
             var requestedType = typeof(MultiUnorderedConstructorType);
             var ctor1 = requestedType.GetConstructor(new[] { typeof(MultiUnorderedConstructorType.ParameterObject) });
             var ctor2 = requestedType.GetConstructor(new[] { typeof(string), typeof(int) });
@@ -242,13 +230,12 @@ namespace AutoFixtureUnitTest.Kernel
                 }
                 return new NoSpecimen();
             };
-            // Exercise system
+            // Act
             var result = sut.Create(requestedType, context);
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<MultiUnorderedConstructorType>(result);
             Assert.Equal(expectedText, actual.Text);
             Assert.Equal(expectedNumber, actual.Number);
-            // Teardown
         }
     }
 }

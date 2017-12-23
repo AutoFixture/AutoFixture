@@ -9,57 +9,53 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenContext()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new SpecimenContext(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenContext>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullBuilderWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new SpecimenContext(null));
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new DelegatingSpecimenBuilder();
             var sut = new SpecimenContext(expectedBuilder);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new object();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult };
             var sut = new SpecimenContext(builder);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var result = sut.Resolve(dummyRequest);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillInvokeBuilderWithCorrectRequest()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
 
             var mockVerified = false;
@@ -72,17 +68,16 @@ namespace AutoFixtureUnitTest.Kernel
                 };
 
             var sut = new SpecimenContext(builderMock);
-            // Exercise system
+            // Act
             sut.Resolve(expectedRequest);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
 
         [Fact]
         public void CreateWillInvokeBuilderWithCorrectContainer()
         {
-            // Fixture setup
+            // Arrange
             var mockVerified = false;
             var builderMock = new DelegatingSpecimenBuilder();
 
@@ -94,12 +89,11 @@ namespace AutoFixtureUnitTest.Kernel
                 mockVerified = true;
                 return new object();
             };
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Resolve(dummyRequest);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
     }
 }

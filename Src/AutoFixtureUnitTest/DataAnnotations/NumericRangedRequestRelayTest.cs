@@ -12,42 +12,39 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Fact]
         public void SutShouldBeASpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
 
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ShouldFailWithArgumentNullExceptionForNullContext()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
             var request = new object();
             ISpecimenContext nullContext = null;
 
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(request, nullContext));
-            // Teardown
         }
 
         [Fact]
         public void ShouldReturnNoResultForNullRequest()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
             object nullRequest = null;
             var dummyContext = new DelegatingSpecimenContext();
 
-            // Exercise system
+            // Act
             var result = sut.Create(nullRequest, dummyContext);
 
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         public static TheoryData<object> NonSupportedRequests => new TheoryData<object>
@@ -62,16 +59,15 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Theory, MemberData(nameof(NonSupportedRequests))]
         public void ShouldReturnNoResultForNonSupportedRequests(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
             var context = new DelegatingSpecimenContext();
 
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
 
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         [Theory]
@@ -81,17 +77,16 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(StringComparison))]
         public void ShouldReturnNoResultIfRangedRequestIsOfNonNumericMemberType(Type memberType)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
             var request = new RangedRequest(memberType, typeof(int), 0, 42);
             var context = new DelegatingSpecimenContext();
 
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
 
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         [Theory]
@@ -108,7 +103,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(decimal))]
         public void ShouldRelayForRangedRequestsOfNumericMemberType(Type requestType)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
 
             var request = new RangedRequest(requestType, requestType, 0, 42);
@@ -121,12 +116,11 @@ namespace AutoFixtureUnitTest.DataAnnotations
                         : new NoSpecimen()
             };
 
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -136,7 +130,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(float), 10.0F, 42.0F)]
         public void ShouldConvertBoundaryToMemberType(Type memberType, object castedMin, object castedMax)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
 
             var request = new RangedRequest(memberType, typeof(int), 10, 42);
@@ -150,29 +144,27 @@ namespace AutoFixtureUnitTest.DataAnnotations
                         : new NoSpecimen()
             };
 
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void ShouldFailWithMeaningfulExceptionIfUnableToCastWithoutOverflow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericRangedRequestRelay();
 
             double overflowedValue = long.MaxValue;
             var request = new RangedRequest(typeof(long), typeof(double), 0, overflowedValue);
             var context = new DelegatingSpecimenContext();
 
-            // Exercise system and Verify outcome
+            // Act & assert
             var ex = Assert.Throws<OverflowException>(() =>
                 sut.Create(request, context));
             Assert.Contains("To solve the issue", ex.Message);
-            // Teardown
         }
     }
 }

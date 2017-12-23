@@ -12,48 +12,46 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRecursionGuard()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ThrowingRecursionGuard(new DelegatingSpecimenBuilder());
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<RecursionGuard>(sut);
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new DelegatingSpecimenBuilder();
             var sut = new ThrowingRecursionGuard(expectedBuilder);
-            // Exercise system
+            // Act
             var result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void ThrowsAtRecursionPoint()
         {
-            // Fixture setup
+            // Arrange
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(r);
             var sut = new ThrowingRecursionGuard(builder);
             var container = new DelegatingSpecimenContext();
             container.OnResolve = r => sut.Create(r, container); // Provoke recursion
 
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() => sut.Create(Guid.NewGuid(), container));
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new ThrowingRecursionGuard(dummyBuilder);
-            // Exercise system
+            // Act
             var expectedBuilders = new[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -61,41 +59,38 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<ThrowingRecursionGuard>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(rg.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
         }
 
         [Fact]
         public void ComposeSingleItemReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new ThrowingRecursionGuard(dummyBuilder);
-            // Exercise system
+            // Act
             var expected = new DelegatingSpecimenBuilder();
             var actual = sut.Compose(new[] { expected });
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<ThrowingRecursionGuard>(actual);
             Assert.Equal(expected, rg.Builder);
-            // Teardown
         }
 
         [Fact]
         public void ComposeRetainsComparer()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingEqualityComparer();
             var sut = new ThrowingRecursionGuard(dummyBuilder, expected);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<ThrowingRecursionGuard>(actual);
             Assert.Equal(expected, rg.Comparer);
-            // Teardown
         }
     }
 }

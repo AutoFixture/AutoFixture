@@ -13,76 +13,70 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsTransmissionBuilders()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DefaultEngineParts();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<DefaultRelays>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithDefaultConstructorSutHasCorrectContents()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilders = new DefaultPrimitiveBuilders()
                 .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
-            // Exercise system
+            // Act
             var sut = new DefaultEngineParts();
-            // Verify outcome
+            // Assert
             Assert.True(expectedBuilders.SequenceEqual(sut.Select(b => b.GetType())));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuildersThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new DefaultEngineParts((IEnumerable<ISpecimenBuilder>)null));
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithEnumerableBuildersSutHasCorrectContents()
         {
-            // Fixture setup
+            // Arrange
             var primitiveBuilders = Enumerable.Range(1, 3).Select(i => new DelegatingSpecimenBuilder()).Cast<ISpecimenBuilder>().ToList();
             var expectedBuilders = primitiveBuilders
                 .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
-            // Exercise system
+            // Act
             var sut = new DefaultEngineParts(primitiveBuilders);
-            // Verify outcome
+            // Assert
             Assert.True(expectedBuilders.SequenceEqual(sut.Select(b => b.GetType())));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullArrayThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new DefaultEngineParts((ISpecimenBuilder[])null));
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithBuildersArraySutHasCorrectContents()
         {
-            // Fixture setup
+            // Arrange
             var primitiveBuilders = Enumerable.Range(1, 3).Select(i => new DelegatingSpecimenBuilder()).ToArray();
             var expectedBuilders = primitiveBuilders
                 .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
-            // Exercise system
+            // Act
             var sut = new DefaultEngineParts(primitiveBuilders);
-            // Verify outcome
+            // Assert
             Assert.True(expectedBuilders.SequenceEqual(sut.Select(b => b.GetType())));
-            // Teardown
         }
     }
 }

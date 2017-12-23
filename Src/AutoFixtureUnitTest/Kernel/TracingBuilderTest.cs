@@ -10,86 +10,80 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void TestSpecificSutIsSut()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingTracingBuilder();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<TracingBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DelegatingTracingBuilder();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullSpecimenBuilderWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => 
+            // Arrange
+            // Act & assert
+            Assert.Throws<ArgumentNullException>(() =>
                 new DelegatingTracingBuilder(null));
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new DelegatingSpecimenBuilder();
             var sut = new TracingBuilder(expectedBuilder);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillPassThroughToDecoratedBuilder()
         {
-            // Fixture setup
+            // Arrange
             object expectedSpecimen = Guid.NewGuid();
             var decoratedBuilder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r };
             var sut = new DelegatingTracingBuilder(decoratedBuilder);
 
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             object result = sut.Create(expectedSpecimen, dummyContainer);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpecimen, result);
 
-            // Teardown
         }
 
         [Fact]
         public void CreateWillCorrectlyRaiseSpecimenRequested()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             var request = new object();
             var sut = new DelegatingTracingBuilder();
             sut.SpecimenRequested += (sender, e) => verified = e.Request == request && e.Depth == 1;
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Event raised");
-            // Teardown
         }
 
         [Fact]
         public void CreateWillCorrectlyRaiseSpecimenRequestedInCompositeRequest()
         {
-            // Fixture setup
+            // Arrange
             object requestedObject = "The request";
             object subRequest = "Some sub request";
 
@@ -102,19 +96,18 @@ namespace AutoFixtureUnitTest.Kernel
             sut.SpecimenRequested += (sender, e) => spy.Add(e);
 
             var container = new SpecimenContext(sut);
-            // Exercise system
+            // Act
             sut.Create(requestedObject, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(2, spy.Count);
             Assert.Equal(subRequest, spy[1].Request);
             Assert.Equal(2, spy[1].Depth);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillTrackCompositeRequests()
         {
-            // Fixture setup
+            // Arrange
             object requestedObject = "The request";
             object subRequest = "Some sub request";
             var spy = new List<object>();
@@ -125,56 +118,53 @@ namespace AutoFixtureUnitTest.Kernel
             var sut = new DelegatingTracingBuilder(compBuilder);
             sut.SpecimenRequested += (sender, e) => spy.Add(e.Request);
             var container = new SpecimenContext(sut);
-            // Exercise system
+            // Act
             sut.Create(requestedObject, container);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(2, spy.Count);
             Assert.Equal(subRequest, spy[1]);
 
-            // Teardown
         }
 
         [Fact]
         public void CreateWillCorrectlyRaiseSpecimenCreated()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var specimen = new object();
 
             var verified = false;
             var sut = new DelegatingTracingBuilder(new DelegatingSpecimenBuilder { OnCreate = (r, c) => specimen });
             sut.SpecimenCreated += (sender, e) => verified = e.Request == request && e.Specimen == specimen && e.Depth == 1;
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Event raised");
-            // Teardown
         }
 
         [Fact]
         public void CreateWillTrackCreatedSpecimen()
         {
-            // Fixture setup
+            // Arrange
             object tracked = null;
             object createdSpecimen = Guid.NewGuid();
             var container = new DelegatingSpecimenContext { OnResolve = r => createdSpecimen };
             var sut = new DelegatingTracingBuilder();
 
-            // Exercise system
+            // Act
             object res = sut.Create(new object(), container);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(res, tracked);
 
-            // Teardown
         }
 
         [Fact]
         public void CreateWillCorrectRaiseSpecimenCreatedInCompositeRequest()
         {
-            // Fixture setup
+            // Arrange
             object request = "The request";
             object subRequest = "Some sub request";
             var createdSpecimen = new object();
@@ -188,21 +178,20 @@ namespace AutoFixtureUnitTest.Kernel
             sut.SpecimenCreated += (sender, e) => spy.Add(e);
 
             var container = new SpecimenContext(sut);
-            // Exercise system
+            // Act
             sut.Create(request, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(2, spy.Count);
             Assert.Equal(createdSpecimen, spy[0].Specimen);
             Assert.Equal(2, spy[0].Depth);
             Assert.Equal(createdSpecimen, spy[1].Specimen);
             Assert.Equal(1, spy[1].Depth);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillTrackCreatedSpecimensComposite()
         {
-            // Fixture setup
+            // Arrange
             object requestedObject = "The request";
             object subRequest = "Some sub request";
             object createdSpecimen = Guid.NewGuid();
@@ -214,115 +203,108 @@ namespace AutoFixtureUnitTest.Kernel
             var sut = new DelegatingTracingBuilder(compBuilder);
             sut.SpecimenCreated += (sender, e) => spy.Add(e.Specimen);
             var container = new SpecimenContext(sut);
-            // Exercise system
+            // Act
             sut.Create(requestedObject, container);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(2, spy.Count);
             Assert.Equal(createdSpecimen, spy[0]);
             Assert.Equal(createdSpecimen, spy[1]);
 
-            // Teardown
         }
 
         [Fact]
         public void AssignNullFilterWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DelegatingTracingBuilder();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Filter = null);
-            // Teardown
         }
 
         [Fact]
         public void FilterIsProperWritableProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DelegatingTracingBuilder();
             IRequestSpecification expectedFilter = new DelegatingRequestSpecification();
-            // Exercise system
+            // Act
             sut.Filter = expectedFilter;
             IRequestSpecification result = sut.Filter;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedFilter, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillNotRaiseSpecimenRequestForFilteredRequest()
         {
-            // Fixture setup
+            // Arrange
             var eventRaised = false;
 
             var request = new object();
             var sut = new DelegatingTracingBuilder();
             sut.SpecimenRequested += (sender, e) => eventRaised = true;
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.False(eventRaised, "Event raised");
-            // Teardown
         }
 
         [Fact]
         public void CreateWillNotTrackFilteredRequest()
         {
-            // Fixture setup
+            // Arrange
             object tracked = null;
             object requestedObject = new object();
             var sut = new DelegatingTracingBuilder();
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(requestedObject, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Null(tracked);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillNotRaiseSpecimenCreatedForFilteredRequest()
         {
-            // Fixture setup
+            // Arrange
             var eventRaised = false;
 
             var request = new object();
             var sut = new DelegatingTracingBuilder();
             sut.SpecimenCreated += (sender, e) => eventRaised = true;
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.False(eventRaised, "Event raised");
-            // Teardown
         }
 
         [Fact]
         public void CreateWillNotTrackFilteredSpecimen()
         {
-            // Fixture setup
+            // Arrange
             object tracked = null;
             object requestedObject = new object();
             var decoratedBuilder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r };
             var sut = new DelegatingTracingBuilder(decoratedBuilder);
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(requestedObject, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Null(tracked);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillNotRaiseSpecimenRequestedForIgnoredType()
         {
-            // Fixture setup
+            // Arrange
             var eventRaised = false;
 
             var request = Guid.NewGuid();
@@ -331,18 +313,17 @@ namespace AutoFixtureUnitTest.Kernel
 
             var ignoredTypes = new List<Type> { typeof(Guid) };
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => !ignoredTypes.Contains(r.GetType()) };
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.False(eventRaised, "Event raised");
-            // Teardown
         }
 
         [Fact]
         public void IgnoredTypeWillNotTrackRequest()
         {
-            // Fixture setup
+            // Arrange
             object tracked = null;
             object requestedObject = Guid.NewGuid();
             var sut = new DelegatingTracingBuilder();
@@ -350,35 +331,37 @@ namespace AutoFixtureUnitTest.Kernel
             var ignoredTypes = new List<Type> { typeof(Guid) };
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => !ignoredTypes.Contains(r.GetType()) };
 
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(requestedObject, dummyContainer);
 
-            // Verify outcome
+            // Assert
             Assert.Null(tracked);
 
-            // Teardown
         }
 
         [Fact]
         public void DepthWillBeResetAfterDecoratedBuilderThrows()
         {
-            // Fixture setup
+            // Arrange
             int createCallNumber = 0;
             int lastRequestDepth = 0;
             var firstRequest = Guid.NewGuid();
             var secondRequest = Guid.NewGuid();
             var dummyContainer = new DelegatingSpecimenContext();
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) =>
+            var builder = new DelegatingSpecimenBuilder
             {
-                createCallNumber++;
-                if (createCallNumber == 1) throw new PrivateException();
-                return c.Resolve(r);
-            }};
+                OnCreate = (r, c) =>
+{
+createCallNumber++;
+if (createCallNumber == 1) throw new PrivateException();
+return c.Resolve(r);
+}
+            };
             var sut = new DelegatingTracingBuilder(builder);
             sut.SpecimenRequested += (sender, e) => lastRequestDepth = e.Depth;
 
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<PrivateException>(() => sut.Create(firstRequest, dummyContainer));
             Assert.Equal(1, lastRequestDepth);
 
@@ -391,7 +374,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void CreateWillNotRaiseSpecimenCreatedForIgnoredType()
         {
-            // Fixture setup
+            // Arrange
             var eventRaised = false;
 
             var request = Guid.NewGuid();
@@ -400,18 +383,17 @@ namespace AutoFixtureUnitTest.Kernel
 
             var ignoredTypes = new List<Type> { typeof(Guid) };
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => !ignoredTypes.Contains(r.GetType()) };
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.False(eventRaised, "Event raised");
-            // Teardown
         }
 
         [Fact]
         public void IgnoredTypeWillNotTrackCreatedSpecimen()
         {
-            // Fixture setup
+            // Arrange
             object tracked = null;
             object requestedObject = Guid.NewGuid();
 
@@ -421,14 +403,13 @@ namespace AutoFixtureUnitTest.Kernel
             var ignoredTypes = new List<Type> { typeof(Guid) };
             sut.Filter = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => !ignoredTypes.Contains(r.GetType()) };
 
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             object res = sut.Create(requestedObject, dummyContainer);
 
-            // Verify outcome
+            // Assert
             Assert.Null(tracked);
 
-            // Teardown
         }
     }
 }

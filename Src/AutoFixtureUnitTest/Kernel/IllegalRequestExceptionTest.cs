@@ -9,50 +9,46 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsException()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new IllegalRequestException();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Exception>(sut);
-            // Teardown
         }
 
         [Fact]
         public void MessageWillBeDefineWhenDefaultConstructorIsUsed()
         {
-            // Fixture setup
+            // Arrange
             var sut = new IllegalRequestException();
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void MessageWillMatchConstructorArgument()
         {
-            // Fixture setup
+            // Arrange
             string expectedMessage = "Anonymous exception message";
             var sut = new IllegalRequestException(expectedMessage);
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMessage, result);
-            // Teardown
         }
 
         [Fact]
         public void InnerExceptionWillMatchConstructorArgument()
         {
-            // Fixture setup
+            // Arrange
             var expectedException = new ArgumentOutOfRangeException();
             var sut = new IllegalRequestException("Anonymous message.", expectedException);
-            // Exercise system
+            // Act
             var result = sut.InnerException;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedException, result);
-            // Teardown
         }
     }
 }

@@ -54,18 +54,17 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(true)]
         public void EmptyNodesAreEqualAccordingToComparer(bool expected)
         {
-            // Fixture setup
+            // Arrange
             var node1 = new CompositeSpecimenBuilder();
             var node2 = new CompositeSpecimenBuilder();
             var comparer = new DelegatingEqualityComparer<ISpecimenBuilder>
             {
                 OnEquals = (x, y) => x == node1 && y == node2 && expected
             };
-            // Exercise system
+            // Act
             var actual = node1.GraphEquals(node2, comparer);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Theory]
@@ -74,13 +73,12 @@ namespace AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
         {
-            // Fixture setup
+            // Arrange
             var trueComparer = new TrueComparer<ISpecimenBuilder>();
-            // Exercise system
+            // Act
             var actual = first.GraphEquals(second, trueComparer);
-            // Verify outcome
+            // Assert
             Assert.True(actual);
-            // Teardown
         }
 
         [Theory]
@@ -89,13 +87,12 @@ namespace AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
         {
-            // Fixture setup
+            // Arrange
             var trueComparer = new TrueComparer<ISpecimenBuilder>();
-            // Exercise system
+            // Act
             var actual = first.GraphEquals(second, trueComparer);
-            // Verify outcome
+            // Assert
             Assert.False(actual);
-            // Teardown
         }
 
         [Theory]
@@ -104,12 +101,11 @@ namespace AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var actual = first.GraphEquals(second);
-            // Verify outcome
+            // Assert
             Assert.True(actual);
-            // Teardown
         }
 
         [Theory]
@@ -119,12 +115,11 @@ namespace AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var actual = first.GraphEquals(second);
-            // Verify outcome
+            // Assert
             Assert.False(actual);
-            // Teardown
         }
 
         [Theory]
@@ -133,12 +128,11 @@ namespace AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var actual = first.GraphEquals(second, new TaggedNodeComparer());
-            // Verify outcome
+            // Assert
             Assert.True(actual);
-            // Teardown
         }
 
         [Theory]
@@ -147,12 +141,11 @@ namespace AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var actual = first.GraphEquals(second, new TaggedNodeComparer());
-            // Verify outcome
+            // Assert
             Assert.False(actual);
-            // Teardown
         }
 
         public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> IdenticallyShapedGraphs =>

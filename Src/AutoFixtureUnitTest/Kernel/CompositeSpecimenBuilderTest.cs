@@ -11,63 +11,58 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeSpecimenBuilder();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsSequenceOfSpecimenBuilders()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeSpecimenBuilder();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsNode()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeSpecimenBuilder();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
-            // Teardown
         }
 
         [Fact]
         public void BuildersWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CompositeSpecimenBuilder();
-            // Exercise system
+            // Act
             IEnumerable<ISpecimenBuilder> result = sut.Builders;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullEnumerableWillThrow()
         {
-            // Fixture setup
+            // Arrange
             IEnumerable<ISpecimenBuilder> nullEnumerable = null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeSpecimenBuilder(nullEnumerable));
-            // Teardown
         }
 
         [Fact]
         public void BuildersWillMatchListParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilders = new ISpecimenBuilder[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -75,17 +70,16 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             }.AsEnumerable();
             var sut = new CompositeSpecimenBuilder(expectedBuilders);
-            // Exercise system
+            // Act
             var result = sut.Builders;
-            // Verify outcome
+            // Assert
             Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
-            // Teardown
         }
 
         [Fact]
         public void SutYieldsInjectedSequence()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilders = new ISpecimenBuilder[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -93,29 +87,27 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             }.AsEnumerable();
             var sut = new CompositeSpecimenBuilder(expectedBuilders);
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.True(expectedBuilders.SequenceEqual(sut));
             Assert.True(expectedBuilders.OfType<object>().SequenceEqual(
                 ((System.Collections.IEnumerable)sut).OfType<object>()));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullArrayWillThrow()
         {
-            // Fixture setup
+            // Arrange
             ISpecimenBuilder[] nullArray = null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeSpecimenBuilder(nullArray));
-            // Teardown
         }
 
         [Fact]
         public void BuildersWillMatchParamsArray()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilders = new ISpecimenBuilder[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -123,19 +115,18 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             };
             var sut = new CompositeSpecimenBuilder(expectedBuilders[0], expectedBuilders[1], expectedBuilders[2]);
-            // Exercise system
+            // Act
             var result = sut.Builders;
-            // Verify outcome
+            // Assert
             Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
-            // Teardown
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
-            var sut = new CompositeSpecimenBuilder();            
-            // Exercise system
+            // Arrange
+            var sut = new CompositeSpecimenBuilder();
+            // Act
             var expectedBuilders = new[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -143,16 +134,15 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(actual);
             Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
         }
 
         [Fact]
         public void CreateWillReturnFirstSpecimenResultFromBuilders()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new object();
             var builders = new ISpecimenBuilder[]
             {
@@ -161,19 +151,18 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() }
             };
             var sut = new CompositeSpecimenBuilder(builders);
-            // Exercise system
+            // Act
             var anonymousRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(anonymousRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillReturnNoSpecimenIfAllBuildersReturnNoSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var builders = new ISpecimenBuilder[]
             {
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
@@ -181,20 +170,19 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() }
             };
             var sut = new CompositeSpecimenBuilder(builders);
-            // Exercise system
+            // Act
             var anonymousRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(anonymousRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expected = new NoSpecimen();
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWillInvokeBuilderWithCorrectRequest()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
 
             var mockVerified = false;
@@ -207,18 +195,17 @@ namespace AutoFixtureUnitTest.Kernel
                 };
 
             var sut = new CompositeSpecimenBuilder(builderMock);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(expectedRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
 
         [Fact]
         public void CreateWillInvokeBuilderWithCorrectContainer()
         {
-            // Fixture setup
+            // Arrange
             var expectedContainer = new DelegatingSpecimenContext();
 
             var mockVerified = false;
@@ -231,12 +218,11 @@ namespace AutoFixtureUnitTest.Kernel
                 };
 
             var sut = new CompositeSpecimenBuilder(builderMock);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, expectedContainer);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
     }
 }

@@ -11,57 +11,53 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new UriGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriGenerator();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriGenerator();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNonUriRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriGenerator();
             var dummyRequest = new object();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWhenUriSchemeReceivedFromContextIsNullReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Uri);
             object expectedValue = null;
             var context = new DelegatingSpecimenContext
@@ -69,17 +65,16 @@ namespace AutoFixtureUnitTest
                 OnResolve = r => typeof(UriScheme).Equals(r) ? expectedValue : new NoSpecimen()
             };
             var sut = new UriGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             var result = sut.Create(request, context);
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWhenStringReceivedFromContextIsNullReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Uri);
             object expectedValue = null;
             var context = new DelegatingSpecimenContext
@@ -100,17 +95,16 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new UriGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             var result = sut.Create(request, context);
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsUriWithSchemeReceivedFromContext()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Uri);
             string expectedScheme = "https";
             var context = new DelegatingSpecimenContext
@@ -121,7 +115,7 @@ namespace AutoFixtureUnitTest
                     {
                         return new UriScheme(expectedScheme);
                     }
-                    
+
                     if (typeof(string).Equals(r))
                     {
                         return Guid.NewGuid().ToString();
@@ -131,17 +125,16 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new UriGenerator();
-            // Exercise system
+            // Act
             var result = (Uri)sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedScheme, result.Scheme);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsUriWithAuthorityReceivedFromContext()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Uri);
             object expectedAuthority = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
@@ -162,17 +155,16 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new UriGenerator();
-            // Exercise system
+            // Act
             var result = (Uri)sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedAuthority, result.Authority);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithUriRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Uri);
             object expectedUriScheme = new UriScheme("ftp");
             object expectedAuthority = Guid.NewGuid().ToString();
@@ -194,12 +186,11 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new UriGenerator();
-            // Exercise system
+            // Act
             var result = (Uri)sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedUri = new Uri(expectedUriScheme + "://" + expectedAuthority);
             Assert.Equal(expectedUri, result);
-            // Teardown
         }
     }
 }

@@ -12,36 +12,33 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsMethodQuery()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ModestConstructorQuery();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IMethodQuery>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SelectMethodsFromNullTypeThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ModestConstructorQuery();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.SelectMethods(null));
-            // Teardown
         }
 
         [Fact]
         public void SelectMethodsFromTypeWithNoPublicConstructorReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ModestConstructorQuery();
             var typeWithNoPublicConstructors = typeof(AbstractType);
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(typeWithNoPublicConstructors);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Theory]
@@ -50,30 +47,28 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(MultiUnorderedConstructorType))]
         public void SelectMethodsFromTypeReturnsCorrectResult(Type type)
         {
-            // Fixture setup
+            // Arrange
             var expectedConstructors = from ci in type.GetConstructors()
                                        let parameters = ci.GetParameters()
                                        orderby parameters.Length ascending
                                        select new ConstructorMethod(ci) as IMethod;
 
             var sut = new ModestConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
-            // Verify outcome
+            // Assert
             Assert.True(expectedConstructors.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void DoesNotReturnConstructorsWithParametersOfEnclosingType()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ModestConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(typeof(TypeWithCopyConstructorsOnly));
-            // Verify outcome
+            // Assert
             Assert.Empty(result);
-            // Teardown
         }
 
         public class TypeWithCopyConstructorsOnly

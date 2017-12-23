@@ -12,369 +12,340 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void InitializeAnonymousValueConstructorWithNullExpressionWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeAnonymousValueConstructorWithNonMemberExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, object>> invalidExpression = obj => obj;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression));
-            // Teardown
         }
 
         [Fact]
         public void InitializeAnonymousValueConstructorWithMethodExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression));
-            // Teardown
         }
 
         [Fact]
         public void InitializeAnonymousValueConstructorWithReadOnlyPropertyExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression));
-            // Teardown
         }
 
         [Fact]
         public void InitializeDelegateValueConstructorWithNullExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Func<ISpecimenContext, object> dummyValueCreator = c => new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, dummyValueCreator));
-            // Teardown
         }
 
         [Fact]
         public void InitializeDelegateValueConstructorWithNonMemberExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, object>> invalidExpression = obj => obj;
             Func<ISpecimenContext, object> dummyValueCreator = c => new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyValueCreator));
-            // Teardown
         }
 
         [Fact]
         public void InitializeDelegateValueConstructorWithMethodExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
             Func<ISpecimenContext, string> dummyValueCreator = c => "Anonymous value";
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValueCreator));
-            // Teardown
         }
 
         [Fact]
         public void InitializeDelegateValueConstructorWithReadOnlyPropertyExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             Func<ISpecimenContext, object> dummyValueCreator = c => new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, dummyValueCreator));
-            // Teardown
         }
 
         [Fact]
         public void InitializeDelegateValueConstructorWithNullCreateWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (Func<ISpecimenContext, object>)null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeInstanceValueConstructorWithNullExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyValue = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, dummyValue));
-            // Teardown
         }
 
         [Fact]
         public void InitializeInstanceValueConstructorWithNonMemberExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, object>> invalidExpression = obj => obj;
             var dummyValue = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyValue));
-            // Teardown
         }
 
         [Fact]
         public void InitializeInstanceValueConstructorWithMethodExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
             var dummyValue = "Anonymous value";
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValue));
-            // Teardown
         }
 
         [Fact]
         public void InitializeInstanceValueConstructorWithReadOnlyPropertyExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             var dummyValue = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, dummyValue));
-            // Teardown
         }
 
         [Fact]
         public void InitializeInstanceValueConstructorWithNullValueDoesNotThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Null(Record.Exception(() => 
+            // Arrange
+            // Act & assert
+            Assert.Null(Record.Exception(() =>
                 new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (object)null)));
-            // Teardown
         }
 
         [Fact]
         public void MemberIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedMember = typeof(PropertyHolder<object>).GetProperty("Property");
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Exercise system
+            // Act
             MemberInfo result = sut.Member;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMember, result);
-            // Teardown
         }
 
         [Fact]
         public void ValueCreatorIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             Func<ISpecimenContext, double> expectedCreator = c => 8;
             var sut = new BindingCommand<PropertyHolder<double>, double>(ph => ph.Property, expectedCreator);
-            // Exercise system
+            // Act
             Func<ISpecimenContext, double> result = sut.ValueCreator;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedCreator, result);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteWithNullItemWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
-            // Exercise system and verify outcome
+            // Act & assert
             var dummyContainer = new DelegatingSpecimenContext();
             Assert.Throws<ArgumentNullException>(() => sut.Execute((object)null, dummyContainer));
-            // Teardown
         }
 
         [Fact]
         public void ExecuteWithNullContainerWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
-            // Exercise system and verify outcome
+            // Act & assert
             var dummySpecimen = new PropertyHolder<string>();
 #pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() => sut.Execute(dummySpecimen, null));
 #pragma warning restore 618
-            // Teardown
         }
 
         [Fact]
         public void ExecuteWillSetCorrectPropertyOnSpecimenWhenAnonymousValueIsImplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             sut.Execute(specimen, container);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteWillSetCorrectFieldOnSpecimenWhenAnonymousValueIsImplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
             var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
             var specimen = new FieldHolder<object>();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             sut.Execute(specimen, container);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Field);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteWillThrowWhenContainerReturnsIncompatiblePropertyValue()
         {
-            // Fixture setup
+            // Arrange
             var nonInt = "Anonymous variable";
             var container = new DelegatingSpecimenContext { OnResolve = r => nonInt };
 
             var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);
-            // Exercise system and verify outcome
+            // Act & assert
             var dummySpecimen = new PropertyHolder<int>();
 #pragma warning disable 618
             Assert.Throws<InvalidOperationException>(testCode: () => sut.Execute(dummySpecimen, container));
 #pragma warning restore 618
-            // Teardown
         }
 
         [Fact]
         public void ExecuteWillSetCorrectPropertyOnSpecimenWhenCreatorIsSupplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
             var expectedContainer = new DelegatingSpecimenContext();
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContainer == c ? expectedValue : new NoSpecimen());
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             sut.Execute(specimen, expectedContainer);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteWillSetCorrectPropertyOnSpecimenWhenValueIsSupplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue);
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
 #pragma warning disable 618
             sut.Execute(specimen, dummyContainer);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutIsSpecifiedSpecimenCommand()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new BindingCommand<FieldHolder<DateTimeOffset>, DateTimeOffset>(fh => fh.Field);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<FieldHolder<DateTimeOffset>>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByNullThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Exercise system and verify outcome
+            // Act & assert
 #pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
 #pragma warning restore 618
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsFalseForAnonymousRequest()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Exercise system
+            // Act
 #pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsFalseForOtherProperty()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
             var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2);
-            // Exercise system
+            // Act
 #pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsTrueForIdentifiedProperty()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
             var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1);
-            // Exercise system
+            // Act
 #pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsTrueForDerivedProperty()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(ConcreteType).GetProperty("Property1");
             var sut = new BindingCommand<AbstractType, object>(x => x.Property1);
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
@@ -406,41 +377,39 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ExecuteSetsCorrectPropertyOnSpecimenWhenAnonymousValueIsImplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() 
+                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen()
             };
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteSetsCorrectFieldOnSpecimenWhenAnonymousValueIsImplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() 
+                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen()
             };
 
             var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
             var specimen = new FieldHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Field);
-            // Teardown
         }
 
         [Fact]
@@ -458,33 +427,31 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ExecuteSetsCorrectPropertyOnSpecimenWhenCreatorIsSupplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
             var expectedContext = new DelegatingSpecimenContext();
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContext == c ? expectedValue : new NoSpecimen());
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, expectedContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteSetsCorrectPropertyOnSpecimenWhenValueIsSupplied()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new object();
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue);
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             sut.Execute((object)specimen, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, specimen.Property);
-            // Teardown
         }
     }
 }

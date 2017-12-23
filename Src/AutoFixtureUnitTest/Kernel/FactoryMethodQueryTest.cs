@@ -12,36 +12,33 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsMethodQuery()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new FactoryMethodQuery();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IMethodQuery>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SelectMethodsFromNullTypeThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FactoryMethodQuery();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.SelectMethods(null));
-            // Teardown
         }
 
         [Fact]
         public void SelectMethodsFromTypeWithNoPublicConstructorReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FactoryMethodQuery();
             var typeWithNoPublicConstructors = typeof(AbstractType);
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(typeWithNoPublicConstructors);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Theory]
@@ -49,7 +46,7 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(TypeWithFactoryProperty))]
         public void SelectMethodsFromTypeReturnsCorrectResult(Type type)
         {
-            // Fixture setup
+            // Arrange
             var expectedMethods =
                 from mi in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where mi.ReturnType == type
@@ -58,40 +55,37 @@ namespace AutoFixtureUnitTest.Kernel
                 select new StaticMethod(mi) as IMethod;
 
             var sut = new FactoryMethodQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
-            // Verify outcome
+            // Assert
             Assert.True(expectedMethods.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void SelectMethodsFromTypeWithParameterOfSameTypeReturnsEmptyResult()
         {
-            // Fixture setup
+            // Arrange
             var type = typeof(TypeWithPseudoFactoryMethod);
             var sut = new FactoryMethodQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void SelectMethodsFromTypeWithConversionOperatorsOnlyReturnsEmptyResult()
         {
-            // Fixture setup
+            // Arrange
             var type = typeof(TypeWithCastOperatorsWithoutPublicConstructor);
             var sut = new FactoryMethodQuery();
 
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
 
-            // Verify outcome
+            // Assert
             Assert.Empty(result);
 
-            // Teardown
         }
     }
 }

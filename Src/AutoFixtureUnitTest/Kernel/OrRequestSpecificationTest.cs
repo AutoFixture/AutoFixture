@@ -11,47 +11,43 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new OrRequestSpecification();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullSpecificationsWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new OrRequestSpecification((IEnumerable<IRequestSpecification>)null));
-            // Teardown
         }
 
         [Fact]
         public void SpecificationsMatchesConstructorParams()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecifications = new[] { new DelegatingRequestSpecification(), new DelegatingRequestSpecification(), new DelegatingRequestSpecification() };
             var sut = new OrRequestSpecification(expectedSpecifications);
-            // Exercise system
+            // Act
             IEnumerable<IRequestSpecification> result = sut.Specifications;
-            // Verify outcome
+            // Assert
             Assert.True(expectedSpecifications.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void SpecificationsMatchesConstructorSpecifications()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecifications = new[] { new DelegatingRequestSpecification(), new DelegatingRequestSpecification(), new DelegatingRequestSpecification() };
             var sut = new OrRequestSpecification(expectedSpecifications.Cast<IRequestSpecification>());
-            // Exercise system
+            // Act
             IEnumerable<IRequestSpecification> result = sut.Specifications;
-            // Verify outcome
+            // Assert
             Assert.True(expectedSpecifications.SequenceEqual(result));
-            // Teardown
         }
 
         [Theory]
@@ -66,31 +62,29 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(true, new[] { true, true, true })]
         public void IsSatisfiedByReturnsCorrectResult(bool expectedResult, IEnumerable<bool> decoratedResults)
         {
-            // Fixture setup
+            // Arrange
             var decoratedSpecs = from b in decoratedResults
                                  select new DelegatingRequestSpecification { OnIsSatisfiedBy = r => b };
             var sut = new OrRequestSpecification(decoratedSpecs.Cast<IRequestSpecification>());
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var result = sut.IsSatisfiedBy(dummyRequest);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByPassesRequestToDecoratedSpecification()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var verified = false;
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest == r };
             var sut = new OrRequestSpecification(specMock);
-            // Exercise system
+            // Act
             sut.IsSatisfiedBy(expectedRequest);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
     }
 }

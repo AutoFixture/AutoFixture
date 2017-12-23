@@ -11,14 +11,14 @@ namespace AutoFixtureUnitTest
 {
     public class SpecimenFactoryTest
     {
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousFromNullSpecimenContextThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateAnonymous<object>((ISpecimenContext)null));
-            // Teardown
         }
 
         [Fact]
@@ -31,43 +31,41 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateFromNullSpecimenContextThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.Create<object>((ISpecimenContext)null));
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousOnContainerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             object expectedResult = 1;
             var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen() };
-            // Exercise system
+            // Act
             var result = container.CreateAnonymous<int>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateOnContainerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             object expectedResult = 1;
             var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen() };
-            // Exercise system
+            // Act
             var result = container.Create<int>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnSpecimenBuilderComposerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new DateTime(2010, 5, 31, 14, 52, 19);
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>
@@ -78,17 +76,16 @@ namespace AutoFixtureUnitTest
             };
 
             ISpecimenBuilder composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
-            // Exercise system
+            // Act
             var result = composer.Create<DateTime>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateOnSpecimenBuilderReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DateTime(2012, 11, 20, 9, 45, 51);
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) =>
@@ -99,17 +96,17 @@ namespace AutoFixtureUnitTest
                     r);
                 return expected;
             };
-            // Exercise system
+            // Act
             DateTime actual = builder.Create<DateTime>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousOnPostprocessComposerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new DateTime(2010, 5, 31, 14, 52, 19);
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>
@@ -120,17 +117,16 @@ namespace AutoFixtureUnitTest
             };
 
             var composer = new DelegatingComposer<DateTime> { OnCreate = specimenBuilder.OnCreate };
-            // Exercise system
+            // Act
             var result = composer.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateOnPostprocessComposerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new DateTime(2010, 5, 31, 14, 52, 19);
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>
@@ -141,11 +137,10 @@ namespace AutoFixtureUnitTest
             };
 
             var composer = new DelegatingComposer<DateTime> { OnCreate = specimenBuilder.OnCreate };
-            // Exercise system
+            // Act
             var result = composer.Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
@@ -158,38 +153,36 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateManyOnNullSpecimenBuilderWithCountThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyCount = 10;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateMany<string>(
                     (ISpecimenBuilder)null,
                     dummyCount));
-            // Teardown
         }
 
         [Fact]
         public void CreateManyOnContainerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = Enumerable.Range(1, 10);
             var container = new DelegatingSpecimenContext
             {
-                OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(int), 0))) ? 
+                OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(int), 0))) ?
                     (object)expectedResult.Cast<object>() :
                     new NoSpecimen()
             };
-            // Exercise system
+            // Act
             var result = container.CreateMany<int>();
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CreateManyOnSpecimenBuilderComposerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = Enumerable.Range(1, 17).Select(i => i.ToString());
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>
@@ -200,17 +193,16 @@ namespace AutoFixtureUnitTest
                 };
 
             ISpecimenBuilder composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
-            // Exercise system
+            // Act
             var result = composer.CreateMany<string>();
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CreateManyOnSpecimenBuilderReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expected =
                 Enumerable.Range(1337, 42).Select(i => i.ToString());
             var builder = new DelegatingSpecimenBuilder();
@@ -223,19 +215,18 @@ namespace AutoFixtureUnitTest
                     r);
                 return expected.Cast<object>();
             };
-            // Exercise system
+            // Act
             IEnumerable<string> actual = builder.CreateMany<string>();
-            // Verify outcome
+            // Assert
             Assert.True(
                 expected.SequenceEqual(actual),
                 "Sequences not equal.");
-            // Teardown
         }
 
         [Fact]
         public void CreateManyOnPostprocessComposerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = Enumerable.Range(1, 17).Select(i => i.ToString());
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>
@@ -246,17 +237,16 @@ namespace AutoFixtureUnitTest
             };
 
             var composer = new DelegatingComposer<string> { OnCreate = specimenBuilder.OnCreate };
-            // Exercise system
+            // Act
             var result = composer.CreateMany();
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CreateCountedManyOnContainerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var count = 19;
             var expectedResult = Enumerable.Range(1, count).Select(i => new DateTime(i));
             var container = new DelegatingSpecimenContext
@@ -265,17 +255,16 @@ namespace AutoFixtureUnitTest
                     (object)expectedResult.Cast<object>() :
                     new NoSpecimen()
             };
-            // Exercise system
+            // Act
             var result = container.CreateMany<DateTime>(count);
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CreateCountedManyOnSpecimenBuilderComposerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var count = 9;
             var expectedResult = Enumerable.Range(1, count).Select(i => i.ToString());
             var specimenBuilder = new DelegatingSpecimenBuilder();
@@ -287,19 +276,18 @@ namespace AutoFixtureUnitTest
                 };
 
             ISpecimenBuilder composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
-            // Exercise system
+            // Act
             var result = composer.CreateMany<string>(count);
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CreateCountedManyOnSpecimenBuilderReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var count = 31;
-            var expected = 
+            var expected =
                 Enumerable.Range(1, count).Select(i => i.ToString());
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) =>
@@ -311,19 +299,18 @@ namespace AutoFixtureUnitTest
                     r);
                 return expected.Cast<object>();
             };
-            // Exercise system
+            // Act
             IEnumerable<string> actual = builder.CreateMany<string>(count);
-            // Verify outcome
+            // Assert
             Assert.True(
                 expected.SequenceEqual(actual),
                 "Sequences not equal.");
-            // Teardown
         }
 
         [Fact]
         public void CreateCountedManyOnPostprocessComposerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var count = 9;
             var expectedResult = Enumerable.Range(1, count).Select(i => i.ToString());
             var specimenBuilder = new DelegatingSpecimenBuilder();
@@ -335,11 +322,10 @@ namespace AutoFixtureUnitTest
             };
 
             var composer = new DelegatingComposer<string> { OnCreate = specimenBuilder.OnCreate };
-            // Exercise system
+            // Act
             var result = composer.CreateMany(count);
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
     }
 }

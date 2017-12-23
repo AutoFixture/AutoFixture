@@ -7,7 +7,7 @@ using Xunit;
 
 namespace AutoFixtureUnitTest
 {
-        [Obsolete]
+    [Obsolete]
     public class Utf8EncodingGeneratorTest
     {
         [Fact]

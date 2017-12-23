@@ -11,154 +11,143 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreatesNonGenericTasks()
         {
-            // Fixture setup
-            var request = typeof (Task);
+            // Arrange
+            var request = typeof(Task);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Task>(result);
-            // Teardown
         }
 
         [Fact]
         public void CreatedNonGenericTasksAreMarkedAsComplete()
         {
-            // Fixture setup
-            var request = typeof (Task);
+            // Arrange
+            var request = typeof(Task);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
-            var task = (Task) sut.Create(request, context);
-            // Verify outcome
+            // Act
+            var task = (Task)sut.Create(request, context);
+            // Assert
             Assert.Equal(TaskStatus.RanToCompletion, task.Status);
-            // Teardown
         }
 
         [Fact]
         public void CreatesGenericTasks()
         {
-            // Fixture setup
-            var request = typeof (Task<int>);
+            // Arrange
+            var request = typeof(Task<int>);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsType<Task<int>>(result);
-            // Teardown
         }
 
         [Fact]
         public void CreatedGenericTasksAreMarkedAsComplete()
         {
-            // Fixture setup
-            var request = typeof (Task<int>);
+            // Arrange
+            var request = typeof(Task<int>);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
-            var task = (Task<int>) sut.Create(request, context);
-            // Verify outcome
+            // Act
+            var task = (Task<int>)sut.Create(request, context);
+            // Assert
             Assert.Equal(TaskStatus.RanToCompletion, task.Status);
-            // Teardown
         }
 
         [Fact]
         public void ResultOfGenericTasksIsResolvedByTheContext()
         {
-            // Fixture setup
-            var request = typeof (Task<int>);
+            // Arrange
+            var request = typeof(Task<int>);
             var fixture = new Fixture();
             var context = new SpecimenContext(fixture);
             var sut = new TaskGenerator();
 
             var frozenInt = fixture.Freeze<int>();
-            // Exercise system
-            var task = (Task<int>) sut.Create(request, context);
-            // Verify outcome
+            // Act
+            var task = (Task<int>)sut.Create(request, context);
+            // Assert
             Assert.Equal(frozenInt, task.Result);
-            // Teardown
         }
 
         [Fact]
         public void ThrowsExceptionWhenContextIsNull()
         {
-            // Fixture setup
+            // Arrange
             const int request = 3;
             var sut = new TaskGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
-            // Teardown
         }
 
         [Fact]
         public void ReturnsNoSpecimenWhenRequestIsNull()
         {
-            // Fixture setup
+            // Arrange
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(null, context);
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         [Fact]
         public void ReturnsNoSpecimenForNonTypeRequests()
         {
-            // Fixture setup
+            // Arrange
             const int request = 3;
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         [Fact]
         public void ReturnsNoSpecimenForNonTaskTypeRequests()
         {
-            // Fixture setup
-            var request = typeof (string);
+            // Arrange
+            var request = typeof(string);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         [Fact]
         public void ReturnsNoSpecimenForUnboundTaskRequests()
         {
-            // Fixture setup
-            var request = typeof (Task<>);
+            // Arrange
+            var request = typeof(Task<>);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         [Fact]
         public void ReturnsNoSpecimenForUnknownTaskRequests()
         {
-            // Fixture setup
-            var request = typeof (CustomTask);
+            // Arrange
+            var request = typeof(CustomTask);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         private class CustomTask : Task
@@ -172,15 +161,14 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void ReturnsNoSpecimenForUnknownGenericTaskRequests()
         {
-            // Fixture setup
-            var request = typeof (CustomGenericTask<int>);
+            // Arrange
+            var request = typeof(CustomGenericTask<int>);
             var context = new SpecimenContext(new Fixture());
             var sut = new TaskGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsType<NoSpecimen>(result);
-            // Teardown
         }
 
         private class CustomGenericTask<T> : Task<T>

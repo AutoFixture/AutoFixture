@@ -8,103 +8,95 @@ namespace AutoFixtureUnitTest
     {
         [Fact]
         public void InitializeWithNullLocalPartThrows()
-        {          
-            // Fixture setup
-            // Exercise system and verify outcome
+        {
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new EmailAddressLocalPart(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithEmptyLocalPartThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentException>(
                 () => new EmailAddressLocalPart(string.Empty));
-            // Teardown
         }
 
         [Fact]
         public void ToStringReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             string expected = Guid.NewGuid().ToString();
             var sut = new EmailAddressLocalPart(expected);
-            // Exercise system
+            // Act
             var result = sut.ToString();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
-        }      
+        }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             object other = null;
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             var anonymousObject = new object();
-            // Exercise system
+            // Act
             bool result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenLocalPartsDiffer()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             object other = new EmailAddressLocalPart(Guid.NewGuid().ToString());
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenLocalPartsAreEqual()
         {
-            // Fixture setup
+            // Arrange
             var localPart = Guid.NewGuid().ToString();
 
             var sut = new EmailAddressLocalPart(localPart);
             var other = new EmailAddressLocalPart(localPart);
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var localPart = Guid.NewGuid().ToString();
             var sut = new EmailAddressLocalPart(localPart);
-            // Exercise system
+            // Act
             int result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             int expectedHashCode = localPart.GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
-    }    
+    }
 }

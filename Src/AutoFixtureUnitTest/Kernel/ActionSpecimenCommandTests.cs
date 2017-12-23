@@ -16,38 +16,36 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ExecuteCorrectlyInvokesSingleAction()
         {
-            // Fixture setup
+            // Arrange
             var specimen = this.CreateSpecimen();
 
             var verified = false;
             Action<T> mock = x => verified = specimen.Equals(x);
 
             var sut = new ActionSpecimenCommand<T>(mock);
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             sut.Execute(specimen, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Action not invoked with expected specimen.");
-            // Teardown
         }
 
         [Fact]
         public void ExecuteCorrectlyInvokeDoubleAction()
         {
-            // Fixture setup
+            // Arrange
             var specimen = this.CreateSpecimen();
             var context = new DelegatingSpecimenContext();
 
             var verified = false;
-            Action<T, ISpecimenContext> mock = 
+            Action<T, ISpecimenContext> mock =
                 (s, c) => verified = specimen.Equals(s) && c == context;
 
             var sut = new ActionSpecimenCommand<T>(mock);
-            // Exercise system
+            // Act
             sut.Execute(specimen, context);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Action not invoked with expected specimen.");
-            // Teardown
         }
 
         public abstract T CreateSpecimen();
@@ -61,7 +59,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
     }
 
-    public class ActionSpecimenCommandTestsOfString : ActionSpecimenCommandTests<string> 
+    public class ActionSpecimenCommandTestsOfString : ActionSpecimenCommandTests<string>
     {
         public override string CreateSpecimen()
         {
@@ -69,7 +67,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
     }
 
-    public class ActionSpecimenCommandTestsOfInt32 : ActionSpecimenCommandTests<int> 
+    public class ActionSpecimenCommandTestsOfInt32 : ActionSpecimenCommandTests<int>
     {
         public override int CreateSpecimen()
         {
@@ -77,7 +75,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
     }
 
-    public class ActionSpecimenCommandTestsOfVersion : ActionSpecimenCommandTests<Version> 
+    public class ActionSpecimenCommandTestsOfVersion : ActionSpecimenCommandTests<Version>
     {
         public override Version CreateSpecimen()
         {

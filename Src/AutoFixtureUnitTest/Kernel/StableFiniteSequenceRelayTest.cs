@@ -11,39 +11,36 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new StableFiniteSequenceRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StableFiniteSequenceRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StableFiniteSequenceRelay();
             var request = new object();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -52,21 +49,20 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData("foo")]
         public void CreateWithInvalidRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new StableFiniteSequenceRelay();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithFiniteSequenceRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
@@ -75,18 +71,17 @@ namespace AutoFixtureUnitTest.Kernel
             var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? expectedResult : new NoSpecimen() };
 
             var sut = new StableFiniteSequenceRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(manyRequest, context);
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<IEnumerable<object>>(result);
             Assert.True(actual.All(expectedResult.Equals));
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsStableSequence()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
@@ -94,18 +89,17 @@ namespace AutoFixtureUnitTest.Kernel
             var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? new object() : new NoSpecimen() };
 
             var sut = new StableFiniteSequenceRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(manyRequest, context);
-            // Verify outcome
+            // Assert
             var expected = Assert.IsAssignableFrom<IEnumerable<object>>(result);
             Assert.True(expected.SequenceEqual(expected));
-            // Teardown
         }
 
         [Fact]
         public void CreateFiltersOmitSpecimenInstances()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
@@ -123,14 +117,13 @@ namespace AutoFixtureUnitTest.Kernel
             };
 
             var sut = new StableFiniteSequenceRelay();
-            // Exercise system
+            // Act
             var actual = sut.Create(manyRequest, context);
-            // Verify outcome
+            // Assert
             var iter = Assert.IsAssignableFrom<IEnumerable<object>>(actual);
             Assert.True(
                 results.Where(x => !(x is OmitSpecimen)).SequenceEqual(iter),
                 "Actual sequence is not equal to expected sequence.");
-            // Teardown
         }
     }
 }

@@ -12,36 +12,33 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsMethod()
         {
-            // Fixture setup
+            // Arrange
             var dummyCtor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
-            // Exercise system
+            // Act
             var sut = new ConstructorMethod(dummyCtor);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IMethod>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullConstructorInfoThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorMethod(null));
-            // Teardown
         }
 
         [Fact]
         public void ConstructorIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedCtor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(expectedCtor);
-            // Exercise system
+            // Act
             ConstructorInfo result = sut.Constructor;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedCtor, result);
-            // Teardown
         }
 
         [Theory]
@@ -53,16 +50,15 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(SingleParameterType<string>), 0)]
         public void ParametersReturnsCorrectResult(Type targetType, int index)
         {
-            // Fixture setup
+            // Arrange
             var ctor = targetType.GetConstructors().ElementAt(index);
             var expectedParameters = ctor.GetParameters();
 
             var sut = new ConstructorMethod(ctor);
-            // Exercise system
+            // Act
             var result = sut.Parameters;
-            // Verify outcome
+            // Assert
             Assert.True(expectedParameters.SequenceEqual(result));
-            // Teardown
         }
 
         [Theory]
@@ -70,14 +66,13 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(PropertyHolder<string>))]
         public void InvokeWithDefaultConstructorReturnsCorrectResult(Type targetType)
         {
-            // Fixture setup
+            // Arrange
             var ctor = targetType.GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(ctor);
-            // Exercise system
+            // Act
             var result = sut.Invoke(Enumerable.Empty<object>());
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom(targetType, result);
-            // Teardown
         }
 
         [Theory]
@@ -85,14 +80,13 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(SingleParameterType<string>), "")]
         public void InvokeWithSingleParameterReturnsCorrectResult(Type targetType, object parameter)
         {
-            // Fixture setup
+            // Arrange
             var ctor = targetType.GetConstructor(targetType.GetTypeInfo().GetGenericArguments().ToArray());
             var sut = new ConstructorMethod(ctor);
-            // Exercise system
+            // Act
             var result = sut.Invoke(new[] { parameter });
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom(targetType, result);
-            // Teardown
         }
 
         [Theory]
@@ -101,139 +95,129 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(DoubleParameterType<string, int>), "", 2)]
         public void InvokeWithTwoParametersReturnsCorrectResult(Type targetType, object parameter1, object parameter2)
         {
-            // Fixture setup
+            // Arrange
             var ctor = targetType.GetConstructor(targetType.GetTypeInfo().GetGenericArguments().ToArray());
             var sut = new ConstructorMethod(ctor);
-            // Exercise system
+            // Act
             var result = sut.Invoke(new[] { parameter1, parameter2 });
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom(targetType, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
+            // Arrange
             var dummyCtor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
-            // Exercise system
+            // Act
             var sut = new ConstructorMethod(dummyCtor);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<ConstructorMethod>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var dummyCtor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(dummyCtor);
-            // Exercise system
+            // Act
             var result = sut.Equals((object)null);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var dummyCtor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(dummyCtor);
-            // Exercise system
+            // Act
             var result = sut.Equals((ConstructorMethod)null);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualSomeOtherObject()
         {
-            // Fixture setup
+            // Arrange
             var dummyCtor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(dummyCtor);
-            // Exercise system
+            // Act
             var result = sut.Equals(new object());
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWithDifferentCtor()
         {
-            // Fixture setup
+            // Arrange
             var ctor1 = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(ctor1);
 
             var ctor2 = typeof(PropertyHolder<string>).GetConstructor(Type.EmptyTypes);
             object other = new ConstructorMethod(ctor2);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWithDifferentCtor()
         {
-            // Fixture setup
+            // Arrange
             var ctor1 = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(ctor1);
 
             var ctor2 = typeof(PropertyHolder<string>).GetConstructor(Type.EmptyTypes);
             var other = new ConstructorMethod(ctor2);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWithSameCtor()
         {
-            // Fixture setup
+            // Arrange
             var ctor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(ctor);
             object other = new ConstructorMethod(ctor);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWithSameCtor()
         {
-            // Fixture setup
+            // Arrange
             var ctor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(ctor);
             var other = new ConstructorMethod(ctor);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var ctor = typeof(ConcreteType).GetConstructor(Type.EmptyTypes);
             var sut = new ConstructorMethod(ctor);
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             var expectedHasCode = ctor.GetHashCode();
             Assert.Equal(expectedHasCode, result);
-            // Teardown
         }
     }
 }

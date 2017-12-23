@@ -10,51 +10,47 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             Func<object> dummyFunc = () => new object();
-            // Exercise system
+            // Act
             var sut = new SpecimenFactory<object>(dummyFunc);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullFuncThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new SpecimenFactory<object>((Func<object>)null));
-            // Teardown
         }
 
         [Fact]
         public void FactoryIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             Func<ConcreteType> expectedFactory = () => new ConcreteType(42, "42");
             var sut = new SpecimenFactory<ConcreteType>(expectedFactory);
-            // Exercise system
+            // Act
             Func<ConcreteType> result = sut.Factory;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedFactory, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecimen = new object();
             Func<object> creator = () => expectedSpecimen;
             var sut = new SpecimenFactory<object>(creator);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpecimen, result);
-            // Teardown
         }
     }
 }

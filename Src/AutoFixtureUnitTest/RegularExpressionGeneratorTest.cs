@@ -11,39 +11,36 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RegularExpressionGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionGenerator();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionGenerator();
             var request = new object();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Theory]
@@ -96,15 +93,14 @@ namespace AutoFixtureUnitTest
         [InlineData(@"^(?x:[a-z0-9])+$")]
         public void CreateWithRegularExpressionRequestReturnsCorrectResult(string pattern)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionGenerator();
             var request = new RegularExpressionRequest(pattern);
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.True(Regex.IsMatch(result.ToString(), pattern), string.Format("result: {0}", result));
-            // Teardown
         }
 
         [Theory]
@@ -112,15 +108,14 @@ namespace AutoFixtureUnitTest
         [InlineData(@"(?\[Test\]|\[Foo\]|\[Bar\])?(?:-)?(?\[[()a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?")]
         public void CreateWithNotSupportedRegularExpressionRequestReturnsCorrectResult(string pattern)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionGenerator();
             var request = new RegularExpressionRequest(pattern);
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
     }
 }

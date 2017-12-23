@@ -10,72 +10,66 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DisposableTrackingCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DisposableTrackingCustomization();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void BehaviorIsInstance()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DisposableTrackingCustomization();
-            // Exercise system
+            // Act
             DisposableTrackingBehavior result = sut.Behavior;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void BehaviorIsStable()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DisposableTrackingCustomization();
             var expectedBehavior = sut.Behavior;
-            // Exercise system
+            // Act
             var result = sut.Behavior;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBehavior, result);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsCorrectBehavior()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new DisposableTrackingCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             Assert.Contains(sut.Behavior, fixture.Behaviors);
-            // Teardown
         }
 
         [Fact]
         public void SutIsDisposable()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DisposableTrackingCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IDisposable>(sut);
-            // Teardown
         }
     }
 }

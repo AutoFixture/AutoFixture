@@ -14,88 +14,82 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(int), typeof(int), 1, null)]
         public void ShouldFailWithArgumentExceptionForNullArguments(Type memberType, Type operandType, object min, object max)
         {
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RangedRequest(memberType, operandType, min, max));
 
-            // Teardown
         }
 
         [Fact]
         public void PropertiesShouldReturnPassedToConstructorValues()
         {
-            // Fixture setup
+            // Arrange
             var memberType = typeof(object);
             var operandType = typeof(int);
             var min = 42;
             var max = 100;
 
-            // Exercise system
+            // Act
             var sut = new RangedRequest(memberType, operandType, min, max);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(memberType, sut.MemberType);
             Assert.Equal(operandType, sut.OperandType);
             Assert.Equal(min, sut.Minimum);
             Assert.Equal(max, sut.Maximum);
 
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(int), typeof(int), 1, 2);
 
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.IsAssignableFrom<IEquatable<RangedRequest>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(int), typeof(int), 1, 2);
             object nullObj = null;
 
-            // Exercise system
+            // Act
             var areEqual = sut.Equals(nullObj);
 
-            // Verify outcome
+            // Assert
             Assert.False(areEqual);
-            // Teardown
         }
 
         [Fact]
         public void SutIsNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(int), typeof(int), 1, 2);
             RangedRequest nullSut = null;
 
-            // Exercise system
+            // Act
             var areEqual = sut.Equals(nullSut);
 
-            // Verify outcome
+            // Assert
             Assert.False(areEqual);
-            // Teardown
         }
 
         [Fact]
         public void SutIsNotEqualOtherTypeObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(int), typeof(int), 1, 2);
             var otherType = new object();
 
-            // Exercise system
+            // Act
             var areEqual = sut.Equals(otherType);
 
-            // Verify outcome
+            // Assert
             Assert.False(areEqual);
-            // Teardown
         }
 
         [Theory]
@@ -105,15 +99,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(long), typeof(int), 1, 4)]
         public void SutIsNotEqualOtherSutWhenAnyMemberDiffers(Type memberType, Type operandType, object min, object max)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(long), typeof(int), 1, 3);
             RangedRequest other = new RangedRequest(memberType, operandType, min, max);
 
-            // Exercise system
+            // Act
             bool areEqual = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(areEqual);
-            // Teardown
         }
 
         [Theory]
@@ -123,21 +116,20 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(long), typeof(int), 1, 4)]
         public void SutIsNotEqualOtherObjectWhenAnyMemberDiffers(Type memberType, Type operandType, object min, object max)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(long), typeof(int), 1, 3);
             object other = new RangedRequest(memberType, operandType, min, max);
 
-            // Exercise system
+            // Act
             bool areEqual = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(areEqual);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEqualOtherSutIfAllMembersEqual()
         {
-            // Fixture setup
+            // Arrange
             var memberType = typeof(decimal);
             var operandType = typeof(int);
             var min = 1;
@@ -146,18 +138,17 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var sut = new RangedRequest(memberType, operandType, min, max);
             RangedRequest other = new RangedRequest(memberType, operandType, min, max);
 
-            // Exercise system
+            // Act
             bool areEqual = sut.Equals(other);
 
-            // Verify outcome
+            // Assert
             Assert.True(areEqual);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEqualOtherObjectIfAllMembersEqual()
         {
-            // Fixture setup
+            // Arrange
             var memberType = typeof(decimal);
             var operandType = typeof(int);
             var min = 1;
@@ -166,12 +157,11 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var sut = new RangedRequest(memberType, operandType, min, max);
             object other = new RangedRequest(memberType, operandType, min, max);
 
-            // Exercise system
+            // Act
             bool areEqual = sut.Equals(other);
 
-            // Verify outcome
+            // Assert
             Assert.True(areEqual);
-            // Teardown
         }
 
         [Theory]
@@ -181,22 +171,21 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(long), typeof(int), 1, 4)]
         public void HashCodeIsDifferentWhenAnyMemberChanges(Type memberType, Type operandType, object min, object max)
         {
-            // Fixture setup
+            // Arrange
             var etalonHashCode = new RangedRequest(typeof(long), typeof(int), 1, 3).GetHashCode();
             var sut = new RangedRequest(memberType, operandType, min, max);
 
-            // Exercise system
+            // Act
             var newHashCode = sut.GetHashCode();
 
-            // Verify outcome
+            // Assert
             Assert.NotEqual(etalonHashCode, newHashCode);
-            // Teardown
         }
 
         [Fact]
         public void HashCodeIsSameWhenAllMembersAreSame()
         {
-            // Fixture setup
+            // Arrange
             var memberType = typeof(decimal);
             var operandType = typeof(int);
             var min = 1;
@@ -205,13 +194,12 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var sut1 = new RangedRequest(memberType, operandType, min, max);
             var sut2 = new RangedRequest(memberType, operandType, min, max);
 
-            // Exercise system
+            // Act
             var hash1 = sut1.GetHashCode();
             var hash2 = sut2.GetHashCode();
 
-            // Verify outcome
+            // Assert
             Assert.Equal(hash1, hash2);
-            // Teardown
         }
 
         [Theory]
@@ -224,15 +212,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData("42")]
         public void ShouldCorrectlyConvertMinimum(object bounaryValue)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(int), typeof(int), bounaryValue, int.MaxValue);
 
-            // Exercise system
+            // Act
             var convertedValue = sut.GetConvertedMinimum(typeof(int));
 
-            // Verify outcome
+            // Assert
             Assert.Equal(42, convertedValue);
-            // Teardown
         }
 
         [Theory]
@@ -245,45 +232,42 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData("42")]
         public void ShouldCorrectlyConvertMaximum(object bounaryValue)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(int), typeof(int), 0, bounaryValue);
 
-            // Exercise system
+            // Act
             var convertedValue = sut.GetConvertedMaximum(typeof(int));
 
-            // Verify outcome
+            // Assert
             Assert.Equal(42, convertedValue);
-            // Teardown
         }
 
         [Fact]
         public void FailsWithMeaningfulExceptionWhenMinimumCannotBeConvertedWithoutOverflow()
         {
-            // Fixture setup
+            // Arrange
             double valueWithOverflow = (double)long.MaxValue;
 
             var sut = new RangedRequest(typeof(long), typeof(double), valueWithOverflow, double.MaxValue);
 
-            // Exercise system and verify outcome
+            // Act & assert
             var actualEx = Assert.Throws<OverflowException>(() =>
                 sut.GetConvertedMinimum(typeof(long)));
             Assert.Contains("To solve the issue", actualEx.Message);
-            // Teardown
         }
 
         [Fact]
         public void FailsWithMeaningfulExceptionWhenMaximumCannotBeConvertedWithoutOverflow()
         {
-            // Fixture setup
+            // Arrange
             double valueWithOverflow = (double)long.MaxValue;
 
             var sut = new RangedRequest(typeof(long), typeof(double), 0, valueWithOverflow);
 
-            // Exercise system and verify outcome
+            // Act & assert
             var actualEx = Assert.Throws<OverflowException>(() =>
                 sut.GetConvertedMaximum(typeof(long)));
             Assert.Contains("To solve the issue", actualEx.Message);
-            // Teardown
         }
 
         [Fact]
@@ -305,19 +289,18 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Fact]
         public void ToStringShouldBeOverridden()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedRequest(typeof(long), typeof(int), 42, 100);
 
-            // Exercise system
+            // Act
             var stringResult = sut.ToString();
 
-            // Verify outcome
+            // Assert
             Assert.Contains("Int32", stringResult);
             Assert.Contains("Int64", stringResult);
             Assert.Contains("42", stringResult);
             Assert.Contains("100", stringResult);
 
-            // Teardown
         }
     }
 }

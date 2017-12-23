@@ -11,22 +11,20 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Exercise system
+            // Act
             var sut = new NoDataAnnotationsCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NoDataAnnotationsCustomization();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Theory]
@@ -37,17 +35,16 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(EnumRangedRequestRelay))]
         public void CustomizeProperFixtureCorrectlyCustomizesIt(Type removedBuilderType)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new NoDataAnnotationsCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
 
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(
                 fixture.Customizations,
                 b => b.GetType() == removedBuilderType);
-            // Teardown
         }
     }
 }

@@ -9,33 +9,30 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void InitializeWithDefaultConstructorDoesNotThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Null(Record.Exception(() => new UriScheme()));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithDefaultConstructorSetsCorrectScheme()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme();
             string expectedScheme = "http";
-            // Exercise system
+            // Act
             string result = sut.Scheme;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedScheme, result);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullSchemeThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new UriScheme(null));
-            // Teardown
         }
 
         [Theory]
@@ -45,194 +42,179 @@ namespace AutoFixtureUnitTest
         [InlineData("scheme:/")]
         public void InitializeWithInvalidSchemeThrows(string scheme)
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentException>(
                 () => new UriScheme(scheme));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithSchemeParameterSetsCorrectScheme()
         {
-            // Fixture setup
+            // Arrange
             string expectedScheme = "http";
             var sut = new UriScheme("http");
-            // Exercise system
+            // Act
             string result = sut.Scheme;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedScheme, result);
-            // Teardown
         }
 
         [Fact]
         public void ToStringReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             string expected = "http";
             var sut = new UriScheme("http");
-            // Exercise system
+            // Act
             var result = sut.ToString();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new UriScheme();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<UriScheme>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme();
             object other = null;
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme();
             UriScheme other = null;
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme();
             var anonymousObject = new object();
-            // Exercise system
+            // Act
             bool result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenSchemesDiffer()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme("a");
             object other = new UriScheme("b");
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenSchemesDiffer()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme("a");
             var other = new UriScheme("b");
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenBothSchemesAreDefault()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme();
             object other = new UriScheme();
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenBothSchemesAreDefault()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme();
             var other = new UriScheme();
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenSchemesAreEqual()
         {
-            // Fixture setup
+            // Arrange
             var scheme = "https";
             var sut = new UriScheme(scheme);
             object other = new UriScheme(scheme);
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenSchemesAreEqual()
         {
-            // Fixture setup
+            // Arrange
             var scheme = "https";
             var sut = new UriScheme(scheme);
             var other = new UriScheme(scheme);
-            // Exercise system
+            // Act
             bool result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeWhenSchemeIsDefaultReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UriScheme();
-            // Exercise system
+            // Act
             int result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             int expectedHashCode = "http".GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeWhenSchemeIsNotDefaultReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var scheme = "https";
             var sut = new UriScheme(scheme);
-            // Exercise system
+            // Act
             int result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             int expectedHashCode = scheme.GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
     }
 }

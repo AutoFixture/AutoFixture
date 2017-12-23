@@ -8,37 +8,43 @@ namespace AutoFixtureUnitTest
 {
     public class Int16SequenceGeneratorTest
     {
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnOneOnFirstCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTwoOnSecondCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTenOnTenthCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.CreateAnonymous()).Execute(10);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.Create()).Execute(1);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.Create()).Execute(2);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.Create()).Execute(10);
@@ -47,90 +53,83 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new Int16SequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Int16SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Int16SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWithNonInt16RequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonInt16Request = new object();
             var sut = new Int16SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonInt16Request, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithInt16RequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var int16Request = typeof(short);
             var sut = new Int16SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(int16Request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal((short)1, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithInt16RequestWillReturnCorrectResultOnSecondCall()
         {
-            // Fixture setup
+            // Arrange
             var int16Request = typeof(short);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<Int16SequenceGenerator, short>(sut => (short)sut.Create(int16Request, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(2);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithInt16RequestWillReturnCorrectResultOnTenthCall()
         {
-            // Fixture setup
+            // Arrange
             var int16Request = typeof(short);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<Int16SequenceGenerator, short>(sut => (short)sut.Create(int16Request, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(10);
-            // Teardown
         }
     }
 }

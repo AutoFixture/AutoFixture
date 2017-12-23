@@ -9,7 +9,7 @@ namespace AutoFixtureUnitTest
     {
         internal static TextWriter Out
         {
-            get 
+            get
             {
 #if ALLOWCONSOLE
                 return Console.Out;

@@ -13,24 +13,22 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DictionaryRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DictionaryRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Theory]
@@ -55,15 +53,14 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(List<Version>))]
         public void CreateWithNonDictionaryRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new DictionaryRelay();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -73,17 +70,16 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(IDictionary<Version, ConcreteType>), typeof(Version), typeof(ConcreteType))]
         public void CreateWithListRequestReturnsCorrectResult(Type request, Type keyType, Type itemType)
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = typeof(Dictionary<,>).MakeGenericType(keyType, itemType);
             object contextResult = typeof(Dictionary<,>).MakeGenericType(keyType, itemType).GetTypeInfo().GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
             var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? contextResult : new NoSpecimen() };
 
             var sut = new DictionaryRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(contextResult, result);
-            // Teardown
         }
     }
 }

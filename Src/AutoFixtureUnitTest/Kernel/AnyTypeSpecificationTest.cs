@@ -10,22 +10,20 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AnyTypeSpecification();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByNullThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AnyTypeSpecification();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
-            // Teardown
         }
 
         [Theory]
@@ -36,13 +34,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(PropertyHolder<DateTimeOffset>), true)]
         public void IsSatisfiedByReturnsCorrectResult(object request, bool expectedResult)
         {
-            // Fixture setup
+            // Arrange
             var sut = new AnyTypeSpecification();
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

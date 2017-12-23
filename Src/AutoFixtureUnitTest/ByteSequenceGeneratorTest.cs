@@ -8,37 +8,43 @@ namespace AutoFixtureUnitTest
 {
     public class ByteSequenceGeneratorTest
     {
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnOneOnFirstCall()
         {
             new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTwoOnSecondCall()
         {
             new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTenOnTenthCall()
         {
             new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(10);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(1);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(2);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(10);
@@ -47,90 +53,83 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ByteSequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ByteSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ByteSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWithNonByteRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonByteRequest = new object();
             var sut = new ByteSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonByteRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithByteRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var byteRequest = typeof(byte);
             var sut = new ByteSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(byteRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal((byte)1, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithByteRequestWillReturnCorrectResultOnSecondCall()
         {
-            // Fixture setup
+            // Arrange
             var byteRequest = typeof(byte);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<ByteSequenceGenerator, byte>(sut => (byte)sut.Create(byteRequest, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(2);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithByteRequestWillReturnCorrectResultOnTenthCall()
         {
-            // Fixture setup
+            // Arrange
             var byteRequest = typeof(byte);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<ByteSequenceGenerator, byte>(sut => (byte)sut.Create(byteRequest, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(10);
-            // Teardown
         }
     }
 }

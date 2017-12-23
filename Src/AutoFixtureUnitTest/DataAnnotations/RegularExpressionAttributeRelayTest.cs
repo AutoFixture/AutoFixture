@@ -12,52 +12,48 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RegularExpressionAttributeRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionAttributeRelay();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionAttributeRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionAttributeRelay();
             var dummyRequest = new object();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -70,15 +66,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(Version))]
         public void CreateWithNonRegularExpressionAttributeRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionAttributeRelay();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -87,7 +82,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData("[a-z]")]
         public void CreateWithRegularExpressionAttributeRequestReturnsCorrectResult(string pattern)
         {
-            // Fixture setup
+            // Arrange
             var regularExpressionAttribute = new RegularExpressionAttribute(pattern);
             var providedAttribute = new ProvidedAttribute(regularExpressionAttribute, true);
             var request = new FakeMemberInfo(providedAttribute);
@@ -98,11 +93,10 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
             var sut = new RegularExpressionAttributeRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

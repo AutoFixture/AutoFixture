@@ -13,64 +13,59 @@ namespace AutoFixtureUnitTest.Dsl
         [Fact]
         public void SutIsPostprocessComposer()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositePostprocessComposer<object>();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IPostprocessComposer<object>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullArrayThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositePostprocessComposer<DateTime>((IPostprocessComposer<DateTime>[])null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullEnumerableThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositePostprocessComposer<TimeSpan>((IEnumerable<IPostprocessComposer<TimeSpan>>)null));
-            // Teardown
         }
 
         [Fact]
         public void ComposersIsCorrectWhenInitializedWithArray()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<string>()).ToArray();
             var sut = new CompositePostprocessComposer<string>(expectedComposers);
-            // Exercise system
+            // Act
             IEnumerable<IPostprocessComposer<string>> result = sut.Composers;
-            // Verify outcome
+            // Assert
             Assert.True(expectedComposers.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void ComposersIsCorrectWhenInitializedWithEnumerable()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<int>()).Cast<IPostprocessComposer<int>>().ToList();
             var sut = new CompositePostprocessComposer<int>(expectedComposers);
-            // Exercise system
+            // Act
             var result = sut.Composers;
-            // Verify outcome
+            // Assert
             Assert.True(expectedComposers.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void DoReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             Action<object> expectedAction = s => { };
             var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<object>()).ToArray();
             var initialComposers = (from c in expectedComposers
@@ -79,34 +74,32 @@ namespace AutoFixtureUnitTest.Dsl
                                         OnDo = a => a == expectedAction ? c : new DelegatingComposer<object>()
                                     }).ToArray();
             var sut = new CompositePostprocessComposer<object>(initialComposers);
-            // Exercise system
+            // Act
             var result = sut.Do(expectedAction);
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<object>>(result);
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));
-            // Teardown
         }
 
         [Fact]
         public void OmitAutoPropertiesReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<object>()).ToArray();
             var initialComposers = (from c in expectedComposers
                                     select new DelegatingComposer { OnOmitAutoProperties = () => c }).ToArray();
             var sut = new CompositePostprocessComposer<object>(initialComposers);
-            // Exercise system
+            // Act
             var result = sut.OmitAutoProperties();
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<object>>(result);
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));
-            // Teardown
         }
 
         [Fact]
         public void AnonymousWithReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
             var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<PropertyHolder<object>>()).ToArray();
             var initialComposers = (from c in expectedComposers
@@ -115,18 +108,17 @@ namespace AutoFixtureUnitTest.Dsl
                                         OnAnonymousWith = f => f == expectedExpression ? c : new DelegatingComposer<PropertyHolder<object>>()
                                     }).ToArray();
             var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
-            // Exercise system
+            // Act
             var result = sut.With(expectedExpression);
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));
-            // Teardown
         }
 
         [Fact]
         public void WithReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
             var value = new object();
 
@@ -137,34 +129,32 @@ namespace AutoFixtureUnitTest.Dsl
                                         OnWith = (f, v) => f == expectedExpression && v == value ? c : new DelegatingComposer<PropertyHolder<object>>()
                                     }).ToArray();
             var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
-            // Exercise system
+            // Act
             var result = sut.With(expectedExpression, value);
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));
-            // Teardown
         }
 
         [Fact]
         public void WithAutoPropertiesReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<object>()).ToArray();
             var initialComposers = (from c in expectedComposers
                                     select new DelegatingComposer { OnWithAutoProperties = () => c }).ToArray();
             var sut = new CompositePostprocessComposer<object>(initialComposers);
-            // Exercise system
+            // Act
             var result = sut.WithAutoProperties();
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<object>>(result);
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));
-            // Teardown
         }
 
         [Fact]
         public void WithoutReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
             var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<PropertyHolder<object>>()).ToArray();
             var initialComposers = (from c in expectedComposers
@@ -173,12 +163,11 @@ namespace AutoFixtureUnitTest.Dsl
                                         OnWithout = f => f == expectedExpression ? c : new DelegatingComposer<PropertyHolder<object>>()
                                     }).ToArray();
             var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
-            // Exercise system
+            // Act
             var result = sut.Without(expectedExpression);
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));
-            // Teardown
         }
     }
 }

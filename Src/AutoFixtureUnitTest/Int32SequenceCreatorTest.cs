@@ -8,37 +8,43 @@ namespace AutoFixtureUnitTest
 {
     public class Int32SequenceCreatorTest
     {
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnOneOnFirstCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTwoOnSecondCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTenOnTenthCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.CreateAnonymous()).Execute(10);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(1);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(2);
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(10);
@@ -47,90 +53,83 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new Int32SequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Int32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Int32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWithNonInt32RequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonInt32Request = new object();
             var sut = new Int32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonInt32Request, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithInt32RequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var int32Request = typeof(int);
             var sut = new Int32SequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(int32Request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithInt32RequestWillReturnCorrectResultOnSecondCall()
         {
-            // Fixture setup
+            // Arrange
             var int32Request = typeof(int);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<Int32SequenceGenerator, int>(sut => (int)sut.Create(int32Request, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(2);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithInt32RequestWillReturnCorrectResultOnTenthCall()
         {
-            // Fixture setup
+            // Arrange
             var int32Request = typeof(int);
             var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<Int32SequenceGenerator, int>(sut => (int)sut.Create(int32Request, dummyContainer));
-            // Exercise system and verify outcome
+            // Act & assert
             loopTest.Execute(10);
-            // Teardown
         }
     }
 }

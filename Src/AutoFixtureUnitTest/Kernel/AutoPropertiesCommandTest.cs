@@ -12,509 +12,476 @@ namespace AutoFixtureUnitTest.Kernel
         [Obsolete]
         public void SutIsSpecifiedSpecimenCommand()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoPropertiesCommand<string>();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<string>>(sut);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWithNullSpecimenThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<object>();
             var dummyContainer = new DelegatingSpecimenContext();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Execute(null, dummyContainer));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWithNullContainerThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<object>();
             var dummySpecimen = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Execute(dummySpecimen, null));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWillAssignCorrectFieldValue()
         {
-            // Fixture setup
+            // Arrange
             var expectedFieldValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedFieldValue };
 
             var sut = new AutoPropertiesCommand<FieldHolder<object>>();
 
             var specimen = new FieldHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedFieldValue, specimen.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWillAssignCorrectPropertyValue()
         {
-            // Fixture setup
+            // Arrange
             var expectedPropertyValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedPropertyValue };
 
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
 
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedPropertyValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteDoesNotSetReadOnlyProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<SingleParameterType<object>>();
             var specimen = new SingleParameterType<object>(new object());
             var unexpectedValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => unexpectedValue };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.NotEqual(unexpectedValue, specimen.Parameter);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteDoesNotThrowOnIndexedProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<IndexedPropertyHolder<object>>();
             var specimen = new IndexedPropertyHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Null(Record.Exception(() =>
                 sut.Execute((object)specimen, container)));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteDoesNotSetStaticProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<StaticPropertyHolder<object>>();
             var specimen = new StaticPropertyHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Null(StaticPropertyHolder<object>.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         void ExecuteDoesNotSetStaticField()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<StaticFieldHolder<object>>();
             var specimen = new StaticFieldHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Null(StaticFieldHolder<object>.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteDoesNotSetReadonlyField()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<ReadOnlyFieldHolder<object>>();
             var specimen = new ReadOnlyFieldHolder<object>();
             var unexpectedValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => unexpectedValue };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.NotEqual(unexpectedValue, specimen.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithNullSpecificationThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new AutoPropertiesCommand<object>(null));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteDoesNotAssignPropertyWhenSpecificationIsNotSatisfied()
         {
-            // Fixture setup
+            // Arrange
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>(spec);
             var specimen = new PropertyHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Null(specimen.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWillQuerySpecificationWithCorrectPropertyInfo()
         {
-            // Fixture setup
+            // Arrange
             var expectedPropertyInfo = typeof(PropertyHolder<string>).GetProperty("Property");
             var verified = false;
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedPropertyInfo.Equals(r) };
             var sut = new AutoPropertiesCommand<PropertyHolder<string>>(specMock);
-            // Exercise system
+            // Act
             var specimen = new PropertyHolder<string>();
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Execute((object)specimen, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWillNotAssignPropertyWhenContextReturnsOmitSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
             var specimen = new PropertyHolder<object>();
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => new OmitSpecimen()
             };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, context);
-            // Verify outcome
+            // Assert
             Assert.Null(specimen.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteDoesNotAssignFieldWhenSpecificationIsNotSatisfied()
         {
-            // Fixture setup
+            // Arrange
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
             var sut = new AutoPropertiesCommand<FieldHolder<object>>(spec);
             var specimen = new FieldHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Null(specimen.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWillQuerySpecificationWithCorrectFieldInfo()
         {
-            // Fixture setup
+            // Arrange
             var expectedFieldInfo = typeof(FieldHolder<string>).GetField("Field");
             var verified = false;
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedFieldInfo.Equals(r) };
             var sut = new AutoPropertiesCommand<FieldHolder<string>>(specMock);
-            // Exercise system
+            // Act
             var specimen = new FieldHolder<string>();
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Execute((object)specimen, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ExecuteWillNotAssignFieldWhenContextReturnsOmitSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<FieldHolder<object>>();
             var specimen = new FieldHolder<object>();
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => new OmitSpecimen()
             };
-            // Exercise system
+            // Act
             sut.Execute((object)specimen, context);
-            // Verify outcome
+            // Assert
             Assert.Null(specimen.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByNullThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<object>();
-            // Exercise system and verify outcome
+            // Act & assert
 #pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
 #pragma warning restore 618
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByAnonymousRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
             var anonymousRequest = new object();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(anonymousRequest);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByUnfilteredPropertyInfoReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(PropertyHolder<object>).GetProperty("Property");
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByReadOnlyPropertyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(SingleParameterType<object>).GetProperty("Parameter");
             var sut = new AutoPropertiesCommand<SingleParameterType<object>>();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByIndexedPropertyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(IndexedPropertyHolder<string>).GetProperty("Item");
             var sut = new AutoPropertiesCommand<IndexedPropertyHolder<string>>();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByFilteredPropertyInfoReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>(spec);
             var request = typeof(PropertyHolder<object>).GetProperty("Property");
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByWillInvokeSpecificationWithCorrectPropertyInfo()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var verified = false;
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest.Equals(r) };
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>(specMock);
-            // Exercise system
+            // Act
 #pragma warning disable 618
             sut.IsSatisfiedBy(expectedRequest);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByUnfilteredFieldInfoReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(FieldHolder<object>).GetField("Field");
             var sut = new AutoPropertiesCommand<FieldHolder<object>>();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByFilteredFieldInfoReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
             var sut = new AutoPropertiesCommand<FieldHolder<object>>(spec);
             var request = typeof(FieldHolder<object>).GetField("Field");
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void IsSatisfiedByWillInvokeSpecificationWithCorrectFieldInfo()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
             var verified = false;
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest.Equals(r) };
             var sut = new AutoPropertiesCommand<FieldHolder<object>>(specMock);
-            // Exercise system
+            // Act
 #pragma warning disable 618
             sut.IsSatisfiedBy(expectedRequest);
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void NonGenericSutIsCorrectGenericSut()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(string);
-            // Exercise system
+            // Act
             var sut = new AutoPropertiesCommand(dummyType);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<AutoPropertiesCommand<object>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeNonGenericSutWithNullTypeThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new AutoPropertiesCommand((Type)null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeNonGenericSutWithNullSpecificationThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(object);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new AutoPropertiesCommand(dummyType, null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeNonGenericSutWithOnlyNullSpecificationThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(
                 () => new AutoPropertiesCommand((IRequestSpecification)null));
-            // Teardown
         }
 
         [Fact]
         public void ExecuteOnNonGenericWillAssignProperty()
         {
-            // Fixture setup
+            // Arrange
             var specimen = new PropertyHolder<object>();
             var sut = new AutoPropertiesCommand(specimen.GetType());
 
             var expectedPropertyValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedPropertyValue };
-            // Exercise system
+            // Act
             sut.Execute(specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedPropertyValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteOnUnTypedNonGenericWillAssignProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand();
 
             var expectedPropertyValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedPropertyValue };
 
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute(specimen, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedPropertyValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteOnNonGenericTrueSpecifiedAssignsProperty()
         {
-            // Fixture setup
+            // Arrange
             var trueSpecification = new DelegatingRequestSpecification
             {
-                OnIsSatisfiedBy = x => true 
+                OnIsSatisfiedBy = x => true
             };
             var sut = new AutoPropertiesCommand(trueSpecification);
 
@@ -522,17 +489,16 @@ namespace AutoFixtureUnitTest.Kernel
             var context = new DelegatingSpecimenContext { OnResolve = r => expectedPropertyValue };
 
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute(specimen, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedPropertyValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteOnNonGenericFalseSpecifiedDoesNotAssignProperty()
         {
-            // Fixture setup
+            // Arrange
             var falseSpecification = new DelegatingRequestSpecification
             {
                 OnIsSatisfiedBy = x => false
@@ -543,11 +509,10 @@ namespace AutoFixtureUnitTest.Kernel
             var context = new DelegatingSpecimenContext { OnResolve = r => dummyPropertyValue };
 
             var specimen = new PropertyHolder<object>();
-            // Exercise system
+            // Act
             sut.Execute(specimen, context);
-            // Verify outcome
+            // Assert
             Assert.NotEqual(dummyPropertyValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
@@ -561,95 +526,89 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void NonTypedUsesExplicitlySpecifiedTypeForFieldsAndPropertiesResolve()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoPropertiesCommand(typeof(object));
-            
+
             var dummyPropertyValue = new object();
             var context = new DelegatingSpecimenContext { OnResolve = r => dummyPropertyValue };
-            
+
             var specimen = new PropertyHolder<object>();
 
-            // Exercise system
+            // Act
             sut.Execute(specimen, context);
-            
-            // Verify outcome
+
+            // Assert
             Assert.NotEqual(dummyPropertyValue, specimen.Property);
-            // Teardown
         }
-        
+
         [Fact]
         public void NonTypedWithSpecificationUsesExplicitlySpecifiedTypeForFieldsAndPropertiesResolve()
         {
-            // Fixture setup
+            // Arrange
             var trueSpec = new TrueRequestSpecification();
             var sut = new AutoPropertiesCommand(typeof(object), trueSpec);
-            
+
             var dummyPropertyValue = new object();
             var context = new DelegatingSpecimenContext { OnResolve = r => dummyPropertyValue };
-            
+
             var specimen = new PropertyHolder<object>();
 
-            // Exercise system
+            // Act
             sut.Execute(specimen, context);
-            
-            // Verify outcome
+
+            // Assert
             Assert.NotEqual(dummyPropertyValue, specimen.Property);
-            // Teardown
         }
 
         [Fact]
         public void NonTypedReturnsSpecimenTypeIfProvidedInCtor()
         {
-            // Fixture setup
+            // Arrange
             var type = typeof(string);
 
-            // Exercise system
+            // Act
             var sut = new AutoPropertiesCommand(type);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(type, sut.ExplicitSpecimenType);
-            // Teardown
         }
-        
+
         [Fact]
         public void NonTypedWithSpecificationReturnsSpecimenTypeIfProvidedInCtor()
         {
-            // Fixture setup
+            // Arrange
             var type = typeof(string);
             var spec = new TrueRequestSpecification();
 
-            // Exercise system
+            // Act
             var sut = new AutoPropertiesCommand(type, spec);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(type, sut.ExplicitSpecimenType);
-            // Teardown
         }
-        
+
         [Fact]
         public void NonTypedReturnsNullSpecimenTypeIfNotProvided()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoPropertiesCommand();
 
-            // Verify outcome
+            // Assert
             Assert.Null(sut.ExplicitSpecimenType);
-            // Teardown
         }
-        
+
         [Fact]
         public void NonTypedWithSpecificationReturnsNullSpecimenTypeIfNotProvided()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoPropertiesCommand();
 
-            // Verify outcome
+            // Assert
             Assert.Null(sut.ExplicitSpecimenType);
-            // Teardown
         }
-        
+
 
         public void Dispose()
         {

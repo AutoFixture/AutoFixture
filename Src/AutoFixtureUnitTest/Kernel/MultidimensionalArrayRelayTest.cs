@@ -34,7 +34,7 @@ namespace AutoFixtureUnitTest.Kernel
                     typeof(object[]),
                     typeof(string[][])
                 }
-                .Select(x => new[] {x});
+                .Select(x => new[] { x });
 
         [Theory, MemberData(nameof(CreateWithInvalidRequestReturnsNoSpecimen_InvalidRequests))]
         public void CreateWithInvalidRequestReturnsNoSpecimen(object invalidRequest)

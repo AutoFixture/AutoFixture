@@ -35,11 +35,10 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilderList()
         {
-            // Fixture setup
-            // Exercise system
-            // Verify outcome
+            // Arrange
+            // Act
+            // Assert
             Assert.IsAssignableFrom<IList<ISpecimenBuilder>>(this.sut);
-            // Teardown
         }
 
         [Theory]
@@ -48,25 +47,23 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void IndexOfReturnsCorrectResult(int expected)
         {
-            // Fixture setup
+            // Arrange
             var item = this.FindMarkedNode().ElementAt(expected);
-            // Exercise system
+            // Act
             var actual = this.sut.IndexOf(item);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void IndexOfReturnsCorrectResultWhenItemIsNotInNode()
         {
-            // Fixture setup
+            // Arrange
             var item = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var actual = this.sut.IndexOf(item);
-            // Verify outcome
+            // Assert
             Assert.Equal(-1, actual);
-            // Teardown
         }
 
         [Theory]
@@ -75,14 +72,13 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void InsertsCorrectlyInsertsItem(int expected)
         {
-            // Fixture setup
+            // Arrange
             var item = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             this.sut.Insert(expected, item);
-            // Verify outcome
+            // Assert
             var actual = this.sut.IndexOf(item);
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Theory]
@@ -91,25 +87,23 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void ContainsReturnsTrueForContainedItem(int index)
         {
-            // Fixture setup
+            // Arrange
             var item = this.FindMarkedNode().ElementAt(index);
-            // Exercise system
+            // Act
             var actual = this.sut.Contains(item);
-            // Verify outcome
+            // Assert
             Assert.True(actual);
-            // Teardown
         }
 
         [Fact]
         public void ContainsReturnFalseForUncontainedItem()
         {
-            // Fixture setup
+            // Arrange
             var uncontainedItem = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var actual = this.sut.Contains(uncontainedItem);
-            // Verify outcome
+            // Assert
             Assert.False(actual);
-            // Teardown
         }
 
         [Theory]
@@ -118,13 +112,12 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void RemoveAtCorrectlyRemovesItem(int index)
         {
-            // Fixture setup
+            // Arrange
             var itemToBeRemoved = this.FindMarkedNode().ElementAt(index);
-            // Exercise system
+            // Act
             this.sut.RemoveAt(index);
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(itemToBeRemoved, this.sut);
-            // Teardown
         }
 
         [Theory]
@@ -133,13 +126,12 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void GetItemReturnsCorrectResult(int index)
         {
-            // Fixture setup
+            // Arrange
             var expected = this.FindMarkedNode().ElementAt(index);
-            // Exercise system
+            // Act
             var actual = this.sut[index];
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
@@ -155,13 +147,12 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void SetItemCorrectlyAddsItem(int expected)
         {
-            // Fixture setup
+            // Arrange
             var item = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             this.sut[expected] = item;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, this.sut.IndexOf(item));
-            // Teardown
         }
 
         [Theory]
@@ -170,13 +161,12 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void SetItemCorrectlyRemovesExistingItem(int index)
         {
-            // Fixture setup
+            // Arrange
             var itemToReplace = this.FindMarkedNode().ElementAt(index);
-            // Exercise system
+            // Act
             this.sut[index] = new DelegatingSpecimenBuilder();
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(itemToReplace, this.sut);
-            // Teardown
         }
 
         [Theory]
@@ -201,37 +191,34 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CountReturnsCorrectResult()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var actual = this.sut.Count;
-            // Verify outcome
+            // Assert
             var expected = this.FindMarkedNode().Count();
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ClearRemovesAllItems()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             this.sut.Clear();
-            // Verify outcome
+            // Assert
             Assert.Empty(this.sut);
-            // Teardown
         }
 
         [Fact]
         public void AddAddsItemToEndOfNode()
         {
-            // Fixture setup
+            // Arrange
             var item = new DelegatingSpecimenBuilder();
             var expected = this.FindMarkedNode().Concat(new[] { item });
-            // Exercise system
+            // Act
             this.sut.Add(item);
-            // Verify outcome
+            // Assert
             Assert.True(expected.SequenceEqual(this.sut));
-            // Teardown
         }
 
         [Theory]
@@ -240,14 +227,13 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void CopyToCorrectlyCopiesItems(int index)
         {
-            // Fixture setup
+            // Arrange
             var expected = this.FindMarkedNode().ToArray();
             var a = new ISpecimenBuilder[expected.Length + index];
-            // Exercise system
+            // Act
             this.sut.CopyTo(a, index);
-            // Verify outcome
+            // Assert
             Assert.True(expected.SequenceEqual(a.Skip(index)));
-            // Teardown
         }
 
         [Fact]
@@ -262,13 +248,12 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void RemoveCorrectlyRemovesItem(int index)
         {
-            // Fixture setup
+            // Arrange
             var item = this.FindMarkedNode().ElementAt(index);
-            // Exercise system
+            // Act
             this.sut.Remove(item);
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(item, this.sut);
-            // Teardown
         }
 
         [Theory]
@@ -277,107 +262,99 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void RemoveReturnsTrueForContainedItem(int index)
         {
-            // Fixture setup
+            // Arrange
             var item = this.FindMarkedNode().ElementAt(index);
-            // Exercise system
+            // Act
             var actual = this.sut.Remove(item);
-            // Verify outcome
+            // Assert
             Assert.True(actual);
-            // Teardown
         }
 
         [Fact]
         public void RemoveReturnsFalseForUncontainedItem()
         {
-            // Fixture setup
+            // Arrange
             var uncontainedItem = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var actual = this.sut.Remove(uncontainedItem);
-            // Verify outcome
+            // Assert
             Assert.False(actual);
-            // Teardown
         }
 
         [Fact]
         public void InitialGraphIsCorrect()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             ISpecimenBuilderNode actual = this.sut.Graph;
-            // Verify outcome
+            // Assert
             Assert.Equal(this.graph, actual);
-            // Teardown
         }
 
         [Fact]
         public void InsertRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
-            // Exercise system
+            // Act
             var dummyIndex = 1;
             var dummyItem = new DelegatingSpecimenBuilder();
             this.sut.Insert(dummyIndex, dummyItem);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void RemoveAtRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
-            // Exercise system
+            // Act
             var dummyIndex = 1;
             this.sut.RemoveAt(dummyIndex);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void SetItemRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
-            // Exercise system
+            // Act
             var dummyIndex = 1;
             var dummyItem = new DelegatingSpecimenBuilder();
             this.sut[dummyIndex] = dummyItem;
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void AddRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
-            // Exercise system
+            // Act
             var dummyItem = new DelegatingSpecimenBuilder();
             this.sut.Add(dummyItem);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void ClearRaisesGraphChanged()
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
-            // Exercise system
+            // Act
             this.sut.Clear();
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Theory]
@@ -386,16 +363,15 @@ namespace AutoFixtureUnitTest
         [InlineData(2)]
         public void RemoveRaisesGraphChanged(int index)
         {
-            // Fixture setup
+            // Arrange
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
 
             var item = this.FindMarkedNode().ElementAt(index);
-            // Exercise system
+            // Act
             this.sut.Remove(item);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         private ISpecimenBuilderNode FindMarkedNode()

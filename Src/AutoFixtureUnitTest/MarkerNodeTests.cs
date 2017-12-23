@@ -14,23 +14,22 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var sut = this.CreateSut(expected);
-            // Exercise system
+            // Act
             ISpecimenBuilder actual = this.GetBuilder(sut);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummy = new DelegatingSpecimenBuilder();
             var sut = this.CreateSut(dummy);
-            // Exercise system
+            // Act
             var expected = new[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -38,34 +37,32 @@ namespace AutoFixtureUnitTest
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expected);
-            // Verify outcome
+            // Assert
             var mn = Assert.IsAssignableFrom<T>(actual);
-            var builders = 
+            var builders =
                 Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(
                     this.GetBuilder(mn));
             Assert.True(expected.SequenceEqual(builders));
-            // Teardown
         }
 
         [Fact]
         public void ComposeSingleItemReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummy = new DelegatingSpecimenBuilder();
             var sut = this.CreateSut(dummy);
             var expected = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var actual = sut.Compose(new[] { expected });
-            // Verify outcome
+            // Assert
             var mn = Assert.IsAssignableFrom<T>(actual);
             Assert.Equal(expected, this.GetBuilder(mn));
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var context = new DelegatingSpecimenContext();
             var expected = new object();
@@ -79,25 +76,23 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = this.CreateSut(stub);
-            // Exercise system
+            // Act
             var actual = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void SutYieldsDecoratedBuilder()
         {
-            // Fixture setup
-            var expected = new DelegatingSpecimenBuilder();            
-            // Exercise system
+            // Arrange
+            var expected = new DelegatingSpecimenBuilder();
+            // Act
             var sut = this.CreateSut(expected);
-            // Verify outcome
+            // Assert
             Assert.True(new[] { expected }.SequenceEqual(sut));
             Assert.True(new object[] { expected }.SequenceEqual(
                 ((System.Collections.IEnumerable)sut).Cast<object>()));
-            // Teardown
         }
 
         [Fact]

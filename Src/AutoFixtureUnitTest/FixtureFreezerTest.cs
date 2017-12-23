@@ -17,22 +17,20 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void FreezeUnseededWithNullFixtureThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureFreezer.Freeze<object>(null));
-            // Teardown
         }
 
         [Fact]
         public void FreezeCustomWithNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             Func<ICustomizationComposer<object>, ISpecimenBuilder> dummyTransform = c => c;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureFreezer.Freeze<object>(null, dummyTransform));
-            // Teardown
         }
     }
 }

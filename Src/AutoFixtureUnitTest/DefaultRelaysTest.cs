@@ -13,18 +13,17 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilders()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DefaultRelays();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutHasCorrectContents()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilderTypes = new[]
             {
                 typeof(LazyRelay),
@@ -37,23 +36,21 @@ namespace AutoFixtureUnitTest
                 typeof(SeedIgnoringRelay),
                 typeof(MethodInvoker)
             };
-            // Exercise system
+            // Act
             var sut = new DefaultRelays();
-            // Verify outcome
+            // Assert
             Assert.True(expectedBuilderTypes.SequenceEqual(sut.Select(b => b.GetType())));
-            // Teardown
         }
 
         [Fact]
         public void NonGenericEnumeratorMatchesGenericEnumerator()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DefaultRelays();
-            // Exercise system
+            // Act
             IEnumerable result = sut;
-            // Verify outcome
+            // Assert
             Assert.True(sut.Select(b => b.GetType()).SequenceEqual(result.Cast<object>().Select(o => o.GetType())));
-            // Teardown
         }
     }
 }
