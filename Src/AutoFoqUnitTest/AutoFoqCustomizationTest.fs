@@ -12,24 +12,22 @@ open System.Collections.Generic
 
 [<Fact>]
 let SutIsCustomization() =
-    // Fixture setup
-    // Exercise system
+    // Arrange
+    // Act
     let sut = AutoFoqCustomization()
-    // Verify outcome
+    // Assert
     verify <@ sut |> implements<ICustomization> @>
-    // Teardown
 
 [<Fact>]
 let CustomizeWithNullFixtureThrows() =
-    // Fixture setup
+    // Arrange
     let sut = AutoFoqCustomization()
-    // Exercise system and verify outcome
+    // Act & Assert
     raises<ArgumentNullException> <@ sut.Customize(null) @>
-    // Teardown
 
 [<Fact>]
 let CustomizeDoesNotAddCustomizations() =
-    // Fixture setup
+    // Arrange
     let customizations = List<ISpecimenBuilder>()
     let dummyResidueCollectors = List<ISpecimenBuilder>()
     let fixtureStub =
@@ -40,9 +38,7 @@ let CustomizeDoesNotAddCustomizations() =
             .Returns(dummyResidueCollectors)
             .Create()
     let sut = AutoFoqCustomization()
-    // Exercise system
+    // Act
     sut.Customize(fixtureStub)
-    // Verify outcome
+    // Assert
     verify <@ customizations |> Seq.isEmpty @>
-    // Teardown
-

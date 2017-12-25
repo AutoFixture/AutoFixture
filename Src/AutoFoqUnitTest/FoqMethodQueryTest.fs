@@ -15,43 +15,42 @@ let dummyBuilder =
 
 [<Fact>]
 let SutIsMethodQuery() =
-    // Fixture setup
-    // Exercise system
+    // Arrange
+    // Act
     let sut = FoqMethodQuery dummyBuilder
-    // Verify outcome
+    // Assert
     verify <@ sut |> implements<IMethodQuery> @>
-    // Teardown
 
 [<Fact>]
 let SelectMethodThrowsForNullType() =
-    // Fixture setup
+    // Arrange
     let sut = FoqMethodQuery dummyBuilder
-    // Exercise system and verify outcome
+    // Act & Assert
     raises<ArgumentNullException> <@ sut.SelectMethods(null) @>
 
 [<Fact>]
 let SelectMethodReturnsMethodForInterface() =
-    // Fixture setup
+    // Arrange
     let requestType = typeof<IInterface>
     let sut = FoqMethodQuery dummyBuilder
-    // Exercise system
+    // Act
     let result = sut.SelectMethods(requestType)
-    // Verify outcome
+    // Assert
     verify <@ result |> implements<seq<IMethod>> @>
 
 [<Fact>]
 let SelectMethodReturnsMethodWithoutParametersForInterface() =
-    // Fixture setup
+    // Arrange
     let requestType = typeof<IInterface>
     let sut = FoqMethodQuery dummyBuilder
-    // Exercise system
+    // Act
     let result = (sut.SelectMethods(requestType) |> Seq.head).Parameters
-    // Verify outcome
+    // Assert
     verify <@ result |> Seq.isEmpty @>
 
 [<Theory>][<MemberData("TypesWithConstructors")>]
 let MethodsAreReturnedInCorrectOrder (request: Type) =
-    // Fixture setup
+    // Arrange
     let expected = 
         request.GetConstructors(
                 BindingFlags.Public 
@@ -60,17 +59,16 @@ let MethodsAreReturnedInCorrectOrder (request: Type) =
         |> Seq.sortBy(fun ci -> ci.GetParameters().Length) 
         |> Seq.map(fun ci -> ci.GetParameters().Length)
     let sut = FoqMethodQuery dummyBuilder
-    // Exercise system
+    // Act
     let result = 
         sut.SelectMethods(request)
         |> Seq.map(fun ci -> ci.Parameters |> Seq.length)
-    // Verify outcome
+    // Assert
     verify <@ (expected, result) ||> Seq.forall2 (=) @>
-    // Teardown   
 
 [<Theory>][<MemberData("TypesWithConstructors")>]
 let SelectMethodsDefineCorrectParameters (request: Type) =
-    // Fixture setup
+    // Arrange
     let expected =
         request.GetConstructors(
                 BindingFlags.Public 
@@ -78,17 +76,16 @@ let SelectMethodsDefineCorrectParameters (request: Type) =
             ||| BindingFlags.NonPublic)         
         |> Seq.map(fun ci -> ci.GetParameters())
     let sut = FoqMethodQuery dummyBuilder
-    // Exercise system
+    // Act
     let result = 
         sut.SelectMethods(request)
         |> Seq.map(fun ci -> ci.Parameters)
-    // Verify outcome
+    // Assert
     verify
         <@ expected |> Seq.forall(fun expectedParameters -> 
                result |> Seq.exists(fun resultParameters -> 
                    expectedParameters = 
                        (resultParameters |> Seq.toArray))) @>
-    // Teardown
 
 [<Fact>]
 let ``Builder is correct`` () =
