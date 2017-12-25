@@ -13,157 +13,147 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsException()
         {
-            // Fixture setup
+            // Arrange
             var dummyProperty = typeof(Version).GetProperties().First();
-            // Exercise system
+            // Act
             var sut = new WritablePropertyException(dummyProperty);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Exception>(sut);
-            // Teardown
         }
 
         [Fact]
         public void PropertyIsCorrectWhenConstructedWithSimplestConstructor()
         {
-            // Fixture setup
+            // Arrange
             var expectedProperty = typeof(Version).GetProperties().First();
             var sut = new WritablePropertyException(expectedProperty);
-            // Exercise system
+            // Act
             PropertyInfo result = sut.PropertyInfo;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedProperty, result);
-            // Teardown
         }
 
         [Fact]
         public void MessageIsNotNull()
         {
-            // Fixture setup
+            // Arrange
             var dummyProperty = typeof(Version).GetProperties().First();
             var sut = new WritablePropertyException(dummyProperty);
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void PropertyIsCorrectWhenConstructedWithMessage()
         {
-            // Fixture setup
+            // Arrange
             var expectedProperty = typeof(Version).GetProperties().First();
             var dummyMessage = "Anonymous message";
             var sut = new WritablePropertyException(expectedProperty, dummyMessage);
-            // Exercise system
+            // Act
             PropertyInfo result = sut.PropertyInfo;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedProperty, result);
-            // Teardown
         }
 
         [Fact]
         public void MessageIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyProperty = typeof(Version).GetProperties().First();
             var expected = Guid.NewGuid().ToString();
             var sut = new WritablePropertyException(dummyProperty, expected);
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void PropertyIsCorrectWhenConstructedWithMessageAndInnerException()
         {
-            // Fixture setup
+            // Arrange
             var expectedProperty = typeof(Version).GetProperties().First();
             var dummyMessage = "Anonymous message";
             var dummyInner = new Exception();
             var sut = new WritablePropertyException(expectedProperty, dummyMessage, dummyInner);
-            // Exercise system
+            // Act
             PropertyInfo result = sut.PropertyInfo;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedProperty, result);
-            // Teardown
         }
 
         [Fact]
         public void MessageIsCorrectWhenConstructedWithInnerException()
         {
-            // Fixture setup
+            // Arrange
             var dummyProperty = typeof(Version).GetProperties().First();
             var expected = Guid.NewGuid().ToString();
             var dummyInner = new Exception();
             var sut = new WritablePropertyException(dummyProperty, expected, dummyInner);
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void InnerExceptionIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyProperty = typeof(Version).GetProperties().First();
             var expected = new Exception();
             var sut = new WritablePropertyException(dummyProperty, "Anonymous value", expected);
-            // Exercise system
+            // Act
             var result = sut.InnerException;
-            // Verify outcome
+            // Assert
             Assert.Equal<Exception>(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void MessageSerializesCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var dummyProperty = typeof(Version).GetProperties().First();
             var message = Guid.NewGuid().ToString();
             var sut = new WritablePropertyException(dummyProperty, message);
 
             var formatter = new BinaryFormatter();
-            // Exercise system
+            // Act
             using (var s = new MemoryStream())
             {
                 formatter.Serialize(s, sut);
                 s.Flush();
                 s.Position = 0;
                 var result = formatter.Deserialize(s);
-                // Verify outcome
+                // Assert
                 var e = Assert.IsAssignableFrom<WritablePropertyException>(result);
                 Assert.Equal(message, e.Message);
-                // Teardown
             }
         }
 
         [Fact]
         public void InnerExceptionSerializesCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var dummyProperty = typeof(Version).GetProperties().First();
             var dummyMessage = Guid.NewGuid().ToString();
             var innerException = new Exception(Guid.NewGuid().ToString());
             var sut = new WritablePropertyException(dummyProperty, dummyMessage, innerException);
 
             var formatter = new BinaryFormatter();
-            // Exercise system
+            // Act
             using (var s = new MemoryStream())
             {
                 formatter.Serialize(s, sut);
                 s.Flush();
                 s.Position = 0;
                 var result = formatter.Deserialize(s);
-                // Verify outcome
+                // Assert
                 var e = Assert.IsAssignableFrom<WritablePropertyException>(result);
                 Assert.Equal(innerException.Message, e.InnerException.Message);
-                // Teardown
             }
         }
 
@@ -171,23 +161,22 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void PropertyInfosSerializesCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var property = typeof(Version).GetProperties().First();
             var dummyMessage = Guid.NewGuid().ToString();
             var sut = new WritablePropertyException(property, dummyMessage);
 
             var formatter = new BinaryFormatter();
-            // Exercise system
+            // Act
             using (var s = new MemoryStream())
             {
                 formatter.Serialize(s, sut);
                 s.Flush();
                 s.Position = 0;
                 var result = formatter.Deserialize(s);
-                // Verify outcome
+                // Assert
                 var e = Assert.IsAssignableFrom<WritablePropertyException>(result);
                 Assert.Equal(property, e.PropertyInfo);
-                // Teardown
             }
         }
 #endif

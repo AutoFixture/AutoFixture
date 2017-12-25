@@ -16,99 +16,92 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsIdiomaticAssertion()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
-            // Exercise system
+            // Act
             var sut = new GuardClauseAssertion(dummyComposer);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ComposerIsCorrectFromModestConstructor()
         {
-            // Fixture setup
+            // Arrange
             ISpecimenBuilder expectedBuilder = new Fixture();
             var sut = new GuardClauseAssertion(expectedBuilder);
-            // Exercise system
+            // Act
             var result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void ComposerIsCorrectFromGreedyConstructor()
         {
-            // Fixture setup
+            // Arrange
             ISpecimenBuilder expectedBuilder = new Fixture();
             var dummyExpectation = new DelegatingBehaviorExpectation();
             var sut = new GuardClauseAssertion(expectedBuilder, dummyExpectation);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void BehaviorExpectationIsCorrectFromGreedyConstructor()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             IBehaviorExpectation expected = new DelegatingBehaviorExpectation();
             var sut = new GuardClauseAssertion(dummyComposer, expected);
-            // Exercise system
+            // Act
             IBehaviorExpectation result = sut.BehaviorExpectation;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void DefaultBehaviorExpectationIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new GuardClauseAssertion(dummyComposer);
-            // Exercise system
+            // Act
             var result = sut.BehaviorExpectation;
-            // Verify outcome
+            // Assert
             var composite = Assert.IsAssignableFrom<CompositeBehaviorExpectation>(result);
             Assert.True(composite.BehaviorExpectations.OfType<NullReferenceBehaviorExpectation>().Any());
             Assert.True(composite.BehaviorExpectations.OfType<EmptyGuidBehaviorExpectation>().Any());
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullPropertyThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((PropertyInfo)null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyReadOnlyPropertyDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new GuardClauseAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             var property = typeof(SingleParameterType<object>).GetProperty("Parameter");
             Assert.Null(Record.Exception(() =>
                 sut.Verify(property)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyPropertyCorrectlyInvokesBehaviorExpectation()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var owner = fixture.Freeze<PropertyHolder<Version>>(c => c.OmitAutoProperties());
             var value = fixture.Freeze<Version>();
@@ -127,28 +120,26 @@ namespace AutoFixture.IdiomsUnitTest
                 }
             };
             var sut = new GuardClauseAssertion(fixture, expectation);
-            // Exercise system
+            // Act
             sut.Verify(property);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verified.");
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullMethodThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((MethodInfo)null));
-            // Teardown
         }
 
         [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectMethod(Type ownerType, int methodIndex)
         {
-            // Fixture setup
+            // Arrange
             var method = ownerType.GetMethods().ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
@@ -167,16 +158,15 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(method);
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectReplacementIndices(Type ownerType, int methodIndex)
         {
-            // Fixture setup
+            // Arrange
             var method = ownerType.GetMethods().Where(IsNotEqualsMethod).ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
@@ -194,18 +184,17 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(method);
-            // Verify outcome
+            // Assert
             var expectedIndices = Enumerable.Range(0, parameters.Length);
             Assert.True(expectedIndices.SequenceEqual(observedIndices));
-            // Teardown
         }
 
         [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type ownerType, int methodIndex)
         {
-            // Fixture setup
+            // Arrange
             var method = ownerType.GetMethods().ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
@@ -222,16 +211,15 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(method);
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectParameterInfo(Type ownerType, int methodIndex)
         {
-            // Fixture setup
+            // Arrange
             var method = ownerType.GetMethods().Where(IsNotEqualsMethod).ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
@@ -248,11 +236,10 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(method);
-            // Verify outcome
+            // Assert
             Assert.True(parameters.SequenceEqual(observedParameters));
-            // Teardown
         }
 
         [Theory]
@@ -262,24 +249,23 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof(Version), typeof(Version))]
         public void VerifyMethodIgnoresEquals(Type type, Type argumentType)
         {
-            // Fixture setup
+            // Arrange
             var method = type.GetMethod("Equals", new[] { argumentType });
 
             var invoked = false;
             var expectation = new DelegatingBehaviorExpectation { OnVerify = c => invoked = true };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(method);
-            // Verify outcome
+            // Assert
             Assert.False(invoked);
-            // Teardown
         }
 
         [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectMethod(Type type, int constructorIndex)
         {
-            // Fixture setup
+            // Arrange
             var ctor = type.GetConstructors().ElementAt(constructorIndex);
             var parameters = ctor.GetParameters();
 
@@ -297,16 +283,15 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(ctor);
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectReplacementIndices(Type type, int constructorIndex)
         {
-            // Fixture setup
+            // Arrange
             var ctor = type.GetConstructors().ElementAt(constructorIndex);
             var parameters = ctor.GetParameters();
 
@@ -324,18 +309,17 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(ctor);
-            // Verify outcome
+            // Assert
             var expectedIndices = Enumerable.Range(0, parameters.Length);
             Assert.True(expectedIndices.SequenceEqual(observedIndices));
-            // Teardown
         }
 
         [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type type, int constructorIndex)
         {
-            // Fixture setup
+            // Arrange
             var ctor = type.GetConstructors().ElementAt(constructorIndex);
             var parameters = ctor.GetParameters();
 
@@ -352,16 +336,15 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(ctor);
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParameterInfo(Type type, int constructorIndex)
         {
-            // Fixture setup
+            // Arrange
             var ctor = type.GetConstructors().ElementAt(constructorIndex);
             var parameters = ctor.GetParameters();
 
@@ -378,11 +361,10 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new GuardClauseAssertion(new Fixture(), expectation);
-            // Exercise system
+            // Act
             sut.Verify(ctor);
-            // Verify outcome
+            // Assert
             Assert.True(parameters.SequenceEqual(observedParameters));
-            // Teardown
         }
 
         private static bool IsNotEqualsMethod(MethodInfo method)
@@ -449,14 +431,13 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage(
             Type type)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var method = type.GetMethod("GetValues");
-            // Exercise system and verify outcome
+            // Act & Assert
             var e =
                 Assert.Throws<GuardClauseException>(() => sut.Verify(method));
             Assert.Contains("deferred", e.Message);
-            // Teardown
         }
 
         private class ClassWithDeferredNullGuard
@@ -520,14 +501,13 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifyMethodWithNonDeferredMissingGuardThrowsExceptionWithoutDeferredMessage(
             Type type)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var method = type.GetMethod("GetValues");
-            // Exercise system and verify outcome
+            // Act & Assert
             var e =
                 Assert.Throws<GuardClauseException>(() => sut.Verify(method));
             Assert.DoesNotContain("deferred", e.Message);
-            // Teardown
         }
 
         class ClassWithEnumerableNonDeferredIListMissingGuard
@@ -668,12 +648,11 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyNullConstructorThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => sut.Verify((ConstructorInfo)null));
-            // Teardown
         }
 
         [Fact]
@@ -799,11 +778,11 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyUnguardedStaticPropertyOnNonStaticClassThrowsHelpfulException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var staticProperty = typeof(StaticPropertyHolder<object>).GetProperty("Property");
             Assert.NotNull(staticProperty);
-            // Exercise system & Verify outcome
+            // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticProperty));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
@@ -811,11 +790,11 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyUnguardedStaticPropertyOnStaticTypeThrowsHelpfulException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var staticProperty = typeof(UnguardedStaticPropertyOnStaticTypeHost).GetProperty("Property");
             Assert.NotNull(staticProperty);
-            // Exercise system & Verify outcome
+            // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticProperty));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
@@ -823,11 +802,11 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyUnguardedStaticMethodOnNonStaticTypeThrowsHelpfulException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var staticMethod = typeof(StaticPropertyHolder<object>).GetProperty("Property").GetSetMethod();
             Assert.NotNull(staticMethod);
-            // Exercise system & Verify outcome
+            // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
@@ -835,11 +814,11 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyUnguardedStaticMethodOnStaticTypeThrowsHelpfulException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var staticMethod = typeof(UnguardedStaticMethodOnStaticTypeHost).GetMethod("Method");
             Assert.NotNull(staticMethod);
-            // Exercise system & Verify outcome
+            // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
@@ -857,10 +836,10 @@ namespace AutoFixture.IdiomsUnitTest
         [ClassData(typeof(ConstructorDataOnGuardedGeneric))]
         public void VerifyConstructorOnGuardedGenericDoesNotThrow(ConstructorInfo constructorInfo)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.Null(Record.Exception(() => sut.Verify(constructorInfo)));
         }
 
@@ -868,10 +847,10 @@ namespace AutoFixture.IdiomsUnitTest
         [ClassData(typeof(PropertyDataOnGuardedGeneric))]
         public void VerifyPropertyOnGuardedGenericDoesNotThrow(PropertyInfo propertyInfo)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
         }
 
@@ -879,10 +858,10 @@ namespace AutoFixture.IdiomsUnitTest
         [ClassData(typeof(MethodDataOnGuardedGeneric))]
         public void VerifyMethodOnGuardedGenericDoesNotThrow(MethodInfo methodInfo)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.Null(Record.Exception(() => sut.Verify(methodInfo)));
         }
 
@@ -890,10 +869,10 @@ namespace AutoFixture.IdiomsUnitTest
         [ClassData(typeof(ConstructorDataOnUnguardedGeneric))]
         public void VerifyConstructorOnUnguardedGenericThrows(ConstructorInfo constructorInfo)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(constructorInfo));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
@@ -902,10 +881,10 @@ namespace AutoFixture.IdiomsUnitTest
         [ClassData(typeof(PropertyDataOnUnguardedGeneric))]
         public void VerifyPropertyOnUnguardedGenericThrows(PropertyInfo propertyInfo)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(propertyInfo));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
@@ -914,10 +893,10 @@ namespace AutoFixture.IdiomsUnitTest
         [ClassData(typeof(MethodDataOnUnguardedGeneric))]
         public void VerifyMethodOnUnguardedGenericThrows(MethodInfo methodInfo)
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(methodInfo));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
@@ -925,17 +904,17 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyMethodOnGenericManyTimeLoadsOnlyUniqueAssemblies()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             MethodInfo methodInfo = typeof(NoContraint<>).GetMethod("Method");
 
             var assembliesBefore = AppDomain.CurrentDomain.GetAssemblies();
 
-            // Exercise system
+            // Act
             sut.Verify(methodInfo);
             sut.Verify(methodInfo);
             sut.Verify(methodInfo);
-            // Verify outcome
+            // Assert
 
             var assembliesAfter = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -945,7 +924,7 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void DynamicDummyTypeIfVoidMethodIsCalledDoesNotThrows()
         {
-            // Fixture setup
+            // Arrange
             bool mockVerification = false;
             var behaviorExpectation = new DelegatingBehaviorExpectation()
             {
@@ -959,9 +938,9 @@ namespace AutoFixture.IdiomsUnitTest
             };
             var sut = new GuardClauseAssertion(new Fixture(), behaviorExpectation);
             var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
-            // Exercise system
+            // Act
             sut.Verify(methodInfo);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerification, "mock verification.");
         }
 
@@ -975,7 +954,7 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void DynamicDummyTypeIfReturnMethodIsCalledReturnsAnonymousValue()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             var objectValue = fixture.Freeze<object>();
             var intValue = fixture.Freeze<int>();
@@ -994,20 +973,20 @@ namespace AutoFixture.IdiomsUnitTest
             
             var sut = new GuardClauseAssertion(fixture, behaviorExpectation);
             var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
-            // Exercise system
+            // Act
             sut.Verify(methodInfo);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerification, "mock verification.");
         }
 
         [Fact]
         public void VerifyUnguardedConstructorOnGenericHavingNoAccessibleConstructorGenericArgumentThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var constructorInfo = typeof(NoAccessibleConstructorTestConstraint<>).GetConstructors().Single();
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             var e = Assert.Throws<ArgumentException>(() => sut.Verify(constructorInfo));
             Assert.Equal(
                 "Cannot create a dummy type because the base type " +
@@ -1019,26 +998,26 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyIgnoresGuardAssertionForOutParameter()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var methodInfo = typeof(OutParameterTestType).GetMethod("Method");
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.Null(Record.Exception(() => sut.Verify(methodInfo)));
         }
 
         [Fact]
         public void VerifyOnTaskDeferredGuardThrowsExceptionWithExtraHelpfulMessage()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskWithInnerGuardClause(null);
-            // Exercise system
+            // Act
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(theMethod));
-            // Verify outcome
+            // Assert
             Assert.Contains("Task", e.Message);
             Assert.Contains("async", e.Message);
         }
@@ -1046,16 +1025,16 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyOnTaskOfTDeferredGuardThrowsExceptionWithExtraHelpfulMessage()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskOfTWithInnerGuardClause(null);
 
-            // Exercise system
+            // Act
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(theMethod));
-            // Verify outcome
+            // Assert
             Assert.Contains("Task", e.Message);
             Assert.Contains("async", e.Message);
         }
@@ -1063,28 +1042,28 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyOnTaskWithCorrectGuardClauseDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskWithCorrectGuardClause(null);
 
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(theMethod)));
         }
 
         [Fact]
         public void VerifyOnTaskOfTWithCorrectGuardClauseDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskOfTWithCorrectGuardClause(null);
 
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(theMethod)));
         }
 

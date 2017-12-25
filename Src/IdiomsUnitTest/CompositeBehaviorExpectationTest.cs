@@ -10,54 +10,50 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsBehaviorExpectation()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeBehaviorExpectation();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IBehaviorExpectation>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ConstructedWithArrayBehaviorExpectationsIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectations = new[] { new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation() };
             var sut = new CompositeBehaviorExpectation(expectations);
-            // Exercise system
+            // Act
             IEnumerable<IBehaviorExpectation> result = sut.BehaviorExpectations;
-            // Verify outcome
+            // Assert
             Assert.True(expectations.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void ConstructedWithEnumerableBehaviorExpectationsIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectations = new[] { new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation() }.Cast<IBehaviorExpectation>();
             var sut = new CompositeBehaviorExpectation(expectations);
-            // Exercise system
+            // Act
             var result = sut.BehaviorExpectations;
-            // Verify outcome
+            // Assert
             Assert.True(expectations.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void VerifyVerifiesAllBehaviorExpectations()
         {
-            // Fixture setup
+            // Arrange
             var observedCommands = new List<IGuardClauseCommand>();
             var expectations = Enumerable.Repeat(new DelegatingBehaviorExpectation { OnVerify = observedCommands.Add }, 3).ToArray();
             var sut = new CompositeBehaviorExpectation(expectations);
 
             var cmd = new DelegatingGuardClauseCommand();
-            // Exercise system
+            // Act
             sut.Verify(cmd);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedCommands.Count(c => cmd.Equals(c)));
-            // Teardown
         }
     }
 }

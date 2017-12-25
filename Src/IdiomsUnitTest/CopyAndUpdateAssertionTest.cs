@@ -16,100 +16,92 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsIdiomaticAssertion()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
-            // Exercise system
+            // Act
             var sut = new CopyAndUpdateAssertion(dummyComposer);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ComposerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposer = new Fixture();
             var sut = new CopyAndUpdateAssertion(expectedComposer);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedComposer, result);
-            // Teardown
         }
 
         [Fact]
         public void ComparerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             IEqualityComparer expected = new MemberInfoEqualityComparer();
             var sut = new CopyAndUpdateAssertion(dummyComposer, expected);
-            // Exercise system
+            // Act
             IEqualityComparer actual = sut.Comparer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullComposerThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CopyAndUpdateAssertion(null));
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullComparerThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CopyAndUpdateAssertion(new Fixture(), comparer: null));
-            // Teardown
         }
 
         [Fact]
         public void ParameterMemberMatcherIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var dummyComparer = new DummyEqualityComparer<object>();
             var expectedMatcher = new DummyReflectionElementComparer();
             var sut = new ConstructorInitializedMemberAssertion(
                 dummyComposer, dummyComparer, expectedMatcher);
-            // Exercise system
+            // Act
             IEqualityComparer<IReflectionElement> result = sut.ParameterMemberMatcher;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMatcher, result);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullParameterMemberMatcherThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var dummyComparer = new DummyEqualityComparer<object>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorInitializedMemberAssertion(dummyComposer, dummyComparer, null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullMethodInfoThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new CopyAndUpdateAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((MethodInfo) null));
-            // Teardown
         }
 
         [Theory]
@@ -121,14 +113,13 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof (MutableWellBehavedCopyMethods), "WithThird")]
         public void VerifyWellBehavedDoesNotThrow(Type typeWithCopyUpdateMethod, string copyUpdateMethodName)
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new CopyAndUpdateAssertion(dummyComposer);
             var method = typeWithCopyUpdateMethod.GetMethod(copyUpdateMethodName);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(method)));
-            // Teardown
         }
 
         [Theory]
@@ -146,16 +137,15 @@ namespace AutoFixture.IdiomsUnitTest
             string copyUpdateMethodName,
             string expectedMemberNameWithInvalidValue)
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new CopyAndUpdateAssertion(dummyComposer);
             var method = typeWithCopyUpdateMethod.GetMethod(copyUpdateMethodName);
             var member = typeWithCopyUpdateMethod.GetMember(expectedMemberNameWithInvalidValue).Single();
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<CopyAndUpdateException>(() =>
                 sut.Verify(method));
             AssertExceptionPropertiesEqual(e, method, memberWithInvalidValue: member);
-            // Teardown
         }
 
         [Theory]
@@ -167,17 +157,16 @@ namespace AutoFixture.IdiomsUnitTest
             string methodName,
             string argumentNameWithNoMatchingPublicMember)
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new CopyAndUpdateAssertion(dummyComposer);
             var method = copyUpdateMethodType.GetMethod(methodName);
             var parameter = method.GetParameters().Single(p =>
                 p.Name == argumentNameWithNoMatchingPublicMember);
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<CopyAndUpdateException>(() =>
                 sut.Verify(method));
             AssertExceptionPropertiesEqual(e, method, parameter);
-            // Teardown
         }
 
         private class ImmutableWellBehavedCopyMethods

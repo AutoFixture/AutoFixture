@@ -18,508 +18,470 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsIdiomaticAssertion()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
-            // Exercise system
+            // Act
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ComposerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(expectedComposer);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedComposer, result);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullComposerThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorInitializedMemberAssertion(null));
-            // Teardown
         }
 
         [Fact]
         public void ComparerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var expectedComparer = new FakeEqualityComparer<object>();
             var dummyMatcher = new FakeReflectionElementComparer();
             var sut = new ConstructorInitializedMemberAssertion(
                 dummyComposer, expectedComparer, dummyMatcher);
-            // Exercise system
+            // Act
             IEqualityComparer result = sut.Comparer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedComparer, result);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullComparerThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var dummyMatcher = new FakeReflectionElementComparer();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorInitializedMemberAssertion(dummyComposer, null, dummyMatcher));
-            // Teardown
         }
 
         [Fact]
         public void ParameterMemberMatcherIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var dummyComparer = new FakeEqualityComparer<object>();
             var expectedMatcher = new FakeReflectionElementComparer();
             var sut = new ConstructorInitializedMemberAssertion(
                 dummyComposer, dummyComparer, expectedMatcher);
-            // Exercise system
+            // Act
             IEqualityComparer<IReflectionElement> result = sut.ParameterMemberMatcher;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMatcher, result);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullParameterMemberMatcherThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var dummyComparer = new FakeEqualityComparer<object>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorInitializedMemberAssertion(dummyComposer, dummyComparer, null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullPropertyThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((PropertyInfo)null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullFieldThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((FieldInfo)null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullConstructorInfoThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((ConstructorInfo)null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyDefaultConstructorDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             var constructorWithNoParameters = typeof (PropertyHolder<object>).GetConstructors().First();
             Assert.Empty(constructorWithNoParameters.GetParameters());
             Assert.Null(Record.Exception(() =>
                 sut.Verify(constructorWithNoParameters)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWritablePropertyWithNoMatchingConstructorDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var composer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(composer);
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(propertyInfo)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWritableFieldWithNoMatchingConstructorDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var composer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(composer);
             var propertyInfo = typeof(FieldHolder<object>).GetField("Field");
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(propertyInfo)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyReadOnlyPropertyWithPrivateSetterAndNoMatchingConstructorThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyHolder<int>).GetProperty("Property");
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
             AssertExceptionPropertiesEqual(e, propertyInfo);
-            // Teardown
         }
 
         [Fact]
         public void VerifyReadOnlyPropertyWithNoSetterAndNoMatchingConstructorThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyWithNoSetterHolder<int>).GetProperty("Property");
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
             AssertExceptionPropertiesEqual(e, propertyInfo);
-            // Teardown
         }
 
         [Fact]
         public void VerifyWellBehavedReadOnlyPropertyInitializedViaConstructorDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyInitializedViaConstructor<object>).GetProperty("Property");
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyIllBehavedPropertiesInitializedViaConstructorThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var illBehavedType = typeof (PropertiesIncorrectlyInitializedViaConstructor<object, object>);
             var propertyInfo1 = illBehavedType.GetProperty("Property1");
             var propertyInfo2 = illBehavedType.GetProperty("Property2");
-            // Exercise system and verify outcome
+            // Act & Assert
             var e1 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo1));
             AssertExceptionPropertiesEqual(e1, propertyInfo1);
             var e2 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo2));
             AssertExceptionPropertiesEqual(e2, propertyInfo2);
-            // Teardown
         }
 
         [Fact]
         public void VerifyWellBehavedReadOnlyFieldInitializedViaConstructorDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructor<object>).GetField("Field");
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(fieldInfo)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyReadOnlyFieldInitializedViaConstructorWithDifferentTypeThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetField("Field");
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(fieldInfo));
             AssertExceptionPropertiesEqual(e, fieldInfo);
-            // Teardown
         }
 
         [Fact]
         public void VerifyAllConstructorArgumentsAreExposedAsFieldsDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor1 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
             var ctor2 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
             var ctor3 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
             Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
             Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenNotAllConstructorArgumentsAreExposedAsFieldsThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof (FieldsInitializedViaConstructor<object, int>)
                 .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingField");
             AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
-            // Teardown
         }
 
         [Fact]
         public void VerifyConstructorArgumentsAreExposedAsProperties()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor1 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
             var ctor2 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
             var ctor3 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
             Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
             Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenNotAllConstructorArgumentsAreExposedAsPropertiesThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>)
                 .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
             AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenConstructorArgumentTypeIsDifferentToFieldThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetConstructors().First();
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "value");
             AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeShouldThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(PropertyIsAssignableFromConstructorArgumentType).GetConstructors().First();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(ctor));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenMemberTypeIsComplexDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
                 .GetConstructor(new[] { typeof(ComplexType), typeof(object) });
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(ctor)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenMemberTypeIsComplexWithIllBehavedConstructorThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
                 .GetConstructor(new[] { typeof(ComplexType), typeof(object), typeof(TriState) });
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(
                 () => sut.Verify(ctor));
             var expectedMissingParameter = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
             AssertExceptionPropertiesEqual(e, ctor, expectedMissingParameter);
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenConstructorArgumentHasWriteOnlyPropertyDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(WriteOnlyPropertyHolder<ComplexType>).GetConstructors().First();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(
                 Record.Exception(() => sut.Verify(ctor)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenPropertyIsWriteOnlyDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(WriteOnlyPropertyHolder<ComplexType>).GetProperty("WriteOnlyProperty");
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWhenPropertyGetterIsInternalDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(InternalGetterPropertyHolder<ComplexType>).GetProperty("Property");
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithPublicWritablePropertyAndNoMatchingConstructorArgumentDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(PropertyHolder<ComplexType>);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithPublicStaticPropertyAndNoMatchingConstructorArgumentDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(StaticPropertyHolder<ComplexType>);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithPublicStaticFieldAndNoMatchingConstructorArgumentDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(StaticFieldHolder<ComplexType>);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithPublicStaticReadOnlyFieldAndNoMatchingGuardedConstuctorArgumentDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyField<ComplexType, int>);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithPublicStaticReadOnlyPropertyAndNoMatchingGuardedConstuctorArgumentDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyProperty<ComplexType, int>);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithReadOnlyPropertyAndIllBehavedConstructorThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(ReadOnlyPropertiesInitializedViaConstructor<int, string>);
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
             var expectedFailingConstructor = typeToVerify.GetConstructor(new[] { typeof(int), typeof(string), typeof(TriState) });
             var expectedFailingParameter = expectedFailingConstructor.GetParameters().Single(p => p.Name == "noMatchingProperty");
             AssertExceptionPropertiesEqual(e, expectedFailingConstructor, expectedFailingParameter);
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithWritablePropertyAndMatchingIllBehavedConstructorArgumentThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(WritablePropertyAndIllBehavedConstructor);
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
             var expectedFailingProperty = typeToVerify.GetProperties().Single();
             AssertExceptionPropertiesEqual(e, expectedFailingProperty);
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeWithPublicReadOnlyFieldsIncorrectlyInitialisedViaConstructorThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(PublicReadOnlyFieldNotInitializedByConstructor);
-            // Exercise system and verify outcome
+            // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
             var expectedFailingField = typeToVerify.GetFields().First();
             AssertExceptionPropertiesEqual(e, expectedFailingField);
-            // Teardown
         }
 
         [Theory]
@@ -543,11 +505,11 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
         public void VerifyWellBehavedEnumInitializersDoNotThrow(Type type)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(fixture);
 
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Verify(type)));
         }
 
@@ -572,11 +534,11 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
         public void VerifyIllBehavedEnumInitializersDoThrow(Type type)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(fixture);
 
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
         }
 
@@ -586,11 +548,11 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
         public void VerifyDefaultOnlyEnumDoesThrowBecauseOfPotentialFalsePositive(Type type)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(fixture);
 
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
         }
 

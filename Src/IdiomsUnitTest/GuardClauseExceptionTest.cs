@@ -10,75 +10,70 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsException()
         {
-            // Fixture setup
+            // Arrange
             var dummyMember = typeof(object).GetMembers().First();
             var dummyValueType = typeof(object);
-            // Exercise system
+            // Act
             var sut = new GuardClauseException();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Exception>(sut);
-            // Teardown
         }
 
         [Fact]
         public void MessageIsNotNull()
         {
-            // Fixture setup
+            // Arrange
             var dummyMember = typeof(object).GetMembers().First();
             var dummyValueType = typeof(object);
             var sut = new GuardClauseException();
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void MessageIsCorrectWhenConstructedWithMessage()
         {
-            // Fixture setup
+            // Arrange
             var dummyMember = typeof(object).GetMembers().First();
             var dummyValueType = typeof(object);
             var expectedMessage = Guid.NewGuid().ToString();
             var sut = new GuardClauseException(expectedMessage);
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMessage, result);
-            // Teardown
         }
 
         [Fact]
         public void MessageIsCorrectWhenConstructedWithMessageAndInnerException()
         {
-            // Fixture setup
+            // Arrange
             var dummyMember = typeof(object).GetMembers().First();
             var dummyValueType = typeof(object);
             var expectedMessage = Guid.NewGuid().ToString();
             var dummyInner = new Exception();
             var sut = new GuardClauseException(expectedMessage, dummyInner);
-            // Exercise system
+            // Act
             var result = sut.Message;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMessage, result);
-            // Teardown
         }
 
         [Fact]
         public void InnerExceptionIsCorrectWhenConstructedWithMessageAndInnerException()
         {
-            // Fixture setup
+            // Arrange
             var dummyMember = typeof(object).GetMembers().First();
             var dummyValueType = typeof(object);
             var dummyMessage = "Anonymous text";
             var expectedInner = new Exception();
             var sut = new GuardClauseException(dummyMessage, expectedInner);
-            // Exercise system
+            // Act
             var result = sut.InnerException;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedInner, result);
-            // Teardown
         }
     }
 }

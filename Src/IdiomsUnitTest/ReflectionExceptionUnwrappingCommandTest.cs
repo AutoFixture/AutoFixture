@@ -10,26 +10,24 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsContextualCommand()
         {
-            // Fixture setup
+            // Arrange
             var dummyCommand = new DelegatingGuardClauseCommand();
-            // Exercise system
+            // Act
             var sut = new ReflectionExceptionUnwrappingCommand(dummyCommand);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IGuardClauseCommand>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CommandIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedCommand = new DelegatingGuardClauseCommand();
             var sut = new ReflectionExceptionUnwrappingCommand(expectedCommand);
-            // Exercise system
+            // Act
             IGuardClauseCommand result = sut.Command;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedCommand, result);
-            // Teardown
         }
         
         [Fact]
@@ -47,44 +45,41 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void ExecuteExecutesDecoratedCommand()
         {
-            // Fixture setup
+            // Arrange
             var mockVerified = false;
             var expectedValue = new object();
             var cmd = new DelegatingGuardClauseCommand { OnExecute = v => mockVerified = expectedValue.Equals(v) };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
-            // Exercise system
+            // Act
             sut.Execute(expectedValue);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verified.");
-            // Teardown
         }
 
         [Fact]
         public void ExecuteRethrowsNormalException()
         {
-            // Fixture setup
+            // Arrange
             var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new InvalidOperationException(); } };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
-            // Exercise system and verify outcome
+            // Act & Assert
             var dummyValue = new object();
             Assert.Throws<InvalidOperationException>(() =>
                 sut.Execute(dummyValue));
-            // Teardown
         }
 
         [Fact]
         public void ExecuteUnwrapsAndThrowsInnerExceptionFromTargetInvocationException()
         {
-            // Fixture setup
+            // Arrange
             var expectedException = new InvalidOperationException();
             var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new TargetInvocationException(expectedException); } };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
-            // Exercise system and verify outcome
+            // Act & Assert
             var dummyValue = new object();
             var e = Assert.Throws<InvalidOperationException>(() =>
                 sut.Execute(dummyValue));
             Assert.Equal(expectedException, e);
-            // Teardown
         }
 
         [Theory]
@@ -94,45 +89,42 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof(Version))]
         public void ContextTypeIsCorrect(Type type)
         {
-            // Fixture setup
+            // Arrange
             var cmd = new DelegatingGuardClauseCommand { RequestedType = type };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
-            // Exercise system
+            // Act
             var result = sut.RequestedType;
-            // Verify outcome
+            // Assert
             Assert.Equal(type, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateExceptionReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var value = Guid.NewGuid().ToString();
             var expected = new Exception();
             var cmd = new DelegatingGuardClauseCommand { OnCreateException = v => value == v ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
-            // Exercise system
+            // Act
             var result = sut.CreateException(value);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateExceptionWithInnerReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var value = Guid.NewGuid().ToString();
             var inner = new Exception();
             var expected = new Exception();
             var cmd = new DelegatingGuardClauseCommand { OnCreateExceptionWithInner = (v, e) => value == v && inner.Equals(e) ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
-            // Exercise system
+            // Act
             var result = sut.CreateException(value, inner);
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
     }
 }

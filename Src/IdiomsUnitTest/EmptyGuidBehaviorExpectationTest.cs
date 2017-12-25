@@ -9,23 +9,21 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsBehaviorExpectation()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new EmptyGuidBehaviorExpectation();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IBehaviorExpectation>(sut);
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullCommandThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EmptyGuidBehaviorExpectation();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify(null));
-            // Teardown
         }
 
         [Theory]
@@ -35,23 +33,22 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof(int))]
         public void VerifyDoesNothingWhenRequestedTypeIsNotGuid(Type type)
         {
-            // Fixture setup
+            // Arrange
             var executeInvoked = false;
             var mockCommand = new DelegatingGuardClauseCommand { OnExecute = v => executeInvoked = true };
             mockCommand.RequestedType = type;
 
             var sut = new EmptyGuidBehaviorExpectation();
-            // Exercise system
+            // Act
             sut.Verify(mockCommand);
-            // Verify outcome
+            // Assert
             Assert.False(executeInvoked);
-            // Teardown
         }
 
         [Fact]
         public void VerifyCorrectlyInvokesExecuteWhenRequestedTypeIsGuid()
         {
-            // Fixture setup
+            // Arrange
             var mockVerified = false;
             var mockCommand = new DelegatingGuardClauseCommand
             {
@@ -61,37 +58,35 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new EmptyGuidBehaviorExpectation();
-            // Exercise system
+            // Act
             try
             {
                 sut.Verify(mockCommand);
             }
             catch (InvalidOperationException) { }
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified);
-            // Teardown
         }
 
         [Fact]
         public void VerifySuccedsWhenCommandThrowsCorrectException()
         {
-            // Fixture setup
+            // Arrange
             var cmd = new DelegatingGuardClauseCommand 
             {
                 OnExecute = v => { throw new ArgumentException(); },
                 RequestedType = typeof(Guid)
             };
             var sut = new EmptyGuidBehaviorExpectation();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(cmd)));
-            // Teardown
         }
 
         [Fact]
         public void VerifyThrowsWhenCommandThrowsUnexpectedException()
         {
-            // Fixture setup
+            // Arrange
             var expectedInner = new Exception();
             var expected = new Exception();
             var cmd = new DelegatingGuardClauseCommand
@@ -101,17 +96,16 @@ namespace AutoFixture.IdiomsUnitTest
                 RequestedType = typeof(Guid)
             };
             var sut = new EmptyGuidBehaviorExpectation();
-            // Exercise system and verify outcome
+            // Act & Assert
             var result = Assert.Throws<Exception>(() =>
                 sut.Verify(cmd));
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void VerifyThrowsWhenCommandDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var expected = new Exception();
             var cmd = new DelegatingGuardClauseCommand
             {
@@ -119,11 +113,10 @@ namespace AutoFixture.IdiomsUnitTest
                 RequestedType = typeof(Guid)
             };
             var sut = new EmptyGuidBehaviorExpectation();
-            // Exercise system and verify outcome
+            // Act & Assert
             var result = Assert.Throws<Exception>(() =>
                 sut.Verify(cmd));
             Assert.Equal(expected, result);
-            // Teardown
         }
     }
 }
