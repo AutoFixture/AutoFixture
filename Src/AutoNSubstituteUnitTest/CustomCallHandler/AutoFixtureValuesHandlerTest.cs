@@ -21,26 +21,24 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
         [Fact]
         public void ShouldSetConstructorValuesToProperties()
         {
-            // Fixture setup
+            // Arrange
             var resultResolver = Substitute.For<ICallResultResolver>();
             var resultsCache = Substitute.For<ICallResultCache>();
             var callSpecificationFactory = Substitute.For<ICallSpecificationFactory>();
 
-            // Exercise system
+            // Act
             var sut = new AutoFixtureValuesHandler(resultResolver, resultsCache, callSpecificationFactory);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(resultResolver, sut.ResultResolver);
             Assert.Equal(resultsCache, sut.ResultCache);
             Assert.Equal(callSpecificationFactory, sut.CallSpecificationFactory);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldUseCorrectSpecForValueCaching()
         {
-            // Fixture setup
+            // Arrange
             AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithParameterlessMethod>();
@@ -51,19 +49,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             sut.ResultResolver.ResolveResult(call).Returns(
                 new CallResultData(Maybe.Nothing<object>(), Enumerable.Empty<CallResultData.ArgumentValue>()));
 
-            // Exercise system
+            // Act
             sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             sut.ResultCache.Received().AddResult(callSpec, Arg.Any<CallResultData>());
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldCacheResolvedValue()
         {
-            // Fixture setup
+            // Arrange
             AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithParameterlessMethod>();
@@ -73,19 +69,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                 new CallResultData(Maybe.Nothing<object>(), Enumerable.Empty<CallResultData.ArgumentValue>());
             sut.ResultResolver.ResolveResult(call).Returns(callResult);
 
-            // Exercise system
+            // Act
             sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             sut.ResultCache.Received().AddResult(Arg.Any<ICallSpecification>(), callResult);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldReturnValueFromCacheIfPresent()
         {
-            // Fixture setup
+            // Arrange
             AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithParameterlessMethod>();
@@ -105,21 +99,19 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                     return true;
                 });
 
-            // Exercise system
+            // Act
             var actualResult = sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             sut.ResultResolver.DidNotReceive().ResolveResult(Arg.Any<ICall>());
             Assert.True(actualResult.HasReturnValue);
             Assert.Equal(cachedResult, actualResult.ReturnValue);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldReturnResolvedValue()
         {
-            // Fixture setup
+            // Arrange
             AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithParameterlessMethod>();
@@ -130,20 +122,18 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                 Maybe.Just<object>(callResult),
                 Enumerable.Empty<CallResultData.ArgumentValue>()));
 
-            // Exercise system
+            // Act
             var actualResult = sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             Assert.True(actualResult.HasReturnValue);
             Assert.Equal(callResult, actualResult.ReturnValue);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldSetRefArgumentValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithRefIntMethod>();
@@ -156,19 +146,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             sut.ResultResolver.ResolveResult(call).Returns(callResult);
 
-            // Exercise system
+            // Act
             sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(42, call.GetArguments()[0]);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldSetOutArgumentValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithOutVoidMethod>();
@@ -181,20 +169,18 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             sut.ResultResolver.ResolveResult(call).Returns(callResult);
 
-            // Exercise system
+            // Act
             sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(42, call.GetArguments()[0]);
-
-            // Teardown
         }
 
 
         [Fact]
         public void ShouldNotUpdateModifiedRefArgument()
         {
-            // Fixture setup
+            // Arrange
             AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithRefVoidMethod>();
@@ -212,19 +198,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                         Maybe.Nothing<object>(),
                         new[] {new CallResultData.ArgumentValue(0, 84)}));
 
-            // Exercise system
+            // Act
             sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(42, callArgs[0]);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldNotUpdateModifiedOutArgument()
         {
-            // Fixture setup
+            // Arrange
             AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithOutVoidMethod>();
@@ -241,19 +225,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                         Maybe.Nothing<object>(),
                         new[] {new CallResultData.ArgumentValue(0, 84)}));
 
-            // Exercise system
+            // Act
             sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(42, call.GetArguments()[0]);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldNotSetPropertyIfResultNotResolved()
         {
-            // Fixture setup
+            // Arrange
             AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithProperty>();
@@ -262,13 +244,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             sut.ResultResolver.ResolveResult(call).Returns(
                 new CallResultData(Maybe.Nothing<object>(), Enumerable.Empty<CallResultData.ArgumentValue>()));
 
-            // Exercise system
+            // Act
             var result = sut.Handle(call);
 
-            // Verify outcome
+            // Assert
             Assert.False(result.HasReturnValue);
-
-            // Teardown
         }
     }
 }

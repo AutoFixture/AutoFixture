@@ -11,64 +11,60 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void CtorThrowsWhenRelayIsNull()
         {
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => new AutoConfiguredNSubstituteCustomization(null));
         }
 
         [Fact]
         public void BuilderIsSubstituteRelayByDefault()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoConfiguredNSubstituteCustomization();
-            // Exercise system 
+            // Act
             var builder = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.IsType<SubstituteRelay>(builder);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeThrowsWhenFixtureIsNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoConfiguredNSubstituteCustomization();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeInsertsSubstituteAttributeRelayInCustomizationsToOverrideDefaultConstructionWhenAttributeIsPresent()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoConfiguredNSubstituteCustomization();
             var fixture = Substitute.For<IFixture>();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             fixture.Customizations.Received().Insert(0, Arg.Any<SubstituteAttributeRelay>());
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsPostprocessorWithSubstituteRequestHandlerAndCommandsToCustomizations()
         {
-            // Fixture setup
+            // Arrange
             var fixture = Substitute.For<IFixture>();
             Postprocessor postprocessor = null;
             fixture.Customizations.Insert(Arg.Any<int>(), Arg.Do<Postprocessor>(p => postprocessor = p));
             var sut = new AutoConfiguredNSubstituteCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             var substituteRequestHandler = Assert.IsAssignableFrom<SubstituteRequestHandler>(postprocessor.Builder);
             var substituteFactory = Assert.IsType<MethodInvoker>(substituteRequestHandler.SubstituteFactory);
             Assert.IsType<NSubstituteMethodQuery>(substituteFactory.Query);
             var compositeCommand = Assert.IsAssignableFrom<CompositeSpecimenCommand>(postprocessor.Command);
             Assert.True(compositeCommand.Commands.OfType<NSubstituteRegisterCallHandlerCommand>().Any());
             Assert.True(compositeCommand.Commands.OfType<NSubstituteSealedPropertiesCommand>().Any());
-            // Teardown
         }
 
         [Fact]

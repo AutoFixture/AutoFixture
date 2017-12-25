@@ -15,43 +15,39 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void ShouldReturnValuesFromConstructor()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
             var callResultsCacheFactory = Substitute.For<ICallResultCacheFactory>();
             var callResultResolverFactory = Substitute.For<ICallResultResolverFactory>();
 
-            // Excercise system
+            // Act
             var sut = new NSubstituteRegisterCallHandlerCommand(substitutionContext, callResultsCacheFactory,
                 callResultResolverFactory);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(substitutionContext, sut.SubstitutionContext);
             Assert.Equal(callResultsCacheFactory, sut.CallResultCacheFactory);
             Assert.Equal(callResultResolverFactory, sut.CallResultResolverFactory);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldUseConstructorDefaultsOfCorrectType()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
 
-            // Excercise system
+            // Act
             var sut = new NSubstituteRegisterCallHandlerCommand(substitutionContext);
 
-            // Verify outcome
+            // Assert
             Assert.IsType<CallResultCacheFactory>(sut.CallResultCacheFactory);
             Assert.IsType<CallResultResolverFactory>(sut.CallResultResolverFactory);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldUseValueFromCallResultsCacheFactory()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
             var callResultsCacheFactory = Substitute.For<ICallResultCacheFactory>();
             var callResultResolverFactory = Substitute.For<ICallResultResolverFactory>();
@@ -67,21 +63,19 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var expectedResultsCache = Substitute.For<ICallResultCache>();
             callResultsCacheFactory.CreateCache().Returns(expectedResultsCache);
 
-            // Excercise system
+            // Act
             sut.Execute(specimen, specimenContext);
 
-            // Verify outcome
+            // Assert
             var handler =
                 (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(Substitute.For<ISubstituteState>());
             Assert.Equal(expectedResultsCache, handler.ResultCache);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldUseValueFromCallResultResolverFactory()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
             var callResultsCacheFactory = Substitute.For<ICallResultCacheFactory>();
             var callResultResolverFactory = Substitute.For<ICallResultResolverFactory>();
@@ -97,22 +91,20 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var expectedResultResolver = Substitute.For<ICallResultResolver>();
             callResultResolverFactory.Create(specimenContext).Returns(expectedResultResolver);
 
-            // Excercise system
+            // Act
             sut.Execute(specimen, specimenContext);
 
-            // Verify outcome
+            // Assert
             var handler =
                 (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(Substitute.For<ISubstituteState>());
             Assert.Equal(expectedResultResolver, handler.ResultResolver);
-
-            // Teardown
         }
 
 
         [Fact]
         public void ShouldSilentlySkipNotASubstituteSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
             var sut = new NSubstituteRegisterCallHandlerCommand(substitutionContext);
 
@@ -121,16 +113,14 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             substitutionContext.When(x => x.GetCallRouterFor(specimen)).Throw<NotASubstituteException>();
 
-            // Exercise system & Verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(specimen, context)));
-
-            // Teardown
         }
 
         [Fact]
         public void ResultCacheAndCallResultResolverShouldBeSameForEachHandler()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
             var sut = new NSubstituteRegisterCallHandlerCommand(substitutionContext);
 
@@ -143,25 +133,23 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             sut.Execute(specimen, context);
 
-            // Exercise system
+            // Act
             var instance1 = callRouter.RegisteredFactory.Invoke(substituteState);
             var instance2 = callRouter.RegisteredFactory.Invoke(substituteState);
 
-            // Verify outcome
+            // Assert
             var handler1 = (AutoFixtureValuesHandler) instance1;
             var handler2 = (AutoFixtureValuesHandler) instance2;
 
             Assert.NotSame(handler1, handler2);
             Assert.Same(handler1.ResultResolver, handler2.ResultResolver);
             Assert.Same(handler1.ResultCache, handler2.ResultCache);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldPassCorrectSpecimenContextToCallResultResolver()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
             var sut = new NSubstituteRegisterCallHandlerCommand(substitutionContext);
 
@@ -174,19 +162,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             sut.Execute(specimen, context);
 
-            // Exercise system
+            // Act
             var handler = (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(substituteState);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(context, ((CallResultResolver) handler.ResultResolver).SpecimenContext);
-
-            // Teardown
         }
 
         [Fact]
         public void ValidCallSpecificationFactoryIsPassedToHandler()
         {
-            // Fixture setup
+            // Arrange
             var substitutionContext = Substitute.For<ISubstitutionContext>();
             var sut = new NSubstituteRegisterCallHandlerCommand(substitutionContext);
 
@@ -202,13 +188,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             sut.Execute(specimen, context);
 
-            // Exercise system
+            // Act
             var handler = (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(substituteState);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(callSpecFactory, handler.CallSpecificationFactory);
-
-            // Teardown
         }
 
 

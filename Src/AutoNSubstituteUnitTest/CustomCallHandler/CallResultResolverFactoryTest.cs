@@ -10,32 +10,30 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
         [Fact]
         public void CreateReturnsResultOfCorrectType()
         {
-            // Fixture setup
+            // Arrange
             var context = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolverFactory();
 
-            // Exercise system
+            // Act
             var result = sut.Create(context);
 
-            // Verify outcome
+            // Assert
             Assert.IsType<CallResultResolver>(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateShouldPassValueToConstructor()
         {
-            // Fixture setup
+            // Arrange
             var context = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolverFactory();
 
-            // Exercise system
+            // Act
             var result = sut.Create(context);
 
-            // Verify outcome
+            // Assert
             var resolver = Assert.IsType<CallResultResolver>(result);
             Assert.Same(context, resolver.SpecimenContext);
-            // Teardown
         }
     }
 }

@@ -12,67 +12,63 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void SetupThrowsWhenSubstituteIsNull()
         {
-            // Fixture setup
+            // Arrange
             var context = Substitute.For<ISpecimenContext>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => sut.Execute(null, context));
-            // Teardown
         }
 
         [Fact]
         public void SetupThrowsWhenContextIsNull()
         {
-            // Fixture setup
+            // Arrange
             var substitute = Substitute.For<object>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => sut.Execute(substitute, null));
-            // Teardown
         }
 
         [Fact]
         public void InitializesSealedPropertyUsingContext()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithSealedMembers>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system
+            // Act
             sut.Execute(substitute, new SpecimenContext(fixture));
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, substitute.ExplicitlySealedProperty);
             Assert.Equal(frozenString, substitute.ImplicitlySealedProperty);
-            // Teardown
         }
 
         [Fact]
         public void InitializesPublicFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithPublicField>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system
+            // Act
             sut.Execute(substitute, new SpecimenContext(fixture));
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, substitute.Field);
-            // Teardown
         }
 
         [Fact]
         public void IgnoresGetOnlyProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithGetOnlyProperty>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            //Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.GetOnlyProperty);
@@ -81,12 +77,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresVirtualProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithVirtualMembers>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.VirtualProperty);
@@ -95,12 +91,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresPropertiesWithPrivateSetter()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithPropertyWithPrivateSetter>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.PropertyWithPrivateSetter);
@@ -109,14 +105,14 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresPrivateProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithPrivateProperty>();
             var privateProperty = typeof(TypeWithPrivateProperty).GetProperty("PrivateProperty", BindingFlags.Instance | BindingFlags.NonPublic);
 
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, privateProperty.GetValue(substitute, null));
@@ -125,12 +121,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresInterfaceProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<IInterfaceWithProperty>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.Property);
@@ -139,12 +135,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresStaticProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithStaticProperty>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
@@ -153,12 +149,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresIndexers()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenInt = fixture.Freeze<int>();
             var substitute = Substitute.For<TypeWithIndexer>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenInt, substitute[2]);
@@ -167,12 +163,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresPrivateFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithPrivateField>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.GetPrivateField());
@@ -181,12 +177,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresReadonlyFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithReadonlyField>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.ReadonlyField);
@@ -195,12 +191,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresLiteralFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithConstField>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
@@ -209,12 +205,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresStaticFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithStaticField>();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
@@ -223,11 +219,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IgnoresNonSubstituteSpecimens()
         {
-            // Fixture setup
+            // Arrange
             var context = Substitute.For<ISpecimenContext>();
             var specimen = new ConcreteTypeWithSealedMembers();
             var sut = new NSubstituteSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(specimen, context)));
 
             context.DidNotReceiveWithAnyArgs().Resolve(null);

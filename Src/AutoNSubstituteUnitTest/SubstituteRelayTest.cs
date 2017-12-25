@@ -13,54 +13,50 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void ClassImplementsISpecimenBuilderToServeAsResidueCollector()
         {
-            // Fixture setup
-            // Exercise system
-            // Verify outcome
+            // Arrange
+            // Act
+            // Assert
             Assert.True(typeof(ISpecimenBuilder).IsAssignableFrom(typeof(SubstituteRelay)));
-            // Teardown
         }
 
         [Fact]
         public void CreateThrowsArgumentNullExceptionWhenContextIsNullBecauseItsRequired()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SubstituteRelay();
             var request = new object();
-            // Exercise system
+            // Act
             var e = Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
-            // Verify outcome
+            // Assert
             Assert.Equal("context", e.ParamName);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsNoSpecimenWhenRequestIsNotAType()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SubstituteRelay();
             object request = "beer";
             var context = Substitute.For<ISpecimenContext>();
-            // Exercise system
+            // Act
             object result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expected = new NoSpecimen();
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsNoSpecimenWhenRequestedTypeIsNotAbstract()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SubstituteRelay();
             object request = typeof(string);
             var context = Substitute.For<ISpecimenContext>();
-            // Exercise system
+            // Act
             object result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expected = new NoSpecimen();
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Theory]
@@ -68,35 +64,33 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [InlineData(typeof(IInterface))]
         public void CreateReturnsObjectResolvedFromContextWhenRequestedTypeIsAbstractOrInterface(Type requestedType)
         {
-            // Fixture setup
+            // Arrange
             var sut = new SubstituteRelay();
             object request = requestedType;
             object substitute = Substitute.For(new Type[] { requestedType }, new object[0]);
             var context = Substitute.For<ISpecimenContext>();
             context.Resolve(Arg.Is<SubstituteRequest>(r => r.TargetType == requestedType)).Returns(substitute);
-            // Exercise system
+            // Act
             object result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Same(substitute, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateThrowsInvalidOperationExceptionWhenResolvedObjectIsNotSubstituteAssumingInvalidConfiguration()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SubstituteRelay();
             var request = typeof(IComparable);
             var notASubstitute = new object();
             var context = Substitute.For<ISpecimenContext>();
             context.Resolve(Arg.Any<object>()).Returns(notASubstitute);
-            // Exercise system
+            // Act
             var e = Assert.Throws<InvalidOperationException>(() => sut.Create(request, context));
-            // Verify outcome
+            // Assert
             Assert.Contains(request.FullName, e.Message);
             Assert.Contains(typeof(SubstituteRequestHandler).FullName, e.Message); 
             Assert.IsType<NotASubstituteException>(e.InnerException);
-            // Teardown
         }
     }
 }
