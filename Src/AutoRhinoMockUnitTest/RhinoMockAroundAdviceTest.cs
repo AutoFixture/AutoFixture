@@ -10,36 +10,33 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
         [Fact]
         public void SutImplementsISpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
-            // Exercise system
+            // Act
             var sut = new RhinoMockAroundAdvice(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RhinoMockAroundAdvice((ISpecimenBuilder)null));
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
             var sut = new RhinoMockAroundAdvice(expectedBuilder);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Theory]
@@ -49,16 +46,15 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
         [InlineData(typeof(string))]
         public void CreateWithNonMockRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
             var sut = new RhinoMockAroundAdvice(dummyBuilder);
-            // Exercise system
+            // Act
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }
