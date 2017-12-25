@@ -10,39 +10,36 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new IncrementingDateTimeCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeWithNullThrowsArgumentNullException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new IncrementingDateTimeCustomization();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsIncrementingDateTimeGeneratorToTheFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new IncrementingDateTimeCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             var containsIncrementingDateTimeGenerator = fixture
                 .Customizations
                 .OfType<StrictlyMonotonicallyIncreasingDateTimeGenerator>()
                 .Any();
             Assert.True(containsIncrementingDateTimeGenerator);
-            // Teardown
         }
     }
 }

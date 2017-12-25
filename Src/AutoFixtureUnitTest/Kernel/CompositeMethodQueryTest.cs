@@ -13,41 +13,38 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsMethodQuery()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeMethodQuery();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IMethodQuery>(sut);
-            // Teardown
         }
 
         [Fact]
         public void QueriesWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CompositeMethodQuery();
-            // Exercise system
+            // Act
             IEnumerable<IMethodQuery> result = sut.Queries;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullEnumerableWillThrow()
         {
-            // Fixture setup
+            // Arrange
             IEnumerable<IMethodQuery> nullEnumerable = null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeMethodQuery(nullEnumerable));
-            // Teardown
         }
 
         [Fact]
         public void QueriesWillMatchListParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedQueries = new IMethodQuery[]
             {
                 new DelegatingMethodQuery(),
@@ -55,28 +52,26 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingMethodQuery()
             }.AsEnumerable();
             var sut = new CompositeMethodQuery(expectedQueries);
-            // Exercise system
+            // Act
             var result = sut.Queries;
-            // Verify outcome
+            // Assert
             Assert.True(expectedQueries.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullArrayWillThrow()
         {
-            // Fixture setup
+            // Arrange
             IMethodQuery[] nullArray = null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeMethodQuery(nullArray));
-            // Teardown
         }
 
         [Fact]
         public void QueriesWillMatchParamsArray()
         {
-            // Fixture setup
+            // Arrange
             var expectedQueries = new IMethodQuery[]
             {
                 new DelegatingMethodQuery(),
@@ -84,17 +79,16 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingMethodQuery()
             };
             var sut = new CompositeMethodQuery(expectedQueries);
-            // Exercise system
+            // Act
             var result = sut.Queries;
-            // Verify outcome
+            // Assert
             Assert.True(expectedQueries.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void QueriesWillNotMatchParamsArray()
         {
-            // Fixture setup
+            // Arrange
             var expectedQueries = new IMethodQuery[]
             {
                 new DelegatingMethodQuery(),
@@ -102,11 +96,10 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingMethodQuery()
             };
             var sut = new CompositeMethodQuery(expectedQueries[0], expectedQueries[2], expectedQueries[1]);
-            // Exercise system
+            // Act
             var result = sut.Queries;
-            // Verify outcome
+            // Assert
             Assert.False(expectedQueries.SequenceEqual(result));
-            // Teardown
         }
 
         [Theory]
@@ -115,7 +108,7 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(MultiUnorderedConstructorType))]
         public void SelectWillReturnResultsInCorrectSequence(Type type)
         {
-            // Fixture setup
+            // Arrange
             IEnumerable<IMethod> modestConstructors = from ci in type.GetConstructors()
                                                       let parameters = ci.GetParameters()
                                                       orderby parameters.Length ascending
@@ -138,11 +131,10 @@ namespace AutoFixtureUnitTest.Kernel
             };
 
             var sut = new CompositeMethodQuery(queries);
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
-            // Verify outcome
+            // Assert
             Assert.True(expectedConstructors.SequenceEqual(result));
-            // Teardown
         }
     }
 }

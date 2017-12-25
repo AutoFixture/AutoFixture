@@ -11,182 +11,169 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new NoSpecimenOutputGuard(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeModestCtorWithNullBuilderThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new NoSpecimenOutputGuard(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeGreedyCtorWithNullBuilderThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummySpec = new DelegatingRequestSpecification();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new NoSpecimenOutputGuard(null, dummySpec));
-            // Teardown
         }
 
         [Fact]
         public void InitializeGreedyCtorWithNullSpecificationThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new NoSpecimenOutputGuard(dummyBuilder, null));
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrectWhenInitializedWithModestCtor()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new DelegatingSpecimenBuilder();
             var sut = new NoSpecimenOutputGuard(expectedBuilder);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrectWhenInitializedWithGreedyCtor()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new DelegatingSpecimenBuilder();
             var dummySpec = new DelegatingRequestSpecification();
             var sut = new NoSpecimenOutputGuard(expectedBuilder, dummySpec);
-            // Exercise system
+            // Act
             var result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsCorrectWhenInitializedWithModestCtor()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new NoSpecimenOutputGuard(dummyBuilder);
-            // Exercise system
+            // Act
             IRequestSpecification result = sut.Specification;
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<TrueRequestSpecification>(result);
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsCorrectWhenInitializedWithGreedyCtor()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expectedSpec = new DelegatingRequestSpecification();
             var sut = new NoSpecimenOutputGuard(dummyBuilder, expectedSpec);
-            // Exercise system
+            // Act
             var result = sut.Specification;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpec, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var context = new DelegatingSpecimenContext();
             var expectedResult = new object();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request && c == context ? expectedResult : new NoSpecimen() };
 
             var sut = new NoSpecimenOutputGuard(builder);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateThrowsWhenDecoratedBuilderReturnsNoSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() };
             var sut = new NoSpecimenOutputGuard(builder);
-            // Exercise system and verify outcome
+            // Act & assert
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
             Assert.Throws<ObjectCreationException>(() =>
                 sut.Create(dummyRequest, dummyContext));
-            // Teardown
         }
 
         [Fact]
         public void CreateDoesNotThrowOnReturnedNoSpecimenWhenSpecificationReturnsFalse()
         {
-            // Fixture setup            
+            // Arrange
             var request = new object();
-            
+
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() };
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => request == r ? false : true };
             var sut = new NoSpecimenOutputGuard(builder, spec);
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsNode()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new NoSpecimenOutputGuard(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutYieldsDecoratedBuilder()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new NoSpecimenOutputGuard(expected);
-            // Verify outcome
+            // Assert
             Assert.True(new[] { expected }.SequenceEqual(sut));
             Assert.True(new object[] { expected }.SequenceEqual(((System.Collections.IEnumerable)sut).Cast<object>()));
-            // Teardown
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new NoSpecimenOutputGuard(dummyBuilder);
-            // Exercise system
+            // Act
             var expectedBuilders = new[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -194,41 +181,38 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
-            // Verify outcome
+            // Assert
             var g = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(g.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
         }
 
         [Fact]
         public void ComposeSingleItemReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new NoSpecimenOutputGuard(dummyBuilder);
-            // Exercise system
+            // Act
             var expected = new DelegatingSpecimenBuilder();
             var actual = sut.Compose(new[] { expected });
-            // Verify outcome
+            // Assert
             var g = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(actual);
             Assert.Equal(expected, g.Builder);
-            // Teardown
         }
 
         [Fact]
         public void ComposePreservesSpecification()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingRequestSpecification();
             var sut = new NoSpecimenOutputGuard(dummyBuilder, expected);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var g = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(actual);
             Assert.Equal(expected, g.Specification);
-            // Teardown
         }
     }
 }

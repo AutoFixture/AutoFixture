@@ -9,18 +9,16 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
         [Fact]
         public void ConstructorShouldSetCorrectProperties()
         {
-            // Fixture setup
+            // Arrange
             var retValue = Maybe.Just(new object());
             var argumentValues = new CallResultData.ArgumentValue[1];
 
-            // Exercise system
+            // Act
             var sut = new CallResultData(retValue, argumentValues);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(retValue, sut.ReturnValue);
             Assert.Same(argumentValues, sut.ArgumentValues);
-
-            // Teardown
         }
     }
 }

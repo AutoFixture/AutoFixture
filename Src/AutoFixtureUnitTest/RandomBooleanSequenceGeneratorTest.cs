@@ -10,66 +10,61 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RandomBooleanSequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomBooleanSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomBooleanSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWithNonBooleanRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonBooleanRequest = new object();
             var sut = new RandomBooleanSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonBooleanRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var booleanRequest = typeof(bool);
             var sut = new RandomBooleanSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(booleanRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.IsType<bool>(result);
-            // Teardown
-        } 
+        }
     }
 }

@@ -12,28 +12,26 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void SutIsDataAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeDataAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<DataAttribute>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullArrayThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeDataAttribute(null));
-            // Teardown
         }
 
         [Fact]
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
-            // Fixture setup
+            // Arrange
             Action a = delegate { };
             var method = a.GetMethodInfo();
 
@@ -45,27 +43,25 @@ namespace AutoFixture.Xunit2.UnitTest
             };
 
             var sut = new CompositeDataAttribute(attributes);
-            // Exercise system
+            // Act
             IEnumerable<DataAttribute> result = sut.Attributes;
-            // Verify outcome
+            // Assert
             Assert.True(attributes.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullEnumerableThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeDataAttribute((IReadOnlyCollection<DataAttribute>)null));
-            // Teardown
         }
 
         [Fact]
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
-            // Fixture setup
+            // Arrange
             Action a = delegate { };
             var method = a.GetMethodInfo();
 
@@ -77,28 +73,26 @@ namespace AutoFixture.Xunit2.UnitTest
             };
 
             var sut = new CompositeDataAttribute(attributes);
-            // Exercise system
+            // Act
             var result = sut.Attributes;
-            // Verify outcome
+            // Assert
             Assert.True(attributes.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void GetDataWithNullMethodThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CompositeDataAttribute();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetData(null).ToList());
-            // Teardown
         }
 
         [Fact]
         public void GetDataOnMethodWithNoParametersReturnsNoTheory()
         {
-            // Fixture setup
+            // Arrange
             Action a = delegate { };
             var method = a.GetMethodInfo();
             var parameters = method.GetParameters();
@@ -111,10 +105,9 @@ namespace AutoFixture.Xunit2.UnitTest
                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
                );
 
-            // Exercise system and verify outcome
+            // Act & assert
             var result = sut.GetData(a.GetMethodInfo());
             result.ToList().ForEach(Assert.Empty);
-            // Teardown
         }
     }
 }

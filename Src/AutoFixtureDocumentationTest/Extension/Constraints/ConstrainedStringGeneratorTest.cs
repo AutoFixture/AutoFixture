@@ -12,87 +12,80 @@ namespace AutoFixtureDocumentationTest.Extension.Constraints
         [Fact]
         public void CreateWithMaxLessThanZeroWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new ConstrainedStringGenerator(-187, -1));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithMinLargerThanMaxWillThrow()
         {
-            // Fixture setup
-            // Exercise system
-            // Verify outcome (expected exception)
+            // Arrange
+            // Act
+            // Assert (expected exception)
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new ConstrainedStringGenerator(9, 8));
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillPrefixWithSeed()
         {
-            // Fixture setup
+            // Arrange
             var seed = "Anonymous seed";
             var sut = new ConstrainedStringGenerator(1, 100);
-            // Exercise system
+            // Act
             var result = sut.CreateaAnonymous(seed);
-            // Verify outcome
+            // Assert
             Assert.StartsWith(seed, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillSatisfyMinimumWhenLow()
         {
-            // Fixture setup
+            // Arrange
             var minimum = 4;
             var sut = new ConstrainedStringGenerator(minimum, 100);
-            // Exercise system
+            // Act
             string result = sut.CreateaAnonymous(string.Empty);
-            // Verify outcome
+            // Assert
             Assert.True(result.Length >= minimum, "Length greater than minimum");
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillSatisfyMinimumWhenHigh()
         {
-            // Fixture setup
+            // Arrange
             var minimum = 109;
             var sut = new ConstrainedStringGenerator(minimum, 200);
-            // Exercise system
+            // Act
             string result = sut.CreateaAnonymous(string.Empty);
-            // Verify outcome
+            // Assert
             Assert.True(result.Length >= minimum, "Length greater than minimum");
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillSatisfyMaximumWhenLow()
         {
-            // Fixture setup
+            // Arrange
             var maximum = 10;
             var sut = new ConstrainedStringGenerator(1, maximum);
-            // Exercise system
+            // Act
             var result = sut.CreateaAnonymous(string.Empty);
-            // Verify outcome
+            // Assert
             Assert.True(result.Length <= maximum, "Length less than maximum");
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillSatisfyMaximumWhenHigh()
         {
-            // Fixture setup
+            // Arrange
             var maximum = 89;
             var sut = new ConstrainedStringGenerator(1, maximum);
-            // Exercise system
+            // Act
             var result = sut.CreateaAnonymous(string.Empty);
-            // Verify outcome
+            // Assert
             Assert.True(result.Length <= maximum, "Length less than maximum");
-            // Teardown
         }
     }
 }

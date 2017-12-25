@@ -11,68 +11,63 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilderTransformation()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new OmitOnRecursionBehavior();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderTransformation>(sut);
-            // Teardown
         }
 
         [Fact]
         public void TransformNullBuilderThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new OmitOnRecursionBehavior();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Transform(null));
-            // Teardown
         }
 
         [Fact]
         public void TransformReturnsCorrectResultForDefaultRecursionDepth()
         {
-            // Fixture setup
+            // Arrange
             var sut = new OmitOnRecursionBehavior();
-            // Exercise system
+            // Act
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var result = sut.Transform(dummyBuilder);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
             Assert.IsAssignableFrom<OmitOnRecursionHandler>(rg.RecursionHandler);
             Assert.Equal(1, rg.RecursionDepth);
-            // Teardown
         }
 
         [Fact]
         public void TransformReturnsCorrectResultForSpecificRecursionDepth()
         {
-            // Fixture setup
+            // Arrange
             const int explicitRecursionDepth = 2;
             var sut = new OmitOnRecursionBehavior(explicitRecursionDepth);
-            // Exercise system
+            // Act
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var result = sut.Transform(dummyBuilder);
-            // Verify outcome
+            // Assert
             var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
             Assert.IsAssignableFrom<OmitOnRecursionHandler>(rg.RecursionHandler);
             Assert.Equal(explicitRecursionDepth, rg.RecursionDepth);
-            // Teardown
         }
 
         [Fact]
         public void TransformResultCorrectlyDecoratesInput()
         {
-            // Fixture setup
+            // Arrange
             var sut = new OmitOnRecursionBehavior();
             var expectedBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var result = sut.Transform(expectedBuilder);
-            // Verify outcome
+            // Assert
             var guard = Assert.IsAssignableFrom<RecursionGuard>(result);
             Assert.Equal(expectedBuilder, guard.Builder);
-            // Teardown
         }
 
         [Theory]
@@ -81,11 +76,10 @@ namespace AutoFixtureUnitTest
         [InlineData(-42)]
         public void ConstructorWithRecursionDepthLowerThanOneThrows(int recursionDepth)
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new OmitOnRecursionBehavior(recursionDepth));
-            // Teardown
         }
     }
 }

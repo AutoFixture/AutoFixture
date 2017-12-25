@@ -26,7 +26,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void InitializeWithNullMethodInfoThrows()
         {
             Assert.Throws<ArgumentNullException>(
-                () => new TypeArgumentsCannotBeInferredException((MethodInfo) null));
+                () => new TypeArgumentsCannotBeInferredException((MethodInfo)null));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace AutoFixtureUnitTest.Kernel
             var sut = new TypeArgumentsCannotBeInferredException(expectedMessage);
 
             var result = sut.Message;
-            
+
             Assert.Equal(expectedMessage, result);
         }
 
@@ -58,7 +58,7 @@ namespace AutoFixtureUnitTest.Kernel
             var sut = new TypeArgumentsCannotBeInferredException("Anonymous message.", expectedException);
 
             var result = sut.InnerException;
-            
+
             Assert.Equal(expectedException, result);
         }
     }

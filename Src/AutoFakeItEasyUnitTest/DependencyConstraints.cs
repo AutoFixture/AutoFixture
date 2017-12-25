@@ -12,12 +12,11 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData("xunit.extensions")]
         public void AutoFakeItEasyDoesNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = typeof(AutoFakeItEasyCustomization).GetTypeInfo().Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
-            // Teardown
         }
 
         [Theory]
@@ -25,12 +24,11 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData("Moq")]
         public void AutoFakeItEasyUnitTestsDoNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
-            // Teardown
         }
     }
 }

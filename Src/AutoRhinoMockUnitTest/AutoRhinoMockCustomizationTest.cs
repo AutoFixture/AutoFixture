@@ -12,41 +12,38 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
         [Fact]
         public void SutImplementsICustomization()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoRhinoMockCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoRhinoMockCustomization();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsAppropriateResidueCollectors()
         {
-            // Fixture setup
+            // Arrange
             var residueCollectors = new List<ISpecimenBuilder>();
             var fixtureStub = MockRepository.GenerateMock<IFixture>();
             fixtureStub.Stub(c => c.ResidueCollectors).Return(residueCollectors);
 
             var sut = new AutoRhinoMockCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixtureStub);
-            // Verify outcome
+            // Assert
             var postprocessor = residueCollectors.OfType<RhinoMockAroundAdvice>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postprocessor.Builder);
             Assert.IsAssignableFrom<RhinoMockConstructorQuery>(ctorInvoker.Query);
-            // Teardown
         }
     }
 }

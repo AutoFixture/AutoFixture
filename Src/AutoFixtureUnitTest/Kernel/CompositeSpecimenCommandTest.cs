@@ -10,7 +10,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ExecutesEveryChildCommandWithCorrectContext()
         {
-            // Fixture setup
+            // Arrange
             var specimen = new object();
             var dummyContext = new DelegatingSpecimenContext();
 
@@ -35,54 +35,52 @@ namespace AutoFixtureUnitTest.Kernel
             };
 
             var sut = new CompositeSpecimenCommand(command1, command2);
-            // Exercise system
+            // Act
             sut.Execute(specimen, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.True(command1Verified);
             Assert.True(command2Verified);
-            // Teardown
         }
 
         [Fact]
         public void ExecutesEveryChildCommandWithCorrectSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var specimen = new object();
             var dummyContext = new DelegatingSpecimenContext();
 
             var command1Verified = false;
             var command1 = new DelegatingSpecimenCommand
-                {
-                    OnExecute = (req, ctx) =>
-                        {
-                            command1Verified = true;
-                            Assert.Same(specimen, req);
-                        }
-                };
+            {
+                OnExecute = (req, ctx) =>
+                    {
+                        command1Verified = true;
+                        Assert.Same(specimen, req);
+                    }
+            };
 
             var command2Verified = false;
             var command2 = new DelegatingSpecimenCommand
-                {
-                    OnExecute = (req, ctx) =>
-                        {
-                            command2Verified = true;
-                            Assert.Same(specimen, req);
-                        }
-                };
+            {
+                OnExecute = (req, ctx) =>
+                    {
+                        command2Verified = true;
+                        Assert.Same(specimen, req);
+                    }
+            };
 
             var sut = new CompositeSpecimenCommand(command1, command2);
-            // Exercise system
+            // Act
             sut.Execute(specimen, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.True(command1Verified);
             Assert.True(command2Verified);
-            // Teardown
         }
 
         [Fact]
         public void CtorThrowsWhenCommandsIsNull()
         {
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new CompositeSpecimenCommand(null as ISpecimenCommand[]));
             Assert.Throws<ArgumentNullException>(() => new CompositeSpecimenCommand(null as IEnumerable<ISpecimenCommand>));
         }
@@ -90,26 +88,24 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void CommandsPropertyIsWiredUpThroughConstructor()
         {
-            // Fixture setup
-            ISpecimenCommand[] expectedCommands = {new DelegatingSpecimenCommand()};
+            // Arrange
+            ISpecimenCommand[] expectedCommands = { new DelegatingSpecimenCommand() };
             var sut = new CompositeSpecimenCommand(expectedCommands);
-            // Exercise system
+            // Act
             var commands = sut.Commands;
-            // Verify outcome
+            // Assert
             Assert.Same(expectedCommands, commands);
-            // Teardown
         }
 
         [Fact]
         public void CommandsIsNotNullWhenSutIsCreatedWithDefaultConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CompositeSpecimenCommand();
-            // Exercise system
+            // Act
             var commands = sut.Commands;
-            // Verify outcome
+            // Assert
             Assert.NotNull(commands);
-            // Teardown
         }
     }
 }

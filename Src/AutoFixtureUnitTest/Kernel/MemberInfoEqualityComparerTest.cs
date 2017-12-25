@@ -13,23 +13,21 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsStronglyTypedEqualityComparer()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MemberInfoEqualityComparer();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEqualityComparer<MemberInfo>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsWeaklyTypedEqualityComparer()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MemberInfoEqualityComparer();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEqualityComparer>(sut);
-            // Teardown
         }
 
         [Theory]
@@ -45,13 +43,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(string), typeof(string), true)]
         public void WeaklyTypedEqualsReturnsCorrectResult(object x, object y, bool expectedResult)
         {
-            // Fixture setup
+            // Arrange
             IEqualityComparer sut = new MemberInfoEqualityComparer();
-            // Exercise system
+            // Act
             var result = sut.Equals(x, y);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
 #pragma warning disable xUnit1010 // Value is not convertiable to the MemberInfo - it's wrong and test doesn't fail during execution.
@@ -65,94 +62,87 @@ namespace AutoFixtureUnitTest.Kernel
 #pragma warning restore xUnit1010 // Value is not convertiable to the MemberInfo
         public void StronglyTypedEqualsReturnsCorrectResult(MemberInfo x, MemberInfo y, bool expectedResult)
         {
-            // Fixture setup
+            // Arrange
             var sut = new MemberInfoEqualityComparer();
-            // Exercise system
+            // Act
             var result = sut.Equals(x, y);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void EqualsOfDeclaredAndDerivedPropertyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MemberInfoEqualityComparer();
             var declaredProperty = typeof(AbstractType).GetProperty("Property1");
             var derivedProperty = typeof(ConcreteType).GetProperty("Property1");
-            // Exercise system
+            // Act
             var result = sut.Equals(declaredProperty, derivedProperty);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void EqualsOfDerivedAndDeclaredPropertyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MemberInfoEqualityComparer();
             var declaredProperty = typeof(AbstractType).GetProperty("Property1");
             var derivedProperty = typeof(ConcreteType).GetProperty("Property1");
-            // Exercise system
+            // Act
             var result = sut.Equals(derivedProperty, declaredProperty);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void EqualsOfDeclaredAndOverriddenPropertyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MemberInfoEqualityComparer();
             var declaredProperty = typeof(AbstractType).GetProperty("Property4");
             var overriddenProperty = typeof(ConcreteType).GetProperty("Property4");
-            // Exercise system
+            // Act
             var result = sut.Equals(declaredProperty, overriddenProperty);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void EqualsOfOverriddenAndDeclaredPropertyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MemberInfoEqualityComparer();
             var declaredProperty = typeof(AbstractType).GetProperty("Property4");
             var overriddenProperty = typeof(ConcreteType).GetProperty("Property4");
-            // Exercise system
+            // Act
             var result = sut.Equals(overriddenProperty, declaredProperty);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void EqualsOfPropertyAndTypeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MemberInfoEqualityComparer();
             var pi = typeof(ConcreteType).GetProperty("Property4");
             var t = typeof(object).GetTypeInfo();
-            // Exercise system
+            // Act
             var actual = sut.Equals(pi, t);
-            // Verify outcome
+            // Assert
             Assert.False(actual);
-            // Teardown
         }
 
         [Fact]
         public void WeaklyTypedGetHashCodeOfNullThrows()
         {
-            // Fixture setup
+            // Arrange
             IEqualityComparer sut = new MemberInfoEqualityComparer();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetHashCode(null));
-            // Teardown
         }
 
         [Theory]
@@ -162,14 +152,13 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(98)]
         public void WeaklyTypedGetHashCodeReturnsCorrectResultForNonMemberInfos(object obj)
         {
-            // Fixture setup
+            // Arrange
             IEqualityComparer sut = new MemberInfoEqualityComparer();
-            // Exercise system
+            // Act
             var result = sut.GetHashCode(obj);
-            // Verify outcome
+            // Assert
             var expectedHashCode = obj.GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
 
         [Theory]
@@ -178,39 +167,36 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(DateTime))]
         public void WeaklyTypedGetHashCodeReturnsCorrectResultForTypes(Type t)
         {
-            // Fixture setup
+            // Arrange
             IEqualityComparer sut = new MemberInfoEqualityComparer();
-            // Exercise system
+            // Act
             var result = sut.GetHashCode(t);
-            // Verify outcome
+            // Assert
             var expectedHashCode = t.Name.GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
 
         [Fact]
         public void WeaklyTypedGetHashCodeReturnsCorrectResultForPropertyInfo()
         {
-            // Fixture setup
+            // Arrange
             IEqualityComparer sut = new MemberInfoEqualityComparer();
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
-            // Exercise system
+            // Act
             var result = sut.GetHashCode(propertyInfo);
-            // Verify outcome
+            // Assert
             var expectedHashCode = propertyInfo.DeclaringType.GetHashCode() ^ propertyInfo.Name.GetHashCode();
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
 
         [Fact]
         public void StronglyTypedGetHashCodeWithNullShouldNotThrowAsExceptionIsNotExpectedThere()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MemberInfoEqualityComparer();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Null(Record.Exception(() =>
                 sut.GetHashCode(null)));
-            // Teardown
         }
     }
 }

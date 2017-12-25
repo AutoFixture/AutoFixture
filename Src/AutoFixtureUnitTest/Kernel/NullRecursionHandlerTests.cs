@@ -9,26 +9,24 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRecursionHandler()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new NullRecursionHandler();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRecursionHandler>(sut);
-            // Teardown
         }
 
         [Fact]
         public void HandleRecursiveRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NullRecursionHandler();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyRequests = Enumerable.Empty<object>();
             var actual = sut.HandleRecursiveRequest(dummyRequest, dummyRequests);
-            // Verify outcome
+            // Assert
             Assert.Null(actual);
-            // Teardown
         }
     }
 }

@@ -16,118 +16,110 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void ParameterlessMethodsReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithParameterlessMethod>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Method());
-            // Teardown
         }
 
         [Fact]
         public void PropertiesReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithProperty>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void IndexersReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenInt = fixture.Freeze<int>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithIndexer>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenInt, result[2]);
-            // Teardown
         }
 
         [Fact]
         public void VirtualMembersReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<TypeWithVirtualMembers>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.VirtualMethod());
             Assert.Equal(frozenString, result.VirtualProperty);
-            // Teardown
         }
 
         [Fact]
         public void MethodsWithParametersReturnValuesFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithMethod>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.Method("hi"));
-            // Teardown
         }
 
         [Fact]
         public void MethodsWithOutParametersReturnValuesFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenInt = fixture.Freeze<int>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithOutMethod>();
-            // Verify outcome
+            // Assert
             int outResult;
             result.Method(out outResult);
             Assert.Equal(frozenInt, outResult);
-            // Teardown
         }
 
         [Fact]
         public void SealedSettablePropertiesAreSetUsingFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<TypeWithSealedMembers>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.ExplicitlySealedProperty);
             Assert.Equal(frozenString, result.ImplicitlySealedProperty);
-            // Teardown
         }
 
         [Fact]
         public void FieldsAreSetUsingFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<TypeWithPublicField>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.Field);
-            // Teardown
         }
 
         [Fact]
         public void SealedMethodsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             var result = fixture.Create<TypeWithSealedMembers>();
 
             Assert.NotEqual(frozenString, result.ImplicitlySealedMethod());
@@ -137,10 +129,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void RefMethodsReturnValuesFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             var result = fixture.Create<IInterfaceWithRefMethod>();
 
             string refResult = "";
@@ -153,24 +145,24 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void GenericMethodsReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var obj = fixture.Create<IInterfaceWithGenericMethod>();
             var result = obj.GenericMethod<string>();
 
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result);
         }
 
         [Fact]
         public void StaticMethodsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticMethod>()));
             Assert.NotEqual(frozenString, TypeWithStaticMethod.StaticMethod());
         }
@@ -178,10 +170,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void StaticPropertiesAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticProperty>()));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
@@ -189,10 +181,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void PrivateFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             var result = fixture.Create<TypeWithPrivateField>();
 
             Assert.NotEqual(frozenString, result.GetPrivateField());
@@ -201,10 +193,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void ReadonlyFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             var result = fixture.Create<TypeWithReadonlyField>();
 
             Assert.NotEqual(frozenString, result.ReadonlyField);
@@ -213,10 +205,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void LiteralFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<TypeWithConstField>()));
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
@@ -224,10 +216,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void StaticFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticField>()));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
@@ -235,9 +227,9 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void CircularDependenciesAreAllowed()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<IInterfaceWithCircularDependency>()));
         }
 
@@ -327,19 +319,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void VoidMethodsWithRefParameterIsFilled()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenInt = fixture.Freeze<int>();
             var substitute = fixture.Create<IInterfaceWithRefVoidMethod>();
 
-            // Exercise system
+            // Act
             int result = 0;
             substitute.Method(ref result);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenInt, result);
-
-            // Teardown
         }
 
         [Fact]
@@ -359,7 +349,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void VoidRefMethodsReturnValuesSetup()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var subsitute = fixture.Create<IInterfaceWithRefVoidMethod>();
             var expected = fixture.Create<int>();
@@ -367,14 +357,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             int origIntValue = -10;
             subsitute.When(x => x.Method(ref origIntValue)).Do(x => x[0] = expected);
 
-            // Exercise system
+            // Act
             int result = -10;
             subsitute.Method(ref result);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-
-            // Teardown
         }
 
         [Fact]
@@ -436,40 +424,37 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void MethodsFromBaseInterfacesReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IDerivedInterface>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Method());
-            // Teardown
         }
 
         [Fact]
         public void InterfaceNewMethodsReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithNewMethod>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Method(0));
-            // Teardown
         }
 
         [Fact]
         public void InterfaceShadowedMethodsReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithNewMethod>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, (result as IInterfaceWithShadowedMethod).Method(0));
-            // Teardown
         }
 
         [Fact]
@@ -584,146 +569,132 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void GenericMethodsWithRefReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var expectedInt = fixture.Freeze<int>();
             var expectedStr = fixture.Freeze<string>();
             var substitute = fixture.Create<IInterfaceWithGenericRefMethod>();
 
-            // Exercise system
+            // Act
             string refValue = "dummy";
             int retValue = substitute.GenericMethod<string>(ref refValue);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedInt, retValue);
             Assert.Equal(expectedStr, refValue);
-
-            // Teardown
         }
 
         [Fact]
         public void GenericMethodsWithOutReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var expectedInt = fixture.Freeze<int>();
             var expectedStr = fixture.Freeze<string>();
             var substitute = fixture.Create<IInterfaceWithGenericOutMethod>();
 
-            // Exercise system
+            // Act
             string outvalue;
             int retValue = substitute.GenericMethod<string>(out outvalue);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedInt, retValue);
             Assert.Equal(expectedStr, outvalue);
-
-            // Teardown
         }
 
         [Fact]
         public void VoidGenericMethodsWithRefReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var expected = fixture.Freeze<string>();
             var substitute = fixture.Create<IInterfaceWithGenericRefVoidMethod>();
 
-            // Exercise system
+            // Act
             string refValue = "dummy";
             substitute.GenericMethod<string>(ref refValue);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, refValue);
-            // Teardown
         }
 
         [Fact]
         public void VoidGenericMethodsWithOutReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var expected = fixture.Freeze<string>();
             var substitute = fixture.Create<IInterfaceWithGenericOutVoidMethod>();
 
-            // Exercise system
+            // Act
             string outValue;
             substitute.GenericMethod<string>(out outValue);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, outValue);
-            // Teardown
         }
 
         [Fact]
         public void ReturnValueIsSameForSameArgumentForGenerics()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
 
             var inputValue = 42;
 
-            // Exercise system
+            // Act
             var result1 = substitute.GenericMethod<int>(inputValue);
             var result2 = substitute.GenericMethod<int>(inputValue);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(result1, result2);
-
-            // Teardown
         }
 
         [Fact]
         public void ReturnValueIsDifferentForDifferentArgumentForGenerics()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
 
-            // Exercise system
+            // Act
             var result1 = substitute.GenericMethod<int>(42);
             var result2 = substitute.GenericMethod<int>(10);
 
-            // Verify outcome
+            // Assert
             Assert.NotEqual(result1, result2);
-
-            // Teardown
         }
 
         [Fact]
         public void ResultIsDifferentForDifferentGeneticInstantiations()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithGenericMethod>();
 
-            // Exercise system
+            // Act
             var intResult = substitute.GenericMethod<int>();
             var longResult = substitute.GenericMethod<long>();
 
-            // Verify outcome
+            // Assert
             Assert.NotEqual(intResult, longResult);
-
-            // Teardown
         }
 
         [Fact]
         public void CachedResultIsMatchedByOtherInterfaceSubstituteForGenerics()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
             var arg = fixture.Create<IInterfaceWithMethod>();
 
-            // Exercise system
+            // Act
             int result1 = substitute.GenericMethod<IInterfaceWithMethod>(arg);
             int result2 = substitute.GenericMethod<IInterfaceWithMethod>(arg);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(result1, result2);
-
-            // Teardown
         }
 
         /// <summary>
@@ -740,20 +711,18 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [InlineData(ClearOptions.All)]
         public void ShouldNotResetCachedValuesOnSubsituteClear(ClearOptions options)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithMethod>();
             string arg = "argValue";
 
-            // Exercise system
+            // Act
             var resultBefore = substitute.Method(arg);
             substitute.ClearSubstitute(options);
             var resultAfter = substitute.Method(arg);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(resultBefore, resultAfter);
-
-            // Teardown
         }
 
         /// <summary>
@@ -766,23 +735,21 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void IsNotExpectedToReturnValueInReceivedInOrderBlock()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
             var actualResult = substitute.Method();
 
-            // Exercise system
+            // Act
             IInterfaceWithMethod capturedResult = null;
             Received.InOrder(() =>
             {
                 capturedResult = substitute.Method();
             });
 
-            // Verify outcome
+            // Assert
             Assert.NotEqual(actualResult, capturedResult);
-
-            // Teardown
         }
 
         [Fact]
@@ -832,7 +799,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void Issue653_ResolvesPropertyValueViaPropertyRequest()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var subsitute = fixture.Create<IInterfaceWithProperty>();
 
@@ -843,42 +810,38 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                     new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))
                 ));
 
-            // Exercise system
+            // Act
             var result = subsitute.Property;
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-
-            // Teardown
         }
 
         [Fact]
         public void Issue707_CanConfigureOutMethodParameters()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithParameterAndOutMethod>();
 
             var parameter = fixture.Create<string>();
             var result = fixture.Create<int>();
 
-            // Exercise system
+            // Act
             substitute.Method(parameter, out int dummy).Returns(c => { c[1] = result; return true; });
 
             int actualResult;
             substitute.Method(parameter, out actualResult);
 
-            // Verify outcome
+            // Assert
             Assert.Equal(result, actualResult);
-
-            // Teardown
         }
 
         [Theory]
         [InlineData(32), InlineData(64), InlineData(128), InlineData(256)]
         public async Task Issue592_ShouldNotFailForConcurrency(int degreeOfParallelism)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
@@ -896,14 +859,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                     cts.Token));
 
 
-            // Exercise system
+            // Act
             start.Release(degreeOfParallelism);
             await Task.WhenAll(tasks).ConfigureAwait(false);
 
-            // Verify outcome
+            // Assert
             substitute.Received(degreeOfParallelism).Method();
-
-            // Teardown
         }
 
         public interface IMyList<out T> : IEnumerable<T>

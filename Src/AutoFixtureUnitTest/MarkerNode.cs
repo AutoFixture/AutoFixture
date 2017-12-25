@@ -12,7 +12,7 @@ namespace AutoFixtureUnitTest
         {
             this.builder = builder;
         }
-        
+
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var l = builders.ToList();

@@ -12,49 +12,45 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ParameterSpecification(typeof(object), "someName");
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithParameterNameShouldSetCorrespondingProperty()
         {
-            // Fixture setup
+            // Arrange
             var type = typeof(object);
             var name = "someName";
-            // Exercise system
+            // Act
             var sut = new ParameterSpecification(type, name);
-            // Verify outcome
+            // Assert
 #pragma warning disable 618
             Assert.Equal(type, sut.TargetType);
             Assert.Equal(name, sut.TargetName);
 #pragma warning restore 618
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullParameterTypeShouldThrowArgumentNullException()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ParameterSpecification(null, "someName"));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullParameterNameShouldThrowArgumentNullException()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ParameterSpecification(typeof(object), null));
-            // Teardown
         }
 
         [Fact]
@@ -67,12 +63,11 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void IsSatisfiedByWithNullRequestShouldThrowArgumentNullException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ParameterSpecification(typeof(object), "someName");
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.IsSatisfiedBy(null));
-            // Teardown
         }
 
         [Theory]
@@ -84,23 +79,22 @@ namespace AutoFixtureUnitTest.Kernel
             string requestedName,
             bool expectedResult)
         {
-            // Fixture setup
+            // Arrange
             var sut = new ParameterSpecification(typeof(object), parameterName);
             var request = typeof(SingleParameterType<object>)
                           .GetConstructor(new[] { typeof(object) })
                           .GetParameters()
                           .Single(p => p.Name == requestedName);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByWithRequestForParameterWithSameNameAndIncompatibleTypeShouldReturnFalse()
         {
-            // Fixture setup
+            // Arrange
             var parameterName = "parameter";
             var requestedName = "parameter";
             var sut = new ParameterSpecification(typeof(object), parameterName);
@@ -108,26 +102,24 @@ namespace AutoFixtureUnitTest.Kernel
                           .GetConstructor(new[] { typeof(int) })
                           .GetParameters()
                           .Single(p => p.Name == requestedName);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByWithRequestForMemberOtherThanParameterWithSameNameShouldReturnFalse()
         {
-            // Fixture setup
+            // Arrange
             var parameterName = "Parameter";
             var requestedName = "Parameter";
             var sut = new ParameterSpecification(typeof(object), parameterName);
             var request = typeof(SingleParameterType<object>).GetProperty(requestedName);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Theory]
@@ -137,13 +129,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(object))]
         public void IsSatisfiedByWithInvalidRequestShouldReturnFalse(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new ParameterSpecification(typeof(object), "someName");
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Theory]

@@ -11,57 +11,53 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new EmailAddressLocalPartGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EmailAddressLocalPartGenerator();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EmailAddressLocalPartGenerator();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNonEmailAddressLocalPartRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EmailAddressLocalPartGenerator();
             var dummyRequest = new object();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWhenLocalPartReceivedFromContextIsNullReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(EmailAddressLocalPart);
             object expectedValue = null;
             var context = new DelegatingSpecimenContext
@@ -73,33 +69,31 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new EmailAddressLocalPartGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             var result = sut.Create(request, context);
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsEmailAddressLocalPartUsingLocalPartReceivedFromContext()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(EmailAddressLocalPart);
             string expectedLocalPart = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => 
+                OnResolve = r =>
                     {
                         Assert.Equal(typeof(string), r);
                         return expectedLocalPart;
                     }
             };
             var sut = new EmailAddressLocalPartGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(typeof(EmailAddressLocalPart), context) as EmailAddressLocalPart;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedLocalPart, result.LocalPart);
-            // Teardown
         }
 
         [Theory]
@@ -107,8 +101,8 @@ namespace AutoFixtureUnitTest
         [InlineData("")]
         public void CreateReturnsNoSpecimenWhenContextCreatesInvalidLocalPartString(string invalidLocalPart)
         {
-            // Fixture setup
-            var request = typeof(EmailAddressLocalPart);            
+            // Arrange
+            var request = typeof(EmailAddressLocalPart);
 
             var context = new DelegatingSpecimenContext
             {
@@ -119,12 +113,11 @@ namespace AutoFixtureUnitTest
                 }
             };
             var sut = new EmailAddressLocalPartGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(typeof(EmailAddressLocalPart), context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
     }

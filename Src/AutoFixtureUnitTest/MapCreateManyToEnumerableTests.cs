@@ -18,26 +18,24 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CustomizeAddsCorrectSpecimenBuilderToFixture()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MapCreateManyToEnumerable();
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             Assert.True(
                 fixture.Customizations.OfType<MultipleToEnumerableRelay>().Any(),
                 "Appropriate SpecimenBuilder should be added to Fixture.");
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MapCreateManyToEnumerable();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Customize(null));
-            // Teardown
         }
     }
 }

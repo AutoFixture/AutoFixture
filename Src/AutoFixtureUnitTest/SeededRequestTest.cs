@@ -11,286 +11,265 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SeedIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedSeed = "Anonymous value";
             var sut = new SeededRequest(typeof(string), expectedSeed);
-            // Exercise system
+            // Act
             var result = sut.Seed;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSeed, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new SeededRequest(null, new object()));
-            // Verify outcome (expected exception)
-            // Teardown
+            // Assert (expected exception)
         }
 
         [Fact]
         public void RequestIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var sut = new SeededRequest(expectedRequest, "Anonymous value");
-            // Exercise system
+            // Act
             var result = sut.Request;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedRequest, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new SeededRequest(typeof(decimal), 1);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<SeededRequest>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SeededRequest(typeof(DateTime), new DateTime(103029));
             object other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SeededRequest(typeof(TimeSpan), new object());
             SeededRequest other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SeededRequest(new object(), "Anonymous value");
             object anonymousObject = new int[0];
-            // Exercise system
+            // Act
             var result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenRequestsDiffer()
         {
-            // Fixture setup
+            // Arrange
             var anonymousValue = 1;
             var sut = new SeededRequest(new object(), anonymousValue);
             object other = new SeededRequest(typeof(TimeSpan), anonymousValue);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenRequestsDiffer()
         {
-            // Fixture setup
+            // Arrange
             var anonymousValue = 1;
             var sut = new SeededRequest(new object(), anonymousValue);
             var other = new SeededRequest(typeof(TimeSpan), anonymousValue);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenSeedsDiffer()
         {
-            // Fixture setup
+            // Arrange
             var anonymousRequest = new object();
             var sut = new SeededRequest(anonymousRequest, 98);
             object other = new SeededRequest(anonymousRequest, "Anonymous value");
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenSeedsDiffer()
         {
-            // Fixture setup
+            // Arrange
             var anonymousRequest = 1;
             var sut = new SeededRequest(anonymousRequest, 98);
             var other = new SeededRequest(anonymousRequest, "Anonymous value");
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenSutSeedIsNull()
         {
-            // Fixture setup
+            // Arrange
             var anonymousRequest = string.Empty;
             var sut = new SeededRequest(anonymousRequest, null);
             object other = new SeededRequest(anonymousRequest, 2.9f);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenSutSeedIsNull()
         {
-            // Fixture setup
+            // Arrange
             var anonymousRequest = typeof(float);
             var sut = new SeededRequest(anonymousRequest, null);
             var other = new SeededRequest(anonymousRequest, 2.9f);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenOtherSeedIsNull()
         {
-            // Fixture setup
+            // Arrange
             var anonymousRequest = typeof(Buffer);
             var sut = new SeededRequest(anonymousRequest, new object());
             object other = new SeededRequest(anonymousRequest, null);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenOtherSeedIsNull()
         {
-            // Fixture setup
+            // Arrange
             var anonymousRequest = typeof(Buffer);
             var sut = new SeededRequest(anonymousRequest, new object());
             var other = new SeededRequest(anonymousRequest, null);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenRequestAndSeedEquals()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(object);
             var seed = new ConcreteType();
             var sut = new SeededRequest(request, seed);
             object other = new SeededRequest(request, seed);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenRequestsAndSeedEquals()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(object);
             var seed = new ConcreteType();
             var sut = new SeededRequest(request, seed);
             var other = new SeededRequest(request, seed);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenRequestsAreEqualAndSeedsAreNull()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(WeakReference);
             var sut = new SeededRequest(request, null);
             object other = new SeededRequest(request, null);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenRequestsAreEqualAndSeedsAreNull()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(WeakReference);
             var sut = new SeededRequest(request, null);
             var other = new SeededRequest(request, null);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeWillReturnCorrectResultWhenSeedIsNull()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Version);
             var sut = new SeededRequest(request, null);
             var expectedHashCode = request.GetHashCode();
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(object);
             var value = Missing.Value;
             var sut = new SeededRequest(request, value);
             var expectedHashCode = request.GetHashCode() ^ value.GetHashCode();
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
     }
 }

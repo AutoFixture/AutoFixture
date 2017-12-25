@@ -9,52 +9,48 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsEventArgs()
         {
-            // Fixture setup
+            // Arrange
             var dummyRequest = new object();
             var dummyDepth = 0;
-            // Exercise system
+            // Act
             var sut = new RequestTraceEventArgs(dummyRequest, dummyDepth);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<EventArgs>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ConstructorExplicitlyAllowsTracingNullRequestsIfThatShouldEverBeWarranted()
         {
-            // Fixture setup
+            // Arrange
             var dummyDepth = 0;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Null(Record.Exception(() => new RequestTraceEventArgs(null, dummyDepth)));
-            // Teardown
         }
 
         [Fact]
         public void RequestMatchesConstructorArgument()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var dummyDepth = 0;
             var sut = new RequestTraceEventArgs(expectedRequest, dummyDepth);
-            // Exercise system
+            // Act
             var result = sut.Request;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedRequest, result);
-            // Teardown
         }
 
         [Fact]
         public void DepthMatchesConstructorArgument()
         {
-            // Fixture setup
+            // Arrange
             var dummyRequest = new object();
             var expectedDepth = 1;
             var sut = new RequestTraceEventArgs(dummyRequest, expectedDepth);
-            // Exercise system
+            // Act
             int result = sut.Depth;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedDepth, result);
-            // Teardown
         }
     }
 }

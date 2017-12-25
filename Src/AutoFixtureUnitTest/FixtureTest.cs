@@ -26,279 +26,258 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void InitializedWithDefaultConstructorSutHasCorrectEngineParts()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Engine;
-            // Verify outcome
+            // Assert
             var expectedParts = from b in new DefaultEngineParts()
                                 select b.GetType();
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
             Assert.True(expectedParts.SequenceEqual(from b in composite
                                                     select b.GetType()));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullRelaysThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new Fixture(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithRelaysSutHasCorrectEngineParts()
         {
-            // Fixture setup
+            // Arrange
             var relays = new DefaultRelays();
             var sut = new Fixture(relays);
-            // Exercise system
+            // Act
             var result = sut.Engine;
-            // Verify outcome
+            // Assert
             var expectedParts = from b in relays
                                 select b.GetType();
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
             Assert.True(expectedParts.SequenceEqual(from b in composite
                                                     select b.GetType()));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullEngineThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyMany = new MultipleRelay();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new Fixture(null, dummyMany));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullManyThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new Fixture(dummyBuilder, null));
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithEngineSutHasCorrectEngine()
         {
-            // Fixture setup
+            // Arrange
             var expectedEngine = new DelegatingSpecimenBuilder();
             var dummyMany = new MultipleRelay();
             var sut = new Fixture(expectedEngine, dummyMany);
-            // Exercise system
+            // Act
             var result = sut.Engine;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedEngine, result);
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithManySutHasCorrectRepeatCount()
         {
-            // Fixture setup
+            // Arrange
             var expectedRepeatCount = 187;
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var many = new MultipleRelay { Count = expectedRepeatCount };
             var sut = new Fixture(dummyBuilder, many);
-            // Exercise system
+            // Act
             var result = sut.RepeatCount;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedRepeatCount, result);
-            // Teardown
         }
 
         [Fact]
         public void SettingRepeatCountWillCorrectlyUpdateMany()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var many = new MultipleRelay();
             var sut = new Fixture(dummyBuilder, many);
-            // Exercise system
+            // Act
             sut.RepeatCount = 26;
-            // Verify outcome
+            // Assert
             Assert.Equal(sut.RepeatCount, many.Count);
-            // Teardown
         }
 
         [Fact]
         public void CustomizationsIsInstance()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             IList<ISpecimenBuilder> result = sut.Customizations;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CustomizationsIsStable()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var builder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             sut.Customizations.Add(builder);
-            // Verify outcome
+            // Assert
             Assert.Contains(builder, sut.Customizations);
-            // Teardown
         }
 
         [Fact]
         public void ResidueCollectorsIsInstance()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             IList<ISpecimenBuilder> result = sut.ResidueCollectors;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void ResidueCollectorsIsStable()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var builder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             sut.ResidueCollectors.Add(builder);
-            // Verify outcome
+            // Assert
             Assert.Contains(builder, sut.ResidueCollectors);
-            // Teardown
         }
 
         [Fact]
         public void BehaviorsIsInstance()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             IList<ISpecimenBuilderTransformation> result = sut.Behaviors;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void BehaviorsIsStable()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var behavior = new DelegatingSpecimenBuilderTransformation();
-            // Exercise system
+            // Act
             sut.Behaviors.Add(behavior);
-            // Verify outcome
+            // Assert
             Assert.Contains(behavior, sut.Behaviors);
-            // Teardown
         }
 
         [Fact]
         public void BehaviorsContainsCorrectRecursionBehavior()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Behaviors;
-            // Verify outcome
+            // Assert
             Assert.True(result.OfType<ThrowingRecursionBehavior>().Any());
-            // Teardown
         }
 
         [Fact]
         public void SutIsCustomizableComposer()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new Fixture();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IFixture>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillCreateSimpleObject()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             object result = sut.Create<object>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void CreateAnonymousCompatibilityExtensionWillCreateSimpleObject()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             object result = sut.CreateAnonymous<object>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateUnregisteredAbstractTypeWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<AbstractType>());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillCreateSingleParameterType()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             SingleParameterType<object> result = sut.Create<SingleParameterType<object>>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Parameter);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillUseRegisteredMapping()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             sut.Register<AbstractType>(() => new ConcreteType());
-            // Exercise system
+            // Act
             SingleParameterType<AbstractType> result = sut.Create<SingleParameterType<AbstractType>>();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ConcreteType>(result.Parameter);
-            // Teardown
         }
 
         [Fact]
         public void CreateOnMultipleThreadsConcurrentlyGeneratesPopulatedSpecimens()
         {
-            // Fixture setup
+            // Arrange
             const int specimenCountPerThread = 25;
             const int threadCount = 8;
             var sut = new Fixture();
 
-            // Exercise system
+            // Act
             IEnumerable<object> GetPropertyAndFieldValues(object obj, BindingFlags flags)
             {
                 var type = obj.GetType();
@@ -331,7 +310,7 @@ namespace AutoFixtureUnitTest
                     .ToArray())
                 .ToArray();
 
-            // Verify outcome
+            // Assert
             Assert.Equal(specimenCountPerThread * threadCount, specimensByThread.Sum(t => t.Length));
 
             var allValuesNotPopulated = specimensByThread
@@ -339,548 +318,506 @@ namespace AutoFixtureUnitTest
 
             Assert.Empty(allValuesNotPopulated);
 
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithSingleParameter()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             sut.Register<object, AbstractType>(obj => new ConcreteType(obj));
-            // Exercise system
+            // Act
             AbstractType result = sut.Create<AbstractType>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property1);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithDoubleParameters()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             sut.Register<object, object, AbstractType>((obj1, obj2) => new ConcreteType(obj1, obj2));
-            // Exercise system
+            // Act
             AbstractType result = sut.Create<AbstractType>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithTripleParameters()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             sut.Register<object, object, object, AbstractType>((obj1, obj2, obj3) => new ConcreteType(obj1, obj2, obj3));
-            // Exercise system
+            // Act
             AbstractType result = sut.Create<AbstractType>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
             Assert.NotNull(result.Property3);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithQuadrupleParameters()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             sut.Register<object, object, object, object, AbstractType>((obj1, obj2, obj3, obj4) => new ConcreteType(obj1, obj2, obj3, obj4));
-            // Exercise system
+            // Act
             AbstractType result = sut.Create<AbstractType>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
             Assert.NotNull(result.Property3);
             Assert.NotNull(result.Property4);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeInstanceWillReturnFactory()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<object>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithStringPropertyWillAssignNonEmptyString()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<string> result = sut.Create<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             Assert.False(string.IsNullOrEmpty(result.Property), "Property should be assigned");
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithStringPropertyWillAppendPropertyNameToString()
         {
-            // Fixture setup
+            // Arrange
             string expectedName = "Property";
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<string> result = sut.Create<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             string propertyValue = result.Property;
             string text = new TextGuidRegex().GetText(propertyValue);
             Assert.Equal(expectedName, text);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithStringPropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<string> ph = sut.Create<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             PropertyHolder<string> result = sut.Create<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<string>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithBooleanPropertyWillAssignTrue()
         {
-            // Fixture setup
+            // Arrange
             bool unexpectedBoolean = default(bool);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<bool> result = sut.Create<PropertyHolder<bool>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<bool>(unexpectedBoolean, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithCharPropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<char> ph = sut.Create<PropertyHolder<char>>();
-            // Exercise system
+            // Act
             PropertyHolder<char> result = sut.Create<PropertyHolder<char>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<char>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithBooleanPropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<bool> ph = sut.Create<PropertyHolder<bool>>();
-            // Exercise system
+            // Act
             PropertyHolder<bool> result = sut.Create<PropertyHolder<bool>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<bool>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithBytePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             byte unexpectedByte = default(byte);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<byte> result = sut.Create<PropertyHolder<byte>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<byte>(unexpectedByte, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithBytePropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<byte> ph = sut.Create<PropertyHolder<byte>>();
-            // Exercise system
+            // Act
             PropertyHolder<byte> result = sut.Create<PropertyHolder<byte>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<byte>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithSignedBytePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             sbyte unexpectedSbyte = default(sbyte);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<sbyte> result = sut.Create<PropertyHolder<sbyte>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<sbyte>(unexpectedSbyte, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithSignedBytePropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<sbyte> ph = sut.Create<PropertyHolder<sbyte>>();
-            // Exercise system
+            // Act
             PropertyHolder<sbyte> result = sut.Create<PropertyHolder<sbyte>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<sbyte>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithUnsignedInt16PropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             ushort unexpectedNumber = default(ushort);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<ushort> result = sut.Create<PropertyHolder<ushort>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<ushort>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithUnsignedInt16PropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<ushort> ph = sut.Create<PropertyHolder<ushort>>();
-            // Exercise system
+            // Act
             PropertyHolder<ushort> result = sut.Create<PropertyHolder<ushort>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<ushort>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithInt16PropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             short unexpectedNumber = default(short);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<short> result = sut.Create<PropertyHolder<short>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<short>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithInt16PropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<short> ph = sut.Create<PropertyHolder<short>>();
-            // Exercise system
+            // Act
             PropertyHolder<short> result = sut.Create<PropertyHolder<short>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<short>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithUnsignedInt32PropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             uint unexpectedNumber = default(uint);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<uint> result = sut.Create<PropertyHolder<uint>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<uint>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithUnsignedInt32PropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<uint> ph = sut.Create<PropertyHolder<uint>>();
-            // Exercise system
+            // Act
             PropertyHolder<uint> result = sut.Create<PropertyHolder<uint>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<uint>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithInt32PropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             int unexpectedNumber = default(int);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<int> result = sut.Create<PropertyHolder<int>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithInt32PropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<int> ph = sut.Create<PropertyHolder<int>>();
-            // Exercise system
+            // Act
             PropertyHolder<int> result = sut.Create<PropertyHolder<int>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithUnsignedInt64PropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             ulong unexpectedNumber = default(ulong);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<ulong> result = sut.Create<PropertyHolder<ulong>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<ulong>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithUnsignedInt64PropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<ulong> ph = sut.Create<PropertyHolder<ulong>>();
-            // Exercise system
+            // Act
             PropertyHolder<ulong> result = sut.Create<PropertyHolder<ulong>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<ulong>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithInt64PropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             long unexpectedNumber = default(long);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<long> result = sut.Create<PropertyHolder<long>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<long>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithInt64PropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<long> ph = sut.Create<PropertyHolder<long>>();
-            // Exercise system
+            // Act
             PropertyHolder<long> result = sut.Create<PropertyHolder<long>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<long>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDecimalPropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             decimal unexpectedNumber = default(decimal);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<decimal> result = sut.Create<PropertyHolder<decimal>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<decimal>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDecimalPropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<decimal> ph = sut.Create<PropertyHolder<decimal>>();
-            // Exercise system
+            // Act
             PropertyHolder<decimal> result = sut.Create<PropertyHolder<decimal>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<decimal>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithSinglePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             float unexpectedNumber = default(float);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<float> result = sut.Create<PropertyHolder<float>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<float>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithSinglePropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<float> ph = sut.Create<PropertyHolder<float>>();
-            // Exercise system
+            // Act
             PropertyHolder<float> result = sut.Create<PropertyHolder<float>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<float>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoublePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             double unexpectedNumber = default(double);
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<double> result = sut.Create<PropertyHolder<double>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<double>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoublePropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             PropertyHolder<double> ph = sut.Create<PropertyHolder<double>>();
-            // Exercise system
+            // Act
             PropertyHolder<double> result = sut.Create<PropertyHolder<double>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<double>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoubleMixedWholeNumericPropertiesWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<DoublePropertyHolder<int, long>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoubleMixedSmallWholeNumericPropertiesWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<DoublePropertyHolder<byte, short>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoubleMixedFloatingPointNumericPropertiesWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<DoublePropertyHolder<double, float>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoubleMixedNumericPropertiesWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<DoublePropertyHolder<long, float>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedWholeNumericPropertiesWillAssignSameValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(new NumericSequencePerTypeCustomization());
             var result = sut.Create<DoublePropertyHolder<int, long>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedSmallWholeNumericPropertiesWillAssignSameValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(new NumericSequencePerTypeCustomization());
             var result = sut.Create<DoublePropertyHolder<byte, short>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedFloatingPointNumericPropertiesWillAssignSameValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(new NumericSequencePerTypeCustomization());
             var result = sut.Create<DoublePropertyHolder<double, float>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedNumericPropertiesWillAssignSameValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(new NumericSequencePerTypeCustomization());
             var result = sut.Create<DoublePropertyHolder<long, float>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithRandomNumericSequenceCustomizationReturnsRandomNumbers()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new RandomNumericSequenceGenerator(15, 30));
             var definedNumbers = new object[]
@@ -897,7 +834,7 @@ namespace AutoFixtureUnitTest
                 10.0D,
                 11M
             };
-            // Exercise system
+            // Act
             var randomNumbers = new object[]
             {
                 sut.Create<int>(),
@@ -913,22 +850,21 @@ namespace AutoFixtureUnitTest
                 sut.Create<decimal>()
             };
             var result = randomNumbers.Intersect(definedNumbers);
-            // Verify outcome
+            // Assert
             Assert.Empty(result);
-            // Teardown
         }
 
         [Fact]
         public void InjectCustomUpperLimitWillCauseSutToReturnNumbersInLimit()
         {
-            // Fixture setup
+            // Arrange
             int lower = -9;
             int upper = -1;
             var sut = new Fixture();
             sut.Customizations.Add(new RandomNumericSequenceGenerator(lower, upper));
-            // Exercise system
+            // Act
             var result = sut.Create<DoublePropertyHolder<int, long>>();
-            // Verify outcome
+            // Assert
             Assert.True(
                 (result.Property1 >= lower && result.Property1 <= upper) &&
                 (result.Property2 >= lower && result.Property2 <= upper)
@@ -938,50 +874,47 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateAnonymousWithGuidPropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             Guid unexpectedGuid = default(Guid);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Guid>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Guid>(unexpectedGuid, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithGuidPropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var ph = sut.Create<PropertyHolder<Guid>>();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Guid>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Guid>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithFlagEnumPropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var ph = sut.Create<PropertyHolder<ActivityScope>>();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<ActivityScope>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<ActivityScope>(ph.Property, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithFlagEnumPropertyMultipleTimesWillAssignValidValues()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<ActivityScope?>>().CreateMany(100);
-            // Verify outcome
+            // Assert
             long activityMin = 0;
             long activityMax = (long)ActivityScope.All;
             foreach (var propertyHolder in result)
@@ -989,315 +922,291 @@ namespace AutoFixtureUnitTest
                 long activityScope = (long)propertyHolder.Property;
                 Assert.InRange(activityScope, activityMin, activityMax);
             }
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoubleDateTimePropertiesWillAssignDifferentDateTimes()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<DoublePropertyHolder<DateTime, DateTime>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual(result.Property1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDateTimePropertyAndIncrementingDateTimeCustomizationTwiceWithinMsReturnsDateTimesExactlyOneDayApart()
         {
-            // Fixture setup
+            // Arrange
             var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
             var sut = new Fixture();
             sut.Customize(new IncrementingDateTimeCustomization());
-            // Exercise system
+            // Act
             var firstResult = sut.Create<PropertyHolder<DateTime>>();
             Thread.Sleep(nowResolution + nowResolution);
             var secondResult = sut.Create<PropertyHolder<DateTime>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(firstResult.Property.AddDays(1), secondResult.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithDoubleDateTimePropertiesAndCurrentDateTimeCustomizationWillAssignEqualDates()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize(new CurrentDateTimeCustomization());
             var result = sut.Create<DoublePropertyHolder<DateTime, DateTime>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(result.Property1.Date, result.Property2.Date);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithArrayPropertyCorrectlyAssignsArray()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<int[]>>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(result.Property);
             Assert.True(result.Property.All(i => i != 0));
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidParameterlessDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Action);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Action>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidSingleObjectParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Action<object>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action<object>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Action<object>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidSingleSpecializedObjectParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedValue = default(Action<string>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action<string>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Action<string>>(unexpectedValue, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidSingleValueParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedValue = default(Action<int>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action<int>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Action<int>>(unexpectedValue, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidDoubleObjectParametersDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Action<object, object>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action<object, object>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Action<object, object>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidDoubleSpecializedObjectParametersDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Action<string, string>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action<string, string>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Action<string, string>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidDoubleValueParametersDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Action<int, bool>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action<int, bool>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Action<int, bool>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithVoidParameterlessDelegatePropertyWillAssignDelegateNotThrowing()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Action>>();
-            // Verify outcome
+            // Assert
             Assert.Null(Record.Exception(() => ((Action)result.Property).Invoke()));
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnObjectParameterlessDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Func<object>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<object>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Func<object>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnObjectSingleObjectParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Func<object, object>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<object, object>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Func<object, object>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnObjectSingleSpecializedObjectParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Func<string, object>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<string, object>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Func<string, object>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnObjectSingleValueParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Func<int, object>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<int, object>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Func<int, object>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnValueParameterlessDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Func<int>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<int>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Func<int>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnValueSingleObjectParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Func<int, object>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<int, object>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Func<int, object>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnValueSingleSpecializedObjectParameterDelegatePropertyWillAssignNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedDelegate = default(Func<int, string>);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<int, string>>>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Func<int, string>>(unexpectedDelegate, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnObjectParameterlessDelegatePropertyWillAssignDelegateReturningNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedResult = default(string);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<string>>>();
-            // Verify outcome
+            // Assert
             var actualResult = ((Func<string>)result.Property).Invoke();
             Assert.NotEqual<string>(unexpectedResult, actualResult);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithReturnValueParameterlessDelegatePropertyWillAssignDelegateReturningNonDefaultValue()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedResult = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<Func<int>>>();
-            // Verify outcome
+            // Assert
             var actualResult = ((Func<int>)result.Property).Invoke();
             Assert.NotEqual<int>(unexpectedResult, actualResult);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithTypeWithFactoryMethodWillInvokeFactoryMethod()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<TypeWithFactoryMethod>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithTypeWithFactoryPropertyWillInvokeFactoryProperty()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<TypeWithFactoryProperty>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(
                 RangeValidatedType.Minimum <= result.Property && result.Property <= RangeValidatedType.Maximum,
                 string.Format(
@@ -1305,41 +1214,38 @@ namespace AutoFixtureUnitTest
                     RangeValidatedType.Minimum,
                     RangeValidatedType.Maximum,
                     result.Property));
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalFieldReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Field >= RangeValidatedType.Minimum && result.Field <= RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Property2 >= RangeValidatedType.DoubleMinimum && result.Property2 <= RangeValidatedType.DoubleMaximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForDoubleRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(
                 Convert.ToDecimal(RangeValidatedType.DoubleMinimum) <= result.Property3 && result.Property3 <= Convert.ToDecimal(RangeValidatedType.DoubleMaximum),
                 string.Format(
@@ -1347,717 +1253,666 @@ namespace AutoFixtureUnitTest
                     RangeValidatedType.DoubleMinimum,
                     RangeValidatedType.DoubleMaximum,
                     result.Property3));
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForStringRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Property4 >= Convert.ToDecimal(RangeValidatedType.StringMinimum) && result.Property4 <= Convert.ToDecimal(RangeValidatedType.StringMaximum));
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedIntegerPropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Property5 >= RangeValidatedType.Minimum && result.Property5 <= RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedBytePropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Property6 >= RangeValidatedType.Minimum && result.Property6 <= RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedShortPropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Property7 >= RangeValidatedType.Minimum && result.Property7 <= RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedUnsignedShortPropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.InRange(
                 result.UnsignedShortProperty,
                 RangeValidatedType.Minimum,
                 RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedUnsignedIntPropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.InRange(
                 (int)result.UnsignedIntProperty,
                 RangeValidatedType.Minimum,
                 RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedUnsignedLongPropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.InRange(
                 (int)result.UnsignedLongProperty,
                 RangeValidatedType.Minimum,
                 RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedSignedBytePropertyReturnsCorrectResultForIntegerRange()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.InRange(
                 (int)result.SignedByteProperty,
                 RangeValidatedType.Minimum,
                 RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleWithMinimumDoubleMinValue()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.PropertyWithMinimumDoubleMinValue <= RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleWithMaximumDoubleMaxValue()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.PropertyWithMaximumDoubleMaxValue >= RangeValidatedType.Minimum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMinimumFloatMinValue()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.PropertyWithMinimumFloatMinValue <= RangeValidatedType.Maximum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMaximumFloatMaxValue()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<RangeValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.PropertyWithMaximumFloatMaxValue >= RangeValidatedType.Minimum);
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalFieldReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Field)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property2)
                           where (n < RangeValidatedType.DoubleMinimum && n > RangeValidatedType.DoubleMaximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForDoubleRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property3)
                           where (n < Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && n > Convert.ToDecimal(RangeValidatedType.DoubleMaximum))
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForStringRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property4)
                           where (n < Convert.ToDecimal(RangeValidatedType.StringMinimum) && n > Convert.ToDecimal(RangeValidatedType.StringMaximum))
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedIntegerPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property5)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedBytePropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property6)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedShortPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property7)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedUnsignedShortPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedShortProperty)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedUnsignedIntPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedIntProperty)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedUnsignedLongPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedLongProperty)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedSignedBytePropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().SignedByteProperty)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleWithMinimumDoubleMinValueOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumDoubleMinValue)
                           where (n > Convert.ToDouble(RangeValidatedType.Maximum))
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleWithMaximumDoubleMaxValueOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumDoubleMaxValue)
                           where (n < Convert.ToDouble(RangeValidatedType.Minimum))
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMinimumFloatMinValueOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumFloatMinValue)
                           where (n > Convert.ToSingle(RangeValidatedType.Maximum))
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMaximumFloatMaxValueOnMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumFloatMaxValue)
                           where (n < Convert.ToSingle(RangeValidatedType.Minimum))
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithRegularExpressionValidatedTypeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<RegularExpressionValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.Matches(result.Property, RegularExpressionValidatedType.Pattern);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithStringLengthValidatedTypeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var result = fixture.Create<StringLengthValidatedType>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Property.Length <= StringLengthValidatedType.MaximumLength);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithStringLengthValidatedReturnsCorrectResultMultipleCall()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<StringLengthValidatedType>().Property.Length)
                           where (n > StringLengthValidatedType.MaximumLength)
                           select n);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithUriReturnsValidResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             Uri result;
             bool succeed = Uri.TryCreate(
                 fixture.Create<Uri>().OriginalString,
                 UriKind.Absolute,
                 out result);
-            // Verify outcome
+            // Assert
             Assert.True(succeed && result != null);
-            // Teardown
         }
 
         [Fact]
         public void DefaultRepeatCountIsThree()
         {
-            // Fixture setup
+            // Arrange
             int expectedRepeatCount = 3;
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             int result = sut.RepeatCount;
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedRepeatCount, result);
-            // Teardown
         }
         [Fact]
         public void RepeatWillPerformActionTheDefaultNumberOfTimes()
         {
-            // Fixture setup
+            // Arrange
             IFixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
-            // Exercise system
+            // Act
             int result = 0;
             sut.Repeat(() => result++).ToList();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result);
-            // Teardown
         }
 
         [Fact]
         public void RepeatWillReturnTheDefaultNumberOfItems()
         {
-            // Fixture setup
+            // Arrange
             IFixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
-            // Exercise system
+            // Act
             IEnumerable<object> result = sut.Repeat(() => new object());
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result.Count());
-            // Teardown
         }
 
         [Fact]
         public void RepeatWillPerformActionTheSpecifiedNumberOfTimes()
         {
-            // Fixture setup
+            // Arrange
             int expectedCount = 2;
             IFixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
-            // Exercise system
+            // Act
             int result = 0;
             sut.Repeat(() => result++).ToList();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result);
-            // Teardown
         }
 
         [Fact]
         public void RepeatWillReturnTheSpecifiedNumberOfItems()
         {
-            // Fixture setup
+            // Arrange
             int expectedCount = 13;
             IFixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
-            // Exercise system
+            // Act
             IEnumerable<object> result = sut.Repeat(() => new object());
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, result.Count());
-            // Teardown
         }
 
         [Fact]
         public void ReplacingStringMappingWillUseNewStringCreationAlgorithm()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = "Anonymous string";
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize<string>(c => c.FromSeed(s => expectedText));
-            // Verify outcome
+            // Assert
             string result = sut.Create<string>();
             Assert.Equal(expectedText, result);
-            // Teardown
         }
 
         [Fact]
         public void AddManyWillAddItemsToListUsingCreator()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             IEnumerable<int> expectedList = Enumerable.Range(1, sut.RepeatCount);
             List<int> list = new List<int>();
-            // Exercise system
+            // Act
             int i = 0;
             sut.AddManyTo(list, () => ++i);
-            // Verify outcome
+            // Assert
             Assert.True(expectedList.SequenceEqual(list));
-            // Teardown
         }
 
         [Fact]
         public void AddManyWillAddItemsToListUsingAnonymousCreator()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             int expectedItemCount = sut.RepeatCount;
             List<string> list = new List<string>();
-            // Exercise system
+            // Act
             sut.AddManyTo(list);
-            // Verify outcome
+            // Assert
             int result = (from s in list
                           where !string.IsNullOrEmpty(s)
                           select s).Count();
             Assert.Equal<int>(expectedItemCount, result);
-            // Teardown
         }
 
         [Fact]
         public void AddManyWillAddItemsToCollection()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
             ICollection<int> collection = new LinkedList<int>();
-            // Exercise system
+            // Act
             sut.AddManyTo(collection);
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, collection.Count);
-            // Teardown
         }
 
         [Fact]
         public void AddManyWithRepeatCountWillAddItemsToCollection()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             int expectedCount = 24;
             ICollection<int> collection = new LinkedList<int>();
-            // Exercise system
+            // Act
             sut.AddManyTo(collection, expectedCount);
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, collection.Count);
-            // Teardown
         }
 
         [Fact]
         public void AddManyWithCreatorWillAddItemsToCollection()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
             ICollection<object> collection = new LinkedList<object>();
-            // Exercise system
+            // Act
             sut.AddManyTo(collection, () => new object());
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedCount, collection.Count);
-            // Teardown
         }
 
         [Fact]
         public void CreateManyWillCreateManyAnonymousItems()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             int expectedItemCount = sut.RepeatCount;
-            // Exercise system
+            // Act
             IEnumerable<string> result = sut.CreateMany<string>();
-            // Verify outcome
+            // Assert
             int nonDefaultCount = (from s in result
                                    where !string.IsNullOrEmpty(s)
                                    select s).Count();
             Assert.Equal<int>(expectedItemCount, nonDefaultCount);
-            // Teardown
         }
 
         [Fact]
         public void CreateManyWillCreateCorrectNumberOfAnonymousItems()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             int expectedItemCount = 248;
-            // Exercise system
+            // Act
             IEnumerable<string> result = sut.CreateMany<string>(expectedItemCount);
-            // Verify outcome
+            // Assert
             int nonDefaultCount = (from s in result
                                    where !string.IsNullOrEmpty(s)
                                    select s).Count();
             Assert.Equal<int>(expectedItemCount, nonDefaultCount);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullTransformationThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize<object>(null));
-            // Teardown
         }
 
         [Fact]
         public void RegisterTypeWithPropertyOverrideWillSetPropertyValueCorrectly()
         {
-            // Fixture setup
+            // Arrange
             string expectedValue = "Anonymous text";
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, expectedValue));
             PropertyHolder<string> result = sut.Create<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateNestedTypeWillPopulateNestedProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<PropertyHolder<string>>>();
-            // Verify outcome
+            // Assert
             Assert.False(string.IsNullOrEmpty(result.Property.Property), "Nested property string should not be null or empty.");
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithNullSingleParameterActionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Do<object>(null));
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithSingleParameterWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new CommandMock<string>();
             mock.OnCommand = x => methodInvoked = true;
-            // Exercise system
+            // Act
             sut.Do((string s) => mock.Command(s));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Command method invoked");
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithSingleParameterWillInvokeMethodWithCorrectParameter()
         {
-            // Fixture setup
+            // Arrange
             int expectedNumber = 94;
 
             var sut = new Fixture();
@@ -2065,43 +1920,40 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<int>();
             mock.OnCommand = x => Assert.Equal<int>(expectedNumber, x);
-            // Exercise system
+            // Act
             sut.Do((int i) => mock.Command(i));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithNullTwoParameterActionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Do<object, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithTwoParametersWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new CommandMock<string, long>();
             mock.OnCommand = (x1, x2) => methodInvoked = true;
-            // Exercise system
+            // Act
             sut.Do((string x1, long x2) => mock.Command(x1, x2));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Command method invoked");
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithTwoParametersWillInvokeMethodWithCorrectFirstParameter()
         {
-            // Fixture setup
+            // Arrange
             double expectedNumber = 25364.37;
 
             var sut = new Fixture();
@@ -2109,16 +1961,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<double, object>();
             mock.OnCommand = (x1, x2) => Assert.Equal<double>(expectedNumber, x1);
-            // Exercise system
+            // Act
             sut.Do((double x1, object x2) => mock.Command(x1, x2));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithTwoParametersWillInvokeMethodWithCorrectSecondParameter()
         {
-            // Fixture setup
+            // Arrange
             short expectedNumber = 3734;
 
             var sut = new Fixture();
@@ -2126,43 +1977,40 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<DateTime, short>();
             mock.OnCommand = (x1, x2) => Assert.Equal<short>(expectedNumber, x2);
-            // Exercise system
+            // Act
             sut.Do((DateTime x1, short x2) => mock.Command(x1, x2));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithNullThreeParameterActionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Do<object, object, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new CommandMock<object, object, object>();
             mock.OnCommand = (x1, x2, x3) => methodInvoked = true;
-            // Exercise system
+            // Act
             sut.Do((object x1, object x2, object x3) => mock.Command(x1, x2, x3));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Command method invoked");
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethodWithCorrectFirstParameter()
         {
-            // Fixture setup
+            // Arrange
             DateTime expectedDateTime = new DateTime(1004328837);
 
             var sut = new Fixture();
@@ -2170,16 +2018,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<DateTime, long, short>();
             mock.OnCommand = (x1, x2, x3) => Assert.Equal<DateTime>(expectedDateTime, x1);
-            // Exercise system
+            // Act
             sut.Do((DateTime x1, long x2, short x3) => mock.Command(x1, x2, x3));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethodWithCorrectSecondParameter()
         {
-            // Fixture setup
+            // Arrange
             TimeSpan expectedTimeSpan = TimeSpan.FromHours(53);
 
             var sut = new Fixture();
@@ -2187,16 +2034,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<uint, TimeSpan, TimeSpan>();
             mock.OnCommand = (x1, x2, x3) => Assert.Equal<TimeSpan>(expectedTimeSpan, x2);
-            // Exercise system
+            // Act
             sut.Do((uint x1, TimeSpan x2, TimeSpan x3) => mock.Command(x1, x2, x3));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethodWithCorrectThirdParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedText = "Anonymous text";
 
             var sut = new Fixture();
@@ -2204,43 +2050,40 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<double, uint, string>();
             mock.OnCommand = (x1, x2, x3) => Assert.Equal(expectedText, x3);
-            // Exercise system
+            // Act
             sut.Do((double x1, uint x2, string x3) => mock.Command(x1, x2, x3));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithNullFourParameterActionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Do<object, object, object, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new CommandMock<uint, ushort, int, bool>();
             mock.OnCommand = (x1, x2, x3, x4) => methodInvoked = true;
-            // Exercise system
+            // Act
             sut.Do((uint x1, ushort x2, int x3, bool x4) => mock.Command(x1, x2, x3, x4));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Command method invoked");
-            // Teardown
         }
 
         [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectFirstParameter()
         {
-            // Fixture setup
+            // Arrange
             uint expectedNumber = 294;
 
             var sut = new Fixture();
@@ -2248,16 +2091,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<uint, bool, string, Guid>();
             mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<uint>(expectedNumber, x1);
-            // Exercise system
+            // Act
             sut.Do((uint x1, bool x2, string x3, Guid x4) => mock.Command(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectSecondParameter()
         {
-            // Fixture setup
+            // Arrange
             decimal expectedNumber = 92183.28m;
 
             var sut = new Fixture();
@@ -2265,16 +2107,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<ushort, decimal, Guid, bool>();
             mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<decimal>(expectedNumber, x2);
-            // Exercise system
+            // Act
             sut.Do((ushort x1, decimal x2, Guid x3, bool x4) => mock.Command(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectThirdParameter()
         {
-            // Fixture setup
+            // Arrange
             Guid expectedGuid = Guid.NewGuid();
 
             var sut = new Fixture();
@@ -2282,16 +2123,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<bool, string, Guid, string>();
             mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<Guid>(expectedGuid, x3);
-            // Exercise system
+            // Act
             sut.Do((bool x1, string x2, Guid x3, string x4) => mock.Command(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectFourthParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedObj = new ConcreteType();
 
             var sut = new Fixture();
@@ -2299,43 +2139,40 @@ namespace AutoFixtureUnitTest
 
             var mock = new CommandMock<int?, DateTime, TimeSpan, ConcreteType>();
             mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<ConcreteType>(expectedObj, x4);
-            // Exercise system
+            // Act
             sut.Do((int? x1, DateTime x2, TimeSpan x3, ConcreteType x4) => mock.Command(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnCommandWithNullSingleParameterFunctionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Get<object, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithSingleParameterWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new QueryMock<ulong, bool>();
             mock.OnQuery = x => { methodInvoked = true; return true; };
-            // Exercise system
+            // Act
             sut.Get((ulong s) => mock.Query(s));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Query method invoked");
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithSingleParameterWillInvokeMethodWithCorrectParameter()
         {
-            // Fixture setup
+            // Arrange
             double? expectedNumber = 23892;
 
             var sut = new Fixture();
@@ -2343,59 +2180,55 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<double?, string>();
             mock.OnQuery = x => { Assert.Equal<double?>(expectedNumber, x); return "Anonymous text"; };
-            // Exercise system
+            // Act
             sut.Get((double? x) => mock.Query(x));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithSingleParameterWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedVersion = new Version(2, 45);
             var sut = new Fixture();
 
             var mock = new QueryMock<int?, Version>();
             mock.OnQuery = x => expectedVersion;
-            // Exercise system
+            // Act
             var result = sut.Get((int? x) => mock.Query(x));
-            // Verify outcome
+            // Assert
             Assert.Equal<Version>(expectedVersion, result);
-            // Teardown
         }
 
         [Fact]
         public void GetOnCommandWithNullDoubleParameterFunctionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Get<object, object, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithTwoParametersWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new QueryMock<string, int, long>();
             mock.OnQuery = (x1, x2) => { methodInvoked = true; return 148; };
-            // Exercise system
+            // Act
             sut.Get((string x1, int x2) => mock.Query(x1, x2));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Query method invoked");
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithTwoParametersWillInvokeMethodWithCorrectFirstParameter()
         {
-            // Fixture setup
+            // Arrange
             byte expectedByte = 213;
 
             var sut = new Fixture();
@@ -2403,16 +2236,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<byte, int, double>();
             mock.OnQuery = (x1, x2) => { Assert.Equal<byte>(expectedByte, x1); return 9823829; };
-            // Exercise system
+            // Act
             sut.Get((byte x1, int x2) => mock.Query(x1, x2));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithTwoParametersWillInvokeMethodWithCorrectSecondParameter()
         {
-            // Fixture setup
+            // Arrange
             sbyte expectedByte = -29;
 
             var sut = new Fixture();
@@ -2420,59 +2252,55 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<DateTime, sbyte, bool>();
             mock.OnQuery = (x1, x2) => { Assert.Equal<sbyte>(expectedByte, x2); return false; };
-            // Exercise system
+            // Act
             sut.Get((DateTime x1, sbyte x2) => mock.Query(x1, x2));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithTwoParametersWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             byte? expectedByte = 198;
             var sut = new Fixture();
 
             var mock = new QueryMock<DateTime, TimeSpan, byte?>();
             mock.OnQuery = (x1, x2) => expectedByte;
-            // Exercise system
+            // Act
             var result = sut.Get((DateTime x1, TimeSpan x2) => mock.Query(x1, x2));
-            // Verify outcome
+            // Assert
             Assert.Equal<byte?>(expectedByte, result);
-            // Teardown
         }
 
         [Fact]
         public void GetOnCommandWithNullTripleParameterFunctionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Get<object, object, object, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new QueryMock<object, object, object, object>();
             mock.OnQuery = (x1, x2, x3) => { methodInvoked = true; return new object(); };
-            // Exercise system
+            // Act
             sut.Get((object x1, object x2, object x3) => mock.Query(x1, x2, x3));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Query method invoked");
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectFirstParameter()
         {
-            // Fixture setup
+            // Arrange
             sbyte? expectedByte = -56;
 
             var sut = new Fixture();
@@ -2480,16 +2308,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<sbyte?, bool, string, float>();
             mock.OnQuery = (x1, x2, x3) => { Assert.Equal<sbyte?>(expectedByte, x1); return 3646.77f; };
-            // Exercise system
+            // Act
             sut.Get((sbyte? x1, bool x2, string x3) => mock.Query(x1, x2, x3));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectSecondParameter()
         {
-            // Fixture setup
+            // Arrange
             float expectedNumber = -927.2f;
 
             var sut = new Fixture();
@@ -2497,16 +2324,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<bool, float, TimeSpan, object>();
             mock.OnQuery = (x1, x2, x3) => { Assert.Equal<float>(expectedNumber, x2); return new object(); };
-            // Exercise system
+            // Act
             sut.Get((bool x1, float x2, TimeSpan x3) => mock.Query(x1, x2, x3));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectThirdParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedText = "Anonymous text";
 
             var sut = new Fixture();
@@ -2514,59 +2340,55 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<long, short, string, decimal?>();
             mock.OnQuery = (x1, x2, x3) => { Assert.Equal(expectedText, x3); return 111.11m; };
-            // Exercise system
+            // Act
             sut.Get((long x1, short x2, string x3) => mock.Query(x1, x2, x3));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithThreeParametersWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedDateTime = new DateTimeOffset(2839327192831219387, TimeSpan.FromHours(-2));
             var sut = new Fixture();
 
             var mock = new QueryMock<short, long, Guid, DateTimeOffset>();
             mock.OnQuery = (x1, x2, x3) => expectedDateTime;
-            // Exercise system
+            // Act
             var result = sut.Get((short x1, long x2, Guid x3) => mock.Query(x1, x2, x3));
-            // Verify outcome
+            // Assert
             Assert.Equal<DateTimeOffset>(expectedDateTime, result);
-            // Teardown
         }
 
         [Fact]
         public void GetOnCommandWithNullQuadrupleParameterFunctionThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Get<object, object, object, object, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethod()
         {
-            // Fixture setup
+            // Arrange
             bool methodInvoked = false;
             var sut = new Fixture();
 
             var mock = new QueryMock<object, object, object, object, object>();
             mock.OnQuery = (x1, x2, x3, x4) => { methodInvoked = true; return new object(); };
-            // Exercise system
+            // Act
             sut.Get((object x1, object x2, object x3, object x4) => mock.Query(x1, x2, x3, x4));
-            // Verify outcome
+            // Assert
             Assert.True(methodInvoked, "Query method invoked");
-            // Teardown
         }
 
         [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectFirstParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedTimeSpan = TimeSpan.FromSeconds(23);
 
             var sut = new Fixture();
@@ -2574,16 +2396,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<TimeSpan, Version, Random, Guid, EventArgs>();
             mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<TimeSpan>(expectedTimeSpan, x1); return EventArgs.Empty; };
-            // Exercise system
+            // Act
             sut.Get((TimeSpan x1, Version x2, Random x3, Guid x4) => mock.Query(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectSecondParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedDateTimeKind = DateTimeKind.Utc;
 
             var sut = new Fixture();
@@ -2591,16 +2412,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<Random, DateTimeKind, DateTime, string, float>();
             mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DateTimeKind>(expectedDateTimeKind, x2); return 77f; };
-            // Exercise system
+            // Act
             sut.Get((Random x1, DateTimeKind x2, DateTime x3, string x4) => mock.Query(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectThirdParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedDayOfWeek = DayOfWeek.Friday;
 
             var sut = new Fixture();
@@ -2608,16 +2428,15 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<int, float, DayOfWeek, string, ConsoleColor>();
             mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return ConsoleColor.Black; };
-            // Exercise system
+            // Act
             sut.Get((int x1, float x2, DayOfWeek x3, string x4) => mock.Query(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectFourthParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedNumber = 42;
 
             var sut = new Fixture();
@@ -2625,234 +2444,219 @@ namespace AutoFixtureUnitTest
 
             var mock = new QueryMock<Version, ushort, string, int, ConsoleColor>();
             mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return ConsoleColor.Cyan; };
-            // Exercise system
+            // Act
             sut.Get((Version x1, ushort x2, string x3, int x4) => mock.Query(x1, x2, x3, x4));
-            // Verify outcome (done by mock)
-            // Teardown
+            // Assert (done by mock)
         }
 
         [Fact]
         public void GetOnQueryWithFourParametersWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedColor = ConsoleColor.DarkGray;
             var sut = new Fixture();
 
             var mock = new QueryMock<int, int, int, int, ConsoleColor>();
             mock.OnQuery = (x1, x2, x3, x4) => expectedColor;
-            // Exercise system
+            // Act
             var result = sut.Get((int x1, int x2, int x3, int x4) => mock.Query(x1, x2, x3, x4));
-            // Verify outcome
+            // Assert
             Assert.Equal<ConsoleColor>(expectedColor, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void FromFactoryWithOneParameterWillRespectPreviousCustomizationsObsolete()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         public void FromFactoryWithOneParameterWillRespectPreviousCustomizations()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void FromFactoryWithTwoParametersWillRespectPreviousCustomizationsObsolete()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         public void FromFactoryWithTwoParametersWillRespectPreviousCustomizations()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void FromFactoryWithThreeParametersWillRespectPreviousCustomizationsObsolete()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         public void FromFactoryWithThreeParametersWillRespectPreviousCustomizations()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void FromFactoryWithFourParametersWillRespectPreviousCustomizationsObsolete()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         public void FromFactoryWithFourParametersWillRespectPreviousCustomizations()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = Guid.NewGuid().ToString();
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeCanDefineConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             string expectedText = Guid.NewGuid().ToString();
             sut.Customize<SingleParameterType<string>>(ob => ob.FromFactory(() => new SingleParameterType<string>(expectedText)));
-            // Exercise system
+            // Act
             var result = sut.Create<SingleParameterType<string>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Parameter);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillNotThrowWhenTypeHasIndexedProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<IndexedPropertyHolder<object>>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void BuildWillReturnBuilderThatCreatesTheCorrectNumberOfInstances()
         {
-            // Fixture setup
+            // Arrange
             int expectedRepeatCount = 242;
             var sut = new Fixture();
             sut.RepeatCount = expectedRepeatCount;
-            // Exercise system
+            // Act
             var result = sut.Build<object>().CreateMany();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedRepeatCount, result.Count());
-            // Teardown
         }
 
         [Fact]
         public void InjectWillCauseSutToReturnInstanceWhenRequested()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new PropertyHolder<object>();
             var sut = new Fixture();
             sut.Inject(expectedResult);
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<object>>();
-            // Verify outcome
+            // Assert
             Assert.Equal<PropertyHolder<object>>(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void InjectWillCauseSutToReturnInstanceWithoutAutoPropertiesWhenRequested()
         {
-            // Fixture setup
+            // Arrange
             var item = new PropertyHolder<object>();
             item.Property = null;
 
             var sut = new Fixture();
             sut.Inject(item);
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<object>>();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillInvokeResidueCollector()
         {
-            // Fixture setup
+            // Arrange
             bool resolveWasInvoked = false;
 
             var residueCollector = new DelegatingSpecimenBuilder();
@@ -2864,17 +2668,16 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             sut.Create<PropertyHolder<AbstractType>>();
-            // Verify outcome
+            // Assert
             Assert.True(resolveWasInvoked, "Resolver");
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnUnregisteredAbstractionWillInvokeResidueCollectorWithCorrectType()
         {
-            // Fixture setup
+            // Arrange
             var residueCollector = new DelegatingSpecimenBuilder();
             residueCollector.OnCreate = (r, c) =>
             {
@@ -2884,16 +2687,15 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             sut.Create<PropertyHolder<AbstractType>>();
-            // Verify outcome (done by callback)
-            // Teardown
+            // Assert (done by callback)
         }
 
         [Fact]
         public void CreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResidueCollector()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new ConcreteType();
 
             var residueCollector = new DelegatingSpecimenBuilder();
@@ -2901,37 +2703,34 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<AbstractType>>().Property;
-            // Verify outcome
+            // Assert
             Assert.Equal<AbstractType>(expectedValue, result);
-            // Teardown
         }
 
         [Fact]
         public void FreezeWillCauseCreateAnonymousToKeepReturningTheFrozenInstance()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expectedResult = sut.Freeze<Guid>();
-            // Exercise system
+            // Act
             var result = sut.Create<Guid>();
-            // Verify outcome
+            // Assert
             Assert.Equal<Guid>(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void FreezeWillCauseFixtureToKeepReturningTheFrozenInstanceEvenAsPropertyOfOtherType()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expectedResult = sut.Freeze<DateTime>();
-            // Exercise system
+            // Act
             var result = sut.Create<PropertyHolder<DateTime>>().Property;
-            // Verify outcome
+            // Assert
             Assert.Equal<DateTime>(expectedResult, result);
-            // Teardown
         }
 
 
@@ -2939,152 +2738,143 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void FreezeWithNullTransformationThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Freeze((Func<ICustomizationComposer<object>, ISpecimenBuilder>)null));
-            // Teardown
         }
 
         [Fact]
         public void FreezeBuiltInstanceWillCauseFixtureToKeepReturningTheFrozenInstance()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var frozen = sut.Freeze<DoublePropertyHolder<DateTime, Guid>>(ob => ob.OmitAutoProperties().With(x => x.Property1));
-            // Exercise system
+            // Act
             var result = sut.Create<DoublePropertyHolder<DateTime, Guid>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozen.Property1, result.Property1);
             Assert.Equal(frozen.Property2, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateManyWithDoCustomizationWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customize<List<string>>(ob => ob.Do(sut.AddManyTo).OmitAutoProperties());
-            // Exercise system
+            // Act
             var result = sut.CreateMany<List<string>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.All(l => l.Count == sut.RepeatCount), "Customize/Do/CreateMany");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void OmitAutoPropertiesFollowedByOptInWillNotSetOtherPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<object, object>>()
                 .OmitAutoProperties()
                 .With(x => x.Property1)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void OmitAutoPropertiesFollowedByOptInWillNotSetOtherProperties()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<object, object>>()
                 .OmitAutoProperties()
                 .With(x => x.Property1)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property2);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void OmitAutoPropertiesFollowedByTwoOptInsWillNotSetAnyOtherPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<TriplePropertyHolder<int, int, object>>()
                 .OmitAutoProperties()
                 .With(x => x.Property1, 42)
                 .With(x => x.Property2, 1337)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(42, result.Property1);
             Assert.Equal(1337, result.Property2);
             Assert.Null(result.Property3);
-            // Teardown
         }
 
         [Fact]
         public void OmitAutoPropertiesFollowedByTwoOptInsWillNotSetAnyOtherProperties()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<TriplePropertyHolder<int, int, object>>()
                 .OmitAutoProperties()
                 .With(x => x.Property1, 42)
                 .With(x => x.Property2, 1337)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(42, result.Property1);
             Assert.Equal(1337, result.Property2);
             Assert.Null(result.Property3);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void WithTwoOptInsFollowedByOmitAutoPropertiesWillNotSetAnyOtherPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<TriplePropertyHolder<int, int, object>>()
                 .With(x => x.Property1, 42)
                 .With(x => x.Property2, 1337)
                 .OmitAutoProperties()
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(42, result.Property1);
             Assert.Equal(1337, result.Property2);
             Assert.Null(result.Property3);
-            // Teardown
         }
 
         [Fact]
         public void WithTwoOptInsFollowedByOmitAutoPropertiesWillNotSetAnyOtherProperties()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<TriplePropertyHolder<int, int, object>>()
                 .With(x => x.Property1, 42)
                 .With(x => x.Property2, 1337)
                 .OmitAutoProperties()
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(42, result.Property1);
             Assert.Equal(1337, result.Property2);
             Assert.Null(result.Property3);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWillThrowOnReferenceRecursionPoint()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<RecursionTestObjectWithReferenceOutA>());
         }
@@ -3092,9 +2882,9 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateAnonymousWillThrowOnConstructorRecursionPoint()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<RecursionTestObjectWithConstructorReferenceOutA>());
         }
@@ -3103,9 +2893,9 @@ namespace AutoFixtureUnitTest
         [Obsolete]
         public void BuildWithThrowingRecursionHandlerWillThrowOnReferenceRecursionPointObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
@@ -3117,9 +2907,9 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void BuildWithThrowingRecursionHandlerWillThrowOnReferenceRecursionPoint()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new RecursionGuard(
@@ -3133,9 +2923,9 @@ namespace AutoFixtureUnitTest
         [Obsolete]
         public void BuildWithThrowingRecursionHandlerWillThrowOnConstructorRecursionPointObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
@@ -3147,9 +2937,9 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void BuildWithThrowingRecursionHandlerWillThrowOnConstructorRecursionPoint()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new RecursionGuard(
@@ -3163,279 +2953,262 @@ namespace AutoFixtureUnitTest
         [Obsolete]
         public void BuildWithNullRecursionHandlerWillCreateNullOnRecursionPointObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = new SpecimenContext(
                 new NullRecursionGuard(
                     sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
                 )
             ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
-            // Verify outcome
+            // Assert
             Assert.Null(result.ReferenceToB.ReferenceToA);
         }
 
         [Fact]
         public void BuildWithNullRecursionHandlerWillCreateNullOnRecursionPoint()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = new SpecimenContext(
                 new RecursionGuard(
                     sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
                     new NullRecursionHandler()
                 )
             ).Create<RecursionTestObjectWithConstructorReferenceOutA>();
-            // Verify outcome
+            // Assert
             Assert.Null(result.ReferenceToB.ReferenceToA);
         }
 
         [Fact]
         public void BuildWithOmitRecursionGuardWillOmitPropertyOnRecursionPoint()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Behaviors.Clear();
             sut.Behaviors.Add(new OmitOnRecursionBehavior());
-            // Exercise system
+            // Act
             var actual = sut.Create<RecursionTestObjectWithReferenceOutA>();
-            // Verify outcome
+            // Assert
             Assert.Null(actual.ReferenceToB.ReferenceToA);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnRegisteredInstanceWillReturnInstanceWithoutAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var item = new PropertyHolder<string>();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Inject(item);
-            // Verify outcome
+            // Assert
             var result = sut.Create<PropertyHolder<string>>();
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnRegisteredParameterlessFuncWillReturnInstanceWithoutAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var item = new PropertyHolder<string>();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Register(() => item);
-            // Verify outcome
+            // Assert
             var result = sut.Create<PropertyHolder<string>>();
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnRegisteredSingleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var item = new PropertyHolder<string>();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Register((object obj) => item);
-            // Verify outcome
+            // Assert
             var result = sut.Create<PropertyHolder<string>>();
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnRegisteredDoubleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var item = new PropertyHolder<string>();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Register((object obj1, object obj2) => item);
-            // Verify outcome
+            // Assert
             var result = sut.Create<PropertyHolder<string>>();
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnRegisteredTripleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var item = new PropertyHolder<string>();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Register((object obj1, object obj2, object obj3) => item);
-            // Verify outcome
+            // Assert
             var result = sut.Create<PropertyHolder<string>>();
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousOnRegisteredQuadrupleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var item = new PropertyHolder<string>();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             sut.Register((object obj1, object obj2, object obj3, object obj4) => item);
-            // Verify outcome
+            // Assert
             var result = sut.Create<PropertyHolder<string>>();
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             PropertyHolder<string> result = sut.Create<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void CustomizeInstanceWithOmitAutoPropertiesWillReturnFactoryWithOmitAutoPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             var builder = sut.Build<PropertyHolder<object>>();
             PropertyHolder<object> result = builder.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeInstanceWithOmitAutoPropertiesWillReturnFactoryWithOmitAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             var builder = sut.Build<PropertyHolder<object>>();
             PropertyHolder<object> result = builder.Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void FreezedFirstCallToCreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             var expectedResult = sut.Freeze<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             Assert.Null(expectedResult.Property);
-            // Teardown
         }
 
         [Fact]
         public void CustomizedBuilderCreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             sut.Customize<PropertyHolder<string>>(x => x);
             var expectedResult = sut.Create<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             Assert.Null(expectedResult.Property);
-            // Teardown
         }
 
         [Fact]
         public void CustomizedOverrideOfOmitAutoPropertiesWillAssignProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             sut.Customize<PropertyHolder<string>>(x => x.WithAutoProperties());
             var expectedResult = sut.Create<PropertyHolder<string>>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(expectedResult.Property);
-            // Teardown
         }
 
         [Fact]
         public void DefaultOmitAutoPropertiesIsFalse()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             bool result = sut.OmitAutoProperties;
-            // Verify outcome
+            // Assert
             Assert.False(result, "OmitAutoProperties");
-            // Teardown
         }
 
         [Fact]
         public void FromSeedWithNullFuncThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Build<object>().FromSeed(null));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildFromSeedWillReturnCorrectResultObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expectedResult = new object();
-            // Exercise system
+            // Act
             var result = sut.Build<object>().FromSeed(s => expectedResult).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildFromSeedWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expectedResult = new object();
-            // Exercise system
+            // Act
             var result = sut.Build<object>().FromSeed(s => expectedResult).Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeFromSeedWithUnmodifiedSeedValueWillPopulatePropertyOfSameType()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             fixture.Customize<Version>(c => c.FromSeed(s => s));
-            // Verify outcome
+            // Assert
             Assert.Null(fixture.Create<PropertyHolder<Version>>().Property);
         }
 
         [Fact]
         public void CustomizeFromSeedWithFixedSeedValueWillPopulatePropertyOfSameType()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var seed = new ConcreteType();
-            // Exercise system
+            // Act
             fixture.Customize<ConcreteType>(c => c.FromSeed(s => seed));
-            // Verify outcome
+            // Assert
             Assert.Equal(seed, fixture.Create<PropertyHolder<ConcreteType>>().Property);
         }
 
@@ -3443,461 +3216,427 @@ namespace AutoFixtureUnitTest
         [Obsolete]
         public void BuildAndCreateAnonymousWillSetInt32Property()
         {
-            // Fixture setup
+            // Arrange
             int unexpectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateWillSetInt32Property()
         {
-            // Fixture setup
+            // Arrange
             int unexpectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().Create();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillSetInt32Field()
         {
-            // Fixture setup
+            // Arrange
             int unexpectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             FieldHolder<int> result = sut.Build<FieldHolder<int>>().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Field);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateWillSetInt32Field()
         {
-            // Fixture setup
+            // Arrange
             int unexpectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             FieldHolder<int> result = sut.Build<FieldHolder<int>>().Create();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyProperty()
         {
-            // Fixture setup
+            // Arrange
             int expectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateWillNotAttemptToSetReadOnlyProperty()
         {
-            // Fixture setup
+            // Arrange
             int expectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedNumber, result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyField()
         {
-            // Fixture setup
+            // Arrange
             int expectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             ReadOnlyFieldHolder<int> result = sut.Build<ReadOnlyFieldHolder<int>>().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedNumber, result.Field);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateWillNotAttemptToSetReadOnlyField()
         {
-            // Fixture setup
+            // Arrange
             int expectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             ReadOnlyFieldHolder<int> result = sut.Build<ReadOnlyFieldHolder<int>>().Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedNumber, result.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithWillSetPropertyOnCreatedObjectObsolete()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = "Anonymous text";
             var sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithWillSetPropertyOnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = "Anonymous text";
             var sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithWillSetFieldOnCreatedObjectObsolete()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = "Anonymous text";
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Field);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithWillSetFieldOnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             string expectedText = "Anonymous text";
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedText, result.Field);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAnonymousWithWillAssignPropertyEvenInCombinationWithOmitAutoPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             long unexpectedNumber = default(long);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<long>(unexpectedNumber, result.Property1);
-            // Teardown
         }
 
         [Fact]
         public void BuildAnonymousWithWillAssignPropertyEvenInCombinationWithOmitAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             long unexpectedNumber = default(long);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().Create();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<long>(unexpectedNumber, result.Property1);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAnonymousWithWillAssignFieldEvenInCombinationWithOmitAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             int unexpectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Field1);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithWillAssignFieldEvenInCombinationWithOmitAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             int unexpectedNumber = default(int);
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().Create();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Field1);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithoutWillIgnorePropertyOnCreatedObjectObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property1);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithoutWillIgnorePropertyOnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property1);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithoutWillIgnorePropertyOnCreatedObjectEvenInCombinationWithWithAutoPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<string, string>>().WithAutoProperties().Without(ph => ph.Property1).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property1);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithoutWillIgnorePropertyOnCreatedObjectEvenInCombinationWithWithAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture() { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<string, string>>().WithAutoProperties().Without(ph => ph.Property1).Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property1);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithoutWillIgnoreFieldOnCreatedObjectObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Field1);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithoutWillIgnoreFieldOnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Field1);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithoutWillNotIgnoreOtherPropertyOnCreatedObjectObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithoutWillNotIgnoreOtherPropertyOnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).Create();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property2);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithoutWillNotIgnoreOtherFieldOnCreatedObjectObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Field2);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithoutWillNotIgnoreOtherFieldOnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).Create();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Field2);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndOmitAutoPropertiesWillNotAutoPopulatePropertyObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndOmitAutoPropertiesWillNotAutoPopulateProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithAutoPropertiesWillAutoPopulatePropertyObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().WithAutoProperties().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithAutoPropertiesWillAutoPopulateProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture { OmitAutoProperties = true };
-            // Exercise system
+            // Act
             PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().WithAutoProperties().Create();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndDoWillPerformOperationOnCreatedObjectObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expectedObject = new object();
-            // Exercise system
+            // Act
             var result = sut.Build<CollectionHolder<object>>().Do(x => x.Collection.Add(expectedObject)).CreateAnonymous().Collection.First();
-            // Verify outcome
+            // Assert
             Assert.Equal<object>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndDoWillPerformOperationOnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expectedObject = new object();
-            // Exercise system
+            // Act
             var result = sut.Build<CollectionHolder<object>>().Do(x => x.Collection.Add(expectedObject)).Create().Collection.First();
-            // Verify outcome
+            // Assert
             Assert.Equal<object>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuilderSequenceWillBePreservedObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             int expectedValue = 3;
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<int>>()
                 .With(x => x.Property, 1)
                 .Do(x => x.SetProperty(2))
                 .With(x => x.Property, expectedValue)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedValue, result.Property);
-            // Teardown
         }
 
 
         [Fact]
         public void BuilderSequenceWillBePreserved()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             int expectedValue = 3;
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<int>>()
                 .With(x => x.Property, 1)
                 .Do(x => x.SetProperty(2))
                 .With(x => x.Property, expectedValue)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedValue, result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillInvokeResidueCollector()
         {
-            // Fixture setup
+            // Arrange
             bool resolveWasInvoked = false;
 
             var residueCollector = new DelegatingSpecimenBuilder();
@@ -3909,17 +3648,16 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.True(resolveWasInvoked, "Resolve");
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateWillInvokeResidueCollector()
         {
-            // Fixture setup
+            // Arrange
             bool resolveWasInvoked = false;
 
             var residueCollector = new DelegatingSpecimenBuilder();
@@ -3931,18 +3669,17 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             sut.Build<PropertyHolder<AbstractType>>().Create();
-            // Verify outcome
+            // Assert
             Assert.True(resolveWasInvoked, "Resolve");
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillInvokeResidueCollectorWithCorrectType()
         {
-            // Fixture setup
+            // Arrange
             var residueCollector = new DelegatingSpecimenBuilder();
             residueCollector.OnCreate = (r, c) =>
             {
@@ -3952,16 +3689,15 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
-            // Verify outcome (done by callback)
-            // Teardown
+            // Assert (done by callback)
         }
 
         [Fact]
         public void BuildAndCreateOnUnregisteredAbstractionWillInvokeResidueCollectorWithCorrectType()
         {
-            // Fixture setup
+            // Arrange
             var residueCollector = new DelegatingSpecimenBuilder();
             residueCollector.OnCreate = (r, c) =>
             {
@@ -3971,17 +3707,16 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             sut.Build<PropertyHolder<AbstractType>>().Create();
-            // Verify outcome (done by callback)
-            // Teardown
+            // Assert (done by callback)
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResidueCollector()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new ConcreteType();
 
             var residueCollector = new DelegatingSpecimenBuilder();
@@ -3989,17 +3724,16 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous().Property;
-            // Verify outcome
+            // Assert
             Assert.Equal<AbstractType>(expectedValue, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateOnUnregisteredAbstractionWillReturnInstanceFromResidueCollector()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = new ConcreteType();
 
             var residueCollector = new DelegatingSpecimenBuilder();
@@ -4007,739 +3741,687 @@ namespace AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<AbstractType>>().Create().Property;
-            // Verify outcome
+            // Assert
             Assert.Equal<AbstractType>(expectedValue, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndOmitAutoPropertiesWillNotMutateSutObsolete()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.OmitAutoProperties();
-            // Verify outcome
+            // Assert
             var instance = sut.CreateAnonymous();
             Assert.NotNull(instance.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndOmitAutoPropertiesWillNotMutateSut()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.OmitAutoProperties();
-            // Verify outcome
+            // Assert
             var instance = sut.Create();
             Assert.NotNull(instance.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithAutoPropertiesWillNotMutateSutObsolete()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture() { OmitAutoProperties = true };
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.WithAutoProperties();
-            // Verify outcome
+            // Assert
             var instance = sut.CreateAnonymous();
             Assert.Null(instance.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithAutoPropertiesWillNotMutateSut()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture() { OmitAutoProperties = true };
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.WithAutoProperties();
-            // Verify outcome
+            // Assert
             var instance = sut.Create();
             Assert.Null(instance.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAnonymousWithWillNotMutateSut()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = fixture.Build<PropertyHolder<string>>().OmitAutoProperties();
-            // Exercise system
+            // Act
             sut.With(s => s.Property);
-            // Verify outcome
+            // Assert
             var instance = sut.CreateAnonymous();
             Assert.Null(instance.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithWillNotMutateSut()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = fixture.Build<PropertyHolder<string>>().OmitAutoProperties();
-            // Exercise system
+            // Act
             sut.With(s => s.Property);
-            // Verify outcome
+            // Assert
             var instance = sut.Create();
             Assert.Null(instance.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAnonymousWithUnexpectedWillNotMutateSut()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var unexpectedProperty = "Anonymous value";
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.With(s => s.Property, unexpectedProperty);
-            // Verify outcome
+            // Assert
             var instance = sut.CreateAnonymous();
             Assert.NotEqual(unexpectedProperty, instance.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithUnexpectedWillNotMutateSut()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var unexpectedProperty = "Anonymous value";
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.With(s => s.Property, unexpectedProperty);
-            // Verify outcome
+            // Assert
             var instance = sut.Create();
             Assert.NotEqual(unexpectedProperty, instance.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithoutWillNotMutateSutObsolete()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.Without(s => s.Property);
-            // Verify outcome
+            // Assert
             var instance = sut.CreateAnonymous();
             Assert.NotNull(instance.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithoutWillNotMutateSut()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = fixture.Build<PropertyHolder<string>>();
-            // Exercise system
+            // Act
             sut.Without(s => s.Property);
-            // Verify outcome
+            // Assert
             var instance = sut.Create();
             Assert.NotNull(instance.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillReturnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             object expectedObject = new object();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             object result = sut.Build<object>().FromSeed(seed => expectedObject).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<object>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateWillReturnCreatedObject()
         {
-            // Fixture setup
+            // Arrange
             object expectedObject = new object();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             object result = sut.Build<object>().FromSeed(seed => expectedObject).Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<object>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateManyWillCreateManyAnonymousItems()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expectedItemCount = sut.RepeatCount;
-            // Exercise system
+            // Act
             IEnumerable<PropertyHolder<int>> result = sut.Build<PropertyHolder<int>>().CreateMany();
-            // Verify outcome
+            // Assert
             var uniqueItemCount = (from ph in result
                                    select ph.Property).Distinct().Count();
             Assert.Equal<int>(expectedItemCount, uniqueItemCount);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateManyWillCreateCorrectNumberOfItems()
         {
-            // Fixture setup
+            // Arrange
             int expectedCount = 401;
             var sut = new Fixture();
-            // Exercise system
+            // Act
             IEnumerable<PropertyHolder<int>> result = sut.Build<PropertyHolder<int>>().CreateMany(expectedCount);
-            // Verify outcome
+            // Assert
             var uniqueItemCount = (from ph in result
                                    select ph.Property).Distinct().Count();
             Assert.Equal<int>(expectedCount, uniqueItemCount);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillCreateObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             object result = sut.Build<object>().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateWillCreateObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             object result = sut.Build<object>().Create();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousAfterDefiningConstructorWithZeroParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             object expectedObject = new object();
-            // Exercise system
+            // Act
             var result = sut.Build<object>()
                 .FromFactory(() => expectedObject)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<object>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateAfterDefiningConstructorWithZeroParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             object expectedObject = new object();
-            // Exercise system
+            // Act
             var result = sut.Build<object>()
                 .FromFactory(() => expectedObject)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<object>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousAfterDefiningConstructorWithOneParameterWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             SingleParameterType<object> expectedObject = new SingleParameterType<object>(new object());
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<object>>()
                 .FromFactory<object>(obj => expectedObject)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<SingleParameterType<object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateAfterDefiningConstructorWithOneParameterWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             SingleParameterType<object> expectedObject = new SingleParameterType<object>(new object());
-            // Exercise system
+            // Act
             var result = sut.Build<SingleParameterType<object>>()
                 .FromFactory<object>(obj => expectedObject)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<SingleParameterType<object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousAfterDefiningConstructorWithTwoParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             DoubleParameterType<object, object> expectedObject = new DoubleParameterType<object, object>(new object(), new object());
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleParameterType<object, object>>()
                 .FromFactory<object, object>((o1, o2) => expectedObject)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateAfterDefiningConstructorWithTwoParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             DoubleParameterType<object, object> expectedObject = new DoubleParameterType<object, object>(new object(), new object());
-            // Exercise system
+            // Act
             var result = sut.Build<DoubleParameterType<object, object>>()
                 .FromFactory<object, object>((o1, o2) => expectedObject)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousAfterDefiningConstructorWithThreeParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             TripleParameterType<object, object, object> expectedObject = new TripleParameterType<object, object, object>(new object(), new object(), new object());
-            // Exercise system
+            // Act
             var result = sut.Build<TripleParameterType<object, object, object>>()
                 .FromFactory<object, object, object>((o1, o2, o3) => expectedObject)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateAfterDefiningConstructorWithThreeParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             TripleParameterType<object, object, object> expectedObject = new TripleParameterType<object, object, object>(new object(), new object(), new object());
-            // Exercise system
+            // Act
             var result = sut.Build<TripleParameterType<object, object, object>>()
                 .FromFactory<object, object, object>((o1, o2, o3) => expectedObject)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousAfterDefiningConstructorWithFourParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             QuadrupleParameterType<object, object, object, object> expectedObject = new QuadrupleParameterType<object, object, object, object>(new object(), new object(), new object(), new object());
-            // Exercise system
+            // Act
             var result = sut.Build<QuadrupleParameterType<object, object, object, object>>()
                 .FromFactory<object, object, object, object>((o1, o2, o3, o4) => expectedObject)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndCreateAfterDefiningConstructorWithFourParametersWillReturnDefinedObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             QuadrupleParameterType<object, object, object, object> expectedObject = new QuadrupleParameterType<object, object, object, object>(new object(), new object(), new object(), new object());
-            // Exercise system
+            // Act
             var result = sut.Build<QuadrupleParameterType<object, object, object, object>>()
                 .FromFactory<object, object, object, object>((o1, o2, o3, o4) => expectedObject)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildFromFactoryStillAppliesAutoPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<string>>()
                 .FromFactory(() => new PropertyHolder<string>())
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildFromFactoryStillAppliesAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<string>>()
                 .FromFactory(() => new PropertyHolder<string>())
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildOverwritesPreviousFactoryBasedCustomizationObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customize<PropertyHolder<object>>(c => c.FromFactory(() => new PropertyHolder<object>()));
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void BuildOverwritesPreviousFactoryBasedCustomization()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customize<PropertyHolder<object>>(c => c.FromFactory(() => new PropertyHolder<object>()));
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void NewestCustomizationWins()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customize<string>(c => c.FromFactory(() => "ploeh"));
 
             var expectedResult = "fnaah";
-            // Exercise system
+            // Act
             sut.Customize<string>(c => c.FromFactory(() => expectedResult));
             var result = sut.Create<string>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAndComposeWillCarryBehaviorsForward()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Behaviors.Clear();
 
             var expectedBuilder = new DelegatingSpecimenBuilder();
             sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(1, b) });
-            // Exercise system
+            // Act
             var result = sut.Build<object>();
-            // Verify outcome
+            // Assert
             var comparer = new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>());
             var composite = Assert.IsAssignableFrom<CompositeNodeComposer<object>>(result);
             Assert.Equal(new TaggedNode(1), composite.Node.First(), comparer);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAbstractClassThrowsObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ObjectCreationException>(() =>
                 sut.Build<AbstractType>().CreateAnonymous());
-            // Teardown
         }
 
         [Fact]
         public void BuildAbstractClassThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ObjectCreationException>(() =>
                 sut.Build<AbstractType>().Create());
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAbstractTypeUsingStronglyTypedFactoryIsPossibleObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<AbstractType>().FromFactory(() => new ConcreteType()).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ConcreteType>(result);
-            // Teardown
         }
 
         [Fact]
         public void BuildAbstractTypeUsingStronglyTypedFactoryIsPossible()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<AbstractType>().FromFactory(() => new ConcreteType()).Create();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ConcreteType>(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAbstractTypeUsingBuilderIsPossibleObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new ConcreteType() };
-            // Exercise system
+            // Act
             var result = sut.Build<AbstractType>().FromFactory(builder).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ConcreteType>(result);
-            // Teardown
         }
 
 
         [Fact]
         public void BuildAbstractTypeUsingBuilderIsPossible()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new ConcreteType() };
-            // Exercise system
+            // Act
             var result = sut.Build<AbstractType>().FromFactory(builder).Create();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ConcreteType>(result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildAbstractTypeCorrectlyAppliesPropertyObsolete()
         {
-            // Fixture setup
+            // Arrange
             var expected = new object();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<AbstractType>()
                 .FromFactory(() => new ConcreteType())
                 .With(x => x.Property1, expected)
                 .CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result.Property1);
-            // Teardown
         }
 
         [Fact]
         public void BuildAbstractTypeCorrectlyAppliesProperty()
         {
-            // Fixture setup
+            // Arrange
             var expected = new object();
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Build<AbstractType>()
                 .FromFactory(() => new ConcreteType())
                 .With(x => x.Property1, expected)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result.Property1);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void RegisterNullWillAssignCorrectPickedPropertyValueObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Register(() => (string)null);
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<string>>().With(p => p.Property).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void RegisterNullWillAssignCorrectPickedPropertyValue()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Register(() => (string)null);
-            // Exercise system
+            // Act
             var result = sut.Build<PropertyHolder<string>>().With(p => p.Property).Create();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Property);
-            // Teardown
         }
 
         [Fact]
         public void AddingTracingBehaviorWillTraceDiagnostics()
         {
-            // Fixture setup
+            // Arrange
             using (var writer = new StringWriter())
             {
                 var sut = new Fixture();
                 sut.Behaviors.Add(new TracingBehavior(writer));
-                // Exercise system
+                // Act
                 sut.Create<int>();
-                // Verify outcome
+                // Assert
                 Assert.False(string.IsNullOrEmpty(writer.ToString()));
-                // Teardown
             }
         }
 
         [Fact]
         public void CreateAnonymousEnumReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<TriState>();
-            // Verify outcome
+            // Assert
             Assert.Equal(TriState.First, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateManyAnonymousFlagEnumsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.CreateMany<ActivityScope>(100).ToArray().Last();
-            // Verify outcome
+            // Assert
             Assert.Equal(ActivityScope.Standalone, result);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullCustomizationThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize((ICustomization)null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeCorrectlyAppliesCustomization()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
 
             var verified = false;
             var customization = new DelegatingCustomization { OnCustomize = f => verified = f == sut };
-            // Exercise system
+            // Act
             sut.Customize(customization);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         public void CustomizeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var dummyCustomization = new DelegatingCustomization();
-            // Exercise system
+            // Act
             var result = sut.Customize(dummyCustomization);
-            // Verify outcome
+            // Assert
             Assert.Equal(sut, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousIntPtrThrowsCorrectException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and verify outcome
-           var creationEx = Assert.ThrowsAny<ObjectCreationException>(() =>
-                sut.Create<IntPtr>());
+            // Act & assert
+            var creationEx = Assert.ThrowsAny<ObjectCreationException>(() =>
+                 sut.Create<IntPtr>());
             Assert.IsAssignableFrom<IllegalRequestException>(creationEx.InnerException);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuildWithOverriddenVirtualPropertyCorrectlySetsPropertyObsolete()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expected = Guid.NewGuid();
-            // Exercise system
+            // Act
             var result = sut.Build<ConcreteType>().With(x => x.Property4, expected).CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result.Property4);
-            // Teardown
         }
 
         [Fact]
         public void BuildWithOverriddenVirtualPropertyCorrectlySetsProperty()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var expected = Guid.NewGuid();
-            // Exercise system
+            // Act
             var result = sut.Build<ConcreteType>().With(x => x.Property4, expected).Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result.Property4);
-            // Teardown
         }
 
         [Fact]
@@ -4753,285 +4435,264 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateAnonymousObservableCollectionWithoutCustomizationWorks()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<ObservableCollection<decimal>>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousEnumerableWhenEnumerableRelayIsPresentReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.ResidueCollectors.Add(new EnumerableRelay());
-            // Exercise system
+            // Act
             var result = sut.Create<IEnumerable<decimal>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousListDoesFillWithItemsPerDefault()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.Create<List<string>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateAnonymousListWithCustomizationsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
-            // Exercise system
+            // Act
             var result = sut.Create<List<string>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateAnonymousHashSetWithCustomizationsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new HashSetSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
-            // Exercise system
+            // Act
             var result = sut.Create<HashSet<float>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateAnonymousIListWithCustomizationsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
-            // Exercise system
+            // Act
             var result = sut.Create<IList<int>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateAnonymousICollectionWithCustomizationsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new CollectionRelay());
-            // Exercise system
+            // Act
             var result = sut.Create<ICollection<Version>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateAnonymousCollectionWithCustomizationsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new ListFavoringConstructorQuery()), new CollectionSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
-            // Exercise system
+            // Act
             var result = sut.Create<Collection<ConcreteType>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateAnonymousDictionaryWithCustomizationsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
-            // Exercise system
+            // Act
             var result = sut.Create<Dictionary<int, string>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateAnonymousIDictionaryWithCustomizationsReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
             sut.ResidueCollectors.Add(new DictionaryRelay());
-            // Exercise system
+            // Act
             var result = sut.Create<IDictionary<TimeSpan, Version>>();
-            // Verify outcome
+            // Assert
             Assert.True(result.Any());
-            // Teardown
         }
 
         [Fact, Obsolete]
         public void CreateMultipleHoldersOfEnumsReturnsCorrectResultForLastItem()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.CreateMany<PropertyHolder<TriState>>(4);
-            // Verify outcome
+            // Assert
             Assert.InRange(result.Last().Property, TriState.First, TriState.Third);
-            // Teardown
         }
 
         [Fact]
         public void CreateMultipleHoldersOfNullableEnumsReturnsCorrectResultForLastItem()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.CreateMany<PropertyHolder<TriState?>>(4);
-            // Verify outcome
+            // Assert
             Assert.InRange(result.Last().Property.GetValueOrDefault(), TriState.First, TriState.Third);
-            // Teardown
         }
 
         [Fact]
         public void CreateMultipleSingleParameterTypesWithEnumReturnsCorrectResultForLastItem()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             var result = sut.CreateMany<PropertyHolder<SingleParameterType<TriState>>>(4);
-            // Verify outcome
+            // Assert
             Assert.InRange(result.Last().Property.Parameter, TriState.First, TriState.Third);
-            // Teardown
         }
 
         // Supporting http://autofixture.codeplex.com/discussions/262288 Breaking this test might not be considered a breaking change
         [Fact]
         public void RefreezeHack()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var version2 = fixture.Create<Version>();
             var version1 = fixture.Freeze<Version>();
-            // Exercise system
+            // Act
             fixture.Inject(version2);
             var actual = fixture.Create<Version>();
-            // Verify outcome
+            // Assert
             Assert.Equal(version2, actual);
-            // Teardown
         }
 
         // Supporting http://autofixture.codeplex.com/discussions/262288 Breaking this test might not be considered a breaking change
         [Fact]
         public void UnfreezeHack()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var snapshot = fixture.Customizations.ToList();
             var anonymousVersion = fixture.Freeze<Version>();
             var freezer = fixture.Customizations.Except(snapshot).Single();
-            // Exercise system
+            // Act
             fixture.Customizations.Remove(freezer);
             var expected = fixture.Freeze<Version>();
             var actual = fixture.Create<Version>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void UseGreedyConstructorQueryWithAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Customizations.Add(new Postprocessor(
                 new MethodInvoker(new GreedyConstructorQuery()),
                 new AutoPropertiesCommand(),
                 new AnyTypeSpecification()));
-            // Exercise system
+            // Act
             var result = fixture.Create<ConcreteType>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property5);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousTypeReturnsInstance()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<Type>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateHashSetReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<HashSet<string>>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateSortedSetReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<SortedSet<string>>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateSortedDictionaryReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
-            var result = fixture.Create<SortedDictionary<string,object>>();
-            // Verify outcome
+            // Act
+            var result = fixture.Create<SortedDictionary<string, object>>();
+            // Assert
             Assert.NotEmpty(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateSortedListReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
-            var result = fixture.Create<SortedList<int,string>>();
-            // Verify outcome
+            // Act
+            var result = fixture.Create<SortedList<int, string>>();
+            // Assert
             Assert.NotEmpty(result);
-            // Teardown
         }
 
         [Theory]
@@ -5039,14 +4700,13 @@ namespace AutoFixtureUnitTest
         [InlineData(true)]
         public void InjectDoesNotModifyAutoProperties(bool expected)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.OmitAutoProperties = expected;
-            // Exercise system
+            // Act
             fixture.Inject("dummy");
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, fixture.OmitAutoProperties);
-            // Teardown
         }
 
         [Fact]
@@ -5078,13 +4738,12 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(IDictionary<,>), typeof(Dictionary<,>))]
         public void ResidueCollectorsContainForwardsByDefault(Type from, Type to)
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.Contains(
                 sut.ResidueCollectors,
                 b => b is TypeRelay tr && tr.From == from && tr.To == to);
-            // Teardown
         }
 
         [Theory]
@@ -5142,25 +4801,23 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateAnonymousStructWithConstructorReturnsInstance()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<MutableValueType>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
             Assert.NotNull(result.Property3);
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousStructWithoutConstructorThrowsException()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.ThrowsAny<ObjectCreationException>(() => fixture.Create<MutableValueTypeWithoutConstructor>());
-            // Teardown
         }
 
         /// <summary>
@@ -5170,50 +4827,47 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateDecimalDoesNotThrowException()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Null(Record.Exception(() => fixture.Create<decimal>()));
-            // Teardown
         }
 
         [Fact]
         public void CreateAnonymousStructWithoutConstructorUsingCustomizationReturnsInstance()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new SupportMutableValueTypesCustomization();
             sut.Customize(fixture);
-            // Exercise system and verify outcome
+            // Act & assert
             var result = fixture.Create<MutableValueTypeWithoutConstructor>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CustomizingEnumerableCustomizedCreateManyWhenCreateManyIsMappedToEnumerable()
         {
-            // Fixture setup
+            // Arrange
             var fixture =
                 new Fixture().Customize(new MapCreateManyToEnumerable());
             var expected = new[] { "a", "b", "c", "d" };
             fixture.Register<IEnumerable<string>>(() => expected);
-            // Exercise system
+            // Act
             var actual = fixture.CreateMany<string>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual.ToArray());
-            // Teardown
         }
 
         [Fact]
         public void CreateAbstractTypeThreeTimesGivesTheSameErrorMessage()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
 
-            // Exercise system and verify outcome
+            // Act & assert
             var ocex1 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<AbstractType>>());
 
@@ -5225,16 +4879,15 @@ namespace AutoFixtureUnitTest
 
             Assert.Equal(ocex1.Message, ocex2.Message);
             Assert.Equal(ocex2.Message, ocex3.Message);
-            // Teardown
         }
 
         [Fact]
         public void CreateRecursiveTypeExceptionMessageIsStable()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
 
-            // Exercise system and verify outcome
+            // Act & assert
             var ocex1 = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
 
@@ -5246,18 +4899,17 @@ namespace AutoFixtureUnitTest
 
             Assert.Equal(ocex1.Message, ocex2.Message);
             Assert.Equal(ocex2.Message, ocex3.Message);
-            // Teardown
         }
 
         [Fact]
         public void TraceOutputForRecursiveTypeCreationFailureIsStable()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var outputWriter = new StringWriter();
             fixture.Behaviors.Add(new TracingBehavior(outputWriter));
 
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
 
@@ -5271,31 +4923,29 @@ namespace AutoFixtureUnitTest
             outputWriter.GetStringBuilder().Clear();
 
             Assert.Equal(traceOutput1, traceOutput2);
-            // Teardown
         }
 
         [Fact]
         public void CreateSmallRecursiveSequenceGraph()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList()
                 .ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(2));
-            // Exercise system
+            // Act
             var actual = fixture.Create<RecursiveSequenceNode>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         [Fact]
         public void CreateSequenceOfSmallRecursiveSequenceGraphs()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
@@ -5304,18 +4954,17 @@ namespace AutoFixtureUnitTest
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
             fixture.Customizations.Add(
                 new OmitEnumerableParameterRequestRelay());
-            // Exercise system
+            // Act
             var actual = fixture.Create<IEnumerable<RecursiveSequenceNode>>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         [Fact]
         public void CreateArrayOfSmallRecursiveSequenceGraphs()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
@@ -5324,18 +4973,17 @@ namespace AutoFixtureUnitTest
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
             fixture.Customizations.Add(
                 new OmitEnumerableParameterRequestRelay());
-            // Exercise system
+            // Act
             var actual = fixture.Create<RecursiveSequenceNode[]>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         [Fact]
         public void CreateManySmallRecursiveSequenceGraphs()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
@@ -5344,12 +4992,11 @@ namespace AutoFixtureUnitTest
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
             fixture.Customizations.Add(
                 new OmitEnumerableParameterRequestRelay());
-            // Exercise system
+            // Act
             var actual = fixture.CreateMany<RecursiveSequenceNode>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         private class RecursiveSequenceNode : IEnumerable<RecursiveSequenceNode>
@@ -5375,25 +5022,24 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateSmallRecursiveArrayGraph()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList()
                 .ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(2));
-            // Exercise system
+            // Act
             var actual = fixture.Create<RecursiveArrayNode>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         [Fact]
         public void CreateSequenceOfSmallRecursiveArrayGraphs()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
@@ -5402,18 +5048,17 @@ namespace AutoFixtureUnitTest
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
             fixture.Customizations.Add(
                 new OmitArrayParameterRequestRelay());
-            // Exercise system
+            // Act
             var actual = fixture.Create<IEnumerable<RecursiveArrayNode>>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         [Fact]
         public void CreateArrayOfSmallRecursiveArrayGraphs()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
@@ -5422,18 +5067,17 @@ namespace AutoFixtureUnitTest
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
             fixture.Customizations.Add(
                 new OmitArrayParameterRequestRelay());
-            // Exercise system
+            // Act
             var actual = fixture.Create<RecursiveArrayNode[]>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         [Fact]
         public void CreateManySmallRecursiveArrayGraphs()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
@@ -5442,12 +5086,11 @@ namespace AutoFixtureUnitTest
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
             fixture.Customizations.Add(
                 new OmitArrayParameterRequestRelay());
-            // Exercise system
+            // Act
             var actual = fixture.CreateMany<RecursiveArrayNode>();
-            // Verify outcome
+            // Assert
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
-            // Teardown
         }
 
         private class RecursiveArrayNode : IEnumerable<RecursiveArrayNode>
@@ -5473,16 +5116,15 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CustomizationOfOverriddenPropOfChildADoesNotAffectChildB()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Customize<AcwaacpChildA>(c => c.Without(x => x.Value));
-            // Exercise system
+            // Act
             var actual = fixture.Create<AcwaacpChildB>();
-            // Verify outcome
+            // Assert
             Assert.NotEqual(default(int), actual.Value);
-            // Teardown
         }
-        
+
         /// <summary>
         /// Checks the scenario: https://github.com/AutoFixture/AutoFixture/issues/531
         /// </summary>
@@ -5492,10 +5134,10 @@ namespace AutoFixtureUnitTest
             // arrange
             var sut = new Fixture();
             sut.Customize<AcwaacpChildA>(c => c.With(x => x.Text, "foo"));
-            
+
             // act
             var actual = sut.Create<AcwaacpChildB>();
-            
+
             // assert
             Assert.NotNull(actual.Text);
             Assert.NotEqual("foo", actual.Text);
@@ -5510,13 +5152,13 @@ namespace AutoFixtureUnitTest
             //arrange
             var sut = new Fixture();
             sut.Customize<DoublePropertyHolder<string, int>>(c => c.With(x => x.Property1, "foo"));
-            
+
             //act
             var result = sut
                 .Build<DoublePropertyHolder<string, int>>()
                 .With(x => x.Property2, 42)
                 .Create();
-            
+
             //assert
             Assert.NotEqual("foo", result.Property1);
             Assert.Equal(42, result.Property2);
@@ -5531,10 +5173,10 @@ namespace AutoFixtureUnitTest
             //arrange
             var sut = new Fixture();
             sut.Customize<PropertyHolder<long>>(c => c.Without(x => x.Property));
-            
+
             //act
             var result = sut.Build<PropertyHolder<long>>().With(x => x.Property).Create();
-            
+
             //assert
             Assert.NotEqual(0L, result.Property);
         }
@@ -5549,10 +5191,10 @@ namespace AutoFixtureUnitTest
                     .Without(x => x.Property)
                     .OmitAutoProperties()
                     .WithAutoProperties());
-            
+
             //act
             var result = sut.Create<PropertyHolder<string>>();
-            
+
             //assert
             Assert.Null(result.Property);
         }
@@ -5649,82 +5291,77 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateNonGenericTaskReturnsAwaitableTask()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             Task result = sut.Create<Task>();
-            // Verify outcome
+            // Assert
             Thread thread = new Thread(result.Wait);
             thread.Start();
             bool ranToCompletion = thread.Join(1000);
 
             Assert.True(ranToCompletion);
-            // Teardown
         }
 
         [Fact]
         public void CreateGenericTaskReturnsAwaitableTask()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
-            // Exercise system
+            // Act
             Task<int> result = sut.Create<Task<int>>();
-            // Verify outcome
+            // Assert
             Thread thread = new Thread(result.Wait);
             thread.Start();
             bool ranToCompletion = thread.Join(1000);
 
             Assert.True(ranToCompletion);
-            // Teardown
         }
 
         [Fact]
         public void CreateGenericTaskReturnsTaskWhoseResultWasResolvedByFixture()
         {
-            // Fixture setup
+            // Arrange
             Fixture sut = new Fixture();
             int frozenInt = sut.Freeze<int>();
-            // Exercise system
+            // Act
             Task<int> result = sut.Create<Task<int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenInt, result.Result);
-            // Teardown
         }
 
         [Fact]
         public void CreateLazyInitializedTypeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var result = fixture.Create<Lazy<string>>();
             var actual = result.Value;
-            // Verify outcome
+            // Assert
             Assert.NotNull(actual);
-            // Teardown
         }
 
         [Fact]
         public void CreatesEnumerator()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system and verify outcome
+            // Act & assert
             IEnumerator<int> result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<IEnumerator<int>>()));
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void CreatesEnumeratorWithSpecifiedNumberOfItems()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var expectedCount = fixture.RepeatCount;
-            // Exercise system
+            // Act
             var result = fixture.Create<IEnumerator<int>>();
-            // Verify outcome
+            // Assert
             int count = 0;
             while (result.MoveNext())
             {
@@ -5732,7 +5369,6 @@ namespace AutoFixtureUnitTest
                 Assert.True(count <= expectedCount);
             }
             Assert.Equal(expectedCount, count);
-            // Teardown
         }
 
         [Fact]
@@ -5754,13 +5390,12 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void FixtureCanCreateIPAddress()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var actual = fixture.Create<System.Net.IPAddress>();
-            // Verify outcome
+            // Assert
             Assert.NotNull(actual);
-            // Teardown 
         }
 
         [Fact]
@@ -5867,25 +5502,24 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void Issue691_DontUseCastOperatorsToCreateSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
 
-            // Exercise system and verify outcome
+            // Act & assert
             var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<TypeWithCastOperatorsWithoutPublicConstructor>());
 
             Assert.Contains("most likely because it has no public constructor", ex.Message);
 
-            // Teardown
         }
 
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithValue()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            
-            // Excercise system and verify outcome
+
+            // Act & Assert
             var ex = Assert.Throws<ArgumentException>(() =>
             {
                 return fixture
@@ -5894,16 +5528,15 @@ namespace AutoFixtureUnitTest
             });
             Assert.Contains("nested property or field", ex.Message);
 
-            // Teardown
         }
-        
+
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWith()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            
-            // Excercise system and verify outcome
+
+            // Act & Assert
             var ex = Assert.Throws<ArgumentException>(() =>
             {
                 return fixture
@@ -5912,17 +5545,16 @@ namespace AutoFixtureUnitTest
             });
             Assert.Contains("nested property or field", ex.Message);
 
-            // Teardown
         }
-        
-        
+
+
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithout()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            
-            // Excercise system and verify outcome
+
+            // Act & Assert
             var ex = Assert.Throws<ArgumentException>(() =>
             {
                 return fixture
@@ -5931,111 +5563,103 @@ namespace AutoFixtureUnitTest
             });
             Assert.Contains("nested property or field", ex.Message);
 
-            // Teardown
         }
-        
+
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWithValue()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            
-            // Excercise system and verify outcome
+
+            // Act & Assert
             var ex = Assert.Throws<ArgumentException>(() =>
             {
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1, "dummy"));
             });
             Assert.Contains("nested property or field", ex.Message);
 
-            // Teardown
         }
-        
+
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWith()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            
-            // Excercise system and verify outcome
+
+            // Act & Assert
             var ex = Assert.Throws<ArgumentException>(() =>
             {
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1));
             });
             Assert.Contains("nested property or field", ex.Message);
 
-            // Teardown
         }
-        
+
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWithout()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            
-            // Excercise system and verify outcome
+
+            // Act & Assert
             var ex = Assert.Throws<ArgumentException>(() =>
             {
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.Without(x => x.Property.Property1));
             });
             Assert.Contains("nested property or field", ex.Message);
 
-            // Teardown
         }
 
         [Fact]
         public void Issue871_FailsWithArgumentExceptionForNullRequest()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var specimenContext = new DelegatingSpecimenContext();
 
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(null, specimenContext));
 
-            // Teardown
         }
 
         [Fact]
         public void Issue871_FailsWithArgumentExceptionForNullRequestContext()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var request = new object();
 
-            // Exercise system and Verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
 
-            // Teardown
         }
 
 #if SYSTEM_NET_MAIL
         [Fact]
         public void CreateAnonymousWithMailAddressReturnsValidResult()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var mailAddress = fixture.Create<System.Net.Mail.MailAddress>();
-            // Verify outcome
+            // Assert
             Assert.True(mailAddress != null);
-            // Teardown
         }
 #endif
 
         [Fact]
         public void Issue453_RangeAttributeShouldFailWithMeaningfulException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
 
-            // Exercise system and verify outcome
+            // Act & assert
             var actualEx = Assert.ThrowsAny<ObjectCreationException>(
                 () => sut.Create<Issue453_AnnotationWithOverflow>());
 
             Assert.IsType<OverflowException>(actualEx.InnerException);
             Assert.Contains("To solve the issue", actualEx.InnerException.Message);
 
-            // Teardown
         }
 
         private class Issue453_AnnotationWithOverflow
@@ -6056,93 +5680,88 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void RangeAttributeWithLargeStringRangeShouldWork()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
 
-            // Exercise system
+            // Act
             var result = sut.Create<RangeAnnotationWithLargeStringBoundaries>();
-            
-            // Verify outcome
+
+            // Assert
             Assert.NotEqual(0, result.PropertyWithStringValueRange1);
             Assert.NotEqual(0, result.PropertyWithStringValueRange2);
-            // Teardown
         }
 
         [Fact]
         public void ShouldNotDuplicateRequestPathTwiceInCaseOfRecursionGuardException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var requestToLookFor = typeof(RecursiveArrayNode).GetConstructors().Single().GetParameters().Single();
 
-            // Exercise system and verify outcome
+            // Act & assert
             var actualEx = Assert.ThrowsAny<ObjectCreationException>(() => sut.Create<RecursiveArrayNode>());
             int numberOfRequestOccurence =
                 new Regex(Regex.Escape(requestToLookFor.ToString())).Matches(actualEx.Message).Count;
 
             Assert.Equal(1, numberOfRequestOccurence);
 
-            // Teardown
         }
-        
+
         [Theory]
-        [InlineData(typeof(byte))] 
-        [InlineData(typeof(sbyte))] 
-        [InlineData(typeof(short))]  
+        [InlineData(typeof(byte))]
+        [InlineData(typeof(sbyte))]
+        [InlineData(typeof(short))]
         [InlineData(typeof(ushort))]
-        [InlineData(typeof(int))]  
-        [InlineData(typeof(uint))]  
-        [InlineData(typeof(long))] 
-        [InlineData(typeof(ulong))] 
+        [InlineData(typeof(int))]
+        [InlineData(typeof(uint))]
+        [InlineData(typeof(long))]
+        [InlineData(typeof(ulong))]
         [InlineData(typeof(decimal))]
-        [InlineData(typeof(float))]  
+        [InlineData(typeof(float))]
         [InlineData(typeof(double))]
         public void Issue897_ShouldCorrectlyHandleRequestsWithSameMinimumAndMaximumValue(Type type)
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = Convert.ChangeType(42, type, CultureInfo.InvariantCulture);
             var fakeMember = new FakeMemberInfo(
                 new ProvidedAttribute(
                     new RangeAttribute(type, "42", "42"),
                     inherited: false
                 ));
-            
+
             var sut = new Fixture();
-            
-            // Exercise system
+
+            // Act
             var result = sut.Create(fakeMember, new SpecimenContext(sut));
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, result);
-            // Teardown
         }
 
         [Fact]
         public void ShouldResolveReadOnlyCollectionByDefault()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
 
-            // Exercise system
+            // Act
             var result = sut.Create<IReadOnlyCollection<string>>();
 
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void ShouldResolveReadOnlyListByDefault()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
 
-            // Exercise system
+            // Act
             var result = sut.Create<IReadOnlyList<string>>();
 
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IReadOnlyList<string>>(result);
-            // Teardown
         }
 
         [Theory]
@@ -6150,18 +5769,17 @@ namespace AutoFixtureUnitTest
         [InlineData(false)]
         public void OmitAutoProperitesIsChangedAfterAssignment(bool value)
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture
             {
                 OmitAutoProperties = !value
             };
 
-            // Exercise system
+            // Act
             sut.OmitAutoProperties = value;
 
-            // Verify outcome
+            // Assert
             Assert.Equal(value, sut.OmitAutoProperties);
-            // Teardown
         }
 
         [Theory]
@@ -6169,7 +5787,7 @@ namespace AutoFixtureUnitTest
         [InlineData(false)]
         public void Optimization_GraphIsNotMutatedWhenActualOmitAutoPropertiesValueIsNotChanged(bool initialValue)
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             sut.OmitAutoProperties = initialValue;
 
@@ -6177,50 +5795,47 @@ namespace AutoFixtureUnitTest
             var oldCustomizations = sut.Customizations;
             var oldResidueCollectors = sut.ResidueCollectors;
 
-            // Exercise system
+            // Act
             sut.OmitAutoProperties = initialValue;
-            
-            // Verify outcome
+
+            // Assert
             Assert.Same(oldBehaviors, sut.Behaviors);
             Assert.Same(oldCustomizations, sut.Customizations);
             Assert.Same(oldResidueCollectors, sut.ResidueCollectors);
-            // Teardown
         }
 
         [Fact]
         public void RangedRequestIsPresentInFailurePath()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var request = new RangedRequest(typeof(ConcreteType), typeof(ConcreteType), 10, 42);
             var context = new SpecimenContext(sut);
 
-            // Exercise system and verify outcome
+            // Act & assert
             var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create(request, context));
 
             var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:"));
 
             Assert.Contains("RangedRequest", requestPath);
-            // Teardown
         }
 
         [Fact]
         public void RangedNumberRequestIsPresentInFailurePath()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
             var request = new RangedNumberRequest(typeof(ConcreteType), 10, 42);
             var context = new SpecimenContext(sut);
 
-            // Exercise system and verify outcome
+            // Act & assert
             var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create(request, context));
 
             var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:"));
 
             Assert.Contains("RangedNumberRequest", requestPath);
-            // Teardown
         }
 
         private class TypeWithRangedEnumProperties

@@ -10,9 +10,9 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CreateAbstractWithPublicConstructorWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new Fixture();
-            // Exercise system
+            // Act
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create<AbstractClassWithPublicConstructor>());
         }
@@ -20,17 +20,16 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void MapAbstractClassWithPublicConstructorToTestDoubleToWorkAroundException()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Customizations.Add(
                 new TypeRelay(
                     typeof(AbstractClassWithPublicConstructor),
                     typeof(TestDouble)));
-            // Exercise system
+            // Act
             var actual = fixture.Create<AbstractClassWithPublicConstructor>();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<TestDouble>(actual);
-            // Teardown
         }
 
         private class TestDouble : AbstractClassWithPublicConstructor

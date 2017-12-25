@@ -10,31 +10,29 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void AddManyWillAddItemsToList()
         {
-            // Fixture setup
+            // Arrange
             int anonymousCount = 5;
             IEnumerable<int> expectedList = Enumerable.Range(1, anonymousCount);
             List<int> list = new List<int>();
-            // Exercise system
+            // Act
             int i = 0;
             list.AddMany(() => ++i, anonymousCount);
-            // Verify outcome
+            // Assert
             Assert.True(expectedList.SequenceEqual(list));
-            // Teardown
         }
 
         [Fact]
         public void AddManyWillAddItemsToCollection()
         {
-            // Fixture setup
+            // Arrange
             int anonymousCount = 8;
             IEnumerable<int> expectedSequence = Enumerable.Range(1, anonymousCount);
             ICollection<int> collection = new LinkedList<int>();
-            // Exercise system
+            // Act
             int i = 0;
             collection.AddMany(() => ++i, anonymousCount);
-            // Verify outcome
+            // Assert
             Assert.True(expectedSequence.SequenceEqual(collection));
-            // Teardown
         }
     }
 }

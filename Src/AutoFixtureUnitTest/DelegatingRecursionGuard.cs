@@ -8,12 +8,12 @@ namespace AutoFixtureUnitTest
 {
     public class DelegatingRecursionGuard : RecursionGuard
     {
-        public DelegatingRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer, int recursionDepth) 
+        public DelegatingRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer, int recursionDepth)
             : base(builder, new DelegatingRecursionHandler(), comparer, recursionDepth)
         {
         }
 
-        public DelegatingRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer) 
+        public DelegatingRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
             : base(builder, new DelegatingRecursionHandler(), comparer, 1)
         {
         }

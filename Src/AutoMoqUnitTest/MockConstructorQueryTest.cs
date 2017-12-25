@@ -13,12 +13,11 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void SutIsMethodQuery()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MockConstructorQuery();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IMethodQuery>(sut);
-            // Teardown
         }
 
         [Theory]
@@ -30,13 +29,12 @@ namespace AutoFixture.AutoMoq.UnitTest
         [InlineData(typeof(Mock<>))]
         public void SelectMethodsReturnsCorrectResultForNonMockTypes(Type t)
         {
-            // Fixture setup
+            // Arrange
             var sut = new MockConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(t);
-            // Verify outcome
+            // Assert
             Assert.Empty(result);
-            // Teardown
         }
 
         [Theory]
@@ -45,16 +43,15 @@ namespace AutoFixture.AutoMoq.UnitTest
         [InlineData(typeof(Mock<MultiUnorderedConstructorType>))]
         public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
         {
-            // Fixture setup
+            // Arrange
             var mockType = t.GetTypeInfo().GetGenericArguments().Single();
             var expectedCount = mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
 
             var sut = new MockConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(t);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedCount, result.Count());
-            // Teardown
         }
 
         [Theory]
@@ -64,21 +61,20 @@ namespace AutoFixture.AutoMoq.UnitTest
         [InlineData(typeof(Mock<MultiUnorderedConstructorType>))]
         public void MethodsDefineCorrectParameters(Type t)
         {
-            // Fixture setup
+            // Arrange
             var mockType = t.GetTypeInfo().GetGenericArguments().Single();
             var mockTypeCtorArgs = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
 
             var sut = new MockConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(t);
-            // Verify outcome
+            // Assert
             var actualArgs = from ci in result
                              select ci.Parameters;
             Assert.True(mockTypeCtorArgs.All(expectedParams =>
                 actualArgs.Any(actualParams =>
                     expectedParams.SequenceEqual(actualParams))));
-            // Teardown
         }
 
         [Theory]
@@ -87,7 +83,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         [InlineData(typeof(Mock<MultiUnorderedConstructorType>))]
         public void MethodsAreReturnedInCorrectOrder(Type t)
         {
-            // Fixture setup
+            // Arrange
             var mockType = t.GetTypeInfo().GetGenericArguments().Single();
             var mockTypeCtorArgCounts = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                         let paramCount = ci.GetParameters().Length
@@ -95,25 +91,23 @@ namespace AutoFixture.AutoMoq.UnitTest
                                         select paramCount;
 
             var sut = new MockConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(t);
-            // Verify outcome
+            // Assert
             var actualArgCounts = from ci in result
                                   select ci.Parameters.Count();
             Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
-            // Teardown
         }
 
         [Fact]
         public void FiltersOutPrivateConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MockConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(typeof(Mock<ConcreteTypeWithPrivateParameterlessConstructor>));
-            // Verify outcome
+            // Assert
             Assert.Single(result);
-            // Teardown
         }
     }
 }

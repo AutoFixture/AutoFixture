@@ -9,39 +9,37 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void TargetTypeReturnsValueSpecifiedInConstructor()
         {
-            // Fixture setup
+            // Arrange
             var expectedType = typeof(IInterface);
-            // Excercise system
+            // Act
             var sut = new SubstituteRequest(expectedType);
-            // Verify outcome
+            // Assert
             Assert.Same(expectedType, sut.TargetType);
-            // Teardown
         }
 
         [Fact]
         public void ConstructorThrowsArgumentNullExceptionWhenTargetTypeIsNull()
         {
-            // Fixture setup
-            // Excercise system
+            // Arrange
+            // Act
             var e = Assert.Throws<ArgumentNullException>(() => new SubstituteRequest(null));
-            // Verify outcome
+            // Assert
             Assert.Equal("targetType", e.ParamName);
-            // Teardown
         }
 
         [Fact]
         public void ToStringOutputContainsTypeName()
         {
-            //arrange
+            // Arrange
             var type = typeof(string);
             var typeName = type.ToString();
 
             var sut = new SubstituteRequest(type);
 
-            //act
+            // Act
             var actualOutput = sut.ToString();
 
-            //assert
+            // Assert
             Assert.Contains(typeName, actualOutput);
         }
     }

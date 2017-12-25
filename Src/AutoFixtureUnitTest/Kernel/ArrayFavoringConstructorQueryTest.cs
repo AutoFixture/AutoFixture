@@ -13,36 +13,33 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsMethodQuery()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ArrayFavoringConstructorQuery();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IMethodQuery>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SelectMethodsFromNullTypeThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ArrayFavoringConstructorQuery();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.SelectMethods(null).ToList());
-            // Teardown
         }
 
         [Fact]
         public void SelectFromTypeWithNoPublicConstructorReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ArrayFavoringConstructorQuery();
             var typeWithNoPublicConstructors = typeof(AbstractType);
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(typeWithNoPublicConstructors);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         [Theory]
@@ -51,19 +48,18 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(MultiUnorderedConstructorType))]
         public void SelectMethodsFromTypeReturnsAllAppropriateResults(Type type)
         {
-            // Fixture setup
+            // Arrange
             var expectedConstructors = from ci in type.GetConstructors()
                                        let parameters = ci.GetParameters()
                                        select new ConstructorMethod(ci) as IMethod;
 
             var sut = new ArrayFavoringConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
-            // Verify outcome
+            // Assert
             Assert.True(expectedConstructors.All(m => result.Any(m.Equals)));
-            // Teardown
         }
-        
+
         [Theory]
         [InlineData(typeof(string))]
         [InlineData(typeof(decimal))]
@@ -71,13 +67,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(BitArray))]
         public void SelectMethodsFromTypeReturnsFirstMethodThatTakesArrayAsArgument(Type type)
         {
-            // Fixture setup
+            // Arrange
             var sut = new ArrayFavoringConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
-            // Verify outcome
+            // Assert
             Assert.Contains(result.First().Parameters, p => p.ParameterType.IsArray);
-            // Teardown
         }
 
         [Theory]
@@ -87,30 +82,28 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(ItemHolder<object>))]
         public void SelectMethodsFromTypeReturnsCorrectlyOrderedResultWhenNoConstructorContainsEnumerableArguments(Type type)
         {
-            // Fixture setup
+            // Arrange
             var expectedConstructors = from ci in type.GetConstructors()
                                        let parameters = ci.GetParameters()
                                        orderby parameters.Length ascending
                                        select new ConstructorMethod(ci) as IMethod;
 
             var sut = new ArrayFavoringConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(type);
-            // Verify outcome
+            // Assert
             Assert.True(expectedConstructors.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void DoesNotReturnConstructorsWithParametersOfEnclosingType()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ArrayFavoringConstructorQuery();
-            // Exercise system
+            // Act
             var result = sut.SelectMethods(typeof(TypeWithCopyConstructorsOnly));
-            // Verify outcome
+            // Assert
             Assert.Empty(result);
-            // Teardown
         }
 
         private class TypeWithCopyConstructorsOnly

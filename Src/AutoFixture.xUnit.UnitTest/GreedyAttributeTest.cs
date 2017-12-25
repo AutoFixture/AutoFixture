@@ -11,38 +11,35 @@ namespace AutoFixture.Xunit.UnitTest
         [Fact]
         public void SutIsAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new GreedyAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
-            // Teardown
         }
 
         [Fact]
         public void GetCustomizationFromNullParamterThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GreedyAttribute();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetCustomization(null));
-            // Teardown
         }
 
         [Fact]
         public void GetCustomizationReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GreedyAttribute();
             var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
-            // Exercise system
+            // Act
             var result = sut.GetCustomization(parameter);
-            // Verify outcome
+            // Assert
             var invoker = Assert.IsAssignableFrom<ConstructorCustomization>(result);
             Assert.Equal(parameter.ParameterType, invoker.TargetType);
             Assert.IsAssignableFrom<GreedyConstructorQuery>(invoker.Query);
-            // Teardown
         }
     }
 }

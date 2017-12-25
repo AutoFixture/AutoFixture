@@ -11,71 +11,66 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsGuardClauseCommand()
         {
-            // Fixture setup
+            // Arrange
             var dummyOwner = new PropertyHolder<object>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
-            // Exercise system
+            // Act
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IGuardClauseCommand>(sut);
-            // Teardown
         }
 
         [Fact]
         public void PropertyInfoIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyOwner = new PropertyHolder<object>();
             var propertyInfo = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(propertyInfo, dummyOwner);
-            // Exercise system
+            // Act
             PropertyInfo result = sut.PropertyInfo;
-            // Verify outcome
+            // Assert
             Assert.Equal(propertyInfo, result);
-            // Teardown
         }
 
         [Fact]
         public void OwnerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var owner = new PropertyHolder<object>();
             var dummyProperty = owner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(dummyProperty, owner);
-            // Exercise system
+            // Act
             var result = sut.Owner;
-            // Verify outcome
+            // Assert
             Assert.Equal(owner, result);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteAssignsValueToOwnerProperty()
         {
-            // Fixture setup
+            // Arrange
             var owner = new PropertyHolder<object>();
             var property = owner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(property, owner);
             var value = new object();
-            // Exercise system
+            // Act
             sut.Execute(value);
-            // Verify outcome
+            // Assert
             Assert.Equal(value, owner.Property);
-            // Teardown
         }
 
         [Fact]
         public void RequestedTypeIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyOwner = new PropertyHolder<Version>();
             var property = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(property, dummyOwner);
-            // Exercise system
+            // Act
             var result = sut.RequestedType;
-            // Verify outcome
+            // Assert
             Assert.Equal(property.PropertyType, result);
-            // Teardown
         }
 
         [Fact]
@@ -92,51 +87,48 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void CreateExceptionReturnsExceptionWithCorrectMessage()
         {
-            // Fixture setup
+            // Arrange
             var dummyOwner = new PropertyHolder<Version>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
-            // Exercise system
+            // Act
             var message = Guid.NewGuid().ToString();
             var result = sut.CreateException(message);
-            // Verify outcome
+            // Assert
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
-            // Teardown
         }
 
         [Fact]
         public void CreateExceptionWithInnerReturnsExceptionWithCorrectMessage()
         {
-            // Fixture setup
+            // Arrange
             var dummyOwner = new PropertyHolder<Version>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
-            // Exercise system
+            // Act
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
             var result = sut.CreateException(message, inner);
-            // Verify outcome
+            // Assert
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
-            // Teardown
         }
 
         [Fact]
         public void CreateExceptionWithInnerReturnsExceptionWithCorrectInnerException()
         {
-            // Fixture setup
+            // Arrange
             var dummyOwner = new PropertyHolder<Version>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
-            // Exercise system
+            // Act
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
             var result = sut.CreateException(message, inner);
-            // Verify outcome
+            // Assert
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(inner, e.InnerException);
-            // Teardown
         }
     }
 }

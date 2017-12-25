@@ -12,12 +12,11 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData("xunit.extensions")]
         public void IdiomsDoesNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = typeof(IIdiomaticAssertion).Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
-            // Teardown
         }
 
         [Theory]
@@ -25,12 +24,11 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData("Rhino.Mocks")]
         public void IdiomsUnitTestsDoNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = this.GetType().Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
-            // Teardown
         }
     }
 }

@@ -49,41 +49,38 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsExpansion()
         {
-            // Fixture setup
+            // Arrange
             var dummyIndex = 0;
-            // Exercise system
+            // Act
             var sut = new IndexedReplacement<T>(dummyIndex);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IExpansion<T>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SourceIsCorrectWhenUsingEnumerableConstructor()
         {
-            // Fixture setup
+            // Arrange
             var dummyIndex = 0;
             var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToList().AsEnumerable();
             var sut = new IndexedReplacement<T>(dummyIndex, source);
-            // Exercise system
+            // Act
             IEnumerable<T> result = sut.Source;
-            // Verify outcome
+            // Assert
             Assert.True(source.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void SourceIsCorrectWhenUsingArrayConstructor()
         {
-            // Fixture setup
+            // Arrange
             var dummyIndex = 0;
             var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToArray();
             var sut = new IndexedReplacement<T>(dummyIndex, source);
-            // Exercise system
+            // Act
             IEnumerable<T> result = sut.Source;
-            // Verify outcome
+            // Assert
             Assert.True(source.SequenceEqual(result));
-            // Teardown
         }
 
         [Theory]
@@ -93,13 +90,12 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(42)]
         public void ReplacementIndexIsCorrectWhenUsingEnumerableConstructor(int expectedIndex)
         {
-            // Fixture setup
+            // Arrange
             var sut = new IndexedReplacement<T>(expectedIndex, Enumerable.Empty<T>());
-            // Exercise system
+            // Act
             int result = sut.ReplacementIndex;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedIndex, result);
-            // Teardown
         }
 
         [Theory]
@@ -109,13 +105,12 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(42)]
         public void ReplacementIndexIsCorrectWhenUsingArrayConstructor(int expectedIndex)
         {
-            // Fixture setup
+            // Arrange
             var sut = new IndexedReplacement<T>(expectedIndex);
-            // Exercise system
+            // Act
             int result = sut.ReplacementIndex;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedIndex, result);
-            // Teardown
         }
 
         [Theory]
@@ -124,17 +119,16 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(2)]
         public void ExpandReturnsCorrectResult(int replacementIndex)
         {
-            // Fixture setup
+            // Arrange
             var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToList();
             var sut = new IndexedReplacement<T>(replacementIndex, source);
-            // Exercise system
+            // Act
             var replacementValue = this.CreateItem();
             var result = sut.Expand(replacementValue);
-            // Verify outcome
+            // Assert
             var expected = source.ToList();
             expected[replacementIndex] = replacementValue;
             Assert.True(expected.SequenceEqual(result));
-            // Teardown
         }
 
         protected abstract T CreateItem();

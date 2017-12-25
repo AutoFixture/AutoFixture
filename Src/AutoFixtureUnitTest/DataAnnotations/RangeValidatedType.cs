@@ -6,7 +6,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
     {
         public const int Minimum = 10;
         public const int Maximum = 20;
-        
+
         public const double DoubleMinimum = 10.1;
         public const double DoubleMaximum = 20.2;
 
@@ -67,8 +67,8 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Range(Minimum, float.MaxValue)]
         public float PropertyWithMaximumFloatMaxValue { get; set; }
 
-        public void MethodWithRangedParameter([Range(Minimum, Maximum)] decimal argument){ }
+        public void MethodWithRangedParameter([Range(Minimum, Maximum)] decimal argument) { }
 
-        public void MethodWithRangedNullableParameter([Range(Minimum, Maximum)] decimal? argument){ }
+        public void MethodWithRangedNullableParameter([Range(Minimum, Maximum)] decimal? argument) { }
     }
 }

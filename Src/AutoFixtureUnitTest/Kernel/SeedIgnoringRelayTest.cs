@@ -9,76 +9,71 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new SeedIgnoringRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnNull()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SeedIgnoringRelay();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SeedIgnoringRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(()=>
+            // Act & assert
+            Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateFromSeedWhenContainerCannotSatisfyWrappedRequestWillReturnNull()
         {
-            // Fixture setup
+            // Arrange
             var anonymousSeed = new SeededRequest(typeof(object), new object());
             var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new SeedIgnoringRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(anonymousSeed, unableContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromSeedWhenContainerCanSatisfyWrappedRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var anonymousSeed = new SeededRequest(typeof(object), new object());
 
             var expectedResult = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedResult };
 
             var sut = new SeedIgnoringRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(anonymousSeed, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromSeedWillCorrectlyInvokeContainer()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SeedIgnoringRelay();
             var seededRequest = new SeededRequest(typeof(int), 1);
 
@@ -90,11 +85,10 @@ namespace AutoFixtureUnitTest.Kernel
                 mockVerified = true;
                 return null;
             };
-            // Exercise system
+            // Act
             sut.Create(seededRequest, containerMock);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
     }
 }

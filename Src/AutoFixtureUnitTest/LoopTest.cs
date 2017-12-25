@@ -20,17 +20,16 @@ namespace AutoFixtureUnitTest
 
         public void Execute(int loopCount, TResult expectedResult)
         {
-            // Fixture setup
+            // Arrange
             TSut sut = new TSut();
-            // Exercise system
+            // Act
             TResult result = default(TResult);
             for (int i = 0; i < loopCount; i++)
             {
                 result = this.create(sut);
             }
-            // Verify outcome
+            // Assert
             Assert.Equal<TResult>(expectedResult, result);
-            // Teardown
         }
     }
 }

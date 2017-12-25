@@ -17,25 +17,23 @@ namespace AutoFixture.NUnit2.UnitTest
         [Test]
         public void HasTestCasesForAutoDataProvider()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoDataProvider();
             var actual = sut.HasTestCasesFor(this.method);
-            // Verify outcome
+            // Assert
             Assert.True(actual);
-            // Teardown
         }
 
         [Test]
         public void GetTestCasesForAutoDataBuilderReturnsCorrectly()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoDataProvider();
             var actual = sut.GetTestCasesFor(this.method);
-            // Verify outcome
+            // Assert
             Assert.NotNull(actual);
-            // Teardown
         }
     }
 }

@@ -10,207 +10,193 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyCommand = new DelegatingSpecimenCommand();
-            // Exercise system
+            // Act
             var sut = new Postprocessor(dummyBuilder, dummyCommand);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutIsPostProcessor()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyCommand = new DelegatingSpecimenCommand();
-            // Exercise system
+            // Act
             var sut = new Postprocessor(dummyBuilder, dummyCommand);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Postprocessor<object>>(sut);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SutCanBeInitializedWithDoubleAction()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             Action<object, ISpecimenContext> dummyAction = (s, c) => { };
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Null(Record.Exception(() => new Postprocessor(dummyBuilder, dummyAction)));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithNullBuilderThrows()
         {
-            // Fixture setup
+            // Arrange
             Action<object> dummyAction = s => { };
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new Postprocessor(null, dummyAction));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithNullActionThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, (Action<object>)null));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithNullSpecificationThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             Action<object, ISpecimenContext> dummyAction = (s, c) => { };
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, dummyAction, null));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new DelegatingSpecimenBuilder();
             Action<object> dummyAction = s => { };
 
             var sut = new Postprocessor<object>(expectedBuilder, dummyAction);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ActionIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             Action<object, ISpecimenContext> expectedAction = (s, c) => { };
 
             var sut = new Postprocessor<object>(dummyBuilder, expectedAction);
-            // Exercise system
+            // Act
             Action<object, ISpecimenContext> result = sut.Action;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedAction, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void SpecificationIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             Action<object, ISpecimenContext> dummyAction = (s, c) => { };
             var expectedSpec = new DelegatingRequestSpecification();
 
             var sut = new Postprocessor<object>(dummyBuilder, dummyAction, expectedSpec);
-            // Exercise system
+            // Act
             IRequestSpecification result = sut.Specification;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpec, result);
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrectWhenConstructedMinimallyNonGenerically()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var dummyCommand = new DelegatingSpecimenCommand();
 
             var sut = new Postprocessor(expected, dummyCommand);
-            // Exercise system
+            // Act
             var actual = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void CommandIsCorrectWhenConstructedMinimallyNonGenerically()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingSpecimenCommand();
 
             var sut = new Postprocessor(dummyBuilder, expected);
-            // Exercise system
+            // Act
             var actual = sut.Command;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrectWhenConstructedFullyNonGenerically()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var dummyCommand = new DelegatingSpecimenCommand();
             var dummySpecification = new DelegatingRequestSpecification();
 
             var sut = new Postprocessor(expected, dummyCommand, dummySpecification);
-            // Exercise system
+            // Act
             var actual = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void CommandIsCorrectWhenConstructedFullyNonGenerically()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingSpecimenCommand();
             var dummySpecification = new DelegatingRequestSpecification();
 
             var sut = new Postprocessor(dummyBuilder, expected, dummySpecification);
-            // Exercise system
+            // Act
             var actual = sut.Command;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsCorrectWhenConstructedFullyNonGenerically()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyCommand = new DelegatingSpecimenCommand();
             var expected = new DelegatingRequestSpecification();
 
             var sut = new Postprocessor(dummyBuilder, dummyCommand, expected);
-            // Exercise system
+            // Act
             var actual = sut.Specification;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]
         public void CreateInvokesDecoratedBuilderWithCorrectParameters()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var expectedContainer = new DelegatingSpecimenContext();
 
@@ -219,34 +205,32 @@ namespace AutoFixtureUnitTest.Kernel
 
             var dummyCommand = new DelegatingSpecimenCommand();
             var sut = new Postprocessor(builderMock, dummyCommand);
-            // Exercise system
+            // Act
             sut.Create(expectedRequest, expectedContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new object();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult };
             var dummyCommand = new DelegatingSpecimenCommand();
             var sut = new Postprocessor(builder, dummyCommand);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateInvokesActionWithCreatedSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecimen = new object();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedSpecimen };
 
@@ -257,23 +241,22 @@ namespace AutoFixtureUnitTest.Kernel
             };
 
             var sut = new Postprocessor(builder, mock);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyCommand = new DelegatingSpecimenCommand();
             var sut = new Postprocessor(dummyBuilder, dummyCommand);
-            // Exercise system
+            // Act
             var expectedBuilders = new[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -281,74 +264,69 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
-            // Verify outcome
+            // Assert
             var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(pp.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
         }
 
         [Fact]
         public void ComposeSingleItemReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyCommand = new DelegatingSpecimenCommand();
             var sut = new Postprocessor(dummyBuilder, dummyCommand);
-            // Exercise system
+            // Act
             var expected = new DelegatingSpecimenBuilder();
             var actual = sut.Compose(new[] { expected });
-            // Verify outcome
+            // Assert
             var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
             Assert.Equal(expected, pp.Builder);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void ComposePreservesAction()
         {
-            // Fixture setup
+            // Arrange
             Action<object, ISpecimenContext> expected = (x, y) => { };
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new Postprocessor(dummyBuilder, expected);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
             Assert.Equal(expected, pp.Action);
-            // Teardown
         }
 
         [Fact]
         public void ComposePreservesCommand()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingSpecimenCommand();
             var sut = new Postprocessor(dummyBuilder, expected);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
             Assert.Equal(expected, pp.Command);
-            // Teardown
         }
 
         [Fact]
         public void ComposePreservesSpecification()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingRequestSpecification();
             var dummyCommand = new DelegatingSpecimenCommand();
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new Postprocessor(dummyBuilder, dummyCommand, expected);
-            // Exercise system
+            // Act
             var actual = sut.Compose(new ISpecimenBuilder[0]);
-            // Verify outcome
+            // Assert
             var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
             Assert.Equal(expected, pp.Specification);
-            // Teardown
         }
     }
 }

@@ -10,66 +10,61 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecifiedSpecimenCommand()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new UnspecifiedSpecimenCommand<object>(obj => { });
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<object>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullActionThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new UnspecifiedSpecimenCommand<object>(null));
-            // Teardown
         }
 
         [Fact]
         public void ActionIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             Action<string> expectedAction = s => { };
             var sut = new UnspecifiedSpecimenCommand<string>(expectedAction);
-            // Exercise system
+            // Act
             Action<string> result = sut.Action;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedAction, result);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteCorrectlyInvokesAction()
         {
-            // Fixture setup
+            // Arrange
             var specimen = new object();
 
             var verified = false;
             Action<object> spy = s => verified = specimen.Equals(s);
 
             var sut = new UnspecifiedSpecimenCommand<object>(spy);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Execute(specimen, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True(verified);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new UnspecifiedSpecimenCommand<object>(s => { });
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var result = sut.IsSatisfiedBy(dummyRequest);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
     }
 }

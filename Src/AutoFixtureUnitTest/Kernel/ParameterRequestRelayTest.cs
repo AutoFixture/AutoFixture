@@ -12,89 +12,83 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ParameterRequestRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ParameterRequestRelay();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ParameterRequestRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateFromNonParameterRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonParameterRequest = new object();
             var sut = new ParameterRequestRelay();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonParameterRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromParameterRequestWillReturnNullWhenContainerCannotSatisfyRequest()
         {
-            // Fixture setup
+            // Arrange
             var parameterInfo = typeof(SingleParameterType<string>).GetTypeInfo().GetConstructors().First().GetParameters().First();
             var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new ParameterRequestRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(parameterInfo, container);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromParameterRequestWillReturnCorrectResultWhenContainerCanSatisfyRequest()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecimen = new object();
             var parameterInfo = typeof(SingleParameterType<string>).GetTypeInfo().GetConstructors().First().GetParameters().First();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedSpecimen };
             var sut = new ParameterRequestRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(parameterInfo, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpecimen, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromParameterRequestWillCorrectlyInvokeContainer()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ParameterRequestRelay();
             var parameterInfo = typeof(SingleParameterType<string>).GetTypeInfo().GetConstructors().First().GetParameters().First();
             var expectedRequest = new SeededRequest(parameterInfo.ParameterType, parameterInfo.Name);
@@ -107,11 +101,10 @@ namespace AutoFixtureUnitTest.Kernel
                 mockVerified = true;
                 return null;
             };
-            // Exercise system
+            // Act
             sut.Create(parameterInfo, containerMock);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
     }
 }

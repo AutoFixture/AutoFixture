@@ -11,84 +11,77 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsIdiomaticAssertion()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
-            // Exercise system
+            // Act
             var sut = new GetHashCodeSuccessiveAssertion(dummyComposer);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ComposerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposer = new Fixture();
             var sut = new GetHashCodeSuccessiveAssertion(expectedComposer);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedComposer, result);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullComposerThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new GetHashCodeSuccessiveAssertion(null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullMethodThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new GetHashCodeSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((MethodInfo)null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyClassThatDoesNotOverrideObjectGetHashCodeDoesNothing()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new GetHashCodeSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(typeof(ClassThatDoesNotOverrideObjectGetHashCode))));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWellBehavedGetHashCodeSelfOverrideDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new GetHashCodeSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(typeof(WellBehavedGetHashCodeSelfObjectOverride))));
-            // Teardown            
         }
 
         [Fact]
         public void VerifyIllbehavedEqualsSelfBehaviourThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new GetHashCodeSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<GetHashCodeOverrideException>(() =>
                 sut.Verify(typeof(IllBehavedEqualsSelfObjectOverride)));
-            // Teardown
         }
 
 #pragma warning disable 659

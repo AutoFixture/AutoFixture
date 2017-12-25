@@ -12,36 +12,33 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new NumericSequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericSequenceGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             var dummyRequest = new object();
             Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
-            // Teardown
         }
 
         [Theory]
@@ -49,15 +46,14 @@ namespace AutoFixtureUnitTest
         [InlineData(default(bool))]
         public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -66,15 +62,14 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(bool))]
         public void CreateWithNonNumericTypeRequestReturnsNoSpecimen(Type request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -91,44 +86,41 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(ulong))]
         public void CreateWithNumericTypeRequestReturnsCorrectValue(Type request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new NumericSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.IsType(request, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWith256ByteRequestsReturnsByteSpecimens()
         {
-            // Fixture setup
+            // Arrange
             var sequence = Enumerable.Range(0, Byte.MaxValue + 1);
             var request = typeof(Byte);
             var sut = new NumericSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sequence.Select(i => sut.Create(request, dummyContainer));
-            // Verify outcome
+            // Assert
             Assert.True(result.All(i => i.GetType() == request));
-            // Teardown
         }
 
         [Fact]
         public void CreateWith128SByteRequestsReturnsSByteSpecimens()
         {
-            // Fixture setup
+            // Arrange
             var sequence = Enumerable.Range(0, SByte.MaxValue + 1);
             var request = typeof(SByte);
             var sut = new NumericSequenceGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sequence.Select(i => sut.Create(request, dummyContainer));
-            // Verify outcome
+            // Assert
             Assert.True(result.All(i => i.GetType() == request));
-            // Teardown
         }
     }
 }

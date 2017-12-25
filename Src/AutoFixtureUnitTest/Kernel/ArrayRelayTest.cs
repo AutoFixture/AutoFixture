@@ -10,24 +10,22 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ArrayRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ArrayRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Theory]
@@ -40,15 +38,14 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Version))]
         public void CreateWithNoneArrayRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new ArrayRelay();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -58,35 +55,33 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Version[]), typeof(Version))]
         public void CreateWithArrayRequestReturnsCorrectResult(Type request, Type itemType)
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new MultipleRequest(itemType);
             object expectedResult = Array.CreateInstance(itemType, 0);
             var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen() };
 
             var sut = new ArrayRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateConvertsEnumerableToArray()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(int[]);
             var expectedRequest = new MultipleRequest(typeof(int));
             var enumerable = Enumerable.Range(1, 3);
             var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? (object)enumerable : new NoSpecimen() };
 
             var sut = new ArrayRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var a = Assert.IsAssignableFrom<int[]>(result);
             Assert.True(enumerable.SequenceEqual(a));
-            // Teardown
         }
 
         [Theory]
@@ -96,16 +91,15 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(object[]))]
         public void CreateReturnsCorrectResultWhenContextReturnsNonEnumerableResult(object response)
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(object[]);
             var context = new DelegatingSpecimenContext { OnResolve = r => response };
             var sut = new ArrayRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

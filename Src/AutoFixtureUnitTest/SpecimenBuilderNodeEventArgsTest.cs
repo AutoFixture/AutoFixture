@@ -10,26 +10,24 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsEventArgs()
         {
-            // Fixture setup
+            // Arrange
             var dummyNode = new CompositeSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new SpecimenBuilderNodeEventArgs(dummyNode);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<EventArgs>(sut);
-            // Teardown
         }
 
         [Fact]
         public void GraphIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expected = new CompositeSpecimenBuilder();
             var sut = new SpecimenBuilderNodeEventArgs(expected);
-            // Exercise system
+            // Act
             ISpecimenBuilderNode actual = sut.Graph;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, actual);
-            // Teardown
         }
 
         [Fact]

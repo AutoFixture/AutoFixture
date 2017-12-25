@@ -13,7 +13,7 @@ namespace AutoFixtureDocumentationTest.Intermediate
         [Fact]
         public void NumberSumIsCorrect_AutoFixture()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             IMyInterface fake = new FakeMyInterface();
             fixture.Register<IMyInterface>(() => fake);
@@ -23,28 +23,26 @@ namespace AutoFixtureDocumentationTest.Intermediate
             int expectedSum = things.Select(t => t.Number).Sum();
 
             MyClass sut = fixture.Create<MyClass>();
-            // Exercise system
+            // Act
             int result = sut.CalculateSumOfThings();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedSum, result);
-            // Teardown
         }
 
         [Fact]
         public void NumberSumIsCorrect_DerivedFixture()
         {
-            // Fixture setup
+            // Arrange
             MyClassFixture fixture = new MyClassFixture();
             fixture.AddManyTo(fixture.Things);
 
             int expectedSum = 
                 fixture.Things.Select(t => t.Number).Sum();
             MyClass sut = fixture.Create<MyClass>();
-            // Exercise system
+            // Act
             int result = sut.CalculateSumOfThings();
-            // Verify outcome
+            // Assert
             Assert.Equal<int>(expectedSum, result);
-            // Teardown
         }
     }
 }

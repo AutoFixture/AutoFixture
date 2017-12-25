@@ -11,28 +11,26 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullArrayThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeCustomization((ICustomization[])null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizationsIsCorrectWhenInitializedWithArray()
         {
-            // Fixture setup
+            // Arrange
             var customizations = new[]
             {
                 new DelegatingCustomization(),
@@ -41,27 +39,25 @@ namespace AutoFixtureUnitTest
             };
 
             var sut = new CompositeCustomization(customizations);
-            // Exercise system
+            // Act
             IEnumerable<ICustomization> result = sut.Customizations;
-            // Verify outcome
+            // Assert
             Assert.True(customizations.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullEnumerableThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeCustomization((IEnumerable<ICustomization>)null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizationsIsCorrectWhenInitializedWithEnumerable()
         {
-            // Fixture setup
+            // Arrange
             var customizations = new[]
             {
                 new DelegatingCustomization(),
@@ -70,17 +66,16 @@ namespace AutoFixtureUnitTest
             };
 
             var sut = new CompositeCustomization(customizations);
-            // Exercise system
+            // Act
             var result = sut.Customizations;
-            // Verify outcome
+            // Assert
             Assert.True(customizations.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeCustomizesFixtureForAllCustomizations()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
 
             var verifications = new List<bool>();
@@ -92,12 +87,11 @@ namespace AutoFixtureUnitTest
             };
 
             var sut = new CompositeCustomization(customizations);
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             Assert.Equal(customizations.Length, verifications.Count);
             Assert.True(verifications.All(b => b));
-            // Teardown
         }
     }
 }

@@ -9,29 +9,27 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Fact]
         public void FixtureCorrectlyCreatesShortText()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var actual = fixture.Create<ClassWithShortStringLengthConstrainedConstructorArgument>();
-            // Verify outcome
+            // Assert
             Assert.True(
                 actual.ShortText.Length <= ClassWithShortStringLengthConstrainedConstructorArgument.ShortTextMaximumLength,
                 "AutoFixture should respect [StringLength] attribute on constructor arguments.");
-            // Teardown
         }
 
         [Fact]
         public void FixtureCorrectlyCreatesLongText()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var actual = fixture.Create<ClassWithLongStringLengthConstrainedConstructorArgument>();
-            // Verify outcome
+            // Assert
             Assert.Equal(
                 ClassWithLongStringLengthConstrainedConstructorArgument.LongTextLength,
                 actual.LongText.Length);
-            // Teardown
         }
 
         private class ClassWithShortStringLengthConstrainedConstructorArgument

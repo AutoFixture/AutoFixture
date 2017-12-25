@@ -12,92 +12,85 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoMoqCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullRelayThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new AutoMoqCustomization(null));
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsCorrectWhenInitializedWithRelay()
         {
-            // Fixture setup
+            // Arrange
             var expectedRelay = new MockRelay();
             var sut = new AutoMoqCustomization(expectedRelay);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Relay;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedRelay, result);
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsNotNullWhenInitializedWithDefaultConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoMoqCustomization();
-            // Exercise system
+            // Act
             var result = sut.Relay;
-            // Verify outcome
+            // Assert
             Assert.IsType<MockRelay>(result);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoMoqCustomization();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsAppropriateResidueCollector()
         {
-            // Fixture setup
+            // Arrange
             var residueCollectors = new List<ISpecimenBuilder>();
             var fixtureStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
             fixtureStub.SetupGet(c => c.ResidueCollectors).Returns(residueCollectors);
 
             var sut = new AutoMoqCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixtureStub.Object);
-            // Verify outcome
+            // Assert
             Assert.Contains(sut.Relay, residueCollectors);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAddsAppropriateCustomizations()
         {
-            // Fixture setup
+            // Arrange
             var customizations = new List<ISpecimenBuilder>();
             var fixtureStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
             fixtureStub.SetupGet(c => c.Customizations).Returns(customizations);
 
             var sut = new AutoMoqCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixtureStub.Object);
-            // Verify outcome
+            // Assert
             var postprocessor = customizations.OfType<MockPostprocessor>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postprocessor.Builder);
             Assert.IsAssignableFrom<MockConstructorQuery>(ctorInvoker.Query);
-            // Teardown
         }
     }
 }

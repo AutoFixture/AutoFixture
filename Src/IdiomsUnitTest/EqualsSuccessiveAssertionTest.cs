@@ -11,84 +11,77 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsIdiomaticAssertion()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
-            // Exercise system
+            // Act
             var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ComposerIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposer = new Fixture();
             var sut = new EqualsSuccessiveAssertion(expectedComposer);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedComposer, result);
-            // Teardown
         }
 
         [Fact]
         public void ConstructWithNullComposerThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new EqualsSuccessiveAssertion(null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyNullMethodThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((MethodInfo)null));
-            // Teardown
         }
 
         [Fact]
         public void VerifyClassThatDoesNotOverrideObjectEqualsDoesNothing()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals))));
-            // Teardown
         }
 
         [Fact]
         public void VerifyWellBehavedEqualsSuccessiveOverrideDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(typeof(WellBehavedEqualsSuccessiveObjectOverride))));
-            // Teardown            
         }
 
         [Fact]
         public void VerifyIllbehavedEqualsSuccessiveBehaviourThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyComposer = new Fixture();
             var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<EqualsOverrideException>(() =>
                 sut.Verify(typeof(IllBehavedEqualsSuccessiveObjectOverride)));
-            // Teardown
         }
 
 #pragma warning disable 659

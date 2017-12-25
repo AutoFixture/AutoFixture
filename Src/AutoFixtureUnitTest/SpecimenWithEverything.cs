@@ -48,7 +48,7 @@ namespace AutoFixtureUnitTest
 
         // ReadOnly property
         public string StringReadOnlyAssignedByCtorOnly { get; private set; }
-        
+
         // Enumerable, Array, List, ObservableCollection, Dictionary
         public IEnumerable<string> EnumerableString { get; set; }
         public string[] StringArray { get; set; }
@@ -69,7 +69,7 @@ namespace AutoFixtureUnitTest
         public decimal? NullableDecimal { get; set; }
         public double? NullableDouble { get; set; }
         public float? NullableFloat { get; set; }
-        
+
         // Attribute-based properties
         [RegularExpression("[0-9]")]
         public string StringWithRegExAttributeOnlyAllowingNumbers { get; set; }

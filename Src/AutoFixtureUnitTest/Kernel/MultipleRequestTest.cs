@@ -10,141 +10,130 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void InitializeWithNullRequestThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new MultipleRequest(null));
-            // Teardown
         }
 
         [Fact]
         public void RequestIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var sut = new MultipleRequest(expectedRequest);
-            // Exercise system
+            // Act
             var result = sut.Request;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedRequest, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new MultipleRequest(new object());
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<MultipleRequest>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleRequest(new object());
             object other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleRequest(new object());
             MultipleRequest other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleRequest(new object());
             object anonymousObject = new ConcreteType();
-            // Exercise system
+            // Act
             var result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenRequestDiffers()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleRequest(new object());
             object other = new MultipleRequest(new object());
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenRequestDiffers()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleRequest(new object());
             var other = new MultipleRequest(new object());
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenRequestMatches()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var sut = new MultipleRequest(request);
             object other = new MultipleRequest(request);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenRequestMatches()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var sut = new MultipleRequest(request);
             var other = new MultipleRequest(request);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MultipleRequest(new object());
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             var expectedResult = sut.Request.GetHashCode();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

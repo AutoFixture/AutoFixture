@@ -11,30 +11,28 @@ namespace AutoFixture.NUnit2.UnitTest
         [Test]
         public void SutIsAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new FrozenAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsInstanceOf<CustomizeAttribute>(sut);
-            // Teardown
         }
 
         [Test]
         public void GetCustomizationFromNullParameterThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FrozenAttribute();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetCustomization(null));
-            // Teardown
         }
 
         [Test]
         [Obsolete]
         public void GetCustomizationWithSpecificRegisteredTypeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var registeredType = typeof(AbstractType);
 #pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
@@ -43,20 +41,19 @@ namespace AutoFixture.NUnit2.UnitTest
                 .GetMethod("DoSomething", new[] { typeof(ConcreteType) })
                 .GetParameters()
                 .Single();
-            // Exercise system
+            // Act
             var result = sut.GetCustomization(parameter);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<FreezingCustomization>(result);
             var freezer = (FreezingCustomization)result;
             Assert.AreEqual(registeredType, freezer.RegisteredType);
-            // Teardown
         }
 
         [Test]
         [Obsolete]
         public void GetCustomizationWithIncompatibleRegisteredTypeThrowsArgumentException()
         {
-            // Fixture setup
+            // Arrange
             var registeredType = typeof(string);
 #pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
@@ -65,9 +62,8 @@ namespace AutoFixture.NUnit2.UnitTest
                 .GetMethod("DoSomething", new[] { typeof(ConcreteType) })
                 .GetParameters()
                 .Single();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentException>(() => sut.GetCustomization(parameter));
-            // Teardown
         }
     }
 }

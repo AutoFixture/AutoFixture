@@ -13,12 +13,11 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new EnumGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Theory]
@@ -29,15 +28,14 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(string))]
         public void RequestNonEnumReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new EnumGenerator();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -51,14 +49,13 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(DayOfWeek), 8, DayOfWeek.Sunday)]
         public void RequestForEnumTypeReturnsCorrectResult(Type enumType, int requestCount, object expectedResult)
         {
-            // Fixture setup
+            // Arrange
             var sut = new EnumGenerator();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).ToArray().Last();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -67,18 +64,17 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(ConsoleColor), ConsoleColor.Black)]
         public void SutCanCorrectlyInterleaveDifferentEnumTypes(Type enumType, object expectedResult)
         {
-            // Fixture setup
+            // Arrange
             var sut = new EnumGenerator();
             var dummyContext = new DelegatingSpecimenContext();
 
             sut.Create(typeof(TriState), dummyContext);
             sut.Create(typeof(TriState), dummyContext);
             sut.Create(typeof(DayOfWeek), dummyContext);
-            // Exercise system
+            // Act
             var result = sut.Create(enumType, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -98,25 +94,23 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(ActivityScope), 100, ActivityScope.Standalone)]
         public void RequestForFlagEnumTypeReturnsCorrectResult(Type enumType, int requestCount, object expectedResult)
         {
-            // Fixture setup
+            // Arrange
             var sut = new EnumGenerator();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).ToArray().Last();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void RequestForEnumWithNoValuesThrowsObjectCreationException()
         {
-            // Fixture setup
+            // Arrange
             var sut = new EnumGenerator();
-            // Exercise system and Verify outcome
+            // Act & assert
             var dummyContext = new DelegatingSpecimenContext();
-            Assert.Throws<ObjectCreationException>(() => sut.Create(typeof (EmptyEnum), dummyContext));
-            // Teardown
+            Assert.Throws<ObjectCreationException>(() => sut.Create(typeof(EmptyEnum), dummyContext));
         }
     }
 }

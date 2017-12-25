@@ -25,7 +25,7 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         internal Func<IEnumerable<ParameterInfo>> OnParameters { get; set; }
-        
+
         internal Func<IEnumerable<object>, object> OnInvoke { get; set; }
     }
 }

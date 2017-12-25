@@ -11,125 +11,116 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new StringGenerator(() => new object());
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullFactoryWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Func<object> nullFactory = null;
-            // Exercise system
-            // Verify outcome (expected exception)
+            // Act
+            // Assert (expected exception)
             Assert.Throws<ArgumentNullException>(() =>
                 new StringGenerator(nullFactory));
-            // Teardown
         }
 
         [Fact]
         public void FactoryIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             Func<object> expectedFactory = () => new object();
             var sut = new StringGenerator(expectedFactory);
-            // Exercise system
+            // Act
             Func<object> result = sut.Factory;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedFactory, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StringGenerator(() => new object());
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerWillNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StringGenerator(() => string.Empty);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateFromNonStringRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StringGenerator(() => string.Empty);
             var nonStringRequest = new object();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromStringRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var specimen = 1;
             var expectedResult = specimen.ToString();
 
             var sut = new StringGenerator(() => specimen);
             var stringRequest = typeof(string);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(stringRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromStringRequestWhenFactoryReturnsNullWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new StringGenerator(() => null);
             var stringRequest = typeof(string);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(stringRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromStringRequestWhenFactoryReturnsNoSpecimenWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new NoSpecimen();
             var sut = new StringGenerator(() => expectedResult);
             var stringRequest = typeof(string);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(stringRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

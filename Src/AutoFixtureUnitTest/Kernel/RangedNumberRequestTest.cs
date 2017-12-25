@@ -10,70 +10,64 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void OperandTypeIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedOperandType = typeof(int);
             var sut = new RangedNumberRequest(expectedOperandType, 1, 3);
-            // Exercise system
+            // Act
             var result = sut.OperandType;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedOperandType, result);
-            // Teardown
         }
 
         [Fact]
         public void MinimumIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedMinimum = 1;
             var sut = new RangedNumberRequest(typeof(int), expectedMinimum, 3);
-            // Exercise system
+            // Act
             var result = sut.Minimum;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMinimum, result);
-            // Teardown
         }
 
         [Fact]
         public void MaximumIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedMaximum = 3;
             var sut = new RangedNumberRequest(typeof(int), 1, expectedMaximum);
-            // Exercise system
+            // Act
             var result = sut.Maximum;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMaximum, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullOperandTypeWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RangedNumberRequest(null, 1, 3));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullMinimumWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RangedNumberRequest(typeof(int), null, 3));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullMaximumWillThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RangedNumberRequest(typeof(int), 1, null));
-            // Teardown
         }
 
         [Theory]
@@ -87,11 +81,10 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(long), -1, -2)]
         public void CreateWithEqualOrBiggerMinimumThanMaximumWillThrow(Type type, object minimum, object maximum)
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new RangedNumberRequest(type, minimum, maximum));
-            // Teardown
         }
 
         [Theory]
@@ -101,11 +94,10 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(long), 10, 10)]
         public void CreateWithLowerEqualToMaximunDoesNotThrow(Type type, object minimum, object maximum)
         {
-            // Exercise system
+            // Act
             Assert.Null(Record.Exception(() =>
                 new RangedNumberRequest(type, minimum, maximum)));
-            // Verify outcome
-            // Teardown
+            // Assert
         }
 
         [Theory]
@@ -119,204 +111,189 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(long), -2, -1)]
         public void CreateWithLowerMinimumThanMaximumDoesNotThrow(Type type, object minimum, object maximum)
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Null(Record.Exception(() =>
                 new RangedNumberRequest(type, minimum, maximum)));
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RangedNumberRequest(typeof(int), 1, 3);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<RangedNumberRequest>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedNumberRequest(typeof(int), 1, 3);
             object other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedNumberRequest(typeof(int), 1, 3);
             RangedNumberRequest other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedNumberRequest(typeof(int), 1, 3);
             object anonymousObject = new ConcreteType();
-            // Exercise system
+            // Act
             var result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenOperandTypesDiffer()
         {
-            // Fixture setup
-            var sut      = new RangedNumberRequest(typeof(int), 1, 3);
+            // Arrange
+            var sut = new RangedNumberRequest(typeof(int), 1, 3);
             object other = new RangedNumberRequest(typeof(double), 1, 3);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenOperandTypesDiffer()
         {
-            // Fixture setup
-            var sut   = new RangedNumberRequest(typeof(int), 1, 3);
+            // Arrange
+            var sut = new RangedNumberRequest(typeof(int), 1, 3);
             var other = new RangedNumberRequest(typeof(double), 1, 3);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenMinimumsDiffer()
         {
-            // Fixture setup
-            var sut      = new RangedNumberRequest(typeof(int), 1, 3);
+            // Arrange
+            var sut = new RangedNumberRequest(typeof(int), 1, 3);
             object other = new RangedNumberRequest(typeof(int), 2, 3);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenMinimumsDiffer()
         {
-            // Fixture setup
-            var sut   = new RangedNumberRequest(typeof(int), 1, 3);
+            // Arrange
+            var sut = new RangedNumberRequest(typeof(int), 1, 3);
             var other = new RangedNumberRequest(typeof(int), 2, 3);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenMaximumsDiffer()
         {
-            // Fixture setup
-            var sut      = new RangedNumberRequest(typeof(int), 1, 3);
+            // Arrange
+            var sut = new RangedNumberRequest(typeof(int), 1, 3);
             object other = new RangedNumberRequest(typeof(int), 1, 4);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenMaximumsDiffer()
         {
-            // Fixture setup
-            var sut   = new RangedNumberRequest(typeof(int), 1, 3);
+            // Arrange
+            var sut = new RangedNumberRequest(typeof(int), 1, 3);
             var other = new RangedNumberRequest(typeof(int), 1, 4);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenConstructorParametersEquals()
         {
-            // Fixture setup
+            // Arrange
             Type operandType = typeof(int);
             object minimum = 1;
             object maximum = 3;
             var sut = new RangedNumberRequest(operandType, minimum, maximum);
             object other = new RangedNumberRequest(operandType, minimum, maximum);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenConstructorParametersEquals()
         {
-            // Fixture setup
+            // Arrange
             Type operandType = typeof(int);
             object minimum = 1;
             object maximum = 3;
             var sut = new RangedNumberRequest(operandType, minimum, maximum);
             var other = new RangedNumberRequest(operandType, minimum, maximum);
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             Type operandType = typeof(int);
             object minimum = 1;
             object maximum = 3;
             var sut = new RangedNumberRequest(operandType, minimum, maximum);
             var expectedHashCode = operandType.GetHashCode() ^ minimum.GetHashCode() ^ maximum.GetHashCode();
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
 
         [Fact]
         public void ToStringShouldBeOverridden()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RangedNumberRequest(typeof(long), 42, 100);
 
-            // Exercise system
+            // Act
             var stringResult = sut.ToString();
 
-            // Verify outcome
+            // Assert
             Assert.Contains("Int64", stringResult);
             Assert.Contains("42", stringResult);
             Assert.Contains("100", stringResult);
 
-            // Teardown
         }
     }
 }

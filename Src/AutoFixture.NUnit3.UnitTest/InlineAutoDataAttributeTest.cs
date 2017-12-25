@@ -28,17 +28,16 @@ namespace AutoFixture.NUnit3.UnitTest
         [Test]
         public void InitializeWithNullFixtureFactoryThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new AutoDataAttributeStub((Func<IFixture>) null));
-            // Teardown
         }
         
         [Test]
         public void FixtureFactoryIsNotInvokedImmediately()
         {
-            // Fixture setup
+            // Arrange
             bool wasInvoked = false;
             Func<IFixture> fixtureFactory = () =>
             {
@@ -46,12 +45,11 @@ namespace AutoFixture.NUnit3.UnitTest
                 return null;
             };
 
-            // Exercise system
+            // Act
             var sut = new AutoDataAttributeStub(fixtureFactory);
             
-            // Verify outcome
+            // Assert
             Assert.False(wasInvoked);
-            // Teardown
         }
         
 
@@ -80,7 +78,7 @@ namespace AutoFixture.NUnit3.UnitTest
         [Test]
         public void BuildFromDontActivateFixtureIfArgsValuesAreNotUsedByTestBuilder()
         {
-            // Fixture setup
+            // Arrange
             bool wasActivated = false;
             
             var sut = new AutoDataAttributeStub(() =>
@@ -93,25 +91,23 @@ namespace AutoFixture.NUnit3.UnitTest
             var methodWrapper = new MethodWrapper(this.GetType(), nameof(this.DummyTestMethod));
             var testSuite = new TestSuite(this.GetType());
             
-            // Excercise system
+            // Assert
             var dummy = sut.BuildFrom(methodWrapper, testSuite).ToArray();
 
-            // Verify outcome
+            // Assert
             Assert.IsFalse(wasActivated);
-            // Teardown
         }
 
         [Test]
         public void InitializedWithArgumentsHasCorrectArguments()
         {
-            // Fixture setup
+            // Arrange
             var expectedArguments = new object[] { };
             var sut = new InlineAutoDataAttribute(expectedArguments);
-            // Exercise system
+            // Act
             var result = sut.Arguments;
-            // Verify outcome
+            // Assert
             Assert.AreSame(expectedArguments, result);
-            // Teardown
         }
         
         [TestCase("CreateWithFrozenAndFavorArrays")]
@@ -128,7 +124,7 @@ namespace AutoFixture.NUnit3.UnitTest
         [TestCase("CreateWithNoAutoPropertiesAndFrozen")]
         public void GetDataOrdersCustomizationAttributes(string methodName)
         {
-            // Fixture setup
+            // Arrange
             var method = new MethodWrapper(typeof(TypeWithCustomizationAttributes), methodName);
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
@@ -138,12 +134,11 @@ namespace AutoFixture.NUnit3.UnitTest
                 return fixture;
             };
             var sut = new InlineAutoDataAttributeStub(() => fixture);
-            // Exercise system
+            // Act
             sut.BuildFrom(method, new TestSuite(this.GetType())).Single();
-            // Verify outcome
+            // Assert
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
-            // Teardown
         }
 
         /// <summary>
@@ -187,7 +182,7 @@ namespace AutoFixture.NUnit3.UnitTest
         [Test]
         public void ShouldRecognizeAttributesImplementingIParameterCustomizationSource()
         {
-            // Fixture setup
+            // Arrange
             var method = new MethodWrapper(
                 typeof(TypeWithIParameterCustomizationSourceUsage),
                 nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
@@ -201,11 +196,10 @@ namespace AutoFixture.NUnit3.UnitTest
             };
             var sut = new InlineAutoDataAttributeStub(() => fixture, new[] {42});
 
-            // Exercise system
+            // Act
             sut.BuildFrom(method, new TestSuite(this.GetType())).ToArray();
-            // Verify outcome
+            // Assert
             Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
-            // Teardown
         }
     }
 }

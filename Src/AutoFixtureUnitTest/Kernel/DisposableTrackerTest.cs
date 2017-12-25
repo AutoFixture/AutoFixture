@@ -11,67 +11,62 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new DisposableTracker(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutIsNode()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new DisposableTracker(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new DisposableTracker(null));
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new DelegatingSpecimenBuilder();
             var sut = new DisposableTracker(expectedBuilder);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Fact]
         public void SutYieldsInjectedBuilder()
         {
-            // Fixture setup
+            // Arrange
             var expected = new DelegatingSpecimenBuilder();
             var sut = new DisposableTracker(expected);
-            // Exercise system
-            // Verify outcome
+            // Act
+            // Assert
             Assert.Equal(expected, sut.Single());
             Assert.Equal(expected, ((System.Collections.IEnumerable)sut).Cast<object>().Single());
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsResultFromDecoratedBuilder()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var ctx = new DelegatingSpecimenContext();
             var expectedResult = new object();
@@ -82,20 +77,19 @@ namespace AutoFixtureUnitTest.Kernel
             };
 
             var sut = new DisposableTracker(builder);
-            // Exercise system
+            // Act
             var result = sut.Create(request, ctx);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void ComposeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new DisposableTracker(dummyBuilder);
-            // Exercise system
+            // Act
             var expectedBuilders = new[]
             {
                 new DelegatingSpecimenBuilder(),
@@ -103,108 +97,101 @@ namespace AutoFixtureUnitTest.Kernel
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
-            // Verify outcome
+            // Assert
             var dt = Assert.IsAssignableFrom<DisposableTracker>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(dt.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
         }
 
         [Fact]
         public void ComposeSingleItemReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new DisposableTracker(dummyBuilder);
-            // Exercise system
+            // Act
             var expected = new DelegatingSpecimenBuilder();
             var actual = sut.Compose(new[] { expected });
-            // Verify outcome
+            // Assert
             var dt = Assert.IsAssignableFrom<DisposableTracker>(actual);
             Assert.Equal(expected, dt.Builder);
-            // Teardown
         }
 
         [Fact]
         public void DisposablesIsInstance()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new DisposableTracker(dummyBuilder);
-            // Exercise system
+            // Act
             IEnumerable<IDisposable> result = sut.Disposables;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
-            // Teardown
         }
 
         [Fact]
         public void DecoratedDisposableResultIsAddedToDisposables()
         {
-            // Fixture setup
+            // Arrange
             var disposable = new DisposableSpy();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => disposable };
             var sut = new DisposableTracker(builder);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Contains(disposable, sut.Disposables);
-            // Teardown
         }
 
         [Fact]
         public void DecoratedDisposableResultIsOnlyAddedToDisposablesOnce()
         {
-            // Fixture setup
+            // Arrange
             var disposable = new DisposableSpy();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => disposable };
             var sut = new DisposableTracker(builder);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContext);
             sut.Create(dummyRequest, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(1, sut.Disposables.Count(d => d == disposable));
-            // Teardown
         }
 
         [Fact]
         public void MultipleDecoratedDisposablesAreAddedToDisposables()
         {
-            // Fixture setup
+            // Arrange
             var disposables = Enumerable.Repeat<Func<DisposableSpy>>(() => new DisposableSpy(), 3).Select(f => f()).ToList();
             var q = new Queue<DisposableSpy>(disposables);
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => q.Dequeue() };
 
             var sut = new DisposableTracker(builder);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
             disposables.ForEach(d => sut.Create(dummyRequest, dummyContext));
-            // Verify outcome
+            // Assert
             Assert.True(disposables.All(ds => sut.Disposables.Any(d => d == ds)));
-            // Teardown
         }
 
         [Fact]
         public void SutIsDisposable()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var sut = new DisposableTracker(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IDisposable>(sut);
-            // Teardown
         }
 
         [Fact]
         public void DisposeDisposesAllDisposables()
         {
-            // Fixture setup
+            // Arrange
             var disposables = Enumerable.Repeat<Func<DisposableSpy>>(() => new DisposableSpy(), 3).Select(f => f()).ToList();
             var q = new Queue<DisposableSpy>(disposables);
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => q.Dequeue() };
@@ -214,17 +201,16 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
             disposables.ForEach(d => sut.Create(dummyRequest, dummyContext));
-            // Exercise system
+            // Act
             sut.Dispose();
-            // Verify outcome
+            // Assert
             Assert.True(sut.Disposables.Cast<DisposableSpy>().All(ds => ds.Disposed));
-            // Teardown
         }
 
         [Fact]
         public void DisposeRemovesAllDisposables()
         {
-            // Fixture setup
+            // Arrange
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new DisposableSpy() };
             var sut = new DisposableTracker(builder);
 
@@ -234,27 +220,25 @@ namespace AutoFixtureUnitTest.Kernel
             sut.Create(dummyRequest, dummyContext);
             sut.Create(dummyRequest, dummyContext);
             sut.Create(dummyRequest, dummyContext);
-            // Exercise system
+            // Act
             sut.Dispose();
-            // Verify outcome
+            // Assert
             Assert.Empty(sut.Disposables);
-            // Teardown
         }
 
         [Fact]
         public void ComposeAddsReturnedObjectToDisposables()
         {
-            // Fixture setup
+            // Arrange
             var dummy = new DelegatingSpecimenBuilder();
             var sut = new DisposableTracker(dummy);
-            // Exercise system
+            // Act
             var dummies = new ISpecimenBuilder[0];
             var actual = sut.Compose(dummies);
-            // Verify outcome
+            // Assert
             Assert.True(
                 sut.Disposables.Any(actual.Equals),
                 "Returned value not added to disposables.");
-            // Teardown
         }
     }
 }

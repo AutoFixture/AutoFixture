@@ -11,31 +11,29 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Exercise system
+            // Act
             var sut = new SupportMutableValueTypesCustomization();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SupportMutableValueTypesCustomization();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeProperFixtureCorrectlyCustomizesIt()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var sut = new SupportMutableValueTypesCustomization();
-            // Exercise system
+            // Act
             sut.Customize(fixture);
 
             var results = fixture.Customizations
@@ -45,9 +43,8 @@ namespace AutoFixtureUnitTest
                                      b.Builder is MutableValueTypeGenerator)
                                  .Where(b => b.Command is AutoPropertiesCommand)
                                  .SingleOrDefault();
-            // Verify outcome
+            // Assert
             Assert.NotNull(results);
-            // Teardown
-        } 
+        }
     }
 }

@@ -8,133 +8,127 @@ namespace AutoFixtureUnitTest
 {
     public class GuidGeneratorTest
     {
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnNonDefaultGuid()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedGuid = default(Guid);
-            // Exercise system
+            // Act
             var result = GuidGenerator.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Guid>(unexpectedGuid, result);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnNonDefaultGuid()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedGuid = default(Guid);
-            // Exercise system
+            // Act
             var result = GuidGenerator.Create();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Guid>(unexpectedGuid, result);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousTwiceWillReturnDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedGuid = GuidGenerator.CreateAnonymous();
-            // Exercise system
+            // Act
             var result = GuidGenerator.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Guid>(unexpectedGuid, result);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateTwiceWillReturnDifferentValues()
         {
-            // Fixture setup
+            // Arrange
             var unexpectedGuid = GuidGenerator.Create();
-            // Exercise system
+            // Act
             var result = GuidGenerator.Create();
-            // Verify outcome
+            // Assert
             Assert.NotEqual<Guid>(unexpectedGuid, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new GuidGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuidGenerator();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuidGenerator();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWithNonGuidRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonGuidRequest = new object();
             var sut = new GuidGenerator();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(nonGuidRequest, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithGuidRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var guidRequest = typeof(Guid);
             var sut = new GuidGenerator();
-            // Exercise system
+            // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(guidRequest, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.NotEqual(default(Guid), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithGuidRequestTwiceWillReturnDifferentResults()
         {
-            // Fixture setup
+            // Arrange
             var sut = new GuidGenerator();
 
             var guidRequest = typeof(Guid);
             var dummyContext = new DelegatingSpecimenContext();
             var unexpectedResult = sut.Create(guidRequest, dummyContext);
-            // Exercise system
+            // Act
             var result = sut.Create(guidRequest, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.NotEqual(unexpectedResult, result);
-            // Teardown
         }
     }
 }

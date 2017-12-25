@@ -13,27 +13,25 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var seed = DateTime.Now;
-            // Exercise system
+            // Act
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Theory]
@@ -42,16 +40,15 @@ namespace AutoFixtureUnitTest
         [InlineData(default(bool))]
         public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
-            // Fixture setup
+            // Arrange
             var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -61,96 +58,90 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(bool))]
         public void CreateWithNonDateTimeTypeRequestReturnsNoSpecimen(Type request)
         {
-            // Fixture setup
+            // Arrange
             var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithDateTimeRequestReturnsDateTimeValue()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(DateTime);
             var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<DateTime>(result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithDateTimeRequestReturnsDifferentDay()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(DateTime);
             var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = (DateTime)sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.NotEqual(DateTime.Today, result.Date);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithMultipleDateTimeRequestsReturnsSequenceOfDates()
         {
-            // Fixture setup
+            // Arrange
             var sequence = Enumerable.Range(1, 7);
             var expectedDates = sequence.Select(i => DateTime.Today.AddDays(i));
             var request = typeof(DateTime);
             var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var results = sequence.Select(i => (DateTime)sut.Create(request, dummyContainer)).ToArray();
-            // Verify outcome
+            // Assert
             Assert.True(expectedDates.SequenceEqual(results.Select(i => i.Date)));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithDateTimeRequestsTwiceWithinMillisecondsReturnsDatesExactlyOneDayApart()
         {
-            // Fixture setup
+            // Arrange
             var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
             var request = typeof(DateTime);
             var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var firstResult = (DateTime)sut.Create(request, dummyContainer);
             Thread.Sleep(nowResolution + nowResolution);
             var secondResult = (DateTime)sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(firstResult.AddDays(1), secondResult);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithDateTimeRequestAndSeedValueReturnsSeedValuePlusOneDay()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(DateTime);
             var seed = DateTime.Now.AddDays(3);
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = (DateTime)sut.Create(request, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(seed.AddDays(1), result);
-            // Teardown
         }
     }
 }

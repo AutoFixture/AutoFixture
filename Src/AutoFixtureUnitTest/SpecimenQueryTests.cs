@@ -21,14 +21,13 @@ namespace AutoFixtureUnitTest
         [InlineData(3)]
         public void SingleParameterGetReturnsCorrectResult(int number)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Inject(number);
-            // Exercise system
+            // Act
             var actual = fixture.Get((int x) => -1 * x);
-            // Verify outcome
+            // Assert
             Assert.Equal(-1 * number, actual);
-            // Teardown
         }
 
         [Fact]
@@ -54,15 +53,14 @@ namespace AutoFixtureUnitTest
             int number,
             string text)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Inject(number);
             fixture.Inject(text);
-            // Exercise system
+            // Act
             var actual = fixture.Get((int x, string y) => x + y);
-            // Verify outcome
+            // Assert
             Assert.Equal(number + text, actual);
-            // Teardown
         }
 
         [Fact]
@@ -91,16 +89,15 @@ namespace AutoFixtureUnitTest
             bool logical,
             long number)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Inject(text);
             fixture.Inject(logical);
             fixture.Inject(number);
-            // Exercise system
+            // Act
             var actual = fixture.Get((string x, bool y, long z) => x + y + z);
-            // Verify outcome
+            // Assert
             Assert.Equal(text + logical + number, actual);
-            // Teardown
         }
 
         [Fact]
@@ -130,20 +127,19 @@ namespace AutoFixtureUnitTest
             int number,
             string text)
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             fixture.Inject(type);
             fixture.Inject(logical);
             fixture.Inject(number);
             fixture.Inject(text);
-            // Exercise system
+            // Act
             var actual = fixture.Get((Type x, bool y, int z, string æ) =>
                 x.ToString() + y + z + æ);
-            // Verify outcome
+            // Assert
             Assert.Equal(
                 type.ToString() + logical + number + text,
                 actual);
-            // Teardown
         }
 
         [Fact]

@@ -12,113 +12,105 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(object);
             var dummyQuery = new DelegatingMethodQuery();
-            // Exercise system
+            // Act
             var sut = new ConstructorCustomization(dummyType, dummyQuery);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullTypeThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyQuery = new DelegatingMethodQuery();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorCustomization(null, dummyQuery));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullQueryThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(object);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorCustomization(dummyType, null));
-            // Teardown
         }
 
         [Fact]
         public void TargetTypeIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedType = typeof(string);
             var dummyQuery = new DelegatingMethodQuery();
             var sut = new ConstructorCustomization(expectedType, dummyQuery);
-            // Exercise system
+            // Act
             Type result = sut.TargetType;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedType, result);
-            // Teardown
         }
 
         [Fact]
         public void QueryIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(object);
             var expectedQuery = new DelegatingMethodQuery();
             var sut = new ConstructorCustomization(dummyType, expectedQuery);
-            // Exercise system
+            // Act
             IMethodQuery result = sut.Query;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedQuery, result);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(object);
             var dummyQuery = new DelegatingMethodQuery();
             var sut = new ConstructorCustomization(dummyType, dummyQuery);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeWithGreedyQueryCorrectlyCustomizesFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
 
             var type = typeof(MultiUnorderedConstructorType);
             var query = new GreedyConstructorQuery();
             var sut = new ConstructorCustomization(type, query);
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             var specimen = fixture.Create<MultiUnorderedConstructorType>();
             Assert.False(string.IsNullOrEmpty(specimen.Text));
             Assert.NotEqual(0, specimen.Number);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeWithModestQueryCorrectlyCustomizesFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
 
             var type = typeof(MultiUnorderedConstructorType);
             var query = new ModestConstructorQuery();
             var sut = new ConstructorCustomization(type, query);
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             var specimen = fixture.Create<MultiUnorderedConstructorType>();
             Assert.True(string.IsNullOrEmpty(specimen.Text));
             Assert.Equal(0, specimen.Number);
-            // Teardown
         }
     }
 }

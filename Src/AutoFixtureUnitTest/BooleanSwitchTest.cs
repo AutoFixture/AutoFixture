@@ -8,223 +8,215 @@ namespace AutoFixtureUnitTest
 {
     public class BooleanSwitchTest
     {
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTrueOnFirstCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             bool result = sut.Create();
-            // Verify outcome
+            // Assert
             Assert.True(result, "CreateAnonymous called an uneven number of times");
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTrueOnFirstCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             bool result = sut.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.True(result, "CreateAnonymous called an uneven number of times");
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnFalseOnSecondCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
             sut.Create();
-            // Exercise system
+            // Act
             bool result = sut.Create();
-            // Verify outcome
+            // Assert
             Assert.False(result, "CreateAnonymous called an even number of times");
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnFalseOnSecondCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
             sut.CreateAnonymous();
-            // Exercise system
+            // Act
             bool result = sut.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.False(result, "CreateAnonymous called an even number of times");
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnTrueOnThirdCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
             sut.CreateAnonymous();
             sut.CreateAnonymous();
-            // Exercise system
+            // Act
             bool result = sut.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.True(result, "CreateAnonymous called an uneven number of times");
-            // Teardown
         }
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnTrueOnThirdCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
             sut.Create();
             sut.Create();
-            // Exercise system
+            // Act
             bool result = sut.Create();
-            // Verify outcome
+            // Assert
             Assert.True(result, "CreateAnonymous called an uneven number of times");
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousWillReturnFalseOnFourthCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
             sut.CreateAnonymous();
             sut.CreateAnonymous();
             sut.CreateAnonymous();
-            // Exercise system
+            // Act
             bool result = sut.CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.False(result, "CreateAnonymous called an even number of times");
-            // Teardown
         }
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateWillReturnFalseOnFourthCall()
         {
-            // Fixture setup
+            // Arrange
             BooleanSwitch sut = new BooleanSwitch();
             sut.Create();
             sut.Create();
             sut.Create();
-            // Exercise system
+            // Act
             bool result = sut.Create();
-            // Verify outcome
+            // Assert
             Assert.False(result, "CreateAnonymous called an even number of times");
-            // Teardown
         }
 
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new BooleanSwitch();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWithNonBooleanRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonBooleanRequest = new object();
             var sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonBooleanRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnFirstCall()
         {
-            // Fixture setup
+            // Arrange
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(booleanRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True((bool)result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnSecondCall()
         {
-            // Fixture setup
+            // Arrange
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.False((bool)result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnThirdCall()
         {
-            // Fixture setup
+            // Arrange
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(booleanRequest, dummyContainer);
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.True((bool)result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnFourthCall()
         {
-            // Fixture setup
+            // Arrange
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(booleanRequest, dummyContainer);
             sut.Create(booleanRequest, dummyContainer);
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             Assert.False((bool)result);
-            // Teardown
         }
     }
 }

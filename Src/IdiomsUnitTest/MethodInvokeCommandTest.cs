@@ -12,66 +12,62 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsGuardClauseCommand()
         {
-            // Fixture setup
+            // Arrange
             var dummyMethod = new DelegatingMethod();
             var dummyExpansion = new DelegatingExpansion<object>();
             var dummyParameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
-            // Exercise system
+            // Act
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, dummyParameter);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IGuardClauseCommand>(sut);
-            // Teardown
         }
 
         [Fact]
         public void MethodIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var method = new DelegatingMethod();
             var dummyExpansion = new DelegatingExpansion<object>();
             var dummyParameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(method, dummyExpansion, dummyParameter);
-            // Exercise system
+            // Act
             IMethod result = sut.Method;
-            // Verify outcome
+            // Assert
             Assert.Equal(method, result);
-            // Teardown
         }
 
         [Fact]
         public void ExpansionIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyMethod = new DelegatingMethod();
             var expansion = new DelegatingExpansion<object>();
             var dummyParameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, expansion, dummyParameter);
-            // Exercise system
+            // Act
             IExpansion<object> result = sut.Expansion;
-            // Verify outcome
+            // Assert
             Assert.Equal(expansion, result);
-            // Teardown
         }
 
         [Fact]
         public void ParameterInfoIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyMethod = new DelegatingMethod();
             var dummyExpansion = new DelegatingExpansion<object>();
             var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
-            // Exercise system
+            // Act
             ParameterInfo result = sut.ParameterInfo;
-            // Verify outcome
+            // Assert
             Assert.Equal(parameter, result);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteCorrectlyInvokesMethod()
         {
-            // Fixture setup
+            // Arrange
             var value = new object();
             var arguments = new[] { new object(), new object(), new object() };
             var expansion = new DelegatingExpansion<object> { OnExpand = v => v == value ? arguments : new object[0] };
@@ -81,26 +77,24 @@ namespace AutoFixture.IdiomsUnitTest
             var method = new DelegatingMethod { OnInvoke = a => mockVerified = a == arguments };
 
             var sut = new MethodInvokeCommand(method, expansion, dummyParameter);
-            // Exercise system
+            // Act
             sut.Execute(value);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified);
-            // Teardown
         }
 
         [Fact]
         public void RequestedTypeIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var dummyMethod = new DelegatingMethod();
             var dummyExpansion = new DelegatingExpansion<object>();
             var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
-            // Exercise system
+            // Act
             var result = sut.RequestedType;
-            // Verify outcome
+            // Assert
             Assert.Equal(parameter.ParameterType, result);
-            // Teardown
         }
 
         [Fact]
@@ -119,54 +113,51 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void CreateExceptionReturnsExceptionWithCorrectMessage()
         {
-            // Fixture setup
+            // Arrange
             var dummyMethod = new DelegatingMethod();
             var dummyExpansion = new DelegatingExpansion<object>();
             var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
-            // Exercise system
+            // Act
             var message = Guid.NewGuid().ToString();
             var result = sut.CreateException(message);
-            // Verify outcome
+            // Assert
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
-            // Teardown
         }
 
         [Fact]
         public void CreateExceptionWithInnerReturnsExceptionWithCorrectMessage()
         {
-            // Fixture setup
+            // Arrange
             var dummyMethod = new DelegatingMethod();
             var dummyExpansion = new DelegatingExpansion<object>();
             var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
-            // Exercise system
+            // Act
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
             var result = sut.CreateException(message, inner);
-            // Verify outcome
+            // Assert
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
-            // Teardown
         }
 
         [Fact]
         public void CreateExceptionWithInnerReturnsExceptionWithCorrectInnerException()
         {
-            // Fixture setup
+            // Arrange
             var dummyMethod = new DelegatingMethod();
             var dummyExpansion = new DelegatingExpansion<object>();
             var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
-            // Exercise system
+            // Act
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
             var result = sut.CreateException(message, inner);
-            // Verify outcome
+            // Assert
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(inner, e.InnerException);
-            // Teardown
         }
 
         private static ParameterInfo CreateAnonymousParameterInfo()

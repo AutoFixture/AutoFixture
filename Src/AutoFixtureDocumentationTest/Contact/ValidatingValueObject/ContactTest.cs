@@ -12,44 +12,41 @@ namespace AutoFixtureDocumentationTest.Contact.ValidatingValueObject
         [Fact]
         public void CreateWillNotThrow()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             fixture.Register<int>(() => 12345678);
-            // Exercise system
+            // Act
             fixture.Create<Contact>();
-            // Verify outcome (no exception indicates success)
-            // Teardown
+            // Assert (no exception indicates success)
         }
 
         [Fact]
         public void CreateWillPopulatePhoneNumber()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             fixture.Register<int, DanishPhoneNumber>(i => 
                 new DanishPhoneNumber(i + 112));
             Contact sut = fixture.Create<Contact>();
-            // Exercise system
+            // Act
             int result = sut.PhoneNumber.RawNumber;
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(default(int), result);
-            // Teardown
         }
 
         [Fact]
         public void UsingPhoneNumberMinValue()
         {
-            // Fixture setup
+            // Arrange
             Fixture fixture = new Fixture();
             fixture.Register<int, DanishPhoneNumber>(i =>
                 new DanishPhoneNumber(i + 
                     DanishPhoneNumber.MinValue));
             Contact sut = fixture.Create<Contact>();
-            // Exercise system
+            // Act
             int result = sut.PhoneNumber.RawNumber;
-            // Verify outcome
+            // Assert
             Assert.NotEqual<int>(default(int), result);
-            // Teardown
         }
     }
 }

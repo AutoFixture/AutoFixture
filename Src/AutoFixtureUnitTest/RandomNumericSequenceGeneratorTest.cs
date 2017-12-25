@@ -14,16 +14,15 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void InitializeWithDefaultConstructorDoesNotThrow()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Null(Record.Exception(() => new RandomNumericSequenceGenerator()));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithDefaultConstructorSetsCorrectLimits()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RandomNumericSequenceGenerator();
             var expectedResult = new long[]
             {
@@ -32,22 +31,20 @@ namespace AutoFixtureUnitTest
                 Int16.MaxValue,
                 Int32.MaxValue
             };
-            // Exercise system
+            // Act
             IEnumerable<long> result = sut.Limits;
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullEnumerableThrows()
         {
-            // Fixture setup
+            // Arrange
             IEnumerable<long> nullEnumerable = null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RandomNumericSequenceGenerator(nullEnumerable));
-            // Teardown
         }
 
         [Theory]
@@ -56,11 +53,10 @@ namespace AutoFixtureUnitTest
         [InlineData(new long[] { 300 })]
         public void InitializeWithSingleLimitThrows(long[] limits)
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentException>(() =>
                 new RandomNumericSequenceGenerator(limits));
-            // Teardown
         }
 
         [Theory]
@@ -72,83 +68,76 @@ namespace AutoFixtureUnitTest
         [InlineData(new long[] { 1, 5, 5 })]
         public void InitializeWithLimitsNotAscendingThrows(long[] limits)
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new RandomNumericSequenceGenerator(limits));
-            // Teardown
         }
 
         [Fact]
         public void LimitsMatchListParameter()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new long[] { 10, 20, 30 }.AsEnumerable();
             var sut = new RandomNumericSequenceGenerator(expectedResult);
-            // Exercise system
+            // Act
             IEnumerable<long> result = sut.Limits;
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullArrayThrows()
         {
-            // Fixture setup
+            // Arrange
             long[] nullArray = null;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RandomNumericSequenceGenerator(nullArray));
-            // Teardown
         }
 
         [Fact]
         public void LimitsMatchParamsArray()
         {
-            // Fixture setup
+            // Arrange
             var expectedResult = new long[] { 10, 20, 30 };
             var sut = new RandomNumericSequenceGenerator(expectedResult);
-            // Exercise system
+            // Act
             IEnumerable<long> result = sut.Limits;
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RandomNumericSequenceGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator();
-            // Exercise system
+            // Act
             object result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var dummyRequest = typeof(byte);
             var sut = new RandomNumericSequenceGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
-            // Teardown
         }
 
         [Theory]
@@ -156,15 +145,14 @@ namespace AutoFixtureUnitTest
         [InlineData(default(bool))]
         public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var expectedResult = new NoSpecimen();
             var sut = new RandomNumericSequenceGenerator();
-            // Exercise system
+            // Act
             object result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -173,15 +161,14 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(bool))]
         public void CreateWithNonNumericTypeRequestReturnsNoSpecimen(Type request)
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var expectedResult = new NoSpecimen();
             var sut = new RandomNumericSequenceGenerator();
-            // Exercise system
+            // Act
             object result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -198,56 +185,53 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(ulong))]
         public void CreateWithNumericTypeRequestReturnsValueOfSameType(Type request)
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator();
-            // Exercise system
+            // Act
             object result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.IsType(request, result);
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsNumberInCorrectRange(long[] limits)
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(double);
             var dummyContext = new DelegatingSpecimenContext();
             var expectedMin = (int)limits.Min();
             var expectedMax = (int)limits.Max();
             var sut = new RandomNumericSequenceGenerator(limits);
-            // Exercise system
+            // Act
             var result = (double)sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.True(
                 result >= expectedMin && result <= expectedMax
                 );
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsNumberInCorrectRangeOnMultipleCall(long[] limits)
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(int);
             var dummyContext = new DelegatingSpecimenContext();
             var expectedMin = (int)limits.Min();
             var expectedMax = (int)limits.Max();
             int repeatCount = (expectedMax - expectedMin) + 1;
             var sut = new RandomNumericSequenceGenerator(limits);
-            // Exercise system
+            // Act
             var result = Enumerable
                 .Range(0, repeatCount)
                 .Select(i => sut.Create(request, dummyContext))
                 .Cast<int>();
-            // Verify outcome
+            // Assert
             Assert.True(
                 result.All(x => x >= expectedMin && x <= expectedMax)
                 );
-            // Teardown
         }
 
         [Theory]
@@ -269,22 +253,21 @@ namespace AutoFixtureUnitTest
         [InlineData(new[] { long.MinValue + byte.MaxValue, byte.MaxValue })]
         public void CreateReturnsNumberInCorrectRangeForInt64OnMultipleCall(long[] limits)
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             long expectedMin = limits.Min();
             long expectedMax = limits.Max();
             int repeatCount = 300;
             var sut = new RandomNumericSequenceGenerator(expectedMin, expectedMax);
-            // Exercise system
+            // Act
             var result = Enumerable
                 .Range(0, repeatCount)
                 .Select(i => sut.Create(typeof(long), dummyContext))
                 .Cast<long>();
-            // Verify outcome
+            // Assert
             Assert.True(
                 result.All(x => x >= expectedMin && x <= expectedMax)
                 );
-            // Teardown
         }
 
         [Theory]
@@ -301,36 +284,35 @@ namespace AutoFixtureUnitTest
         public void CreateReturnsNumberInCorrectRangeProgressivelyOnMultipleCall(
             long[] limits, int indexOfLower, int indexOfUpper)
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator(limits);
             var expectedMin = (int)limits[indexOfLower];
             var expectedMax = (int)limits[indexOfUpper];
             int repeatCount = expectedMax - expectedMin;
             int lowerBounds = Math.Abs((int)limits.Min() + expectedMin);
-            // Exercise system
+            // Act
             var result = Enumerable
                 .Range(0, repeatCount)
                 .Select(i => sut.Create(typeof(int), dummyContext))
                 .ToArray()
                 .Skip(lowerBounds)
                 .Cast<int>();
-            // Verify outcome
+            // Assert
             Assert.True(result.All(x => x >= expectedMin && x <= expectedMax));
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateWhenLimitIsReachedStartsFromTheBeginning(long[] limits)
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var min = (int)limits.Min();
             var max = (int)limits.Max();
             int repeatCount = (max - min) + 1;
             var sut = new RandomNumericSequenceGenerator(limits);
-            // Exercise system and verify outcome
+            // Act & assert
             var expectedResult = Enumerable.Range(min, repeatCount).ToArray();
             for (int iteration = 0; iteration < 3; iteration++)
             {
@@ -342,36 +324,34 @@ namespace AutoFixtureUnitTest
 
                 Assert.True(expectedResult.SequenceEqual(result));
             }
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsUniqueNumbersOnMultipleCall(long[] limits)
         {
-            // Fixture setup
+            // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var min = (int)limits.Min();
             var max = (int)limits.Max();
             int repeatCount = (max - min) + 1;
             var sut = new RandomNumericSequenceGenerator(limits);
-            // Exercise system
+            // Act
             var result = Enumerable
                 .Range(0, repeatCount)
                 .Select(i => sut.Create(typeof(int), dummyContext))
                 .Cast<int>()
                 .OrderBy(x => x);
-            // Verify outcome
+            // Assert
             var expectedResult = Enumerable.Range(min, repeatCount);
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(LimitSequenceTestCases))]
         public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(long[] limits)
         {
-            // Fixture setup
+            // Arrange
             int iterations = 5;
             int completed = 0;
             var done = new ManualResetEvent(false);
@@ -381,7 +361,7 @@ namespace AutoFixtureUnitTest
             int expectedResult = repeatCount * iterations;
             var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator(limits);
-            // Exercise system
+            // Act
             var numbers = new int[iterations][];
             for (int i = 0; i < iterations; i++)
             {
@@ -400,9 +380,8 @@ namespace AutoFixtureUnitTest
             }
             done.WaitOne();
             int result = numbers.SelectMany(x => x).Distinct().Count();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         public static TheoryData<long[]> LimitSequenceTestCases =>

@@ -35,15 +35,14 @@ namespace AutoFixtureDocumentationTest.Intermediate
         [Fact]
         public void SettingSpouseIsPossible()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var person = fixture.Build<Person>().Without(p => p.Spouse).Create();
             var sut = fixture.Build<Person>().Without(p => p.Spouse).Create();
-            // Exercise system
+            // Act
             sut.Spouse = person;
-            // Verify outcome
+            // Assert
             Assert.Equal<Person>(sut, person.Spouse);
-            // Teardown
         }
     }
 }

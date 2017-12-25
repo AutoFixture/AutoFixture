@@ -8,15 +8,14 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
         [Fact]
         public void SetupReturnsValueOfCorrectType()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CallResultCacheFactory();
 
-            // Exercise system
+            // Act
             var result = sut.CreateCache();
 
-            // Verify outcome
+            // Assert
             Assert.IsType<CallResultCache>(result);
-            // Teardown
         }
     }
 }

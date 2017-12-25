@@ -13,7 +13,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
         [Fact]
         public void ShouldUseTypeRequestToResolveReturnValue()
         {
-            // Fixture setup
+            // Arrange
             var specimenContext = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolver(specimenContext);
 
@@ -23,20 +23,18 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var returnValue = "returnResult";
             specimenContext.Resolve(typeof(string)).Returns(returnValue);
 
-            // Exercise system
+            // Act
             var callResult = sut.ResolveResult(call);
 
-            // Verify outcome
+            // Assert
             Assert.True(callResult.ReturnValue.HasValue());
             Assert.Equal(returnValue, callResult.ReturnValue.ValueOrDefault());
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldUsePropertyInfoRequestToResolvePropertyValue()
         {
-            // Fixture setup
+            // Arrange
             var specimenContext = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolver(specimenContext);
 
@@ -48,20 +46,18 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var retValue = "returnValue";
             specimenContext.Resolve(propertyInfo).Returns(retValue);
 
-            // Exercise system
+            // Act
             var result = sut.ResolveResult(call);
 
-            // Verify outcome
+            // Assert
             Assert.True(result.ReturnValue.HasValue());
             Assert.Equal(retValue, result.ReturnValue.ValueOrDefault());
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldResolveOutParameterValue()
         {
-            // Fixture setup
+            // Arrange
             var specimenContext = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolver(specimenContext);
 
@@ -71,21 +67,19 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             specimenContext.Resolve(typeof(int)).Returns(42);
 
-            // Exercise system
+            // Act
             var callResult = sut.ResolveResult(call);
 
-            // Verify outcome
+            // Assert
             Assert.Single(callResult.ArgumentValues);
             Assert.Equal(1, callResult.ArgumentValues.First().Index);
             Assert.Equal(42, callResult.ArgumentValues.First().Value);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldResolveRefParameterValue()
         {
-            // Fixture setup
+            // Arrange
             var specimenContext = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolver(specimenContext);
 
@@ -95,22 +89,20 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             specimenContext.Resolve(typeof(int)).Returns(42);
 
-            // Exercise system
+            // Act
             var callResult = sut.ResolveResult(call);
 
-            // Verify outcome
+            // Assert
             Assert.Single(callResult.ArgumentValues);
             Assert.Equal(0, callResult.ArgumentValues.First().Index);
             Assert.Equal(42, callResult.ArgumentValues.First().Value);
-
-            // Teardown
         }
 
 
         [Fact]
         public void ShouldNotReturnValueIfOmitted()
         {
-            // Fixture setup
+            // Arrange
             var specimenContext = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolver(specimenContext);
 
@@ -119,19 +111,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             specimenContext.Resolve(typeof(string)).Returns(new OmitSpecimen());
 
-            // Exercise system
+            // Act
             var result = sut.ResolveResult(call);
 
-            // Verify outcome
+            // Assert
             Assert.False(result.ReturnValue.HasValue());
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldNotResolveArgumentValueIfOmitted()
         {
-            // Fixture setup
+            // Arrange
             var specimenContext = Substitute.For<ISpecimenContext>();
             var sut = new CallResultResolver(specimenContext);
 
@@ -142,14 +132,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             specimenContext.Resolve(typeof(int)).Returns(new OmitSpecimen());
 
-            // Exercise system
+            // Act
             var result = sut.ResolveResult(call);
 
-            // Verify outcome
+            // Assert
             Assert.True(result.ReturnValue.HasValue());
             Assert.Empty(result.ArgumentValues);
-
-            // Teardown
         }
     }
 }

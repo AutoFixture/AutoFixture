@@ -12,12 +12,11 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new DictionarySpecification();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Theory]
@@ -34,13 +33,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Version[]))]
         public void IsSatisfiedByNonDictionaryRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new DictionarySpecification();
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Theory]
@@ -50,13 +48,12 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Dictionary<Version, ConcreteType>))]
         public void IsSatisfiedByDictionaryRequestReturnsCorrectResult(Type request)
         {
-            // Fixture setup
+            // Arrange
             var sut = new DictionarySpecification();
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
     }
 }

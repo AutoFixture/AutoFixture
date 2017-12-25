@@ -13,70 +13,65 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void SutIsDataAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new AutoDataAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<DataAttribute>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithDefaultConstructorHasCorrectFixture()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoDataAttribute();
-            // Exercise system
+            // Act
 #pragma warning disable 618
             IFixture result = sut.Fixture;
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Fixture>(result);
-            // Teardown
         }
         
         [Fact]
         public void InitializedWithFixtureFactoryConstrucorHasCorrectFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             
-            // Exercise system
+            // Act
             var sut = new DerivedAutoDataAttribute(() => fixture);
             
-            // Verify outcome
+            // Assert
 #pragma warning disable 618
             Assert.Same(fixture, sut.Fixture);
 #pragma warning restore 618
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullFixtureThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
 #pragma warning disable 612
                 new DerivedAutoDataAttribute((IFixture)null));
 #pragma warning restore 612
-            // Teardown
         }
         
         [Fact]
         public void InitializeWithNullFixtureFactoryThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new DerivedAutoDataAttribute((Func<IFixture>) null));
-            // Teardown
         }
         
         [Fact]
         public void FixtureFactoryIsNotInvokedImmediately()
         {
-            // Fixture setup
+            // Arrange
             bool wasInvoked = false;
             Func<IFixture> fixtureFactory = () =>
             {
@@ -84,110 +79,102 @@ namespace AutoFixture.Xunit2.UnitTest
                 return null;
             };
 
-            // Exercise system
+            // Act
             var sut = new DerivedAutoDataAttribute(fixtureFactory);
             
-            // Verify outcome
+            // Assert
             Assert.False(wasInvoked);
-            // Teardown
         }
 
         [Fact]
         public void InitializedWithComposerHasCorrectComposer()
         {
-            // Fixture setup
+            // Arrange
             var expectedComposer = new DelegatingFixture();
 #pragma warning disable 612
             var sut = new DerivedAutoDataAttribute(expectedComposer);
 #pragma warning restore 612
-            // Exercise system
+            // Act
 #pragma warning disable 618
             var result = sut.Fixture;
 #pragma warning restore 618
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedComposer, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithNullTypeThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
 #pragma warning disable 618
                 new AutoDataAttribute((Type)null));
 #pragma warning disable 618
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithNonComposerTypeThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentException>(() =>
                 new AutoDataAttribute(typeof(object)));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializeWithComposerTypeWithoutDefaultConstructorThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentException>(() =>
                 new AutoDataAttribute(typeof(ComposerWithoutADefaultConstructor)));
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void InitializedWithCorrectComposerTypeHasCorrectComposer()
         {
-            // Fixture setup
+            // Arrange
             var composerType = typeof(DelegatingFixture);
             var sut = new AutoDataAttribute(composerType);
-            // Exercise system
+            // Act
             var result = sut.Fixture;
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom(composerType, result);
-            // Teardown
         }
 
         [Fact]
         [Obsolete]
         public void FixtureTypeIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var composerType = typeof(DelegatingFixture);
             var sut = new AutoDataAttribute(composerType);
-            // Exercise system
+            // Act
             var result = sut.FixtureType;
-            // Verify outcome
+            // Assert
             Assert.Equal(composerType, result);
-            // Teardown
         }
 
         [Fact]
         public void GetDataWithNullMethodThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new AutoDataAttribute();
             var dummyTypes = Type.EmptyTypes;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetData(null));
-            // Teardown
         }
 
         [Fact]
         public void GetDataReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var method = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) });
             var parameters = method.GetParameters();
 
@@ -204,11 +191,10 @@ namespace AutoFixture.Xunit2.UnitTest
             var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
 
             var sut = new DerivedAutoDataAttribute(() => composer);
-            // Exercise system
+            // Act
             var result = sut.GetData(method);
-            // Verify outcome
+            // Assert
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
-            // Teardown
         }
 
         [Theory]
@@ -226,7 +212,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [InlineData("CreateWithNoAutoPropertiesAndFrozen")]
         public void GetDataOrdersCustomizationAttributes(string methodName)
         {
-            // Fixture setup
+            // Arrange
             var method = typeof(TypeWithCustomizationAttributes).GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
@@ -236,12 +222,11 @@ namespace AutoFixture.Xunit2.UnitTest
                 return fixture;
             };
             var sut = new DerivedAutoDataAttribute(() => fixture);
-            // Exercise system
+            // Act
             sut.GetData(method);
-            // Verify outcome
+            // Assert
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
-            // Teardown
         }
         
         private class DerivedAutoDataAttribute : AutoDataAttribute
@@ -283,7 +268,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void ShouldRecognizeAttributesImplementingIParameterCustomizationSource()
         {
-            // Fixture setup
+            // Arrange
             var method = typeof(TypeWithIParameterCustomizationSourceUsage)
                 .GetMethod(nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
             
@@ -296,17 +281,16 @@ namespace AutoFixture.Xunit2.UnitTest
             };
             var sut = new DerivedAutoDataAttribute(() => fixture);
             
-            // Exercise system
+            // Act
             sut.GetData(method);
-            // Verify outcome
+            // Assert
             Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
-            // Teardown
         }
 
         [Fact]
         public void PreDiscoveryShouldBeDisabled()
         {
-            // Fixture setup
+            // Arrange
             var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
             var discovererAttr = typeof(AutoDataAttribute).GetTypeInfo()
                 .CustomAttributes
@@ -315,15 +299,14 @@ namespace AutoFixture.Xunit2.UnitTest
             var expectedType = expectedDiscovererType.FullName;
             var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
 
-            // Exercise system
+            // Act
             var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
             var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedType, actualType);
             Assert.Equal(expectedAssembly, actualAssembly);
 
-            // Teardown
         }
     }
 }

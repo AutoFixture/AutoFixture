@@ -9,140 +9,129 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsCustomization()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(object);
-            // Exercise system
+            // Act
             var sut = new FreezingCustomization(dummyType);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ICustomization>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullTargetTypeThrowsArgumentNullException()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new FreezingCustomization(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullRegisteredTypeThrowsArgumentNullException()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new FreezingCustomization(typeof(object), null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithRegisteredTypeIncompatibleWithTargetTypeThrowsArgumentException()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentException>(() =>
                 new FreezingCustomization(typeof(int), typeof(string)));
-            // Teardown
         }
 
         [Fact]
         public void TargetTypeIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedType = typeof(string);
             var sut = new FreezingCustomization(expectedType);
-            // Exercise system
+            // Act
             Type result = sut.TargetType;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedType, result);
-            // Teardown
         }
 
         [Fact]
         public void RegisteredTypeIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(string);
             var registeredType = typeof(object);
             var sut = new FreezingCustomization(targetType, registeredType);
-            // Exercise system
+            // Act
             Type result = sut.RegisteredType;
-            // Verify outcome
+            // Assert
             Assert.Equal(registeredType, result);
-            // Teardown
         }
 
         [Fact]
         public void TargetTypeAndRegisteredTypeAreCorrect()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(string);
             var registeredType = typeof(object);
             var sut = new FreezingCustomization(targetType, registeredType);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Equal(targetType, sut.TargetType);
             Assert.Equal(registeredType, sut.RegisteredType);
-            // Teardown
         }
 
         [Fact]
         public void TargetTypeIsTheSameAsRegisteredTypeWhenOnlyTargetTypeIsSpecified()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(string);
             var sut = new FreezingCustomization(targetType);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Equal(sut.TargetType, sut.RegisteredType);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeNullFixtureThrows()
         {
-            // Fixture setup
+            // Arrange
             var dummyType = typeof(object);
             var sut = new FreezingCustomization(dummyType);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
-            // Teardown
         }
 
         [Fact]
         public void CustomizeCorrectlyCustomizesFixture()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(int);
             var fixture = new Fixture();
 
             var sut = new FreezingCustomization(targetType);
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             var i1 = fixture.Create<int>();
             var i2 = fixture.Create<int>();
             Assert.Equal(i1, i2);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeWithRegisteredTypeCorrectlyCustomizesFixture()
         {
-            // Fixture setup
+            // Arrange
             var targetType = typeof(int);
             var registeredType = typeof(object);
             var fixture = new Fixture();
             var sut = new FreezingCustomization(targetType, registeredType);
-            // Exercise system
+            // Act
             sut.Customize(fixture);
-            // Verify outcome
+            // Assert
             object i1 = fixture.Create<int>();
             object i2 = fixture.Create<object>();
             Assert.Equal(i1, i2);
-            // Teardown
         }
     }
 }

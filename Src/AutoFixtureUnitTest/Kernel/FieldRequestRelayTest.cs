@@ -11,89 +11,83 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new FieldRequestRelay();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FieldRequestRelay();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContainerWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FieldRequestRelay();
             var dummyRequest = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Create(dummyRequest, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateFromNonFieldRequestWillReturnCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonFieldRequest = new object();
             var sut = new FieldRequestRelay();
-            // Exercise system
+            // Act
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonFieldRequest, dummyContainer);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromFieldRequestWillReturnCorrectResultWhenContainerCannotSatisfyRequest()
         {
-            // Fixture setup
+            // Arrange
             var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
             var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new FieldRequestRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(fieldInfo, container);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromFieldRequestWillReturnCorrectResultWhenContainerCanSatisfyRequest()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpecimen = new object();
             var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedSpecimen };
             var sut = new FieldRequestRelay();
-            // Exercise system
+            // Act
             var result = sut.Create(fieldInfo, container);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpecimen, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromFieldRequestWillCorrectlyInvokeContainer()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FieldRequestRelay();
             var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
             var expectedRequest = new SeededRequest(fieldInfo.FieldType, fieldInfo.Name);
@@ -101,11 +95,10 @@ namespace AutoFixtureUnitTest.Kernel
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContext();
             containerMock.OnResolve = r => mockVerified = expectedRequest.Equals(r);
-            // Exercise system
+            // Act
             sut.Create(fieldInfo, containerMock);
-            // Verify outcome
+            // Assert
             Assert.True(mockVerified, "Mock verification");
-            // Teardown
         }
     }
 }

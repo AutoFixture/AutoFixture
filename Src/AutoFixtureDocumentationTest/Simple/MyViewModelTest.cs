@@ -13,101 +13,94 @@ namespace AutoFixtureDocumentationTest.Simple
         [Fact]
         public void SetSelectedItemToAvailableItemIsLegal()
         {
-            // Fixture setup
+            // Arrange
             var expectedItem = new MyClass();
             var sut = new MyViewModel();
             sut.AvailableItems.Add(expectedItem);
-            // Exercise system
+            // Act
             sut.SelectedItem = expectedItem;
-            // Verify outcome
+            // Assert
             var result = sut.SelectedItem;
             Assert.Equal<MyClass>(expectedItem, result);
-            // Teardown
         }
 
         [Fact]
         public void SetSelectedItemToUnavailableItemIsIllegal()
         {
-            // Fixture setup
+            // Arrange
             var sut = new MyViewModel();
             sut.AvailableItems.Add(new MyClass());
             sut.AvailableItems.Add(new MyClass());
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentException>(() =>
                 sut.SelectedItem = new MyClass());
-            // Teardown
         }
 
         [Fact]
         public void CreateCompletelyAnonymousMyViewModelWillThrow()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
-            // Verify outcome (expected exception)
+            // Act
+            // Assert (expected exception)
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 fixture.Create<MyViewModel>());
-            // Teardown
         }
 
         [Fact]
         public void BuildMyViewModelWillSucceed()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var mc = fixture.Create<MyClass>();
             var mvm = fixture.Build<MyViewModel>()
                 .Do(x => x.AvailableItems.Add(mc))
                 .With(x => x.SelectedItem, mc)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.Equal<MyClass>(mc, mvm.SelectedItem);
-            // Teardown
         }
 
         [Fact]
         public void BuildMyViewModelWithoutSelectedItemWillSucceed()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var mvm = fixture.Build<MyViewModel>()
                 .Without(s => s.SelectedItem)
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.NotNull(mvm);
-            // Teardown
         }
 
         [Fact]
         public void BuildMyViewModelAndOmitAutoPropertiesWillSucceed()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
-            // Exercise system
+            // Act
             var mvm = fixture.Build<MyViewModel>()
                 .OmitAutoProperties()
                 .Create();
-            // Verify outcome
+            // Assert
             Assert.NotNull(mvm);
-            // Teardown
         }
 
         [Fact]
         public void CreatingAnonymousCustomizedMyViewModelWillSucceed()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var mc = fixture.Create<MyClass>();
             fixture.Customize<MyViewModel>(ob => ob
                 .Do(x => x.AvailableItems.Add(mc))
                 .With(x => x.SelectedItem, mc));
-            // Exercise system
+            // Act
             var mvm = fixture.Create<MyViewModel>();
-            // Verify outcome
+            // Assert
             Assert.Equal<MyClass>(mc, mvm.SelectedItem);
-            // Teardown
         }
     }
 }

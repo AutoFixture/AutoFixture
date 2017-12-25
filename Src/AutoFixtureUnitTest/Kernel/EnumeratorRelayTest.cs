@@ -39,25 +39,25 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
 
             var result = sut.Create(request, dummyContext);
-            
+
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
         }
 
 
         [Theory]
-        [InlineData(typeof (IEnumerator<object>), typeof (object))]
-        [InlineData(typeof (IEnumerator<string>), typeof (string))]
-        [InlineData(typeof (IEnumerator<int>), typeof (int))]
-        [InlineData(typeof (IEnumerator<Version>), typeof (Version))]
+        [InlineData(typeof(IEnumerator<object>), typeof(object))]
+        [InlineData(typeof(IEnumerator<string>), typeof(string))]
+        [InlineData(typeof(IEnumerator<int>), typeof(int))]
+        [InlineData(typeof(IEnumerator<Version>), typeof(Version))]
         public void CreateWithEnumeratorRequestReturnsCorrectResult(
             Type request,
             Type itemType)
         {
             var expectedRequest =
-                typeof (IEnumerable<>).MakeGenericType(itemType);
-            var enumerable = (IList) Activator.CreateInstance(
-                typeof (List<>).MakeGenericType(itemType));
+                typeof(IEnumerable<>).MakeGenericType(itemType);
+            var enumerable = (IList)Activator.CreateInstance(
+                typeof(List<>).MakeGenericType(itemType));
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => expectedRequest.Equals(r)
@@ -71,7 +71,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedResult = enumerable.GetEnumerator();
             Assert.Equal(expectedResult, result);
         }
-        
+
         [Theory]
         [InlineData(0)]
         [InlineData(1)]
@@ -88,7 +88,7 @@ namespace AutoFixtureUnitTest.Kernel
             var sut = new EnumeratorRelay();
 
             var result = sut.Create(request, context);
-            
+
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
         }

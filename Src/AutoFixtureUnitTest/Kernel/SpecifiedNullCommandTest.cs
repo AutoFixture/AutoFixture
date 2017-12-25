@@ -13,136 +13,124 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsSpecifiedSpecimenCommand()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<PropertyHolder<object>>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullExpressionThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new SpecifiedNullCommand<PropertyHolder<object>, object>(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNonMemberExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, object>> invalidExpression = obj => obj;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, object>(invalidExpression));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithMethodExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, string>(methodExpression));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithReadOnlyPropertyExpressionWillThrow()
         {
-            // Fixture setup
+            // Arrange
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression));
-            // Teardown
         }
 
         [Fact]
         public void MemberIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedMember = typeof(PropertyHolder<object>).GetProperty("Property");
             var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Exercise system
+            // Act
             MemberInfo result = sut.Member;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedMember, result);
-            // Teardown
         }
 
         [Fact]
         public void ExecuteDoesNotThrow()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Null(Record.Exception(() => sut.Execute(null, null)));
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByNullThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsFalseForAnonymousRequest()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
-            // Exercise system
+            // Act
             bool result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsFalseForOtherProperty()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
             var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2);
-            // Exercise system
+            // Act
             bool result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsTrueForIdentifiedProperty()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
             var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1);
-            // Exercise system
+            // Act
             bool result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByReturnsTrueForDerivedProperty()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(ConcreteType).GetProperty("Property1");
             var sut = new SpecifiedNullCommand<AbstractType, object>(x => x.Property1);
-            // Exercise system
+            // Act
             var result = sut.IsSatisfiedBy(request);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
     }
 }

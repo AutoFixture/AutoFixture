@@ -12,56 +12,52 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new ConstrainedStringGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ConstrainedStringGenerator();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(null, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullContextThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ConstrainedStringGenerator();
             var request = new object();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
-            // Teardown
         }
 
         [Fact]
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new ConstrainedStringGenerator();
             var request = new object();
             var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
+            // Act
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsResultWithCorrectType()
         {
-            // Fixture setup
+            // Arrange
             var request = new ConstrainedStringRequest(1, 10);
             Type expectedType = typeof(string);
             object contextValue = Guid.NewGuid().ToString();
@@ -70,17 +66,16 @@ namespace AutoFixtureUnitTest
                 OnResolve = r => expectedType.Equals(r) ? contextValue : new NoSpecimen()
             };
             var sut = new ConstrainedStringGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom(expectedType, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsStringReceivedFromContext()
         {
-            // Fixture setup
+            // Arrange
             var request = new ConstrainedStringRequest(1, 10);
             object expectedValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
@@ -88,17 +83,16 @@ namespace AutoFixtureUnitTest
                 OnResolve = r => typeof(string).Equals(r) ? expectedValue : new NoSpecimen()
             };
             var sut = new ConstrainedStringGenerator();
-            // Exercise system and verify outcome
+            // Act & assert
             var result = (string)sut.Create(request, context);
             Assert.Contains(result, expectedValue.ToString());
-            // Teardown
         }
 
         [Theory]
         [MemberData(nameof(MinimumLengthMaximumLengthTestCases))]
         public void CreateReturnsStringWithCorrectLength(int expectedMinimumLength, int expectedMaximumLength)
         {
-            // Fixture setup
+            // Arrange
             var request = new ConstrainedStringRequest(expectedMinimumLength, expectedMaximumLength);
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
@@ -106,11 +100,10 @@ namespace AutoFixtureUnitTest
                 OnResolve = r => typeof(string).Equals(r) ? contextValue : new NoSpecimen()
             };
             var sut = new ConstrainedStringGenerator();
-            // Exercise system
+            // Act
             var result = (string)sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.True(expectedMinimumLength < result.Length && expectedMaximumLength >= result.Length);
-            // Teardown
         }
 
         [Theory]
@@ -119,7 +112,7 @@ namespace AutoFixtureUnitTest
         public void CreateReturnsStringWithCorrectLengthMultipleCall(int minimumLength, int maximumLength)
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
         {
-            // Fixture setup
+            // Arrange
             var request = new ConstrainedStringRequest(maximumLength);
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
@@ -127,13 +120,12 @@ namespace AutoFixtureUnitTest
                 OnResolve = r => typeof(string).Equals(r) ? contextValue : new NoSpecimen()
             };
             var sut = new ConstrainedStringGenerator();
-            // Exercise system
+            // Act
             var result = (from s in Enumerable.Range(1, 30).Select(i => (string)sut.Create(request, context))
                           where (s.Length <= request.MinimumLength || s.Length > request.MaximumLength)
                           select s);
-            // Verify outcome
+            // Assert
             Assert.False(result.Any());
-            // Teardown
         }
 
         public static TheoryData<int, int> MinimumLengthMaximumLengthTestCases =>

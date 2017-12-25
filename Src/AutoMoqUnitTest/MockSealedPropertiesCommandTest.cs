@@ -13,83 +13,79 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void SetupThrowsWhenMockIsNull()
         {
-            // Fixture setup
+            // Arrange
             var context = new Mock<ISpecimenContext>();
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => sut.Execute(null, context.Object));
-            // Teardown
         }
 
         [Fact]
         public void SetupThrowsWhenContextIsNull()
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<object>();
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => sut.Execute(mock, null));
-            // Teardown
         }
 
         [Fact]
         public void InitializesSealedPropertyUsingContext()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithSealedMembers>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system
+            // Act
             sut.Execute(mock, new SpecimenContext(fixture));
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, mock.Object.ExplicitlySealedProperty);
             Assert.Equal(frozenString, mock.Object.ImplicitlySealedProperty);
-            // Teardown
         }
 
         [Fact]
         public void InitializesPublicFields()
         {
 
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithPublicField>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system
+            // Act
             sut.Execute(mock, new SpecimenContext(fixture));
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, mock.Object.Field);
-            // Teardown
         }
 
         [Fact]
         public void IgnoresGetOnlyProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var mock = new Mock<TypeWithGetOnlyProperty>();
 
             var sut = new MockSealedPropertiesCommand();
-            //Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
         }
 
         [Fact]
         public void IgnoresVirtualProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithVirtualMembers>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.VirtualProperty);
         }
@@ -97,13 +93,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresPropertiesWithPrivateSetter()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithPropertyWithPrivateSetter>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.PropertyWithPrivateSetter);
         }
@@ -111,7 +107,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresPrivateProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithPrivateProperty>();
@@ -120,7 +116,7 @@ namespace AutoFixture.AutoMoq.UnitTest
                              BindingFlags.Instance | BindingFlags.NonPublic);
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, privateProperty.GetValue(mock.Object, null));
         }
@@ -128,13 +124,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresInterfaceProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<IInterfaceWithProperty>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.Property);
         }
@@ -142,13 +138,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresStaticProperties()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithStaticProperty>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
@@ -156,13 +152,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresIndexers()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenInt = fixture.Freeze<int>();
             var mock = new Mock<TypeWithIndexer>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenInt, mock.Object[2]);
         }
@@ -170,13 +166,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresPrivateFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithPrivateField>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.GetPrivateField());
         }
@@ -184,13 +180,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresReadonlyFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithReadonlyField>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, mock.Object.ReadonlyField);
         }
@@ -198,13 +194,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresLiteralFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithConstField>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
@@ -212,13 +208,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresStaticFields()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithStaticField>();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
@@ -226,13 +222,13 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void IgnoresNonMockSpecimens()
         {
-            // Fixture setup
+            // Arrange
             // The context mock has a strict behaviour - if any of its members are invoked, an exception will be thrown
             var context = new Mock<ISpecimenContext>(MockBehavior.Strict);
             var specimen = new TypeWithSealedMembers();
 
             var sut = new MockSealedPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(specimen, context.Object)));
         }
     }

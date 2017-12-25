@@ -12,7 +12,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
         [Fact]
         public void AddedResultShouldBeReturned()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CallResultCache();
             var cachedResult = new CallResultData(Maybe.Nothing<object>(), null);
 
@@ -20,22 +20,20 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var callSpec = Substitute.For<ICallSpecification>();
             callSpec.IsSatisfiedBy(call).Returns(true);
 
-            // Exercise system
+            // Act
             sut.AddResult(callSpec, cachedResult);
             CallResultData retrievedResult;
             var hasResult = sut.TryGetResult(call, out retrievedResult);
 
-            // Verify outcome
+            // Assert
             Assert.True(hasResult);
             Assert.Same(cachedResult, retrievedResult);
-
-            // Teardown
         }
 
         [Fact]
         public void TheLatestResultShouldBeReturned()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CallResultCache();
             var cachedResult = new CallResultData(Maybe.Nothing<object>(), null);
             var call = Substitute.For<ICall>();
@@ -46,24 +44,22 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var callSpec2 = Substitute.For<ICallSpecification>();
             callSpec2.IsSatisfiedBy(call).Returns(true);
 
-            // Exercise system
+            // Act
             sut.AddResult(callSpec1, new CallResultData(Maybe.Nothing<object>(), null));
             sut.AddResult(callSpec2, cachedResult);
 
             CallResultData retrievedResult;
             var hasResult = sut.TryGetResult(call, out retrievedResult);
 
-            // Verify outcome
+            // Assert
             Assert.True(hasResult);
             Assert.Same(cachedResult, retrievedResult);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldntReturnIfSpecificationIsNotSatisfied()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CallResultCache();
 
             var call = Substitute.For<ICall>();
@@ -72,23 +68,21 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             var cachedResult = new CallResultData(Maybe.Nothing<object>(), null);
 
-            // Exercise system
+            // Act
             sut.AddResult(callSpec, cachedResult);
 
             CallResultData retrievedResult;
             var hasResult = sut.TryGetResult(call, out retrievedResult);
 
-            // Verify outcome
+            // Assert
             Assert.False(hasResult);
             Assert.Null(retrievedResult);
-
-            // Teardown
         }
 
         [Fact]
         public void ShouldCorrectlyHandleConcurrency()
         {
-            // Fixture setup
+            // Arrange
             int threadsCount = 5;
             int itemsPerThread = 10;
 
@@ -108,7 +102,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             var sut = new CallResultCache();
 
-            // Exercise system
+            // Act
             dataRows
                 .AsParallel()
                 .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
@@ -120,50 +114,42 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                 })
                 .ToArray();
 
-            // Verify outcome
+            // Assert
             Assert.True(dataRows.All(row =>
                 sut.TryGetResult(row.call, out CallResultData result) && ReferenceEquals(result, row.result)));
-
-            // Teardown
         }
 
         [Fact]
         public void AddRowShouldFailForNullCallSpecification()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CallResultCache();
             var callResult = new CallResultData(Maybe.Nothing<object>(),
                 Enumerable.Empty<CallResultData.ArgumentValue>());
 
-            // Exercise system & Verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => sut.AddResult(null, callResult));
-
-            // Teardown
         }
 
         [Fact]
         public void AddRowShouldFailForNullCallResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CallResultCache();
             var callSpec = Substitute.For<ICallSpecification>();
 
-            // Exercise system & Verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => sut.AddResult(callSpec, null));
-
-            // Teardown
         }
 
         [Fact]
         public void TryGetValueShouldFailForNullCall()
         {
-            // Fixture setup
+            // Arrange
             var sut = new CallResultCache();
 
-            // Exercise system & Verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => sut.TryGetResult(null, out CallResultData _));
-
-            // Teardown
         }
     }
 }

@@ -10,11 +10,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void ClassIsAnAttribute()
         {
-            // Fixture setup
-            // Exercise system
-            // Verify outcome
+            // Arrange
+            // Act
+            // Assert
             Assert.True(typeof(Attribute).IsAssignableFrom(typeof(SubstituteAttribute)));
-            // Teardown
         }
 
         [Theory]
@@ -23,25 +22,23 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [InlineData(AttributeTargets.Field)]
         public void AttributeCanBeAppliedToCodeElementsSupportedBySubstituteAttributeRelay(AttributeTargets expectedTarget)
         {
-            // Fixture setup
+            // Arrange
             var attributeUsage = typeof(SubstituteAttribute).GetTypeInfo().GetCustomAttributes(false)
                 .OfType<AttributeUsageAttribute>().Single();
-            // Exercise system
+            // Act
             Assert.Equal(expectedTarget, attributeUsage.ValidOn & expectedTarget);
-            // Verify outcome
-            // Teardown
+            // Assert
         }
 
         [Fact]
         public void AttributeCanBeAppliedOnlyOnceBecauseDefiningMultipleSubstitutesForSingleArgumentIsMeaningless()
         {
-            // Fixture setup
+            // Arrange
             var attributeUsage = typeof(SubstituteAttribute).GetTypeInfo().GetCustomAttributes(false)
                 .OfType<AttributeUsageAttribute>().Single();
-            // Exercise system
+            // Act
             Assert.False(attributeUsage.AllowMultiple);
-            // Verify outcome
-            // Teardown
+            // Assert
         }
     }
 }

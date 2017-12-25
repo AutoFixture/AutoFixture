@@ -12,72 +12,66 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilderTransformation()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new TracingBehavior();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderTransformation>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullWriterThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new TracingBehavior(null));
-            // Teardown
         }
 
         [Fact]
         public void WriterIsCorrectWhenExplicitlyProvided()
         {
-            // Fixture setup
+            // Arrange
             var expectedWriter = new StringWriter();
             var sut = new TracingBehavior(expectedWriter);
-            // Exercise system
+            // Act
             TextWriter result = sut.Writer;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedWriter, result);
-            // Teardown
         }
 
         [Fact]
         public void WriterIsCorrectWhenDefaultConstructorIsUsed()
         {
-            // Fixture setup
+            // Arrange
             var sut = new TracingBehavior();
-            // Exercise system
+            // Act
             var result = sut.Writer;
-            // Verify outcome
+            // Assert
             Assert.Equal(Console.Out, result);
-            // Teardown
         }
 
         [Fact]
         public void TransformNullBuilderThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new TracingBehavior();
-            // Exercise system and verify outcome
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Transform(null));
-            // Teardown
         }
 
         [Fact]
         public void TransformReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new TracingBehavior();
             var builder = new DelegatingSpecimenBuilder();
-            // Exercise system
+            // Act
             var result = sut.Transform(builder);
-            // Verify outcome
+            // Assert
             var tw = Assert.IsAssignableFrom<TraceWriter>(result);
             Assert.Equal(builder, tw.Tracer.Builder);
-            // Teardown
         }
     }
 }

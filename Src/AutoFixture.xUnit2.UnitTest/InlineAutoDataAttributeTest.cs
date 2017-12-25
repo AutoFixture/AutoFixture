@@ -12,125 +12,116 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void SutIsCompositeDataAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new InlineAutoDataAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<CompositeDataAttribute>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutComposesDataAttributesInCorrectOrder()
         {
-            // Fixture setup
+            // Arrange
             var sut = new InlineAutoDataAttribute();
             var expected = new[] { typeof(InlineDataAttribute), typeof(AutoDataAttribute) };
-            // Exercise system
+            // Act
             IEnumerable<DataAttribute> result = sut.Attributes;
-            // Verify outcome
+            // Assert
             Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
-            // Teardown
         }
 
         [Fact]
         public void AttributesContainsAttributeWhenConstructedWithExplicitAutoDataAttribute()
         {
-            // Fixture setup
+            // Arrange
             var autoDataAttribute = new AutoDataAttribute();
             var sut = new DerivedInlineAutoDataAttribute(autoDataAttribute);
-            // Exercise system
+            // Act
             var result = sut.Attributes;
-            // Verify outcome
+            // Assert
             Assert.Contains(autoDataAttribute, result);
-            // Teardown
         }
 
         [Fact]
         public void AttributesContainsCorrectAttributeTypesWhenConstructorWithExplicitAutoDataAttribute()
         {
-            // Fixture setup
+            // Arrange
             var autoDataAttribute = new AutoDataAttribute();
             var sut = new InlineAutoDataAttribute(autoDataAttribute);
-            // Exercise system
+            // Act
             var result = sut.Attributes;
-            // Verify outcome
+            // Assert
             var expected = new[] { typeof(InlineDataAttribute), autoDataAttribute.GetType() };
             Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
-            // Teardown
         }
 
         [Fact]
         public void ValuesWillBeEmptyWhenSutIsCreatedWithDefaultConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new InlineAutoDataAttribute();
             var expected = Enumerable.Empty<object>();
-            // Exercise system
+            // Act
             var result = sut.Values;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
 
         [Fact]
         public void ValuesWillNotBeEmptyWhenSutIsCreatedWithConstructorArguments()
         {
-            // Fixture setup
+            // Arrange
             var expectedValues = new[] { new object(), new object(), new object() };
             var sut = new InlineAutoDataAttribute(expectedValues);
-            // Exercise system
+            // Act
             var result = sut.Values;
-            // Verify outcome
+            // Assert
             Assert.True(result.SequenceEqual(expectedValues));
-            // Teardown
         }
 
         [Fact]
         public void ValuesAreCorrectWhenConstructedWithExplicitAutoDataAttribute()
         {
-            // Fixture setup
+            // Arrange
             var dummyAutoDataAttribute = new AutoDataAttribute();
             var expectedValues = new[] { new object(), new object(), new object() };
             var sut = new DerivedInlineAutoDataAttribute(dummyAutoDataAttribute, expectedValues);
-            // Exercise system
+            // Act
             var result = sut.Values;
-            // Verify outcome
+            // Assert
             Assert.True(expectedValues.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void AutoDataAttributeIsCorrectWhenCreatedWithModestConstructor()
         {
-            // Fixture setup
+            // Arrange
             var sut = new InlineAutoDataAttribute();
-            // Exercise system
+            // Act
             DataAttribute result = sut.AutoDataAttribute;
-            // Verify outcome
+            // Assert
             Assert.NotNull(result);
             Assert.IsType<AutoDataAttribute>(result);
-            // Teardown
         }
 
         [Fact]
         public void AutoDataAttributeIsCorrectWhenCreatedExplicitlyByConstructor()
         {
-            // Fixture setup
+            // Arrange
             var expected = new AutoDataAttribute();
             var sut = new DerivedInlineAutoDataAttribute(expected);
-            // Exercise system
+            // Act
             var result = sut.AutoDataAttribute;
-            // Verify outcome
+            // Assert
             Assert.Equal(expected, result);
-            // Teardown
         }
         
         
         [Fact]
         public void DoesntActivateFixtureImmediately()
         {
-            // Fixture setup
+            // Arrange
             bool wasInvoked = false;
             var autoData = new DerivedAutoDataAttribute(() =>
             {
@@ -138,19 +129,18 @@ namespace AutoFixture.Xunit2.UnitTest
                 return null;
             });
 
-            // Exercise system
+            // Act
             var sut = new DerivedInlineAutoDataAttribute(autoData);
 
-            // Verify outcome
+            // Assert
             Assert.False(wasInvoked);
-            // Teardown
         }
         
         
         [Fact]
         public void PreDiscoveryShouldBeDisabled()
         {
-            // Fixture setup
+            // Arrange
             var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
             var discovererAttr = typeof(InlineAutoDataAttribute).GetTypeInfo()
                 .CustomAttributes
@@ -159,15 +149,14 @@ namespace AutoFixture.Xunit2.UnitTest
             var expectedType = expectedDiscovererType.FullName;
             var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
 
-            // Exercise system
+            // Act
             var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
             var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
 
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedType, actualType);
             Assert.Equal(expectedAssembly, actualAssembly);
 
-            // Teardown
         }
         
         private class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute

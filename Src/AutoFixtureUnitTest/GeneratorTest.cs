@@ -19,49 +19,45 @@ namespace AutoFixtureUnitTest
         [Theory, ClassData(typeof(CountTestCases))]
         public void StronglyTypedEnumerationYieldsNonDefaultValues(int count)
         {
-            // Fixture setup
+            // Arrange
             var sut = new Generator<T>(new Fixture());
-            // Exercise system
+            // Act
             var actual = sut.Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(count, actual.Count(x => !object.Equals(default(T), x)));
-            // Teardown
         }
 
         [Theory, ClassData(typeof(CountTestCases))]
         public void StronglyTypedEnumerationYieldsUniqueValues(int count)
         {
-            // Fixture setup
+            // Arrange
             var sut = new Generator<T>(new Fixture());
-            // Exercise system
+            // Act
             var actual = sut.Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(count, actual.Distinct().Count());
-            // Teardown
         }
 
         [Theory, ClassData(typeof(CountTestCases))]
         public void WeaklyTypedEnumerationYieldsNonDefaultValues(int count)
         {
-            // Fixture setup
+            // Arrange
             IEnumerable sut = new Generator<T>(new Fixture());
-            // Exercise system
+            // Act
             var actual = sut.OfType<T>().Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(count, actual.Count(x => !object.Equals(default(T), x)));
-            // Teardown
         }
 
         [Theory, ClassData(typeof(CountTestCases))]
         public void WeaklyTypedEnumerationYieldsUniqueValues(int count)
         {
-            // Fixture setup
+            // Arrange
             IEnumerable sut = new Generator<T>(new Fixture());
-            // Exercise system
+            // Act
             var actual = sut.OfType<T>().Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(count, actual.Distinct().Count());
-            // Teardown
         }
 
         [Fact]
@@ -74,61 +70,57 @@ namespace AutoFixtureUnitTest
         [Theory, ClassData(typeof(CountTestCases))]
         public void ConstructedWithSpecimenBuilderStronglyTypedEnumerationYieldsNonDefaultValues(int count)
         {
-            // Fixture setup
+            // Arrange
             var builder = new Fixture();
             var sut = new Generator<T>(builder);
-            // Exercise system
+            // Act
             var actual = sut.OfType<T>().Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(
                 count,
                 actual.Count(x => !object.Equals(default(T), x)));
-            // Teardown
         }
 
         [Theory, ClassData(typeof(CountTestCases))]
         public void ConstructedWithSpecimenBuilderWeaklyTypedEnumerationYieldsNonDefaultValues(int count)
         {
-            // Fixture setup
+            // Arrange
             var builder = new Fixture();
             IEnumerable sut = new Generator<T>(builder);
-            // Exercise system
+            // Act
             var actual = sut.OfType<T>().Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(
                 count,
                 actual.Count(x => !object.Equals(default(T), x)));
-            // Teardown
         }
 
         [Theory, ClassData(typeof(CountTestCases))]
         public void ConstructedWithSpecimenBuilderStronglyTypedEnumerationYieldsDistinctValues(int count)
         {
-            // Fixture setup
+            // Arrange
             var builder = new Fixture();
             var sut = new Generator<T>(builder);
-            // Exercise system
+            // Act
             var actual = sut.OfType<T>().Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(
                 count,
                 actual.Distinct().Count());
-            // Teardown
         }
 
         [Theory, ClassData(typeof(CountTestCases))]
         public void ConstructedWithSpecimenBuilderWeaklyTypedEnumerationYieldsDistinctValues(int count)
         {
-            // Fixture setup
+            // Arrange
             var builder = new Fixture();
             IEnumerable sut = new Generator<T>(builder);
-            // Exercise system
+            // Act
             var actual = sut.OfType<T>().Take(count);
-            // Verify outcome
+            // Assert
             Assert.Equal(
                 count,
                 actual.Distinct().Count());
-            // Teardown
         }
     }
 

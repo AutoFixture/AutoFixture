@@ -11,78 +11,62 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Exercise system
+            // Act
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>());
-
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new NSubstituteBuilder(null));
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullSpecificationThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), null));
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = Substitute.For<ISpecimenBuilder>();
             var sut = new NSubstituteBuilder(expectedBuilder);
-
-            // Exercise system
+            // Act
             var result = sut.Builder;
-
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             IRequestSpecification specification = new TrueRequestSpecification();
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
-
-            // Exercise system
+            // Act
             var result = sut.SubstitutionSpecification;
-
-            // Verify outcome
+            // Assert
             Assert.Equal(specification, result);
-
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsAbstractTypeSpecificationWhenInitializedWithConstructorWithoutSpecificationParameter()
         {
-            // Fixture setup
+            // Arrange
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>());
-
-            // Exercise system
+            // Act
             var result = sut.SubstitutionSpecification;
-
-            // Verify outcome
+            // Assert
             Assert.IsType<AbstractTypeSpecification>(result);
-
-            // Teardown
         }
 
         [Theory]
@@ -90,16 +74,14 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [InlineData(typeof(IInterface))]
         public void CreateWithAbstractionRequest_ReturnsNoSpecimen_WhenDecoratedBuilderReturnsNull(Type request)
         {
-            // Fixture setup
+            // Arrange
             var builder = Substitute.For<ISpecimenBuilder>();
             var context = Substitute.For<ISpecimenContext>();
             builder.Create(request, context).Returns(null);
             var sut = new NSubstituteBuilder(builder);
-
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-
-            // Verify outcome
+            // Assert
             var expected = new NoSpecimen();
             Assert.Equal(expected, result);
         }
@@ -109,33 +91,29 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [InlineData(typeof(IInterface))]
         public void CreateWithAbstractionRequest_ReturnsResultFromDecoratedBuilder(Type request)
         {
-            // Fixture setup
+            // Arrange
             var builder = Substitute.For<ISpecimenBuilder>();
             var context = Substitute.For<ISpecimenContext>();
             var expected = new object();
             builder.Create(request, context).Returns(expected);
             var sut = new NSubstituteBuilder(builder);
-
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-
-            // Verify outcome
+            // Assert
             Assert.Same(expected, result);
         }
 
         [Fact]
         public void Create_WithRequestThatDoesNotMatchSpecification_ReturnsNoSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var specification = new FalseRequestSpecification();
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
             var context = Substitute.For<ISpecimenContext>();
             var request = typeof(ConcreteType);
-
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-
-            // Verify outcome
+            // Assert
             var expected = new NoSpecimen();
             Assert.Equal(expected, result);
         }
@@ -146,15 +124,13 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [InlineData("")]
         public void Create_WithRequestThatIsNotAType_ReturnsNoSpecimen(object request)
         {
-            // Fixture setup
+            // Arrange
             var specification = new TrueRequestSpecification();
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
             var context = Substitute.For<ISpecimenContext>();
-
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-
-            // Verify outcome
+            // Assert
             var expected = new NoSpecimen();
             Assert.Equal(expected, result);
         }

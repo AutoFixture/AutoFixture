@@ -31,7 +31,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void InitializeWithNullFactoryThrows()
         {
             Action dummy = delegate { };
-            
+
             Assert.Throws<ArgumentNullException>(() =>
                 new GenericMethod(dummy.GetMethodInfo(), null));
         }

@@ -9,12 +9,11 @@ namespace AutoFixtureDocumentationTest
         [InlineData("Moq")]
         public void AutoFixtureDocumentationTestsDoeNotReference(string assemblyName)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
-            // Verify outcome
+            // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
-            // Teardown
         }
     }
 }

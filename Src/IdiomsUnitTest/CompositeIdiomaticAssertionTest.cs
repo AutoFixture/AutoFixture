@@ -13,18 +13,17 @@ namespace AutoFixture.IdiomsUnitTest
         [Fact]
         public void SutIsIdiomaticAssertion()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new CompositeIdiomaticAssertion();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IIdiomaticAssertion>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ConstructedWithArrayIdiomaticAssertionsIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var assertions = new[]
             {
                 new DelegatingIdiomaticAssertion(),
@@ -33,17 +32,16 @@ namespace AutoFixture.IdiomsUnitTest
             };
 
             var sut = new CompositeIdiomaticAssertion(assertions);
-            // Exercise system
+            // Act
             IEnumerable<IIdiomaticAssertion> result = sut.Assertions;
-            // Verify outcome
+            // Assert
             Assert.True(assertions.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void ConstructedWithEnumerableIdiomaticAssertionsIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             IEnumerable<IIdiomaticAssertion> assertions = new[]
             {
                 new DelegatingIdiomaticAssertion(),
@@ -52,17 +50,16 @@ namespace AutoFixture.IdiomsUnitTest
             }.AsEnumerable();
 
             var sut = new CompositeIdiomaticAssertion(assertions);
-            // Exercise system
+            // Act
             var result = sut.Assertions;
-            // Verify outcome
+            // Assert
             Assert.True(assertions.SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void VerifyConstructorInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedConstructors = new List<ConstructorInfo>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnConstructorInfoVerify = observedConstructors.Add}, 3).ToArray();
@@ -70,17 +67,16 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithConstructor = typeof (UnguardedConstructorHost<object>);
             ConstructorInfo ctor = typeWithConstructor.GetConstructors().First();
-            // Exercise system
+            // Act
             sut.Verify(ctor);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedConstructors.Count(ctor.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyMethodInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedMethods = new List<MethodInfo>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnMethodInfoVerify = observedMethods.Add}, 3).ToArray();
@@ -88,17 +84,16 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithMethod = typeof (TypeWithConcreteParameterMethod);
             MethodInfo method = typeWithMethod.GetMethods().First();
-            // Exercise system
+            // Act
             sut.Verify(method);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedMethods.Count(method.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyPropertyInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedProperties = new List<PropertyInfo>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnPropertyInfoVerify = observedProperties.Add}, 3).ToArray();
@@ -106,17 +101,16 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithMethod = typeof (PropertyHolder<object>);
             PropertyInfo property = typeWithMethod.GetProperties().First();
-            // Exercise system
+            // Act
             sut.Verify(property);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedProperties.Count(property.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyFieldInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedFields = new List<FieldInfo>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnFieldInfoVerify = observedFields.Add}, 3).ToArray();
@@ -124,51 +118,48 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithField = typeof (FieldHolder<object>);
             FieldInfo field = typeWithField.GetFields().First();
-            // Exercise system
+            // Act
             sut.Verify(field);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedFields.Count(field.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyAssemblyVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedAssemblies = new List<Assembly>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnAssemblyVerify = observedAssemblies.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Assembly assembly = typeof (AbstractType).Assembly;
-            // Exercise system
+            // Act
             sut.Verify(assembly);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedAssemblies.Count(assembly.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedTypes = new List<Type>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnTypeVerify = observedTypes.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type type = typeof (AbstractType);
-            // Exercise system
+            // Act
             sut.Verify(type);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedTypes.Count(type.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyAssemblyArrayVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedAssemblies = new List<Assembly[]>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnAssemblyArrayVerify = observedAssemblies.Add}, 3)
@@ -181,17 +172,16 @@ namespace AutoFixture.IdiomsUnitTest
                 typeof (System.String).Assembly,
             };
 
-            // Exercise system
+            // Act
             sut.Verify(assemblies);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedAssemblies.Count(assemblies.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyEnumerableAssemblyVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedAssemblies = new List<IEnumerable<Assembly>>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnAssembliesVerify = observedAssemblies.Add}, 3)
@@ -205,17 +195,16 @@ namespace AutoFixture.IdiomsUnitTest
             }
                 .AsEnumerable();
 
-            // Exercise system
+            // Act
             sut.Verify(assemblies);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedAssemblies.Count(assemblies.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyTypeArrayVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedTypeArrays = new List<Type[]>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnTypeArrayVerify = observedTypeArrays.Add}, 3)
@@ -228,17 +217,16 @@ namespace AutoFixture.IdiomsUnitTest
                 typeof (System.String),
             };
 
-            // Exercise system
+            // Act
             sut.Verify(types);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedTypeArrays.Count(types.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyEnumerableTypesVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedTypes = new List<IEnumerable<Type>>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnTypesVerify = observedTypes.Add}, 3)
@@ -252,17 +240,16 @@ namespace AutoFixture.IdiomsUnitTest
             }
                 .AsEnumerable();
 
-            // Exercise system
+            // Act
             sut.Verify(assemblies);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedTypes.Count(assemblies.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyMemberInfoArrayVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedMemberInfoArrays = new List<MemberInfo[]>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnMemberInfoArrayVerify = observedMemberInfoArrays.Add}, 3)
@@ -275,17 +262,16 @@ namespace AutoFixture.IdiomsUnitTest
                 typeof (System.String).GetMembers().First(),
             };
 
-            // Exercise system
+            // Act
             sut.Verify(members);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedMemberInfoArrays.Count(members.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyEnumerableMemberInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedMemberInfos = new List<IEnumerable<MemberInfo>>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnMemberInfosVerify = observedMemberInfos.Add}, 3)
@@ -299,17 +285,16 @@ namespace AutoFixture.IdiomsUnitTest
             }
                 .AsEnumerable();
 
-            // Exercise system
+            // Act
             sut.Verify(members);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedMemberInfos.Count(members.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyEnumerableConstructorInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedConstructors = new List<IEnumerable<ConstructorInfo>>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnConstructorInfosVerify = observedConstructors.Add}, 3)
@@ -323,17 +308,16 @@ namespace AutoFixture.IdiomsUnitTest
             }
                 .AsEnumerable();
 
-            // Exercise system
+            // Act
             sut.Verify(ctors);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedConstructors.Count(ctors.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyEnumerableMethodInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedMethods = new List<IEnumerable<MethodInfo>>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnMethodInfosVerify = observedMethods.Add}, 3)
@@ -347,17 +331,16 @@ namespace AutoFixture.IdiomsUnitTest
             }
                 .AsEnumerable();
 
-            // Exercise system
+            // Act
             sut.Verify(methods);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedMethods.Count(methods.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyPropertyInfoArrayVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedPropertyArrays = new List<PropertyInfo[]>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnPropertyInfoArrayVerify = observedPropertyArrays.Add}, 3)
@@ -370,17 +353,16 @@ namespace AutoFixture.IdiomsUnitTest
                 typeof (System.String).GetProperties().First(),
             };
 
-            // Exercise system
+            // Act
             sut.Verify(properties);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedPropertyArrays.Count(properties.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyEnumerablePropertyInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedProperties = new List<IEnumerable<PropertyInfo>>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnPropertyInfosVerify = observedProperties.Add}, 3)
@@ -394,17 +376,16 @@ namespace AutoFixture.IdiomsUnitTest
             }
                 .AsEnumerable();
 
-            // Exercise system
+            // Act
             sut.Verify(properties);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedProperties.Count(properties.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyFieldInfoArrayVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedFieldArrays = new List<FieldInfo[]>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnFieldInfoArrayVerify = observedFieldArrays.Add}, 3)
@@ -417,17 +398,16 @@ namespace AutoFixture.IdiomsUnitTest
                 typeof (System.String).GetFields().First(),
             };
 
-            // Exercise system
+            // Act
             sut.Verify(fields);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedFieldArrays.Count(fields.Equals));
-            // Teardown
         }
 
         [Fact]
         public void VerifyEnumerableFieldInfoVerifiesAllIdiomaticAssertions()
         {
-            // Fixture setup
+            // Arrange
             var observedFields = new List<IEnumerable<FieldInfo>>();
             var expectations = Enumerable.Repeat(
                 new DelegatingIdiomaticAssertion {OnFieldInfosVerify = observedFields.Add}, 3)
@@ -441,11 +421,10 @@ namespace AutoFixture.IdiomsUnitTest
             }
                 .AsEnumerable();
 
-            // Exercise system
+            // Act
             sut.Verify(fields);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectations.Length, observedFields.Count(fields.Equals));
-            // Teardown
         }
     }
 }

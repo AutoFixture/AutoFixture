@@ -12,18 +12,17 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
         [Fact]
         public void SutImplementsISpecimenBuilder()
         {
-            // Exercise system
+            // Act
             var sut = new RhinoMockConstructorMethod(typeof(RhinoMockConstructorMethod), Enumerable.Empty<ParameterInfo>().ToArray());
 
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IMethod>(sut);
-            // Teardown
         }
 
         [Fact]
         public void ConstructorWithNullConstructorMethodThrows()
         {
-            // Exercise system
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => 
                 new RhinoMockConstructorMethod(null, Enumerable.Empty<ParameterInfo>().ToArray()));
         }
@@ -31,7 +30,7 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
         [Fact]
         public void ConstructorWithNullParameterInfoArray()
         {
-            // Exercise system
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RhinoMockConstructorMethod(typeof(RhinoMockConstructorMethod), null));
         }
@@ -47,13 +46,12 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
         [InlineData(typeof(IComparable<int>))]
         public void MockTargetTypeIsCorrect(Type t)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RhinoMockConstructorMethod(t, new ParameterInfo[0]);
-            // Exercise system
+            // Act
             Type result = sut.MockTargetType;
-            // Verify outcome
+            // Assert
             Assert.Equal(t, result);
-            // Teardown
         }
     }
 }

@@ -12,35 +12,35 @@ namespace AutoFixture.AutoMoq.UnitTest
         [ClassData(typeof (ValidNonMockSpecimens))]
         public void ExecuteDoesNotThrowsWhenSpecimenIsValidNonMockSpecimen(object validNonMockSpecimen)
         {
-            // Fixture setup
+            // Arrange
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(validNonMockSpecimen, context)));
         }
 
         [Fact]
         public void IgnoresNonMockSpecimens()
         {
-            // Fixture setup
+            // Arrange
             var request = new object();
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(request, context)));
         }
 
         [Fact]
         public void StubsProperties()
         {
-            // Fixture setup
+            // Arrange
             const string expectedPropertyValue = "a string";
             var request = new Mock<IInterfaceWithProperty>();
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
-            // Exercise system
+            // Act
             sut.Execute(request, context);
-            // Verify outcome
+            // Assert
             request.Object.Property = expectedPropertyValue;
             Assert.Equal(expectedPropertyValue, request.Object.Property);
         }
@@ -48,17 +48,17 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void DoesNotHangIfMockedTypeHasPropertiesWithCircularDependencies()
         {
-            // Fixture setup
+            // Arrange
             var request = new Mock<IInterfaceWithPropertyWithCircularDependency>()
             {
                 DefaultValue = DefaultValue.Mock
             };
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
-            // Exercise system
+            // Act
             var task = Task.Factory.StartNew(() => sut.Execute(request, context));
             bool ranToCompletion = task.Wait(5000) && task.Status == TaskStatus.RanToCompletion;
-            // Verify outcome
+            // Assert
             Assert.True(ranToCompletion);
         }
 
@@ -67,16 +67,16 @@ namespace AutoFixture.AutoMoq.UnitTest
         [InlineData(DefaultValue.Mock)]
         public void DoesNotAffectMockDefaultValueSetting(DefaultValue defaultValue)
         {
-            // Fixture setup
+            // Arrange
             var request = new Mock<IInterfaceWithProperty>()
             {
                 DefaultValue = defaultValue
             };
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
-            // Exercise system
+            // Act
             sut.Execute(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(defaultValue, request.DefaultValue);
         }
     }

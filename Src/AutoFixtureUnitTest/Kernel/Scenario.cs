@@ -14,78 +14,74 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void CreateSingleStringParameterizedType()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = (SingleParameterType<string>)container.Resolve(typeof(SingleParameterType<string>));
-            // Verify outcome
+            // Assert
             var name = new TextGuidRegex().GetText(result.Parameter);
             string guidString = new TextGuidRegex().GetGuid(result.Parameter);
             Guid g = new Guid(guidString);
             Assert.Equal("parameter", name);
             Assert.NotEqual<Guid>(Guid.Empty, g);
-            // Teardown
         }
 
         [Fact]
         public void CreateDoubleStringParameterizedType()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = (DoubleParameterType<string, string>)container.Resolve(typeof(DoubleParameterType<string, string>));
-            // Verify outcome
+            // Assert
             Assert.False(string.IsNullOrEmpty(result.Parameter1), "Parameter1");
             Assert.False(string.IsNullOrEmpty(result.Parameter2), "Parameter2");
-            // Teardown
         }
 
         [Fact]
         public void CreateStringAndIntegerParameterizedType()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = (DoubleParameterType<string, int>)container.Resolve(typeof(DoubleParameterType<string, int>));
-            // Verify outcome
+            // Assert
             Assert.False(string.IsNullOrEmpty(result.Parameter1), "Parameter11");
             Assert.NotEqual(0, result.Parameter2);
-            // Teardown
         }
 
         [Fact]
         public void CreateDecimalAndBooleanParameterizedType()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = (DoubleParameterType<decimal, bool>)container.Resolve(typeof(DoubleParameterType<decimal, bool>));
-            // Verify outcome
+            // Assert
             Assert.Equal(1m, result.Parameter1);
             Assert.True(result.Parameter2, "Parameter2");
-            // Teardown
         }
 
         [Fact]
         public void CreateNestedType()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = (DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>)container.Resolve(
                 typeof(DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>));
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Parameter1.Parameter1);
             Assert.NotEqual(default(Guid), result.Parameter1.Parameter2);
             Assert.Equal(1m, result.Parameter2.Parameter1);
             Assert.True(result.Parameter2.Parameter2);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGeneratorObsolete()
         {
-            // Fixture setup
+            // Arrange
             var intGenerator = new Int32SequenceGenerator();
             var builder = new CompositeSpecimenBuilder(
                 intGenerator,
@@ -99,19 +95,19 @@ namespace AutoFixtureUnitTest.Kernel
                 new StringSeedRelay(),
                 new SeedIgnoringRelay());
             var container = new SpecimenContext(builder);
-            // Exercise system
+            // Act
             var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Parameter1);
             Assert.Equal("parameter22", result.Parameter2);
             Assert.Equal(3, result.Parameter3);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
         {
-            // Fixture setup
+            // Arrange
             var intGenerator = new Int32SequenceGenerator();
             var builder = new CompositeSpecimenBuilder(
                 intGenerator,
@@ -125,19 +121,18 @@ namespace AutoFixtureUnitTest.Kernel
                 new StringSeedRelay(),
                 new SeedIgnoringRelay());
             var container = new SpecimenContext(builder);
-            // Exercise system
+            // Act
             var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Parameter1);
             Assert.Equal("parameter22", result.Parameter2);
             Assert.Equal(3, result.Parameter3);
-            // Teardown
         }
 
         [Fact]
         public void CreateAndAddPropertyValues()
         {
-            // Fixture setup
+            // Arrange
             var ctorInvoker = new MethodInvoker(new ModestConstructorQuery());
             var strCmd = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1);
             var intCmd = new BindingCommand<DoublePropertyHolder<string, int>, int>(ph => ph.Property2);
@@ -148,65 +143,61 @@ namespace AutoFixtureUnitTest.Kernel
                 new FilteringSpecimenBuilder(intPostprocessor, new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>))),
                 Scenario.CreateAutoPropertyBuilder());
             var container = new SpecimenContext(builder);
-            // Exercise system
+            // Act
             var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<string, int>>(result);
             Assert.False(string.IsNullOrEmpty(actual.Property1), "Property1");
             Assert.Equal(1, actual.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateUsingBasicAutoPropertiesFunctionality()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.Resolve(typeof(DoublePropertyHolder<int, int>));
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<int, int>>(result);
             Assert.Equal(1, actual.Property1);
             Assert.Equal(2, actual.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CreateNestedStringTypeWithAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.Resolve(typeof(DoublePropertyHolder<DoublePropertyHolder<string, string>, DoublePropertyHolder<string, string>>));
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<DoublePropertyHolder<string, string>, DoublePropertyHolder<string, string>>>(result);
             Assert.False(string.IsNullOrEmpty(actual.Property1.Property1));
             Assert.False(string.IsNullOrEmpty(actual.Property1.Property2));
             Assert.False(string.IsNullOrEmpty(actual.Property2.Property1));
             Assert.False(string.IsNullOrEmpty(actual.Property2.Property2));
-            // Teardown
         }
 
         [Fact]
         public void CreateNestedIntegerTypeWithAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.Resolve(typeof(DoublePropertyHolder<DoublePropertyHolder<int, int>, DoublePropertyHolder<int, int>>));
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<DoublePropertyHolder<int, int>, DoublePropertyHolder<int, int>>>(result);
             Assert.Equal(1, actual.Property1.Property1);
             Assert.Equal(2, actual.Property1.Property2);
             Assert.Equal(3, actual.Property2.Property1);
             Assert.Equal(4, actual.Property2.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CombineExplicitPropertyWithAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var expectedText = "Fnaah";
 
             var specifiedCommand = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, expectedText);
@@ -223,198 +214,190 @@ namespace AutoFixtureUnitTest.Kernel
                 customizedBuilder,
                 Scenario.CreateAutoPropertyBuilder());
             var container = new SpecimenContext(builder);
-            // Exercise system
+            // Act
             var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<string, int>>(result);
             Assert.Equal(expectedText, actual.Property1);
             Assert.Equal(1, actual.Property2);
-            // Teardown
         }
 
         [Fact]
         public void RequestFiniteSequenceReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.Resolve(new FiniteSequenceRequest(typeof(int), 10));
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<IEnumerable<object>>(result);
             Assert.True(Enumerable.Range(1, 10).Cast<object>().SequenceEqual(actual));
-            // Teardown
         }
 
         [Fact]
         public void RequestManyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.Resolve(new MultipleRequest(typeof(int)));
-            // Verify outcome
+            // Assert
             var actual = Assert.IsAssignableFrom<IEnumerable<object>>(result);
             Assert.True(Enumerable.Range(1, 3).Cast<object>().SequenceEqual(actual));
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CreateAnonymousReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.CreateAnonymous<int>();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.Create<int>();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateManyReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.CreateMany<decimal>();
-            // Verify outcome
+            // Assert
             Assert.True(Enumerable.Range(1, 3).Select(i => (decimal)i).SequenceEqual(result));
-            // Teardown
         }
 
         [Fact]
         public void CreateManyWithCountReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var count = 8;
             var container = Scenario.CreateContainer();
-            // Exercise system
+            // Act
             var result = container.CreateMany<long>(count);
-            // Verify outcome
+            // Assert
             Assert.True(Enumerable.Range(1, count).Select(i => (long)i).SequenceEqual(result));
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void ComposeWithValueReturnsCorrectResultObsolete()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = 9;
             var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>()
                 .With(x => x.Property, expectedValue);
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void ComposeWithValueReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var expectedValue = 9;
             var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>()
                 .With(x => x.Property, expectedValue);
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).Create<PropertyHolder<int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedValue, result.Property);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void ComposeWithAutoPropertiesAndExplicitPropertyObsolete()
         {
-            // Fixture setup
+            // Arrange
             var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
                 .WithAutoProperties()
                 .With(x => x.Property1, 8);
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(8, result.Property1);
             Assert.Equal(1, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void ComposeWithAutoPropertiesAndExplicitProperty()
         {
-            // Fixture setup
+            // Arrange
             var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
                 .WithAutoProperties()
                 .With(x => x.Property1, 8);
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).Create<DoublePropertyHolder<int, int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(8, result.Property1);
             Assert.Equal(1, result.Property2);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void ComposeWithAutoPropertiesObsolete()
         {
-            // Fixture setup
+            // Arrange
             var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
                 .WithAutoProperties();
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Property1);
             Assert.Equal(2, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void ComposeWithAutoProperties()
         {
-            // Fixture setup
+            // Arrange
             var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
                 .WithAutoProperties();
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).Create<DoublePropertyHolder<int, int>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Property1);
             Assert.Equal(2, result.Property2);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void ComposeComplexObjectWithAutoPropertiesAndSomeCustomizationsObsolete()
         {
-            // Fixture setup
+            // Arrange
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<long, long>>()
                     .With(x => x.Property2, 43)
@@ -425,20 +408,19 @@ namespace AutoFixtureUnitTest.Kernel
                 SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>()
                     .WithAutoProperties(),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Property1.Property1);
             Assert.Equal(43, result.Property1.Property2);
             Assert.Equal(1, result.Property2.Property1);
             Assert.Null(result.Property2.Property2);
-            // Teardown
         }
 
         [Fact]
         public void ComposeComplexObjectWithAutoPropertiesAndSomeCustomizations()
         {
-            // Fixture setup
+            // Arrange
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<long, long>>()
                     .With(x => x.Property2, 43)
@@ -449,169 +431,162 @@ namespace AutoFixtureUnitTest.Kernel
                 SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>()
                     .WithAutoProperties(),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).Create<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Property1.Property1);
             Assert.Equal(43, result.Property1.Property2);
             Assert.Equal(1, result.Property2.Property1);
             Assert.Null(result.Property2.Property2);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CustomDoSetsCorrectPropertyObsolete()
         {
-            // Fixture setup
+            // Arrange
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).CreateAnonymous<SingleParameterType<PropertyHolder<decimal>>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(6789, result.Parameter.Property);
-            // Teardown
         }
 
         [Fact]
         public void CustomDoSetsCorrectProperty()
         {
-            // Fixture setup
+            // Arrange
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).Create<SingleParameterType<PropertyHolder<decimal>>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(6789, result.Parameter.Property);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void ComposeWithoutCorrectlyCreatesSpecimenObsolete()
         {
-            // Fixture setup
+            // Arrange
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).CreateAnonymous<DoubleFieldHolder<string, int>>();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Field1);
             Assert.Equal(1, result.Field2);
-            // Teardown
         }
 
         [Fact]
         public void ComposeWithoutCorrectlyCreatesSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).Create<DoubleFieldHolder<string, int>>();
-            // Verify outcome
+            // Assert
             Assert.Null(result.Field1);
             Assert.Equal(1, result.Field2);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CustomizeFromFactoryCorrectlyResolvesSpecimenObsolete()
         {
-            // Fixture setup
+            // Arrange
             var instance = new PropertyHolder<float> { Property = 89 };
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties(),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<float>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(instance, result);
             Assert.Equal(89, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeFromFactoryCorrectlyResolvesSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var instance = new PropertyHolder<float> { Property = 89 };
             var builder = new CompositeSpecimenBuilder(
                 SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties(),
                 Scenario.CreateCoreBuilder());
-            // Exercise system
+            // Act
             var result = new SpecimenContext(builder).Create<PropertyHolder<float>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(instance, result);
             Assert.Equal(89, result.Property);
-            // Teardown
         }
 
-        [Fact][Obsolete]
+        [Fact]
+        [Obsolete]
         public void CustomizeAndComposeComplexTypeObsolete()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var result = new CompositeNodeComposer<DoublePropertyHolder<int, decimal>>(
                 new CompositeSpecimenBuilder(
                     SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, decimal>>(),
                     Scenario.CreateAutoPropertyBuilder()
                     )
                 ).With(x => x.Property2, 8m).WithAutoProperties().CreateAnonymous();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Property1);
             Assert.Equal(8, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void CustomizeAndComposeComplexType()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var result = new CompositeNodeComposer<DoublePropertyHolder<int, decimal>>(
                 new CompositeSpecimenBuilder(
                     SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, decimal>>(),
                     Scenario.CreateAutoPropertyBuilder()
                     )
                 ).With(x => x.Property2, 8m).WithAutoProperties().Create();
-            // Verify outcome
+            // Assert
             Assert.Equal(1, result.Property1);
             Assert.Equal(8, result.Property2);
-            // Teardown
         }
 
         [Fact]
         public void DisposeBehaviorDisposesSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var behavior = new DisposableTrackingBehavior();
             var fixture = new Fixture();
             fixture.Behaviors.Add(behavior);
 
             var disp = fixture.Create<DisposableSpy>();
-            // Exercise system
+            // Act
             behavior.Dispose();
-            // Verify outcome
+            // Assert
             Assert.True(disp.Disposed);
-            // Teardown
         }
 
         [Fact]
         public void DisposeCustomizationDisposesSpecimen()
         {
-            // Fixture setup
+            // Arrange
             var customization = new DisposableTrackingCustomization();
             var fixture = new Fixture().Customize(customization);
 
             var disp = fixture.Create<DisposableSpy>();
-            // Exercise system
+            // Act
             customization.Dispose();
-            // Verify outcome
+            // Assert
             Assert.True(disp.Disposed);
-            // Teardown
         }
 
         private static SpecimenContext CreateContainer()

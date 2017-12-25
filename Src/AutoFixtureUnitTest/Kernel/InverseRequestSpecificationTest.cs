@@ -9,35 +9,32 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsRequestSpecification()
         {
-            // Fixture setup
+            // Arrange
             var dummySpec = new DelegatingRequestSpecification();
-            // Exercise system
+            // Act
             var sut = new InverseRequestSpecification(dummySpec);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullSpecificationThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() => new InverseRequestSpecification(null));
-            // Teardown
         }
 
         [Fact]
         public void SpecificationIsCorrectly()
         {
-            // Fixture setup
+            // Arrange
             var expectedSpec = new DelegatingRequestSpecification();
             var sut = new InverseRequestSpecification(expectedSpec);
-            // Exercise system
+            // Act
             IRequestSpecification result = sut.Specification;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedSpec, result);
-            // Teardown
         }
 
         [Theory]
@@ -45,30 +42,28 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(true)]
         public void IsSatisfiedByReturnsCorrectResult(bool decoratedResult)
         {
-            // Fixture setup
+            // Arrange
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => decoratedResult };
             var sut = new InverseRequestSpecification(spec);
-            // Exercise system
+            // Act
             var dummyRequest = new object();
             var result = sut.IsSatisfiedBy(dummyRequest);
-            // Verify outcome
+            // Assert
             Assert.Equal(!decoratedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void IsSatisfiedByInvokesDecoratedSpecWithCorrectRequest()
         {
-            // Fixture setup
+            // Arrange
             var expectedRequest = new object();
             var verified = false;
             var mock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest == r };
             var sut = new InverseRequestSpecification(mock);
-            // Exercise system
+            // Act
             sut.IsSatisfiedBy(expectedRequest);
-            // Verify outcome
+            // Assert
             Assert.True(verified, "Mock verified");
-            // Teardown
         }
     }
 }

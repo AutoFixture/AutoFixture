@@ -9,23 +9,21 @@ namespace AutoFixture.NUnit3.UnitTest
         [Test]
         public void SutIsAttribute()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new FrozenAttribute();
-            // Verify outcome
+            // Assert
             Assert.IsInstanceOf<CustomizeAttribute>(sut);
-            // Teardown
         }
 
         [Test]
         public void GetCustomizationFromNullParameterThrows()
         {
-            // Fixture setup
+            // Arrange
             var sut = new FrozenAttribute();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetCustomization(null));
-            // Teardown
         }
     }
 }

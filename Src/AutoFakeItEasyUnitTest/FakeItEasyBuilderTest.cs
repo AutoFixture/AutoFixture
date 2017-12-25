@@ -11,36 +11,33 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = A.Fake<ISpecimenBuilder>();
-            // Exercise system
+            // Act
             var sut = new FakeItEasyBuilder(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new FakeItEasyBuilder(null));
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = A.Fake<ISpecimenBuilder>();
             var sut = new FakeItEasyBuilder(expectedBuilder);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Theory]
@@ -50,22 +47,21 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData(typeof(string))]
         public void CreateWithNonFakeRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = A.Fake<ISpecimenBuilder>();
             var sut = new FakeItEasyBuilder(dummyBuilder);
-            // Exercise system
+            // Act
             var dummyContext = A.Fake<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithFakeRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Fake<object>);
             var context = new Fake<ISpecimenContext>().FakedObject;
 
@@ -73,11 +69,10 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             builderStub.CallsTo(b => b.Create(request, context)).Returns(new Fake<object>());
 
             var sut = new FakeItEasyBuilder(builderStub.FakedObject);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<Fake<object>>(result);
-            // Teardown
         }
 
         [Theory]
@@ -85,18 +80,17 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData(typeof(AbstractType), null)]
         public void CreateWithFakeRequestReturnsCorrectResultWhenContextReturnsNonFake(Type request, object contextValue)
         {
-            // Fixture setup
+            // Arrange
             var context = new Fake<ISpecimenContext>().FakedObject;
             var builderStub = new Fake<ISpecimenBuilder>();
             builderStub.CallsTo(b => b.Create(request, context))
                 .Returns(contextValue);
             var sut = new FakeItEasyBuilder(builderStub.FakedObject);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Theory]
@@ -104,25 +98,24 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData(typeof(Fake<object>), null)]
         public void CreateFromFakeRequestWhenDecoratedBuilderReturnsNoFakeReturnsCorrectResult(object request, object innerResult)
         {
-            // Fixture setup
+            // Arrange
             var context = new Fake<ISpecimenContext>().FakedObject;
 
             var builderStub = new Fake<ISpecimenBuilder>();
             builderStub.CallsTo(b => b.Create(request, context)).Returns(innerResult);
 
             var sut = new FakeItEasyBuilder(builderStub.FakedObject);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromFakeRequestWhenDecoratedBuilderReturnsFakeOfWrongGenericTypeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Fake<IInterface>);
             var context = new Fake<ISpecimenContext>().FakedObject;
 
@@ -130,12 +123,11 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             builderStub.CallsTo(b => b.Create(request, context)).Returns(new Fake<AbstractType>());
 
             var sut = new FakeItEasyBuilder(builderStub.FakedObject);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

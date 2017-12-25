@@ -10,11 +10,10 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void CreateWithNullPatternThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RegularExpressionRequest(null));
-            // Teardown
         }
 
         [Theory]
@@ -23,128 +22,119 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData("[a-z]")]
         public void PatternIsCorrect(string pattern)
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest(pattern);
-            // Exercise system
+            // Act
             var result = sut.Pattern;
-            // Verify outcome
+            // Assert
             Assert.Equal(pattern, result);
-            // Teardown
         }
 
         [Fact]
         public void SutIsEquatable()
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var sut = new RegularExpressionRequest("[0-9]");
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<IEquatable<RegularExpressionRequest>>(sut);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest("[0-9]");
             object other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
         }
 
         [Fact]
         public void SutDoesNotEqualNullSut()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest("[0-9]");
             RegularExpressionRequest other = null;
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest("[0-9]");
             object anonymousObject = new ConcreteType();
-            // Exercise system
+            // Act
             var result = sut.Equals(anonymousObject);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherObjectWhenPatternsAreDifferent()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest("[0-9]");
             object other = new RegularExpressionRequest("[A-Z]");
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result);
-            // Teardown
         }
 
         [Fact]
         public void SutDoesNotEqualOtherSutWhenPatternsAreDifferent()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest("[0-9]");
             var other = new RegularExpressionRequest("[A-Z]");
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.False(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherObjectWhenPatternsMatch()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest("[0-9]");
             object other = new RegularExpressionRequest("[0-9]");
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result);
-            // Teardown
         }
 
         [Fact]
         public void SutEqualsOtherSutWhenPatternsMatch()
         {
-            // Fixture setup
+            // Arrange
             var sut = new RegularExpressionRequest("[0-9]");
             var other = new RegularExpressionRequest("[0-9]");
-            // Exercise system
+            // Act
             var result = sut.Equals(other);
-            // Verify outcome
+            // Assert
             Assert.True(result, "Equals");
-            // Teardown
         }
 
         [Fact]
         public void GetHashCodeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             string pattern = "[0-9]";
             var sut = new RegularExpressionRequest(pattern);
             var expectedHashCode = pattern.GetHashCode();
-            // Exercise system
+            // Act
             var result = sut.GetHashCode();
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedHashCode, result);
-            // Teardown
         }
     }
 }

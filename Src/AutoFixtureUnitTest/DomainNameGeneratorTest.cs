@@ -10,67 +10,62 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
 
-            // Exercise system
+            // Act
             var sut = new DomainNameGenerator();
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNullRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DomainNameGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(null, null);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateWithNonDomainNameRequestReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var nonDomainNameRequest = typeof(object);
             var sut = new DomainNameGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(nonDomainNameRequest, null);
-            // Verify outcome
+            // Assert
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
         }
 
         [Fact]
         public void CreateReturnsOneOfTheFictiousDomains()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DomainNameGenerator();
-            // Exercise system
+            // Act
             var result = sut.Create(typeof(DomainName), null);
-            // Verify outcome
+            // Assert
             var actualDomainName = Assert.IsAssignableFrom<DomainName>(result);
             Assert.Matches(@"example\.(com|org|net)", actualDomainName.Domain);
-            // Teardown
         }
 
         [Fact]
         public void CreateManyTimesReturnsAllConfiguredFictiousDomains()
         {
-            // Fixture setup
+            // Arrange
             var sut = new DomainNameGenerator();
-            var expectedDomains = new[] {"example.com", "example.net", "example.org"}.Select(x => new DomainName(x)).ToList();
-            // Exercise system
+            var expectedDomains = new[] { "example.com", "example.net", "example.org" }.Select(x => new DomainName(x)).ToList();
+            // Act
             var result = Enumerable.Range(0, 100).Select(x => sut.Create(typeof(DomainName), null)).ToList();
-            // Verify outcome
+            // Assert
             foreach (var expectedDomain in expectedDomains)
             {
                 Assert.Contains(expectedDomain, result);
             }
-            // Teardown
         }
     }
 }
