@@ -12,51 +12,48 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void ReturnsUsingFixtureThrowsWhenSetupIsNull()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Mock<IFixture>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => MockType.ReturnsUsingFixture<string, string>(null, fixture.Object));
-            // Teardown
         }
 
         [Fact]
         public void ReturnsUsingFixtureThrowsWhenFixtureIsNull()
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<IInterfaceWithProperty>();
             var setup = mock.Setup(x => x.Property);
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(
                 () => setup.ReturnsUsingFixture(null));
-            // Teardown
         }
 
         [Fact]
         public void ReturnsUsingFixtureSetsMockUp()
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<IInterfaceWithProperty>();
             var setup = mock.Setup(x => x.Property);
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             setup.ReturnsUsingFixture(fixture);
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, mock.Object.Property);
-            // Teardown
         }
 
         [Fact]
         public void ReturnsUsingFixtureSetsMockUpLazily()
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<IInterfaceWithProperty>();
             var setup = mock.Setup(x => x.Property);
             var fixture = new Mock<ISpecimenBuilder>();
-            // Exercise system
+            // Act
             setup.ReturnsUsingFixture(fixture.Object);
-            // Verify outcome
+            // Assert
             fixture.Verify(f => f.Create(typeof (string), It.IsAny<SpecimenContext>()), Times.Never());
             var result = mock.Object.Property;
             fixture.Verify(f => f.Create(typeof (string), It.IsAny<SpecimenContext>()), Times.Once());
@@ -65,42 +62,42 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void ReturnsUsingFixture_SetsMockUpWithNull_WhenContextReturnsNull_AndMemberIsReferenceType()
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<IInterfaceWithProperty>();
             var fixture = new Mock<ISpecimenBuilder>();
             fixture.Setup(f => f.Create(typeof (string), It.IsAny<ISpecimenContext>()))
                 .Returns(null as string);
-            // Exercise system
+            // Act
             mock.Setup(x => x.Property).ReturnsUsingFixture(fixture.Object);
-            // Verify outcome
+            // Assert
             Assert.Null(mock.Object.Property);
         }
 
         [Fact]
         public void ReturnsUsingFixture_SetsMockUpWithNull_WhenContextReturnsNull_AndMemberIsNullableValueType()
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<IInterfaceWithNullableValueTypeProperty>();
             var fixture = new Mock<ISpecimenBuilder>();
             fixture.Setup(f => f.Create(typeof (int?), It.IsAny<ISpecimenContext>()))
                 .Returns(null as int?);
-            // Exercise system
+            // Act
             mock.Setup(x => x.Property).ReturnsUsingFixture(fixture.Object);
-            // Verify outcome
+            // Assert
             Assert.Null(mock.Object.Property);
         }
 
         [Fact]
         public void ReturnsUsingFixture_Throws_WhenContextReturnsNull_AndMemberIsNonNullableValueType()
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<IInterfaceWithNonNullableValueTypeProperty>();
             var fixture = new Mock<ISpecimenBuilder>();
             fixture.Setup(f => f.Create(typeof (int), It.IsAny<ISpecimenContext>()))
                 .Returns(null as object);
-            // Exercise system
+            // Act
             mock.Setup(x => x.Property).ReturnsUsingFixture(fixture.Object);
-            // Verify outcome
+            // Assert
             var ex = Assert.Throws<InvalidOperationException>(() => mock.Object.Property);
             Assert.Equal("Tried to setup a member with a return type of System.Int32, but null was found instead.",
                 ex.Message);
@@ -113,7 +110,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         [InlineData(typeof (StringBuilder))]
         public void ReturnsUsingFixture_Throws_WhenContextReturnsUnexpectedSpecimen(Type specimenType)
         {
-            // Fixture setup
+            // Arrange
             var mock = new Mock<IInterfaceWithProperty>();
             var specimen = Activator.CreateInstance(specimenType);
             var fixture = new Mock<ISpecimenBuilder>();
@@ -124,9 +121,9 @@ namespace AutoFixture.AutoMoq.UnitTest
                     "Tried to setup a member with a return type of System.String, but an instance of {0} was found instead.",
                     specimenType.FullName);
 
-            // Exercise system
+            // Act
             mock.Setup(x => x.Property).ReturnsUsingFixture(fixture.Object);
-            // Verify outcome
+            // Assert
             var ex = Assert.Throws<InvalidOperationException>(() => mock.Object.Property);
             Assert.Equal(expectedExceptionMessage, ex.Message);
         }

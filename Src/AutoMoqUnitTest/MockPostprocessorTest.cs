@@ -11,36 +11,33 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new Mock<ISpecimenBuilder>().Object;
-            // Exercise system
+            // Act
             var sut = new MockPostprocessor(dummyBuilder);
-            // Verify outcome
+            // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
         }
 
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
+            // Arrange
+            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new MockPostprocessor(null));
-            // Teardown
         }
 
         [Fact]
         public void BuilderIsCorrect()
         {
-            // Fixture setup
+            // Arrange
             var expectedBuilder = new Mock<ISpecimenBuilder>().Object;
             var sut = new MockPostprocessor(expectedBuilder);
-            // Exercise system
+            // Act
             ISpecimenBuilder result = sut.Builder;
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedBuilder, result);
-            // Teardown
         }
 
         [Theory]
@@ -52,22 +49,21 @@ namespace AutoFixture.AutoMoq.UnitTest
         [InlineData(typeof(Mock<>))]
         public void CreateWithNonMockRequestReturnsCorrectResult(object request)
         {
-            // Fixture setup
+            // Arrange
             var dummyBuilder = new Mock<ISpecimenBuilder>().Object;
             var sut = new MockPostprocessor(dummyBuilder);
-            // Exercise system
+            // Act
             var dummyContext = new Mock<ISpecimenContext>().Object;
             var result = sut.Create(request, dummyContext);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateMockRequestReturnsCorrectMock()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Mock<object>);
             var context = new Mock<ISpecimenContext>().Object;
 
@@ -75,13 +71,12 @@ namespace AutoFixture.AutoMoq.UnitTest
             builderStub.Setup(b => b.Create(request, context)).Returns(new Mock<object>());
 
             var sut = new MockPostprocessor(builderStub.Object);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var mock = Assert.IsAssignableFrom<Mock<object>>(result);
             Assert.True(mock.CallBase);
             Assert.Equal(DefaultValue.Mock, mock.DefaultValue);
-            // Teardown
         }
 
         [Theory]
@@ -89,7 +84,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         public void CreateFromMockRequestWhenDecoratedBuilderReturnsValidNonMockSpecimenReturnsCorrectResult(
             object validNonMockSpecimen)
         {
-            // Fixture setup
+            // Arrange
             var request = typeof (Mock<object>);
             var context = new Mock<ISpecimenContext>().Object;
 
@@ -97,17 +92,16 @@ namespace AutoFixture.AutoMoq.UnitTest
             builderStub.Setup(b => b.Create(request, context)).Returns(validNonMockSpecimen);
 
             var sut = new MockPostprocessor(builderStub.Object);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             Assert.Equal(validNonMockSpecimen, result);
-            // Teardown
         }
 
         [Fact]
         public void CreateFromMockRequestWhenDecoratedBuilderReturnsMockOfWrongGenericTypeReturnsCorrectResult()
         {
-            // Fixture setup
+            // Arrange
             var request = typeof(Mock<IInterface>);
             var context = new Mock<ISpecimenContext>().Object;
 
@@ -115,12 +109,11 @@ namespace AutoFixture.AutoMoq.UnitTest
             builderStub.Setup(b => b.Create(request, context)).Returns(new Mock<AbstractType>());
 
             var sut = new MockPostprocessor(builderStub.Object);
-            // Exercise system
+            // Act
             var result = sut.Create(request, context);
-            // Verify outcome
+            // Assert
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
-            // Teardown
         }
     }
 }

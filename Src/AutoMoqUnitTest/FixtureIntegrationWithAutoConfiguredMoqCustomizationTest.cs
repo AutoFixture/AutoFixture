@@ -9,171 +9,160 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void ParameterlessMethodsReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithParameterlessMethod>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Method());
-            // Teardown
         }
 
         [Fact]
         public void MethodsFromBaseInterfacesReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IDerivedInterface>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Method());
-            // Teardown
         }
 
         [Fact]
         public void InterfaceNewMethodsReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithNewMethod>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Method(0));
-            // Teardown
         }
 
         [Fact]
         public void InterfaceShadowedMethodsReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithNewMethod>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, (result as IInterfaceWithShadowedMethod).Method(0));
-            // Teardown
         }
 
         [Fact]
         public void PropertiesReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithProperty>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.Property);
-            // Teardown
         }
 
         [Fact]
         public void GetOnlyPropertiesReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithGetOnlyProperty>();
-            // Verify outcome
+            // Assert
             Assert.Same(frozenString, result.GetOnlyProperty);
-            // Teardown
         }
 
         [Fact]
         public void IndexersReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenInt = fixture.Freeze<int>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithIndexer>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenInt, result[2]);
-            // Teardown
         }
 
         [Fact]
         public void VirtualMembersReturnValueFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<Mock<TypeWithVirtualMembers>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.Object.VirtualGetOnlyProperty);
             Assert.Equal(frozenString, result.Object.VirtualMethod());
             Assert.Equal(frozenString, result.Object.VirtualProperty);
-            // Teardown
         }
 
         [Fact]
         public void MethodsWithParametersReturnValuesFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithMethod>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.Method("hi"));
-            // Teardown
         }
 
         [Fact]
         public void MethodsWithOutParametersReturnValuesFromFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenInt = fixture.Freeze<int>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithOutMethod>();
-            // Verify outcome
+            // Assert
             int outResult;
             result.Method(out outResult);
             Assert.Equal(frozenInt, outResult);
-            // Teardown
         }
 
         [Fact]
         public void SealedSettablePropertiesAreSetUsingFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<Mock<TypeWithSealedMembers>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.Object.ExplicitlySealedProperty);
             Assert.Equal(frozenString, result.Object.ImplicitlySealedProperty);
-            // Teardown
         }
 
         [Fact]
         public void OverridablePropertiesAreSetUsingFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithProperty>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.Property);
         }
 
         [Fact]
         public void OverridablePropertiesAreStubbed()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
-            // Exercise system
+            // Act
             var result = fixture.Create<IInterfaceWithProperty>();
-            // Verify outcome
+            // Assert
             result.Property = "a string";
             Assert.Equal("a string", result.Property);
         }
@@ -181,23 +170,22 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void FieldsAreSetUsingFixture()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system
+            // Act
             var result = fixture.Create<Mock<TypeWithPublicField>>();
-            // Verify outcome
+            // Assert
             Assert.Equal(frozenString, result.Object.Field);
-            // Teardown
         }
 
         [Fact]
         public void SealedMethodsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Mock<TypeWithSealedMembers> result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<Mock<TypeWithSealedMembers>>()));
             Assert.NotEqual(frozenString, result.Object.ImplicitlySealedMethod());
@@ -207,10 +195,10 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void RefMethodsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             IInterfaceWithRefMethod result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithRefMethod>()));
 
@@ -223,10 +211,10 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void GenericMethodsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             IInterfaceWithGenericMethod result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithGenericMethod>()));
 
@@ -236,20 +224,20 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void StaticMethodsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithStaticMethod>>()));
         }
 
         [Fact]
         public void StaticPropertiesAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithStaticProperty>>()));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
@@ -257,10 +245,10 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void PrivateFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Mock<TypeWithPrivateField> result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<Mock<TypeWithPrivateField>>()));
 
@@ -270,10 +258,10 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void ReadonlyFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Mock<TypeWithReadonlyField> result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<Mock<TypeWithReadonlyField>>()));
 
@@ -283,10 +271,10 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void LiteralFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithConstField>>()));
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
@@ -294,10 +282,10 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void StaticFieldsAreIgnored()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithStaticField>>()));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
@@ -305,9 +293,9 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void PropertiesWithCircularDependenciesAreNotAllowed()
         {
-            // Fixture setup
+            // Arrange
             var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
-            // Exercise system and verify outcome
+            // Act & Assert
             Assert.ThrowsAny<ObjectCreationException>(() => fixture.Create<IInterfaceWithPropertyWithCircularDependency>());
         }
     }
