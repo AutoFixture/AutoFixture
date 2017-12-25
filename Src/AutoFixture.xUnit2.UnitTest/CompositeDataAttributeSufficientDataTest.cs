@@ -23,12 +23,11 @@ namespace AutoFixture.Xunit2.UnitTest
         [ClassData(typeof(CompositeDataAttributeSufficientDataTest))]
         public void GetDataReturnsCorrectResult(IEnumerable<DataAttribute> attributes, IEnumerable<object[]> expectedResult)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             var result = new CompositeDataAttribute(attributes.ToArray()).GetData(this.method).ToList();
-            // Verify outcome
+            // Assert
             Assert.True(expectedResult.SequenceEqual(result, new TheoryComparer()));
-            // Teardown
         }
 
         public IEnumerator<object[]> GetEnumerator()

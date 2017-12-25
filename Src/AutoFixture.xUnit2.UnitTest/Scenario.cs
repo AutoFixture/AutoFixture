@@ -125,12 +125,11 @@ namespace AutoFixture.Xunit2.UnitTest
         public void IntroductoryTest(
             int expectedNumber, MyClass sut)
         {
-            // Fixture setup
-            // Exercise system
+            // Arrange
+            // Act
             int result = sut.Echo(expectedNumber);
-            // Verify outcome
+            // Assert
             Assert.Equal(expectedNumber, result);
-            // Teardown
         }
 
         [Theory, AutoData]
