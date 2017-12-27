@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using AutoFixture;
 using AutoFixture.DataAnnotations;
 using Xunit;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class NoDataAnnotationsCustomizationTest
     {
