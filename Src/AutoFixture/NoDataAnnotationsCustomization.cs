@@ -25,20 +25,11 @@ namespace AutoFixture
         {
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-            var dataAnnotationsRelayTypes = new[]
+            var nodeToDelete = fixture.Customizations.FirstOrDefault(x => x is DataAnnotationsSupportNode);
+            if (nodeToDelete != null)
             {
-                typeof(RangeAttributeRelay),
-                typeof(NumericRangedRequestRelay),
-                typeof(EnumRangedRequestRelay),
-                typeof(StringLengthAttributeRelay),
-                typeof(RegularExpressionAttributeRelay)
-            };
-
-            fixture
-                .Customizations
-                .Where(c => dataAnnotationsRelayTypes.Contains(c.GetType()))
-                .ToList()
-                .ForEach(c => fixture.Customizations.Remove(c));
+                fixture.Customizations.Remove(nodeToDelete);
+            }
         }
     }
 }

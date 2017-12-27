@@ -27,24 +27,18 @@ namespace AutoFixtureUnitTest
                 sut.Customize(null));
         }
 
-        [Theory]
-        [InlineData(typeof(RangeAttributeRelay))]
-        [InlineData(typeof(StringLengthAttributeRelay))]
-        [InlineData(typeof(RegularExpressionAttributeRelay))]
-        [InlineData(typeof(NumericRangedRequestRelay))]
-        [InlineData(typeof(EnumRangedRequestRelay))]
-        public void CustomizeProperFixtureCorrectlyCustomizesIt(Type removedBuilderType)
+        [Fact]
+        public void CustomizeProperFixtureCorrectlyCustomizesIt()
         {
             // Arrange
             var fixture = new Fixture();
             var sut = new NoDataAnnotationsCustomization();
             // Act
             sut.Customize(fixture);
-
             // Assert
             Assert.DoesNotContain(
                 fixture.Customizations,
-                b => b.GetType() == removedBuilderType);
+                b => b is DataAnnotationsSupportNode);
         }
     }
 }

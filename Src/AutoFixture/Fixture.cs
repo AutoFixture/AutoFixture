@@ -120,13 +120,14 @@ namespace AutoFixture
                                     Encoding.UTF8),
                                 MakeFixedBuilder(
                                     IPAddress.Loopback),
-                        
-                                /* Data annotations */
-                                new RangeAttributeRelay(),
-                                new NumericRangedRequestRelay(),
-                                new EnumRangedRequestRelay(),
-                                new StringLengthAttributeRelay(),
-                                new RegularExpressionAttributeRelay())),
+
+                                new DataAnnotationsSupportNode(
+                                    new CompositeSpecimenBuilder(
+                                        new RangeAttributeRelay(),
+                                        new NumericRangedRequestRelay(),
+                                        new EnumRangedRequestRelay(),
+                                        new StringLengthAttributeRelay(),
+                                        new RegularExpressionAttributeRelay())))),
                         new AutoPropertiesTarget(
                             new Postprocessor(
                                 new CompositeSpecimenBuilder(
