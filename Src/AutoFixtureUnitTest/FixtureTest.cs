@@ -5885,5 +5885,23 @@ namespace AutoFixtureUnitTest
             var numericValue = (int)result.OutOfRangeEnumProperty;
             Assert.InRange(numericValue, 10, 20);
         }
+
+        public class TypeWithDataAnnotationUsage
+        {
+            [Range(-42, -42)]
+            public int FixedValue { get; set; }
+        }
+
+        [Fact]
+        public void NoDataAnnotationCustomizationShouldDisableAnnotationSupport()
+        {
+            // Arrange
+            var sut = new Fixture();
+            // Act
+            sut.Customize(new NoDataAnnotationsCustomization());
+            var result = sut.Create<TypeWithDataAnnotationUsage>();
+            // Assert
+            Assert.NotEqual(-42, result.FixedValue);
+        }
     }
 }
