@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
 namespace AutoFixtureUnitTest
@@ -11,7 +13,6 @@ namespace AutoFixtureUnitTest
         public void SutIsSpecimenBuilder()
         {
             // Arrange
-
             // Act
             var sut = new DomainNameGenerator();
             // Assert
@@ -23,10 +24,22 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var sut = new DomainNameGenerator();
+            var context = new DelegatingSpecimenContext();
             // Act
-            var result = sut.Create(null, null);
+            var result = sut.Create(null, context);
             // Assert
             Assert.Equal(new NoSpecimen(), result);
+        }
+
+        [Fact]
+        public void CreateWithNullContextThrowsException()
+        {
+            // Arrange
+            var sut = new DomainNameGenerator();
+            var request = new object();
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Create(request, context: null));
         }
 
         [Fact]
@@ -34,9 +47,10 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var nonDomainNameRequest = typeof(object);
+            var context = new DelegatingSpecimenContext();
             var sut = new DomainNameGenerator();
             // Act
-            var result = sut.Create(nonDomainNameRequest, null);
+            var result = sut.Create(nonDomainNameRequest, context);
             // Assert
             Assert.Equal(new NoSpecimen(), result);
         }
@@ -46,8 +60,9 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var sut = new DomainNameGenerator();
+            var context = new DelegatingSpecimenContext();
             // Act
-            var result = sut.Create(typeof(DomainName), null);
+            var result = sut.Create(typeof(DomainName), context);
             // Assert
             var actualDomainName = Assert.IsAssignableFrom<DomainName>(result);
             Assert.Matches(@"example\.(com|org|net)", actualDomainName.Domain);
@@ -58,9 +73,10 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var sut = new DomainNameGenerator();
-            var expectedDomains = new[] { "example.com", "example.net", "example.org" }.Select(x => new DomainName(x)).ToList();
+            var context = new DelegatingSpecimenContext();
+            var expectedDomains = new[] { "example.com", "example.net", "example.org" }.Select(x => new DomainName(x));
             // Act
-            var result = Enumerable.Range(0, 100).Select(x => sut.Create(typeof(DomainName), null)).ToList();
+            var result = Enumerable.Range(0, 100).Select(x => sut.Create(typeof(DomainName), context)).ToList();
             // Assert
             foreach (var expectedDomain in expectedDomains)
             {
