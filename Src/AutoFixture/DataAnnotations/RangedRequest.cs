@@ -174,7 +174,7 @@ namespace AutoFixture.DataAnnotations
                         "distortion due to the double type precision and conversion back to the original type might " +
                         "fail with OverflowException.{0}" +
                         "{0}" +
-                        "To solve the issue rather specify the range value that could be safely converted to double " +
+                        "To solve the issue either specify the range value that could be safely converted to double " +
                         "and back without overflow or use the constructor overload taking value as a string.{0}" +
                         "{0}" +
                         "Example:{0}" +
