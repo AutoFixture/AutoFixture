@@ -65,14 +65,13 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="SourceLink.Create.GitHub" Version="2.4.0" PrivateAssets="All" />
-    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.4.0" />
+    <PackageReference Include="SourceLink.Create.GitHub" Version="2.7.4" PrivateAssets="All" />
+    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.7.4" />
   </ItemGroup>
   <PropertyGroup>
     <SourceLinkCreate Condition=" '$(SourceLinkCreateOverride)'!='' ">$(SourceLinkCreateOverride)</SourceLinkCreate>
     <SourceLinkNotInGit>error</SourceLinkNotInGit>
     <SourceLinkHashMismatch>error</SourceLinkHashMismatch>
     <SourceLinkNoAutoLF>true</SourceLinkNoAutoLF>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 </Project>
