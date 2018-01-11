@@ -27,18 +27,14 @@ namespace AutoFixture.Kernel
 
             var delegateType = request as Type;
             if (delegateType == null)
-            {
                 return new NoSpecimen();
-            }
 
             if (!typeof(Delegate).GetTypeInfo().IsAssignableFrom(delegateType))
-            {
                 return new NoSpecimen();
-            }
 
             var delegateMethod = delegateType.GetTypeInfo().GetMethod("Invoke");
-            var methodSpecimenParams = DelegateGenerator.CreateMethodSpecimenParameters(delegateMethod);
-            var methodSpecimenBody = DelegateGenerator.CreateMethodSpecimenBody(delegateMethod, context);
+            var methodSpecimenParams = CreateMethodSpecimenParameters(delegateMethod);
+            var methodSpecimenBody = CreateMethodSpecimenBody(delegateMethod, context);
 
             var delegateSpecimen = Expression.Lambda(delegateType, methodSpecimenBody, methodSpecimenParams).Compile();
 
@@ -47,9 +43,8 @@ namespace AutoFixture.Kernel
 
         private static IEnumerable<ParameterExpression> CreateMethodSpecimenParameters(MethodInfo request)
         {
-            int paramCount = 0;
-            var parameters = request.GetParameters().Select(
-                param => Expression.Parameter(param.ParameterType, String.Concat("arg", paramCount++)));
+            var parameters = request.GetParameters()
+                .Select((param, i) => Expression.Parameter(param.ParameterType, string.Concat("arg", i)));
 
             return parameters;
         }
