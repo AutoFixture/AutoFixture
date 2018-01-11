@@ -30,40 +30,34 @@ namespace AutoFixture
             if (type == null)
                 return new NoSpecimen();
 
-            //check if type is a constructed generic type whose definition matches Task<>
-            if (type.IsGenericType() && !type.IsGenericTypeDefinition() &&
-                type.GetGenericTypeDefinition() == typeof (Task<>))
-                return CreateGenericTask(type, context);
+            // check if type is a constructed generic type whose definition matches Task<>.
+            if (type.TryGetSingleGenericTypeArgument(typeof(Task<>), out Type taskResultType))
+                return CreateGenericTask(taskResultType, context);
 
-            //check if type is non-generic Task
-            if (type == typeof (Task))
+            // check if type is non-generic Task.
+            if (type == typeof(Task))
                 return CreateNonGenericTask();
 
             return new NoSpecimen();
         }
 
-        private static object CreateGenericTask(Type taskType, ISpecimenContext context)
+        private static object CreateGenericTask(Type resultType, ISpecimenContext context)
         {
-            var resultType = taskType.GetTypeInfo().GetGenericArguments().Single();
             var result = context.Resolve(resultType);
             return CreateTask(resultType, result);
         }
 
         private static object CreateNonGenericTask()
         {
-            return CreateTask(typeof (object), null);
+            return CreateTask(typeof(object), null);
         }
 
         private static object CreateTask(Type resultType, object result)
         {
-            var taskSourceType = typeof(TaskCompletionSource<>).MakeGenericType(resultType);
-            var taskSource = Activator.CreateInstance(taskSourceType);
-
-            taskSourceType.GetTypeInfo().GetMethod("SetResult")
-                          .Invoke(taskSource, new[] {result});
-
-            var task = taskSourceType.GetTypeInfo().GetProperty("Task")
-                                     .GetValue(taskSource, null);
+            var task = typeof(Task).GetTypeInfo()
+                .GetMethod(nameof(Task.FromResult))
+                .MakeGenericMethod(resultType)
+                .Invoke(null, new[] { result });
 
             return task;
         }

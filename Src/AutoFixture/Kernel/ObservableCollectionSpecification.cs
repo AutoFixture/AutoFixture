@@ -22,8 +22,7 @@ namespace AutoFixture.Kernel
         public bool IsSatisfiedBy(object request)
         {
             return request is Type type &&
-                   type.IsGenericType() &&
-                   typeof(ObservableCollection<>) == type.GetGenericTypeDefinition();
+                   type.TryGetSingleGenericTypeArgument(typeof(ObservableCollection<>), out var _);
         }
     }
 }

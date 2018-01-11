@@ -22,6 +22,27 @@ namespace AutoFixture.Kernel
                 "Member '{0}' contains more than one attribute of type '{1}'", candidate, typeof(TAttribute)));
         }
 
+        public static bool TryGetSingleGenericTypeArgument(
+            this Type currentType, Type expectedGenericDefinition, out Type argument)
+        {
+            if (!expectedGenericDefinition.GetTypeInfo().IsGenericTypeDefinition)
+                throw new ArgumentException("Must be a generic type definition", nameof(expectedGenericDefinition));
+
+            var typeInfo = currentType.GetTypeInfo();
+            if (typeInfo.IsGenericType && currentType.GetGenericTypeDefinition() == expectedGenericDefinition)
+            {
+                var typeArguments = typeInfo.GenericTypeArguments;
+                if (typeArguments.Length == 1)
+                {
+                    argument = typeArguments[0];
+                    return true;
+                }
+            }
+
+            argument = null;
+            return false;
+        }
+
         public static Type BaseType(this Type type)
         {
             return type.GetTypeInfo().BaseType;
@@ -40,16 +61,6 @@ namespace AutoFixture.Kernel
         public static bool IsEnum(this Type type)
         {
             return type.GetTypeInfo().IsEnum;
-        }
-
-        public static bool IsGenericType(this Type type)
-        {
-            return type.GetTypeInfo().IsGenericType;
-        }
-
-        public static bool IsGenericTypeDefinition(this Type type)
-        {
-            return type.GetTypeInfo().IsGenericTypeDefinition;
         }
 
         public static bool IsInterface(this Type type)

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays requests for enumerable parameters, and returns an empty array
-    /// if the object returned from the context is an
-    /// <see cref="OmitSpecimen" /> instance.
+    /// if the object returned from the context is an <see cref="OmitSpecimen" /> instance.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -60,10 +58,7 @@ namespace AutoFixture.Kernel
             if (pi == null)
                 return new NoSpecimen();
 
-            if (!pi.ParameterType.IsGenericType())
-                return new NoSpecimen();
-
-            if (IsNotEnumerable(pi))
+            if (!pi.ParameterType.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
                 return new NoSpecimen();
 
             var returnValue = context.Resolve(
@@ -72,17 +67,9 @@ namespace AutoFixture.Kernel
                     pi.Name));
 
             if (returnValue is OmitSpecimen)
-                return Array.CreateInstance(
-                    pi.ParameterType.GetTypeInfo().GetGenericArguments().Single(),
-                    0);
+                return Array.CreateInstance(enumerableType, 0);
 
             return returnValue;
-        }
-
-        private static bool IsNotEnumerable(ParameterInfo pi)
-        {
-            var openGenericType = pi.ParameterType.GetGenericTypeDefinition();
-            return openGenericType != typeof(IEnumerable<>);
         }
     }
 }

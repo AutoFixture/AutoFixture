@@ -93,7 +93,7 @@ namespace AutoFixture.Kernel
 
         private static string GetFriendlyName(Type type)
         {
-            if (type.IsGenericType())
+            if (type.GetTypeInfo().IsGenericType)
                 return string.Format(CultureInfo.CurrentCulture, 
                     "{0}<{1}>", 
                     type.Name.Split('`')[0], 

@@ -62,7 +62,7 @@ namespace AutoFixture.Kernel
 
         private static bool IsExactMatch(Type targetType, ParameterInfo p)
         {
-            if (!p.ParameterType.IsGenericType())
+            if (!p.ParameterType.GetTypeInfo().IsGenericType)
                 return false;
 
             var genericParameterTypes = p.ParameterType.GetTypeInfo().GetGenericArguments();
