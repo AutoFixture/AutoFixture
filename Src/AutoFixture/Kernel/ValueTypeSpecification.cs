@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
@@ -28,7 +29,8 @@ namespace AutoFixture.Kernel
         /// </summary>
         private static bool IsValueTypeButNotPrimitiveOrEnum(Type type)
         {
-            return type.IsValueType() && !type.IsEnum() && !type.IsPrimitive();
+            var ti = type.GetTypeInfo();
+            return ti.IsValueType && !ti.IsEnum && !ti.IsPrimitive;
         }
     }
 }

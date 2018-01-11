@@ -36,16 +36,16 @@ namespace AutoFixture
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var t = request as Type;
-            if (t == null || !t.IsGenericType())
+            var type = request as Type;
+            if (type == null)
                 return new NoSpecimen();
 
-            if (t.GetGenericTypeDefinition() != typeof(Lazy<>))
+            if (!type.TryGetSingleGenericTypeArgument(typeof(Lazy<>), out Type lazyType))
                 return new NoSpecimen();
 
-            var builder = (ILazyBuilder)Activator
-                .CreateInstance(typeof(LazyBuilder<>)
-                .MakeGenericType(t.GetTypeInfo().GetGenericArguments()));
+            var lazyBuilderType = typeof(LazyBuilder<>).MakeGenericType(lazyType);
+            var builder = (ILazyBuilder)Activator.CreateInstance(lazyBuilderType);
+
             return builder.Create(context);
         }
 

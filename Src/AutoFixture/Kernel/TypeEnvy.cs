@@ -22,54 +22,30 @@ namespace AutoFixture.Kernel
                 "Member '{0}' contains more than one attribute of type '{1}'", candidate, typeof(TAttribute)));
         }
 
-        public static Type BaseType(this Type type)
+        public static bool TryGetSingleGenericTypeArgument(
+            this Type currentType, Type expectedGenericDefinition, out Type argument)
         {
-            return type.GetTypeInfo().BaseType;
-        }
+            if (!expectedGenericDefinition.GetTypeInfo().IsGenericTypeDefinition)
+                throw new ArgumentException("Must be a generic type definition", nameof(expectedGenericDefinition));
 
-        public static bool IsAbstract(this Type type)
-        {
-            return type.GetTypeInfo().IsAbstract;
-        }
+            var typeInfo = currentType.GetTypeInfo();
+            if (typeInfo.IsGenericType && currentType.GetGenericTypeDefinition() == expectedGenericDefinition)
+            {
+                var typeArguments = typeInfo.GenericTypeArguments;
+                if (typeArguments.Length == 1)
+                {
+                    argument = typeArguments[0];
+                    return true;
+                }
+            }
 
-        public static bool IsClass(this Type type)
-        {
-            return type.GetTypeInfo().IsClass;
-        }
-
-        public static bool IsEnum(this Type type)
-        {
-            return type.GetTypeInfo().IsEnum;
-        }
-
-        public static bool IsGenericType(this Type type)
-        {
-            return type.GetTypeInfo().IsGenericType;
-        }
-
-        public static bool IsGenericTypeDefinition(this Type type)
-        {
-            return type.GetTypeInfo().IsGenericTypeDefinition;
-        }
-
-        public static bool IsInterface(this Type type)
-        {
-            return type.GetTypeInfo().IsInterface;
-        }
-
-        public static bool IsPrimitive(this Type type)
-        {
-            return type.GetTypeInfo().IsPrimitive;
-        }
-
-        public static bool IsValueType(this Type type)
-        {
-            return type.GetTypeInfo().IsValueType;
+            argument = null;
+            return false;
         }
         
         public static bool IsNumberType(this Type type)
         {
-            if(type.IsEnum()) return false;
+            if(type.GetTypeInfo().IsEnum) return false;
 
             var typeCode = Type.GetTypeCode(type);
             switch (typeCode)

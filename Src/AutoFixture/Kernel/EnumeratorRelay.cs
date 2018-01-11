@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
@@ -39,17 +38,15 @@ namespace AutoFixture.Kernel
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var t = request as Type;
-            if (t == null)
+            var type = request as Type;
+            if (type == null)
                 return new NoSpecimen();
 
-            var typeArguments = t.GetTypeInfo().GetGenericArguments();
-            if (typeArguments.Length != 1 ||
-                typeof (IEnumerator<>) != t.GetGenericTypeDefinition())
+            if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerator<>), out Type enumeratorType))
                 return new NoSpecimen();
 
             var specimenBuilder = (ISpecimenBuilder) Activator.CreateInstance(
-                typeof (EnumeratorRelay<>).MakeGenericType(typeArguments));
+                typeof (EnumeratorRelay<>).MakeGenericType(enumeratorType));
             return specimenBuilder.Create(request, context);
         }
     }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
@@ -38,22 +37,20 @@ namespace AutoFixture.Kernel
             var type = request as Type;
             if (type == null)
                 return new NoSpecimen();
-            var typeArgs = type.GetTypeInfo().GetGenericArguments();
-            if (typeArgs.Length != 1)
+
+            if(!type.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
                 return new NoSpecimen();
-            if (type.GetGenericTypeDefinition() != typeof(IEnumerable<>))
-                return new NoSpecimen();
-            var specimen = context.Resolve(new MultipleRequest(typeArgs[0]));
+
+            var specimen = context.Resolve(new MultipleRequest(enumerableType));
             if (specimen is OmitSpecimen)
                 return specimen;
+
             var enumerable = specimen as IEnumerable<object>;
             if (enumerable == null)
                 return new NoSpecimen();
 
-            return typeof (ConvertedEnumerable<>)
-                .MakeGenericType(typeArgs)
-                .GetTypeInfo().GetConstructor(new[] {typeof (IEnumerable<object>)})
-                .Invoke(new[] {enumerable});
+            var typedAdapterType = typeof(ConvertedEnumerable<>).MakeGenericType(enumerableType);
+            return Activator.CreateInstance(typedAdapterType, enumerable);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
@@ -70,14 +67,11 @@ namespace AutoFixture.Kernel
             public IEnumerator<T> GetEnumerator()
             {
                 foreach (var item in this.enumerable)
-                    if (item is T)
-                        yield return (T)item;
+                    if (item is T variable)
+                        yield return variable;
             }
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
+            IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace AutoFixture.Kernel
         public bool IsSatisfiedBy(object request)
         {
             return request is Type type &&
-                   type.IsGenericType() &&
+                   type.GetTypeInfo().IsGenericType &&
                    type.GetTypeInfo().GetGenericTypeDefinition() == typeof(SortedDictionary<,>);
         }
     }

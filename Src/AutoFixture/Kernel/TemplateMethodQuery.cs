@@ -171,7 +171,7 @@ namespace AutoFixture.Kernel
 
                 var hierarchy = GetHierarchy(templateParameterType).ToList();
                 
-                var matches = methodParameterType.IsClass() ? 
+                var matches = methodParameterType.GetTypeInfo().IsClass ?
                     hierarchy.Count(t => t.GetTypeInfo().IsAssignableFrom(methodParameterType)) : 
                     hierarchy.Count(t => t.GetTypeInfo().GetInterfaces().Any(i => i.GetTypeInfo().IsAssignableFrom(methodParameterType)));
 
@@ -183,7 +183,7 @@ namespace AutoFixture.Kernel
                 score += CalculateScore(methodTypeArguments, templateTypeArguments) / 10;
                 score += 50 * -Math.Abs(methodTypeArguments.Length - templateTypeArguments.Length);
 
-                if (methodParameterType.IsClass())
+                if (methodParameterType.GetTypeInfo().IsClass)
                     score += 5;
                 
                 return score;
@@ -191,14 +191,14 @@ namespace AutoFixture.Kernel
 
             private static IEnumerable<Type> GetHierarchy(Type type)
             {
-                if (!type.IsClass())
+                if (!type.GetTypeInfo().IsClass)
                     foreach (var interfaceType in type.GetTypeInfo().GetInterfaces())
                         yield return interfaceType;
 
                 while (type != null)
                 {
                     yield return type;
-                    type = type.BaseType();
+                    type = type.GetTypeInfo().BaseType;
                 }
             }
         }

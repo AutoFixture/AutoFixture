@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
@@ -19,7 +20,7 @@ namespace AutoFixture.Kernel
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
-            return request is Type type && type.IsAbstract();
+            return request is Type type && type.GetTypeInfo().IsAbstract;
         }
     }
 }
