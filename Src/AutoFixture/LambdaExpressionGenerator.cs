@@ -34,7 +34,7 @@ namespace AutoFixture
             if (requestType == null)
                 return new NoSpecimen();
 
-            if (requestType.BaseType() != typeof(LambdaExpression))
+            if (requestType.GetTypeInfo().BaseType != typeof(LambdaExpression))
                 return new NoSpecimen();
 
             var delegateType = requestType.GetTypeInfo().GetGenericArguments().Single();

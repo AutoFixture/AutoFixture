@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using AutoFixture.Kernel;
 
 namespace AutoFixture
@@ -44,21 +45,17 @@ namespace AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            var t = request as Type;
-            if (!EnumGenerator.IsEnumType(t))
-            {
+            var type = request as Type;
+            if(type == null)
                 return new NoSpecimen();
-            }
+
+            if (!type.GetTypeInfo().IsEnum)
+                return new NoSpecimen();
 
             lock (this.syncRoot)
             {
-                return this.CreateValue(t);
+                return this.CreateValue(type);
             }
-        }
-
-        private static bool IsEnumType(Type t)
-        {
-            return (t != null) && t.IsEnum();
         }
 
         private object CreateValue(Type t)

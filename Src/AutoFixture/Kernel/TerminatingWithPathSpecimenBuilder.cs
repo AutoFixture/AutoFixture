@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -103,7 +104,7 @@ namespace AutoFixture.Kernel
 
             var t = request as Type;
 
-            if (t != null && t.IsInterface())
+            if (t != null && t.GetTypeInfo().IsInterface)
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an interface. There's no single, most " +
@@ -115,7 +116,7 @@ namespace AutoFixture.Kernel
                     "interface, you can map the interface to that class:" +
                     TypeMappingOptionsHelp;
 
-            if (t != null && t.IsAbstract())
+            if (t != null && t.GetTypeInfo().IsAbstract)
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an abstract class. There's no single, " +

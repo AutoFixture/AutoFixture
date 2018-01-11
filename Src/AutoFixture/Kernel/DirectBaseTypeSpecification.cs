@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
@@ -63,7 +64,7 @@ namespace AutoFixture.Kernel
 
         private bool IsDirectBaseOfTargetType(object request)
         {
-            return (Type)request == this.TargetType.BaseType();
+            return (Type)request == this.TargetType.GetTypeInfo().BaseType;
         }
     }
 }

@@ -42,45 +42,10 @@ namespace AutoFixture.Kernel
             argument = null;
             return false;
         }
-
-        public static Type BaseType(this Type type)
-        {
-            return type.GetTypeInfo().BaseType;
-        }
-
-        public static bool IsAbstract(this Type type)
-        {
-            return type.GetTypeInfo().IsAbstract;
-        }
-
-        public static bool IsClass(this Type type)
-        {
-            return type.GetTypeInfo().IsClass;
-        }
-
-        public static bool IsEnum(this Type type)
-        {
-            return type.GetTypeInfo().IsEnum;
-        }
-
-        public static bool IsInterface(this Type type)
-        {
-            return type.GetTypeInfo().IsInterface;
-        }
-
-        public static bool IsPrimitive(this Type type)
-        {
-            return type.GetTypeInfo().IsPrimitive;
-        }
-
-        public static bool IsValueType(this Type type)
-        {
-            return type.GetTypeInfo().IsValueType;
-        }
         
         public static bool IsNumberType(this Type type)
         {
-            if(type.IsEnum()) return false;
+            if(type.GetTypeInfo().IsEnum) return false;
 
             var typeCode = Type.GetTypeCode(type);
             switch (typeCode)

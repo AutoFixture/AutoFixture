@@ -20,7 +20,7 @@ namespace AutoFixture.DataAnnotations
             if (rangedRequest == null)
                 return new NoSpecimen();
 
-            if (!rangedRequest.MemberType.IsEnum())
+            if (!rangedRequest.MemberType.GetTypeInfo().IsEnum)
                 return new NoSpecimen();
 
             var underlyingNumericType = rangedRequest.MemberType.GetTypeInfo().GetEnumUnderlyingType();
