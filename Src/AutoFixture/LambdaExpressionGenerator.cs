@@ -32,17 +32,16 @@ namespace AutoFixture
 
             var requestType = request as Type;
             if (requestType == null)
-            {
                 return new NoSpecimen();
-            }
 
             if (requestType.BaseType() != typeof(LambdaExpression))
-            {
                 return new NoSpecimen();
-            }
 
             var delegateType = requestType.GetTypeInfo().GetGenericArguments().Single();
-            var genericArguments = delegateType.GetTypeInfo().GetGenericArguments().Select(Expression.Parameter).ToList();
+            var genericArguments = delegateType.GetTypeInfo()
+                .GetGenericArguments()
+                .Select(Expression.Parameter)
+                .ToList();
 
             if (delegateType == typeof(Action))
             {
