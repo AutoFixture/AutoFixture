@@ -26,20 +26,19 @@ When writing unit tests, you typically need to create some objects that represen
 
 AutoFixture can help by creating such [Anonymous Variables](http://blogs.msdn.com/ploeh/archive/2008/11/17/anonymous-variables.aspx) for you. Here's a simple example:
 
-```csharp
-[TestMethod]
+```c#
+[Fact]
 public void IntroductoryTest()
 {
-    // Fixture setup
+    // Arrange
     Fixture fixture = new Fixture();
 
     int expectedNumber = fixture.Create<int>();
     MyClass sut = fixture.Create<MyClass>();
-    // Exercise system
+    // Act
     int result = sut.Echo(expectedNumber);
-    // Verify outcome
-    Assert.AreEqual<int>(expectedNumber, result, "Echo");
-    // Teardown
+    // Assert
+    Assert.Equal(expectedNumber, result);
 }
 ```
 
@@ -50,7 +49,7 @@ The example also illustrates how AutoFixture can be used as a [SUT Factory](http
 Given the right combination of unit testing framework and extensions for AutoFixture, we can further reduce the above test to be even more declarative: 
 
 [xUnit](http://blog.ploeh.dk/2010/10/08/AutoDataTheoriesWithAutoFixture.aspx) 
-```csharp
+```c#
 [Theory, AutoData]
 public void IntroductoryTest(
     int expectedNumber, MyClass sut)
@@ -62,7 +61,7 @@ public void IntroductoryTest(
 and 
 
 [NUnit](http://gertjvr.wordpress.com/2013/09/25/howto-autofixture-nunit2)
-```csharp
+```c#
 [Test, AutoData]
 public void IntroductoryTest(
     int expectedNumber, MyClass sut)
