@@ -331,7 +331,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.AreNotEqual(p1, p2.Field);
         }
 
-        [Theory]
+        [Test]
         [InlineAutoData(1, 2, 3)]
         public void InlineAutoDataTakesParameterValues(int p1, int p2, int p3)
         {
@@ -340,7 +340,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.That(p3, Is.EqualTo(3));
         }
 
-        [Theory]
+        [Test]
         [InlineAutoData]
         public void InlineAutoDataProvidesParameterValuesWhenNoneGiven(string p1, string p2, string p3)
         {
@@ -349,7 +349,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.That(p3, Is.Not.Null);
         }
 
-        [Theory]
+        [Test]
         [InlineAutoData("alpha", "beta")]
         public void InlineAutoDataProvidesParameterValuesWhenMissing(string p1, string p2, string p3)
         {
@@ -358,7 +358,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.That(p3, Is.Not.Null);
         }
 
-        [Theory]
+        [Test]
         [InlineAutoData]
         [InlineAutoData]
         [InlineAutoData]
@@ -369,14 +369,14 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.That(p3, Is.Not.Null);
         }
 
-        [Theory]
+        [Test]
         [InlineAutoData(1)]
         public void InlineAutoDataCanBeUsedWithFrozen(int p1, int p2, [Frozen]string p3, string p4)
         {
             Assert.That(p3, Is.EqualTo(p4));
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void NoAutoPropertiesAttributeLeavesPropertiesUnset(
             [NoAutoProperties]PropertyHolder<object> ph1,
             [NoAutoProperties]PropertyHolder<string> ph2,
@@ -388,7 +388,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.That(ph3.Property, Is.EqualTo(default(int)));
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
             [Frozen, StringLength(3)]string p)
         {

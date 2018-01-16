@@ -356,7 +356,7 @@ namespace AutoFixture.NUnit2.UnitTest
             Assert.AreNotEqual(p1, p2.Field);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
             [Frozen, StringLength(3)]string p)
         {
