@@ -6,6 +6,7 @@ namespace AutoFixture.NUnit3.UnitTest
 {
     public class DependencyConstraints
     {
+        [Test]
         [InlineAutoData("FakeItEasy")]
         [InlineAutoData("Foq")]
         [InlineAutoData("FsCheck")]
@@ -24,7 +25,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.False(references.Any(an => an.Name == assemblyName));
         }
 
-        [Theory]
+        [Test]
         [InlineAutoData("FakeItEasy")]
         [InlineAutoData("Foq")]
         [InlineAutoData("FsCheck")]
