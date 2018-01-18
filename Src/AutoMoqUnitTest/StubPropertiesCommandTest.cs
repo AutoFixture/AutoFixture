@@ -56,7 +56,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
             // Act
-            var task = Task.Factory.StartNew(() => sut.Execute(request, context));
+            var task = Task.Run(() => sut.Execute(request, context));
             bool ranToCompletion = task.Wait(5000) && task.Status == TaskStatus.RanToCompletion;
             // Assert
             Assert.True(ranToCompletion);
