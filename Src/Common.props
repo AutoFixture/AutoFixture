@@ -61,7 +61,7 @@
   </Choose>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0-beta2" ExcludeAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" ExcludeAssets="all" />
   </ItemGroup>
   
   <ItemGroup>

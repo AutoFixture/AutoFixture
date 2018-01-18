@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AutoFixture.Idioms;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
@@ -1011,7 +1012,6 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskWithInnerGuardClause(null);
@@ -1027,7 +1027,6 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskOfTWithInnerGuardClause(null);
@@ -1044,7 +1043,6 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskWithCorrectGuardClause(null);
@@ -1058,7 +1056,6 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var asyncMethodHost = new AsyncHost();
 
             var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskOfTWithCorrectGuardClause(null);
@@ -1069,25 +1066,25 @@ namespace AutoFixture.IdiomsUnitTest
 
         class AsyncHost
         {
-            public System.Threading.Tasks.Task<string> TaskOfTWithCorrectGuardClause(object obj)
+            public Task<string> TaskOfTWithCorrectGuardClause(object obj)
             {
                 if (obj == null)
                     throw new ArgumentNullException(nameof(obj));
 
-                return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
+                return Task.Run(() => obj.ToString());
             }
             
-            public System.Threading.Tasks.Task TaskWithCorrectGuardClause(object obj)
+            public Task TaskWithCorrectGuardClause(object obj)
             {
                 if (obj == null)
                     throw new ArgumentNullException(nameof(obj));
 
-                return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
+                return Task.Run(() => obj.ToString());
             }
 
-            public System.Threading.Tasks.Task<string> TaskOfTWithInnerGuardClause(object obj)
+            public Task<string> TaskOfTWithInnerGuardClause(object obj)
             {
-                return System.Threading.Tasks.Task.Factory.StartNew(() =>
+                return Task.Run(() =>
                 {
                     if (obj == null)
                         throw new ArgumentNullException(nameof(obj));
@@ -1096,9 +1093,9 @@ namespace AutoFixture.IdiomsUnitTest
                 });
             }
 
-            public System.Threading.Tasks.Task TaskWithInnerGuardClause(object obj)
+            public Task TaskWithInnerGuardClause(object obj)
             {
-                return System.Threading.Tasks.Task.Factory.StartNew(() =>
+                return Task.Run(() =>
                 {
                     if (obj == null)
                         throw new ArgumentNullException(nameof(obj));
