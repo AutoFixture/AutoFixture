@@ -9,24 +9,40 @@ namespace AutoFixture.Kernel
     {
         internal static MemberExpression GetWritableMember(this LambdaExpression propertyPicker)
         {
-            var me = propertyPicker.Body as MemberExpression;
-            if (me == null)
-                me = propertyPicker.TryUnwrapConversion();
-            if (me == null)
-                throw new ArgumentException("The expression's Body is not a MemberExpression. Most likely this is because it does not represent access to a property or field.", nameof(propertyPicker));
+            var bodyExpr = propertyPicker.Body;
 
-            var pi = me.Member as PropertyInfo;
-            if (pi != null && pi.GetSetMethod() == null)
+            // Method from C# may lead to an implicit conversion - e.g. if the property or field type is System.Byte,
+            // but the supplied value is a System.Int32 value. Since there's an implicit conversion, the resulting
+            // expression may be (x => Convert(x.Property)) and we need to unwrap it.
+            var memberExpr = bodyExpr.UnwrapIfConversionExpression() as MemberExpression;
+            if (memberExpr == null)
+                throw new ArgumentException(
+                    "The expression's Body is not a MemberExpression. " +
+                    "Most likely this is because it does not represent access to a property or field.",
+                    nameof(propertyPicker));
+
+            if (memberExpr.Member is PropertyInfo pi && pi.GetSetMethod() == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The property \"{0}\" is read-only.", pi.Name), nameof(propertyPicker));
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        "The property \"{0}\" is read-only.", pi.Name),
+                    nameof(propertyPicker));
             }
-            return me;
+            return memberExpr;
         }
 
         internal static void VerifyIsNonNestedWritableMemberExpression(LambdaExpression expression)
         {
-            var me = expression.GetWritableMember();
-            if (!(me.Expression is ParameterExpression))
+            var memberExpression = expression.GetWritableMember();
+
+            // It could happen that parameter is implicitly converted to an interface when e.g. a custom helper
+            // extension method is used. In such cases we need to unwrap the expression to access the underlying
+            // parameter expression.
+            var argExpression = memberExpression.Expression.UnwrapIfConversionExpression();
+
+            var parameterExpression = argExpression as ParameterExpression;
+            if (parameterExpression == null)
                 throw new ArgumentException(
                     "The expression contains access to a nested property or field. " +
                     "Configuration API doesn't support this feature, therefore please rewrite the expression to avoid nested fields or properties.",
@@ -34,36 +50,15 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Attempt to unwrap a member access expression from within a
-        /// conversion expression.
+        /// If current expression is a conversion expression, unwrap it and return the underlying expression.
+        /// Otherwise, do nothing.
         /// </summary>
-        /// <param name="exp">
-        /// The expression that may be a conversion expression.
-        /// </param>
-        /// <returns>
-        /// The wrapped member access expression, if one was found; otherwise
-        /// <see langword="null" />.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// A seemingly innocuous-looking use of the
-        /// <see cref="Dsl.IPostprocessComposer{T}.With{TProperty}(Expression{Func{T, TProperty}}, TProperty)" />
-        /// method from C# may lead to an implicit conversion - e.g. if the
-        /// property or field type is System.Byte, but the supplied value is a
-        /// System.Int32 value. Since there's an implicit conversion, the
-        /// resulting expression may be (x =&gt; Convert(x.Property)). The
-        /// Convert expression is a UnaryExpression, which may contain the
-        /// member access expression ('x.Property').
-        /// </para>
-        /// </remarks>
-        private static MemberExpression TryUnwrapConversion(
-            this LambdaExpression exp)
+        private static Expression UnwrapIfConversionExpression(this Expression exp)
         {
-            var ue = exp.Body as UnaryExpression;
-            if (ue != null)
-                return ue.Operand as MemberExpression;
-            else
-                return null;
+            if (exp is UnaryExpression convExpr && convExpr.NodeType == ExpressionType.Convert)
+                return convExpr.Operand;
+
+            return exp;
         }
     }
 }
