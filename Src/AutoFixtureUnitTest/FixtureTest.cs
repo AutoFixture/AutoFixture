@@ -5903,5 +5903,33 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.NotEqual(-42, result.FixedValue);
         }
+
+        public interface IIssue970_ValueHolder
+        {
+            string Value { get; set; }
+        }
+
+        public class Issue970_ValueHolderImpl : IIssue970_ValueHolder
+        {
+            public string Value { get; set; }
+        }
+
+        [Fact]
+        public void Issue970_DoesNotFailWhenHelperExtensionMethodIsUsed()
+        {
+            // Arrange
+            var sut = new Fixture();
+            // Act
+            sut.Customize<Issue970_ValueHolderImpl>(c => ConfigurePropertyField(c));
+            var result = sut.Create<Issue970_ValueHolderImpl>();
+            // Assert
+            Assert.Equal("42", result.Value);
+
+            IPostprocessComposer<T> ConfigurePropertyField<T>(IPostprocessComposer<T> composer)
+                where T: IIssue970_ValueHolder
+            {
+                return composer.With(x => x.Value, "42");
+            }
+        }
     }
 }
