@@ -1635,7 +1635,7 @@ namespace AutoFixtureUnitTest
             var fixture = new Fixture();
             var result = fixture.Create<RegularExpressionValidatedType>();
             // Assert
-            Assert.Matches(result.Property, RegularExpressionValidatedType.Pattern);
+            Assert.Matches(RegularExpressionValidatedType.Pattern, result.Property);
         }
 
         [Fact]
