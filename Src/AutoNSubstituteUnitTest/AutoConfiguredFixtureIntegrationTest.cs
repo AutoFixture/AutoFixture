@@ -779,6 +779,22 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.NotNull(instance);
         }
 
+        private class InlineOnQueueTaskScheduler : TaskScheduler
+        {
+            protected override void QueueTask(Task task)
+            {
+                base.TryExecuteTask(task);
+            }
+
+            protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
+            {
+                throw new NotSupportedException("This method should be never reached.");
+            }
+
+            protected override IEnumerable<Task> GetScheduledTasks() => Enumerable.Empty<Task>();
+
+        }
+
         [Fact]
         public void DontFailIfAllTasksInlinedOnQueueByCurrentScheduler()
         {
@@ -935,23 +951,5 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                 }
             }
         }
-
-        private class InlineOnQueueTaskScheduler : TaskScheduler
-        {
-            protected override void QueueTask(Task task)
-            {
-                base.TryExecuteTask(task);
-            }
-
-            protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
-            {
-                throw new NotSupportedException("This method should be never reached.");
-            }
-
-            protected override IEnumerable<Task> GetScheduledTasks() => Enumerable.Empty<Task>();
-
-        }
-
-
     }
 }
