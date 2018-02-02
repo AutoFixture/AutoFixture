@@ -464,7 +464,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             fixture.Customize(new AutoConfiguredNSubstituteCustomization());
             var repeatCount = fixture.Create<int>();
             fixture.RepeatCount = repeatCount;
-            var sut = fixture.Create<IMyList<string>>();
+            var sut = fixture.Create<IDerivedFromEnumerableInterface<string>>();
 
             var result = sut.Take(repeatCount + 1).Count();
 
@@ -559,9 +559,9 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var expected = fixture.Freeze<int>();
-            var sut = fixture.Create<IInterfaceImplementingAnother>();
+            var sut = fixture.Create<IDerivedInterfaceWithOwnMethod>();
 
-            var result = sut.Method();
+            var result = sut.IntMethod();
 
             Assert.Equal(expected, result);
         }
@@ -752,6 +752,62 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.NotEqual(actualResult, capturedResult);
         }
 
+        private class Issue630_TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
+        {
+            private const int DELAY_MSEC = 100;
+            private readonly object _syncRoot = new object();
+            private HashSet<Task> Tasks { get; } = new HashSet<Task>();
+
+            protected override void QueueTask(Task task)
+            {
+                lock (this._syncRoot)
+                {
+                    this.Tasks.Add(task);
+                }
+
+                ThreadPool.QueueUserWorkItem(delegate
+                {
+                    Thread.Sleep(DELAY_MSEC);
+
+                    //If task cannot be dequeued - it was already executed.
+                    if (this.TryDequeue(task))
+                    {
+                        base.TryExecuteTask(task);
+                    }
+                });
+            }
+
+            protected override bool TryDequeue(Task task)
+            {
+                lock (this._syncRoot)
+                {
+                    return this.Tasks.Remove(task);
+                }
+            }
+
+            protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
+            {
+
+                //If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
+                if (taskWasPreviouslyQueued && !this.TryDequeue(task))
+                {
+                    return false;
+                }
+
+                base.TryExecuteTask(task);
+                return true;
+            }
+
+            protected override IEnumerable<Task> GetScheduledTasks()
+            {
+                lock (this._syncRoot)
+                {
+                    //Create copy to ensure that it's not modified during enumeration
+                    return this.Tasks.ToArray();
+                }
+            }
+        }
+
         [Fact]
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
@@ -760,7 +816,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
-            var scheduler = new TryingAlwaysSatisfyInlineTaskScheduler();
+            var scheduler = new Issue630_TryingAlwaysSatisfyInlineTaskScheduler();
 
             /*
              * Simulate situation when tasks are always inlined on current thread.
@@ -881,75 +937,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             // Assert
             substitute.Received(degreeOfParallelism).Method();
-        }
-
-        public interface IMyList<out T> : IEnumerable<T>
-        {
-        }
-
-        public interface IInterface
-        {
-        }
-
-        public interface IInterfaceImplementingAnother : IInterface
-        {
-            int Method();
-        }
-
-        private class TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
-        {
-            private const int DELAY_MSEC = 100;
-            private readonly object _syncRoot = new object();
-            private HashSet<Task> Tasks { get; } = new HashSet<Task>();
-
-            protected override void QueueTask(Task task)
-            {
-                lock (this._syncRoot)
-                {
-                    this.Tasks.Add(task);
-                }
-
-                ThreadPool.QueueUserWorkItem(delegate
-                {
-                    Thread.Sleep(DELAY_MSEC);
-
-                    //If task cannot be dequeued - it was already executed.
-                    if (this.TryDequeue(task))
-                    {
-                        base.TryExecuteTask(task);
-                    }
-                });
-            }
-
-            protected override bool TryDequeue(Task task)
-            {
-                lock (this._syncRoot)
-                {
-                    return this.Tasks.Remove(task);
-                }
-            }
-
-            protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
-            {
-
-                //If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
-                if (taskWasPreviouslyQueued && !this.TryDequeue(task))
-                {
-                    return false;
-                }
-
-                base.TryExecuteTask(task);
-                return true;
-            }
-
-            protected override IEnumerable<Task> GetScheduledTasks()
-            {
-                lock (this._syncRoot)
-                {
-                    //Create copy to ensure that it's not modified during enumeration
-                    return this.Tasks.ToArray();
-                }
-            }
         }
     }
 }
