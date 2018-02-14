@@ -148,13 +148,13 @@ namespace AutoFixture
                                     typeof(List<>)),
                                 new TypeRelay(
                                     typeof(IReadOnlyCollection<>),
-                                    typeof(List<>)),
+                                    typeof(ReadOnlyCollection<>)),
                                 new TypeRelay(
                                     typeof(IList<>),
                                     typeof(List<>)),
                                 new TypeRelay(
                                     typeof(IReadOnlyList<>),
-                                    typeof(List<>)),
+                                    typeof(ReadOnlyCollection<>)),
                                 new EnumerableRelay(),
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(
