@@ -155,6 +155,9 @@ namespace AutoFixture
                                 new TypeRelay(
                                     typeof(IReadOnlyList<>),
                                     typeof(ReadOnlyCollection<>)),
+                                new TypeRelay(
+                                    typeof(ISet<>),
+                                    typeof(HashSet<>)),
                                 new EnumerableRelay(),
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(

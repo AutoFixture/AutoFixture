@@ -5817,6 +5817,19 @@ namespace AutoFixtureUnitTest
             Assert.False(result is Dictionary<int, string>);
         }
 
+        [Fact]
+        public void ShouldResolveISetByDefault()
+        {
+            // Arrange
+            var sut = new Fixture();
+            
+            // Act
+            var result = sut.Create<ISet<string>>();
+            
+            // Assert
+            Assert.IsAssignableFrom<ISet<string>>(result);
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
