@@ -5764,6 +5764,19 @@ namespace AutoFixtureUnitTest
             Assert.IsAssignableFrom<IReadOnlyList<string>>(result);
         }
 
+        [Fact]
+        public void ShouldResolveReadOnlyDictionaryByDefault()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<IReadOnlyDictionary<int, string>>();
+
+            // Assert
+            Assert.IsAssignableFrom<IReadOnlyDictionary<int, string>>(result);
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]

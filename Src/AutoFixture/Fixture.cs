@@ -141,6 +141,9 @@ namespace AutoFixture
                                     typeof(IDictionary<,>),
                                     typeof(Dictionary<,>)),
                                 new TypeRelay(
+                                    typeof(IReadOnlyDictionary<,>),
+                                    typeof(ReadOnlyDictionary<,>)),
+                                new TypeRelay(
                                     typeof(ICollection<>),
                                     typeof(List<>)),
                                 new TypeRelay(
