@@ -4732,9 +4732,9 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [InlineData(typeof(IList<>), typeof(List<>))]
-        [InlineData(typeof(IReadOnlyList<>), typeof(List<>))]
+        [InlineData(typeof(IReadOnlyList<>), typeof(ReadOnlyCollection<>))]
         [InlineData(typeof(ICollection<>), typeof(List<>))]
-        [InlineData(typeof(IReadOnlyCollection<>), typeof(List<>))]
+        [InlineData(typeof(IReadOnlyCollection<>), typeof(ReadOnlyCollection<>))]
         [InlineData(typeof(IDictionary<,>), typeof(Dictionary<,>))]
         public void ResidueCollectorsContainForwardsByDefault(Type from, Type to)
         {
@@ -5752,6 +5752,20 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void ResolvedIReadOnlyCollectionShouldBeReadOnly()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<IReadOnlyCollection<string>>();
+
+            // Assert
+            Assert.False(result is Collection<string>);
+            Assert.False(result is List<string>);
+        }
+
+        [Fact]
         public void ShouldResolveReadOnlyListByDefault()
         {
             // Arrange
@@ -5765,6 +5779,19 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void ResolvedIReadOnlyListShouldBeReadOnly()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<IReadOnlyList<string>>();
+
+            // Assert
+            Assert.False(result is List<string>);
+        }
+
+        [Fact]
         public void ShouldResolveReadOnlyDictionaryByDefault()
         {
             // Arrange
@@ -5775,6 +5802,19 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Assert.IsAssignableFrom<IReadOnlyDictionary<int, string>>(result);
+        }
+
+        [Fact]
+        public void ResolvedIReadOnlyDictionaryShouldBeReadOnly()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<IReadOnlyDictionary<int, string>>();
+
+            // Assert
+            Assert.False(result is Dictionary<int, string>);
         }
 
         [Theory]
