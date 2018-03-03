@@ -34,7 +34,7 @@ namespace AutoFixture.AutoFakeItEasy
             }
 
             var fakeType = type.GetFakedType();
-            if (fakeType.GetTypeInfo().IsInterface)
+            if (fakeType.GetTypeInfo().IsInterface || fakeType.IsDelegate())
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
