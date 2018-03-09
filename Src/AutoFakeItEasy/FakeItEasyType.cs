@@ -30,10 +30,5 @@ namespace AutoFixture.AutoFakeItEasy
         {
             return type.GetTypeInfo().GetGenericArguments().Single();
         }
-
-        internal static bool IsDelegate(this Type type)
-        {
-            return type != null && type.GetTypeInfo().IsSubclassOf(typeof(Delegate));
-        }
     }
 }

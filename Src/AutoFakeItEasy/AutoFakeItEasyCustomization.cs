@@ -65,7 +65,7 @@ namespace AutoFixture.AutoFakeItEasy
 
             if (this.GenerateDelegates)
             {
-                fixture.Customizations.Add(new FakeItEasyRelay(new IsDelegateSpecification()));
+                fixture.Customizations.Add(new FakeItEasyRelay(new DelegateSpecification()));
             }
 
             fixture.Customizations.Add(
@@ -88,15 +88,6 @@ namespace AutoFixture.AutoFakeItEasy
                     nameof(GenerateDelegates),
                     minimumFakeItEasyAssemblyVersion,
                     actualFakeItEasyAssemblyVersion));
-            }
-        }
-
-        private class IsDelegateSpecification : IRequestSpecification
-        {
-            public bool IsSatisfiedBy(object request)
-            {
-                var type = request as Type;
-                return type.IsDelegate();
             }
         }
     }
