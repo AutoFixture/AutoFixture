@@ -19,13 +19,23 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             Assert.IsAssignableFrom<ICustomization>(sut);
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void InitializeWithNullRelayThrows()
         {
             // Arrange
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 new AutoFakeItEasyCustomization(null));
+        }
+
+        [Fact]
+        public void SetNullRelayThrows()
+        {
+            // Arrange
+            var sut = new AutoFakeItEasyCustomization();
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Relay = null);
         }
 
         [Fact]
@@ -53,7 +63,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 #endif
 
-        [Fact]
+        [Fact, Obsolete]
         public void SpecificationIsCorrectWhenInitializedWithRelay()
         {
             // Arrange
@@ -62,6 +72,18 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Act
             ISpecimenBuilder result = sut.Relay;
             // Assert
+            Assert.Equal(expectedRelay, result);
+        }
+
+        [Fact]
+        public void SpecificationIsCorrectWhenRelayIsSetViaProperty()
+        {
+            // Arrange
+            var expectedRelay = new FakeItEasyRelay();
+            // Act
+            var sut = new AutoFakeItEasyCustomization { Relay = expectedRelay };
+            // Assert
+            ISpecimenBuilder result = sut.Relay;
             Assert.Equal(expectedRelay, result);
         }
 
