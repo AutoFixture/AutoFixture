@@ -42,6 +42,60 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             Assert.NotEqual(0, result.Property);
         }
 
+#if CAN_FAKE_DELEGATES
+        [Fact]
+        public void FixtureCanCreateFakeOfDelegate()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Act
+            var result = fixture.Create<Fake<Func<int, int>>>();
+            // Assert
+            Assert.IsAssignableFrom<Fake<Func<int, int>>>(result);
+        }
+
+        [Fact]
+        public void FixtureCanCreateDelegateThatIsAFake()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            var frozenInt = fixture.Freeze<int>();
+            var expectedValue = frozenInt + 1;
+            // Act
+            var result = fixture.Create<Func<int, int>>();
+            // Assert
+            A.CallTo(() => result.Invoke(A<int>.Ignored)).Returns(expectedValue);
+            Assert.IsAssignableFrom<Func<int, int>>(result);
+            Assert.Equal(expectedValue, result.Invoke(0));
+        }
+
+        [Fact]
+        public void FixtureCanFreezeFakeOfDelegate()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Act
+            var frozen = fixture.Freeze<Fake<Func<int, int>>>();
+            var result = fixture.Create<Func<int, int>>();
+            // Assert
+            Assert.Same(frozen.FakedObject, result);
+        }
+#else
+        [Fact]
+        public void FixtureCanCreateNonFakedDelegateWhenFakeItEasyCannotFakeDelegates()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Act
+            var result = fixture.Create<Func<int, int>>();
+            // Assert
+            Assert.IsAssignableFrom<Func<int, int>>(result);
+
+            var notAFakeException = Assert.Throws<ArgumentException>(() => Fake.GetFakeManager(result));
+            Assert.Contains("not recognized as a fake", notAFakeException.Message);
+        }
+#endif
+
         [Fact]
         public void FixtureCanCreateFake()
         {
