@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using AutoFixture.Kernel;
+using FakeItEasy;
 
 namespace AutoFixture.AutoFakeItEasy
 {
@@ -41,11 +43,31 @@ namespace AutoFixture.AutoFakeItEasy
         {
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
+            if (CanFakeDelegates())
+            {
+                var delegateSpecification = new DelegateSpecification();
+                fixture.Customizations.Add(
+                    new FakeItEasyRelay(
+                        delegateSpecification));
+
+                fixture.Customizations.Add(
+                    new WrapDelegateInFakeBuilder(
+                        delegateSpecification,
+                        new DelegateGenerator()));
+            }
+
             fixture.Customizations.Add(
                 new FakeItEasyBuilder(
                     new MethodInvoker(
                         new FakeItEasyMethodQuery())));
             fixture.ResidueCollectors.Add(this.Relay);
+        }
+
+        private static bool CanFakeDelegates()
+        {
+            var minimumFakeItEasyAssemblyVersion = new Version(1, 7, 4257, 42);
+            var actualFakeItEasyAssemblyVersion = typeof(A).GetTypeInfo().Assembly.GetName().Version;
+            return actualFakeItEasyAssemblyVersion >= minimumFakeItEasyAssemblyVersion;
         }
     }
 }
