@@ -12,6 +12,26 @@ namespace AutoFixture.Kernel
     public class DelegateGenerator : ISpecimenBuilder
     {
         /// <summary>
+        /// The specification used to verify that request is for the supported delegate type.
+        /// </summary>
+        public IRequestSpecification Specification { get; }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="DelegateGenerator"/> type.
+        /// </summary>
+        public DelegateGenerator() : this(new DelegateSpecification())
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="DelegateGenerator"/> type.
+        /// </summary>
+        public DelegateGenerator(IRequestSpecification delegateSpecification)
+        {
+            this.Specification = delegateSpecification ?? throw new ArgumentNullException(nameof(delegateSpecification));
+        }
+
+        /// <summary>
         /// Creates a new <see cref="Delegate"/> instance.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
@@ -29,7 +49,7 @@ namespace AutoFixture.Kernel
             if (delegateType == null)
                 return new NoSpecimen();
 
-            if (!typeof(Delegate).GetTypeInfo().IsAssignableFrom(delegateType))
+            if(!this.Specification.IsSatisfiedBy(delegateType))
                 return new NoSpecimen();
 
             var delegateMethod = delegateType.GetTypeInfo().GetMethod("Invoke");
