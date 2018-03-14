@@ -17,6 +17,25 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void NullDelegateSpecificationThrowsException()
+        {
+            // Arrange
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+                new DelegateGenerator(null));
+        }
+
+        [Fact]
+        public void DefaultDelegateSpecificationIsCorrect()
+        {
+            // Arrange
+            // Act
+            var sut = new DelegateGenerator();
+            // Assert
+            Assert.IsType<DelegateSpecification>(sut.Specification);
+        }
+
+        [Fact]
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
             // Arrange
@@ -26,6 +45,17 @@ namespace AutoFixtureUnitTest.Kernel
             var result = sut.Create(null, dummyContainer);
             // Assert
             Assert.Equal(new NoSpecimen(), result);
+        }
+
+        [Fact]
+        public void CustomSpecificationIsPreserved()
+        {
+            // Arrange
+            var specification = new TrueRequestSpecification();
+            // Act
+            var sut = new DelegateGenerator(specification);
+            // Assert
+            Assert.Equal(specification, sut.Specification);
         }
 
         [Fact]
