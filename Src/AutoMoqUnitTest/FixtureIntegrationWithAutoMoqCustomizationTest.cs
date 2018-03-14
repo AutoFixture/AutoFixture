@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using AutoFixture.AutoMoq.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using Moq;
 using TestTypeFoundation;
 using Xunit;
@@ -134,7 +136,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             var expected = fixture.Create<string>();
-            var mockOfDelegate = fixture.Create<Mock<DBaz>>();
+            var mockOfDelegate = fixture.Create<Mock<RegularDelegate>>();
             mockOfDelegate.Setup(f => f(13, 37)).Returns(expected);
 
             // Act
@@ -436,6 +438,112 @@ namespace AutoFixture.AutoMoq.UnitTest
             Assert.ThrowsAny<ObjectCreationException>(() => fixture.Create<IInterfaceWithPropertyWithCircularDependency>());
         }
 
-        public delegate string DBaz(short s, byte b);
+        [Theory]
+        [InlineData(typeof(Action))]
+        [InlineData(typeof(Action<int>))]
+        [InlineData(typeof(Func<int, string>))]
+        [InlineData(typeof(RegularDelegate))]
+        [InlineData(typeof(DelegateWithRef))]
+        [InlineData(typeof(DelegateWithOut))]
+        [InlineData(typeof(GenericDelegate<int>))]
+        public void WithGenerateDelegates_ReturnsMockForDelegates(Type delegateType)
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization { GenerateDelegates = true });
+            var context = new SpecimenContext(fixture);
+            // Act
+            var result = fixture.Create(delegateType, context);
+            // Assert
+
+            Assert.Null(Record.Exception(() => AssertIsMock(result, delegateType)));
+        }
+
+        [Fact]
+        public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForRegularMethod()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenValue = fixture.Freeze<string>();
+            // Act
+            var mock = fixture.Create<RegularDelegate>();
+            var callResult = mock.Invoke(42, 24);
+            // Assert
+            Assert.Equal(frozenValue, callResult);
+        }
+
+#if FIXED_DELEGATE_OUT
+        [Fact]
+        public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForMethodWithOut()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenString = fixture.Freeze<string>();
+            var frozenInt = fixture.Freeze<int>();
+            // Act
+            var mock = fixture.Create<DelegateWithOut>();
+            var callResult = mock.Invoke(out int outResult);
+            // Assert
+            Assert.Equal(frozenString, callResult);
+            Assert.Equal(frozenInt, outResult);
+        }
+#endif
+
+        [Fact]
+        public void WithGenerateDelegateAndConfigureMembers_DelegatesWithRefMethodsAreNotConfigured()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenInt = fixture.Freeze<int>();
+            var frozenString = fixture.Freeze<string>();
+            // Act
+            var mock = fixture.Create<DelegateWithRef>();
+            // Assert
+            int refResult = 0;
+            string returnValue = mock.Invoke(ref refResult);
+            Assert.NotEqual(frozenInt, refResult);
+            Assert.NotEqual(frozenString, returnValue);
+        }
+
+        [Fact]
+        public void WithGenerateDelegateAndConfigureMembers_GenericDelegatesShouldBeConfigured()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenString = fixture.Freeze<string>();
+            // Act
+            var mock = fixture.Create<GenericDelegate<string>>();
+            var callResult = mock.Invoke("42");
+            // Assert
+            Assert.Equal(frozenString, callResult);
+        }
+
+        public delegate string RegularDelegate(short s, byte b);
+        public delegate string DelegateWithRef(ref int arg);
+        public delegate string DelegateWithOut(out int arg);
+        public delegate string GenericDelegate<T>(T arg);
+
+        private static void AssertIsMock(object mock, Type mockType)
+        {
+            typeof(Mock).GetTypeInfo()
+                .GetMethod(nameof(Mock.Get))
+                .MakeGenericMethod(mockType)
+                .Invoke(null, new[] { mock });
+        }
     }
 }

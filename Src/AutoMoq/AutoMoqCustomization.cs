@@ -48,6 +48,12 @@ namespace AutoFixture.AutoMoq
         public bool ConfigureMembers { get; set; }
 
         /// <summary>
+        /// If value is <c>true</c>, delegate requests are intercepted and created by Moq.
+        /// Otherwise, if value is <c>false</c>, delegates are created by the AutoFixture kernel.
+        /// </summary>
+        public bool GenerateDelegates { get; set; }
+
+        /// <summary>
         /// Gets or sets the relay that will be added to <see cref="IFixture.ResidueCollectors"/> when
         /// <see cref="Customize"/> is invoked.
         /// </summary>
@@ -82,6 +88,11 @@ namespace AutoFixture.AutoMoq
 
             fixture.Customizations.Add(mockBuilder);
             fixture.ResidueCollectors.Add(this.Relay);
+
+            if (this.GenerateDelegates)
+            {
+                fixture.Customizations.Add(new MockRelay(new DelegateSpecification()));
+            }
         }
     }
 }

@@ -27,6 +27,16 @@ namespace AutoFixture.AutoMoq.UnitTest
             Assert.False(sut.ConfigureMembers);
         }
 
+        [Fact]
+        public void GenerateDelegatesIsDisabledByDefault()
+        {
+            // Arrange
+            // Act
+            var sut = new AutoMoqCustomization();
+            // Assert
+            Assert.False(sut.GenerateDelegates);
+        }
+
         [Fact, Obsolete]
         public void InitializeWithNullRelayThrows()
         {
@@ -147,6 +157,31 @@ namespace AutoFixture.AutoMoq.UnitTest
             var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
 
             Assert.Contains(compositeCommand.Commands, command => command.GetType() == expectedCommandType);
+        }
+
+        [Fact]
+        public void WithGenerateDelegates_CustomizeAddsRelay()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoMoqCustomization { GenerateDelegates = true };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            var mockRelay = (MockRelay)fixtureStub.Customizations.Single(c => c is MockRelay);
+            Assert.IsType<DelegateSpecification>(mockRelay.MockableSpecification);
+        }
+
+        [Fact]
+        public void WithoutGenerateDelegates_DoesNotAddMockRelayForDelegate()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoMoqCustomization { GenerateDelegates = false };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            Assert.DoesNotContain(fixtureStub.Customizations, c => c is MockRelay);
         }
     }
 }
