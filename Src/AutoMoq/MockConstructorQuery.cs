@@ -11,6 +11,8 @@ namespace AutoFixture.AutoMoq
     /// </summary>
     public class MockConstructorQuery : IMethodQuery
     {
+        private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
+
         /// <summary>
         /// Selects constructors for the supplied <see cref="Moq.Mock{T}"/> type.
         /// </summary>
@@ -42,7 +44,7 @@ namespace AutoFixture.AutoMoq
             }
 
             var mockType = type.GetMockedType();
-            if (mockType.GetTypeInfo().IsInterface || mockType.IsDelegate())
+            if (mockType.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(mockType))
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
