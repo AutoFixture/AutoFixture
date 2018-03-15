@@ -42,8 +42,8 @@ namespace AutoFixture.AutoNSubstitute
         public ICallResultResolverFactory CallResultResolverFactory { get; }
 
         /// <summary>
-        /// Creates an new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance 
-        /// with default <see cref="ICallResultCacheFactory"/> and <see cref="ICallResultResolverFactory"/> instanes.
+        /// Creates a new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance 
+        /// with default <see cref="ICallResultCacheFactory"/> and <see cref="ICallResultResolverFactory"/> instances.
         /// </summary>
         public NSubstituteRegisterCallHandlerCommand(ISubstitutionContext substitutionContext)
             : this(substitutionContext, new CallResultCacheFactory(), new CallResultResolverFactory())
@@ -84,7 +84,7 @@ namespace AutoFixture.AutoNSubstitute
             }
 
             // Add extensibility point for users to allow to use differnt cache implementation.
-            // For intance users might want to disalbe results caching like that is demanded here:
+            // For instance users might want to disable results caching, as was proposed here:
             // https://github.com/AutoFixture/AutoFixture/issues/625
             var resultsCacheForSubstitution = this.CallResultCacheFactory.CreateCache();
             var callResultsResover = this.CallResultResolverFactory.Create(context);
