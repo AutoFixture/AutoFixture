@@ -7,8 +7,27 @@ using Xunit;
 
 namespace AutoFixture.AutoMoq.UnitTest
 {
+    [Obsolete]
     public class AutoConfiguredMoqCustomizationTest
     {
+        [Fact]
+        public void IsInheritedFromAutoMoqCustomization()
+        {
+            // Arrange
+            var sut = new AutoConfiguredMoqCustomization();
+            // Act & Assert
+            Assert.IsAssignableFrom<AutoMoqCustomization>(sut);
+        }
+
+        [Fact]
+        public void SetsConfigureMembersPropertyToTrue()
+        {
+            // Arrange
+            var sut = new AutoConfiguredMoqCustomization();
+            // Act & Assert
+            Assert.True(sut.ConfigureMembers);
+        }
+
         [Fact]
         public void CtorThrowsWhenRelayIsNull()
         {

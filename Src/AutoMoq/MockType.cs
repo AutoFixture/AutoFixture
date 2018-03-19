@@ -42,16 +42,6 @@ namespace AutoFixture.AutoMoq
                 && !type.GetMockedType().IsGenericParameter);
         }
 
-        internal static bool IsDelegate(this Type type)
-        {
-            /* Test against MulticastDelegate instead of Delegate base class
-             * because Brad Abrams says that we "should pretend that [Delegate 
-             * and MulticaseDelegate] are merged and that only 
-             * MulticastDelegate exists."
-             * http://blogs.msdn.com/b/brada/archive/2004/02/05/68415.aspx */
-            return typeof(MulticastDelegate).IsAssignableFrom(type.GetTypeInfo().BaseType);
-        }
-
         internal static ConstructorInfo GetDefaultConstructor(this Type type)
         {
             return type.GetConstructor(Type.EmptyTypes);

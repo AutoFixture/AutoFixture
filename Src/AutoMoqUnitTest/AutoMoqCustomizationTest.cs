@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AutoFixture.Kernel;
-using Moq;
 using Xunit;
 
 namespace AutoFixture.AutoMoq.UnitTest
@@ -20,6 +18,26 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void ConfigureMembersIsDisabledByDefault()
+        {
+            // Arrange
+            // Act
+            var sut = new AutoMoqCustomization();
+            // Assert
+            Assert.False(sut.ConfigureMembers);
+        }
+
+        [Fact]
+        public void GenerateDelegatesIsDisabledByDefault()
+        {
+            // Arrange
+            // Act
+            var sut = new AutoMoqCustomization();
+            // Assert
+            Assert.False(sut.GenerateDelegates);
+        }
+
+        [Fact, Obsolete]
         public void InitializeWithNullRelayThrows()
         {
             // Arrange
@@ -29,6 +47,28 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void ThrowsIfNullRelayIsSet()
+        {
+            // Arrange
+            var sut = new AutoMoqCustomization();
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Relay = null);
+        }
+
+        [Fact]
+        public void ShouldPreserveTheSetRelay()
+        {
+            // Arrange
+            var sut = new AutoMoqCustomization();
+            var relay = new CompositeSpecimenBuilder();
+            // Act
+            sut.Relay = relay;
+            // Assert
+            Assert.Equal(relay, sut.Relay);
+        }
+
+        [Fact, Obsolete]
         public void SpecificationIsCorrectWhenInitializedWithRelay()
         {
             // Arrange
@@ -65,32 +105,83 @@ namespace AutoFixture.AutoMoq.UnitTest
         public void CustomizeAddsAppropriateResidueCollector()
         {
             // Arrange
-            var residueCollectors = new List<ISpecimenBuilder>();
-            var fixtureStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
-            fixtureStub.SetupGet(c => c.ResidueCollectors).Returns(residueCollectors);
+            var fixtureStub = new FixtureStub();
 
             var sut = new AutoMoqCustomization();
             // Act
-            sut.Customize(fixtureStub.Object);
+            sut.Customize(fixtureStub);
             // Assert
-            Assert.Contains(sut.Relay, residueCollectors);
+            Assert.Contains(sut.Relay, fixtureStub.ResidueCollectors);
         }
 
         [Fact]
         public void CustomizeAddsAppropriateCustomizations()
         {
             // Arrange
-            var customizations = new List<ISpecimenBuilder>();
-            var fixtureStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
-            fixtureStub.SetupGet(c => c.Customizations).Returns(customizations);
+            var fixtureStub = new FixtureStub();
 
             var sut = new AutoMoqCustomization();
             // Act
-            sut.Customize(fixtureStub.Object);
+            sut.Customize(fixtureStub);
             // Assert
-            var postprocessor = customizations.OfType<MockPostprocessor>().Single();
+            var postprocessor = fixtureStub.Customizations.OfType<MockPostprocessor>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postprocessor.Builder);
             Assert.IsAssignableFrom<MockConstructorQuery>(ctorInvoker.Query);
+        }
+
+        [Fact]
+        public void WithConfigureMembers_CustomizeAddsPostprocessorToCustomizations()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoMoqCustomization { ConfigureMembers = true };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            Assert.Contains(fixtureStub.Customizations, builder => builder is Postprocessor);
+        }
+
+        [Theory]
+        [InlineData(typeof(MockVirtualMethodsCommand))]
+        [InlineData(typeof(StubPropertiesCommand))]
+        [InlineData(typeof(AutoMockPropertiesCommand))]
+        public void WithConfigureMembers_CustomizeAddsMockCommandsToPostprocessor(Type expectedCommandType)
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoMoqCustomization { ConfigureMembers = true };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            var postprocessor = (Postprocessor) fixtureStub.Customizations.Single(builder => builder is Postprocessor);
+            var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
+
+            Assert.Contains(compositeCommand.Commands, command => command.GetType() == expectedCommandType);
+        }
+
+        [Fact]
+        public void WithGenerateDelegates_CustomizeAddsRelay()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoMoqCustomization { GenerateDelegates = true };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            var mockRelay = (MockRelay)fixtureStub.Customizations.Single(c => c is MockRelay);
+            Assert.IsType<DelegateSpecification>(mockRelay.MockableSpecification);
+        }
+
+        [Fact]
+        public void WithoutGenerateDelegates_DoesNotAddMockRelayForDelegate()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoMoqCustomization { GenerateDelegates = false };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            Assert.DoesNotContain(fixtureStub.Customizations, c => c is MockRelay);
         }
     }
 }

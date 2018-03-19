@@ -1,9 +1,11 @@
-﻿using AutoFixture.AutoMoq.UnitTest.TestTypes;
+﻿using System;
+using AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Moq;
 using Xunit;
 
 namespace AutoFixture.AutoMoq.UnitTest
 {
+    [Obsolete]
     public class FixtureIntegrationWithAutoConfiguredMoqCustomizationTest
     {
         [Fact]

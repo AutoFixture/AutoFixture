@@ -10,8 +10,11 @@
     <RootNamespace>AutoFixture.AutoMoq.UnitTest</RootNamespace>
 
     <!--  Suppress warning about invalid dependency version in Castle.Core.
-          That is Moq dependency and we cannot fix that somehow. -->
+          That is a Moq dependency and we cannot fix that somehow. -->
     <NoWarn>$(NoWarn);NU1603</NoWarn>
+
+    <!-- An issue with out parameters for delegates was fixed in the recent versions of Moq (consumed by .Net Core). -->
+    <DefineConstants Condition=" '$(TargetFramework)'=='netcoreapp1.1' ">$(DefineConstants);FIXED_DELEGATE_OUT</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

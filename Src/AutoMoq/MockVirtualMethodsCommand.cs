@@ -29,6 +29,8 @@ namespace AutoFixture.AutoMoq
     /// </remarks>
     public class MockVirtualMethodsCommand : ISpecimenCommand
     {
+        private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
+
         /// <summary>
         /// Sets up a mocked object's methods so that the return values will be retrieved from a fixture,
         /// instead of being created directly by Moq.
@@ -110,11 +112,16 @@ namespace AutoFixture.AutoMoq
         /// <param name="type">The type being mocked and whose methods need to be configured.</param>
         private static IEnumerable<MethodInfo> GetConfigurableMethods(Type type)
         {
-            // If "type" is an interface, "GetMethods" does not return methods declared on other interfaces extended by "type".
-            // In these cases, we use the "GetInterfaceMethods" extension method instead.
-            var methods = type.GetTypeInfo().IsInterface
-                              ? type.GetInterfaceMethods()
-                              : type.GetMethods();
+            IEnumerable<MethodInfo> methods;
+            if (DelegateSpecification.IsSatisfiedBy(type))
+                // If "type" is a delegate, return "Invoke" method only and skip the rest of the methods.
+                methods = new[] { type.GetTypeInfo().GetMethod("Invoke") };
+            else if (type.GetTypeInfo().IsInterface)
+                // If "type" is an interface, "GetMethods" does not return methods declared on other interfaces extended by "type".
+                // In these cases, we use the "GetInterfaceMethods" extension method instead.
+                methods = type.GetInterfaceMethods();
+            else
+                methods = type.GetMethods();
 
             // Skip properties that have both getters and setters to not interfere
             // with other post-processors in the chain that initialize them later.
@@ -156,23 +163,29 @@ namespace AutoFixture.AutoMoq
             if (methodCallParams.Any(exp => exp == null))
                 return null;
 
-            //e.g. "x.Method(It.IsAny<string>(), out parameter)"
-            var methodCall = Expression.Call(lambdaParam, method, methodCallParams);
+            Expression methodCall;
+            if (DelegateSpecification.IsSatisfiedBy(mockedType))
+                // e.g. "x(It.IsAny<string>(), out parameter)"
+                methodCall = Expression.Invoke(lambdaParam, methodCallParams);
+            else
+                // e.g. "x.Method(It.IsAny<string>(), out parameter)"
+                methodCall = Expression.Call(lambdaParam, method, methodCallParams);
 
-            //e.g. "x => x.Method(It.IsAny<string>(), out parameter)"
+            // e.g. "x => x.Method(It.IsAny<string>(), out parameter)"
+            // or "x => x(It.IsAny<string>(), out parameter)"
             return Expression.Lambda(methodCall, lambdaParam);
         }
 
         private static Expression MakeParameterExpression(ParameterInfo parameter, ISpecimenContext context)
         {
-            //check if parameter is an "out" parameter
+            // check if parameter is an "out" parameter
             if (parameter.IsOut)
             {
-                //gets the type corresponding to this "byref" type
-                //e.g., the underlying type of "System.String&" is "System.String"
+                // gets the type corresponding to this "byref" type
+                // e.g., the underlying type of "System.String&" is "System.String"
                 var underlyingType = parameter.ParameterType.GetElementType();
 
-                //resolve the "out" param from the context
+                // resolve the "out" param from the context
                 object variable = context.Resolve(underlyingType);
 
                 if (variable is OmitSpecimen)
@@ -182,7 +195,7 @@ namespace AutoFixture.AutoMoq
             }
             else
             {
-                //for any non-out parameter, invoke "It.IsAny<T>()"
+                // for any non-out parameter, invoke "It.IsAny<T>()"
                 var isAnyMethod = typeof(It).GetMethod(nameof(It.IsAny)).MakeGenericMethod(parameter.ParameterType);
 
                 return Expression.Call(isAnyMethod);
