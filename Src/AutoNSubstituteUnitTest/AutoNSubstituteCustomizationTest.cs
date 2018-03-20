@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoFixture.Kernel;
 using NSubstitute;
 using Xunit;
@@ -19,6 +20,16 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void CustomizeMembersIsDisabledByDefault()
+        {
+            // Arrange
+            // Act
+            var sut = new AutoNSubstituteCustomization();
+            // Assert
+            Assert.False(sut.ConfigureMembers);
+        }
+
+        [Fact, Obsolete]
         public void InitializeWithNullBuilderThrows()
         {
             // Arrange
@@ -28,6 +39,26 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void ThrowsIfNullRelayIsSet()
+        {
+            // Arrange
+            var sut = new AutoNSubstituteCustomization();
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => sut.Relay = null);
+        }
+
+        [Fact]
+        public void ShouldPreserveTheSetRelay()
+        {
+            // Arrange
+            var sut = new AutoNSubstituteCustomization();
+            var relay = new CompositeSpecimenBuilder();
+            // Act
+            sut.Relay = relay;
+            // Assert
+            Assert.Equal(relay, sut.Relay);
+        }
+        [Fact, Obsolete]
         public void SpecificationIsCorrectWhenInitializedWithBuilder()
         {
             // Arrange
@@ -39,7 +70,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal(expectedBuilder, result);
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void BuilderIsNotNullWhenInitializedWithDefaultConstructor()
         {
             // Arrange
@@ -51,6 +82,17 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void RelayIsNotNullWhenInitializedWithDefaultConstructor()
+        {
+            // Arrange
+            var sut = new AutoNSubstituteCustomization();
+            // Act
+            var result = sut.Relay;
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact, Obsolete]
         public void BuilderIsSubstituteRelay_WhenInitializedWithDefaultConstructor()
         {
             // Arrange
@@ -62,6 +104,16 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void RelayIsSubstituteRelay_WhenInitializedWithDefaultConstructor()
+        {
+            // Arrange
+            var sut = new AutoNSubstituteCustomization();
+            // Act
+            var result = sut.Relay;
+            // Assert
+            Assert.IsType<SubstituteRelay>(result);
+        }
+        [Fact]
         public void CustomizeNullFixtureThrows()
         {
             // Arrange
@@ -69,6 +121,21 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
+        }
+
+        [Fact]
+        public void CustomizeAddsAppropriateResidueCollector()
+        {
+            // Arrange
+            var residueCollectors = new List<ISpecimenBuilder>();
+            var fixtureStub = Substitute.For<IFixture>();
+            fixtureStub.ResidueCollectors.Returns(residueCollectors);
+
+            var sut = new AutoNSubstituteCustomization();
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            Assert.Contains(sut.Relay, residueCollectors);
         }
 
         [Fact]
@@ -88,30 +155,31 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             // Arrange
             var sut = new AutoNSubstituteCustomization();
-            SubstituteRequestHandler builder = null;
-            var fixture = Substitute.For<IFixture>();
-            fixture.Customizations.Insert(Arg.Any<int>(), Arg.Do<SubstituteRequestHandler>(b => builder = b));
+            var fixtureStub = new FixtureStub();
             // Act
-            sut.Customize(fixture);
+            sut.Customize(fixtureStub);
             // Assert
-            Assert.NotNull(builder);
-            var substituteConstructor = Assert.IsType<MethodInvoker>(builder.SubstituteFactory);
+            var substituteRequestHandler = fixtureStub.Customizations.OfType<SubstituteRequestHandler>().Single();
+            var substituteConstructor = Assert.IsType<MethodInvoker>(substituteRequestHandler.SubstituteFactory);
             Assert.IsType<NSubstituteMethodQuery>(substituteConstructor.Query);
         }
 
         [Fact]
-        public void CustomizeAddsAppropriateResidueCollector()
+        public void WithConfigureMembers_CustomizeAddsPostprocessorWithSubstituteRequestHandlerAndCommandsToCustomizations()
         {
             // Arrange
-            var residueCollectors = new List<ISpecimenBuilder>();
-            var fixtureStub = Substitute.For<IFixture>();
-            fixtureStub.ResidueCollectors.Returns(residueCollectors);
-            
-            var sut = new AutoNSubstituteCustomization();
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoNSubstituteCustomization { ConfigureMembers = true };
             // Act
             sut.Customize(fixtureStub);
             // Assert
-            Assert.Contains(sut.Builder, residueCollectors);
+            var postprocessor = fixtureStub.Customizations.OfType<Postprocessor>().Single();
+            var substituteRequestHandler = Assert.IsAssignableFrom<SubstituteRequestHandler>(postprocessor.Builder);
+            var substituteFactory = Assert.IsType<MethodInvoker>(substituteRequestHandler.SubstituteFactory);
+            Assert.IsType<NSubstituteMethodQuery>(substituteFactory.Query);
+            var compositeCommand = Assert.IsAssignableFrom<CompositeSpecimenCommand>(postprocessor.Command);
+            Assert.True(compositeCommand.Commands.OfType<NSubstituteRegisterCallHandlerCommand>().Any());
+            Assert.True(compositeCommand.Commands.OfType<NSubstituteSealedPropertiesCommand>().Any());
         }
     }
 }

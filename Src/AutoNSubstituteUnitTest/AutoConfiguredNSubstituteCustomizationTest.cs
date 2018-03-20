@@ -6,6 +6,7 @@ using Xunit;
 
 namespace AutoFixture.AutoNSubstitute.UnitTest
 {
+    [Obsolete]
     public class AutoConfiguredNSubstituteCustomizationTest
     {
         [Fact]
