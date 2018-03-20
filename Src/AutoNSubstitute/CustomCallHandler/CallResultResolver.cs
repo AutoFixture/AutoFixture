@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using AutoFixture.Kernel;
+using NSubstitute;
 using NSubstitute.Core;
 
 namespace AutoFixture.AutoNSubstitute.CustomCallHandler
@@ -8,6 +11,19 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
     /// <inheritdoc />
     public class CallResultResolver : ICallResultResolver
     {
+        private static readonly Type DelegateCallType;
+        private static readonly FieldInfo DelegateTypeFieldInfo;
+
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline",
+            Justification = "One field initialization depends on other one - order should be guaranteed.")]
+        static CallResultResolver()
+        {
+            const string delegateCallTypeName = "NSubstitute.Proxies.DelegateProxy.DelegateCall";
+            DelegateCallType = typeof(Substitute).GetTypeInfo().Assembly.GetType(delegateCallTypeName, throwOnError: false);
+            DelegateTypeFieldInfo =
+                DelegateCallType?.GetField("_delegateType", BindingFlags.Instance | BindingFlags.NonPublic);
+        }
+
         /// <summary>
         /// SpecimenContext used to resolve result and argument values.
         /// </summary>
@@ -29,7 +45,7 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 
             //Resolve ref/out parameter values.
             var argumentValues = new List<CallResultData.ArgumentValue>();
-            var parameterInfos = callInfo.GetMethodInfo().GetParameters();
+            var parameterInfos = GetMethodParameters(callInfo);
             for (var i = 0; i < parameterInfos.Length; i++)
             {
                 var parameterInfo = parameterInfos[i];
@@ -58,6 +74,20 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
             }
 
             return this.SpecimenContext.Resolve(call.GetReturnType());
+        }
+
+        private static ParameterInfo[] GetMethodParameters(ICall call)
+        {
+            // A workaround for the older versions of NSubstitute to retrieve the original delegate signature.
+            // The related issue has been fixed in v4, so no tweaks are required there.
+            // The workaround will be self disabled in v4+ due to the internal NSubstitute refactoring.
+            if (call.Target().GetType() == DelegateCallType && DelegateTypeFieldInfo != null)
+            {
+                var delegateType = (Type)DelegateTypeFieldInfo.GetValue(call.Target());
+                return delegateType.GetMethod("Invoke").GetParameters();
+            }
+
+            return call.GetMethodInfo().GetParameters();
         }
     }
 }

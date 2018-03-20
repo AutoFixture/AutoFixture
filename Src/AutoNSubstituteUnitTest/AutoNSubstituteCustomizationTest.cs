@@ -29,6 +29,16 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.False(sut.ConfigureMembers);
         }
 
+        [Fact]
+        public void GenerateDelegatesIsDisabledByDefault()
+        {
+            // Arrange
+            // Act
+            var sut = new AutoNSubstituteCustomization();
+            // Assert
+            Assert.False(sut.GenerateDelegates);
+        }
+
         [Fact, Obsolete]
         public void InitializeWithNullBuilderThrows()
         {
@@ -180,6 +190,31 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var compositeCommand = Assert.IsAssignableFrom<CompositeSpecimenCommand>(postprocessor.Command);
             Assert.True(compositeCommand.Commands.OfType<NSubstituteRegisterCallHandlerCommand>().Any());
             Assert.True(compositeCommand.Commands.OfType<NSubstituteSealedPropertiesCommand>().Any());
+        }
+
+        [Fact]
+        public void WithGenerateDelegates_CustomizeAddsRelayForDelegates()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoNSubstituteCustomization { GenerateDelegates = true };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            var substituteRelay = fixtureStub.Customizations.OfType<SubstituteRelay>().Single();
+            Assert.IsType<DelegateSpecification>(substituteRelay.Specification);
+        }
+
+        [Fact]
+        public void WithoutGenerateDelegates_ShouldNotAddRelayForDelegates()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoNSubstituteCustomization { GenerateDelegates = false };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            Assert.DoesNotContain(fixtureStub.Customizations, c => c is SubstituteRelay);
         }
     }
 }

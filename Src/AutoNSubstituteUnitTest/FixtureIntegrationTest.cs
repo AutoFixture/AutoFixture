@@ -8,6 +8,7 @@ using AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
 using AutoFixture.Kernel;
 using NSubstitute;
 using NSubstitute.ClearExtensions;
+using NSubstitute.Core;
 using TestTypeFoundation;
 using Xunit;
 
@@ -1018,7 +1019,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             var instance = task.Result;
 
-            //This test should not fail. Assertion is dummy and to specify that we use instance.
+            // This test should not fail. Assertion is dummy and to specify that we use instance.
             Assert.NotNull(instance);
         }
 
@@ -1127,5 +1128,104 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Assert
             substitute.Received(degreeOfParallelism).Method();
         }
+
+        [Theory]
+        [InlineData(typeof(Action))]
+        [InlineData(typeof(Action<int>))]
+        [InlineData(typeof(Func<int, string>))]
+        [InlineData(typeof(RegularDelegate))]
+        [InlineData(typeof(DelegateWithRef))]
+        [InlineData(typeof(DelegateWithOut))]
+        [InlineData(typeof(GenericDelegate<int>))]
+        public void WithGenerateDelegates_ReturnsSubstituteForDelegates(Type delegateType)
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoNSubstituteCustomization { GenerateDelegates = true });
+            var context = new SpecimenContext(fixture);
+            // Act
+            var result = fixture.Create(delegateType, context);
+            // Assert
+            Assert.Null(Record.Exception(() =>
+                    // This method throws if the passed object is not a substitute.
+                    SubstitutionContext.Current.GetCallRouterFor(result)));
+        }
+
+        [Fact]
+        public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForRegularMethod()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoNSubstituteCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenValue = fixture.Freeze<string>();
+            // Act
+            var substitute = fixture.Create<RegularDelegate>();
+            var callResult = substitute.Invoke(42, 24);
+            // Assert
+            Assert.Equal(frozenValue, callResult);
+        }
+
+        [Fact]
+        public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForMethodWithOut()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoNSubstituteCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenString = fixture.Freeze<string>();
+            var frozenInt = fixture.Freeze<int>();
+            // Act
+            var substitute = fixture.Create<DelegateWithOut>();
+            var callResult = substitute.Invoke(out int outResult);
+            // Assert
+            Assert.Equal(frozenString, callResult);
+            Assert.Equal(frozenInt, outResult);
+        }
+
+        [Fact]
+        public void WithGenerateDelegateAndConfigureMembers_DelegatesWithRefMethodsAreConfigured()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoNSubstituteCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenInt = fixture.Freeze<int>();
+            var frozenString = fixture.Freeze<string>();
+            // Act
+            var substitute = fixture.Create<DelegateWithRef>();
+            // Assert
+            int refResult = 0;
+            string returnValue = substitute.Invoke(ref refResult);
+            Assert.Equal(frozenInt, refResult);
+            Assert.Equal(frozenString, returnValue);
+        }
+
+        [Fact]
+        public void WithGenerateDelegateAndConfigureMembers_GenericDelegatesShouldBeConfigured()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoNSubstituteCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var frozenString = fixture.Freeze<string>();
+            // Act
+            var mock = fixture.Create<GenericDelegate<string>>();
+            var callResult = mock.Invoke("42");
+            // Assert
+            Assert.Equal(frozenString, callResult);
+        }
+
+        public delegate string RegularDelegate(short s, byte b);
+        public delegate string DelegateWithRef(ref int arg);
+        public delegate string DelegateWithOut(out int arg);
+        public delegate string GenericDelegate<T>(T arg);
     }
 }

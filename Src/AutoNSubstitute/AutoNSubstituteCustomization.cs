@@ -52,6 +52,12 @@ namespace AutoFixture.AutoNSubstitute
         /// </summary>
         public bool ConfigureMembers { get; set; }
 
+        /// <summary>
+        /// If value is <c>true</c>, delegate requests are intercepted and created by NSubstitute.
+        /// Otherwise, if value is <c>false</c>, delegates are created by the AutoFixture kernel.
+        /// </summary>
+        public bool GenerateDelegates { get; set; }
+
         /// <summary>Customizes an <see cref="IFixture"/> to enable auto-mocking with NSubstitute.</summary>
         public void Customize(IFixture fixture)
         {
@@ -73,6 +79,11 @@ namespace AutoFixture.AutoNSubstitute
             fixture.Customizations.Insert(0, substituteBuilder);
             fixture.Customizations.Insert(0, new SubstituteAttributeRelay());
             fixture.ResidueCollectors.Add(this.Relay);
+
+            if (this.GenerateDelegates)
+            {
+                fixture.Customizations.Add(new SubstituteRelay(new DelegateSpecification()));
+            }
         }
     }
 }
