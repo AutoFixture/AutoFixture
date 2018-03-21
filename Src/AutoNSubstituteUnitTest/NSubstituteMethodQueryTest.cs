@@ -80,7 +80,31 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act
             var result = sut.SelectMethods(type);
             // Assert
-            Assert.Empty(result.First().Parameters);
+            Assert.Empty(result.Single().Parameters);
+        }
+
+        [Fact]
+        public void SelectMethodReturnsMethodForDelegate()
+        {
+            // Arrange
+            var type = typeof(Action);
+            var sut = new NSubstituteMethodQuery();
+            // Act
+            var result = sut.SelectMethods(type);
+            // Assert
+            Assert.NotEmpty(result);
+        }
+
+        [Fact]
+        public void SelectMethodReturnsMethodWithoutParametersForDelegate()
+        {
+            // Arrange
+            var type = typeof(Func<int>);
+            var sut = new NSubstituteMethodQuery();
+            // Act
+            var result = sut.SelectMethods(type);
+            // Assert
+            Assert.Empty(result.Single().Parameters);
         }
 
         [Fact]

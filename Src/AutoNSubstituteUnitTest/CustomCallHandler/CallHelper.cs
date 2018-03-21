@@ -26,21 +26,28 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             call.GetReturnType().Returns(methodInfo.ReturnType);
             call.GetArguments().Returns(args.ToArray());
             call.GetOriginalArguments().Returns(args.ToArray());
+            call.Target().Returns(ResolveCallTarget(methodExpression.Object));
 
             return call;
         }
 
         public static ICall CreatePropertyGetterCallMock<T>(Expression<Func<T>> getProp)
         {
-            var propertyInfo = (PropertyInfo) ((MemberExpression) getProp.Body).Member;
+            var propertyExpression = (MemberExpression)getProp.Body;
+            var propertyInfo = (PropertyInfo)propertyExpression.Member;
 
             var call = Substitute.For<ICall>();
             call.GetMethodInfo().Returns(propertyInfo.GetMethod);
             call.GetReturnType().Returns(propertyInfo.PropertyType);
             call.GetArguments().Returns(new object[0]);
             call.GetOriginalArguments().Returns(new object[0]);
-
+            call.Target().Returns(ResolveCallTarget(propertyExpression.Expression));
             return call;
+        }
+
+        private static object ResolveCallTarget(Expression targetExpression)
+        {
+            return ((ConstantExpression)((MemberExpression)targetExpression).Expression).Value;
         }
     }
 }

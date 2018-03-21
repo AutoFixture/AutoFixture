@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Reflection;
 using AutoFixture.Kernel;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
@@ -18,12 +17,30 @@ namespace AutoFixture.AutoNSubstitute
     public class SubstituteRelay : ISpecimenBuilder
     {
         /// <summary>
+        /// Specification used to check whether a type request should be redirected to a substitute request.
+        /// </summary>
+        public IRequestSpecification Specification { get; }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="SubstituteRelay"/>.
+        /// </summary>
+        /// <param name="specification">Specification to test whether request should be relayed.</param>
+        public SubstituteRelay(IRequestSpecification specification)
+        {
+            this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="SubstituteRelay"/>.
+        /// </summary>
+        public SubstituteRelay()
+            : this(new AbstractTypeSpecification())
+        {
+        }
+
+        /// <summary>
         /// Creates a substitute when request is an abstract type.
         /// </summary>
-        /// <returns>
-        /// A substitute resolved from the <paramref name="context"/> when <paramref name="request"/> is an abstract
-        /// type or <see cref="NoSpecimen"/> for all other requests.
-        /// </returns>
         /// <exception cref="InvalidOperationException">
         /// An attempt to resolve a substitute from the <paramref name="context"/> returned an object that was not 
         /// created by NSubstitute.
@@ -32,11 +49,12 @@ namespace AutoFixture.AutoNSubstitute
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var requestedType = request as Type;
-            if (requestedType == null || !requestedType.GetTypeInfo().IsAbstract)
-            {
+            if (!this.Specification.IsSatisfiedBy(request))
                 return new NoSpecimen();
-            }
+
+            var requestedType = request as Type;
+            if (requestedType == null)
+                return new NoSpecimen();
 
             object substitute = context.Resolve(new SubstituteRequest(requestedType));
 

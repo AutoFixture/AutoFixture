@@ -1,38 +1,89 @@
 ﻿using System;
 using AutoFixture.Kernel;
+using NSubstitute.Core;
 
 namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>Enables auto-mocking with NSubstitute.</summary>
+    /// <remarks>
+    /// NOTICE! You can assign the customization properties to tweak the features you would like to enable. Example:
+    /// <br />
+    /// <code>new AutoNSubstituteCustomization { ConfigureMembers = true }</code>
+    /// </remarks>
     public class AutoNSubstituteCustomization : ICustomization
     {
-        /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.</summary>
-        /// <remarks>Uses a new instance of <see cref="NSubstituteBuilder"/> as the builder.</remarks>
+        private ISpecimenBuilder relay;
+
+        /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.
+        /// <para>
+        /// NOTICE! You can assign the customization properties to tweak the features you would like to enable. Example:
+        /// <br />
+        /// <code>new AutoNSubstituteCustomization { ConfigureMembers = true }</code>
+        /// </para>
+        /// </summary>
         public AutoNSubstituteCustomization()
+#pragma warning disable 618 // Type or member is obsolete
             : this(new SubstituteRelay())
+#pragma warning restore 618 // Type or member is obsolete
         {
         }
 
         /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.</summary>
-        /// <param name="builder">The builder to use to create specimens for this customization.</param>
-        public AutoNSubstituteCustomization(ISpecimenBuilder builder)
+        [Obsolete("This constructor is obsolete and will be removed in a future version of the product. " +
+                  "Please use the AutoNSubstituteCustomization() overload (without arguments) instead and set the Relay property.")]
+        public AutoNSubstituteCustomization(ISpecimenBuilder relay)
         {
-            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+            this.relay = relay ?? throw new ArgumentNullException(nameof(relay));
         }
 
         /// <summary>Gets the builder that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
-        /// <seealso cref="AutoNSubstituteCustomization(ISpecimenBuilder)"/>
-        public ISpecimenBuilder Builder { get; }
+        [Obsolete("This property is obsolete - use the Relay property instead.")]
+        public ISpecimenBuilder Builder => this.relay;
+
+        /// <summary>Gets or sets the relay that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
+        public ISpecimenBuilder Relay
+        {
+            get => this.relay;
+            set => this.relay = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        /// <summary>
+        /// Specifies whether members of a substitute will be automatically configured to retrieve the return values from a fixture.
+        /// </summary>
+        public bool ConfigureMembers { get; set; }
+
+        /// <summary>
+        /// If value is <c>true</c>, delegate requests are intercepted and created by NSubstitute.
+        /// Otherwise, if value is <c>false</c>, delegates are created by the AutoFixture kernel.
+        /// </summary>
+        public bool GenerateDelegates { get; set; }
 
         /// <summary>Customizes an <see cref="IFixture"/> to enable auto-mocking with NSubstitute.</summary>
-        /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)
         {
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-            fixture.Customizations.Insert(0, new SubstituteRequestHandler(new MethodInvoker(new NSubstituteMethodQuery())));
+            ISpecimenBuilder substituteBuilder = new SubstituteRequestHandler(
+                new MethodInvoker(
+                    new NSubstituteMethodQuery()));
+
+            if (this.ConfigureMembers)
+            {
+                substituteBuilder = new Postprocessor(
+                    substituteBuilder,
+                    new CompositeSpecimenCommand(
+                        new NSubstituteRegisterCallHandlerCommand(SubstitutionContext.Current),
+                        new NSubstituteSealedPropertiesCommand()));
+            }
+
+            fixture.Customizations.Insert(0, substituteBuilder);
             fixture.Customizations.Insert(0, new SubstituteAttributeRelay());
-            fixture.ResidueCollectors.Add(this.Builder);
+            fixture.ResidueCollectors.Add(this.Relay);
+
+            if (this.GenerateDelegates)
+            {
+                fixture.Customizations.Add(new SubstituteRelay(new DelegateSpecification()));
+            }
         }
     }
 }

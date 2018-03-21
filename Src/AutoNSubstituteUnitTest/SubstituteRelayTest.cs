@@ -15,8 +15,30 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             // Arrange
             // Act
+            var sut = new SubstituteRelay();
             // Assert
-            Assert.True(typeof(ISpecimenBuilder).IsAssignableFrom(typeof(SubstituteRelay)));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+        }
+
+        [Fact]
+        public void DefaultSpecificationShouldBeValid()
+        {
+            // Arrange
+            // Act
+            var sut = new SubstituteRelay();
+            // Assert
+            Assert.IsType<AbstractTypeSpecification>(sut.Specification);
+        }
+
+        [Fact]
+        public void CustomSpecificationIsPreserved()
+        {
+            // Arrange
+            var specification = new TrueRequestSpecification();
+            // Act
+            var sut = new SubstituteRelay(specification);
+            // Assert
+            Assert.Same(specification, sut.Specification);
         }
 
         [Fact]
@@ -91,6 +113,21 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.Contains(request.FullName, e.Message);
             Assert.Contains(typeof(SubstituteRequestHandler).FullName, e.Message); 
             Assert.IsType<NotASubstituteException>(e.InnerException);
+        }
+
+        [Fact]
+        public void ShouldNotRelayRequestIfSpecificationDoesNotMatch()
+        {
+            // Arrange
+            var falseSpecification = new FalseRequestSpecification();
+            var sut = new SubstituteRelay(falseSpecification);
+            var request = typeof(IInterface);
+            var context = Substitute.For<ISpecimenContext>();
+
+            // Act
+            var result = sut.Create(request, context);
+            // Assert
+            Assert.IsType<NoSpecimen>(result);
         }
     }
 }
