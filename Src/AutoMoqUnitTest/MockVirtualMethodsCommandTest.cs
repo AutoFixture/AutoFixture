@@ -302,6 +302,22 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void IgnoresPropertiesWithGettersAndSettersFromInheritedInterface()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var mock = new Mock<IDerivedInterfaceWithProperty>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Act
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Assert
+            var result = mock.Object;
+            Assert.Null(result.Property);
+            Assert.Null(result.SecondProperty);
+        }
+
+        [Fact]
         public void IgnoresVirtualPropertiesWithGettersAndSetters()
         {
             // Arrange

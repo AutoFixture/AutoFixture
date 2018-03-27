@@ -113,6 +113,7 @@ namespace AutoFixture.AutoMoq
         private static IEnumerable<MethodInfo> GetConfigurableMethods(Type type)
         {
             IEnumerable<MethodInfo> methods;
+           
             if (DelegateSpecification.IsSatisfiedBy(type))
                 // If "type" is a delegate, return "Invoke" method only and skip the rest of the methods.
                 methods = new[] { type.GetTypeInfo().GetMethod("Invoke") };
@@ -125,13 +126,27 @@ namespace AutoFixture.AutoMoq
 
             // Skip properties that have both getters and setters to not interfere
             // with other post-processors in the chain that initialize them later.
-            var getMethods = type.GetProperties()
-                                    .Where(p => p.GetGetMethod() != null &&
-                                                p.GetSetMethod() != null)
-                                    .Select(p => p.GetGetMethod());
-            methods = methods.Except(getMethods);
+            methods = RemoveGetterSetterMethods(type, methods);
 
             return methods.Where(CanBeConfigured);
+        }
+
+        private static IEnumerable<MethodInfo> RemoveGetterSetterMethods(Type type, IEnumerable<MethodInfo> methods)
+        {
+            var getterSetterMethods = GetProperties(type)
+                .Where(p => p.GetGetMethod() != null &&
+                            p.GetSetMethod() != null)
+                .Select(p => p.GetGetMethod());
+            methods = methods.Except(getterSetterMethods);
+            return methods;
+        }
+
+        private static IEnumerable<PropertyInfo> GetProperties(Type type)
+        {
+            if (type.GetTypeInfo().IsInterface)
+                return type.GetInterfaceProperties();
+            
+            return type.GetProperties();
         }
 
         /// <summary>
