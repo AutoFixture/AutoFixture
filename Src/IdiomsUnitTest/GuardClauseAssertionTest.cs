@@ -75,6 +75,7 @@ namespace AutoFixture.IdiomsUnitTest
             var composite = Assert.IsAssignableFrom<CompositeBehaviorExpectation>(result);
             Assert.True(composite.BehaviorExpectations.OfType<NullReferenceBehaviorExpectation>().Any());
             Assert.True(composite.BehaviorExpectations.OfType<EmptyGuidBehaviorExpectation>().Any());
+            Assert.True(composite.BehaviorExpectations.OfType<EmptyStringBehaviorExpectation>().Any());
         }
 
         [Fact]
@@ -1725,6 +1726,11 @@ namespace AutoFixture.IdiomsUnitTest
                 if (argument1 == null)
                 {
                     throw new ArgumentNullException(nameof(argument1));
+                }
+
+                if (argument1 == string.Empty)
+                {
+                    throw new ArgumentException(nameof(argument1));
                 }
 
                 argument2 = null;
