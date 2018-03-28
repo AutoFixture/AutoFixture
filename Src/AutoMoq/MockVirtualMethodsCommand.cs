@@ -126,29 +126,21 @@ namespace AutoFixture.AutoMoq
 
             // Skip properties that have both getters and setters to not interfere
             // with other post-processors in the chain that initialize them later.
-            methods = RemoveGetterSetterMethods(type, methods);
+            methods = SkipWritablePropertyGetters(type, methods);
 
             return methods.Where(CanBeConfigured);
         }
 
-        private static IEnumerable<MethodInfo> RemoveGetterSetterMethods(Type type, IEnumerable<MethodInfo> methods)
+        private static IEnumerable<MethodInfo> SkipWritablePropertyGetters(Type type, IEnumerable<MethodInfo> methods)
         {
-            var getterSetterMethods = GetProperties(type)
+            var getterSetterMethods = type.GetAllProperties()
                 .Where(p => p.GetGetMethod() != null &&
                             p.GetSetMethod() != null)
                 .Select(p => p.GetGetMethod());
             methods = methods.Except(getterSetterMethods);
             return methods;
         }
-
-        private static IEnumerable<PropertyInfo> GetProperties(Type type)
-        {
-            if (type.GetTypeInfo().IsInterface)
-                return type.GetInterfaceProperties();
-            
-            return type.GetProperties();
-        }
-
+        
         /// <summary>
         /// Determines whether a method can be mocked.
         /// </summary>

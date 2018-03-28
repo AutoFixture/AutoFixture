@@ -24,11 +24,11 @@ namespace AutoFixture.AutoMoq.Extensions
         /// </summary>
         /// <param name="type">An interface type.</param>
         /// <returns>A collection of all properties declared by the interface <paramref name="type"/> or any of its base interfaces.</returns>
-        internal static IEnumerable<PropertyInfo> GetInterfaceProperties(this Type type)
+        internal static IEnumerable<PropertyInfo> GetAllProperties(this Type type)
         {
             return type.GetProperties().Concat(
                 type.GetInterfaces()
                     .SelectMany(@interface => @interface.GetProperties()));
-        }
+        }        
     }
 }
