@@ -166,8 +166,22 @@ namespace AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Act
             var result = fixture.Create<IDerivedInterface>();
+            
             // Assert
             Assert.Same(frozenString, result.Method());
+        }
+
+        [Fact]
+        public void WithConfigureMembers_PropertiesFromBaseInterfacesIsSetupLikeRealProperty()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization { ConfigureMembers = true });
+            var expected = fixture.Create<string>();
+            // Act
+            var result = fixture.Create<IDerivedInterfaceOfDerivedInterfaceWithProperty>();
+            result.Property = expected;
+            // Assert
+            Assert.Same(expected, result.Property);
         }
 
         [Fact]
