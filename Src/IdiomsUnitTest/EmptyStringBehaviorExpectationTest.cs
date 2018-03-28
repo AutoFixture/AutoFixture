@@ -56,24 +56,23 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifyCorrectlyInvokesExecuteWhenRequestedTypeIsString()
         {
             // Arrange
-            var mockVerified = false;
+            var capturedValue = false;
+            var createdException = new Exception();
             var mockCommand = new DelegatingGuardClauseCommand
             {
-                OnExecute = v => mockVerified = string.Empty.Equals(v),
-                OnCreateException = v => new InvalidOperationException(),
+                OnExecute = v => capturedValue = string.Empty.Equals(v),
+                OnCreateException = v => createdException,
                 RequestedType = typeof(string)
             };
 
             var sut = new EmptyStringBehaviorExpectation();
 
-            // Act
-            try
-            {
-                sut.Verify(mockCommand);
-            }
-            catch (InvalidOperationException) { }
             // Assert
-            Assert.True(mockVerified);
+            var ex = Assert.Throws<Exception>(() => 
+                sut.Verify(mockCommand));
+
+            Assert.Same(createdException, ex);
+            Assert.True(capturedValue);
         }
 
         [Fact]
@@ -102,7 +101,7 @@ namespace AutoFixture.IdiomsUnitTest
             var cmd = new DelegatingGuardClauseCommand
             {
                 OnExecute = v => { throw expectedInner; },
-                OnCreateExceptionWithInner = (v, e) => v == "\"string.Empty\"" && expectedInner.Equals(e) ? expected : new Exception(),
+                OnCreateExceptionWithInner = (v, e) => v == "<empty string>" && expectedInner.Equals(e) ? expected : new Exception(),
                 RequestedType = typeof(string)
             };
             var sut = new EmptyStringBehaviorExpectation();
@@ -120,7 +119,7 @@ namespace AutoFixture.IdiomsUnitTest
             var expected = new Exception();
             var cmd = new DelegatingGuardClauseCommand
             {
-                OnCreateException = v => v == "\"string.Empty\"" ? expected : new Exception(),
+                OnCreateException = v => v == "<empty string>" ? expected : new Exception(),
                 RequestedType = typeof(string)
             };
             var sut = new EmptyStringBehaviorExpectation();

@@ -40,10 +40,10 @@ namespace AutoFixture.Idioms
             }
             catch (Exception e)
             {
-                throw command.CreateException("\"string.Empty\"", e);
+                throw command.CreateException("<empty string>", e);
             }
 
-            throw command.CreateException("\"string.Empty\"");
+            throw command.CreateException("<empty string>");
         }
     }
 }

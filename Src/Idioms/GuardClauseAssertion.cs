@@ -32,8 +32,7 @@ namespace AutoFixture.Idioms
         public GuardClauseAssertion(ISpecimenBuilder builder)
             : this(builder, new CompositeBehaviorExpectation(
                 new NullReferenceBehaviorExpectation(),
-                new EmptyGuidBehaviorExpectation(),
-                new EmptyStringBehaviorExpectation()))
+                new EmptyGuidBehaviorExpectation()))
         {
         }
 
