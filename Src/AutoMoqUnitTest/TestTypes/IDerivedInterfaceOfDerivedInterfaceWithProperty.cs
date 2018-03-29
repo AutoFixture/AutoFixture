@@ -2,6 +2,6 @@
 {
     public interface IDerivedInterfaceOfDerivedInterfaceWithProperty : IDerivedInterfaceWithProperty
     {
-        string ThirdProperty { get; set; }
+        string DerivedDerivedProperty { get; set; }
     }
 }

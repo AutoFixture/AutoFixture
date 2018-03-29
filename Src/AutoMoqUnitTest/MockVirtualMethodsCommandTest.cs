@@ -321,7 +321,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         {
             // Arrange
             var fixture = new Fixture();
-            var mock = new Mock<IDerivedInterfaceWithProperty>();
+            var mock = new Mock<IDerivedInterfaceOfDerivedInterfaceWithProperty>();
 
             var sut = new MockVirtualMethodsCommand();
             // Act
@@ -329,7 +329,8 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Assert
             var result = mock.Object;
             Assert.Null(result.Property);
-            Assert.Null(result.SecondProperty);
+            Assert.Null(result.DerivedProperty);
+            Assert.Null(result.DerivedDerivedProperty);
         }
 
         [Fact]

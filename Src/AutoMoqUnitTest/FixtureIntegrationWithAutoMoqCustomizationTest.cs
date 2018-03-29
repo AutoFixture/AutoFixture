@@ -166,7 +166,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Act
             var result = fixture.Create<IDerivedInterface>();
-            
             // Assert
             Assert.Same(frozenString, result.Method());
         }
@@ -180,8 +179,10 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             var result = fixture.Create<IDerivedInterfaceOfDerivedInterfaceWithProperty>();
             result.Property = expected;
+            result.DerivedProperty = expected;
             // Assert
             Assert.Same(expected, result.Property);
+            Assert.Same(expected, result.DerivedProperty);
         }
 
         [Fact]

@@ -8,27 +8,31 @@ namespace AutoFixture.AutoMoq.Extensions
     internal static class TypeExtensions
     {
         /// <summary>
-        /// Gets a collection of all methods declared by the interface <paramref name="type"/> or any of its base interfaces.
+        /// Gets a collection of all methods declared by the type or any of its base interfaces.
         /// </summary>
-        /// <param name="type">An interface type.</param>
-        /// <returns>A collection of all methods declared by the interface <paramref name="type"/> or any of its base interfaces.</returns>
-        internal static IEnumerable<MethodInfo> GetInterfaceMethods(this Type type)
+        internal static IEnumerable<MethodInfo> GetAllMethods(this Type type)
         {
-            return type.GetMethods().Concat(
-                type.GetInterfaces()
-                    .SelectMany(@interface => @interface.GetMethods()));
+            IEnumerable<MethodInfo> result = type.GetMethods();
+            
+            // If "type" is an interface, "GetMethods" does not return methods declared on other interfaces extended by "type".
+            if (type.GetTypeInfo().IsInterface)
+                result = result.Concat(type.GetInterfaces().SelectMany(x => x.GetMethods()));
+
+            return result;
         }
 
         /// <summary>
-        /// Gets a collection of all properties declared by the interface <paramref name="type"/> or any of its base interfaces.
+        /// Gets a collection of all properties declared by the type or any of its base interfaces.
         /// </summary>
-        /// <param name="type">An interface type.</param>
-        /// <returns>A collection of all properties declared by the interface <paramref name="type"/> or any of its base interfaces.</returns>
         internal static IEnumerable<PropertyInfo> GetAllProperties(this Type type)
         {
-            return type.GetProperties().Concat(
-                type.GetInterfaces()
-                    .SelectMany(@interface => @interface.GetProperties()));
+            IEnumerable<PropertyInfo> result = type.GetProperties();
+            
+            // If "type" is an interface, "GetProperties" does not return methods declared on other interfaces extended by "type".
+            if (type.GetTypeInfo().IsInterface)
+                result = result.Concat(type.GetInterfaces().SelectMany(x => x.GetProperties()));
+
+            return result;
         }        
     }
 }
