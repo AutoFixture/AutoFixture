@@ -34,9 +34,11 @@ namespace AutoFixture.Idioms
             {
                 command.Execute(string.Empty);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                return;
+                if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
+                    return;
+                throw command.CreateException("<empty string>", e);
             }
             catch (Exception e)
             {

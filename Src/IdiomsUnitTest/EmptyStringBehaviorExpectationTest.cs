@@ -129,5 +129,20 @@ namespace AutoFixture.IdiomsUnitTest
                 sut.Verify(cmd));
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("invalidParamName")]
+        public void VerifyThrowsWhenCommandThrowsArgumentNullExceptionWithInvalidParamName(string invalidParamName)
+        {
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnExecute = v => { throw new ArgumentException("Invalid parameter", invalidParamName); },
+                RequestedType = typeof(string)
+            };
+            var sut = new EmptyStringBehaviorExpectation();
+            Assert.Throws<Exception>(() =>
+                sut.Verify(cmd));
+        }
     }
 }
