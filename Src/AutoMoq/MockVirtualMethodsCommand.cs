@@ -112,28 +112,28 @@ namespace AutoFixture.AutoMoq
         /// <param name="type">The type being mocked and whose methods need to be configured.</param>
         private static IEnumerable<MethodInfo> GetConfigurableMethods(Type type)
         {
-            IEnumerable<MethodInfo> methods;
-            if (DelegateSpecification.IsSatisfiedBy(type))
-                // If "type" is a delegate, return "Invoke" method only and skip the rest of the methods.
-                methods = new[] { type.GetTypeInfo().GetMethod("Invoke") };
-            else if (type.GetTypeInfo().IsInterface)
-                // If "type" is an interface, "GetMethods" does not return methods declared on other interfaces extended by "type".
-                // In these cases, we use the "GetInterfaceMethods" extension method instead.
-                methods = type.GetInterfaceMethods();
-            else
-                methods = type.GetMethods();
+            // If "type" is a delegate, return "Invoke" method only and skip the rest of the methods.
+            var methods = DelegateSpecification.IsSatisfiedBy(type)
+                ? new[] { type.GetTypeInfo().GetMethod("Invoke") }
+                : type.GetAllMethods();
 
             // Skip properties that have both getters and setters to not interfere
             // with other post-processors in the chain that initialize them later.
-            var getMethods = type.GetProperties()
-                                    .Where(p => p.GetGetMethod() != null &&
-                                                p.GetSetMethod() != null)
-                                    .Select(p => p.GetGetMethod());
-            methods = methods.Except(getMethods);
+            methods = SkipWritablePropertyGetters(type, methods);
 
             return methods.Where(CanBeConfigured);
         }
 
+        private static IEnumerable<MethodInfo> SkipWritablePropertyGetters(Type type, IEnumerable<MethodInfo> methods)
+        {
+            var getterMethods = type.GetAllProperties()
+                .Where(p => p.GetGetMethod() != null &&
+                            p.GetSetMethod() != null)
+                .Select(p => p.GetGetMethod());
+            
+            return methods.Except(getterMethods);
+        }
+        
         /// <summary>
         /// Determines whether a method can be mocked.
         /// </summary>
