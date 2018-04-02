@@ -40,11 +40,14 @@ namespace AutoFixture
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fixture"/> class with the supplied engine
-        /// parts.
+        /// Initializes a new instance of the <see cref="Fixture"/> class with the supplied engine parts.
         /// </summary>
         public Fixture(DefaultRelays engineParts)
-            : this(new CompositeSpecimenBuilder(engineParts), new MultipleRelay())
+            : this(
+                engineParts != null
+                    ? new CompositeSpecimenBuilder(engineParts)
+                    : throw new ArgumentNullException(nameof(engineParts)),
+                new MultipleRelay())
         {
         }
 

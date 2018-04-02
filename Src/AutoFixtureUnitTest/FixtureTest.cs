@@ -43,8 +43,9 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
+            var ex = Assert.Throws<ArgumentNullException>(() =>
                 new Fixture(null));
+            Assert.Equal("engineParts", ex.ParamName);
         }
 
         [Fact]
