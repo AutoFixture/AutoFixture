@@ -1838,5 +1838,44 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public abstract void Method(object arg);
         }
+
+        [Fact]
+        public void ClassWithEmptyStringGuardClauseDoesNotThrow()
+        {
+            // Arrange
+            var sut = new GuardClauseAssertion(new Fixture(), new EmptyStringBehaviorExpectation());
+            // Act
+            var exception = Record.Exception(() => sut.Verify(typeof(ClassWithEmptyStringGuard).GetConstructors()));
+            // Assert
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        public void ClassWithoutEmptyStringGuardThrows()
+        {
+            // Arrange
+            var sut = new GuardClauseAssertion(new Fixture(), new EmptyStringBehaviorExpectation());
+            // Act
+            var exception = Record.Exception(() => sut.Verify(typeof(ClassWihoutEmptyStringGuard).GetConstructors()));
+            // Assert
+            Assert.NotNull(exception);
+            Assert.IsType<GuardClauseException>(exception);
+        }
+
+        private class ClassWithEmptyStringGuard
+        {
+            public ClassWithEmptyStringGuard(string param)
+            {
+                if (param == string.Empty)
+                    throw new ArgumentNullOrEmptyException(nameof(param));
+            }
+        }
+
+        private class ClassWihoutEmptyStringGuard
+        {
+            public ClassWihoutEmptyStringGuard(string param)
+            {
+            }
+        }
     }
 }

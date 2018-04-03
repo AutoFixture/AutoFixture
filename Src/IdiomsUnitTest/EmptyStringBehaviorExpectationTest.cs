@@ -76,13 +76,14 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifySuccedsWhenCommandThrowsCorrectException()
+        public void VerifySucceedsWhenCommandThrowsCorrectException()
         {
             // Arrange
             var cmd = new DelegatingGuardClauseCommand
             {
-                OnExecute = v => { throw new ArgumentException(); },
-                RequestedType = typeof(string)
+                OnExecute = v => { throw new ArgumentNullOrEmptyException(string.Empty); },
+                RequestedType = typeof(string),
+                RequestedParameterName = string.Empty
             };
 
             var sut = new EmptyStringBehaviorExpectation();
@@ -137,7 +138,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             var cmd = new DelegatingGuardClauseCommand
             {
-                OnExecute = v => { throw new ArgumentException("Invalid parameter", invalidParamName); },
+                OnExecute = v => { throw new ArgumentNullOrEmptyException(invalidParamName); },
                 RequestedType = typeof(string)
             };
             var sut = new EmptyStringBehaviorExpectation();

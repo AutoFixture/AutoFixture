@@ -34,7 +34,7 @@ namespace AutoFixture.Idioms
             {
                 command.Execute(string.Empty);
             }
-            catch (ArgumentException e)
+            catch (ArgumentNullOrEmptyException e)
             {
                 if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
                     return;
