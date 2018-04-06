@@ -36,7 +36,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     /// <summary>
     /// <tt>Automaton</tt> state.

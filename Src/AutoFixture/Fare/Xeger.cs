@@ -20,7 +20,7 @@
 using System;
 using System.Text;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     /// <summary>
     /// An object that will generate text from a regular expression. In a way, 

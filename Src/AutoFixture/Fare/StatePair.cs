@@ -32,7 +32,7 @@
 
 using System;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     /// <summary>
     /// Pair of states.

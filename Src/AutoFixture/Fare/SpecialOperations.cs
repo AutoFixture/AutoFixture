@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     /// <summary>
     /// Special automata operations.

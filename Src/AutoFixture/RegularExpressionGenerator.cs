@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using AutoFixture.Fare;
 using AutoFixture.Kernel;
-using Fare;
 
 namespace AutoFixture
 {

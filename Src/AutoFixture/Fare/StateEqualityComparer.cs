@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     internal sealed class StateEqualityComparer : IEqualityComparer<State>
     {
