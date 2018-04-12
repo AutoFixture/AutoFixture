@@ -388,12 +388,13 @@ let anAppVeyorTrigger =
 
 // Print state info at the very beginning.
 if buildServer = BuildServer.AppVeyor 
-   then logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A"
+   then logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A, build version: '%s'"
               AppVeyorEnvironment.RepoTag 
               AppVeyorEnvironment.RepoTagName 
               AppVeyorEnvironment.IsPullRequest
               AppVeyorEnvironment.RepoBranch
               anAppVeyorTrigger
+              AppVeyorEnvironment.BuildVersion
 
 Target "AppVeyor_SetVNextVersion" (fun _ ->
     // vNext branch has the following name: "vX", where X is the next version.
@@ -421,7 +422,13 @@ Target "AppVeyor_UploadTestReports" (fun _ ->
 
 Target "AppVeyor" (fun _ ->
     // Artifacts might be deployable, so we update build version to find them later by file version.
-    if not AppVeyorEnvironment.IsPullRequest then UpdateBuildVersion buildVersion.fileVersion
+    let versionSuffix = if AppVeyorEnvironment.IsPullRequest then
+                            let appVeyorVersion = AppVeyorEnvironment.BuildVersion;
+                            appVeyorVersion.Substring(appVeyorVersion.IndexOf('-'))
+                        else
+                            ""
+
+    UpdateBuildVersion (buildVersion.fileVersion + versionSuffix)
 )
 
 "AppVeyor_SetVNextVersion" =?> ("PatchAssemblyVersions", anAppVeyorTrigger = VNextBranch)
