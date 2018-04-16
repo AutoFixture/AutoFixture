@@ -16,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\AutoFakeItEasyUnitTest\*.cs" Link="%(Filename)%(Extension)" />
+    <Compile Include="..\AutoFakeItEasyUnitTest\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Remove="..\AutoFakeItEasyUnitTest\obj\**" />
   </ItemGroup>
 
   <ItemGroup>

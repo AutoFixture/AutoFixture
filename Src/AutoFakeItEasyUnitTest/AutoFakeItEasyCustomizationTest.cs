@@ -63,6 +63,16 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 #endif
 
+        [Fact]
+        public void ConfigureMembersIsDisabledByDefault()
+        {
+            // Arrange
+            // Act
+            var sut = new AutoFakeItEasyCustomization();
+            // Assert
+            Assert.False(sut.ConfigureMembers);
+        }
+
         [Fact, Obsolete]
         public void SpecificationIsCorrectWhenInitializedWithRelay()
         {
