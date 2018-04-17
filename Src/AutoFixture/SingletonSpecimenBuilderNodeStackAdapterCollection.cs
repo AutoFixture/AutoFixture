@@ -71,7 +71,7 @@ namespace AutoFixture
             this.isWrappedGraph = wrappedGraphPredicate ?? throw new ArgumentNullException(nameof(wrappedGraphPredicate));
 
             foreach (var t in transformations)
-                base.Add(t);
+                this.Add(t);
         }
 
         /// <summary>
