@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     internal static class RegExpMatchingOptions
     {

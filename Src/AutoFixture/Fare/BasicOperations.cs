@@ -36,7 +36,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     internal static class BasicOperations
     {

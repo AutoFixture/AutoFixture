@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     [Flags]
     internal enum RegExpSyntaxOptions

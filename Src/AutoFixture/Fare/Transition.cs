@@ -34,7 +34,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     ///<summary>
     ///  <tt>Automaton</tt> transition. 

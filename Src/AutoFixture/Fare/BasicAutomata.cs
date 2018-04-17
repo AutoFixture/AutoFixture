@@ -36,7 +36,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider",
         Justification = "This code has been copied from another project and is used as-is.")]

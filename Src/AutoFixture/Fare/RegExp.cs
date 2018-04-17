@@ -37,7 +37,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Fare
+namespace AutoFixture.Fare
 {
     /// <summary>
     /// Regular Expression extension to Automaton.
