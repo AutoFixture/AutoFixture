@@ -38,3 +38,6 @@ nCrunchTemp_*
 
 # Temp build artifacts and tools
 /build/
+
+# VIM tmp files
+*.swp
