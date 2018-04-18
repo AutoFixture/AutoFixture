@@ -85,7 +85,6 @@ namespace AutoFixture
         /// a convention-based <see cref="ICustomization"/> is a better, more flexible option.
         /// </para>
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         ICustomizationComposer<T> Build<T>();
 
         /// <summary>
