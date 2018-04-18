@@ -4,7 +4,7 @@ root = true
 indent_size = 4
 indent_style = space
 
-[*.{sln,csproj,fsproj,config,xml}]
+[*.{sln,csproj,fsproj,config,xml,props}]
 indent_size = 2
 indent_style = space
 
