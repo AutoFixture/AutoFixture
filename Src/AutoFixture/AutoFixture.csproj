@@ -14,13 +14,11 @@
     <Description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</Description>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.5' ">
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
-    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+  <ItemGroup>
+    <PackageReference Include="Fare" Version="[2.1.1,3.0.0)" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" Condition=" '$(TargetFramework)'=='netstandard1.5' " />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" Condition=" '$(TargetFramework)'=='netstandard1.5' " />
+    <Reference Include="System.ComponentModel.DataAnnotations" Condition=" '$(TargetFramework)'=='net452' " />
   </ItemGroup>
 
   <ItemGroup>
