@@ -25,7 +25,6 @@ namespace AutoFixture
         /// </para>
         /// </remarks>
         /// <seealso cref="Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilder})"/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T Freeze<T>(this IFixture fixture)
         {
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));

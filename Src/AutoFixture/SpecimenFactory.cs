@@ -18,7 +18,6 @@ namespace AutoFixture
         /// <typeparam name="T">The type of object to create.</typeparam>
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T Create<T>(this ISpecimenContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -151,7 +150,6 @@ namespace AutoFixture
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -241,7 +239,6 @@ namespace AutoFixture
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, int count)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
