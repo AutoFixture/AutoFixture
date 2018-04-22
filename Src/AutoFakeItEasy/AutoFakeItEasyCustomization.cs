@@ -91,11 +91,18 @@ namespace AutoFixture.AutoFakeItEasy
                 fixture.Customizations.Add(new FakeItEasyRelay(new DelegateSpecification()));
             }
 
-            fixture.Customizations.Add(
-                new FakeItEasyBuilder(
-                    new MethodInvoker(
-                        new FakeItEasyMethodQuery())));
-            fixture.ResidueCollectors.Add(this.Relay);
+            ISpecimenBuilder fakeBuilder = new FakeItEasyBuilder(new MethodInvoker(new FakeItEasyMethodQuery()));
+
+            if (this.ConfigureMembers)
+            {
+                fakeBuilder = new Postprocessor(
+                    builder: fakeBuilder,
+                    command: new CompositeSpecimenCommand(
+                        new ConfigureSealedMembersCommand(),
+                        new ConfigureFakeMembersCommand()));
+            }
+
+            fixture.Customizations.Add(fakeBuilder); fixture.ResidueCollectors.Add(this.Relay);
         }
 
         private static void AssertFakeItEasyCanFakeDelegates()

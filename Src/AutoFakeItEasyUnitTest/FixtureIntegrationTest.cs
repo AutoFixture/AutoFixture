@@ -265,6 +265,32 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
+        public void WithConfigureMembers_OverridableIndexersReturnSameValueWhenPassedSameArguments()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<IInterfaceWithIndexer>();
+            // Act
+            var value1 = result[7];
+            var value2 = result[7];
+            // Assert
+            Assert.Equal(value1, value2);
+        }
+
+        [Fact]
+        public void WithConfigureMembers_OverridableIndexersReturnDifferentValueWhenPassedDifferentArguments()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<IInterfaceWithIndexer>();
+            // Act
+            var value1 = result[7];
+            var value2 = result[8];
+            // Assert
+            Assert.NotEqual(value1, value2);
+        }
+
+        [Fact]
         public void WithConfigureMembers_VirtualMembersReturnValueFromFixture()
         {
             // Arrange
@@ -317,7 +343,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
-        public void WithConfigureMembers_OverridablePropertiesAreSetUsingFixture()
+        public void WithConfigureMembers_OverridablePropertiesReturnValueFromFixture()
         {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
@@ -326,6 +352,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var result = fixture.Create<IInterfaceWithProperty>();
             // Assert
             Assert.Equal(frozenString, result.Property);
+            A.CallToSet(()=>result.Property).MustNotHaveHappened();
         }
 
         [Fact]
@@ -366,7 +393,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
-        public void WithConfigureMembers_RefMethodsAreIgnored()
+        public void WithConfigureMembers_MethodsWithRefParametersReturnValuesFromFixture()
         {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
@@ -377,12 +404,12 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
 
             string refResult = "";
             string returnValue = result.Method(ref refResult);
-            Assert.NotEqual(frozenString, refResult);
-            Assert.NotEqual(frozenString, returnValue);
+            Assert.Equal(frozenString, refResult);
+            Assert.Equal(frozenString, returnValue);
         }
 
         [Fact]
-        public void WithConfigureMembers_GenericMethodsAreIgnored()
+        public void WithConfigureMembers_GenericMethodsReturnValuesFromFixture()
         {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
@@ -391,7 +418,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             IInterfaceWithGenericMethod result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithGenericMethod>()));
 
-            Assert.NotEqual(frozenString, result.GenericMethod<string>());
+            Assert.Equal(frozenString, result.GenericMethod<string>());
         }
 
         [Fact]
@@ -464,12 +491,14 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
-        public void WithConfigureMembers_PropertiesWithCircularDependenciesAreNotAllowed()
+        public void WithConfigureMembers_PropertiesWithCircularDependenciesAreAllowed()
         {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
-            // Act & Assert
-            Assert.ThrowsAny<ObjectCreationException>(() => fixture.Create<IInterfaceWithPropertyWithCircularDependency>());
+            // Act
+            var result = fixture.Create<IInterfaceWithPropertyWithCircularDependency>();
+            // Assert
+            Assert.IsAssignableFrom<IInterfaceWithPropertyWithCircularDependency>(result);
         }
 
         [Fact]
@@ -509,7 +538,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
-        public void WithGenerateDelegateAndConfigureMembers_DelegatesWithRefMethodsAreNotConfigured()
+        public void WithGenerateDelegateAndConfigureMembers_DelegatesWithRefParametersAreConfigured()
         {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization
@@ -524,8 +553,8 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Assert
             int refResult = 0;
             string returnValue = fake.Invoke(ref refResult);
-            Assert.NotEqual(frozenInt, refResult);
-            Assert.NotEqual(frozenString, returnValue);
+            Assert.Equal(frozenInt, refResult);
+            Assert.Equal(frozenString, returnValue);
         }
 
         [Fact]
