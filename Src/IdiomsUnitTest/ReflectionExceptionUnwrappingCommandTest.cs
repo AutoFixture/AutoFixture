@@ -126,5 +126,24 @@ namespace AutoFixture.IdiomsUnitTest
             // Assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void CreateExceptionWithFailureReasonReturnsCorrectResult()
+        {
+            // Arrange
+            var value = Guid.NewGuid().ToString();
+            var failureReason = Guid.NewGuid().ToString();
+            var inner = new Exception();
+            var expected = new Exception();
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnCreateExceptionWithFailureReason = (v, r, e) => v == value && r == failureReason && e == inner ? expected : new Exception()
+            };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Act
+            var result = sut.CreateException(value, failureReason, inner);
+            // Assert
+            Assert.Equal(expected, result);
+        }
     }
 }

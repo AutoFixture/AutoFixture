@@ -160,6 +160,25 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Equal(inner, e.InnerException);
         }
 
+        [Fact]
+        public void CreateExceptionWithCustomFailureReasonReturnsExceptionWithCorrectMessageAndInner()
+        {
+            // Arrange
+            var dummyMethod = new DelegatingMethod();
+            var dummyExpansion = new DelegatingExpansion<object>();
+            var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
+            var inner = new Exception();
+            // Act
+            var dummyValue = "dummy value";
+            var failureReason = "MY_CUSTOM_MESSAGE";
+            var result = sut.CreateException(dummyValue, failureReason, inner);
+            // Assert
+            var ex = Assert.IsAssignableFrom<GuardClauseException>(result);
+            Assert.Contains(", and MY_CUSTOM_MESSAGE", ex.Message);
+            Assert.Equal(inner, ex.InnerException);
+        }
+
         private static ParameterInfo CreateAnonymousParameterInfo()
         {
             var parameter = (from m in typeof(object).GetMethods()

@@ -90,11 +90,29 @@ namespace AutoFixture.IdiomsUnitTest
         {
             var cmd = new DelegatingGuardClauseCommand
             {
-                OnExecute = v => { throw new ArgumentNullException(invalidParamName); }
+                OnExecute = v => throw new ArgumentNullException(invalidParamName)
             };
             var sut = new NullReferenceBehaviorExpectation();
             Assert.Throws<Exception>(() => 
                 sut.Verify(cmd));
+        }
+
+        [Fact]
+        public void VerifyThrowsWithCorrectMessageWhenCommandThrowsArgumentNullExceptionWithInvalidParamName()
+        {
+            // Arrange
+            var invalidParamName = "invalidParameterName";
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnExecute = v => throw new ArgumentNullException(invalidParamName),
+                OnCreateExceptionWithFailureReason = (v, r, ie) => new Exception(r, ie)
+            };
+            var sut = new NullReferenceBehaviorExpectation();
+            // Act & Assert
+            var ex = Assert.Throws<Exception>(() =>
+                sut.Verify(cmd));
+            Assert.Contains(invalidParamName, ex.Message);
+            Assert.Contains("Guard Clause", ex.Message);
         }
 
         [Fact]
@@ -105,7 +123,7 @@ namespace AutoFixture.IdiomsUnitTest
             var expected = new Exception();
             var cmd = new DelegatingGuardClauseCommand
             {
-                OnExecute = v => { throw expectedInner; },
+                OnExecute = v => throw expectedInner,
                 OnCreateExceptionWithInner = (v, e) => v == "null" && expectedInner.Equals(e) ? expected : new Exception()
             };
             var sut = new NullReferenceBehaviorExpectation();

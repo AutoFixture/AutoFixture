@@ -376,20 +376,11 @@ See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
                 this.command = command;
             }
 
-            public Type RequestedType
-            {
-                get { return this.command.RequestedType; }
-            }
+            public Type RequestedType => this.command.RequestedType;
 
-            public string RequestedParameterName
-            {
-                get { return this.command.RequestedParameterName; }
-            }
+            public string RequestedParameterName => this.command.RequestedParameterName;
 
-            public void Execute(object value)
-            {
-                this.command.Execute(value);
-            }
+            public void Execute(object value) => this.command.Execute(value);
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture",
                 Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
@@ -401,10 +392,23 @@ See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
                 return new GuardClauseException(Message, e);
             }
 
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "github")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "github",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             public Exception CreateException(string value, Exception innerException)
             {
                 var e = this.command.CreateException(value, innerException);
+                return new GuardClauseException(Message, e);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "github",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            public Exception CreateException(string value, string customError, Exception innerException)
+            {
+                var e = this.command.CreateException(value, customError, innerException);
                 return new GuardClauseException(Message, e);
             }
         }
@@ -421,24 +425,18 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
                 this.command = command;
             }
 
-            public Type RequestedType
-            {
-                get { return this.command.RequestedType; }
-            }
+            public Type RequestedType => this.command.RequestedType;
 
-            public string RequestedParameterName
-            {
-                get { return this.command.RequestedParameterName; }
-            }
+            public string RequestedParameterName => this.command.RequestedParameterName;
 
-            public void Execute(object value)
-            {
-                this.command.Execute(value);
-            }
+            public void Execute(object value) => this.command.Execute(value);
 
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "codeblog", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "uk", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "jonskeet", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "codeblog",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "uk",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "jonskeet",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             public Exception CreateException(string value)
             {
                 var e = this.command.CreateException(value);
@@ -451,6 +449,15 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             public Exception CreateException(string value, Exception innerException)
             {
                 var e = this.command.CreateException(value, innerException);
+                return new GuardClauseException(Message, e);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "codeblog", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "uk", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "jonskeet", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            public Exception CreateException(string value, string customError, Exception innerException)
+            {
+                var e = this.command.CreateException(value, customError, innerException);
                 return new GuardClauseException(Message, e);
             }
         }
