@@ -1112,23 +1112,23 @@ namespace AutoFixture.IdiomsUnitTest
             var constructorInfo = typeof (NonProperlyGuardedClass).GetConstructors().Single();
 
             var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(constructorInfo));
-            Assert.Contains("Are you missing a Guard Clause?", exception.Message);
+            Assert.Contains("Guard Clause prevented it, however", exception.Message);
         }
 
         [Fact]
         public void VerifyNonProperlyGuardedPropertyThrowsException()
         {
             var sut = new GuardClauseAssertion(new Fixture());
-            var propertyInfo = typeof(NonProperlyGuardedClass).GetProperty("Property");
+            var propertyInfo = typeof(NonProperlyGuardedClass).GetProperty(nameof(NonProperlyGuardedClass.Property));
 
             var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(propertyInfo));
-            Assert.Contains("Are you missing a Guard Clause?", exception.Message);
+            Assert.Contains("Guard Clause prevented it, however", exception.Message);
         }
 
         [Theory]
-        [InlineData("Method", "Are you missing a Guard Clause?")]
-        [InlineData("DeferredMethod", "deferred")]
-        [InlineData("AnotherDeferredMethod", "deferred")]
+        [InlineData(nameof(NonProperlyGuardedClass.Method), "Guard Clause prevented it, however")]
+        [InlineData(nameof(NonProperlyGuardedClass.DeferredMethod), "deferred")]
+        [InlineData(nameof(NonProperlyGuardedClass.AnotherDeferredMethod), "deferred")]
         public void VerifyNonProperlyGuardedMethodThrowsException(string methodName, string expectedMessage)
         {
             var sut = new GuardClauseAssertion(new Fixture());

@@ -63,7 +63,7 @@ namespace AutoFixture.Idioms
         public string RequestedParameterName => this.ParameterInfo.Name;
 
         /// <summary>
-        /// Invokes the mthod with the specified value.
+        /// Invokes the method with the specified value.
         /// </summary>
         /// <param name="value">The value with wich the method is executed.</param>
         /// <remarks>
@@ -77,47 +77,39 @@ namespace AutoFixture.Idioms
             this.Method.Invoke(this.Expansion.Expand(value));
         }
 
-        /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
-        /// </summary>
-        /// <param name="value">A string representation of the value.</param>
-        /// <returns>
-        /// An exception which communicates the cause of the error.
-        /// </returns>
+        /// <inheritdoc />
         public Exception CreateException(string value)
         {
             return new GuardClauseException(this.CreateExceptionMessage(value));
         }
 
-        /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
-        /// </summary>
-        /// <param name="value">A string representation of the value.</param>
-        /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        /// <returns>
-        /// An exception which communicates the cause of the error.
-        /// </returns>
+        /// <inheritdoc />
         public Exception CreateException(string value, Exception innerException)
         {
             return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
         }
 
-        private string CreateExceptionMessage(string value)
+        /// <inheritdoc />
+        public Exception CreateException(string value, string customError, Exception innerException)
+        {
+            return new GuardClauseException(this.CreateExceptionMessage(value, customError), innerException);
+        }
+
+        private string CreateExceptionMessage(string value,
+            string failureReason = "no Guard Clause prevented this. Are you missing a Guard Clause?")
         {
             return string.Format(CultureInfo.CurrentCulture,
-                "An attempt was made to assign the value {0} to the parameter \"{1}\" of the method \"{2}\", " +
-                "and no Guard Clause prevented this. Are you missing a Guard Clause? " +
-                "{7}Method Signature: {3}{7}Parameter Type: {4}{7}Declaring Type: {5}{7}Reflected Type: {6}",
+                "An attempt was made to assign the value {1} to the parameter \"{3}\" of the method \"{4}\", and {2}{0}" +
+                "Method Signature: {5}{0}Parameter Type: {6}{0}Declaring Type: {7}{0}Reflected Type: {8}",
+                Environment.NewLine,
                 value,
+                failureReason,
                 this.ParameterInfo.Name,
                 this.ParameterInfo.Member.Name,
                 this.ParameterInfo.Member,
                 this.ParameterInfo.ParameterType.AssemblyQualifiedName,
                 this.ParameterInfo.Member.DeclaringType.AssemblyQualifiedName,
-                this.ParameterInfo.Member.ReflectedType.AssemblyQualifiedName,
-                Environment.NewLine);
+                this.ParameterInfo.Member.ReflectedType.AssemblyQualifiedName);
         }
     }
 }

@@ -130,5 +130,23 @@ namespace AutoFixture.IdiomsUnitTest
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(inner, e.InnerException);
         }
+
+        [Fact]
+        public void CreateExceptionWithCustomFailureReasonReturnsExceptionWithCorrectMessageAndInner()
+        {
+            // Arrange
+            var dummyOwner = new PropertyHolder<string>();
+            var dummyProperty = dummyOwner.GetType().GetProperty("Property");
+            var inner = new Exception();
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner);
+            // Act
+            var dummyValue = "dummy value";
+            var failureReason = "MY_CUSTOM_MESSAGE";
+            var result = sut.CreateException(dummyValue, failureReason, inner);
+            // Assert
+            var ex = Assert.IsAssignableFrom<GuardClauseException>(result);
+            Assert.Contains("to the property Property, and MY_CUSTOM_MESSAGE", ex.Message);
+            Assert.Equal(inner, ex.InnerException);
+        }
     }
 }

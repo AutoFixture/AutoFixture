@@ -24,26 +24,10 @@ namespace AutoFixture.Idioms
         /// </summary>
         public IGuardClauseCommand Command { get; }
 
-        /// <summary>
-        /// Gets the type of the requested value.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The return value is the return value of the decorated <see cref="Command" /> instance's
-        /// <see cref="IGuardClauseCommand.RequestedType" /> property.
-        /// </para>
-        /// </remarks>
+        /// <inheritdoc />
         public Type RequestedType => this.Command.RequestedType;
 
-        /// <summary>
-        /// Gets the parameter name of the requested value.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The return value is the return value of the decorated <see cref="Command" /> instance's
-        /// <see cref="IGuardClauseCommand.RequestedParameterName" /> property.
-        /// </para>
-        /// </remarks>
+        /// <inheritdoc />
         public string RequestedParameterName => this.Command.RequestedParameterName;
 
         /// <summary>
@@ -64,31 +48,22 @@ namespace AutoFixture.Idioms
             }
         }
 
-        /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
-        /// </summary>
-        /// <param name="value">A string representation of the value.</param>
-        /// <returns>
-        /// The exception created by the decorated <see cref="Command" />.
-        /// </returns>
+        /// <inheritdoc />
         public Exception CreateException(string value)
         {
             return this.Command.CreateException(value);
         }
 
-        /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
-        /// </summary>
-        /// <param name="value">A string representation of the value.</param>
-        /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        /// <returns>
-        /// The exception created by the decorated <see cref="Command" />.
-        /// </returns>
+        /// <inheritdoc />
         public Exception CreateException(string value, Exception innerException)
         {
             return this.Command.CreateException(value, innerException);
+        }
+
+        /// <inheritdoc />
+        public Exception CreateException(string value, string customError, Exception innerException)
+        {
+            return this.Command.CreateException(value, customError, innerException);
         }
     }
 }

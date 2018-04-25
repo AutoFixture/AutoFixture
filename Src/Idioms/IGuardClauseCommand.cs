@@ -43,15 +43,13 @@ namespace AutoFixture.Idioms
         /// <remarks>
         /// <para>
         /// The <paramref name="value" /> is expected to be compatible with
-        /// <see cref="RequestedType" />. It should be possible to cast the value to the requested
-        /// type.
+        /// <see cref="RequestedType" />. It should be possible to cast the value to the requested type.
         /// </para>
         /// </remarks>
         void Execute(object value);
 
         /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
+        /// Creates an exception which communicates that an error occured for a specific input value.
         /// </summary>
         /// <param name="value">A string representation of the value.</param>
         /// <returns>An exception which communicates the cause of the error.</returns>
@@ -59,29 +57,41 @@ namespace AutoFixture.Idioms
         /// <para>
         /// The <paramref name="value" /> is a string representation of the value supplied to the
         /// <see cref="Execute" /> method. Together with the context contained within any
-        /// implementation of <see cref="IGuardClauseCommand" /> this value can be used to build an
-        /// exception message.
+        /// implementation of <see cref="IGuardClauseCommand" /> this value can be used to build an exception message.
         /// </para>
         /// </remarks>
         Exception CreateException(string value);
 
         /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
+        /// Creates an exception which communicates that an error occured for a specific input value.
         /// </summary>
         /// <param name="value">A string representation of the value.</param>
-        /// <param name="innerException">
-        /// The exception that is the cause of the current exception.
-        /// </param>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
         /// <returns>An exception which communicates the cause of the error.</returns>
         /// <remarks>
         /// <para>
         /// The <paramref name="value" /> is a string representation of the value supplied to the
         /// <see cref="Execute" /> method. Together with the context contained within any
-        /// implementation of <see cref="IGuardClauseCommand" /> this value can be used to build an
-        /// exception message.
+        /// implementation of <see cref="IGuardClauseCommand" /> this value can be used to build an exception message.
         /// </para>
         /// </remarks>
         Exception CreateException(string value, Exception innerException);
+
+        /// <summary>
+        /// Creates an exception which communicates that an error occured for a specific input value.
+        /// </summary>
+        /// <param name="value">A string representation of the value.</param>
+        /// <param name="customError">A custom explanation of the guard clause failure.</param>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        /// <returns>An exception which communicates the cause of the error.</returns>
+        /// <remarks>
+        /// <para>
+        /// The <paramref name="value" /> is a string representation of the value supplied to the
+        /// <see cref="Execute" /> method. Together with the passed <paramref name="customError"/> and context
+        /// contained within any implementation of <see cref="IGuardClauseCommand" /> this value can be used to
+        /// build an exception message.
+        /// </para>
+        /// </remarks>
+        Exception CreateException(string value, string customError, Exception innerException);
     }
 }

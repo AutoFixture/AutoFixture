@@ -48,7 +48,6 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public Type RequestedType => this.PropertyInfo.PropertyType;
 
-
         /// <summary>
         /// Gets the parameter name of the requested value.
         /// </summary>
@@ -58,13 +57,10 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public string RequestedParameterName => "value";
 
-        /// <summary>
-        /// Executes the action with the specified value.
-        /// </summary>
-        /// <param name="value">The value with wich the action is executed.</param>
+        /// <inheritdoc />
         /// <remarks>
         /// <para>
-        /// Assigns <paramref name="value" /> to the <see cref="PropertyInfo" />.
+        /// Assigns <paramref name="value" /> to the <see cref="AutoFixture.Idioms.PropertySetCommand.PropertyInfo" />.
         /// </para>
         /// </remarks>
         public void Execute(object value)
@@ -72,44 +68,37 @@ namespace AutoFixture.Idioms
             this.PropertyInfo.SetValue(this.Owner, value, null);
         }
 
-        /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
-        /// </summary>
-        /// <param name="value">A string representation of the value.</param>
-        /// <returns>
-        /// An exception which communicates the cause of the error.
-        /// </returns>
+        /// <inheritdoc />
         public Exception CreateException(string value)
         {
             return new GuardClauseException(this.CreateExceptionMessage(value));
         }
 
-        /// <summary>
-        /// Creates an exception which communicates that an error occured for a specific input
-        /// value.
-        /// </summary>
-        /// <param name="value">A string representation of the value.</param>
-        /// <param name="innerException">The exception that is the cause of the current exception.</param>
-        /// <returns>
-        /// An exception which communicates the cause of the error.
-        /// </returns>
+        /// <inheritdoc />
         public Exception CreateException(string value, Exception innerException)
         {
             return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
         }
 
-        private string CreateExceptionMessage(string value)
+        /// <inheritdoc />
+        public Exception CreateException(string value, string customError, Exception innerException)
+        {
+            return new GuardClauseException(this.CreateExceptionMessage(value, customError), innerException);
+        }
+
+        private string CreateExceptionMessage(string value,
+            string failureReason = "no Guard Clause prevented this. Are you missing a Guard Clause?")
         {
             return string.Format(CultureInfo.CurrentCulture,
-                "An attempt was made to assign the value {0} to the property {1}, and no Guard Clause prevented this. " +
-                "Are you missing a Guard Clause?{5}Property Type: {2}{5}Declaring Type: {3}{5}Reflected Type: {4}",
+                "An attempt was made to assign the value {1} to the property {3}, and {2}{0}" +
+                "Property Type: {4}{0}Declaring Type: {5}{0}Reflected Type: {6}",
+                Environment.NewLine,
                 value,
+                failureReason,
                 this.PropertyInfo.Name,
                 this.PropertyInfo.PropertyType.AssemblyQualifiedName,
                 this.PropertyInfo.DeclaringType.AssemblyQualifiedName,
-                this.PropertyInfo.ReflectedType.AssemblyQualifiedName,
-                Environment.NewLine);
+                this.PropertyInfo.ReflectedType.AssemblyQualifiedName);
         }
     }
 }
