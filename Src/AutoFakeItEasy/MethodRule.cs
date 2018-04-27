@@ -21,15 +21,16 @@ namespace AutoFixture.AutoFakeItEasy
 
         public bool IsApplicableTo(IFakeObjectCall fakeObjectCall) => true;
 
-        public void Apply(IInterceptedFakeObjectCall fakeObjectCall)
+        public void Apply(IInterceptedFakeObjectCall interceptedFakeObjectCall)
         {
-            if (fakeObjectCall == null) throw new ArgumentNullException(nameof(fakeObjectCall));
+            if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
+            var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
             SetReturnValue(fakeObjectCall);
             SetOutAndRefValues(fakeObjectCall);
         }
 
-        private void SetReturnValue(IInterceptedFakeObjectCall fakeObjectCall)
+        private void SetReturnValue(FakeObjectCall fakeObjectCall)
         {
             var methodReturnType = fakeObjectCall.Method.ReturnType;
             if (methodReturnType != typeof(void))
@@ -39,7 +40,7 @@ namespace AutoFixture.AutoFakeItEasy
             }
         }
 
-        private void SetOutAndRefValues(IInterceptedFakeObjectCall fakeObjectCall)
+        private void SetOutAndRefValues(FakeObjectCall fakeObjectCall)
         {
             var parameters = fakeObjectCall.Method.GetParameters();
             for (int i = 0; i < parameters.Length; i++)

@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy", "AutoFakeI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy2", "AutoFakeItEasy2\AutoFakeItEasy2.csproj", "{68A3F347-7D9D-4020-A3D5-F127234DD429}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasyUnitTest", "AutoFakeItEasyUnitTest\AutoFakeItEasyUnitTest.csproj", "{E5CAB3E1-10DD-4081-A5FF-ED8A11F3C2CB}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit2", "AutoFixture.NUnit2\AutoFixture.NUnit2.csproj", "{786AFDB3-B705-49DD-A565-34F44A4A2DAD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit2.UnitTest", "AutoFixture.NUnit2.UnitTest\AutoFixture.NUnit2.UnitTest.csproj", "{5CACC229-A5EF-4683-A846-D59230284D66}"

@@ -33,10 +33,11 @@ namespace AutoFixture.AutoFakeItEasy
             return fakeObjectCall != null && IsProperty(fakeObjectCall.Method);
         }
 
-        public void Apply(IInterceptedFakeObjectCall fakeObjectCall)
+        public void Apply(IInterceptedFakeObjectCall interceptedfakeObjectCall)
         {
-            if (fakeObjectCall == null) throw new ArgumentNullException(nameof(fakeObjectCall));
+            if (interceptedfakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedfakeObjectCall));
 
+            var fakeObjectCall = new FakeObjectCall(interceptedfakeObjectCall);
             var propertyCall = new PropertyCall(fakeObjectCall);
             var methodReturnType = fakeObjectCall.Method.ReturnType;
             if (IsSetter(fakeObjectCall))
@@ -56,7 +57,7 @@ namespace AutoFixture.AutoFakeItEasy
             method.IsSpecialName && (method.Name.StartsWith("get_", StringComparison.Ordinal) ||
                                      method.Name.StartsWith("set_", StringComparison.Ordinal));
 
-        private static bool IsSetter(IFakeObjectCall fakeObjectCall) =>
+        private static bool IsSetter(FakeObjectCall fakeObjectCall) =>
             fakeObjectCall.Method.ReturnType == typeof(void);
 
         private class PropertyCall
@@ -65,7 +66,7 @@ namespace AutoFixture.AutoFakeItEasy
             private readonly IList<Type> argumentTypes;
             private readonly IList<object> arguments;
 
-            public PropertyCall(IFakeObjectCall fakeCall)
+            public PropertyCall(FakeObjectCall fakeCall)
             {
                 this.methodName = fakeCall.Method.Name.Substring(4);
                 var numberOfArguments = fakeCall.Arguments.Count();
@@ -117,7 +118,7 @@ namespace AutoFixture.AutoFakeItEasy
                 this.returnValue = returnValue;
             }
 
-            public void ApplyToCall(IInterceptedFakeObjectCall fakeObjectCall)
+            public void ApplyToCall(FakeObjectCall fakeObjectCall)
             {
                 fakeObjectCall.SetReturnValue(this.returnValue);
             }

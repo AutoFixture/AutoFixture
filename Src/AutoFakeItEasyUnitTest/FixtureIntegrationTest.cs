@@ -352,7 +352,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var result = fixture.Create<IInterfaceWithProperty>();
             // Assert
             Assert.Equal(frozenString, result.Property);
-            A.CallToSet(()=>result.Property).MustNotHaveHappened();
+#if HAS_A_CALL_TO_SET
+            A.CallToSet(() => result.Property).MustNotHaveHappened();
+#endif
         }
 
         [Fact]
@@ -501,6 +503,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             Assert.IsAssignableFrom<IInterfaceWithPropertyWithCircularDependency>(result);
         }
 
+#if CAN_FAKE_DELEGATES
         [Fact]
         public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForRegularMethod()
         {
@@ -573,6 +576,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Assert
             Assert.Equal(frozenString, callResult);
         }
+#endif
 
         public delegate string RegularDelegate(short s, byte b);
         public delegate string DelegateWithRef(ref int arg);
