@@ -102,7 +102,8 @@ namespace AutoFixture.AutoFakeItEasy
                         new ConfigureFakeMembersCommand()));
             }
 
-            fixture.Customizations.Add(fakeBuilder); fixture.ResidueCollectors.Add(this.Relay);
+            fixture.Customizations.Add(fakeBuilder);
+            fixture.ResidueCollectors.Add(this.Relay);
         }
 
         private static void AssertFakeItEasyCanFakeDelegates()

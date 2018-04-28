@@ -343,6 +343,22 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
+        public void WithConfigureMembers_ExplicitlyImplementedPropertyReturnsDefaultValue()
+        {
+            // Members that explicitly implement interface members do not appear as public, so will not be
+            // configured by ConfigureMembers, and FakeItEasy does not intercept them either, so the default
+            // behavior will always be in place.
+
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<Fake<TypeWithExplicitlyImplementedProperty>>();
+            // Act
+            IInterfaceWithProperty interfaceWithProperty = result.FakedObject;
+            // Assert
+            Assert.Equal(default(string), interfaceWithProperty.Property);
+        }
+
+        [Fact]
         public void WithConfigureMembers_OverridablePropertiesReturnValueFromFixture()
         {
             // Arrange
@@ -352,10 +368,20 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var result = fixture.Create<IInterfaceWithProperty>();
             // Assert
             Assert.Equal(frozenString, result.Property);
-#if HAS_A_CALL_TO_SET
-            A.CallToSet(() => result.Property).MustNotHaveHappened();
-#endif
         }
+
+#if HAS_A_CALL_TO_SET_SPECIFIER
+        [Fact]
+        public void WithConfigureMembers_VirtualPropertyShouldNotBeMarkedAsCalled()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            // Act
+            var result = fixture.Create<IInterfaceWithProperty>();
+            // Assert
+            A.CallToSet(() => result.Property).MustNotHaveHappened();
+        }
+#endif
 
         [Fact]
         public void WithConfigureMembers_OverridablePropertiesAreStubbed()
@@ -387,9 +413,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            Fake<TypeWithSealedMembers> result = null;
-            Assert.Null(Record.Exception(() => result = fixture.Create<Fake<TypeWithSealedMembers>>()));
+            // Act
+            var result = fixture.Create<Fake<TypeWithSealedMembers>>();
+            // Assert
             Assert.NotEqual(frozenString, result.FakedObject.ImplicitlySealedMethod());
             Assert.NotEqual(frozenString, result.FakedObject.ExplicitlySealedMethod());
         }
@@ -400,10 +426,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            IInterfaceWithRefMethod result = null;
-            Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithRefMethod>()));
-
+            // Act
+            var result = fixture.Create<IInterfaceWithRefMethod>();
+            // Assert
             string refResult = "";
             string returnValue = result.Method(ref refResult);
             Assert.Equal(frozenString, refResult);
@@ -416,10 +441,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            IInterfaceWithGenericMethod result = null;
-            Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithGenericMethod>()));
-
+            // Act
+            var result = fixture.Create<IInterfaceWithGenericMethod>();
+            // Assert
             Assert.Equal(frozenString, result.GenericMethod<string>());
         }
 
@@ -428,9 +452,11 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
-            fixture.Freeze<string>();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => fixture.Create<Fake<TypeWithStaticMethod>>()));
+            var frozenString = fixture.Freeze<string>();
+            // Act
+            fixture.Create<Fake<TypeWithStaticMethod>>();
+            // Assert
+            Assert.NotEqual(frozenString, TypeWithStaticMethod.StaticMethod());
         }
 
         [Fact]
@@ -439,8 +465,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => fixture.Create<Fake<TypeWithStaticProperty>>()));
+            // Act
+            fixture.Create<Fake<TypeWithStaticProperty>>();
+            // Assert
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
 
@@ -450,10 +477,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            Fake<TypeWithPrivateField> result = null;
-            Assert.Null(Record.Exception(() => result = fixture.Create<Fake<TypeWithPrivateField>>()));
-
+            // Act
+            var result = fixture.Create<Fake<TypeWithPrivateField>>();
+            // Assert
             Assert.NotEqual(frozenString, result.FakedObject.GetPrivateField());
         }
 
@@ -463,10 +489,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            Fake<TypeWithReadonlyField> result = null;
-            Assert.Null(Record.Exception(() => result = fixture.Create<Fake<TypeWithReadonlyField>>()));
-
+            // Act
+            var result = fixture.Create<Fake<TypeWithReadonlyField>>();
+            // Assert
             Assert.NotEqual(frozenString, result.FakedObject.ReadonlyField);
         }
 
@@ -476,8 +501,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => fixture.Create<Fake<TypeWithConstField>>()));
+            // Act
+            fixture.Create<Fake<TypeWithConstField>>();
+            // Assert
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
 
@@ -487,8 +513,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
             var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => fixture.Create<Fake<TypeWithStaticField>>()));
+            // Act
+            fixture.Create<Fake<TypeWithStaticField>>();
+            // Assert
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
 
@@ -501,6 +528,20 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var result = fixture.Create<IInterfaceWithPropertyWithCircularDependency>();
             // Assert
             Assert.IsAssignableFrom<IInterfaceWithPropertyWithCircularDependency>(result);
+        }
+
+        [Fact]
+        public void WithConfigureMembers_VirtualMemberConfiguredToCallBaseMethodReturnsValueFromBaseMethod()
+        {
+            // Arrange
+            var expectedValue = new TypeWithVirtualMembers().VirtualMethod();
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<Fake<TypeWithVirtualMembers>>();
+            A.CallTo(() => result.FakedObject.VirtualMethod()).CallsBaseMethod();
+            // Act
+            // Assert
+            var virtualMethodReturnValue = result.FakedObject.VirtualMethod();
+            Assert.Equal(expectedValue, virtualMethodReturnValue);
         }
 
 #if CAN_FAKE_DELEGATES

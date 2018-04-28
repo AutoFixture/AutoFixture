@@ -142,12 +142,31 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var residueCollectors = new List<ISpecimenBuilder>();
             var fixtureStub = new Fake<IFixture>();
             fixtureStub.CallsTo(c => c.ResidueCollectors).Returns(residueCollectors);
-            
+
             var sut = new AutoFakeItEasyCustomization();
             // Act
             sut.Customize(fixtureStub.FakedObject);
             // Assert
             Assert.Contains(sut.Relay, residueCollectors);
+        }
+
+        [Fact]
+        public void WithConfigureMembers_CustomizeAddsPostprocessorWithFakeBuilderAndCommandsToCustomizations()
+        {
+            // Arrange
+            var fixtureStub = new FixtureStub();
+            var sut = new AutoFakeItEasyCustomization { ConfigureMembers = true };
+            // Act
+            sut.Customize(fixtureStub);
+            // Assert
+            var postprocessor = fixtureStub.Customizations.OfType<Postprocessor>().Single();
+            var fakeItEasyBuilder = Assert.IsAssignableFrom<FakeItEasyBuilder>(postprocessor.Builder);
+            var methodInvoker = Assert.IsAssignableFrom<MethodInvoker>(fakeItEasyBuilder.Builder);
+            Assert.IsAssignableFrom<FakeItEasyMethodQuery>(methodInvoker.Query);
+
+            var compositeCommand = Assert.IsAssignableFrom<CompositeSpecimenCommand>(postprocessor.Command);
+            Assert.Contains(compositeCommand.Commands, command => command is ConfigureSealedMembersCommand);
+            Assert.Contains(compositeCommand.Commands, command => command is ConfigureFakeMembersCommand);
         }
     }
 }

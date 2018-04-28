@@ -19,7 +19,7 @@ namespace AutoFixture.AutoFakeItEasy
     ///  - interface's methods/properties; 
     ///  - class's abstract/virtual/overridden/non-sealed methods/properties. 
     /// </remarks>     
-    internal class ConfigureFakeMembersCommand : ISpecimenCommand
+    public class ConfigureFakeMembersCommand : ISpecimenCommand
     {
         /// <summary> 
         /// Sets up a Fake's members so that the return, out, and ref values will be retrieved

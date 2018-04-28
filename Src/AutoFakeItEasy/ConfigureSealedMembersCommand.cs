@@ -7,7 +7,7 @@ namespace AutoFixture.AutoFakeItEasy
     /// <summary>
     /// A command that populates all public writable sealed properties/fields of a Fake with anonymous values.
     /// </summary>
-    internal class ConfigureSealedMembersCommand : ISpecimenCommand
+    public class ConfigureSealedMembersCommand : ISpecimenCommand
     {
         private readonly ISpecimenCommand autoPropertiesCommand =
             new AutoPropertiesCommand(new FieldOrSealedPropertySpecification());
@@ -37,27 +37,27 @@ namespace AutoFixture.AutoFakeItEasy
         {
             public bool IsSatisfiedBy(object request)
             {
-                return (request is FieldInfo fi && !IsProxyMember(fi)) || 
-                    (request is PropertyInfo pi && IsSealed(pi));
+                switch (request)
+                {
+                    case FieldInfo fi:
+                        return !IsProxyMember(fi);
+                    case PropertyInfo pi:
+                        return IsSealed(pi);
+                    default:
+                        return false;
+                }
             }
 
             private static bool IsSealed(PropertyInfo pi)
             {
                 var setMethod = pi.GetSetMethod();
-                return setMethod != null && (IsExplicitlySealed(setMethod) || !setMethod.IsVirtual);
+                return setMethod != null && (setMethod.IsFinal || !setMethod.IsVirtual);
             }
 
             private static bool IsProxyMember(FieldInfo fi)
             {
                 // DynamicProxy adds a special field that must remain intact
                 return fi.Name.Equals("__interceptors", StringComparison.Ordinal);
-            }
-
-            private static bool IsExplicitlySealed(MethodInfo setMethod)
-            {
-                if (!setMethod.IsFinal) return false;
-                var explicitImplementation = setMethod.Name.Contains(".");
-                return !explicitImplementation;
             }
         }
     }

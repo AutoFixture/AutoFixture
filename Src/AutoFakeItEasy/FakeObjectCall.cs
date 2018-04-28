@@ -8,13 +8,17 @@ namespace AutoFixture.AutoFakeItEasy
     using System.Globalization;
 
     /// <summary>
-    /// A bridge class, required because the classes the represent a fake object call in 
+    /// A bridge class, required because the types representing fake object calls in 
     /// 1.7.4109.1 (which the .NET Framework version of AutoFixture.AutoFakeItEasy is compiled against)
-    /// differs from that in 2.0.0+ in ways that prevent us from using it directly.
+    /// differ from those in 2.0.0+ in ways that prevent us from using them directly.
     /// If ever support for FakeItEasy versions below 2.0.0 is dropped, this class may be removed.
     /// </summary>
     internal class FakeObjectCall
     {
+        private const string SetReturnValueMethodName = "SetReturnValue";
+        private const string SetArgumentValueMethodName = "SetArgumentValue";
+        private const string ArgumentsPropertyName = "Arguments";
+
         private readonly IFakeObjectCall wrappedCall;
 
         public FakeObjectCall(IFakeObjectCall wrappedCall)
@@ -24,15 +28,15 @@ namespace AutoFixture.AutoFakeItEasy
 
         public MethodInfo Method => this.wrappedCall.Method;
 
-        public IEnumerable<object> Arguments => (IEnumerable<object>)InvokeWrappedPropertyGetter(nameof(Arguments));
+        public IEnumerable<object> Arguments => (IEnumerable<object>)InvokeWrappedPropertyGetter(ArgumentsPropertyName);
 
         public void SetReturnValue(object value)
         {
-            InvokeWrappedMethod(nameof(SetReturnValue), value);
+            InvokeWrappedMethod(SetReturnValueMethodName, value);
         }
 
         public void SetArgumentValue(int index, object value) =>
-            InvokeWrappedMethod(nameof(SetArgumentValue), index, value);
+            InvokeWrappedMethod(SetArgumentValueMethodName, index, value);
         
 
         private object InvokeWrappedPropertyGetter(string propertyName)

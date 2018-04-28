@@ -26,18 +26,34 @@ namespace AutoFixture.AutoFakeItEasy
             this.context = context;
         }
 
-        public int? NumberOfTimesToCall { get; } = null;
+        /// <summary>
+        /// Gets the number of times this call rule is valid.
+        /// </summary>
+        /// <returns><c>null</c>, indicating that the rule has no expiration.</returns>
+        public int? NumberOfTimesToCall => null;
 
+        /// <summary>
+        /// Gets whether this rule is applicable to the specified
+        /// call. If <c>true</c> is returned then <see cref="Apply" /> will be called.
+        /// </summary>
+        /// <param name="fakeObjectCall">The call to check for applicability.</param>
+        /// <returns><c>true</c> if the call is a call to a property.</returns>
         public bool IsApplicableTo(IFakeObjectCall fakeObjectCall)
         {
             return fakeObjectCall != null && IsProperty(fakeObjectCall.Method);
         }
 
-        public void Apply(IInterceptedFakeObjectCall interceptedfakeObjectCall)
+        /// <summary>
+        /// Applies an action to the call. If the call is a property setter, stores a value for later
+        /// calls to the getter. If a getter, sets the return value to the stored value (if no stored value,
+        /// obtains one and stores it first).
+        /// </summary>
+        /// <param name="interceptedFakeObjectCall">The call to apply the rule to.</param>
+        public void Apply(IInterceptedFakeObjectCall interceptedFakeObjectCall)
         {
-            if (interceptedfakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedfakeObjectCall));
+            if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
-            var fakeObjectCall = new FakeObjectCall(interceptedfakeObjectCall);
+            var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
             var propertyCall = new PropertyCall(fakeObjectCall);
             var methodReturnType = fakeObjectCall.Method.ReturnType;
             if (IsSetter(fakeObjectCall))
@@ -58,7 +74,8 @@ namespace AutoFixture.AutoFakeItEasy
                                      method.Name.StartsWith("set_", StringComparison.Ordinal));
 
         private static bool IsSetter(FakeObjectCall fakeObjectCall) =>
-            fakeObjectCall.Method.ReturnType == typeof(void);
+            fakeObjectCall.Method.IsSpecialName &&
+            fakeObjectCall.Method.Name.StartsWith("set_", StringComparison.Ordinal);
 
         private class PropertyCall
         {
@@ -95,14 +112,14 @@ namespace AutoFixture.AutoFakeItEasy
                 unchecked
                 {
                     var hashCode = -712421553;
-                    hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(this.methodName);
+                    hashCode = hashCode * -1521134295 + this.methodName.GetHashCode();
                     foreach (var argument in this.arguments)
                     {
                         hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(argument);
                     }
                     foreach (var argumentType in this.argumentTypes)
                     {
-                        hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(argumentType);
+                        hashCode = hashCode * -1521134295 + argumentType.GetHashCode();
                     }
                     return hashCode;
                 }
