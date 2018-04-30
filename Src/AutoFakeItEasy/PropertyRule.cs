@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AutoFixture.Kernel;
@@ -18,8 +17,8 @@ namespace AutoFixture.AutoFakeItEasy
     {
         private readonly ISpecimenContext context;
 
-        private readonly ConcurrentDictionary<PropertyCall, PropertyReturnValue> behaviors =
-            new ConcurrentDictionary<PropertyCall, PropertyReturnValue>();
+        private readonly ConcurrentDictionary<MethodCall, MethodCallResult> behaviors =
+            new ConcurrentDictionary<MethodCall, MethodCallResult>();
 
         public PropertyRule(ISpecimenContext context)
         {
@@ -54,17 +53,17 @@ namespace AutoFixture.AutoFakeItEasy
             if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
             var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
-            var propertyCall = new PropertyCall(fakeObjectCall);
+            var methodCall = CreateMethodCall(fakeObjectCall);
             var methodReturnType = fakeObjectCall.Method.ReturnType;
             if (IsSetter(fakeObjectCall))
             {
-                this.behaviors[propertyCall] = new PropertyReturnValue(fakeObjectCall.Arguments.Last());
+                this.behaviors[methodCall] = new MethodCallResult(fakeObjectCall.Arguments.Last());
             }
             else
             {
                 var returnValueAction = this.behaviors.GetOrAdd(
-                    propertyCall,
-                    _ => new PropertyReturnValue(this.context.Resolve(methodReturnType)));
+                    methodCall,
+                    _ => new MethodCallResult(this.context.Resolve(methodReturnType)));
                 returnValueAction.ApplyToCall(fakeObjectCall);
             }
         }
@@ -77,68 +76,20 @@ namespace AutoFixture.AutoFakeItEasy
             fakeObjectCall.Method.IsSpecialName &&
             fakeObjectCall.Method.Name.StartsWith("set_", StringComparison.Ordinal);
 
-        private class PropertyCall
+        private static MethodCall CreateMethodCall(FakeObjectCall fakeCall)
         {
-            private readonly string methodName;
-            private readonly IList<Type> argumentTypes;
-            private readonly IList<object> arguments;
-
-            public PropertyCall(FakeObjectCall fakeCall)
+            var methodName = fakeCall.Method.Name.Substring(4);
+            var numberOfArguments = fakeCall.Arguments.Count();
+            if (IsSetter(fakeCall))
             {
-                this.methodName = fakeCall.Method.Name.Substring(4);
-                var numberOfArguments = fakeCall.Arguments.Count();
-                if (IsSetter(fakeCall))
-                {
-                    --numberOfArguments;
-                }
-
-                this.arguments = fakeCall.Arguments.Take(numberOfArguments).ToList();
-                this.argumentTypes = fakeCall.Method.GetParameters()
-                    .Take(numberOfArguments)
-                    .Select(p => p.ParameterType)
-                    .ToList();
+                --numberOfArguments;
             }
 
-            public override bool Equals(object obj)
-            {
-                return obj is PropertyCall call &&
-                       this.methodName.Equals(call.methodName, StringComparison.Ordinal) &&
-                       this.argumentTypes.SequenceEqual(call.argumentTypes) &&
-                       this.arguments.SequenceEqual(call.arguments);
-            }
-
-            public override int GetHashCode()
-            {
-                unchecked
-                {
-                    var hashCode = -712421553;
-                    hashCode = hashCode * -1521134295 + this.methodName.GetHashCode();
-                    foreach (var argument in this.arguments)
-                    {
-                        hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(argument);
-                    }
-                    foreach (var argumentType in this.argumentTypes)
-                    {
-                        hashCode = hashCode * -1521134295 + argumentType.GetHashCode();
-                    }
-                    return hashCode;
-                }
-            }
-        }
-
-        private class PropertyReturnValue
-        {
-            private readonly object returnValue;
-
-            public PropertyReturnValue(object returnValue)
-            {
-                this.returnValue = returnValue;
-            }
-
-            public void ApplyToCall(FakeObjectCall fakeObjectCall)
-            {
-                fakeObjectCall.SetReturnValue(this.returnValue);
-            }
+            var arguments = fakeCall.Arguments.Take(numberOfArguments);
+            var parameterTypes = fakeCall.Method.GetParameters()
+                .Take(numberOfArguments)
+                .Select(p => p.ParameterType);
+            return new MethodCall(methodName, parameterTypes, arguments);
         }
     }
 }
