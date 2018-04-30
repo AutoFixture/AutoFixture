@@ -773,7 +773,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                     //If task cannot be dequeued - it was already executed.
                     if (this.TryDequeue(task))
                     {
-                        base.TryExecuteTask(task);
+                        this.TryExecuteTask(task);
                     }
                 });
             }
@@ -795,7 +795,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                     return false;
                 }
 
-                base.TryExecuteTask(task);
+                this.TryExecuteTask(task);
                 return true;
             }
 
@@ -840,7 +840,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             protected override void QueueTask(Task task)
             {
-                base.TryExecuteTask(task);
+                this.TryExecuteTask(task);
             }
 
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
