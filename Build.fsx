@@ -386,16 +386,6 @@ let anAppVeyorTrigger =
     | _, _, Some br when "v\d+" >** br -> VNextBranch
     | _                                -> Unknown
 
-// Print state info at the very beginning.
-if buildServer = BuildServer.AppVeyor 
-   then logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A, build version: '%s'"
-              AppVeyorEnvironment.RepoTag 
-              AppVeyorEnvironment.RepoTagName 
-              AppVeyorEnvironment.IsPullRequest
-              AppVeyorEnvironment.RepoBranch
-              anAppVeyorTrigger
-              AppVeyorEnvironment.BuildVersion
-
 Target "AppVeyor_SetVNextVersion" (fun _ ->
     // vNext branch has the following name: "vX", where X is the next version.
     AppVeyorEnvironment.RepoBranch.Substring(1) 
@@ -420,7 +410,7 @@ Target "AppVeyor_UploadTestReports" (fun _ ->
     |> ignore
 )
 
-Target "AppVeyor" (fun _ ->
+FinalTarget "AppVeyor_UpdateVersion" (fun _ ->
     // Artifacts might be deployable, so we update build version to find them later by file version.
     let versionSuffix = if AppVeyorEnvironment.IsPullRequest then
                             let appVeyorVersion = AppVeyorEnvironment.BuildVersion;
@@ -430,6 +420,8 @@ Target "AppVeyor" (fun _ ->
 
     UpdateBuildVersion (buildVersion.fileVersion + versionSuffix)
 )
+
+Target "AppVeyor" DoNothing
 
 "AppVeyor_SetVNextVersion" =?> ("PatchAssemblyVersions", anAppVeyorTrigger = VNextBranch)
 
@@ -444,6 +436,17 @@ dependency "AppVeyor" <| match anAppVeyorTrigger with
                          | PR | CustomTag | Unknown -> "CompleteBuild"
 "EnableSourceLinkGeneration" ==> "AppVeyor"
 "AppVeyor_UploadTestReports" ==> "AppVeyor"
+
+// Print state info at the very beginning.
+if buildServer = BuildServer.AppVeyor 
+   then logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A, build version: '%s'"
+              AppVeyorEnvironment.RepoTag 
+              AppVeyorEnvironment.RepoTagName 
+              AppVeyorEnvironment.IsPullRequest
+              AppVeyorEnvironment.RepoBranch
+              anAppVeyorTrigger
+              AppVeyorEnvironment.BuildVersion
+        ActivateFinalTarget "AppVeyor_UpdateVersion"
 
 // ========= ENTRY POINT =========
 RunTargetOrDefault "CompleteBuild"
