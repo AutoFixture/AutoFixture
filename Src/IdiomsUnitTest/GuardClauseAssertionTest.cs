@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using AutoFixture.Idioms;
 using AutoFixture.Kernel;
@@ -12,6 +15,8 @@ using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    [SuppressMessage("ReSharper", "UnusedParameter.Local")]
     public class GuardClauseAssertionTest
     {
         [Fact]
@@ -105,7 +110,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var fixture = new Fixture();
             var owner = fixture.Freeze<PropertyHolder<Version>>(c => c.OmitAutoProperties());
-            var value = fixture.Freeze<Version>();
+            fixture.Freeze<Version>();
 
             var property = owner.GetType().GetProperty("Property");
 
@@ -137,11 +142,11 @@ namespace AutoFixture.IdiomsUnitTest
                 sut.Verify((MethodInfo)null));
         }
 
-        [Theory, ClassData(typeof(MethodData))]
-        public void VerifyMethodInvokesBehaviorExpectationWithCorrectMethod(Type ownerType, int methodIndex)
+        [Theory, MemberData(nameof(MethodData))]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectMethod(MemberRef<MethodInfo> methodRef)
         {
             // Arrange
-            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var method = methodRef.Member;
             var parameters = method.GetParameters();
 
             var expectation = new DelegatingBehaviorExpectation
@@ -153,7 +158,7 @@ namespace AutoFixture.IdiomsUnitTest
 
                     var instanceMethod = Assert.IsAssignableFrom<InstanceMethod>(methodCmd.Method);
                     Assert.Equal(method, instanceMethod.Method);
-                    Assert.IsAssignableFrom(ownerType, instanceMethod.Owner);
+                    Assert.IsAssignableFrom(method.DeclaringType, instanceMethod.Owner);
                     Assert.True(parameters.SequenceEqual(instanceMethod.Parameters));
                 }
             };
@@ -164,11 +169,11 @@ namespace AutoFixture.IdiomsUnitTest
             // Assert (done by mock)
         }
 
-        [Theory, ClassData(typeof(MethodData))]
-        public void VerifyMethodInvokesBehaviorExpectationWithCorrectReplacementIndices(Type ownerType, int methodIndex)
+        [Theory, MemberData(nameof(MethodData))]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectReplacementIndices(MemberRef<MethodInfo> methodRef)
         {
             // Arrange
-            var method = ownerType.GetMethods().Where(IsNotEqualsMethod).ElementAt(methodIndex);
+            var method = methodRef.Member;
             var parameters = method.GetParameters();
 
             var observedIndices = new List<int>();
@@ -188,15 +193,15 @@ namespace AutoFixture.IdiomsUnitTest
             // Act
             sut.Verify(method);
             // Assert
-            var expectedIndices = Enumerable.Range(0, parameters.Length);
-            Assert.True(expectedIndices.SequenceEqual(observedIndices));
+            var expectedIndices = Enumerable.Range(0, parameters.Length).ToArray();
+            Assert.Equal(expectedIndices, observedIndices);
         }
 
-        [Theory, ClassData(typeof(MethodData))]
-        public void VerifyMethodInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type ownerType, int methodIndex)
+        [Theory, MemberData(nameof(MethodData))]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectParametersForReplacement(MemberRef<MethodInfo> methodRef)
         {
             // Arrange
-            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var method = methodRef.Member;
             var parameters = method.GetParameters();
 
             var expectation = new DelegatingBehaviorExpectation
@@ -217,11 +222,11 @@ namespace AutoFixture.IdiomsUnitTest
             // Assert (done by mock)
         }
 
-        [Theory, ClassData(typeof(MethodData))]
-        public void VerifyMethodInvokesBehaviorExpectationWithCorrectParameterInfo(Type ownerType, int methodIndex)
+        [Theory, MemberData(nameof(MethodData))]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectParameterInfo(MemberRef<MethodInfo> methodRef)
         {
             // Arrange
-            var method = ownerType.GetMethods().Where(IsNotEqualsMethod).ElementAt(methodIndex);
+            var method = methodRef.Member;
             var parameters = method.GetParameters();
 
             var observedParameters = new List<ParameterInfo>();
@@ -240,7 +245,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Act
             sut.Verify(method);
             // Assert
-            Assert.True(parameters.SequenceEqual(observedParameters));
+            Assert.Equal(parameters, observedParameters);
         }
 
         [Theory]
@@ -263,11 +268,11 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.False(invoked);
         }
 
-        [Theory, ClassData(typeof(ConstructorData))]
-        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectMethod(Type type, int constructorIndex)
+        [Theory, MemberData(nameof(ConstructorData))]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectMethod(MemberRef<ConstructorInfo> ctorRef)
         {
             // Arrange
-            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var ctor = ctorRef.Member;
             var parameters = ctor.GetParameters();
 
             var expectation = new DelegatingBehaviorExpectation
@@ -289,11 +294,11 @@ namespace AutoFixture.IdiomsUnitTest
             // Assert (done by mock)
         }
 
-        [Theory, ClassData(typeof(ConstructorData))]
-        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectReplacementIndices(Type type, int constructorIndex)
+        [Theory, MemberData(nameof(ConstructorData))]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectReplacementIndices(MemberRef<ConstructorInfo> ctorRef)
         {
             // Arrange
-            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var ctor = ctorRef.Member;
             var parameters = ctor.GetParameters();
 
             var observedIndices = new List<int>();
@@ -313,15 +318,15 @@ namespace AutoFixture.IdiomsUnitTest
             // Act
             sut.Verify(ctor);
             // Assert
-            var expectedIndices = Enumerable.Range(0, parameters.Length);
-            Assert.True(expectedIndices.SequenceEqual(observedIndices));
+            var expectedIndices = Enumerable.Range(0, parameters.Length).ToArray();
+            Assert.Equal(expectedIndices, observedIndices);
         }
 
-        [Theory, ClassData(typeof(ConstructorData))]
-        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type type, int constructorIndex)
+        [Theory, MemberData(nameof(ConstructorData))]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParametersForReplacement(MemberRef<ConstructorInfo> ctorRef)
         {
             // Arrange
-            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var ctor = ctorRef.Member;
             var parameters = ctor.GetParameters();
 
             var expectation = new DelegatingBehaviorExpectation
@@ -342,11 +347,11 @@ namespace AutoFixture.IdiomsUnitTest
             // Assert (done by mock)
         }
 
-        [Theory, ClassData(typeof(ConstructorData))]
-        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParameterInfo(Type type, int constructorIndex)
+        [Theory, MemberData(nameof(ConstructorData))]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParameterInfo(MemberRef<ConstructorInfo> ctorRef)
         {
             // Arrange
-            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var ctor = ctorRef.Member;
             var parameters = ctor.GetParameters();
 
             var observedParameters = new List<ParameterInfo>();
@@ -365,65 +370,45 @@ namespace AutoFixture.IdiomsUnitTest
             // Act
             sut.Verify(ctor);
             // Assert
-            Assert.True(parameters.SequenceEqual(observedParameters));
+            Assert.Equal(parameters, observedParameters);
         }
 
-        private static bool IsNotEqualsMethod(MethodInfo method)
+
+        public static TheoryData<MemberRef<MethodInfo>> MethodData => new TheoryData<MemberRef<MethodInfo>>
         {
-            return method.Name != "Equals";
-        }
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeString)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeInt32)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeGuid)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeStringAndInt32)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeStringAndGuid)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeInt32AndGuid)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeStringAndInt32AndGuid)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ToString)),
+            MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.GetHashCode)),
+            MemberRef.MethodByIndex(typeof(Version), 0),
+            MemberRef.MethodByIndex(typeof(Version), 1),
+            MemberRef.MethodByIndex(typeof(Version), 2),
+            MemberRef.MethodByIndex(typeof(Version), 3),
+            MemberRef.MethodByIndex(typeof(Version), 4),
+            MemberRef.MethodByIndex(typeof(Version), 5),
+            MemberRef.MethodByIndex(typeof(Version), 6),
+            MemberRef.MethodByIndex(typeof(Version), 7),
+            MemberRef.MethodByIndex(typeof(Version), 8),
+            MemberRef.MethodByIndex(typeof(Version), 9),
+            MemberRef.MethodByIndex(typeof(Version), 10),
+        };
 
-        private class MethodData : IEnumerable<object[]>
+        public static TheoryData<MemberRef<ConstructorInfo>> ConstructorData => new TheoryData<MemberRef<ConstructorInfo>>
         {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new object[] { typeof(GuardedMethodHost), 0 };
-                yield return new object[] { typeof(GuardedMethodHost), 1 };
-                yield return new object[] { typeof(GuardedMethodHost), 2 };
-                yield return new object[] { typeof(GuardedMethodHost), 3 };
-                yield return new object[] { typeof(GuardedMethodHost), 4 };
-                yield return new object[] { typeof(GuardedMethodHost), 5 };
-                yield return new object[] { typeof(GuardedMethodHost), 6 };
-                yield return new object[] { typeof(GuardedMethodHost), 7 };
-                yield return new object[] { typeof(GuardedMethodHost), 8 };
-                yield return new object[] { typeof(Version), 0 };
-                yield return new object[] { typeof(Version), 1 };
-                yield return new object[] { typeof(Version), 2 };
-                yield return new object[] { typeof(Version), 3 };
-                yield return new object[] { typeof(Version), 4 };
-                yield return new object[] { typeof(Version), 5 };
-                yield return new object[] { typeof(Version), 6 };
-                yield return new object[] { typeof(Version), 7 };
-                yield return new object[] { typeof(Version), 8 };
-                yield return new object[] { typeof(Version), 9 };
-                yield return new object[] { typeof(Version), 10 };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        private class ConstructorData : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new object[] { typeof(GuardedConstructorHost<object>), 0 };
-                yield return new object[] { typeof(GuardedConstructorHost<string>), 0 };
-                yield return new object[] { typeof(GuardedConstructorHost<Version>), 0 };
-                yield return new object[] { typeof(ConcreteType), 0 };
-                yield return new object[] { typeof(ConcreteType), 1 };
-                yield return new object[] { typeof(ConcreteType), 2 };
-                yield return new object[] { typeof(ConcreteType), 3 };
-                yield return new object[] { typeof(ConcreteType), 4 };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
+            MemberRef.CtorByArgs(typeof(GuardedConstructorHost<object>), new[] { typeof(object) }),
+            MemberRef.CtorByArgs(typeof(GuardedConstructorHost<string>), new[] { typeof(string) }),
+            MemberRef.CtorByArgs(typeof(GuardedConstructorHost<Version>), new[] { typeof(Version) }),
+            MemberRef.CtorByArgs(typeof(ConcreteType), Type.EmptyTypes),
+            MemberRef.CtorByArgs(typeof(ConcreteType), new[] { typeof(object) }),
+            MemberRef.CtorByArgs(typeof(ConcreteType), new[] { typeof(object), typeof(object) }),
+            MemberRef.CtorByArgs(typeof(ConcreteType), new[] { typeof(object), typeof(object), typeof(object) }),
+            MemberRef.CtorByArgs(typeof(ConcreteType), new[] { typeof(object), typeof(object), typeof(object), typeof(object) })
+        };
 
         [Theory]
         [InlineData(typeof(ClassWithDeferredNullGuard))]
@@ -511,31 +496,31 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.DoesNotContain("deferred", e.Message);
         }
 
-        class ClassWithEnumerableNonDeferredIListMissingGuard
+        private class ClassWithEnumerableNonDeferredIListMissingGuard
         {
             public IList GetValues(string someString)
             {
-                return new System.Collections.ArrayList { someString, someString, someString };
+                return new ArrayList { someString, someString, someString };
             }
         }
 
-        class ClassWithEnumerableNonDeferredArrayListMissingGuard
+        private class ClassWithEnumerableNonDeferredArrayListMissingGuard
         {
-            public System.Collections.ArrayList GetValues(string someString)
+            public ArrayList GetValues(string someString)
             {
-                return new System.Collections.ArrayList { someString, someString, someString };
+                return new ArrayList { someString, someString, someString };
             }
         }
 
-        class ClassWithEnumerableNonDeferredStackMissingGuard
+        private class ClassWithEnumerableNonDeferredStackMissingGuard
         {
-            public System.Collections.Stack GetValues(string someString)
+            public Stack GetValues(string someString)
             {
-                return new System.Collections.Stack(new[] { someString, someString, someString });
+                return new Stack(new[] { someString, someString, someString });
             }
         }
 
-        class ClassWithEnumerableNonDeferredReadOnlyCollectionBaseMissingGuard
+        private class ClassWithEnumerableNonDeferredReadOnlyCollectionBaseMissingGuard
         {
             class ReadOnlyCollection : ReadOnlyCollectionBase
             {
@@ -545,21 +530,21 @@ namespace AutoFixture.IdiomsUnitTest
                 }
             }
 
-            public System.Collections.ReadOnlyCollectionBase GetValues(string someString)
+            public ReadOnlyCollectionBase GetValues(string someString)
             {
-                return new ReadOnlyCollection(new[] { someString, someString, someString });
+                return new ReadOnlyCollection(someString, someString, someString);
             }
         }
 
-        class ClassWithEnumerableNonDeferredICollectionMissingGuard
+        private class ClassWithEnumerableNonDeferredICollectionMissingGuard
         {
             public ICollection GetValues(string someString)
             {
-                return new System.Collections.Stack(new[] { someString, someString });
+                return new Stack(new[] { someString, someString });
             }
         }
 
-        class ClassWithEnumerableNonDeferredIDictionaryMissingGuard
+        private class ClassWithEnumerableNonDeferredIDictionaryMissingGuard
         {
             public IDictionary GetValues(string someString)
             {
@@ -567,12 +552,12 @@ namespace AutoFixture.IdiomsUnitTest
                 {
                     { "uniqueKey1", someString },
                     { "uniqueKey2", someString },
-                    { "uniqueKey3", someString },
+                    { "uniqueKey3", someString }
                 };
             }
         }
 
-        class ClassWithEnumerableNonDeferredGenericICollectionMissingGuard
+        private class ClassWithEnumerableNonDeferredGenericICollectionMissingGuard
         {
             public ICollection<string> GetValues(string someString)
             {
@@ -580,19 +565,19 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ClassWithEnumerableNonDeferredGenericIDictionaryMissingGuard
+        private class ClassWithEnumerableNonDeferredGenericIDictionaryMissingGuard
         {
             public IDictionary<string, object> GetValues(string someString)
             {
                 return new Dictionary<string, object>
                 {
                     { "uniqueKey1", someString },
-                    { "uniqueKey2", someString },
+                    { "uniqueKey2", someString }
                 };
             }
         }
 
-        class ClassWithEnumerableNonDeferredGenericIListMissingGuard
+        private class ClassWithEnumerableNonDeferredGenericIListMissingGuard
         {
             public IList<string> GetValues(string someString)
             {
@@ -600,7 +585,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ClassWithEnumerableNonDeferredArraryMissingGuard
+        private class ClassWithEnumerableNonDeferredArraryMissingGuard
         {
             public string[] GetValues(string someString)
             {
@@ -608,7 +593,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ClassWithEnumerableNonDeferredGenericListMissingGuard
+        private class ClassWithEnumerableNonDeferredGenericListMissingGuard
         {
             public List<string> GetValues(string someString)
             {
@@ -616,7 +601,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ClassWithEnumerableNonDeferredGenericCollectionMissingGuard
+        private class ClassWithEnumerableNonDeferredGenericCollectionMissingGuard
         {
             public Collection<string> GetValues(string someString)
             {
@@ -624,7 +609,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ClassWithEnumerableNonDeferredGenericReadOnlyCollectionMissingGuard
+        private class ClassWithEnumerableNonDeferredGenericReadOnlyCollectionMissingGuard
         {
             public ReadOnlyCollection<string> GetValues(string someString)
             {
@@ -632,7 +617,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ClassWithEnumerableNonDeferredGenericDictionaryMissingGuard
+        private class ClassWithEnumerableNonDeferredGenericDictionaryMissingGuard
         {
             public Dictionary<string, string> GetValues(string someString)
             {
@@ -665,8 +650,8 @@ namespace AutoFixture.IdiomsUnitTest
                 Assert.ThrowsAny<GuardClauseException>(
                     () => sut.Verify(typeof(TypeWithMethodWithParameterWithoutImplementers)));
             Assert.Contains("parameter", e.Message, StringComparison.CurrentCultureIgnoreCase);
-            Assert.Contains("TypeWithMethodWithParameterWithoutImplementers", e.Message);
-            Assert.Contains("MethodWithParameterWithoutImplementers", e.Message);
+            Assert.Contains(nameof(TypeWithMethodWithParameterWithoutImplementers), e.Message);
+            Assert.Contains(nameof(TypeWithMethodWithParameterWithoutImplementers.MethodWithParameterWithoutImplementers), e.Message);
             Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
@@ -678,7 +663,7 @@ namespace AutoFixture.IdiomsUnitTest
             var e =
                 Assert.ThrowsAny<GuardClauseException>(
                     () => sut.Verify(typeof(TypeWithPropertyOfTypeWithoutImplementers)));
-            Assert.Contains("TypeWithPropertyOfTypeWithoutImplementers", e.Message);
+            Assert.Contains(nameof(TypeWithPropertyOfTypeWithoutImplementers), e.Message);
             Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
@@ -691,11 +676,9 @@ namespace AutoFixture.IdiomsUnitTest
                 Assert.ThrowsAny<GuardClauseException>(
                     () =>
                     sut.Verify(
-                        typeof(
-                        TypeWithPropertyOfTypeWithoutImplementersAndMethod)
-                        .GetMethod("Method")));
-            Assert.Contains(
-                "TypeWithPropertyOfTypeWithoutImplementersAndMethod", e.Message);
+                        typeof(TypeWithPropertyOfTypeWithoutImplementersAndMethod)
+                        .GetMethod(nameof(TypeWithPropertyOfTypeWithoutImplementersAndMethod.Method))));
+            Assert.Contains(nameof(TypeWithPropertyOfTypeWithoutImplementersAndMethod), e.Message);
             Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
@@ -708,11 +691,9 @@ namespace AutoFixture.IdiomsUnitTest
                 Assert.ThrowsAny<GuardClauseException>(
                     () =>
                     sut.Verify(
-                        typeof(
-                        TypeWithPropertyOfTypeWithoutImplementersAndMethod)
-                        .GetProperty("Property")));
-            Assert.Contains(
-                "TypeWithPropertyOfTypeWithoutImplementersAndMethod", e.Message);
+                        typeof(TypeWithPropertyOfTypeWithoutImplementersAndMethod)
+                        .GetProperty(nameof(TypeWithPropertyOfTypeWithoutImplementersAndMethod.Property))));
+            Assert.Contains(nameof(TypeWithPropertyOfTypeWithoutImplementersAndMethod), e.Message);
             Assert.IsAssignableFrom<ObjectCreationException>(e.InnerException);
         }
 
@@ -740,7 +721,7 @@ namespace AutoFixture.IdiomsUnitTest
                 Record.Exception(() =>
                 sut.Verify(
                     typeof(TypeWithPropertyOfTypeWithoutImplementers)
-                    .GetProperty("PropertyOfTypeWithoutImplementers"))));
+                    .GetProperty(nameof(TypeWithPropertyOfTypeWithoutImplementers.PropertyOfTypeWithoutImplementers)))));
         }
 
         private class TypeWithMethodWithParameterWithoutImplementers
@@ -753,16 +734,11 @@ namespace AutoFixture.IdiomsUnitTest
 
         private class TypeWithPropertyOfTypeWithoutImplementers
         {
-            private IHaveNoImplementers _propertyOfTypeWithoutImplementers;
+            private IHaveNoImplementers propertyOfTypeWithoutImplementers;
             public IHaveNoImplementers PropertyOfTypeWithoutImplementers
             {
-                get { return this._propertyOfTypeWithoutImplementers; }
-                set
-                {
-                    if(value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    this._propertyOfTypeWithoutImplementers = value;
-                }
+                get => this.propertyOfTypeWithoutImplementers;
+                set => this.propertyOfTypeWithoutImplementers = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -781,7 +757,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var staticProperty = typeof(StaticPropertyHolder<object>).GetProperty("Property");
+            var staticProperty = typeof(StaticPropertyHolder<object>).GetProperty(nameof(StaticPropertyHolder<object>.Property));
             Assert.NotNull(staticProperty);
             // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticProperty));
@@ -793,7 +769,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var staticProperty = typeof(UnguardedStaticPropertyOnStaticTypeHost).GetProperty("Property");
+            var staticProperty = typeof(UnguardedStaticPropertyOnStaticTypeHost).GetProperty(nameof(UnguardedStaticPropertyOnStaticTypeHost.Property));
             Assert.NotNull(staticProperty);
             // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticProperty));
@@ -805,7 +781,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var staticMethod = typeof(StaticPropertyHolder<object>).GetProperty("Property").GetSetMethod();
+            var staticMethod = typeof(StaticPropertyHolder<object>).GetProperty(nameof(StaticPropertyHolder<object>.Property)).GetSetMethod();
             Assert.NotNull(staticMethod);
             // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
@@ -817,7 +793,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            var staticMethod = typeof(UnguardedStaticMethodOnStaticTypeHost).GetMethod("Method");
+            var staticMethod = typeof(UnguardedStaticMethodOnStaticTypeHost).GetMethod(nameof(UnguardedStaticMethodOnStaticTypeHost.Method));
             Assert.NotNull(staticMethod);
             // Act & Assert
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
@@ -833,44 +809,44 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Null(Record.Exception(() => sut.Verify(staticMethods)));
         }
 
-        [Theory]
-        [ClassData(typeof(ConstructorDataOnGuardedGeneric))]
-        public void VerifyConstructorOnGuardedGenericDoesNotThrow(ConstructorInfo constructorInfo)
+        [Theory, MemberData(nameof(ConstructorsOnGuardedOpenGenericTypes))]
+        public void VerifyConstructorOnGuardedGenericDoesNotThrow(MemberRef<ConstructorInfo> ctorRef)
         {
             // Arrange
+            var constructor = ctorRef.Member;
             var sut = new GuardClauseAssertion(new Fixture());
             // Act
             // Assert
-            Assert.Null(Record.Exception(() => sut.Verify(constructorInfo)));
+            Assert.Null(Record.Exception(() => sut.Verify(constructor)));
         }
 
-        [Theory]
-        [ClassData(typeof(PropertyDataOnGuardedGeneric))]
-        public void VerifyPropertyOnGuardedGenericDoesNotThrow(PropertyInfo propertyInfo)
+        [Theory, MemberData(nameof(PropertiesOnGuardedOpenGenericTypes))]
+        public void VerifyPropertyOnGuardedGenericDoesNotThrow(MemberRef<PropertyInfo> propertyRef)
         {
             // Arrange
+            var propertyInfo = propertyRef.Member;
             var sut = new GuardClauseAssertion(new Fixture());
             // Act
             // Assert
             Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
         }
 
-        [Theory]
-        [ClassData(typeof(MethodDataOnGuardedGeneric))]
-        public void VerifyMethodOnGuardedGenericDoesNotThrow(MethodInfo methodInfo)
+        [Theory, MemberData(nameof(MethodsOnGuardedOpenGenericTypes))]
+        public void VerifyMethodOnGuardedGenericDoesNotThrow(MemberRef<MethodInfo> methodRef)
         {
             // Arrange
+            var methodInfo = methodRef.Member;
             var sut = new GuardClauseAssertion(new Fixture());
             // Act
             // Assert
             Assert.Null(Record.Exception(() => sut.Verify(methodInfo)));
         }
 
-        [Theory]
-        [ClassData(typeof(ConstructorDataOnUnguardedGeneric))]
-        public void VerifyConstructorOnUnguardedGenericThrows(ConstructorInfo constructorInfo)
+        [Theory, MemberData(nameof(ConstructorsOnUnguardedOpenGenericTypes))]
+        public void VerifyConstructorOnUnguardedGenericThrows(MemberRef<ConstructorInfo> ctorRef)
         {
             // Arrange
+            var constructorInfo = ctorRef.Member;
             var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
             // Act
             // Assert
@@ -878,11 +854,11 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
 
-        [Theory]
-        [ClassData(typeof(PropertyDataOnUnguardedGeneric))]
-        public void VerifyPropertyOnUnguardedGenericThrows(PropertyInfo propertyInfo)
+        [Theory, MemberData(nameof(PropertiesOnUnguardedOpenGenericTypes))]
+        public void VerifyPropertyOnUnguardedGenericThrows(MemberRef<PropertyInfo> propertyRef)
         {
             // Arrange
+            var propertyInfo = propertyRef.Member;
             var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
             // Act
             // Assert
@@ -890,11 +866,11 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
 
-        [Theory]
-        [ClassData(typeof(MethodDataOnUnguardedGeneric))]
-        public void VerifyMethodOnUnguardedGenericThrows(MethodInfo methodInfo)
+        [Theory, MemberData(nameof(MethodsOnUnguardedOpenGenericTypes))]
+        public void VerifyMethodOnUnguardedGenericThrows(MemberRef<MethodInfo> methodRef)
         {
             // Arrange
+            var methodInfo = methodRef.Member;
             var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
             // Act
             // Assert
@@ -907,7 +883,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             var sut = new GuardClauseAssertion(new Fixture());
-            MethodInfo methodInfo = typeof(NoContraint<>).GetMethod("Method");
+            MethodInfo methodInfo = typeof(NoContraint<>).GetMethod(nameof(NoContraint<object>.Method));
 
             var assembliesBefore = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -927,7 +903,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             bool mockVerification = false;
-            var behaviorExpectation = new DelegatingBehaviorExpectation()
+            var behaviorExpectation = new DelegatingBehaviorExpectation
             {
                 OnVerify = c =>
                 {
@@ -1064,20 +1040,18 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Null(Record.Exception(() => sut.Verify(theMethod)));
         }
 
-        class AsyncHost
+        private class AsyncHost
         {
             public Task<string> TaskOfTWithCorrectGuardClause(object obj)
             {
-                if (obj == null)
-                    throw new ArgumentNullException(nameof(obj));
+                if (obj == null) throw new ArgumentNullException(nameof(obj));
 
                 return Task.Run(() => obj.ToString());
             }
             
             public Task TaskWithCorrectGuardClause(object obj)
             {
-                if (obj == null)
-                    throw new ArgumentNullException(nameof(obj));
+                if (obj == null) throw new ArgumentNullException(nameof(obj));
 
                 return Task.Run(() => obj.ToString());
             }
@@ -1086,8 +1060,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 return Task.Run(() =>
                 {
-                    if (obj == null)
-                        throw new ArgumentNullException(nameof(obj));
+                    if (obj == null) throw new ArgumentNullException(nameof(obj));
 
                     return obj.ToString();
                 });
@@ -1138,141 +1111,72 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Contains(expectedMessage, exception.Message);
         }
 
-        private class GuardedGenericData : IEnumerable<Type>
+        private static Type[] GuardedOpenGenericTypes => new[]
         {
-            public IEnumerator<Type> GetEnumerator()
-            {
-                yield return typeof(NoContraint<>);
-                yield return typeof(InterfacesContraint<>);
-                yield return typeof(StructureAndInterfacesContraint<>);
-                yield return typeof(ParameterizedConstructorTestConstraint<>);
-                yield return typeof(UnclosedGenericMethodTestType<>);
-                yield return typeof(NestedGenericParameterTestType<,>);
-            }
+            typeof(NoContraint<>),
+            typeof(InterfacesContraint<>),
+            typeof(StructureAndInterfacesContraint<>),
+            typeof(ParameterizedConstructorTestConstraint<>),
+            typeof(UnclosedGenericMethodTestType<>),
+            typeof(NestedGenericParameterTestType<,>)
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
+        };
 
-        private class UnguardedGenericData : IEnumerable<Type>
+        public static TheoryData<MemberRef<ConstructorInfo>> ConstructorsOnGuardedOpenGenericTypes =>
+            MakeTheoryData(
+                GuardedOpenGenericTypes
+                    .SelectMany(t => t.GetConstructors())
+                    .Select(c => new MemberRef<ConstructorInfo>(c)));
+
+        public static TheoryData<MemberRef<MethodInfo>> MethodsOnGuardedOpenGenericTypes =>
+            MakeTheoryData(
+                GuardedOpenGenericTypes
+                    .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+                    // Skip getters and setters
+                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
+                    .Select(m => new MemberRef<MethodInfo>(m)));
+
+        public static TheoryData<MemberRef<PropertyInfo>> PropertiesOnGuardedOpenGenericTypes =>
+            MakeTheoryData(
+                GuardedOpenGenericTypes
+                    .SelectMany(t => t.GetProperties())
+                    .Select(c => new MemberRef<PropertyInfo>(c)));
+
+        private static Type[] UnguardedOpenGenericTypes => new[]
         {
-            public IEnumerator<Type> GetEnumerator()
-            {
-                yield return typeof(ClassContraint<>);
-                yield return typeof(CertainClassContraint<>);
-                yield return typeof(CertainClassAndInterfacesContraint<>);
-                yield return typeof(MultipleGenericArguments<,>);
-                yield return typeof(AbstractTypeAndInterfacesContraint<>);
-                yield return typeof(OpenGenericTestType<>).BaseType;
-                yield return typeof(ConstructedGenericTestType<>).BaseType;
-                yield return typeof(InternalProtectedConstructorTestConstraint<>);
-                yield return typeof(ModestConstructorTestConstraint<>);
-                yield return typeof(ConstructorMatchTestType<,>);
-                yield return typeof(MethodMatchTestType<,>);
-                yield return typeof(ByRefTestType<>);
-            }
+            typeof(ClassContraint<>),
+            typeof(CertainClassContraint<>),
+            typeof(CertainClassAndInterfacesContraint<>),
+            typeof(MultipleGenericArguments<,>),
+            typeof(AbstractTypeAndInterfacesContraint<>),
+            typeof(OpenGenericTestType<>).BaseType,
+            typeof(ConstructedGenericTestType<>).BaseType,
+            typeof(InternalProtectedConstructorTestConstraint<>),
+            typeof(ModestConstructorTestConstraint<>),
+            typeof(ConstructorMatchTestType<,>),
+            typeof(MethodMatchTestType<,>),
+            typeof(ByRefTestType<>)
+        };
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
+        public static TheoryData<MemberRef<ConstructorInfo>> ConstructorsOnUnguardedOpenGenericTypes =>
+            MakeTheoryData(
+                UnguardedOpenGenericTypes
+                    .SelectMany(t => t.GetConstructors())
+                    .Select(c => new MemberRef<ConstructorInfo>(c)));
 
-        private class ConstructorDataOnGuardedGeneric : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                return new GuardedGenericData().SelectMany(t => t.GetConstructors())
-                                               .Select(c => new object[] { c })
-                                               .GetEnumerator();
-            }
+        public static TheoryData<MemberRef<MethodInfo>> MethodsOnUnguardedOpenGenericTypes =>
+            MakeTheoryData(
+                UnguardedOpenGenericTypes
+                    .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+                    // Skip getters and setters
+                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
+                    .Select(m => new MemberRef<MethodInfo>(m)));
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        private class ConstructorDataOnUnguardedGeneric : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                return new UnguardedGenericData().SelectMany(t => t.GetConstructors())
-                                                 .Select(c => new object[] { c })
-                                                 .GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        private class PropertyDataOnGuardedGeneric : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                return new GuardedGenericData().SelectMany(t => t.GetProperties())
-                                               .Select(p => new object[] { p })
-                                               .GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        private class PropertyDataOnUnguardedGeneric : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                return new UnguardedGenericData().SelectMany(t => t.GetProperties())
-                                                 .Select(p => new object[] { p })
-                                                 .GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        private class MethodDataOnGuardedGeneric : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                var bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-                return new GuardedGenericData().SelectMany(t => t.GetMethods(bindingFlags))
-                                               .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
-                                               .Select(m => new object[] { m })
-                                               .GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        private class MethodDataOnUnguardedGeneric : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                var bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-                return new UnguardedGenericData().SelectMany(t => t.GetMethods(bindingFlags))
-                                                 .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
-                                                 .Select(m => new object[] { m })
-                                                 .GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
+        public static TheoryData<MemberRef<PropertyInfo>> PropertiesOnUnguardedOpenGenericTypes =>
+            MakeTheoryData(
+                UnguardedOpenGenericTypes
+                    .SelectMany(t => t.GetProperties())
+                    .Select(c => new MemberRef<PropertyInfo>(c)));
 
         private class NoContraint<T>
         {
@@ -1280,11 +1184,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1297,11 +1197,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1314,11 +1210,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1329,11 +1221,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             event EventHandler TestEvent;
 
-            object Property
-            {
-                get;
-                set;
-            }
+            object Property { get; set; }
 
             void Method(object argument);
         }
@@ -1344,11 +1232,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1361,11 +1245,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1379,11 +1259,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1396,11 +1272,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T1 Property
-            {
-                get;
-                set;
-            }
+            public T1 Property { get; set; }
 
             public void Method(T1 argument1, T2 argument2)
             {
@@ -1414,11 +1286,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1430,17 +1298,9 @@ namespace AutoFixture.IdiomsUnitTest
             public abstract event EventHandler TestEvent;
             protected abstract event EventHandler ProtectedTestEvent;
 
-            public abstract object Property
-            {
-                get;
-                set;
-            }
+            public abstract object Property { get; set; }
 
-            protected abstract object ProtectedProperty
-            {
-                get;
-                set;
-            }
+            protected abstract object ProtectedProperty { get; set; }
 
             public abstract void Method(object argument);
             protected abstract void ProtectedMethod(object argument);
@@ -1459,11 +1319,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T Property
-            {
-                get;
-                set;
-            }
+            public T Property { get; set; }
 
             public void Method(T argument)
             {
@@ -1483,17 +1339,9 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public T1 Property1
-            {
-                get;
-                set;
-            }
+            public T1 Property1 { get; set; }
 
-            public T2 Property2
-            {
-                get;
-                set;
-            }
+            public T2 Property2 { get; set; }
 
             public void Method(T1 argument1, T2 argument2)
             {
@@ -1504,10 +1352,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public void Method(T argument, object test)
             {
-                if (argument == null)
-                {
-                    throw new ArgumentNullException(nameof(argument));
-                }
+                if (argument == null) throw new ArgumentNullException(nameof(argument));
                 if (argument.Argument1 == null || argument.Argument2 == null)
                 {
                     throw new ArgumentException(
@@ -1524,30 +1369,16 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // to test duplicating with the specimenBuilder field of a dummy type.
             public static ISpecimenBuilder specimenBuilder = null;
-            private readonly object argument1;
-            private readonly string argument2;
 
             public ParameterizedConstructorTestType(object argument1, string argument2)
             {
-                this.argument1 = argument1;
-                this.argument2 = argument2;
+                this.Argument1 = argument1;
+                this.Argument2 = argument2;
             }
 
-            public object Argument1
-            {
-                get
-                {
-                    return this.argument1;
-                }
-            }
+            public object Argument1 { get; }
 
-            public string Argument2
-            {
-                get
-                {
-                    return this.argument2;
-                }
-            }
+            public string Argument2 { get; }
         }
 
         private class InternalProtectedConstructorTestConstraint<T> where T : InternalProtectedConstructorTestType
@@ -1611,11 +1442,7 @@ namespace AutoFixture.IdiomsUnitTest
 
         public interface IDynamicInstanceTestType
         {
-            object Property
-            {
-                get;
-                set;
-            }
+            object Property { get; set; }
 
             int VoidMethod(object argument1, int argument2);
 
@@ -1735,50 +1562,42 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public NestedGenericParameterTestType(IEnumerable<T1> arg)
             {
-                if (arg == null)
-                    throw new ArgumentNullException(nameof(arg));
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(IEnumerable<IEnumerable<T2>> arg)
             {
-                if (arg == null)
-                    throw new ArgumentNullException(nameof(arg));
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1 arg1, Func<T1, IEnumerable<T2>> arg2)
             {
-                if (arg2 == null)
-                    throw new ArgumentNullException(nameof(arg2));
+                if (arg2 == null) throw new ArgumentNullException(nameof(arg2));
             }
 
             public NestedGenericParameterTestType(T1[] arg)
             {
-                if (arg == null)
-                    throw new ArgumentNullException(nameof(arg));
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1[,] arg)
             {
-                if (arg == null)
-                    throw new ArgumentNullException(nameof(arg));
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1[][] arg)
             {
-                if (arg == null)
-                    throw new ArgumentNullException(nameof(arg));
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(T1[,][][] arg)
             {
-                if (arg == null)
-                    throw new ArgumentNullException(nameof(arg));
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
             }
 
             public NestedGenericParameterTestType(Func<T1, IEnumerable<IEnumerable<T2>>, T1[][]> arg1, T2 arg2)
             {
-                if (arg1 == null)
-                    throw new ArgumentNullException(nameof(arg1));
+                if (arg1 == null) throw new ArgumentNullException(nameof(arg1));
             }
         }
 
@@ -1788,38 +1607,33 @@ namespace AutoFixture.IdiomsUnitTest
 
             public NonProperlyGuardedClass(object argument)
             {
-                if (argument == null)
-                    throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException(InvalidParamName);
             }
 
             public object Property
             {
-                get { return null; }
+                get => null;
                 set
                 {
-                    if (value == null)
-                        throw new ArgumentNullException(InvalidParamName);
+                    if (value == null) throw new ArgumentNullException(InvalidParamName);
                 }
             }
 
             public void Method(object argument)
             {
-                if (argument == null)
-                    throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException(InvalidParamName);
             }
 
             public IEnumerable<object> DeferredMethod(object argument)
             {
-                if (argument == null)
-                    throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException(InvalidParamName);
 
                 yield return argument;
             }
 
             public IEnumerator<object> AnotherDeferredMethod(object argument)
             {
-                if (argument == null)
-                    throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException(InvalidParamName);
 
                 yield return argument;
             }
@@ -1829,7 +1643,7 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifyOnAbstractMethodDoesNotThrow()
         {
             var method = typeof(AbstractTypeWithAbstractMethod)
-                .GetMethod("Method");
+                .GetMethod(nameof(AbstractTypeWithAbstractMethod.Method));
             var sut = new GuardClauseAssertion(new Fixture());
             sut.Verify(method);
         }
@@ -1837,6 +1651,87 @@ namespace AutoFixture.IdiomsUnitTest
         private abstract class AbstractTypeWithAbstractMethod
         {
             public abstract void Method(object arg);
+        }
+
+        /// <summary>
+        /// Wrapper around member to produce nice theory name
+        /// </summary>
+        public class MemberRef<T> where T : MemberInfo
+        {
+            public MemberRef(T member)
+            {
+                this.Member = member;
+            }
+
+            public T Member { get; }
+
+            public override string ToString()
+            {
+                var str = new StringBuilder();
+                str.Append(GetNonMangledTypeName(this.Member.DeclaringType));
+                str.Append('.');
+
+                str.Append(this.Member.Name);
+
+                var methodBase = this.Member as MethodBase;
+                if (methodBase != null)
+                {
+                    str.Append('(');
+                    str.Append(string.Join(", ",
+                        methodBase.GetParameters().Select(p => GetNonMangledTypeName(p.ParameterType))));
+                    str.Append(')');
+                }
+
+                return str.ToString();
+            }
+
+            private static string GetNonMangledTypeName(Type type)
+            {
+                var typeName = type.Name;
+                if (!type.GetTypeInfo().IsGenericType)
+                    return typeName;
+
+                typeName = typeName.Substring(0, typeName.IndexOf('`'));
+                var genericArgTypes = type.GetGenericArguments().Select(GetNonMangledTypeName);
+                return string.Format(CultureInfo.InvariantCulture, "{0}<{1}>", typeName,
+                    string.Join(", ", genericArgTypes));
+            }
+        }
+
+        public static class MemberRef
+        {
+            public static MemberRef<MethodInfo> MethodByName(Type type, string methodName)
+            {
+                return new MemberRef<MethodInfo>(type.GetMethod(methodName));
+            }
+
+            public static MemberRef<MethodInfo> MethodByIndex(Type type, int index)
+            {
+                return new MemberRef<MethodInfo>(type.GetMethods().Where(IsNotEqualsMethod).ElementAt(index));
+            }
+
+            public static MemberRef<ConstructorInfo> CtorByArgs(Type type, Type[] ctorParams)
+            {
+                return new MemberRef<ConstructorInfo>(type.GetConstructor(ctorParams));
+            }
+
+            private static bool IsNotEqualsMethod(MethodInfo method)
+            {
+                return method.Name != "Equals";
+            }
+        }
+
+
+        private static TheoryData<T> MakeTheoryData<T>(IEnumerable<T> entries)
+        {
+            var result = new TheoryData<T>();
+
+            foreach (var entry in entries)
+            {
+                result.Add(entry);
+            }
+
+            return result;
         }
     }
 }
