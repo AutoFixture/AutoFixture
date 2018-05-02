@@ -34,8 +34,9 @@ namespace AutoFixture.AutoFakeItEasy
             var fakeManager = GetFakeManager(specimen);
             if (fakeManager == null) return;
 
-            fakeManager.AddRuleLast(new PropertyRule(context));
-            fakeManager.AddRuleLast(new MethodRule(context));
+            var resultCache = new CallResultCache();
+            fakeManager.AddRuleLast(new PropertyRule(resultCache));
+            fakeManager.AddRuleLast(new MethodRule(context, resultCache));
         }
 
         private static FakeManager GetFakeManager(object specimen)

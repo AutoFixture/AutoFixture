@@ -317,6 +317,32 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
+        public void WithConfigureMembers_MethodsWithParametersReturnSameValuesWhenCalledWithSameArguments()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<IInterfaceWithMethod>();
+            // Act
+            var returnValue1 = result.Method("an argument");
+            var returnValue2 = result.Method("an argument");
+            // Assert
+            Assert.Equal(returnValue1, returnValue2);
+        }
+
+        [Fact]
+        public void WithConfigureMembers_MethodsWithParametersReturnDifferentValuesWhenCalledWithDifferentArguments()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<IInterfaceWithMethod>();
+            // Act
+            var returnValue1 = result.Method("an argument");
+            var returnValue2 = result.Method("a different argument");
+            // Assert
+            Assert.NotEqual(returnValue1, returnValue2);
+        }
+
+        [Fact]
         public void WithConfigureMembers_MethodsWithOutParametersReturnValuesFromFixture()
         {
             // Arrange

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoFixture.Kernel;
 using FakeItEasy.Core;
 
@@ -6,15 +7,18 @@ namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// A rule that intercepts method calls. Supplies the return and all out and ref values
-    /// from the fixture. New values will be fetched from the fixture on each call.
+    /// from the fixture. When a method is called repeatedly with the same arguments, the 
+    /// same return value and out and ref values will be provided.
     /// </summary>
     internal class MethodRule : IFakeObjectCallRule
     {
         private readonly ISpecimenContext context;
+        private readonly CallResultCache resultSource;
 
-        public MethodRule(ISpecimenContext context)
+        public MethodRule(ISpecimenContext context, CallResultCache resultSource)
         {
             this.context = context;
+            this.resultSource = resultSource;
         }
 
         /// <summary>
@@ -42,21 +46,30 @@ namespace AutoFixture.AutoFakeItEasy
             if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
             var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
-            SetReturnValue(fakeObjectCall);
-            SetOutAndRefValues(fakeObjectCall);
+            var callResult = this.resultSource.Get(CreateMethodCall(fakeObjectCall), () => CreateMethodCallResult(fakeObjectCall));
+            callResult.ApplyToCall(fakeObjectCall);
         }
 
-        private void SetReturnValue(FakeObjectCall fakeObjectCall)
+        private static MethodCall CreateMethodCall(FakeObjectCall fakeCall)
+        {
+            var parameterTypes = fakeCall.Method.GetParameters().Select(p => p.ParameterType);
+            return new MethodCall(fakeCall.Method.Name, parameterTypes, fakeCall.Arguments);
+        }
+
+        private MethodCallResult CreateMethodCallResult(FakeObjectCall fakeObjectCall)
+        {
+            var result = new MethodCallResult(ResolveReturnValue(fakeObjectCall));
+            AddOutAndRefValues(result, fakeObjectCall);
+            return result;
+        }
+
+        private object ResolveReturnValue(FakeObjectCall fakeObjectCall)
         {
             var methodReturnType = fakeObjectCall.Method.ReturnType;
-            if (methodReturnType != typeof(void))
-            {
-                var returnValue = this.context.Resolve(methodReturnType);
-                fakeObjectCall.SetReturnValue(returnValue);
-            }
+            return methodReturnType == typeof(void) ? null : this.context.Resolve(methodReturnType);
         }
 
-        private void SetOutAndRefValues(FakeObjectCall fakeObjectCall)
+        private void AddOutAndRefValues(MethodCallResult result, FakeObjectCall fakeObjectCall)
         {
             var parameters = fakeObjectCall.Method.GetParameters();
             for (int i = 0; i < parameters.Length; i++)
@@ -65,7 +78,7 @@ namespace AutoFixture.AutoFakeItEasy
                 if (parameterParameterType.IsByRef)
                 {
                     var value = this.context.Resolve(parameterParameterType.GetElementType());
-                    fakeObjectCall.SetArgumentValue(i, value);
+                    result.AddOutOrRefValue(i, value);
                 }
             }
         }
