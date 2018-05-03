@@ -6017,5 +6017,18 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.InRange(result.StringRangedTimeSpanProperty, TimeSpan.Zero, TimeSpan.FromHours(12));
         }
+
+        [Fact]
+        public void TimeSpanDecoratedWithRangeCreatedByFixtureShouldPassValidation()
+        { 
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var timeSpan = sut.Create<TypeWithRangedTimeSpanProperty>();
+
+            // Assert
+            Validator.ValidateObject(timeSpan, new ValidationContext(timeSpan), true);
+        }
     }
 }
