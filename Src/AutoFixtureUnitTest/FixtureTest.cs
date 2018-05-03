@@ -6001,7 +6001,7 @@ namespace AutoFixtureUnitTest
 
         private class TypeWithRangedTimeSpanProperty
         {
-            [Range(typeof(TimeSpan), "00:00:00", "12:00:00")]
+            [Range(typeof(TimeSpan), "02:00:00", "12:00:00")]
             public TimeSpan StringRangedTimeSpanProperty { get; set; }
         }
 
@@ -6015,7 +6015,7 @@ namespace AutoFixtureUnitTest
             var result = sut.Create<TypeWithRangedTimeSpanProperty>();
 
             // Assert
-            Assert.InRange(result.StringRangedTimeSpanProperty, TimeSpan.Zero, TimeSpan.FromHours(12));
+            Assert.InRange(result.StringRangedTimeSpanProperty, TimeSpan.FromHours(2), TimeSpan.FromHours(12));
         }
 
         [Fact]

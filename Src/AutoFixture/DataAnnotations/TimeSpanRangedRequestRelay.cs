@@ -28,40 +28,37 @@ namespace AutoFixture.DataAnnotations
 
         private static object CreateRangedTimeSpanSpecimen(RangedRequest rangedRequest, ISpecimenContext context)
         {
-            if (!(rangedRequest.Minimum is string) || !(rangedRequest.Maximum is string)) return new NoSpecimen();
+            if (!(rangedRequest.Minimum is string) || !(rangedRequest.Maximum is string))
+                return new NoSpecimen();
 
-            var range = GetTimeSpanRangeFromStringValues(rangedRequest);
+            var range = ParseTimeSpanRange(rangedRequest);
             return RandomizeTimeSpanInRange(range, context);
         }
 
-        private static TimeSpanRange GetTimeSpanRangeFromStringValues(RangedRequest rangedRequest)
+        private static TimeSpanRange ParseTimeSpanRange(RangedRequest rangedRequest)
         {
             return new TimeSpanRange
             {
-                MillisecondsMin = StringToMilliseconds((string)rangedRequest.Minimum),
-                MillisecondsMax = StringToMilliseconds((string)rangedRequest.Maximum)
+                Min = TimeSpan.Parse((string)rangedRequest.Minimum, CultureInfo.CurrentCulture),
+                Max = TimeSpan.Parse((string)rangedRequest.Maximum, CultureInfo.CurrentCulture)
             };
-        }
-
-        private static double StringToMilliseconds(string serializedTimeSpan)
-        {
-            return TimeSpan.Parse(serializedTimeSpan, CultureInfo.CurrentCulture).TotalMilliseconds;
         }
 
         private static object RandomizeTimeSpanInRange(TimeSpanRange range, ISpecimenContext context)
         {
             var millisecondsInRange = context.Resolve(
-                new RangedNumberRequest(typeof(double), range.MillisecondsMin, range.MillisecondsMax));
+                new RangedNumberRequest(typeof(double), range.Min.TotalMilliseconds, range.Max.TotalMilliseconds));
 
-            return millisecondsInRange is NoSpecimen
-                ? millisecondsInRange
-                : TimeSpan.FromMilliseconds((double)millisecondsInRange);
+            if (millisecondsInRange is NoSpecimen)
+                return new NoSpecimen();
+
+            return TimeSpan.FromMilliseconds((double)millisecondsInRange);
         }
 
-        private class TimeSpanRange
+        private struct TimeSpanRange
         {
-            public double MillisecondsMin { get; set; }
-            public double MillisecondsMax { get; set; }
+            public TimeSpan Min { get; set; }
+            public TimeSpan Max { get; set; }
         }
     }
 }
