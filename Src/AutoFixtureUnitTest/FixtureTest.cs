@@ -5998,5 +5998,37 @@ namespace AutoFixtureUnitTest
                 return composer.With(x => x.Value, "42");
             }
         }
+
+        private class TypeWithRangedTimeSpanProperty
+        {
+            [Range(typeof(TimeSpan), "02:00:00", "12:00:00")]
+            public TimeSpan StringRangedTimeSpanProperty { get; set; }
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveTimeSpanPropertiesDecoratedWithRange()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithRangedTimeSpanProperty>();
+
+            // Assert
+            Assert.InRange(result.StringRangedTimeSpanProperty, TimeSpan.FromHours(2), TimeSpan.FromHours(12));
+        }
+
+        [Fact]
+        public void TimeSpanDecoratedWithRangeCreatedByFixtureShouldPassValidation()
+        { 
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var timeSpan = sut.Create<TypeWithRangedTimeSpanProperty>();
+
+            // Assert
+            Validator.ValidateObject(timeSpan, new ValidationContext(timeSpan), true);
+        }
     }
 }

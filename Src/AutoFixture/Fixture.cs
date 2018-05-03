@@ -129,6 +129,7 @@ namespace AutoFixture
                                         new RangeAttributeRelay(),
                                         new NumericRangedRequestRelay(),
                                         new EnumRangedRequestRelay(),
+                                        new TimeSpanRangedRequestRelay(),
                                         new StringLengthAttributeRelay(),
                                         new RegularExpressionAttributeRelay())))),
                         new AutoPropertiesTarget(
