@@ -6003,12 +6003,6 @@ namespace AutoFixtureUnitTest
         {
             [Range(typeof(TimeSpan), "00:00:00", "12:00:00")]
             public TimeSpan StringRangedTimeSpanProperty { get; set; }
-
-            [Range(0, 12 * 60 * 60 * 1000)]
-            public TimeSpan IntRangedTimeSpanProperty { get; set; }
-
-            [Range(0.0, 12 * 60 * 60 * 1000.0)]
-            public TimeSpan DoubleRangedTimeSpanProperty { get; set; }
         }
 
         [Fact]
@@ -6022,8 +6016,6 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Assert.InRange(result.StringRangedTimeSpanProperty, TimeSpan.Zero, TimeSpan.FromHours(12));
-            Assert.InRange(result.IntRangedTimeSpanProperty, TimeSpan.Zero, TimeSpan.FromHours(12));
-            Assert.InRange(result.DoubleRangedTimeSpanProperty, TimeSpan.Zero, TimeSpan.FromHours(12));
         }
     }
 }

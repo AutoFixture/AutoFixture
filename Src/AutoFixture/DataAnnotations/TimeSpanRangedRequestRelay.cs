@@ -28,21 +28,9 @@ namespace AutoFixture.DataAnnotations
 
         private static object CreateRangedTimeSpanSpecimen(RangedRequest rangedRequest, ISpecimenContext context)
         {
-            TimeSpanRange range;
+            if (!(rangedRequest.Minimum is string) || !(rangedRequest.Maximum is string)) return new NoSpecimen();
 
-            if (rangedRequest.Minimum is string)
-            {
-                range = GetTimeSpanRangeFromStringValues(rangedRequest);
-            }
-            else if (rangedRequest.Minimum.GetType().IsNumberType())
-            {
-                range = GetTimeSpanRangeFromNumberValues(rangedRequest);
-            }
-            else
-            {
-                return new NoSpecimen();
-            }
-
+            var range = GetTimeSpanRangeFromStringValues(rangedRequest);
             return RandomizeTimeSpanInRange(range, context);
         }
 
@@ -58,15 +46,6 @@ namespace AutoFixture.DataAnnotations
         private static double StringToMilliseconds(string serializedTimeSpan)
         {
             return TimeSpan.Parse(serializedTimeSpan, CultureInfo.CurrentCulture).TotalMilliseconds;
-        }
-
-        private static TimeSpanRange GetTimeSpanRangeFromNumberValues(RangedRequest rangedRequest)
-        {
-            return new TimeSpanRange
-            {
-                MillisecondsMin = (double)rangedRequest.GetConvertedMinimum(typeof(double)),
-                MillisecondsMax = (double)rangedRequest.GetConvertedMaximum(typeof(double))
-            };
         }
 
         private static object RandomizeTimeSpanInRange(TimeSpanRange range, ISpecimenContext context)

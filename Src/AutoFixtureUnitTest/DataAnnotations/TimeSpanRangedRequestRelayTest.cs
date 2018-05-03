@@ -89,18 +89,15 @@ namespace AutoFixtureUnitTest.DataAnnotations
             Assert.Equal(new NoSpecimen(), actualResult);
         }
 
-        [Theory]
-        [InlineData("00:00:00", "12:00:00", 0.0, 12 * 60 * 60 * 1000.0)]
-        [InlineData(1000, 2000, 1000.0, 2000.0)]
-        [InlineData(1000.5, 2000.5, 1000.5, 2000.5)]
-        public void ShouldCorrectPassMinimumAndMaximumAsMilliseconds(object minimum, object maximum,
-            double expectedMinimumMilliseconds, double expectedMaximumMilliseconds)
+        [Fact]
+        public void ShouldCorrectPassMinimumAndMaximumAsMilliseconds()
         {
             // Arrange
             var sut = new TimeSpanRangedRequestRelay();
 
-            var request = new RangedRequest(typeof(TimeSpan), typeof(TimeSpan), minimum, maximum);
+            var request = new RangedRequest(typeof(TimeSpan), typeof(TimeSpan), "00:00:00", "12:00:00");
             RangedNumberRequest capturedNumericRequest = null;
+
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
@@ -115,8 +112,8 @@ namespace AutoFixtureUnitTest.DataAnnotations
 
             // Assert
             Assert.NotNull(capturedNumericRequest);
-            Assert.Equal(expectedMinimumMilliseconds, capturedNumericRequest.Minimum);
-            Assert.Equal(expectedMaximumMilliseconds, capturedNumericRequest.Maximum);
+            Assert.Equal(0.0, capturedNumericRequest.Minimum);
+            Assert.Equal(12 * 60 * 60 * 1000.0, capturedNumericRequest.Maximum);
         }
     }
 }
