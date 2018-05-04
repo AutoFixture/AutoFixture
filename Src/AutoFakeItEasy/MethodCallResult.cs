@@ -4,18 +4,19 @@ namespace AutoFixture.AutoFakeItEasy
 {
     internal class MethodCallResult
     {
-        private readonly IList<PositionedValue> outAndRefValues;
+        private IList<PositionedValue> outAndRefValues;
         private readonly object returnValue;
 
         public MethodCallResult(object returnValue)
         {
             this.returnValue = returnValue;
-            this.outAndRefValues = new List<PositionedValue>();
         }
 
         public void ApplyToCall(FakeObjectCall fakeObjectCall)
         {
             fakeObjectCall.SetReturnValue(this.returnValue);
+            if (outAndRefValues == null) return;
+
             foreach (var positionedValue in this.outAndRefValues)
             {
                 fakeObjectCall.SetArgumentValue(positionedValue.Position, positionedValue.Value);
@@ -24,6 +25,11 @@ namespace AutoFixture.AutoFakeItEasy
 
         public void AddOutOrRefValue(int i, object value)
         {
+            if (this.outAndRefValues == null)
+            {
+                this.outAndRefValues = new List<PositionedValue>();
+            }
+
             this.outAndRefValues.Add(new PositionedValue(i, value));
         }
 
