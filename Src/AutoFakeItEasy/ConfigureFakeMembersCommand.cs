@@ -35,7 +35,7 @@ namespace AutoFixture.AutoFakeItEasy
             if (fakeManager == null) return;
 
             var resultCache = new CallResultCache();
-            fakeManager.AddRuleLast(new PropertyRule(resultCache));
+            fakeManager.AddRuleLast(new PropertySetterRule(resultCache));
             fakeManager.AddRuleLast(new MethodRule(context, resultCache));
         }
 

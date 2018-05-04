@@ -9,11 +9,11 @@ namespace AutoFixture.AutoFakeItEasy
     /// A rule that intercepts property setter calls. Values will be saved into a result cache to be 
     /// provided as the return value from the matching get methods when the latter are called.
     /// </summary>
-    internal class PropertyRule : IFakeObjectCallRule
+    internal class PropertySetterRule : IFakeObjectCallRule
     {
         private readonly CallResultCache resultCache;
 
-        public PropertyRule(CallResultCache resultCache)
+        public PropertySetterRule(CallResultCache resultCache)
         {
             this.resultCache = resultCache;
         }
