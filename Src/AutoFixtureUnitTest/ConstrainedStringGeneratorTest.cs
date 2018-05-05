@@ -108,7 +108,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [MemberData(nameof(MinimumLengthMaximumLengthTestCases))]
-#pragma warning disable xUnit1026 // Theory methods should use all of their parameters - the minLength is needed to access the maxLenght.
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters - the minLength is needed to access the maxLength.
         public void CreateReturnsStringWithCorrectLengthMultipleCall(int minimumLength, int maximumLength)
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
         {
