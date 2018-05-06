@@ -371,6 +371,45 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
+        public void WithConfigureMembers_MethodsWithParamsParameterReturnSameValuesWhenCalledWithSameArguments()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<IInterfaceWithParamsMethod>();
+            // Act
+            var returnValue1 = result.Method(1, 2);
+            var returnValue2 = result.Method(1, 2);
+            // Assert
+            Assert.Equal(returnValue1, returnValue2);
+        }
+
+        [Fact]
+        public void WithConfigureMembers_IndexersWithParamsParameterReturnSameValuesWhenCalledWithSameIndexes()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<IInterfaceWithParamsMethod>();
+            // Act
+            var returnValue1 = result[1, 2];
+            var returnValue2 = result[1, 2];
+            // Assert
+            Assert.Equal(returnValue1, returnValue2);
+        }
+
+        [Fact]
+        public void WithConfigureMembers_IndexersWithParamsParameterReturnPreviouslySetValueWhenGetterCalledWithSameIndexes()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            var result = fixture.Create<IInterfaceWithParamsMethod>();
+            // Act
+            result[3, 9, 18] = 17;
+            var returnValue = result[3, 9, 18];
+            // Assert
+            Assert.Equal(17, returnValue);
+        }
+
+        [Fact]
         public void WithConfigureMembers_SealedSettablePropertiesAreSetUsingFixture()
         {
             // Arrange

@@ -59,10 +59,8 @@ namespace AutoFixture.AutoFakeItEasy
             var numberOfArguments = fakeCall.Arguments.Count() - 1;
 
             var arguments = fakeCall.Arguments.Take(numberOfArguments);
-            var parameterTypes = fakeCall.Method.GetParameters()
-                .Take(numberOfArguments)
-                .Select(p => p.ParameterType);
-            return new MethodCall(methodName, parameterTypes, arguments);
+            var parameters = fakeCall.Method.GetParameters().Take(numberOfArguments);
+            return new MethodCall(methodName, parameters, arguments);
         }
     }
 }

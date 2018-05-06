@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace AutoFixture.AutoFakeItEasy
 {
@@ -10,11 +12,12 @@ namespace AutoFixture.AutoFakeItEasy
         private readonly IList<Type> parameterTypes;
         private readonly IList<object> arguments;
 
-        public MethodCall(string methodName, IEnumerable<Type> parameterTypes, IEnumerable<object> arguments)
+        public MethodCall(string methodName, IEnumerable<ParameterInfo> parameters, IEnumerable<object> arguments)
         {
             this.methodName = methodName;
-            this.parameterTypes = parameterTypes.ToList();
-            this.arguments = arguments.ToList();
+            var parametersList = parameters.ToList();
+            this.parameterTypes = parametersList.Select(p => p.ParameterType).ToList();
+            this.arguments = ExpandParamsArgument(parametersList, arguments).ToList();
         }
 
         public override bool Equals(object obj)
@@ -41,6 +44,21 @@ namespace AutoFixture.AutoFakeItEasy
                 }
                 return hashCode;
             }
+        }
+
+        private static IEnumerable<object> ExpandParamsArgument(IList<ParameterInfo> parameters, IEnumerable<object> arguments)
+        {
+            if (parameters.Count <= 0) return arguments;
+
+            var lastParameterIndex = parameters.Count - 1;
+
+            if (!parameters[lastParameterIndex].IsDefined(typeof(ParamArrayAttribute))) return arguments;
+
+            var expandedArguments = arguments.ToList();
+            var lastArgument = expandedArguments[lastParameterIndex];
+            expandedArguments.RemoveAt(lastParameterIndex);
+            expandedArguments.AddRange(((IEnumerable)lastArgument).Cast<object>());
+            return expandedArguments;
         }
     }
 }

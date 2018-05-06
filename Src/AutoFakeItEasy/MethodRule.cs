@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using AutoFixture.Kernel;
 using FakeItEasy.Core;
 
@@ -52,8 +51,8 @@ namespace AutoFixture.AutoFakeItEasy
 
         private static MethodCall CreateMethodCall(FakeObjectCall fakeCall)
         {
-            var parameterTypes = fakeCall.Method.GetParameters().Select(p => p.ParameterType);
-            return new MethodCall(fakeCall.Method.Name, parameterTypes, fakeCall.Arguments);
+            var parameters = fakeCall.Method.GetParameters();
+            return new MethodCall(fakeCall.Method.Name, parameters, fakeCall.Arguments);
         }
 
         private MethodCallResult CreateMethodCallResult(FakeObjectCall fakeObjectCall)
