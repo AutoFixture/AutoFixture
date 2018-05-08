@@ -643,6 +643,40 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
+        public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnSameValueWhenCalledWithSameArguments()
+        { 
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var fake = fixture.Create<RegularDelegate>();
+            // Act
+            var returnValue1 = fake.Invoke(42, 24);
+            var returnValue2 = fake.Invoke(42, 24);
+            // Assert
+            Assert.Equal(returnValue1, returnValue2);
+        }
+
+        [Fact]
+        public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnDifferentValuesWhenCalledWithDifferentArguments()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization
+            {
+                ConfigureMembers = true,
+                GenerateDelegates = true
+            });
+            var fake = fixture.Create<RegularDelegate>();
+            // Act
+            var returnValue1 = fake.Invoke(24, 42);
+            var returnValue2 = fake.Invoke(42, 24);
+            // Assert
+            Assert.NotEqual(returnValue1, returnValue2);
+        }
+
+        [Fact]
         public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForMethodWithOut()
         {
             // Arrange
