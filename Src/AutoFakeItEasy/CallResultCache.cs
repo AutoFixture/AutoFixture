@@ -8,7 +8,7 @@ namespace AutoFixture.AutoFakeItEasy
         private readonly ConcurrentDictionary<MethodCall, MethodCallResult> cachedResults =
             new ConcurrentDictionary<MethodCall, MethodCallResult>();
 
-        public MethodCallResult Get(MethodCall methodCall, Func<MethodCallResult> resultFactory)
+        public MethodCallResult GetOrAdd(MethodCall methodCall, Func<MethodCallResult> resultFactory)
         {
             return this.cachedResults.GetOrAdd(methodCall, key => resultFactory());
         }
