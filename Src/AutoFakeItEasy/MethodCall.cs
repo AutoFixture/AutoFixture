@@ -8,12 +8,14 @@ namespace AutoFixture.AutoFakeItEasy
 {
     internal class MethodCall
     {
+        private readonly Type declaringType;
         private readonly string methodName;
         private readonly IList<Type> parameterTypes;
         private readonly IList<object> arguments;
 
-        public MethodCall(string methodName, IEnumerable<ParameterInfo> parameters, IEnumerable<object> arguments)
+        public MethodCall(Type declaringType, string methodName, IEnumerable<ParameterInfo> parameters, IEnumerable<object> arguments)
         {
+            this.declaringType = declaringType;
             this.methodName = methodName;
             var parametersList = parameters.ToList();
             this.parameterTypes = parametersList.Select(p => p.ParameterType).ToList();
@@ -23,6 +25,7 @@ namespace AutoFixture.AutoFakeItEasy
         public override bool Equals(object obj)
         {
             return obj is MethodCall call &&
+                   this.declaringType == call.declaringType &&
                    this.methodName.Equals(call.methodName, StringComparison.Ordinal) &&
                    this.parameterTypes.SequenceEqual(call.parameterTypes) &&
                    this.arguments.SequenceEqual(call.arguments);
@@ -33,6 +36,7 @@ namespace AutoFixture.AutoFakeItEasy
             unchecked
             {
                 var hashCode = -712421553;
+                hashCode = hashCode * -1521134295 + this.declaringType.GetHashCode();
                 hashCode = hashCode * -1521134295 + this.methodName.GetHashCode();
                 foreach (var argument in this.arguments)
                 {

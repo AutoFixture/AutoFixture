@@ -60,7 +60,7 @@ namespace AutoFixture.AutoFakeItEasy
 
             var arguments = fakeCall.Arguments.Take(numberOfArguments);
             var parameters = fakeCall.Method.GetParameters().Take(numberOfArguments);
-            return new MethodCall(methodName, parameters, arguments);
+            return new MethodCall(fakeCall.Method.DeclaringType, methodName, parameters, arguments);
         }
     }
 }

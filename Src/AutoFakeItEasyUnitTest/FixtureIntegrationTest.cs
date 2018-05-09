@@ -229,6 +229,20 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
+        public void WithConfigureMembers_NewInterfaceMethodReturnsDifferentValueThanShadowedMethod()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization { ConfigureMembers = true });
+            IInterfaceWithNewMethod fakeNewInterface = fixture.Create<IInterfaceWithNewMethod>();
+            IInterfaceWithShadowedMethod fakeShadowedInterface = fakeNewInterface;
+            // Act
+            var newReturnValue = fakeNewInterface.Method(3);
+            var shadowedReturnValue = fakeShadowedInterface.Method(3);
+            // Assert
+            Assert.NotEqual(newReturnValue, shadowedReturnValue);
+        }
+
+        [Fact]
         public void WithConfigureMembers_PropertiesReturnValueFromFixture()
         {
             // Arrange

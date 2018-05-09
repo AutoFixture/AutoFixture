@@ -52,7 +52,7 @@ namespace AutoFixture.AutoFakeItEasy
         private static MethodCall CreateMethodCall(FakeObjectCall fakeCall)
         {
             var parameters = fakeCall.Method.GetParameters();
-            return new MethodCall(fakeCall.Method.Name, parameters, fakeCall.Arguments);
+            return new MethodCall(fakeCall.Method.DeclaringType, fakeCall.Method.Name, parameters, fakeCall.Arguments);
         }
 
         private MethodCallResult CreateMethodCallResult(FakeObjectCall fakeObjectCall)
