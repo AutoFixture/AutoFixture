@@ -2,13 +2,13 @@
 {
     public interface IInterfaceWithShadowedMethod
     {
-        //shadowed method
+        // Shadows method.
         string Method(int i);
     }
 
     public interface IInterfaceWithNewMethod : IInterfaceWithShadowedMethod
     {
-        //new method
+        // New method.
         new string Method(int i);
     }
 }
