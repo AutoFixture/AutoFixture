@@ -6128,5 +6128,39 @@ namespace AutoFixtureUnitTest
             // Assert
             Validator.ValidateObject(item, new ValidationContext(item), true);
         }
+
+        private class TypeWithArrayPropertyWithMinAndMaxLength
+        {
+            [MinLength(5)]
+            [MaxLength(10)]
+            public string[] PropertyWithMinAndMaxLength { get; set; }
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveArrayPropertyDecoratedWithMinAndMaxLength()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithArrayPropertyWithMinAndMaxLength>();
+
+            // Assert
+            Assert.True(item.PropertyWithMinAndMaxLength.Length >= 5);
+            Assert.True(item.PropertyWithMinAndMaxLength.Length <= 10);
+        }
+
+        [Fact]
+        public void ArrayDecoratedWithMinAndMaxLengthAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithArrayPropertyWithMinAndMaxLength>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
     }
 }

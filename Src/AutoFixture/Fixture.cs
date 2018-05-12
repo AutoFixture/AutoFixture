@@ -131,7 +131,8 @@ namespace AutoFixture
                                         new EnumRangedRequestRelay(),
                                         new TimeSpanRangedRequestRelay(),
                                         new StringLengthAttributeRelay(),
-                                        new MinAndMaxLengthAttributeRelay(),
+                                        new MinAndMaxLengthAttributeRelay(
+                                            new MinAndMaxLengthAttributeMemberTypeResolver()),
                                         new RegularExpressionAttributeRelay())))),
                         new AutoPropertiesTarget(
                             new Postprocessor(
