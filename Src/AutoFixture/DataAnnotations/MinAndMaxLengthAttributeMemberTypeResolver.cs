@@ -3,8 +3,16 @@ using System.Reflection;
 
 namespace AutoFixture.DataAnnotations
 {
+    /// <summary>
+    /// Member type resolver used by MinAndMaxLengthAttributeRelay
+    /// </summary>
     public class MinAndMaxLengthAttributeMemberTypeResolver : IMemberTypeResolver
     {
+        /// <summary>
+        /// Tries to determine requested member type and returns it. Otherwise returns null.
+        /// </summary>
+        /// <param name="request">Relay request object</param>
+        /// <returns></returns>
         public Type TryGetMemberType(object request)
         {
             Type conversionType;

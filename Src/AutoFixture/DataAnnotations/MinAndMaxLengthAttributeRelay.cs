@@ -14,6 +14,10 @@ namespace AutoFixture.DataAnnotations
     {
         private readonly IMemberTypeResolver memberTypeResolver;
 
+        /// <summary>
+        /// Creates a new instance of MinAndMaxLengthAttributeRelay
+        /// </summary>
+        /// <param name="memberTypeResolver">MemberTypeResolver to determine member type of requested object</param>
         public MinAndMaxLengthAttributeRelay(IMemberTypeResolver memberTypeResolver)
         {
             this.memberTypeResolver = memberTypeResolver;
@@ -78,7 +82,7 @@ namespace AutoFixture.DataAnnotations
             return context.Resolve(new ConstrainedStringRequest(range.Min, range.Max));
         }
 
-        private object ResolveArray(ISpecimenContext context, Type memberType, Range range)
+        private static object ResolveArray(ISpecimenContext context, Type memberType, Range range)
         {
             var elementType = memberType.GetElementType();
 

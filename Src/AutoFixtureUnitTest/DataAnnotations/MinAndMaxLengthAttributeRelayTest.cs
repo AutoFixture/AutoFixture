@@ -11,8 +11,6 @@ namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class MinAndMaxLengthAttributeRelayTest
     {
-
-
         [Fact]
         public void SutIsSpecimenBuilder()
         {
