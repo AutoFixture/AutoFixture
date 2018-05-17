@@ -74,6 +74,11 @@ namespace AutoFixture.AutoFakeItEasy
         }
 
         /// <summary>
+        /// Specifies whether members of a Fake will be automatically setup to retrieve the return values from a fixture.
+        /// </summary>
+        public bool ConfigureMembers { get; set; }
+
+        /// <summary>
         /// Customizes an <see cref="IFixture"/> to enable auto-mocking with FakeItEasy.
         /// </summary>
         /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
@@ -86,10 +91,18 @@ namespace AutoFixture.AutoFakeItEasy
                 fixture.Customizations.Add(new FakeItEasyRelay(new DelegateSpecification()));
             }
 
-            fixture.Customizations.Add(
-                new FakeItEasyBuilder(
-                    new MethodInvoker(
-                        new FakeItEasyMethodQuery())));
+            ISpecimenBuilder fakeBuilder = new FakeItEasyBuilder(new MethodInvoker(new FakeItEasyMethodQuery()));
+
+            if (this.ConfigureMembers)
+            {
+                fakeBuilder = new Postprocessor(
+                    builder: fakeBuilder,
+                    command: new CompositeSpecimenCommand(
+                        new ConfigureSealedMembersCommand(),
+                        new ConfigureFakeMembersCommand()));
+            }
+
+            fixture.Customizations.Add(fakeBuilder);
             fixture.ResidueCollectors.Add(this.Relay);
         }
 

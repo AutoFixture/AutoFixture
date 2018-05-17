@@ -13,7 +13,7 @@
           That is FakeItEasy dependency and we cannot fix that somehow. -->
     <NoWarn>$(NoWarn);NU1603</NoWarn>
 
-    <DefineConstants>$(DefineConstants);CAN_FAKE_DELEGATES</DefineConstants>
+    <DefineConstants>$(DefineConstants);CAN_FAKE_DELEGATES;HAS_A_CALL_TO_SET_SPECIFIER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\AutoFakeItEasyUnitTest\*.cs" Link="%(Filename)%(Extension)" />
+    <Compile Include="..\AutoFakeItEasyUnitTest\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Remove="..\AutoFakeItEasyUnitTest\obj\**" />
   </ItemGroup>
 
   <ItemGroup>
