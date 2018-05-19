@@ -15,7 +15,6 @@ using NSubstitute.Routing.Handlers;
 
 namespace AutoFixture.AutoNSubstitute
 {
-
     /// <summary>
     /// Sets up a substitute object's methods so that the return values will be retrieved from a fixture,
     /// instead of being created directly by NSubstitute.

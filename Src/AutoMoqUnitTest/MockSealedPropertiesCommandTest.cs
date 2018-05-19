@@ -51,7 +51,6 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void InitializesPublicFields()
         {
-
             // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();

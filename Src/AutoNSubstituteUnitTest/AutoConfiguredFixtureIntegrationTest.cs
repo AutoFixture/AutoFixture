@@ -788,7 +788,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
             {
-
                 //If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
                 if (taskWasPreviouslyQueued && !this.TryDequeue(task))
                 {

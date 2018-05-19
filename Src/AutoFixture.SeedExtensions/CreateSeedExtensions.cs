@@ -11,7 +11,6 @@ namespace AutoFixture
     /// </summary>
     public static class CreateSeedExtensions
     {
-
         /// <summary>
         /// Creates an anonymous object, potentially using the supplied seed as additional
         /// information when creating the object.

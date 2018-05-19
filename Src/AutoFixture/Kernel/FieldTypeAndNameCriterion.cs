@@ -91,7 +91,6 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override bool Equals(object obj)
         {
-
             var other = obj as FieldTypeAndNameCriterion;
             if (other == null)
                 return base.Equals(obj);

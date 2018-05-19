@@ -10,7 +10,6 @@ namespace AutoFixtureUnitTest
 {
     public abstract class MarkerNodeTests<T> where T : ISpecimenBuilderNode
     {
-
         [Fact]
         public void BuilderIsCorrect()
         {
