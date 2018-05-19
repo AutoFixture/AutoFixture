@@ -104,7 +104,6 @@ namespace AutoFixture.IdiomsUnitTest
         }
 #pragma warning restore 659
 
-
         class ClassThatDoesNotOverrideObjectEquals
         {
         }

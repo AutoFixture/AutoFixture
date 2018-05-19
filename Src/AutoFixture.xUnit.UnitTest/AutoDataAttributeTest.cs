@@ -243,7 +243,6 @@ namespace AutoFixture.Xunit.UnitTest
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
         }
-        
 
         private class TypeWithIParameterCustomizationSourceUsage
         {

@@ -51,7 +51,6 @@ namespace AutoFixture.NUnit3.UnitTest
             // Assert
             Assert.False(wasInvoked);
         }
-        
 
         [Test]
         public void IfCreateParametersThrowsExceptionThenReturnsNotRunnableTestMethodWithExceptionInfoAsSkipReason()

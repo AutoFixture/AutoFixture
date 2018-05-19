@@ -32,7 +32,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.Contains("Seed", result);
         }
 
-
         [Fact]
         [Obsolete]
         public void CreateAnonymousFromNullSpecimenContextWithSeedThrows()
@@ -125,7 +124,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.Equal<int>(expectedItemCount, actualCount);
         }
 
-
         [Fact]
         public void CreateManyWithSeedAndCountReturnsCorrectResult()
         {
@@ -167,7 +165,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.NotEqual<Guid>(Guid.Empty, g);
         }
 
-
         [Fact]
         public void CustomizeWithEchoInt32GeneratorWillReturnSeed()
         {
@@ -195,7 +192,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             // Assert
             Assert.True(verified, "Mock verified");
         }
-
 
         [Fact]
         public void CreateWithSeedReturnsCorrectResult()

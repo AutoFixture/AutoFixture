@@ -2734,8 +2734,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal<DateTime>(expectedResult, result);
         }
 
-
-
         [Fact]
         public void FreezeWithNullTransformationThrows()
         {
@@ -3616,7 +3614,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal<int>(expectedValue, result.Property);
         }
 
-
         [Fact]
         public void BuilderSequenceWillBePreserved()
         {
@@ -4246,7 +4243,6 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.IsAssignableFrom<ConcreteType>(result);
         }
-
 
         [Fact]
         public void BuildAbstractTypeUsingBuilderIsPossible()
@@ -5464,7 +5460,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal(expected, actual.Field);
         }
 
-
         /// <summary>
         /// This test reproduces the issue as reported in pull request:
         /// https://github.com/AutoFixture/AutoFixture/pull/604
@@ -5547,7 +5542,6 @@ namespace AutoFixtureUnitTest
             Assert.Contains("nested property or field", ex.Message);
 
         }
-
 
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithout()

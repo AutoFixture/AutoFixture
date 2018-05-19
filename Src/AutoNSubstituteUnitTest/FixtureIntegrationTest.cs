@@ -1120,7 +1120,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                     },
                     cts.Token));
 
-
             // Act
             start.Release(degreeOfParallelism);
             await Task.WhenAll(tasks).ConfigureAwait(false);

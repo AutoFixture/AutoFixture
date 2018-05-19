@@ -28,7 +28,6 @@ namespace AutoFixture
             return Create<T>(context, seed);
         }
 
-
         /// <summary>Creates many anonymous objects.</summary>
         /// <typeparam name="T">The type of objects to create.</typeparam>
         /// <param name="builder">
@@ -66,7 +65,6 @@ namespace AutoFixture
             return new SpecimenContext(builder);
         }
 
-
         /// <summary>
         /// Creates many anonymous objects.
         /// </summary>
@@ -100,7 +98,6 @@ namespace AutoFixture
 
             return ((IEnumerable<object>)rawResult).Cast<T>();
         }
-
 
         /// <summary>Creates many anonymous objects.</summary>
         /// <typeparam name="T">The type of objects to create.</typeparam>
@@ -168,7 +165,6 @@ namespace AutoFixture
             var rawResult = context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), seed), count));
             return ((IEnumerable<object>)rawResult).Cast<T>();
         }
-
 
         /// <summary>
         /// Creates an anonymous object, potentially using the supplied seed as

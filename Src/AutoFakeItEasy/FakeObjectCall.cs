@@ -37,7 +37,6 @@ namespace AutoFixture.AutoFakeItEasy
 
         public void SetArgumentValue(int index, object value) =>
             InvokeWrappedMethod(SetArgumentValueMethodName, index, value);
-        
 
         private object InvokeWrappedPropertyGetter(string propertyName)
         {

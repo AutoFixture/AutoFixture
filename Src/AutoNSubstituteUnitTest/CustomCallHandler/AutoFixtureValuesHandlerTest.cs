@@ -176,7 +176,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             Assert.Equal(42, call.GetArguments()[0]);
         }
 
-
         [Fact]
         public void ShouldNotUpdateModifiedRefArgument()
         {
@@ -216,7 +215,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             int origValue;
             var call = CallHelper.CreateCallMock(() => target.Method(out origValue));
             call.GetArguments()[0] = 42;
-
 
             sut.ResultResolver
                 .ResolveResult(call)

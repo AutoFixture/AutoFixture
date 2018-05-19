@@ -116,8 +116,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Assert
             Assert.Equal(expected, result);
         }
-        
-        
+
         [Fact]
         public void DoesntActivateFixtureImmediately()
         {
@@ -135,8 +134,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Assert
             Assert.False(wasInvoked);
         }
-        
-        
+
         [Fact]
         public void PreDiscoveryShouldBeDisabled()
         {

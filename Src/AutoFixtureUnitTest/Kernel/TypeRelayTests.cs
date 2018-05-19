@@ -134,7 +134,6 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<DerivedType>(actual);
         }
 
-
         [Fact]
         public void ShouldNotFailIfOpenGenericsIsPassedToConstructor()
         {

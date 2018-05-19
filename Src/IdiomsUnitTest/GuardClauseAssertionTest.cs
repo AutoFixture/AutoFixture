@@ -373,7 +373,6 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Equal(parameters, observedParameters);
         }
 
-
         public static TheoryData<MemberRef<MethodInfo>> MethodData => new TheoryData<MemberRef<MethodInfo>>
         {
             MemberRef.MethodByName(typeof(GuardedMethodHost), nameof(GuardedMethodHost.ConsumeString)),
@@ -1720,7 +1719,6 @@ namespace AutoFixture.IdiomsUnitTest
                 return method.Name != "Equals";
             }
         }
-
 
         private static TheoryData<T> MakeTheoryData<T>(IEnumerable<T> entries)
         {

@@ -56,7 +56,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal(new NoSpecimen(), result);
         }
 
-
         [Theory]
         [InlineData(typeof(int), "a", "b")]
         [InlineData(typeof(long), 'd', 'e')]
@@ -73,7 +72,6 @@ namespace AutoFixtureUnitTest
             // Verify
             Assert.Equal(new NoSpecimen(), result);
         }
-
 
         [Fact]
         public void CreateReturnsAllValuesInSetBeforeRepeating()
@@ -143,7 +141,6 @@ namespace AutoFixtureUnitTest
                                   .Intersect(results[request3]).Count() == request3Count);
         }
 
-
         [Fact]
         public void CreateReturnsValuesFromCorrectSetForTwoRequestsOfSameTypeAndDifferentLimits()
         {
@@ -189,7 +186,6 @@ namespace AutoFixtureUnitTest
             Assert.InRange(value3, 0, 2);
             Assert.NotEqual(value1, value3);
         }
-
 
         [Theory]
         [MemberData(nameof(PairsOfDifferentIntegerTypes))]
@@ -393,7 +389,6 @@ namespace AutoFixtureUnitTest
                 { typeof(long), typeof(sbyte) },
                 { typeof(long), typeof(ushort) },
                 { typeof(long), typeof(uint) },
-
 
                 { typeof(int), typeof(ulong) },
                 { typeof(int), typeof(byte) },

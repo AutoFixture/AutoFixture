@@ -28,7 +28,6 @@ namespace AutoFixtureUnitTest
         {
         }
 
-
         [Obsolete]
         public override object HandleRecursiveRequest(object request)
         {

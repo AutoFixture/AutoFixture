@@ -43,7 +43,6 @@ namespace AutoFixture
             return this.Create();
         }
 
-
         /// <summary>
         /// Creates an anonymous number.
         /// </summary>

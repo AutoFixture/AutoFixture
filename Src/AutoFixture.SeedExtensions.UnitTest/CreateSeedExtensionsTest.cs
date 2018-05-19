@@ -55,7 +55,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.True(expectedResult.SequenceEqual(result));
         }
 
-
         [Fact]
         public void CreateSeededManyOnSpecimenBuilderReturnsCorrectResult()
         {
@@ -80,7 +79,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
                 expected.SequenceEqual(actual),
                 "Sequences not equal.");
         }
-
 
         [Fact]
         public void CreateManyOnNullSpecimenContextWithSeedThrows()
@@ -110,7 +108,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.True(expectedResult.SequenceEqual(result));
         }
 
-
         [Fact]
         public void CreateManyOnNullSpecimenBuilderWithSeedAndCountThrows()
         {
@@ -124,7 +121,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
                     dummySeed,
                     dummyCount));
         }
-
 
         [Fact]
         public void CreateSeededAndCountedManyOnSpecimenBuilderComposerReturnsCorrectResult()
@@ -146,7 +142,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             // Assert
             Assert.True(expectedResult.SequenceEqual(result));
         }
-
 
         [Fact]
         public void CreateSeededAndCountedManyOnSpecimenBuilderReturnsCorrectResult()
@@ -174,7 +169,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
                 "Sequences not equal.");
         }
 
-
         [Fact]
         public void CreateManyOnNullSpecimenContextWithSeedAndCountThrows()
         {
@@ -185,7 +179,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.Throws<ArgumentNullException>(() =>
                 CreateSeedExtensions.CreateMany<object>((ISpecimenContext)null, dummySeed, dummyCount));
         }
-
 
         [Fact]
         public void CreateSeededAndCountedManyOnContainerReturnsCorrectResult()
@@ -206,7 +199,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.True(expectedResult.SequenceEqual(result));
         }
 
-
         [Fact]
         public void CreateFromNullSpecimenBuilderWithSeedThrows()
         {
@@ -216,7 +208,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             Assert.Throws<ArgumentNullException>(() =>
                 CreateSeedExtensions.Create<object>((ISpecimenBuilder)null, dummySeed));
         }
-
 
         [Fact]
         public void CreateaSeededAnonymousOnSpecimenBuilderComposerReturnsCorrectResult()
@@ -237,7 +228,6 @@ namespace AutoFixture.SeedExtensions.UnitTest
             // Assert
             Assert.Equal(expectedResult, result);
         }
-
 
         [Fact]
         public void CreateWithSeedOnSpecimenBuilderReturnsCorrectResult()

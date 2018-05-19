@@ -86,7 +86,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             int threadsCount = 5;
             int itemsPerThread = 10;
 
-
             var dataRows = Enumerable.Range(0, threadsCount * itemsPerThread)
                 .Select(_ =>
                 {

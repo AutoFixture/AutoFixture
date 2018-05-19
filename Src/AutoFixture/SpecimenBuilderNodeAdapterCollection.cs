@@ -48,7 +48,6 @@ namespace AutoFixture
 
         private IEnumerable<ISpecimenBuilder> AdaptedBuilders => this.AdaptedBuilderNode;
 
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="SpecimenBuilderNodeAdapterCollection" /> class.

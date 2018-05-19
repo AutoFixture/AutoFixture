@@ -316,7 +316,6 @@ namespace AutoFixtureUnitTest.Kernel
             }
         }
 
-
         private class CompositeNodeComposerEquatable<T> : GenericEquatable<CompositeNodeComposer<T>>
         {
             public CompositeNodeComposerEquatable(CompositeNodeComposer<T> item)

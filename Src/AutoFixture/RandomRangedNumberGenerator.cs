@@ -105,7 +105,6 @@ namespace AutoFixture
             }
         }
 
-
         private class FloatingPointRangedGenerator : ISpecimenBuilder
         {
             private const long RandomValueRange = int.MaxValue;

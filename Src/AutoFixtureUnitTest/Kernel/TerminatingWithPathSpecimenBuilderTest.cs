@@ -389,7 +389,6 @@ namespace AutoFixtureUnitTest.Kernel
             var request = new object();
             var exceptionToThrow = new ObjectCreationException("Creation failed.");
 
-
             var builder = new DelegatingSpecimenBuilder
             {
                 OnCreate = (r, c) => throw exceptionToThrow

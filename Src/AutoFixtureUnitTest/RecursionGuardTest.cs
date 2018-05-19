@@ -229,7 +229,6 @@ throw new PrivateUnexpectedException("Recursive handling should not be triggered
 
             sut.OnHandleRecursiveRequest = obj => recursiveRequest = obj;
 
-
             var container = new DelegatingSpecimenContext();
             container.OnResolve = r => sut.Create(r, container);
 

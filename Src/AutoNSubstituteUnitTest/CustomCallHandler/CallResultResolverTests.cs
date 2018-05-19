@@ -98,7 +98,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             Assert.Equal(42, callResult.ArgumentValues.First().Value);
         }
 
-
         [Fact]
         public void ShouldNotReturnValueIfOmitted()
         {

@@ -609,7 +609,6 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Null(sut.ExplicitSpecimenType);
         }
 
-
         public void Dispose()
         {
             StaticPropertyHolder<object>.Property = null;

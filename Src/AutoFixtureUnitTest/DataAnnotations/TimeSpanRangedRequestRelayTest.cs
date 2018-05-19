@@ -18,7 +18,6 @@ namespace AutoFixtureUnitTest.DataAnnotations
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
         }
 
-
         [Fact]
         public void ShouldFailForNullContext()
         {

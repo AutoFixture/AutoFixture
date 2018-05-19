@@ -100,7 +100,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal(expectedResultResolver, handler.ResultResolver);
         }
 
-
         [Fact]
         public void ShouldSilentlySkipNotASubstituteSpecimen()
         {
@@ -194,7 +193,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Assert
             Assert.Equal(callSpecFactory, handler.CallSpecificationFactory);
         }
-
 
         /// <summary>
         /// It's required to create custom mock, because NSubstitute cannot create fully functional
