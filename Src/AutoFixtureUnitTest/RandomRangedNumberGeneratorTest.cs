@@ -100,8 +100,8 @@ namespace AutoFixtureUnitTest
         [InlineData(-20, 10, 20, 11, -20, 15, 21, 15, -20, 20, 21, 20)]
         [InlineData(0, 2, 1, 2, -1, 2, 2, 2, -2, 2, 2, 3)]
         [InlineData(-20, 10, 20, 11, -15, 10, 16, 10, -10, 10, 11, 10)]
-        public void CreateReturnsCorrectValuesForRequestsOfSameTypeAndSingleSharedLimit
-            (int request1Min, int request1Max, int request1FirstGroup, int request1SecondGroup,
+        public void CreateReturnsCorrectValuesForRequestsOfSameTypeAndSingleSharedLimit(
+            int request1Min, int request1Max, int request1FirstGroup, int request1SecondGroup,
             int request2Min, int request2Max, int request2FirstGroup, int request2SecondGroup,
             int request3Min, int request3Max, int request3FirstGroup, int request3SecondGroup)
         {

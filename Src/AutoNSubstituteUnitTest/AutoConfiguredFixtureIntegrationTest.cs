@@ -923,8 +923,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             var tasks = Enumerable
                 .Range(0, degreeOfParallelism)
-                .Select(_ => Task.Run
-                (async () =>
+                .Select(_ => Task.Run(
+                    async () =>
                     {
                         await start.WaitAsync(cts.Token).ConfigureAwait(false);
                         substitute.Method();
