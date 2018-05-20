@@ -161,9 +161,7 @@ namespace AutoFixture.Xunit.UnitTest
         [Obsolete]
         public class Obsoleted
         {
-#pragma warning disable 618
             [Theory, AutoData(typeof(CustomizedFixture))]
-#pragma warning restore 618
             public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
             {
                 Assert.Equal("Ploeh", ph.Property);
@@ -171,9 +169,7 @@ namespace AutoFixture.Xunit.UnitTest
 
             [Theory, AutoData]
             public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
-#pragma warning disable 0618
                 [Frozen(As = typeof(AbstractType))] ConcreteType p1,
-#pragma warning restore 0618
                 AbstractType p2)
             {
                 Assert.Equal(p1, p2);
@@ -181,9 +177,7 @@ namespace AutoFixture.Xunit.UnitTest
 
             [Theory, AutoData]
             public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
-#pragma warning disable 0618
                 [Frozen(As = null)] ConcreteType p1,
-#pragma warning restore 0618
                 ConcreteType p2)
             {
                 Assert.Equal(p1, p2);
