@@ -38,7 +38,7 @@ namespace AutoFixture.Kernel
             if (type == null)
                 return new NoSpecimen();
 
-            if(!type.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
+            if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
                 return new NoSpecimen();
 
             var specimen = context.Resolve(new MultipleRequest(enumerableType));

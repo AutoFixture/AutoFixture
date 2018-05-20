@@ -22,7 +22,7 @@ namespace AutoFixture.NUnit2.Addins
         /// <returns>True if the add-in was installed, otehrwise false</returns>
         public bool Install(IExtensionHost host)
         {
-            if(host == null) throw new ArgumentNullException(nameof(host));
+            if (host == null) throw new ArgumentNullException(nameof(host));
             
             var providers = host.GetExtensionPoint("TestCaseProviders");
             if (providers == null) 

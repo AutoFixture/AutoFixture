@@ -139,7 +139,7 @@ namespace AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Act & Assert
-            var constructorWithNoParameters = typeof (PropertyHolder<object>).GetConstructors().First();
+            var constructorWithNoParameters = typeof(PropertyHolder<object>).GetConstructors().First();
             Assert.Empty(constructorWithNoParameters.GetParameters());
             Assert.Null(Record.Exception(() =>
                 sut.Verify(constructorWithNoParameters)));
@@ -212,7 +212,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var illBehavedType = typeof (PropertiesIncorrectlyInitializedViaConstructor<object, object>);
+            var illBehavedType = typeof(PropertiesIncorrectlyInitializedViaConstructor<object, object>);
             var propertyInfo1 = illBehavedType.GetProperty("Property1");
             var propertyInfo2 = illBehavedType.GetProperty("Property2");
             // Act & Assert
@@ -266,8 +266,8 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof (FieldsInitializedViaConstructor<object, int>)
-                .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
+            var ctor = typeof(FieldsInitializedViaConstructor<object, int>)
+                .GetConstructor(new[] {typeof(object), typeof(int), typeof(TriState)});
             // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingField");

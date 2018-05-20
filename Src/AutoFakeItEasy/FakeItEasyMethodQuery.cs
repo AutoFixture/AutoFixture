@@ -74,7 +74,7 @@ namespace AutoFixture.AutoFakeItEasy
 
             public object Invoke(IEnumerable<object> parameters)
             {
-                var genericFakeType = typeof (Fake<>).MakeGenericType(typeof (T));
+                var genericFakeType = typeof(Fake<>).MakeGenericType(typeof(T));
 
                 foreach (var constructor in genericFakeType.GetConstructors())
                 {
@@ -86,7 +86,7 @@ namespace AutoFixture.AutoFakeItEasy
 
                     var parameterType = constructorParameterInfos[0].ParameterType;
                     if (!parameterType.GetTypeInfo().IsGenericType ||
-                        parameterType.GetGenericTypeDefinition() != typeof (Action<>))
+                        parameterType.GetGenericTypeDefinition() != typeof(Action<>))
                     {
                         continue;
                     }
@@ -100,7 +100,7 @@ namespace AutoFixture.AutoFakeItEasy
 
                     var withArgumentsForConstructorMethod = fakeOptionsType.GetMethod(
                         "WithArgumentsForConstructor",
-                        new[] {typeof (object[])});
+                        new[] {typeof(object[])});
 
                     if (withArgumentsForConstructorMethod == null)
                     {

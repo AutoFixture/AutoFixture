@@ -276,7 +276,7 @@ namespace AutoFixture.Idioms
         /// <param name="fieldInfo">The field whose behavior must be verified.</param>
         public void Verify(FieldInfo fieldInfo)
         {
- 	        foreach(var assertion in this.Assertions)
+ 	        foreach (var assertion in this.Assertions)
             {
                 assertion.Verify(fieldInfo);
             }

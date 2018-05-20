@@ -45,7 +45,7 @@ namespace AutoFixture.Kernel
         
         public static bool IsNumberType(this Type type)
         {
-            if(type.GetTypeInfo().IsEnum) return false;
+            if (type.GetTypeInfo().IsEnum) return false;
 
             var typeCode = Type.GetTypeCode(type);
             switch (typeCode)

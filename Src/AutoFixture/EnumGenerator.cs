@@ -46,7 +46,7 @@ namespace AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             var type = request as Type;
-            if(type == null)
+            if (type == null)
                 return new NoSpecimen();
 
             if (!type.GetTypeInfo().IsEnum)

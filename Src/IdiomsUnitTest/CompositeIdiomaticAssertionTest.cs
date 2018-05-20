@@ -65,7 +65,7 @@ namespace AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnConstructorInfoVerify = observedConstructors.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithConstructor = typeof (UnguardedConstructorHost<object>);
+            Type typeWithConstructor = typeof(UnguardedConstructorHost<object>);
             ConstructorInfo ctor = typeWithConstructor.GetConstructors().First();
             // Act
             sut.Verify(ctor);
@@ -82,7 +82,7 @@ namespace AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnMethodInfoVerify = observedMethods.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithMethod = typeof (TypeWithConcreteParameterMethod);
+            Type typeWithMethod = typeof(TypeWithConcreteParameterMethod);
             MethodInfo method = typeWithMethod.GetMethods().First();
             // Act
             sut.Verify(method);
@@ -99,7 +99,7 @@ namespace AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnPropertyInfoVerify = observedProperties.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithMethod = typeof (PropertyHolder<object>);
+            Type typeWithMethod = typeof(PropertyHolder<object>);
             PropertyInfo property = typeWithMethod.GetProperties().First();
             // Act
             sut.Verify(property);
@@ -116,7 +116,7 @@ namespace AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnFieldInfoVerify = observedFields.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithField = typeof (FieldHolder<object>);
+            Type typeWithField = typeof(FieldHolder<object>);
             FieldInfo field = typeWithField.GetFields().First();
             // Act
             sut.Verify(field);
@@ -133,7 +133,7 @@ namespace AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnAssemblyVerify = observedAssemblies.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Assembly assembly = typeof (AbstractType).Assembly;
+            Assembly assembly = typeof(AbstractType).Assembly;
             // Act
             sut.Verify(assembly);
             // Assert
@@ -149,7 +149,7 @@ namespace AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnTypeVerify = observedTypes.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type type = typeof (AbstractType);
+            Type type = typeof(AbstractType);
             // Act
             sut.Verify(type);
             // Assert
@@ -168,8 +168,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var assemblies = new Assembly[]
             {
-                typeof (AbstractType).Assembly,
-                typeof (System.String).Assembly,
+                typeof(AbstractType).Assembly,
+                typeof(System.String).Assembly,
             };
 
             // Act
@@ -190,8 +190,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var assemblies = new[]
             {
-                typeof (AbstractType).Assembly,
-                typeof (System.String).Assembly,
+                typeof(AbstractType).Assembly,
+                typeof(System.String).Assembly,
             }
                 .AsEnumerable();
 
@@ -213,8 +213,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var types = new[]
             {
-                typeof (AbstractType),
-                typeof (System.String),
+                typeof(AbstractType),
+                typeof(System.String),
             };
 
             // Act
@@ -235,8 +235,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var assemblies = new[]
             {
-                typeof (AbstractType),
-                typeof (System.String),
+                typeof(AbstractType),
+                typeof(System.String),
             }
                 .AsEnumerable();
 
@@ -258,8 +258,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var members = new[]
             {
-                typeof (AbstractType).GetMembers().First(),
-                typeof (System.String).GetMembers().First(),
+                typeof(AbstractType).GetMembers().First(),
+                typeof(System.String).GetMembers().First(),
             };
 
             // Act
@@ -280,8 +280,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<MemberInfo> members = new[]
             {
-                typeof (AbstractType).GetMembers().First(),
-                typeof (System.String).GetMembers().First(),
+                typeof(AbstractType).GetMembers().First(),
+                typeof(System.String).GetMembers().First(),
             }
                 .AsEnumerable();
 
@@ -303,8 +303,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<ConstructorInfo> ctors = new[]
             {
-                typeof (ConcreteType).GetConstructors().First(),
-                typeof (System.String).GetConstructors().First(),
+                typeof(ConcreteType).GetConstructors().First(),
+                typeof(System.String).GetConstructors().First(),
             }
                 .AsEnumerable();
 
@@ -326,8 +326,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<MethodInfo> methods = new[]
             {
-                typeof (AbstractType).GetMethods().First(),
-                typeof (System.String).GetMethods().First(),
+                typeof(AbstractType).GetMethods().First(),
+                typeof(System.String).GetMethods().First(),
             }
                 .AsEnumerable();
 
@@ -349,8 +349,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var properties = new[]
             {
-                typeof (AbstractType).GetProperties().First(),
-                typeof (System.String).GetProperties().First(),
+                typeof(AbstractType).GetProperties().First(),
+                typeof(System.String).GetProperties().First(),
             };
 
             // Act
@@ -371,8 +371,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<PropertyInfo> properties = new[]
             {
-                typeof (AbstractType).GetProperties().First(),
-                typeof (System.String).GetProperties().First(),
+                typeof(AbstractType).GetProperties().First(),
+                typeof(System.String).GetProperties().First(),
             }
                 .AsEnumerable();
 
@@ -394,8 +394,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var fields = new[]
             {
-                typeof (FieldHolder<object>).GetFields().First(),
-                typeof (System.String).GetFields().First(),
+                typeof(FieldHolder<object>).GetFields().First(),
+                typeof(System.String).GetFields().First(),
             };
 
             // Act
@@ -416,8 +416,8 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<FieldInfo> fields = new[]
             {
-                typeof (FieldHolder<object>).GetFields().First(),
-                typeof (System.String).GetFields().First(),
+                typeof(FieldHolder<object>).GetFields().First(),
+                typeof(System.String).GetFields().First(),
             }
                 .AsEnumerable();
 

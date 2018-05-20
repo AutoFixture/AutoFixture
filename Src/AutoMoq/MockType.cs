@@ -69,7 +69,7 @@ namespace AutoFixture.AutoMoq
         {
             return setup.Returns(() =>
             {
-                var specimen = context.Resolve(typeof (TResult));
+                var specimen = context.Resolve(typeof(TResult));
 
                 // check if specimen is null but member is non-nullable value type
                 if (specimen == null && (default(TResult) != null))
@@ -77,7 +77,7 @@ namespace AutoFixture.AutoMoq
                         string.Format(
                             CultureInfo.CurrentCulture,
                             "Tried to setup a member with a return type of {0}, but null was found instead.",
-                            typeof (TResult)));
+                            typeof(TResult)));
 
                 // check if specimen can be safely converted to TResult
                 if (specimen != null && !(specimen is TResult))
@@ -85,7 +85,7 @@ namespace AutoFixture.AutoMoq
                         string.Format(
                             CultureInfo.CurrentCulture,
                             "Tried to setup a member with a return type of {0}, but an instance of {1} was found instead.",
-                            typeof (TResult),
+                            typeof(TResult),
                             specimen.GetType()));
 
                 TResult result = (TResult) specimen;

@@ -84,7 +84,7 @@ namespace AutoFixture.AutoMoq
 
         private static object ResolveMock(Type t, ISpecimenContext context)
         {
-            var mockType = typeof (Mock<>).MakeGenericType(t);
+            var mockType = typeof(Mock<>).MakeGenericType(t);
             return context.Resolve(mockType);
         }
 

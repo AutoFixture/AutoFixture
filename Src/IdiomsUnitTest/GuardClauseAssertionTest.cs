@@ -1080,7 +1080,7 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifyNonProperlyGuardedConstructorThrowsException()
         {
             var sut = new GuardClauseAssertion(new Fixture());
-            var constructorInfo = typeof (NonProperlyGuardedClass).GetConstructors().Single();
+            var constructorInfo = typeof(NonProperlyGuardedClass).GetConstructors().Single();
 
             var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(constructorInfo));
             Assert.Contains("Guard Clause prevented it, however", exception.Message);

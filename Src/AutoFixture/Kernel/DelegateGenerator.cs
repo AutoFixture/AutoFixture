@@ -49,7 +49,7 @@ namespace AutoFixture.Kernel
             if (delegateType == null)
                 return new NoSpecimen();
 
-            if(!this.Specification.IsSatisfiedBy(delegateType))
+            if (!this.Specification.IsSatisfiedBy(delegateType))
                 return new NoSpecimen();
 
             var delegateMethod = delegateType.GetTypeInfo().GetMethod("Invoke");

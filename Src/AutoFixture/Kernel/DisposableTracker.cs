@@ -138,7 +138,7 @@ namespace AutoFixture.Kernel
         {
             if (disposing)
             {
-                foreach(var d in this.Disposables)
+                foreach (var d in this.Disposables)
                 {
                     d.Dispose();
                 }

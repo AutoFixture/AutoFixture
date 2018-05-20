@@ -106,7 +106,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             var fixture = new Fixture();
             var assertion = new ConstructorInitializedMemberAssertion(fixture);
-            var members = typeof (UnguardedConstructorHost<Version>).GetProperties();
+            var members = typeof(UnguardedConstructorHost<Version>).GetProperties();
             assertion.Verify(members);
         }
 

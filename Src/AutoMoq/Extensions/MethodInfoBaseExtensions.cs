@@ -27,7 +27,7 @@ namespace AutoFixture.AutoMoq.Extensions
 
         internal static bool IsVoid(this MethodInfo method)
         {
-            return method.ReturnType == typeof (void);
+            return method.ReturnType == typeof(void);
         }
 
         internal static bool HasOutParameters(this MethodInfo method)

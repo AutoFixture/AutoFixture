@@ -46,7 +46,7 @@ namespace AutoFixture.Kernel
                 return new NoSpecimen();
 
             var specimenBuilder = (ISpecimenBuilder) Activator.CreateInstance(
-                typeof (EnumeratorRelay<>).MakeGenericType(enumeratorType));
+                typeof(EnumeratorRelay<>).MakeGenericType(enumeratorType));
             return specimenBuilder.Create(request, context);
         }
     }
@@ -67,7 +67,7 @@ namespace AutoFixture.Kernel
                 return new NoSpecimen();
 
             var enumerable =
-                context.Resolve(typeof (IEnumerable<T>)) as IEnumerable<T>;
+                context.Resolve(typeof(IEnumerable<T>)) as IEnumerable<T>;
 
             if (enumerable == null)
                 return new NoSpecimen();

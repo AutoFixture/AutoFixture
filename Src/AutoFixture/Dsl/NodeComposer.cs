@@ -500,7 +500,7 @@ namespace AutoFixture.Dsl
         private NodeComposer<T> GetGraphWithAutoPropertiesNode()
         {
             var existingNode = FindAutoPropertiesNode(this);
-            if(existingNode != null) return this;
+            if (existingNode != null) return this;
             
             var g = WithoutSeedIgnoringRelay(this);
             var filter = FindContainer(g);

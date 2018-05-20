@@ -12,7 +12,7 @@ namespace AutoFixture
     public class InvariantCultureGenerator : ISpecimenBuilder
     {
         private readonly ExactTypeSpecification cultureTypeSpecification 
-            = new ExactTypeSpecification(typeof (CultureInfo));
+            = new ExactTypeSpecification(typeof(CultureInfo));
 
         /// <summary>
         /// Generates a CultureInfo specimen based on a <see cref="CultureInfo"/> type request.

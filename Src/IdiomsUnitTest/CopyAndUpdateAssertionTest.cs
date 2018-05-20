@@ -105,12 +105,12 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof (ImmutableWellBehavedCopyMethods), "WithFirst")]
-        [InlineData(typeof (ImmutableWellBehavedCopyMethods), "WithSecond")]
-        [InlineData(typeof (ImmutableWellBehavedCopyMethods), "WithThird")]
-        [InlineData(typeof (MutableWellBehavedCopyMethods), "WithFirst")]
-        [InlineData(typeof (MutableWellBehavedCopyMethods), "WithSecond")]
-        [InlineData(typeof (MutableWellBehavedCopyMethods), "WithThird")]
+        [InlineData(typeof(ImmutableWellBehavedCopyMethods), "WithFirst")]
+        [InlineData(typeof(ImmutableWellBehavedCopyMethods), "WithSecond")]
+        [InlineData(typeof(ImmutableWellBehavedCopyMethods), "WithThird")]
+        [InlineData(typeof(MutableWellBehavedCopyMethods), "WithFirst")]
+        [InlineData(typeof(MutableWellBehavedCopyMethods), "WithSecond")]
+        [InlineData(typeof(MutableWellBehavedCopyMethods), "WithThird")]
         public void VerifyWellBehavedDoesNotThrow(Type typeWithCopyUpdateMethod, string copyUpdateMethodName)
         {
             // Arrange
@@ -123,15 +123,15 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithFirstButFirstDifferent", "First")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithSecondButSecondDifferent", "Second")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithThirdButThirdDifferent", "Third")]
-        [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
-        [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
-        [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithFirstButFirstDifferent", "First")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithSecondButSecondDifferent", "Second")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithThirdButThirdDifferent", "Third")]
+        [InlineData(typeof(ImmutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
+        [InlineData(typeof(ImmutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
+        [InlineData(typeof(ImmutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
         public void VerifyIllBehavedWithInvalidMemberValueThrows(
             Type typeWithCopyUpdateMethod,
             string copyUpdateMethodName,
@@ -149,9 +149,9 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof (ImmutableWithDifferentName), "With", "differentName")]
-        [InlineData(typeof (ImmutableWithDifferentType), "With", "differentType")]
-        [InlineData(typeof (ImmutableWithDifferentBoth), "With", "differentBoth")]
+        [InlineData(typeof(ImmutableWithDifferentName), "With", "differentName")]
+        [InlineData(typeof(ImmutableWithDifferentType), "With", "differentType")]
+        [InlineData(typeof(ImmutableWithDifferentBoth), "With", "differentBoth")]
         public void VerifyWhenMethodHasNoMatchingPublicMembersThrows(
             Type copyUpdateMethodType,
             string methodName,

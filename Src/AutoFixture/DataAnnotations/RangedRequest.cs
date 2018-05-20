@@ -152,7 +152,7 @@ namespace AutoFixture.DataAnnotations
                 // https://stackoverflow.com/a/30877647/2009373
                 // That's why we resort to Convert.ChangeType() if we detect that we cannot convert.
                 var converter = TypeDescriptor.GetConverter(conversionType);
-                if(converter.CanConvertFrom(attributeValue.GetType()))
+                if (converter.CanConvertFrom(attributeValue.GetType()))
                     return converter.ConvertFrom(attributeValue);
 
                 return Convert.ChangeType(attributeValue, conversionType, CultureInfo.CurrentCulture);

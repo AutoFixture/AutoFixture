@@ -80,12 +80,12 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Theory]
-        [ClassData(typeof (ValidNonMockSpecimens))]
+        [ClassData(typeof(ValidNonMockSpecimens))]
         public void CreateFromMockRequestWhenDecoratedBuilderReturnsValidNonMockSpecimenReturnsCorrectResult(
             object validNonMockSpecimen)
         {
             // Arrange
-            var request = typeof (Mock<object>);
+            var request = typeof(Mock<object>);
             var context = new Mock<ISpecimenContext>().Object;
 
             var builderStub = new Mock<ISpecimenBuilder>();
