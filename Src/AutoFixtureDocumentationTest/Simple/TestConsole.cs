@@ -1,4 +1,4 @@
-﻿//#define ALLOWCONSOLE
+﻿// #define ALLOWCONSOLE
 
 namespace AutoFixtureDocumentationTest.Simple
 {

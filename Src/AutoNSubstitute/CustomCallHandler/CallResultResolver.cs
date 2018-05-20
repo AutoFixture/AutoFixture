@@ -43,7 +43,7 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
             var returnValue = this.ResolveReturnValue(callInfo);
             var returnMaybe = returnValue is OmitSpecimen ? Maybe.Nothing<object>() : Maybe.Just(returnValue);
 
-            //Resolve ref/out parameter values.
+            // Resolve ref/out parameter values.
             var argumentValues = new List<CallResultData.ArgumentValue>();
             var parameterInfos = GetMethodParameters(callInfo);
             for (var i = 0; i < parameterInfos.Length; i++)

@@ -5145,17 +5145,17 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CustomizatonOfSamePropertyIsIgnoredDuringTheBuild()
         {
-            //arrange
+            // arrange
             var sut = new Fixture();
             sut.Customize<DoublePropertyHolder<string, int>>(c => c.With(x => x.Property1, "foo"));
 
-            //act
+            // act
             var result = sut
                 .Build<DoublePropertyHolder<string, int>>()
                 .With(x => x.Property2, 42)
                 .Create();
 
-            //assert
+            // assert
             Assert.NotEqual("foo", result.Property1);
             Assert.Equal(42, result.Property2);
         }
@@ -5166,21 +5166,21 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CustomizationOfIntPropertyDoesntThrowInBuild()
         {
-            //arrange
+            // arrange
             var sut = new Fixture();
             sut.Customize<PropertyHolder<long>>(c => c.Without(x => x.Property));
 
-            //act
+            // act
             var result = sut.Build<PropertyHolder<long>>().With(x => x.Property).Create();
 
-            //assert
+            // assert
             Assert.NotEqual(0L, result.Property);
         }
 
         [Fact]
         public void EnableDisableAutoPropertiesDoesntBreakCustomization()
         {
-            //arrange
+            // arrange
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(c =>
                 c
@@ -5188,10 +5188,10 @@ namespace AutoFixtureUnitTest
                     .OmitAutoProperties()
                     .WithAutoProperties());
 
-            //act
+            // act
             var result = sut.Create<PropertyHolder<string>>();
 
-            //assert
+            // assert
             Assert.Null(result.Property);
         }
 

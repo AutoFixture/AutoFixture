@@ -770,7 +770,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                 {
                     Thread.Sleep(DELAY_MSEC);
 
-                    //If task cannot be dequeued - it was already executed.
+                    // If task cannot be dequeued - it was already executed.
                     if (this.TryDequeue(task))
                     {
                         this.TryExecuteTask(task);
@@ -788,7 +788,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
             {
-                //If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
+                // If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
                 if (taskWasPreviouslyQueued && !this.TryDequeue(task))
                 {
                     return false;
@@ -802,7 +802,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             {
                 lock (this._syncRoot)
                 {
-                    //Create copy to ensure that it's not modified during enumeration
+                    // Create copy to ensure that it's not modified during enumeration
                     return this.Tasks.ToArray();
                 }
             }
@@ -811,7 +811,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
-            //Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
+            // Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
@@ -830,7 +830,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             var instance = task.Result;
 
-            //This test should not fail. Assertion is dummy and to specify that we use instance.
+            // This test should not fail. Assertion is dummy and to specify that we use instance.
             Assert.NotNull(instance);
         }
 
@@ -854,11 +854,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             var task = new Task(() =>
             {
-                //arrange
+                // arrange
                 var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
                 var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
-                //act & assert not throw
+                // act & assert not throw
                 var result = interfaceSource.Method();
             });
             task.Start(new InlineOnQueueTaskScheduler());

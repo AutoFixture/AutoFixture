@@ -48,7 +48,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
                 return expectedResult.Cast<object>();
             };
 
-            //var composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
+            // var composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
             // Act
             var result = specimenBuilder.CreateMany(seed);
             // Assert

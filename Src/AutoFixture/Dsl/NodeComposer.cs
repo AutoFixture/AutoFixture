@@ -505,7 +505,7 @@ namespace AutoFixture.Dsl
             var g = WithoutSeedIgnoringRelay(this);
             var filter = FindContainer(g);
 
-            //Create AutoProperties node in inactive state
+            // Create AutoProperties node in inactive state
             return (NodeComposer<T>)g.ReplaceNodes(
                 with: n => n.Compose(
                     new ISpecimenBuilder[]

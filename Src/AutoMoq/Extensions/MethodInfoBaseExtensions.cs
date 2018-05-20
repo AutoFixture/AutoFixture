@@ -38,7 +38,7 @@ namespace AutoFixture.AutoMoq.Extensions
 
         internal static bool HasRefParameters(this MethodInfo method)
         {
-            //"out" parameters are also considered "byref", so we have to filter these out
+            // "out" parameters are also considered "byref", so we have to filter these out
             return method.GetParameters()
                          .Any(p => p.ParameterType.IsByRef && !p.IsOut);
         }

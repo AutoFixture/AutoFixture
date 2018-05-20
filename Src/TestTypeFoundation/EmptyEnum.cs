@@ -2,6 +2,6 @@
 {
     public enum EmptyEnum
     {
-        //this must not contain any values
+        // this must not contain any values
     }
 }

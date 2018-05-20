@@ -237,7 +237,7 @@ namespace AutoFixture.Idioms
         {
             if (type.IsEnum)
             {
-                //Check for a default value only enum
+                // Check for a default value only enum
                 var values = Enum.GetValues(type);
                 return values.Length == 1 && values.GetValue(0).Equals(Activator.CreateInstance(type));
             }

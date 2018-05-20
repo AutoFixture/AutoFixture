@@ -2,7 +2,7 @@
 {
     public interface IInterfaceWithNewMethod : IInterfaceWithShadowedMethod
     {
-        //new method
+        // new method
         new string Method(int i);
     }
 }

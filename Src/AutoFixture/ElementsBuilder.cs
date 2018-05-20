@@ -40,7 +40,7 @@ namespace AutoFixture
                     "if the collection is empty, there are no elements to draw.",
                     nameof(elements));
 
-            //The RandomNumericSequenceGenerator is only created for collections of minimum 2 elements
+            // The RandomNumericSequenceGenerator is only created for collections of minimum 2 elements
             if (this.elements.Length > 1)
                 this.sequence = new RandomNumericSequenceGenerator(0, this.elements.Length - 1);
         }

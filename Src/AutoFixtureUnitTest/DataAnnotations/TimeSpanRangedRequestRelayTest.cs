@@ -57,7 +57,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
 
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = _ => 30 * 60 * 1000.0 //30 (chosen randomly) minutes in miliseconds
+                OnResolve = _ => 30 * 60 * 1000.0 // 30 (chosen randomly) minutes in miliseconds
             };
 
             // Act

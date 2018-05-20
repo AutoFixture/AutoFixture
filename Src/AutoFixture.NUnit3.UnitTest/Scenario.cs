@@ -85,7 +85,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.AreNotEqual(0, p2.Number);
         }
 
-        //Note that Order of [Greedy] and [Frozen] is reversed than in BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter
+        // Note that Order of [Greedy] and [Frozen] is reversed than in BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter
         [Test, AutoData]
         public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameterRegardlessOfOrder([Greedy][Frozen]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {

@@ -90,7 +90,7 @@ namespace AutoFixture.AutoMoq
 
                 TResult result = (TResult)specimen;
 
-                //"cache" value for future invocations
+                // "cache" value for future invocations
                 setup.Returns(result);
                 return result;
             });

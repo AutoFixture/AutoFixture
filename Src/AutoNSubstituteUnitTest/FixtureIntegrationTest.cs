@@ -1043,11 +1043,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             var task = new Task(() =>
             {
-                //arrange
+                // arrange
                 var fixture = new Fixture().Customize(new AutoNSubstituteCustomization { ConfigureMembers = true });
                 var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
-                //act & assert not throw
+                // act & assert not throw
                 var result = interfaceSource.Method();
             });
             task.Start(new InlineOnQueueTaskScheduler());

@@ -807,7 +807,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        //All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
+        // All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
         enum TestIntEnum { none = 0, one, two, three };
         enum TestByteEnum : byte { none = 0, one, two, three };
         enum TestSByteEnum : sbyte { none = 0, one, two, three };
