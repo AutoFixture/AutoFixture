@@ -74,7 +74,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var sut = new DataAnnotationsSupportNode(new DelegatingSpecimenBuilder());
             var newBuilder = new DelegatingSpecimenBuilder();
             // Act
-            var result = sut.Compose(new []{newBuilder});
+            var result = sut.Compose(new [] {newBuilder});
             // Assert
             var castedResult = Assert.IsType<DataAnnotationsSupportNode>(result);
             Assert.Equal(newBuilder, castedResult.Builder);
