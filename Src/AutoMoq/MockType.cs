@@ -88,7 +88,7 @@ namespace AutoFixture.AutoMoq
                             typeof(TResult),
                             specimen.GetType()));
 
-                TResult result = (TResult) specimen;
+                TResult result = (TResult)specimen;
 
                 //"cache" value for future invocations
                 setup.Returns(result);

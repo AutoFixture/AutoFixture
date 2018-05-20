@@ -45,7 +45,7 @@ namespace AutoFixture.Kernel
             if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerator<>), out Type enumeratorType))
                 return new NoSpecimen();
 
-            var specimenBuilder = (ISpecimenBuilder) Activator.CreateInstance(
+            var specimenBuilder = (ISpecimenBuilder)Activator.CreateInstance(
                 typeof(EnumeratorRelay<>).MakeGenericType(enumeratorType));
             return specimenBuilder.Create(request, context);
         }

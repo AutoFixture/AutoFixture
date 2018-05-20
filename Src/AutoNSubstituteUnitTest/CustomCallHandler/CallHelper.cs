@@ -11,7 +11,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
     {
         public static ICall CreateCallMock(Expression<Action> method)
         {
-            var methodExpression = (MethodCallExpression) method.Body;
+            var methodExpression = (MethodCallExpression)method.Body;
             var args = new List<object>();
             foreach (var argExpression in methodExpression.Arguments)
             {

@@ -31,7 +31,7 @@ namespace AutoFixture.NUnit3.UnitTest
             // Arrange
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoDataAttributeStub((Func<IFixture>) null));
+                new AutoDataAttributeStub((Func<IFixture>)null));
         }
         
         [Test]

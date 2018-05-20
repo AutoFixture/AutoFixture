@@ -101,48 +101,38 @@ namespace AutoFixture
             switch (Type.GetTypeCode(request))
             {
                 case TypeCode.Byte:
-                    return (byte)
-                        this.GetNextRandom();
+                    return (byte)this.GetNextRandom();
 
                 case TypeCode.Decimal:
-                    return (decimal)
-                        this.GetNextRandom();
+                    return (decimal)this.GetNextRandom();
 
                 case TypeCode.Double:
-                    return (double)
-                        this.GetNextRandom();
+                    return (double)this.GetNextRandom();
 
                 case TypeCode.Int16:
-                    return (short)
-                        this.GetNextRandom();
+                    return (short)this.GetNextRandom();
 
                 case TypeCode.Int32:
-                    return (int)
-                        this.GetNextRandom();
+                    return (int)this.GetNextRandom();
 
                 case TypeCode.Int64:
                     return
                         this.GetNextRandom();
 
                 case TypeCode.SByte:
-                    return (sbyte)
-                        this.GetNextRandom();
+                    return (sbyte)this.GetNextRandom();
 
                 case TypeCode.Single:
-                    return (float)
-                        this.GetNextRandom();
+                    return (float)this.GetNextRandom();
 
                 case TypeCode.UInt16:
-                    return (ushort)
-                        this.GetNextRandom();
+                    return (ushort)this.GetNextRandom();
 
                 case TypeCode.UInt32:
-                    return (uint)
-                        this.GetNextRandom();
+                    return (uint)this.GetNextRandom();
 
                 case TypeCode.UInt64:
-                    return (ulong)
-                        this.GetNextRandom();
+                    return (ulong)this.GetNextRandom();
 
                 default:
                     return new NoSpecimen();

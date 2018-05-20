@@ -449,7 +449,7 @@ namespace AutoFixture
         private ISpecimenBuilderNode FindAdaptedSpecimenBuilderNode()
         {
             var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
-            return (ISpecimenBuilderNode) markerNode.First();
+            return (ISpecimenBuilderNode)markerNode.First();
         }
     }
 }

@@ -65,7 +65,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                new DerivedAutoDataAttribute((Func<IFixture>) null));
+                new DerivedAutoDataAttribute((Func<IFixture>)null));
         }
         
         [Fact]
@@ -300,8 +300,8 @@ namespace AutoFixture.Xunit2.UnitTest
             var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
 
             // Act
-            var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
-            var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
+            var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
+            var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
 
             // Assert
             Assert.Equal(expectedType, actualType);

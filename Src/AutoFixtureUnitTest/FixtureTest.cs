@@ -5975,7 +5975,7 @@ namespace AutoFixtureUnitTest
             Assert.Equal("42", result.Value);
 
             IPostprocessComposer<T> ConfigurePropertyField<T>(IPostprocessComposer<T> composer)
-                where T: IIssue970_ValueHolder
+                where T : IIssue970_ValueHolder
             {
                 return composer.With(x => x.Value, "42");
             }

@@ -68,7 +68,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             // Assert
             var handler =
-                (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(Substitute.For<ISubstituteState>());
+                (AutoFixtureValuesHandler)callRouter.RegisteredFactory.Invoke(Substitute.For<ISubstituteState>());
             Assert.Equal(expectedResultsCache, handler.ResultCache);
         }
 
@@ -96,7 +96,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             // Assert
             var handler =
-                (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(Substitute.For<ISubstituteState>());
+                (AutoFixtureValuesHandler)callRouter.RegisteredFactory.Invoke(Substitute.For<ISubstituteState>());
             Assert.Equal(expectedResultResolver, handler.ResultResolver);
         }
 
@@ -137,8 +137,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var instance2 = callRouter.RegisteredFactory.Invoke(substituteState);
 
             // Assert
-            var handler1 = (AutoFixtureValuesHandler) instance1;
-            var handler2 = (AutoFixtureValuesHandler) instance2;
+            var handler1 = (AutoFixtureValuesHandler)instance1;
+            var handler2 = (AutoFixtureValuesHandler)instance2;
 
             Assert.NotSame(handler1, handler2);
             Assert.Same(handler1.ResultResolver, handler2.ResultResolver);
@@ -162,10 +162,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             sut.Execute(specimen, context);
 
             // Act
-            var handler = (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(substituteState);
+            var handler = (AutoFixtureValuesHandler)callRouter.RegisteredFactory.Invoke(substituteState);
 
             // Assert
-            Assert.Equal(context, ((CallResultResolver) handler.ResultResolver).SpecimenContext);
+            Assert.Equal(context, ((CallResultResolver)handler.ResultResolver).SpecimenContext);
         }
 
         [Fact]
@@ -188,7 +188,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             sut.Execute(specimen, context);
 
             // Act
-            var handler = (AutoFixtureValuesHandler) callRouter.RegisteredFactory.Invoke(substituteState);
+            var handler = (AutoFixtureValuesHandler)callRouter.RegisteredFactory.Invoke(substituteState);
 
             // Assert
             Assert.Equal(callSpecFactory, handler.CallSpecificationFactory);

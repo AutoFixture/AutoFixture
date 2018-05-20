@@ -84,16 +84,16 @@ namespace AutoFixture.Xunit2.UnitTest
 
         private class MyCustomInlineAutoDataAttribute : InlineAutoDataAttribute
         {
-            public MyCustomInlineAutoDataAttribute(params object[] values) :
-                base(new MyCustomAutoDataAttribute(), values)
+            public MyCustomInlineAutoDataAttribute(params object[] values)
+                : base(new MyCustomAutoDataAttribute(), values)
             {
             }
         }
 
         private class MyCustomAutoDataAttribute : AutoDataAttribute
         {
-            public MyCustomAutoDataAttribute() :
-                base(() => new Fixture().Customize(new TheAnswer()))
+            public MyCustomAutoDataAttribute()
+                : base(() => new Fixture().Customize(new TheAnswer()))
             {
             }
 

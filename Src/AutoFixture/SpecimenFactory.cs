@@ -83,7 +83,7 @@ namespace AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static T Create<T>(this IPostprocessComposer<T> composer)
         {
-            return Create<T>((ISpecimenBuilder) composer);
+            return Create<T>((ISpecimenBuilder)composer);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace AutoFixture
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             var rawResult = context.Resolve(new MultipleRequest(new SeededRequest(typeof(T), default(T))));
-            return ((IEnumerable<object>) rawResult).Cast<T>();
+            return ((IEnumerable<object>)rawResult).Cast<T>();
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace AutoFixture
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             var rawResult = context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), default(T)), count));
-            return ((IEnumerable<object>) rawResult).Cast<T>();
+            return ((IEnumerable<object>)rawResult).Cast<T>();
         }
 
         /// <summary>

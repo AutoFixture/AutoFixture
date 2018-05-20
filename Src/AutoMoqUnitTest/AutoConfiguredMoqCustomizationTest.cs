@@ -88,8 +88,8 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             sut.Customize(fixture.Object);
             // Assert
-            var postprocessor = (Postprocessor) customizations.Single(builder => builder is Postprocessor);
-            var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
+            var postprocessor = (Postprocessor)customizations.Single(builder => builder is Postprocessor);
+            var compositeCommand = (CompositeSpecimenCommand)postprocessor.Command;
 
             Assert.Contains(compositeCommand.Commands, command => command.GetType() == expectedCommandType);
         }

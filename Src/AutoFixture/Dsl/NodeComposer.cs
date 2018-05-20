@@ -265,7 +265,7 @@ namespace AutoFixture.Dsl
             // If user later decide to enable properties population, we'll need this information 
             // (e.g. if user does smth like fixture.Build().Without(x => x.P).OmitAutoProperties().WithAutoProperties()
             // the information from "Without" should not be missed)
-            return (NodeComposer<T>) this.ReplaceNodes(
+            return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => new Postprocessor(
                     autoPropertiesNode.Builder,
                     autoPropertiesNode.Command,
@@ -346,7 +346,7 @@ namespace AutoFixture.Dsl
                 when: container.Equals);
 
             var member = propertyPicker.GetWritableMember().Member;
-            return (NodeComposer<T>) ExcludeMemberFromAutoProperties(member, graphWithProperty);
+            return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithProperty);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace AutoFixture.Dsl
             var g = this.GetGraphWithAutoPropertiesNode();
             var autoProperties = FindAutoPropertiesNode(g);
 
-            return (NodeComposer<T>) g.ReplaceNodes(
+            return (NodeComposer<T>)g.ReplaceNodes(
                 with: n => new Postprocessor(
                     autoProperties.Builder,
                     autoProperties.Command,
@@ -391,7 +391,7 @@ namespace AutoFixture.Dsl
             var member = propertyPicker.GetWritableMember().Member;
             var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
 
-            return (NodeComposer<T>) ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
+            return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace AutoFixture.Dsl
 
         private static Postprocessor FindAutoPropertiesNode(ISpecimenBuilderNode graph)
         {
-            return (Postprocessor) graph
+            return (Postprocessor)graph
                 .FindFirstNodeOrDefault(n => n is Postprocessor postprocessor &&
                                              postprocessor.Command is AutoPropertiesCommand);
         }
@@ -536,7 +536,7 @@ namespace AutoFixture.Dsl
             var autoPropertiesNode = FindAutoPropertiesNode(graph);
             if (autoPropertiesNode == null) return graph;
 
-            var currentSpecification = ((AutoPropertiesCommand) autoPropertiesNode.Command).Specification;
+            var currentSpecification = ((AutoPropertiesCommand)autoPropertiesNode.Command).Specification;
             var newRule = new InverseRequestSpecification(
                 new EqualRequestSpecification(
                     member,

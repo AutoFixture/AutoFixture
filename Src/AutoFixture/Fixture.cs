@@ -204,7 +204,7 @@ namespace AutoFixture
             set
             {
                 IRequestSpecification newSpecification = value
-                    ? (IRequestSpecification) new FalseRequestSpecification()
+                    ? (IRequestSpecification)new FalseRequestSpecification()
                     : new AnyTypeSpecification();
 
                 var existingPostProcessor = this.FindAutoPropertiesPostProcessor();
@@ -348,8 +348,8 @@ namespace AutoFixture
 
         private Postprocessor FindAutoPropertiesPostProcessor()
         {
-            var postprocessorHolder = (AutoPropertiesTarget) this.graph.FindFirstNode(b => b is AutoPropertiesTarget);
-            return (Postprocessor) postprocessorHolder.Builder;
+            var postprocessorHolder = (AutoPropertiesTarget)this.graph.FindFirstNode(b => b is AutoPropertiesTarget);
+            return (Postprocessor)postprocessorHolder.Builder;
         }
 
         private static ISpecimenBuilder MakeFixedBuilder<T>(T value)

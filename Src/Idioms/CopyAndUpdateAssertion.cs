@@ -232,7 +232,7 @@ namespace AutoFixture.Idioms
             }
             else
             {
-                var fieldInfo = (FieldInfo) member;
+                var fieldInfo = (FieldInfo)member;
                 specimenMemberValue = fieldInfo.GetValue(specimen);
                 copiedAndUpdatedMemberValue = fieldInfo.GetValue(copiedAndUpdatedSpecimen);
             }

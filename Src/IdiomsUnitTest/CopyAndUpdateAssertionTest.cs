@@ -101,7 +101,7 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CopyAndUpdateAssertion(dummyComposer);
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((MethodInfo) null));
+                sut.Verify((MethodInfo)null));
         }
 
         [Theory]
@@ -283,7 +283,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 var differentThird = new ComplexMutable<int, int, int>
                 {
-                    First = third.First+1,
+                    First = third.First + 1,
                     Second = third.Second,
                     Third = third.Third,
                 };

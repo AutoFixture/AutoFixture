@@ -65,7 +65,7 @@ namespace AutoFixture.Xunit.UnitTest
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                new DerivedAutoDataAttribute((Func<IFixture>) null));
+                new DerivedAutoDataAttribute((Func<IFixture>)null));
         }
 
         [Fact]

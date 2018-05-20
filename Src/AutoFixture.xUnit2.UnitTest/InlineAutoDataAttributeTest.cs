@@ -148,8 +148,8 @@ namespace AutoFixture.Xunit2.UnitTest
             var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
 
             // Act
-            var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
-            var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
+            var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
+            var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
 
             // Assert
             Assert.Equal(expectedType, actualType);
