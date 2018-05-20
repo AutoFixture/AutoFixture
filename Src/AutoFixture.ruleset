@@ -81,7 +81,6 @@
     <Rule Id = "SA1504" Action = "None" /> <!-- All accessors should be single-line or multi-line -->
     <Rule Id = "SA1513" Action = "None" /> <!-- Closing brace should be followed by blank line -->
     <Rule Id = "SA1515" Action = "None" /> <!-- Single-line comment should be preceded by blank line -->
-    <Rule Id = "SA1518" Action = "None" /> <!-- Code should not contain blank lines at the end of the file -->
     <Rule Id = "SA1519" Action = "None" /> <!-- Braces should not be omitted from multi-line child statement -->
     <Rule Id = "SA1600" Action = "None" /> <!-- Elements should be documented -->
     <Rule Id = "SA1604" Action = "None" /> <!-- Element documentation should have summary -->

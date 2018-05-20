@@ -76,4 +76,3 @@ namespace AutoFixture.Kernel
         }
     }
 }
-
