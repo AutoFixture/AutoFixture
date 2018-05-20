@@ -897,7 +897,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var result = fixture.Create<int>();
 
             // Act
-            substitute.Method(parameter, out int dummy).Returns(c => { c[1] = result; return true; });
+            substitute.Method(parameter, out int dummy).Returns(c =>
+            {
+                c[1] = result;
+                return true;
+            });
 
             int actualResult;
             substitute.Method(parameter, out actualResult);

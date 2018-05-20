@@ -2161,7 +2161,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<ulong, bool>();
-            mock.OnQuery = x => { methodInvoked = true; return true; };
+            mock.OnQuery = x =>
+            {
+                methodInvoked = true;
+                return true;
+            };
             // Act
             sut.Get((ulong s) => mock.Query(s));
             // Assert
@@ -2178,7 +2182,11 @@ namespace AutoFixtureUnitTest
             sut.Register<double?>(() => expectedNumber);
 
             var mock = new QueryMock<double?, string>();
-            mock.OnQuery = x => { Assert.Equal<double?>(expectedNumber, x); return "Anonymous text"; };
+            mock.OnQuery = x =>
+            {
+                Assert.Equal<double?>(expectedNumber, x);
+                return "Anonymous text";
+            };
             // Act
             sut.Get((double? x) => mock.Query(x));
             // Assert (done by mock)
@@ -2217,7 +2225,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<string, int, long>();
-            mock.OnQuery = (x1, x2) => { methodInvoked = true; return 148; };
+            mock.OnQuery = (x1, x2) =>
+            {
+                methodInvoked = true;
+                return 148;
+            };
             // Act
             sut.Get((string x1, int x2) => mock.Query(x1, x2));
             // Assert
@@ -2234,7 +2246,11 @@ namespace AutoFixtureUnitTest
             sut.Register<byte>(() => expectedByte);
 
             var mock = new QueryMock<byte, int, double>();
-            mock.OnQuery = (x1, x2) => { Assert.Equal<byte>(expectedByte, x1); return 9823829; };
+            mock.OnQuery = (x1, x2) =>
+            {
+                Assert.Equal<byte>(expectedByte, x1);
+                return 9823829;
+            };
             // Act
             sut.Get((byte x1, int x2) => mock.Query(x1, x2));
             // Assert (done by mock)
@@ -2250,7 +2266,11 @@ namespace AutoFixtureUnitTest
             sut.Register<sbyte>(() => expectedByte);
 
             var mock = new QueryMock<DateTime, sbyte, bool>();
-            mock.OnQuery = (x1, x2) => { Assert.Equal<sbyte>(expectedByte, x2); return false; };
+            mock.OnQuery = (x1, x2) =>
+            {
+                Assert.Equal<sbyte>(expectedByte, x2);
+                return false;
+            };
             // Act
             sut.Get((DateTime x1, sbyte x2) => mock.Query(x1, x2));
             // Assert (done by mock)
@@ -2289,7 +2309,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<object, object, object, object>();
-            mock.OnQuery = (x1, x2, x3) => { methodInvoked = true; return new object(); };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                methodInvoked = true;
+                return new object();
+            };
             // Act
             sut.Get((object x1, object x2, object x3) => mock.Query(x1, x2, x3));
             // Assert
@@ -2306,7 +2330,11 @@ namespace AutoFixtureUnitTest
             sut.Register<sbyte?>(() => expectedByte);
 
             var mock = new QueryMock<sbyte?, bool, string, float>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<sbyte?>(expectedByte, x1); return 3646.77f; };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                Assert.Equal<sbyte?>(expectedByte, x1);
+                return 3646.77f;
+            };
             // Act
             sut.Get((sbyte? x1, bool x2, string x3) => mock.Query(x1, x2, x3));
             // Assert (done by mock)
@@ -2322,7 +2350,11 @@ namespace AutoFixtureUnitTest
             sut.Register<float>(() => expectedNumber);
 
             var mock = new QueryMock<bool, float, TimeSpan, object>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<float>(expectedNumber, x2); return new object(); };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                Assert.Equal<float>(expectedNumber, x2);
+                return new object();
+            };
             // Act
             sut.Get((bool x1, float x2, TimeSpan x3) => mock.Query(x1, x2, x3));
             // Assert (done by mock)
@@ -2338,7 +2370,11 @@ namespace AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new QueryMock<long, short, string, decimal?>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal(expectedText, x3); return 111.11m; };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                Assert.Equal(expectedText, x3);
+                return 111.11m;
+            };
             // Act
             sut.Get((long x1, short x2, string x3) => mock.Query(x1, x2, x3));
             // Assert (done by mock)
@@ -2377,7 +2413,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<object, object, object, object, object>();
-            mock.OnQuery = (x1, x2, x3, x4) => { methodInvoked = true; return new object(); };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                methodInvoked = true;
+                return new object();
+            };
             // Act
             sut.Get((object x1, object x2, object x3, object x4) => mock.Query(x1, x2, x3, x4));
             // Assert
@@ -2394,7 +2434,11 @@ namespace AutoFixtureUnitTest
             sut.Register<TimeSpan>(() => expectedTimeSpan);
 
             var mock = new QueryMock<TimeSpan, Version, Random, Guid, EventArgs>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<TimeSpan>(expectedTimeSpan, x1); return EventArgs.Empty; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<TimeSpan>(expectedTimeSpan, x1);
+                return EventArgs.Empty;
+            };
             // Act
             sut.Get((TimeSpan x1, Version x2, Random x3, Guid x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
@@ -2410,7 +2454,11 @@ namespace AutoFixtureUnitTest
             sut.Register<DateTimeKind>(() => expectedDateTimeKind);
 
             var mock = new QueryMock<Random, DateTimeKind, DateTime, string, float>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DateTimeKind>(expectedDateTimeKind, x2); return 77f; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<DateTimeKind>(expectedDateTimeKind, x2);
+                return 77f;
+            };
             // Act
             sut.Get((Random x1, DateTimeKind x2, DateTime x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
@@ -2426,7 +2474,11 @@ namespace AutoFixtureUnitTest
             sut.Register<DayOfWeek>(() => expectedDayOfWeek);
 
             var mock = new QueryMock<int, float, DayOfWeek, string, ConsoleColor>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return ConsoleColor.Black; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3);
+                return ConsoleColor.Black;
+            };
             // Act
             sut.Get((int x1, float x2, DayOfWeek x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
@@ -2442,7 +2494,11 @@ namespace AutoFixtureUnitTest
             sut.Register<int>(() => expectedNumber);
 
             var mock = new QueryMock<Version, ushort, string, int, ConsoleColor>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return ConsoleColor.Cyan; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<int>(expectedNumber, x4);
+                return ConsoleColor.Cyan;
+            };
             // Act
             sut.Get((Version x1, ushort x2, string x3, int x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
