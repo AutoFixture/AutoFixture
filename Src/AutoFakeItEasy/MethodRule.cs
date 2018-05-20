@@ -45,7 +45,7 @@ namespace AutoFixture.AutoFakeItEasy
             if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
             var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
-            var callResult = this.resultSource.GetOrAdd(CreateMethodCall(fakeObjectCall), () => CreateMethodCallResult(fakeObjectCall));
+            var callResult = this.resultSource.GetOrAdd(CreateMethodCall(fakeObjectCall), () => this.CreateMethodCallResult(fakeObjectCall));
             callResult.ApplyToCall(fakeObjectCall);
         }
 
@@ -57,8 +57,8 @@ namespace AutoFixture.AutoFakeItEasy
 
         private MethodCallResult CreateMethodCallResult(FakeObjectCall fakeObjectCall)
         {
-            var result = new MethodCallResult(ResolveReturnValue(fakeObjectCall));
-            AddOutAndRefValues(result, fakeObjectCall);
+            var result = new MethodCallResult(this.ResolveReturnValue(fakeObjectCall));
+            this.AddOutAndRefValues(result, fakeObjectCall);
             return result;
         }
 

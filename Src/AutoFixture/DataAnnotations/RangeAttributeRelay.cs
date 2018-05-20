@@ -41,7 +41,7 @@ namespace AutoFixture.DataAnnotations
                 return new NoSpecimen();
             }
 
-            var memberType = GetMemberType(rangeAttribute, request);
+            var memberType = this.GetMemberType(rangeAttribute, request);
             var rangedRequest =
                 new RangedRequest(
                     memberType,

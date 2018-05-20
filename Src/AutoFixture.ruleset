@@ -10,7 +10,6 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id = "SA0001" Action = "None" /> <!-- XML comment analysis is disabled due to project configuration -->
-    <Rule Id = "SA1101" Action = "None" /> <!-- Prefix local calls with this -->
     <Rule Id = "SA1106" Action = "None" /> <!-- Code should not contain empty statements -->
     <Rule Id = "SA1107" Action = "None" /> <!-- Code should not contain multiple statements on one line -->
     <Rule Id = "SA1110" Action = "None" /> <!-- Opening parenthesis or bracket should be on declaration line. -->

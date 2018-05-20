@@ -28,15 +28,15 @@ namespace AutoFixture.AutoFakeItEasy
 
         public MethodInfo Method => this.wrappedCall.Method;
 
-        public IEnumerable<object> Arguments => (IEnumerable<object>)InvokeWrappedPropertyGetter(ArgumentsPropertyName);
+        public IEnumerable<object> Arguments => (IEnumerable<object>)this.InvokeWrappedPropertyGetter(ArgumentsPropertyName);
 
         public void SetReturnValue(object value)
         {
-            InvokeWrappedMethod(SetReturnValueMethodName, value);
+            this.InvokeWrappedMethod(SetReturnValueMethodName, value);
         }
 
         public void SetArgumentValue(int index, object value) =>
-            InvokeWrappedMethod(SetArgumentValueMethodName, index, value);
+            this.InvokeWrappedMethod(SetArgumentValueMethodName, index, value);
 
         private object InvokeWrappedPropertyGetter(string propertyName)
         {
@@ -48,7 +48,7 @@ namespace AutoFixture.AutoFakeItEasy
                     "Property {0} cannot be found on {1}", propertyName, callType.FullName));
             }
 
-            return propertyInfo.GetValue(wrappedCall);
+            return propertyInfo.GetValue(this.wrappedCall);
         }
 
         private void InvokeWrappedMethod(string methodName, params object[] parameters)
@@ -61,7 +61,7 @@ namespace AutoFixture.AutoFakeItEasy
                     "Method {0} cannot be found on {1}", methodName, callType.FullName));
             }
 
-            methodInfo.Invoke(wrappedCall, parameters);
+            methodInfo.Invoke(this.wrappedCall, parameters);
         }
     }
 }
