@@ -29,7 +29,7 @@
 
         public class InlineAutoDataFixedNameAttribute : InlineAutoDataAttribute
         {
-            public InlineAutoDataFixedNameAttribute(params object[] arguments) 
+            public InlineAutoDataFixedNameAttribute(params object[] arguments)
                 : base(arguments)
             {
                 this.TestMethodBuilder = new FixedNameTestMethodBuilder();
@@ -38,7 +38,7 @@
 
         public class InlineAutoDataVolatileNameAttribute : InlineAutoDataAttribute
         {
-            public InlineAutoDataVolatileNameAttribute(params object[] arguments) 
+            public InlineAutoDataVolatileNameAttribute(params object[] arguments)
                 : base(CreateFixtureWithInjectedValues, arguments)
             {
                 this.TestMethodBuilder = new VolatileNameTestMethodBuilder();

@@ -7,18 +7,18 @@ using AutoFixture.Kernel;
 namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
-    /// Relays a request for a code element marked with the <see cref="SubstituteAttribute"/> to a 
-    /// <see cref="SubstituteRequest"/> of element's type. 
+    /// Relays a request for a code element marked with the <see cref="SubstituteAttribute"/> to a
+    /// <see cref="SubstituteRequest"/> of element's type.
     /// </summary>
     public class SubstituteAttributeRelay : ISpecimenBuilder
     {
         /// <summary>
-        /// Creates a relayed request based on the <see cref="SubstituteAttribute"/> applied to a code element and 
+        /// Creates a relayed request based on the <see cref="SubstituteAttribute"/> applied to a code element and
         /// resolves it from the given <paramref name="context"/>.
         /// </summary>
         /// <returns>
         /// A specimen resolved from the <paramref name="context"/> based on a relayed request.
-        /// If the <paramref name="request"/> code element does not have <see cref="SubstituteAttribute"/> applied, 
+        /// If the <paramref name="request"/> code element does not have <see cref="SubstituteAttribute"/> applied,
         /// returns <see cref="NoSpecimen"/>.
         /// </returns>
         public object Create(object request, ISpecimenContext context)

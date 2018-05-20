@@ -58,10 +58,10 @@ namespace AutoFixture
         /// var fixture = new Fixture();
         /// var original = new MyClass();
         /// fixture.Inject(original);
-        /// 
+        ///
         /// var actual1 = fixture.Create&lt;MyClass&gt;();
         /// var actual2 = fixture.Create&lt;MyClass&gt;();
-        /// 
+        ///
         /// // actual1 and actual2 are equal, and equal to original
         /// Assert.Same(actual1, actual2);
         /// Assert.Same(original, actual1);

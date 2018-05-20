@@ -16,7 +16,7 @@ namespace AutoFixture.Kernel
         /// The recursion depth at which <paramref name="request"/> occurred.
         /// </param>
         public RequestTraceEventArgs(object request, int depth)
-        {        
+        {
             this.Request = request;
             this.Depth = depth;
         }

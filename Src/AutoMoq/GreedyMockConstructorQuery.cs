@@ -29,7 +29,7 @@ namespace AutoFixture.AutoMoq
         /// interface, the <see cref="Moq.Mock{T}()"/> default constructor is returned. If the type
         /// is a class, constructors are returned according to all the public and protected
         /// constructors of the underlying type. In this case, the
-        /// <see cref="Moq.Mock{T}(object[])"/> constructor that takes a params array is returned 
+        /// <see cref="Moq.Mock{T}(object[])"/> constructor that takes a params array is returned
         /// for each underlying constructor, with information about the appropriate parameters for
         /// each constructor.
         /// </para>

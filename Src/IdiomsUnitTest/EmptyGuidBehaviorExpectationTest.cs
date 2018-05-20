@@ -72,7 +72,7 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifySuccedsWhenCommandThrowsCorrectException()
         {
             // Arrange
-            var cmd = new DelegatingGuardClauseCommand 
+            var cmd = new DelegatingGuardClauseCommand
             {
                 OnExecute = v => { throw new ArgumentException(); },
                 RequestedType = typeof(Guid)

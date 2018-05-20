@@ -5,8 +5,8 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// Creates a strictly increasing sequence of ranged numbers, starting at range minimum.  
-    /// Sequence restarts at range minimum when range maximum is exceeded. 
+    /// Creates a strictly increasing sequence of ranged numbers, starting at range minimum.
+    /// Sequence restarts at range minimum when range maximum is exceeded.
     /// </summary>
     public class RangedNumberGenerator : ISpecimenBuilder
     {
@@ -75,7 +75,7 @@ namespace AutoFixture
                     object target;
                     if (range.OperandType == typeof(byte) &&
                         Convert.ToInt32(
-                            this.rangedValue, 
+                            this.rangedValue,
                             CultureInfo.CurrentCulture) > byte.MaxValue ||
                         range.OperandType == typeof(short) &&
                         Convert.ToInt32(
@@ -104,7 +104,7 @@ namespace AutoFixture
                     if (maximum.CompareTo(this.rangedValue) < 0)
                     {
                         this.rangedValue = Convert.ChangeType(
-                            maximum, 
+                            maximum,
                             range.OperandType,
                             CultureInfo.CurrentCulture);
                     }

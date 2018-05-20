@@ -78,7 +78,7 @@ namespace AutoFixture.Idioms
             : this(builder, comparer, new DefaultParameterMemberMatcher())
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
         /// </summary>
@@ -108,19 +108,19 @@ namespace AutoFixture.Idioms
         public IEqualityComparer Comparer { get; }
 
         /// <summary>
-        /// Gets the comparer instance which is used to determine if a 'copy and update' method 
+        /// Gets the comparer instance which is used to determine if a 'copy and update' method
         /// parameter matches a given public member (property or field).
         /// </summary>
         /// <remarks>
         /// If the parameter and member are matched, the member is expected to be initialized
         /// from the value given to the parameter. A return value of <see langword="true"/> from
-        /// the <see cref="IEqualityComparer{T}.Equals(T,T)"/> method means the parameter and 
+        /// the <see cref="IEqualityComparer{T}.Equals(T,T)"/> method means the parameter and
         /// member are 'matched'.
         /// </remarks>
         public IEqualityComparer<IReflectionElement> ParameterMemberMatcher { get; }
 
         /// <summary>
-        /// Verifies that a method correctly makes a copy of an object while changing                                  
+        /// Verifies that a method correctly makes a copy of an object while changing
         /// one or more public properties or fields.
         /// </summary>
         /// <param name="methodInfo">The 'copy and update' method to verify</param>

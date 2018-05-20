@@ -72,7 +72,7 @@ namespace AutoFixture.NUnit2
         protected AutoDataAttribute(Func<IFixture> fixtureFactory)
         {
             if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
-            
+
             this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
         }
 

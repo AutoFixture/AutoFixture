@@ -36,7 +36,7 @@ namespace AutoFixture
             try
             {
                 return TryCreateMailAddress(context);
-            }                    
+            }
             catch (FormatException)
             {
                 return new NoSpecimen();
@@ -56,7 +56,7 @@ namespace AutoFixture
             var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, domainName);
             return new MailAddress(email);
         }
-    }       
+    }
 }
 
 #endif

@@ -25,7 +25,7 @@ namespace AutoFixtureDocumentationTest.Contact.ValidatingValueObject
         {
             // Arrange
             Fixture fixture = new Fixture();
-            fixture.Register<int, DanishPhoneNumber>(i => 
+            fixture.Register<int, DanishPhoneNumber>(i =>
                 new DanishPhoneNumber(i + 112));
             Contact sut = fixture.Create<Contact>();
             // Act
@@ -40,7 +40,7 @@ namespace AutoFixtureDocumentationTest.Contact.ValidatingValueObject
             // Arrange
             Fixture fixture = new Fixture();
             fixture.Register<int, DanishPhoneNumber>(i =>
-                new DanishPhoneNumber(i + 
+                new DanishPhoneNumber(i +
                     DanishPhoneNumber.MinValue));
             Contact sut = fixture.Create<Contact>();
             // Act

@@ -701,9 +701,9 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         /// <summary>
         /// Subsitute clear is used to reset manually configured user returns.
         /// The values configured by AutoFixture are not being manually-configured.
-        /// 
+        ///
         /// If user needs that, it could easily override the auto-generated value using the
-        /// substitute.Method(...).Returns(...); 
+        /// substitute.Method(...).Returns(...);
         /// </summary>
         [Theory]
         [InlineData(ClearOptions.CallActions)]
@@ -729,7 +729,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         /// <summary>
         /// Current implementation of NSubsitute doesn't call custom handlers for the Received.InOrder() scope (which
         /// we use for our integration with NSubstitute). That shouldsn't cause any usability issues for users.
-        ///  
+        ///
         /// Asserting that behavior via test to get a notification when that behavior changes, so we can make a decision
         /// whether we need to alter something in AF or not to respect that change.
         /// </summary>
@@ -821,7 +821,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
              * Simulate situation when tasks are always inlined on current thread.
              * To do that we implement our custom scheduler which put some delay before running task.
              * That gives a chance for task to be inlined.
-             * 
+             *
              * Schedulers are propagated to the nested tasks, so we are resolving IInterfaceWithMethod inside the task.
              * All the tasks created during that resolve will be inlined, if that is possible.
              */
@@ -874,7 +874,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var subsitute = fixture.Create<IInterfaceWithProperty>();
 
             var expected = fixture.Create<string>();
-            fixture.Customizations.Insert(0, 
+            fixture.Customizations.Insert(0,
                 new FilteringSpecimenBuilder(
                     new FixedBuilder(expected),
                     new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));

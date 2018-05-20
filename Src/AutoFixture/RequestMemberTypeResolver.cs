@@ -9,7 +9,7 @@ namespace AutoFixture
     public class RequestMemberTypeResolver : IRequestMemberTypeResolver
     {
         /// <summary>
-        /// Tries to determine requested member type and returns it. 
+        /// Tries to determine requested member type and returns it.
         /// </summary>
         /// <param name="request">Relay request object</param>
         /// <param name="memberType">Output variable for resolved request member type</param>

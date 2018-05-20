@@ -131,7 +131,7 @@ namespace AutoFixtureUnitTest
             results[request2].AddMany(() => (int)sut.Create(request2, dummyContext), request2SecondGroup);
             results[request3].AddMany(() => (int)sut.Create(request3, dummyContext), request3SecondGroup);
 
-            // Verify           
+            // Verify
             Assert.True(Enumerable.Range(request1Min, request1Count)
                                   .Intersect(results[request1]).Count() == request1Count);
             Assert.True(Enumerable.Range(request2Min, request2Count)

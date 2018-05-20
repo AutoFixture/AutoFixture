@@ -4,13 +4,13 @@ using System.Reflection;
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Creates a new <see cref="MissingParametersSupplyingMethod" /> for an 
+    /// Creates a new <see cref="MissingParametersSupplyingMethod" /> for an
     /// instance <see cref="MethodInfo"/>.
     /// </summary>
     public class MissingParametersSupplyingMethodFactory : IMethodFactory
     {
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="MissingParametersSupplyingMethodFactory"/> class.
         /// </summary>
         /// <param name="owner">The owner.</param>
@@ -26,7 +26,7 @@ namespace AutoFixture.Kernel
         public object Owner { get; }
 
         /// <summary>
-        /// Creates a <see cref="InstanceMethod" /> decorated with 
+        /// Creates a <see cref="InstanceMethod" /> decorated with
         /// <see cref="MissingParametersSupplyingMethod" /> for the supplied methodInfo.
         /// </summary>
         /// <param name="methodInfo">The methodInfo.</param>

@@ -34,7 +34,7 @@ namespace AutoFixture.NUnit2.UnitTest
             // Arrange
             Action a = delegate { };
             var method = a.Method;
-            
+
             var attributes = new[]
             {
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
@@ -64,7 +64,7 @@ namespace AutoFixture.NUnit2.UnitTest
             // Arrange
             Action a = delegate { };
             var method = a.Method;
-            
+
             var attributes = new[]
             {
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
@@ -95,7 +95,7 @@ namespace AutoFixture.NUnit2.UnitTest
             // Arrange
             Action a = delegate { };
             var method = a.Method;
-            
+
             var sut = new CompositeDataAttribute(
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),

@@ -165,7 +165,7 @@ namespace AutoFixture.Kernel
         /// </param>
         /// <remarks>
         /// <para>
-        /// This method assigns a value to the property or field identified by 
+        /// This method assigns a value to the property or field identified by
         /// the expression supplied to the class' constructor. If no value (or
         /// creator) was supplied to the constructor,
         /// <paramref name="context" /> will be used to create the value.

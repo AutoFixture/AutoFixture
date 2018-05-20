@@ -10,10 +10,10 @@ using NUnit.Framework.Internal;
 namespace AutoFixture.NUnit3
 {
     /// <summary>
-    /// This attribute uses AutoFixture to generate values for unit test parameters. 
+    /// This attribute uses AutoFixture to generate values for unit test parameters.
     /// This implementation is based on TestCaseAttribute of NUnit3
     /// </summary>
-    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", 
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     [AttributeUsage(AttributeTargets.Method)]
     public class AutoDataAttribute : Attribute, ITestBuilder
@@ -42,7 +42,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Construct a <see cref="AutoDataAttribute"/> with an <see cref="IFixture"/> 
+        /// Construct a <see cref="AutoDataAttribute"/> with an <see cref="IFixture"/>
         /// </summary>
         /// <param name="fixture"></param>
         [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
@@ -56,7 +56,7 @@ namespace AutoFixture.NUnit3
 
             this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
         /// with the supplied <paramref name="fixtureFactory"/>. Fixture will be created

@@ -7,8 +7,8 @@ namespace AutoFixture.AutoNSubstitute
     /// </summary>
     /// <remarks>
     /// Unlike some other test isolation frameworks which define types that represent the dynamically generated proxies,
-    /// such as Mock{T} in Moq and Fake{T} in FakeItEasy, NSubstitute does not. This class fills this gap and allows 
-    /// AutoFixture to distinguish an explicit request for a substitute from a request for a regular type. This is 
+    /// such as Mock{T} in Moq and Fake{T} in FakeItEasy, NSubstitute does not. This class fills this gap and allows
+    /// AutoFixture to distinguish an explicit request for a substitute from a request for a regular type. This is
     /// necessary to support creation of substitutes for concrete types.
     /// </remarks>
     public class SubstituteRequest

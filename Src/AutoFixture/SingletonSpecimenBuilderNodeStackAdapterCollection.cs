@@ -66,7 +66,7 @@ namespace AutoFixture
             params ISpecimenBuilderTransformation[] transformations)
         {
             if (transformations == null) throw new ArgumentNullException(nameof(transformations));
-            
+
             this.Graph = graph ?? throw new ArgumentNullException(nameof(graph));
             this.isWrappedGraph = wrappedGraphPredicate ?? throw new ArgumentNullException(nameof(wrappedGraphPredicate));
 
@@ -129,7 +129,7 @@ namespace AutoFixture
         protected override void InsertItem(int index, ISpecimenBuilderTransformation item)
         {
             base.InsertItem(index, item);
-            this.UpdateGraph();            
+            this.UpdateGraph();
         }
 
         /// <summary>

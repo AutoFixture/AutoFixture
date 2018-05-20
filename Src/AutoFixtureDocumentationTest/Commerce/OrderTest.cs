@@ -16,7 +16,7 @@ namespace AutoFixtureDocumentationTest.Commerce
             var fixture = new Fixture();
             // Act
             var order = fixture.Build<Order>()
-                .With(o => o.ShippingAddress, 
+                .With(o => o.ShippingAddress,
                     fixture.Build<Address>()
                     .With(a => a.Country, "Denmark")
                     .Create())

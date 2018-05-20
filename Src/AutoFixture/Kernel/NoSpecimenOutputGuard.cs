@@ -12,7 +12,7 @@ namespace AutoFixture.Kernel
     public class NoSpecimenOutputGuard : ISpecimenBuilderNode
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoSpecimenOutputGuard"/> class with an 
+        /// Initializes a new instance of the <see cref="NoSpecimenOutputGuard"/> class with an
         /// <see cref="ISpecimenBuilder"/> to decorate.
         /// </summary>
         /// <param name="builder">The builder to decorate.</param>
@@ -70,7 +70,7 @@ namespace AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             var result = this.Builder.Create(request, context);
-            if (result is NoSpecimen 
+            if (result is NoSpecimen
                 && this.Specification.IsSatisfiedBy(request))
             {
                 throw new ObjectCreationException(string.Format(CultureInfo.CurrentCulture, "The decorated ISpecimenBuilder could not create a specimen based on the request: {0}. This can happen if the request represents an interface or abstract class; if this is the case, register an ISpecimenBuilder that can create specimens based on the request. If this happens in a strongly typed Build<T> expression, try supplying a factory using one of the IFactoryComposer<T> methods.", request));

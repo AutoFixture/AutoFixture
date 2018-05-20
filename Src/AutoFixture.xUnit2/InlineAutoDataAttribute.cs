@@ -14,7 +14,7 @@ namespace AutoFixture.Xunit2
         assemblyName: "AutoFixture.Xunit2")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class InlineAutoDataAttribute : CompositeDataAttribute
     {
@@ -22,12 +22,12 @@ namespace AutoFixture.Xunit2
         /// Gets the attribute used to automatically generate the remaining theory parameters, which are not fixed.
         /// </summary>
         public DataAttribute AutoDataAttribute { get; }
-        
+
         /// <summary>
         /// Gets the data values to pass to the theory.
         /// </summary>
         public IEnumerable<object> Values { get; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineAutoDataAttribute"/> class.
         /// </summary>
@@ -66,7 +66,7 @@ namespace AutoFixture.Xunit2
         ///     // y can vary, so we can't express any meaningful assertion for it.
         ///     Assert.Equal(42, z);
         /// }
-        /// 
+        ///
         /// private class MyCustomInlineAutoDataAttribute : InlineAutoDataAttribute
         /// {
         ///     public MyCustomInlineAutoDataAttribute(params object[] values) :
@@ -74,14 +74,14 @@ namespace AutoFixture.Xunit2
         ///     {
         ///     }
         /// }
-        /// 
+        ///
         /// private class MyCustomAutoDataAttribute : AutoDataAttribute
         /// {
         ///     public MyCustomAutoDataAttribute() :
         ///         base(() => new Fixture().Customize(new TheAnswer()))
         ///     {
         ///     }
-        /// 
+        ///
         ///     private class TheAnswer : ICustomization
         ///     {
         ///         public void Customize(IFixture fixture)

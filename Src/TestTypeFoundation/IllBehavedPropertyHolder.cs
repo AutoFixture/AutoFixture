@@ -10,7 +10,7 @@ namespace TestTypeFoundation
             {
                 return default(T);
             }
-            
+
             set
             {
             }

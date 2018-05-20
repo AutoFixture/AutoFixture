@@ -9,12 +9,12 @@ namespace AutoFixture.Kernel
     public class TypeRelay : ISpecimenBuilder
     {
         private readonly IRequestSpecification fromSpecification;
-        
+
         /// <summary>
         /// Gets the type which is relayed from.
         /// </summary>
         public Type From { get; }
-        
+
         /// <summary>
         /// Gets the type which is relayed to.
         /// </summary>
@@ -48,7 +48,7 @@ namespace AutoFixture.Kernel
         ///     new TypeRelay(
         ///         typeof(BaseType),
         ///         typeof(DerivedType)));
-        /// 
+        ///
         /// var actual = fixture.Create&lt;BaseType&gt;();
         /// </code>
         /// </example>
@@ -56,7 +56,7 @@ namespace AutoFixture.Kernel
         {
             this.From = from ?? throw new ArgumentNullException(nameof(from));
             this.To = to ?? throw new ArgumentNullException(nameof(to));
-            
+
             if (from.GetTypeInfo().IsGenericTypeDefinition ^ to.GetTypeInfo().IsGenericTypeDefinition)
                 throw new ArgumentException("Relaying from open generic type to open generic type " +
                                             "or from closed type to closed type are supported only.");
@@ -88,7 +88,7 @@ namespace AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-            
+
             if (request is Type t && this.fromSpecification.IsSatisfiedBy(request))
                 return context.Resolve(this.GetRedirectedTypeRequest(t));
 

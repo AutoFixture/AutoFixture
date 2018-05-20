@@ -658,7 +658,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
 
         [Fact]
         public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnSameValueWhenCalledWithSameArguments()
-        { 
+        {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization
             {

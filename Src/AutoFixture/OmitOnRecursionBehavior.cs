@@ -17,7 +17,7 @@ namespace AutoFixture
         /// The default recursion depth will omit assignment on first recursion.
         /// </summary>
         public OmitOnRecursionBehavior() : this(DefaultRecursionDepth)
-        {            
+        {
         }
 
         /// <summary>

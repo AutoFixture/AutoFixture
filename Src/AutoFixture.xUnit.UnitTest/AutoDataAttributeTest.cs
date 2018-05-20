@@ -38,10 +38,10 @@ namespace AutoFixture.Xunit.UnitTest
         {
             // Arrange
             var fixture = new Fixture();
-            
+
             // Act
             var sut = new DerivedAutoDataAttribute(() => fixture);
-            
+
             // Assert
 #pragma warning disable 618
             Assert.Same(fixture, sut.Fixture);
@@ -81,7 +81,7 @@ namespace AutoFixture.Xunit.UnitTest
 
             // Act
             var sut = new DerivedAutoDataAttribute(fixtureFactory);
-            
+
             // Assert
             Assert.False(wasInvoked);
         }
@@ -275,7 +275,7 @@ namespace AutoFixture.Xunit.UnitTest
 
             var parameters = method.GetParameters();
             var parameterTypes = parameters.Select(p => p.ParameterType).ToArray();
-            
+
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
             fixture.OnCustomize = c =>
@@ -284,13 +284,13 @@ namespace AutoFixture.Xunit.UnitTest
                 return fixture;
             };
             var sut = new DerivedAutoDataAttribute(() => fixture);
-            
+
             // Act
             sut.GetData(method, parameterTypes);
             // Assert
             Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
         }
-        
+
         private class DerivedAutoDataAttribute : AutoDataAttribute
         {
             [Obsolete]

@@ -4808,7 +4808,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// This test is just to make sure that edge cases as decimal which is not primitive type and is a structure will not fall within 
+        /// This test is just to make sure that edge cases as decimal which is not primitive type and is a structure will not fall within
         /// struct checking mechanism.
         /// </summary>
         [Fact]
@@ -5152,7 +5152,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321 
+        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321
         /// </summary>
         [Fact]
         public void CustomizationOfIntPropertyDoesntThrowInBuild()
@@ -5463,9 +5463,9 @@ namespace AutoFixtureUnitTest
             /*
                 Success when no ArgumentNullException is thrown:
 
-                When reported, the call to Without on Field1 residing 
-                in ConcreteType's base class (AbstractType) will cause 
-                a null pointer exception to bubble. 
+                When reported, the call to Without on Field1 residing
+                in ConcreteType's base class (AbstractType) will cause
+                a null pointer exception to bubble.
             */
         }
 
@@ -5795,10 +5795,10 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var sut = new Fixture();
-            
+
             // Act
             var result = sut.Create<ISet<string>>();
-            
+
             // Assert
             Assert.IsAssignableFrom<ISet<string>>(result);
         }
@@ -5992,7 +5992,7 @@ namespace AutoFixtureUnitTest
 
         [Fact]
         public void TimeSpanDecoratedWithRangeCreatedByFixtureShouldPassValidation()
-        { 
+        {
             // Arrange
             var sut = new Fixture();
 

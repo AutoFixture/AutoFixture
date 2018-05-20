@@ -13,7 +13,7 @@ namespace AutoFixture.AutoMoq.Extensions
         internal static IEnumerable<MethodInfo> GetAllMethods(this Type type)
         {
             IEnumerable<MethodInfo> result = type.GetMethods();
-            
+
             // If "type" is an interface, "GetMethods" does not return methods declared on other interfaces extended by "type".
             if (type.GetTypeInfo().IsInterface)
                 result = result.Concat(type.GetInterfaces().SelectMany(x => x.GetMethods()));
@@ -27,12 +27,12 @@ namespace AutoFixture.AutoMoq.Extensions
         internal static IEnumerable<PropertyInfo> GetAllProperties(this Type type)
         {
             IEnumerable<PropertyInfo> result = type.GetProperties();
-            
+
             // If "type" is an interface, "GetProperties" does not return methods declared on other interfaces extended by "type".
             if (type.GetTypeInfo().IsInterface)
                 result = result.Concat(type.GetInterfaces().SelectMany(x => x.GetProperties()));
 
             return result;
-        }        
+        }
     }
 }

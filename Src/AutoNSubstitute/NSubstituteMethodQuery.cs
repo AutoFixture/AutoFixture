@@ -47,7 +47,7 @@ namespace AutoFixture.AutoNSubstitute
             }
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
             Justification = "It's activated via reflection.")]
         private class SubstituteMethod<T> : IMethod where T : class
         {

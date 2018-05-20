@@ -52,7 +52,7 @@ namespace AutoFixture.AutoFakeItEasy2
                 Type type,
                 IEnumerable<ParameterInfo> parameterInfos)
             {
-                var constructedType = 
+                var constructedType =
                     typeof(FakeMethod<>).MakeGenericType(type);
                 return (IMethod)Activator.CreateInstance(
                     constructedType,

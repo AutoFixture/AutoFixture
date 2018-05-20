@@ -11,7 +11,7 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
                 this.value = value;
             }
         }
-        
+
         public sealed class ConcreteGenericType<T>
         {
             private readonly T value;

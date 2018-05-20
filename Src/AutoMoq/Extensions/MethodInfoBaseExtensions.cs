@@ -9,10 +9,10 @@ namespace AutoFixture.AutoMoq.Extensions
         {
             /*
              * From MSDN (http://goo.gl/WvOgYq)
-             * 
+             *
              * To determine if a method is overridable, it is not sufficient to check that IsVirtual is true.
              * For a method to be overridable, IsVirtual must be true and IsFinal must be false.
-             * 
+             *
              * For example, interface implementations are marked as "virtual final".
              * Methods marked with "override sealed" are also marked as "virtual final".
              */

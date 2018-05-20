@@ -155,7 +155,7 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Equal(expectedType, actualType);
             Assert.Equal(expectedAssembly, actualAssembly);
         }
-        
+
         private class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute
         {
             public DerivedInlineAutoDataAttribute(
@@ -165,7 +165,7 @@ namespace AutoFixture.Xunit2.UnitTest
             {
             }
         }
-        
+
         private class DerivedAutoDataAttribute : AutoDataAttribute
         {
             public DerivedAutoDataAttribute(Func<IFixture> fixtureFactory)

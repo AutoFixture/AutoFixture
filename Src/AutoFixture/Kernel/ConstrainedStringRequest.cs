@@ -80,7 +80,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override int GetHashCode()
         {
-            return this.MinimumLength.GetHashCode() 
+            return this.MinimumLength.GetHashCode()
                  ^ this.MaximumLength.GetHashCode();
         }
 

@@ -52,7 +52,7 @@ namespace AutoFixture.Kernel
                 var result = this.composedBuilders[i].Create(request, context);
                 if (!(result is NoSpecimen)) return result;
             }
-            
+
             return new NoSpecimen();
         }
 
@@ -116,7 +116,7 @@ namespace AutoFixture.Kernel
                         {
                             multipleItems = new List<ISpecimenBuilder> { singleItem };
                         }
-                        
+
                         multipleItems.Add(enumerator.Current);
                     }
                 }

@@ -13,7 +13,7 @@ namespace AutoFixture
     /// Specimens are typically either of type <see>
     ///         <cref>Expression{Func{T}}</cref>
     ///     </see>
-    ///     or <see cref="Expression{Action}"/>. 
+    ///     or <see cref="Expression{Action}"/>.
     /// </remarks>
     public class LambdaExpressionGenerator : ISpecimenBuilder
     {

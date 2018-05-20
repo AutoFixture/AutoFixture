@@ -14,7 +14,7 @@ namespace AutoFixture.NUnit3.UnitTest
             var anyMethod = new MethodWrapper(typeof(TestNameStrategiesFixture), nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod));
             var sut = new VolatileNameTestMethodBuilder();
             var throwingParameters = Enumerable.Range(0, 1).Select<int, object>(_ => throw new Exception());
-            
+
             // Act
             var testMethod = sut.Build(anyMethod, null, throwingParameters, 0);
             // Assert

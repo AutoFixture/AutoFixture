@@ -76,7 +76,7 @@ namespace AutoFixture
             return enumerator;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1010:Collections should implement generic interface", 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1010:Collections should implement generic interface",
             Justification = "This is not a usual enumerable and for our purpose generic interface is not required.")]
         private class RoundRobinEnumEnumerable : IEnumerable
         {

@@ -131,7 +131,7 @@ namespace AutoFixture.Kernel
         {
             private readonly int score;
 
-            internal LateBindingParameterScore(IEnumerable<ParameterInfo> methodParameters, 
+            internal LateBindingParameterScore(IEnumerable<ParameterInfo> methodParameters,
                 IEnumerable<ParameterInfo> templateParameters)
             {
                 if (methodParameters == null)
@@ -140,7 +140,7 @@ namespace AutoFixture.Kernel
                 if (templateParameters == null)
                     throw new ArgumentNullException(nameof(templateParameters));
 
-                this.score = CalculateScore(methodParameters.Select(p => p.ParameterType), 
+                this.score = CalculateScore(methodParameters.Select(p => p.ParameterType),
                     templateParameters.Select(p => p.ParameterType));
             }
 
@@ -152,7 +152,7 @@ namespace AutoFixture.Kernel
                 return this.score.CompareTo(other.score);
             }
 
-            private static int CalculateScore(IEnumerable<Type> methodParameters, 
+            private static int CalculateScore(IEnumerable<Type> methodParameters,
                 IEnumerable<Type> templateParameters)
             {
                 var parametersScore = templateParameters.Zip(methodParameters,
@@ -170,9 +170,9 @@ namespace AutoFixture.Kernel
                     return 100;
 
                 var hierarchy = GetHierarchy(templateParameterType).ToList();
-                
+
                 var matches = methodParameterType.GetTypeInfo().IsClass ?
-                    hierarchy.Count(t => t.GetTypeInfo().IsAssignableFrom(methodParameterType)) : 
+                    hierarchy.Count(t => t.GetTypeInfo().IsAssignableFrom(methodParameterType)) :
                     hierarchy.Count(t => t.GetTypeInfo().GetInterfaces().Any(i => i.GetTypeInfo().IsAssignableFrom(methodParameterType)));
 
                 var score = 50 * -(hierarchy.Count - matches);
@@ -185,7 +185,7 @@ namespace AutoFixture.Kernel
 
                 if (methodParameterType.GetTypeInfo().IsClass)
                     score += 5;
-                
+
                 return score;
             }
 

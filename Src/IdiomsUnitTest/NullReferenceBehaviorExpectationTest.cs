@@ -93,7 +93,7 @@ namespace AutoFixture.IdiomsUnitTest
                 OnExecute = v => throw new ArgumentNullException(invalidParamName)
             };
             var sut = new NullReferenceBehaviorExpectation();
-            Assert.Throws<Exception>(() => 
+            Assert.Throws<Exception>(() =>
                 sut.Verify(cmd));
         }
 

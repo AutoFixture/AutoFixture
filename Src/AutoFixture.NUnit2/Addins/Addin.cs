@@ -23,9 +23,9 @@ namespace AutoFixture.NUnit2.Addins
         public bool Install(IExtensionHost host)
         {
             if (host == null) throw new ArgumentNullException(nameof(host));
-            
+
             var providers = host.GetExtensionPoint("TestCaseProviders");
-            if (providers == null) 
+            if (providers == null)
                 return false;
 
             providers.Install(new Builders.AutoDataProvider());

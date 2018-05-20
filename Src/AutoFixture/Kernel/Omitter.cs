@@ -56,7 +56,7 @@ namespace AutoFixture.Kernel
 
             if (this.Specification.IsSatisfiedBy(request))
                 return new OmitSpecimen();
-            
+
             return new NoSpecimen();
         }
 

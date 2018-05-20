@@ -5,7 +5,7 @@
         public Contact(string name, string phoneNumber)
         {
             this.Name = name;
-            this.PhoneNumber = 
+            this.PhoneNumber =
                 Contact.ParsePhoneNumber(phoneNumber);
         }
 

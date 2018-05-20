@@ -77,7 +77,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.False(string.IsNullOrEmpty(p.Text));
             Assert.AreNotEqual(0, p.Number);
         }
-        
+
         [Test, AutoData]
         public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen][Greedy]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {

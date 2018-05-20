@@ -42,7 +42,7 @@ namespace AutoFixture.Kernel
             argument = null;
             return false;
         }
-        
+
         public static bool IsNumberType(this Type type)
         {
             if (type.GetTypeInfo().IsEnum) return false;

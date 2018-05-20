@@ -36,7 +36,7 @@ namespace AutoFixtureDocumentationTest.Intermediate
             MyClassFixture fixture = new MyClassFixture();
             fixture.AddManyTo(fixture.Things);
 
-            int expectedSum = 
+            int expectedSum =
                 fixture.Things.Select(t => t.Number).Sum();
             MyClass sut = fixture.Create<MyClass>();
             // Act

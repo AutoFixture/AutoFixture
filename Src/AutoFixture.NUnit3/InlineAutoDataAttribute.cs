@@ -10,8 +10,8 @@ using NUnit.Framework.Internal;
 namespace AutoFixture.NUnit3
 {
     /// <summary>
-    /// This attribute acts as a TestCaseAttribute but allow incomplete parameter values, 
-    /// which will be provided by AutoFixture. 
+    /// This attribute acts as a TestCaseAttribute but allow incomplete parameter values,
+    /// which will be provided by AutoFixture.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
@@ -24,7 +24,7 @@ namespace AutoFixture.NUnit3
         private IFixture Fixture => this.fixtureLazy.Value;
 
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
-        
+
         /// <summary>
         /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
         /// </summary>
@@ -44,7 +44,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Construct a <see cref="InlineAutoDataAttribute"/> with an <see cref="IFixture"/> 
+        /// Construct a <see cref="InlineAutoDataAttribute"/> with an <see cref="IFixture"/>
         /// and parameter values for test method
         /// </summary>
         [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
@@ -57,7 +57,7 @@ namespace AutoFixture.NUnit3
             this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
             this.existingParameterValues = arguments;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
         /// with the supplied <paramref name="fixtureFactory"/>. Fixture will be created

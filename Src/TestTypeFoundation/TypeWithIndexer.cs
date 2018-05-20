@@ -11,7 +11,7 @@ namespace TestTypeFoundation
             this.dict = new Dictionary<string, string>();
         }
 
-        public string this[string index] 
+        public string this[string index]
         {
             get
             {

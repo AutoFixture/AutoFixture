@@ -8,7 +8,7 @@ namespace AutoFixture.AutoFakeItEasy
     using System.Globalization;
 
     /// <summary>
-    /// A bridge class, required because the types representing fake object calls in 
+    /// A bridge class, required because the types representing fake object calls in
     /// 1.7.4109.1 (which the .NET Framework version of AutoFixture.AutoFakeItEasy is compiled against)
     /// differ from those in 2.0.0+ in ways that prevent us from using them directly.
     /// If ever support for FakeItEasy versions below 2.0.0 is dropped, this class may be removed.

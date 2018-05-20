@@ -4,15 +4,15 @@ namespace AutoFixture
 {
 #if SYSTEM_NET_MAIL
     /// <summary>
-    /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.  
+    /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.
     /// Since EmailAddressLocalPart is used in constructing MailAddress, enforcement of rules on a valid email address
-    /// is performed by <see cref="System.Net.Mail.MailAddress"/> and not EmailAddressLocalPart other than as noted. 
+    /// is performed by <see cref="System.Net.Mail.MailAddress"/> and not EmailAddressLocalPart other than as noted.
     /// </summary>
 #else
     /// <summary>
-    /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.  
+    /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.
     /// Since EmailAddressLocalPart is used in constructing MailAddress, enforcement of rules on a valid email address
-    /// is performed by System.Net.Mail.MailAddress and not EmailAddressLocalPart other than as noted. 
+    /// is performed by System.Net.Mail.MailAddress and not EmailAddressLocalPart other than as noted.
     /// </summary>
 #endif
     public class EmailAddressLocalPart
@@ -21,7 +21,7 @@ namespace AutoFixture
         /// Initializes a new instance of the <see cref="EmailAddressLocalPart"/> class. Throws ArgumentNullException
         /// if localPart is null.  Throws ArgumentException if localPart is empty.
         /// </summary>
-        /// <param name="localPart">The local part.</param>                
+        /// <param name="localPart">The local part.</param>
         public EmailAddressLocalPart(string localPart)
         {
             if (localPart == null) throw new ArgumentNullException(nameof(localPart));
@@ -41,7 +41,7 @@ namespace AutoFixture
         /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.
         /// </param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; 
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance;
         /// otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="NullReferenceException">
@@ -61,8 +61,8 @@ namespace AutoFixture
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data 
-        /// structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

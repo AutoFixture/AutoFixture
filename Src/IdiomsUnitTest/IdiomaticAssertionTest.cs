@@ -143,7 +143,7 @@ namespace AutoFixture.IdiomsUnitTest
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
-        [InlineData(typeof(int))]        
+        [InlineData(typeof(int))]
         [InlineData(typeof(Version))]
         public void VerifyTypeCorrectlyInvokesConstructorsVerify(Type type)
         {

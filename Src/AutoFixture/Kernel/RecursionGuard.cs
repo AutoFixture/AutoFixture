@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", 
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable",
         Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
@@ -44,7 +44,7 @@ namespace AutoFixture.Kernel
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler)
             : this(
-                builder, 
+                builder,
                 recursionHandler,
                 EqualityComparer<object>.Default,
                 1)
@@ -67,7 +67,7 @@ namespace AutoFixture.Kernel
             IRecursionHandler recursionHandler,
             int recursionDepth)
             : this(
-                builder, 
+                builder,
                 recursionHandler,
                 EqualityComparer<object>.Default,
                 recursionDepth)
@@ -115,13 +115,13 @@ namespace AutoFixture.Kernel
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer)
             : this(
-            builder, 
-            recursionHandler, 
-            comparer, 
+            builder,
+            recursionHandler,
+            comparer,
             1)
         {
-        }        
-        
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard" />
         /// class.
@@ -179,7 +179,7 @@ namespace AutoFixture.Kernel
         public IRecursionHandler RecursionHandler { get; }
 
         /// <summary>
-        /// The recursion depth at which the request will be treated as a 
+        /// The recursion depth at which the request will be treated as a
         /// recursive request
         /// </summary>
         public int RecursionDepth { get; }

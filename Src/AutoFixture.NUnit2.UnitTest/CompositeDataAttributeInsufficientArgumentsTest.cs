@@ -13,7 +13,7 @@ namespace AutoFixture.NUnit2.UnitTest
     public class CompositeDataAttributeInsufficientArgumentsTest : IEnumerable<object[]>
     {
         private readonly MethodInfo method;
-        
+
         public CompositeDataAttributeInsufficientArgumentsTest()
         {
             this.method = typeof(TypeWithOverloadedMembers)

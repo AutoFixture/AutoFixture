@@ -33,6 +33,6 @@ namespace AutoFixture
             }
 
             return new EmailAddressLocalPart(localPart);
-        }       
+        }
     }
 }

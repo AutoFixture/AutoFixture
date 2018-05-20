@@ -10,7 +10,7 @@ namespace AutoFixtureDocumentationTest.Intermediate
 
         public string Name { get; set; }
 
-        public Person Spouse 
+        public Person Spouse
         {
             get { return this.spouse; }
             set

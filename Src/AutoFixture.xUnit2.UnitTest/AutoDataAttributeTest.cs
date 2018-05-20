@@ -32,16 +32,16 @@ namespace AutoFixture.Xunit2.UnitTest
             // Assert
             Assert.IsAssignableFrom<Fixture>(result);
         }
-        
+
         [Fact]
         public void InitializedWithFixtureFactoryConstrucorHasCorrectFixture()
         {
             // Arrange
             var fixture = new Fixture();
-            
+
             // Act
             var sut = new DerivedAutoDataAttribute(() => fixture);
-            
+
             // Assert
 #pragma warning disable 618
             Assert.Same(fixture, sut.Fixture);
@@ -58,7 +58,7 @@ namespace AutoFixture.Xunit2.UnitTest
                 new DerivedAutoDataAttribute((IFixture)null));
 #pragma warning restore 612
         }
-        
+
         [Fact]
         public void InitializeWithNullFixtureFactoryThrows()
         {
@@ -67,7 +67,7 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Throws<ArgumentNullException>(() =>
                 new DerivedAutoDataAttribute((Func<IFixture>)null));
         }
-        
+
         [Fact]
         public void FixtureFactoryIsNotInvokedImmediately()
         {
@@ -81,7 +81,7 @@ namespace AutoFixture.Xunit2.UnitTest
 
             // Act
             var sut = new DerivedAutoDataAttribute(fixtureFactory);
-            
+
             // Assert
             Assert.False(wasInvoked);
         }
@@ -228,7 +228,7 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
         }
-        
+
         private class DerivedAutoDataAttribute : AutoDataAttribute
         {
             [Obsolete]
@@ -242,7 +242,7 @@ namespace AutoFixture.Xunit2.UnitTest
             {
             }
         }
-        
+
         private class TypeWithIParameterCustomizationSourceUsage
         {
             public void DecoratedMethod([CustomizationSource] int arg)
@@ -271,7 +271,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             var method = typeof(TypeWithIParameterCustomizationSourceUsage)
                 .GetMethod(nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
-            
+
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
             fixture.OnCustomize = c =>
@@ -280,7 +280,7 @@ namespace AutoFixture.Xunit2.UnitTest
                 return fixture;
             };
             var sut = new DerivedAutoDataAttribute(() => fixture);
-            
+
             // Act
             sut.GetData(method);
             // Assert

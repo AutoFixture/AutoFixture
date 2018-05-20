@@ -53,7 +53,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table. 
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -79,7 +79,7 @@ namespace AutoFixture.Kernel
                 && this.Parameters.SequenceEqual(other.Parameters);
         }
 
-        private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters, 
+        private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters,
             object[] arguments)
         {
             return parameters.Select((p, i) => arguments.Length > i ? arguments[i] : GetDefault(p));
@@ -90,12 +90,12 @@ namespace AutoFixture.Kernel
             if (parameter.IsOptional)
                 return parameter.DefaultValue;
 
-            if (parameter.IsDefined(typeof(ParamArrayAttribute), true) && 
+            if (parameter.IsDefined(typeof(ParamArrayAttribute), true) &&
                 parameter.ParameterType.IsArray)
                 return Array.CreateInstance(parameter.ParameterType.GetElementType(), 0);
 
             return parameter.ParameterType.GetTypeInfo().IsValueType ?
-                Activator.CreateInstance(parameter.ParameterType) : 
+                Activator.CreateInstance(parameter.ParameterType) :
                 null;
         }
 

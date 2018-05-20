@@ -34,7 +34,7 @@ namespace AutoFixture
         IList<ISpecimenBuilder> Customizations { get; }
 
         /// <summary>
-        /// Gets or sets if writable properties should generally be assigned a value when 
+        /// Gets or sets if writable properties should generally be assigned a value when
         /// generating an anonymous object.
         /// </summary>
         bool OmitAutoProperties { get; set; }

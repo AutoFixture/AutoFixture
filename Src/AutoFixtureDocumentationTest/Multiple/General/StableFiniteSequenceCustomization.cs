@@ -8,7 +8,7 @@ namespace AutoFixtureDocumentationTest.Multiple.General
     {
         public void Customize(IFixture fixture)
         {
-            var stableRelay = 
+            var stableRelay =
                 new StableFiniteSequenceRelay();
             fixture.Customizations.Add(stableRelay);
         }

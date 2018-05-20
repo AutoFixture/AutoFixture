@@ -99,7 +99,7 @@ namespace AutoFixture.Idioms
                 assertion.Verify(assembly);
             }
         }
-        
+
         /// <summary>
         /// Verifies the behaviour of the types by delegating the implementation to
         /// all <see cref="Assertions"/>.

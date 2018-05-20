@@ -19,7 +19,7 @@ namespace AutoFixture.NUnit2.UnitTest
         public override IEnumerable<object[]> GetData(MethodInfo method)
         {
             Assert.AreEqual(this.expectedMethod, method);
-            
+
             return this.output;
         }
     }

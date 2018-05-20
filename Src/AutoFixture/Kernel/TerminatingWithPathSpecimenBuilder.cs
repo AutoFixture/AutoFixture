@@ -11,7 +11,7 @@ namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Decorates an <see cref="ISpecimenBuilder"/> with a node which tracks specimen requests, and
-    /// when <see cref="NoSpecimen"/> is detected or creation fails with exception, throws an 
+    /// when <see cref="NoSpecimen"/> is detected or creation fails with exception, throws an
     /// <see cref="ObjectCreationException"/>, which  includes a description of the request path.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
@@ -74,7 +74,7 @@ namespace AutoFixture.Kernel
             }
             catch (ObjectCreationExceptionWithPath)
             {
-                // Do not modify exception thrown before as it already contains the full requests path. 
+                // Do not modify exception thrown before as it already contains the full requests path.
                 throw;
             }
             catch (Exception ex)
@@ -125,7 +125,7 @@ namespace AutoFixture.Kernel
                     "{1}" +
                     "{1}" +
                     "If you have a concrete class deriving from the abstract " +
-                    "class, you can map the abstract class to that derived " + 
+                    "class, you can map the abstract class to that derived " +
                     "class:" +
                     TypeMappingOptionsHelp;
 

@@ -18,8 +18,8 @@ namespace AutoFixtureUnitTest
 
         int IEqualityComparer.GetHashCode(object obj)
         {
-            // It's not safe to assume anything about how OnEquals is going to [effectively] 
-            // 'bucket' results, so make no assumptions that could lead to false negatives. 
+            // It's not safe to assume anything about how OnEquals is going to [effectively]
+            // 'bucket' results, so make no assumptions that could lead to false negatives.
             // See http://stackoverflow.com/a/3719617
             return 0;
         }
@@ -41,8 +41,8 @@ namespace AutoFixtureUnitTest
 
         int IEqualityComparer<T>.GetHashCode(T obj)
         {
-            // It's not safe to assume anything about how OnEquals is going to [effectively] 
-            // 'bucket' results, so make no assumptions that could lead to false negatives. 
+            // It's not safe to assume anything about how OnEquals is going to [effectively]
+            // 'bucket' results, so make no assumptions that could lead to false negatives.
             // See http://stackoverflow.com/a/3719617
             return 0;
         }

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace AutoFixture
 {
     /// <summary>
-    /// Represents a URI scheme name. Scheme names consist of a sequence of characters beginning 
+    /// Represents a URI scheme name. Scheme names consist of a sequence of characters beginning
     /// with a letter and followed by any combination of letters, digits, plus ('+'), period ('.'),
     /// or hyphen ('-').
     /// </summary>
@@ -38,7 +38,7 @@ namespace AutoFixture
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the URI scheme name for this 
+        /// Returns a <see cref="System.String"/> that represents the URI scheme name for this
         /// instance.
         /// </summary>
         /// <returns>
@@ -55,7 +55,7 @@ namespace AutoFixture
         /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.
         /// </param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; 
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance;
         /// otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="System.NullReferenceException">
@@ -75,8 +75,8 @@ namespace AutoFixture
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data 
-        /// structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

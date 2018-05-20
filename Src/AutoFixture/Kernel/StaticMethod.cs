@@ -66,7 +66,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table. 
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -98,7 +98,7 @@ namespace AutoFixture.Kernel
                 return false;
             }
 
-            return this.Method.Equals(other.Method) 
+            return this.Method.Equals(other.Method)
                 && this.Parameters.SequenceEqual(other.Parameters);
         }
 

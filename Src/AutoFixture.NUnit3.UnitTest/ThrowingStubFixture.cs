@@ -6,7 +6,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture.NUnit3.UnitTest
 {
     /// <summary>
-    /// A <see cref="IFixture"/> for the benefit of creating stubs of <see cref="AutoDataAttribute"/> 
+    /// A <see cref="IFixture"/> for the benefit of creating stubs of <see cref="AutoDataAttribute"/>
     /// and <see cref="InlineAutoDataAttribute"/> for unit testing
     /// </summary>
     public class ThrowingStubFixture : IFixture

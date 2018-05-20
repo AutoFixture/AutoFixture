@@ -12,7 +12,7 @@ namespace AutoFixture.NUnit2
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
@@ -43,7 +43,7 @@ namespace AutoFixture.NUnit2
 
         /// <summary>
         /// Returns the composition of arguments to be used to test the testcase. Favors the arguments returned
-        /// by TestCaseDataAttributes in ascending order. 
+        /// by TestCaseDataAttributes in ascending order.
         /// </summary>
         /// <param name="method">The method that is being tested.</param>
         /// <returns>

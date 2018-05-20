@@ -44,7 +44,7 @@ namespace AutoFixture.Idioms
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
 
-            if (methodInfo.ReflectedType == null || 
+            if (methodInfo.ReflectedType == null ||
                 !methodInfo.IsObjectEqualsOverrideMethod())
             {
                 // The method is not an override of the Object.Equals(object) method

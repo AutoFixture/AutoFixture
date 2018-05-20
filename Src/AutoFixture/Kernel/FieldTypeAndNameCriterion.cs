@@ -105,7 +105,7 @@ namespace AutoFixture.Kernel
         /// <returns>The hash code</returns>
         public override int GetHashCode()
         {
-            return 
+            return
                 this.TypeCriterion.GetHashCode() ^
                 this.NameCriterion.GetHashCode();
         }

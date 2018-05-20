@@ -67,7 +67,7 @@ namespace AutoFixture.Kernel
         /// <param name="obj">The object.</param>
         /// <returns>
         /// A hash code for the supplied instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table. 
+        /// structures like a hash table.
         /// </returns>
         /// <exception cref="System.ArgumentNullException">
         /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is

@@ -6,17 +6,17 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// Creates a random sequence for a given type within a given range without repeating in the range until 
-    /// all values are exhausted. Once exhausted, will automatically reset the set and continue choosing randomly 
+    /// Creates a random sequence for a given type within a given range without repeating in the range until
+    /// all values are exhausted. Once exhausted, will automatically reset the set and continue choosing randomly
     /// within the range.  Multiple requests (whether the same or different object) for the same
-    /// operand type, minimum, and maximum are treated as being drawn from the same set. 
+    /// operand type, minimum, and maximum are treated as being drawn from the same set.
     /// </summary>
     public class RandomRangedNumberGenerator : ISpecimenBuilder
     {
         private readonly ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder> generatorMap;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class       
+        /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class
         /// </summary>
         public RandomRangedNumberGenerator()
         {
@@ -26,7 +26,7 @@ namespace AutoFixture
         /// <summary>
         /// Creates a random number within the request range.
         /// </summary>
-        /// <param name="request">The request that describes what to create. Other requests for same type and limits 
+        /// <param name="request">The request that describes what to create. Other requests for same type and limits
         /// denote the same set. </param>
         /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
@@ -54,7 +54,7 @@ namespace AutoFixture
         /// <summary>
         /// Choose the RandomNumericSequenceGenerator to fulfill the request.  Will add the request as a new key
         /// to generatorMap if the request does not already have a generator for it.  Throws ArgumentException
-        /// if either of the limits in the request are non-numeric. 
+        /// if either of the limits in the request are non-numeric.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

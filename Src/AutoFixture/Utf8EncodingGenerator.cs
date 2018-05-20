@@ -5,7 +5,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// Handles creation requests for <see cref="Encoding"/> instances, 
+    /// Handles creation requests for <see cref="Encoding"/> instances,
     /// returning always the same <see cref="Encoding.UTF8"/>.
     /// </summary>
     [Obsolete("Please use a 'AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]

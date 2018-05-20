@@ -5,7 +5,7 @@ namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Serves as a criterion against which a value can be compared. When a
-    /// given value equals the criterion, it can be said to match the 
+    /// given value equals the criterion, it can be said to match the
     /// criterion; otherwise not.
     /// </summary>
     /// <typeparam name="T">The type of values being compared.</typeparam>

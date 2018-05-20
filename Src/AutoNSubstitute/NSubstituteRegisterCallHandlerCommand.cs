@@ -42,7 +42,7 @@ namespace AutoFixture.AutoNSubstitute
         public ICallResultResolverFactory CallResultResolverFactory { get; }
 
         /// <summary>
-        /// Creates a new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance 
+        /// Creates a new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance
         /// with default <see cref="ICallResultCacheFactory"/> and <see cref="ICallResultResolverFactory"/> instances.
         /// </summary>
         public NSubstituteRegisterCallHandlerCommand(ISubstitutionContext substitutionContext)

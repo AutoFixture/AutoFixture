@@ -620,7 +620,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public Dictionary<string, string> GetValues(string someString)
             {
-                return new Dictionary<string, string> 
+                return new Dictionary<string, string>
                 {
                     { "uniqueKey1", someString },
                     { "uniqueKey2", someString }
@@ -945,7 +945,7 @@ namespace AutoFixture.IdiomsUnitTest
                     mockVerification = true;
                 }
             };
-            
+
             var sut = new GuardClauseAssertion(fixture, behaviorExpectation);
             var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
             // Act
@@ -1046,7 +1046,7 @@ namespace AutoFixture.IdiomsUnitTest
 
                 return Task.Run(() => obj.ToString());
             }
-            
+
             public Task TaskWithCorrectGuardClause(object obj)
             {
                 if (obj == null) throw new ArgumentNullException(nameof(obj));
@@ -1532,7 +1532,7 @@ namespace AutoFixture.IdiomsUnitTest
             public void Method<T2>(ref T2 argument) where T2 : class
             {
             }
-            
+
             public void Method(ref T1 argument1, int argument2)
             {
             }

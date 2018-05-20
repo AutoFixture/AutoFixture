@@ -28,7 +28,7 @@ namespace AutoFixture
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (action == null) throw new ArgumentNullException(nameof(action));
-            
+
             action(builder.Create<T>());
         }
 
@@ -55,7 +55,7 @@ namespace AutoFixture
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (action == null) throw new ArgumentNullException(nameof(action));
-            
+
             action(builder.Create<T1>(), builder.Create<T2>());
         }
 

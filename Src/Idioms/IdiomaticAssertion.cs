@@ -285,8 +285,8 @@ namespace AutoFixture.Idioms
 
         private static IEnumerable<MethodInfo> GetMethodsForAssertion(Type type)
         {
-            return IsStaticClass(type) 
-                ? GetMethodsExceptPropertyAccessors(type).Where(m => m.IsStatic) 
+            return IsStaticClass(type)
+                ? GetMethodsExceptPropertyAccessors(type).Where(m => m.IsStatic)
                 : GetMethodsExceptPropertyAccessors(type);
         }
 

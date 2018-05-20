@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
 namespace AutoFixture.Kernel
-{    
+{
     /// <summary>
     /// Creates a new <see cref="MissingParametersSupplyingMethod" /> for a static
     /// <see cref="MethodInfo"/>.
@@ -9,7 +9,7 @@ namespace AutoFixture.Kernel
     public class MissingParametersSupplyingStaticMethodFactory : IMethodFactory
     {
         /// <summary>
-        /// Creates a <see cref="StaticMethod" /> decorated with 
+        /// Creates a <see cref="StaticMethod" /> decorated with
         /// <see cref="MissingParametersSupplyingMethod" /> for the supplied methodInfo.
         /// </summary>
         /// <param name="methodInfo">The methodInfo.</param>

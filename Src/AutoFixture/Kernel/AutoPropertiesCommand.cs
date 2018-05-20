@@ -13,7 +13,7 @@ namespace AutoFixture.Kernel
 #pragma warning restore 618
     {
         /// <summary>
-        /// The explicitly specified <see cref="Type"/> that should be used to resolve fields and properties 
+        /// The explicitly specified <see cref="Type"/> that should be used to resolve fields and properties
         /// to populate for the specimen.
         /// <remarks>
         /// <para>
@@ -23,7 +23,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         /// </summary>
         public Type ExplicitSpecimenType { get; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class.
         /// </summary>
@@ -245,7 +245,7 @@ namespace AutoFixture.Kernel
         /// The specimen on which property and field values will be assigned.
         /// </param>
         /// <param name="context">
-        /// An <see cref="ISpecimenContext"/> that is used to create property 
+        /// An <see cref="ISpecimenContext"/> that is used to create property
         /// and field values.
         /// </param>
         public void Execute(object specimen, ISpecimenContext context)

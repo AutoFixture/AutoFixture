@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Relays a request for <see cref="IEnumerator{T}" /> to 
+    /// Relays a request for <see cref="IEnumerator{T}" /> to
     /// <see cref="IEnumerable{T}"/> and converts the result to an enumerator
     /// of a sequence of the requested type.
     /// </summary>
@@ -21,12 +21,12 @@ namespace AutoFixture.Kernel
         /// A context that can be used to create other specimens.
         /// </param>
         /// <returns>
-        /// An enumerator of the requested type if possible; otherwise a 
+        /// An enumerator of the requested type if possible; otherwise a
         /// <see cref="NoSpecimen"/> instance.
         /// </returns>
         /// <remarks>
         /// <para>
-        /// If <paramref name="request"/> is a request for an 
+        /// If <paramref name="request"/> is a request for an
         /// <see cref="IEnumerator{T}"/> and <paramref name="context"/> can
         /// satisfy an <see cref="IEnumerable{T}"/> request for the
         /// element type, the return value is an enumerator of the
@@ -51,7 +51,7 @@ namespace AutoFixture.Kernel
         }
     }
 
-    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", 
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
         Justification = "It's activated via reflection.")]
     internal class EnumeratorRelay<T> : ISpecimenBuilder
     {

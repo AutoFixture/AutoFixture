@@ -99,7 +99,7 @@ namespace AutoFixture.Kernel
     /// <typeparam name="TInput1">The type of the first parameter provided to the Func.</typeparam>
     /// <typeparam name="TInput2">The type of the second parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes",
         Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended " +
                         "to be used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, T> : ISpecimenBuilder
@@ -157,7 +157,7 @@ namespace AutoFixture.Kernel
     /// <typeparam name="TInput2">The type of the second parameter provided to the Func.</typeparam>
     /// <typeparam name="TInput3">The type of the third parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes",
         Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be " +
                         "used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, TInput3, T> : ISpecimenBuilder
@@ -217,7 +217,7 @@ namespace AutoFixture.Kernel
     /// <typeparam name="TInput3">The type of the third parameter provided to the Func.</typeparam>
     /// <typeparam name="TInput4">The type of the fourth parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes",
         Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended " +
                         "to be used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> : ISpecimenBuilder

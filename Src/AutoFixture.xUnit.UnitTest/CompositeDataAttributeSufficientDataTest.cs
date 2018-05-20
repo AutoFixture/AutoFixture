@@ -42,9 +42,9 @@ namespace AutoFixture.Xunit.UnitTest
                     {
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
-                        new object[] { 1, 2, 3 } 
+                        new object[] { 1, 2, 3 }
                     });
 
             yield return CreateTestCase(
@@ -53,7 +53,7 @@ namespace AutoFixture.Xunit.UnitTest
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 4, 5, 6 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 2, 3 }
                     });
@@ -64,7 +64,7 @@ namespace AutoFixture.Xunit.UnitTest
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1       } }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3, 4 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 3, 4 }
                     });
@@ -75,7 +75,7 @@ namespace AutoFixture.Xunit.UnitTest
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    } }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4, 5 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 2, 5 }
                     });
@@ -85,7 +85,7 @@ namespace AutoFixture.Xunit.UnitTest
                     {
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
                     });
@@ -96,7 +96,7 @@ namespace AutoFixture.Xunit.UnitTest
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
                     });
@@ -107,7 +107,7 @@ namespace AutoFixture.Xunit.UnitTest
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
                     });
@@ -119,7 +119,7 @@ namespace AutoFixture.Xunit.UnitTest
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8, 9 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 2, 3 }
                     });
@@ -131,7 +131,7 @@ namespace AutoFixture.Xunit.UnitTest
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 4, 5, 6 }, new object[] { 7, 8, 9 } })
                     },
-                expected: new[] 
+                expected: new[]
                     {
                         new object[] { 1, 2, 3 }
                     });

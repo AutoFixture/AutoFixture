@@ -84,7 +84,7 @@ namespace AutoFixture
             var types = new[]
                 {
                     this.TargetType,
-                    this.RegisteredType 
+                    this.RegisteredType
                 };
 
             var builder = new CompositeSpecimenBuilder(

@@ -8,7 +8,7 @@ namespace AutoFixture
     public class RandomBooleanSequenceCustomization : ICustomization
     {
         /// <summary>
-        /// Customizes specified fixture by adding <see cref="RandomBooleanSequenceGenerator"/> as a default strategy for 
+        /// Customizes specified fixture by adding <see cref="RandomBooleanSequenceGenerator"/> as a default strategy for
         /// creating new <see cref="Boolean"/>.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>

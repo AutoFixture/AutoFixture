@@ -4,7 +4,7 @@ namespace TestTypeFoundation
 {
     public class TypeWithFactoryMethod
     {
-        private TypeWithFactoryMethod() 
+        private TypeWithFactoryMethod()
         {
         }
 

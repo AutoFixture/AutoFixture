@@ -30,7 +30,7 @@ namespace AutoFixtureDocumentationTest.Array
             var fixture = new Fixture();
             // Act
             var mc = fixture.Build<MyClassA>()
-                .With(x => x.Items, 
+                .With(x => x.Items,
                     fixture.CreateMany<MyClassB>().ToArray())
                 .Create();
             // Assert
@@ -44,7 +44,7 @@ namespace AutoFixtureDocumentationTest.Array
             // Arrange
             var fixture = new Fixture();
             fixture.Customize<MyClassA>(ob =>
-                ob.With(x => x.Items, 
+                ob.With(x => x.Items,
                     fixture.CreateMany<MyClassB>().ToArray()));
             // Act
             var mc = fixture.Create<MyClassA>();
@@ -58,7 +58,7 @@ namespace AutoFixtureDocumentationTest.Array
         {
             // Arrange
             var fixture = new Fixture();
-            fixture.Register<MyClassB[]>(() => 
+            fixture.Register<MyClassB[]>(() =>
                 fixture.CreateMany<MyClassB>().ToArray());
             // Act
             var mc = fixture.Create<MyClassA>();

@@ -107,7 +107,7 @@ namespace AutoFixture.AutoMoq.UnitTest
 
             // Act
             var actual = mockOfFunc.Object(42);
-            
+
             // Assert
             Assert.Equal(expected, actual);
         }

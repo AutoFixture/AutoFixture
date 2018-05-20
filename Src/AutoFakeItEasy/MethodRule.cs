@@ -6,7 +6,7 @@ namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// A rule that intercepts method calls. Supplies the return and all out and ref values
-    /// from the fixture. When a method is called repeatedly with the same arguments, the 
+    /// from the fixture. When a method is called repeatedly with the same arguments, the
     /// same return value and out and ref values will be provided.
     /// </summary>
     internal class MethodRule : IFakeObjectCallRule

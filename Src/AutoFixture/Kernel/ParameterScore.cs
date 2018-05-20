@@ -57,7 +57,7 @@ namespace AutoFixture.Kernel
             if (polymorphismScore > 0)
                 return polymorphismScore;
 
-            return parameters.Count() * -1;                
+            return parameters.Count() * -1;
         }
 
         private static bool IsExactMatch(Type targetType, ParameterInfo p)
