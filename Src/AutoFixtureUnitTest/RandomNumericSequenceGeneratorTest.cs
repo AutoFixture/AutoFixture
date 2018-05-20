@@ -208,8 +208,7 @@ namespace AutoFixtureUnitTest
             var result = (double)sut.Create(request, dummyContext);
             // Assert
             Assert.True(
-                result >= expectedMin && result <= expectedMax
-                );
+                result >= expectedMin && result <= expectedMax);
         }
 
         [Theory]
@@ -230,8 +229,7 @@ namespace AutoFixtureUnitTest
                 .Cast<int>();
             // Assert
             Assert.True(
-                result.All(x => x >= expectedMin && x <= expectedMax)
-                );
+                result.All(x => x >= expectedMin && x <= expectedMax));
         }
 
         [Theory]
@@ -266,8 +264,7 @@ namespace AutoFixtureUnitTest
                 .Cast<long>();
             // Assert
             Assert.True(
-                result.All(x => x >= expectedMin && x <= expectedMax)
-                );
+                result.All(x => x >= expectedMin && x <= expectedMax));
         }
 
         [Theory]

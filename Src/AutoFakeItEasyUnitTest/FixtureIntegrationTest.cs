@@ -364,7 +364,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var result = fixture.Create<IInterfaceWithRefMethod>();
             // Act
             int argument = 42;
-            var returnValue1 = result.Method(ref argument );
+            var returnValue1 = result.Method(ref argument);
             argument = 42;
             var returnValue2 = result.Method(ref argument);
             // Assert

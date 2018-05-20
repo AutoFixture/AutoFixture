@@ -159,7 +159,7 @@ namespace AutoFixtureUnitTest.Kernel
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder()),
                     new CompositeSpecimenBuilder(
-                        new[] {new CompositeSpecimenBuilder()})
+                        new[] {new CompositeSpecimenBuilder() })
                 },
                 {
                     new CompositeSpecimenBuilder(

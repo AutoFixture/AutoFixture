@@ -127,9 +127,7 @@ namespace AutoFixture.NUnit2
                           string.Format(
                               CultureInfo.CurrentCulture,
                               "Expected {0} parameters, got {1} parameters",
-                              numberOfParameters, foundData[iteration].Count
-                              )
-                          );
+                              numberOfParameters, foundData[iteration].Count));
                 }
             } while (++iteration < numberOfIterations);
         }

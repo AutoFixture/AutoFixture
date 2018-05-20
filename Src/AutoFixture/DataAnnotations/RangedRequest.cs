@@ -180,8 +180,7 @@ namespace AutoFixture.DataAnnotations
                         "RangeAttribute(typeof(long), \"0\", \"9223372036854775807\")",
                         Environment.NewLine,
                         attributeValue.GetType().FullName,
-                        conversionType.FullName
-                    ),
+                        conversionType.FullName),
                     ex);
             }
         }

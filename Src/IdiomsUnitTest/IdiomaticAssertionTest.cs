@@ -179,7 +179,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             Type type = typeof(UnguardedStaticMethodOnStaticTypeHost);
-            var expectedMethods = new[] { type.GetMethod("Method")};
+            var expectedMethods = new[] { type.GetMethod("Method") };
             var mockVerified = false;
             var sut = new DelegatingIdiomaticAssertion
             {

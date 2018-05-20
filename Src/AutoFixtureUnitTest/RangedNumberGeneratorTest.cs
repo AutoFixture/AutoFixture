@@ -223,18 +223,15 @@ namespace AutoFixtureUnitTest
                 new RangedNumberRequest(
                     typeof(decimal),
                     Convert.ChangeType(minimum, typeof(decimal)),
-                    Convert.ChangeType(maximum, typeof(decimal))
-                    ),
+                    Convert.ChangeType(maximum, typeof(decimal))),
                 new RangedNumberRequest(
                     typeof(double),
                     Convert.ChangeType(minimum, typeof(double)),
-                    Convert.ChangeType(maximum, typeof(double))
-                    ),
+                    Convert.ChangeType(maximum, typeof(double))),
                 new RangedNumberRequest(
                     typeof(decimal),
                     Convert.ChangeType(minimum, typeof(decimal)),
-                    Convert.ChangeType(maximum, typeof(decimal))
-                    )
+                    Convert.ChangeType(maximum, typeof(decimal)))
             };
             var context = new DelegatingSpecimenContext
             {

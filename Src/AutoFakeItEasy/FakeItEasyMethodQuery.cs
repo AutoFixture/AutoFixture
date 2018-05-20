@@ -100,7 +100,7 @@ namespace AutoFixture.AutoFakeItEasy
 
                     var withArgumentsForConstructorMethod = fakeOptionsType.GetMethod(
                         "WithArgumentsForConstructor",
-                        new[] {typeof(object[])});
+                        new[] {typeof(object[]) });
 
                     if (withArgumentsForConstructorMethod == null)
                     {

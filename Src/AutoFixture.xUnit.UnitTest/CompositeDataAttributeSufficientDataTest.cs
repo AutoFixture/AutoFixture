@@ -44,8 +44,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 } 
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -56,8 +55,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -68,8 +66,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 3, 4 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -80,8 +77,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 5 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -91,8 +87,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -103,8 +98,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -115,8 +109,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
-                    }
-            );
+                    });
 
             // Second attribute restricts
             yield return CreateTestCase(
@@ -128,8 +121,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }
-                    }
-            );
+                    });
 
             // Shortest data provider is limiting factor
             yield return CreateTestCase(
@@ -141,8 +133,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }
-                    }
-            );
+                    });
 
             // Test incorrect number of parameters - should just return what it's given
             // and let xUnit deal with counting parameters
@@ -155,8 +146,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[]
                 {
                     new object[] { 1, 2 }
-                }
-            );
+                });
 
             yield return CreateTestCase(
                 data: new[]
@@ -167,8 +157,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[]
                 {
                     new object[] { 1, 3 },
-                }
-            );
+                });
 
             yield return CreateTestCase(
                 data: new[]
@@ -180,8 +169,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[]
                 {
                     new object[] { 1, 3 },
-                }
-            );
+                });
 
             yield return CreateTestCase(
                 data: new[]
@@ -193,8 +181,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[]
                 {
                     new object[] { 1 }
-                }
-            );
+                });
 
             yield return CreateTestCase(
                 data: new[]
@@ -204,8 +191,7 @@ namespace AutoFixture.Xunit.UnitTest
                 expected: new[]
                 {
                     new object[] { 1, 2, 3, 4 }
-                }
-            );
+                });
         }
 
         IEnumerator IEnumerable.GetEnumerator()

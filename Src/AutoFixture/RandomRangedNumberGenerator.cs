@@ -35,7 +35,7 @@ namespace AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)throw new ArgumentNullException(nameof(context));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var rangedNumberRequest = request as RangedNumberRequest;
             if (rangedNumberRequest == null)

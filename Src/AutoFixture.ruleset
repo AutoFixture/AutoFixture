@@ -10,7 +10,6 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id = "SA0001" Action = "None" /> <!-- XML comment analysis is disabled due to project configuration -->
-    <Rule Id = "SA1009" Action = "None" /> <!-- Closing parenthesis should be followed by a space. -->
     <Rule Id = "SA1011" Action = "None" /> <!-- Closing square bracket should be followed by a space. -->
     <Rule Id = "SA1012" Action = "None" /> <!-- Opening brace should be followed by a space. -->
     <Rule Id = "SA1013" Action = "None" /> <!-- Closing brace should be preceded by a space. -->

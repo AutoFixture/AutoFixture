@@ -380,8 +380,7 @@ namespace AutoFixture.NUnit3.UnitTest
         public void NoAutoPropertiesAttributeLeavesPropertiesUnset(
             [NoAutoProperties]PropertyHolder<object> ph1,
             [NoAutoProperties]PropertyHolder<string> ph2,
-            [NoAutoProperties]PropertyHolder<int> ph3
-            )
+            [NoAutoProperties]PropertyHolder<int> ph3)
         {
             Assert.That(ph1.Property, Is.EqualTo(default(object)));
             Assert.That(ph2.Property, Is.EqualTo(default(string)));

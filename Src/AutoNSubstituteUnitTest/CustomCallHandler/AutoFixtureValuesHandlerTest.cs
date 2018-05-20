@@ -142,7 +142,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             var callResult = new CallResultData(
                 Maybe.Nothing<object>(),
-                new[] {new CallResultData.ArgumentValue(0, 42)});
+                new[] {new CallResultData.ArgumentValue(0, 42) });
 
             sut.ResultResolver.ResolveResult(call).Returns(callResult);
 
@@ -165,7 +165,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             var callResult = new CallResultData(
                 Maybe.Nothing<object>(),
-                new[] {new CallResultData.ArgumentValue(0, 42)});
+                new[] {new CallResultData.ArgumentValue(0, 42) });
 
             sut.ResultResolver.ResolveResult(call).Returns(callResult);
 
@@ -195,7 +195,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                 .Returns(
                     new CallResultData(
                         Maybe.Nothing<object>(),
-                        new[] {new CallResultData.ArgumentValue(0, 84)}));
+                        new[] {new CallResultData.ArgumentValue(0, 84) }));
 
             // Act
             sut.Handle(call);
@@ -221,7 +221,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                 .Returns(
                     new CallResultData(
                         Maybe.Nothing<object>(),
-                        new[] {new CallResultData.ArgumentValue(0, 84)}));
+                        new[] {new CallResultData.ArgumentValue(0, 84) }));
 
             // Act
             sut.Handle(call);

@@ -867,8 +867,7 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.True(
                 (result.Property1 >= lower && result.Property1 <= upper) &&
-                (result.Property2 >= lower && result.Property2 <= upper)
-                );
+                (result.Property2 >= lower && result.Property2 <= upper));
         }
 
         [Fact]
@@ -2897,9 +2896,8 @@ namespace AutoFixtureUnitTest
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithReferenceOutA>()
-                    )
-                ).CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
+                        sut.Build<RecursionTestObjectWithReferenceOutA>()))
+                .CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
         }
 
         [Fact]
@@ -2912,9 +2910,8 @@ namespace AutoFixtureUnitTest
                 new SpecimenContext(
                     new RecursionGuard(
                         sut.Build<RecursionTestObjectWithReferenceOutA>(),
-                        new ThrowingRecursionHandler()
-                    )
-                ).Create<RecursionTestObjectWithReferenceOutA>());
+                        new ThrowingRecursionHandler()))
+                .Create<RecursionTestObjectWithReferenceOutA>());
         }
 
         [Fact]
@@ -2927,9 +2924,8 @@ namespace AutoFixtureUnitTest
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                    )
-                ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
+                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()))
+                .CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
         [Fact]
@@ -2942,9 +2938,8 @@ namespace AutoFixtureUnitTest
                 new SpecimenContext(
                     new RecursionGuard(
                         sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
-                        new ThrowingRecursionHandler()
-                    )
-                ).Create<RecursionTestObjectWithConstructorReferenceOutA>());
+                        new ThrowingRecursionHandler()))
+                .Create<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
         [Fact]
@@ -2956,9 +2951,8 @@ namespace AutoFixtureUnitTest
             // Act
             var result = new SpecimenContext(
                 new NullRecursionGuard(
-                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                )
-            ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
+                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()))
+            .CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
             // Assert
             Assert.Null(result.ReferenceToB.ReferenceToA);
         }
@@ -2972,9 +2966,8 @@ namespace AutoFixtureUnitTest
             var result = new SpecimenContext(
                 new RecursionGuard(
                     sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
-                    new NullRecursionHandler()
-                )
-            ).Create<RecursionTestObjectWithConstructorReferenceOutA>();
+                    new NullRecursionHandler()))
+            .Create<RecursionTestObjectWithConstructorReferenceOutA>();
             // Assert
             Assert.Null(result.ReferenceToB.ReferenceToA);
         }
@@ -4756,8 +4749,7 @@ namespace AutoFixtureUnitTest
                 sut.Customizations,
                 b => b is FilteringSpecimenBuilder fsb
                      && fsb.Specification is ExactTypeSpecification ets && ets.TargetType == matchingType
-                     && fsb.Builder is MethodInvoker mi && mi.Query.GetType() == queryType
-            );
+                     && fsb.Builder is MethodInvoker mi && mi.Query.GetType() == queryType);
         }
 
         [Theory]
@@ -4774,8 +4766,7 @@ namespace AutoFixtureUnitTest
                 b => b is FilteringSpecimenBuilder fsb
                      && fsb.Specification is ExactTypeSpecification ets && ets.TargetType == matchingType
                      && fsb.Builder is Postprocessor pp && pp.Command is DictionaryFiller
-                     && pp.Builder is MethodInvoker mi && mi.Query.GetType() == queryType
-            );
+                     && pp.Builder is MethodInvoker mi && mi.Query.GetType() == queryType);
         }
 
         [Fact]
@@ -5709,8 +5700,7 @@ namespace AutoFixtureUnitTest
             var fakeMember = new FakeMemberInfo(
                 new ProvidedAttribute(
                     new RangeAttribute(type, "42", "42"),
-                    inherited: false
-                ));
+                    inherited: false));
 
             var sut = new Fixture();
 

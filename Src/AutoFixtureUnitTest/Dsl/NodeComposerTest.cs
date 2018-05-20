@@ -444,8 +444,7 @@ namespace AutoFixtureUnitTest.Dsl
                                         new EqualRequestSpecification(
                                             pi,
                                             new MemberInfoEqualityComparer()))),
-                                new FalseRequestSpecification()
-                            ),
+                                new FalseRequestSpecification()),
                             new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<string>)),

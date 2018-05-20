@@ -39,8 +39,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 } 
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -51,8 +50,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -62,8 +60,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -74,8 +71,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 3, 4 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -86,8 +82,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 5 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -97,8 +92,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -109,8 +103,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    }
-            );
+                    });
 
             yield return CreateTestCase(
                 data: new[]
@@ -121,8 +114,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 expected: new[] 
                     {
                         new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
-                    }
-            );
+                    });
         }
 
         IEnumerator IEnumerable.GetEnumerator()

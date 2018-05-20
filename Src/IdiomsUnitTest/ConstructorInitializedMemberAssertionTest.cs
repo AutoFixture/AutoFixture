@@ -267,7 +267,7 @@ namespace AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(FieldsInitializedViaConstructor<object, int>)
-                .GetConstructor(new[] {typeof(object), typeof(int), typeof(TriState)});
+                .GetConstructor(new[] {typeof(object), typeof(int), typeof(TriState) });
             // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingField");

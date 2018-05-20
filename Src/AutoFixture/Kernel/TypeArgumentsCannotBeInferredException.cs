@@ -42,8 +42,7 @@ namespace AutoFixture.Kernel
                     methodInfo.DeclaringType.FullName,
                     methodInfo.Name,
                     string.Join(", ", methodInfo.GetGenericArguments().Select(a => a.ToString())),
-                    string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))
-                    ))
+                    string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))))
         {
             if (methodInfo == null)
                 throw new ArgumentNullException(nameof(methodInfo));

@@ -536,9 +536,8 @@ namespace AutoFixtureUnitTest.Kernel
             var result = new CompositeNodeComposer<DoublePropertyHolder<int, decimal>>(
                 new CompositeSpecimenBuilder(
                     SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, decimal>>(),
-                    Scenario.CreateAutoPropertyBuilder()
-                    )
-                ).With(x => x.Property2, 8m).WithAutoProperties().CreateAnonymous();
+                    Scenario.CreateAutoPropertyBuilder()))
+                .With(x => x.Property2, 8m).WithAutoProperties().CreateAnonymous();
             // Assert
             Assert.Equal(1, result.Property1);
             Assert.Equal(8, result.Property2);
@@ -552,9 +551,8 @@ namespace AutoFixtureUnitTest.Kernel
             var result = new CompositeNodeComposer<DoublePropertyHolder<int, decimal>>(
                 new CompositeSpecimenBuilder(
                     SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, decimal>>(),
-                    Scenario.CreateAutoPropertyBuilder()
-                    )
-                ).With(x => x.Property2, 8m).WithAutoProperties().Create();
+                    Scenario.CreateAutoPropertyBuilder()))
+                .With(x => x.Property2, 8m).WithAutoProperties().Create();
             // Assert
             Assert.Equal(1, result.Property1);
             Assert.Equal(8, result.Property2);

@@ -1066,8 +1066,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             fixture.Customizations.Insert(0,
                 new FilteringSpecimenBuilder(
                     new FixedBuilder(expected),
-                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))
-                ));
+                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));
 
             // Act
             var result = subsitute.Property;

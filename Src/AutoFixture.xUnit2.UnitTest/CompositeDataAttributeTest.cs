@@ -102,8 +102,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new CompositeDataAttribute(
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>())
-               );
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>()));
 
             // Act & assert
             var result = sut.GetData(a.GetMethodInfo());
