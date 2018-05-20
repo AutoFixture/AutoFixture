@@ -189,14 +189,8 @@ namespace AutoFixture
         /// </returns>
         public ISpecimenBuilder this[int index]
         {
-            get
-            {
-                return this.AdaptedBuilders.ElementAt(index);
-            }
-            set
-            {
-                this.Mutate(this.AdaptedBuilders.SetItem(index, value));
-            }
+            get => this.AdaptedBuilders.ElementAt(index);
+            set => this.Mutate(this.AdaptedBuilders.SetItem(index, value));
         }
 
         /// <summary>

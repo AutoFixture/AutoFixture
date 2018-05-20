@@ -36,6 +36,7 @@ namespace AutoFixture.AutoFakeItEasy
         private class PositionedValue
         {
             public int Position { get; }
+
             public object Value { get; }
 
             public PositionedValue(int position, object value)

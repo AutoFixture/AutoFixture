@@ -19,7 +19,9 @@ namespace AutoFixture.NUnit3
     public class AutoDataAttribute : Attribute, ITestBuilder
     {
         private readonly Lazy<IFixture> fixtureLazy;
+
         private IFixture Fixture => this.fixtureLazy.Value;
+
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
 
         /// <summary>

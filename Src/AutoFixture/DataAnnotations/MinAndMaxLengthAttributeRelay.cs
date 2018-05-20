@@ -129,6 +129,7 @@ namespace AutoFixture.DataAnnotations
         private class Range
         {
             public int Min { get; }
+
             public int Max { get; }
 
             private Range(int min, int max)

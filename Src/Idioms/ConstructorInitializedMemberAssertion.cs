@@ -332,6 +332,7 @@ namespace AutoFixture.Idioms
             }
 
             public object Expected { get; }
+
             public object Actual { get; }
         }
 

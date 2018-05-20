@@ -58,6 +58,7 @@ namespace AutoFixture.DataAnnotations
         private struct TimeSpanRange
         {
             public TimeSpan Min { get; set; }
+
             public TimeSpan Max { get; set; }
         }
     }

@@ -20,7 +20,9 @@ namespace AutoFixture.NUnit3
     {
         private readonly object[] existingParameterValues;
         private readonly Lazy<IFixture> fixtureLazy;
+
         private IFixture Fixture => this.fixtureLazy.Value;
+
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
         
         /// <summary>
