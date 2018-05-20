@@ -31,6 +31,7 @@ namespace AutoFixture.NUnit2.UnitTest
 
         public IEnumerator<object[]> GetEnumerator()
         {
+#pragma warning disable SA1025 // Code should not contain multiple whitespace in a row
             yield return CreateTestCase(
                 data: new[]
                     {
@@ -115,6 +116,7 @@ namespace AutoFixture.NUnit2.UnitTest
                     {
                         new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
                     });
+#pragma warning restore SA1025 // Code should not contain multiple whitespace in a row
         }
 
         IEnumerator IEnumerable.GetEnumerator()
