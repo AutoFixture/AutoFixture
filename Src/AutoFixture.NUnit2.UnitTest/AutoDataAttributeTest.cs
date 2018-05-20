@@ -250,7 +250,7 @@ namespace AutoFixture.NUnit2.UnitTest
                 }
             }
             
-            public class Customization: ICustomization
+            public class Customization : ICustomization
             {
                 public void Customize(IFixture fixture)
                 {
