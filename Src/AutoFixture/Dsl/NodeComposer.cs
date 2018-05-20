@@ -226,7 +226,7 @@ namespace AutoFixture.Dsl
 
             var filter = FindContainer(graphWithDoNode);
             return (NodeComposer<T>)graphWithDoNode.ReplaceNodes(
-                with: n => n.Compose(n.Concat(new [] { new SeedIgnoringRelay() })),
+                with: n => n.Compose(n.Concat(new[] { new SeedIgnoringRelay() })),
                 when: filter.Equals);
         }
 
