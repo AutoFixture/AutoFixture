@@ -18,7 +18,7 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
             // Act
             var result = fixture.Create<string>();
             // Assert
-            Assert.Throws<InvalidOperationException>( () => result.GetMockRepository());
+            Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
         }
 
         [Fact]
