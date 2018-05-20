@@ -11,6 +11,7 @@ namespace AutoFixture
     {
         private const int DefaultRecursionDepth = 1;
         private readonly int recursionDepth;
+
         /// <summary>
         /// Initializes new instance of the <see cref="OmitOnRecursionBehavior" /> class with default recursion depth.
         /// The default recursion depth will omit assignment on first recursion.

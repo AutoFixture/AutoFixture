@@ -21,6 +21,7 @@ namespace AutoFixture.NUnit3
         private readonly Lazy<IFixture> fixtureLazy;
         private IFixture Fixture => this.fixtureLazy.Value;
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
+
         /// <summary>
         /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
         /// </summary>
