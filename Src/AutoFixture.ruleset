@@ -10,7 +10,6 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id = "SA0001" Action = "None" /> <!-- XML comment analysis is disabled due to project configuration -->
-    <Rule Id = "SA1115" Action = "None" /> <!-- The parameter should begin on the line after the previous parameter. -->
     <Rule Id = "SA1116" Action = "None" /> <!-- The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines-->
     <Rule Id = "SA1117" Action = "None" /> <!-- The parameters should all be placed on the same line or each parameter should be placed on its own line. -->
     <Rule Id = "SA1118" Action = "None" /> <!-- The parameter spans multiple lines -->

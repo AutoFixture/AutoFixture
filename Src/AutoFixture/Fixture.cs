@@ -79,9 +79,7 @@ namespace AutoFixture
                                             typeof(IFixture)),
                                         new ExactTypeSpecification(
                                             typeof(ISpecimenBuilder)))),
-
                                 new StableFiniteSequenceRelay(),
-
                                 MakeQueryBasedBuilderForMatchingType(
                                     typeof(Dictionary<,>),
                                     new ModestConstructorQuery(),
@@ -109,21 +107,18 @@ namespace AutoFixture
                                 MakeQueryBasedBuilderForMatchingType(
                                     typeof(ObservableCollection<>),
                                     new EnumerableFavoringConstructorQuery()),
-
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
                                     new NullableEnumRequestSpecification()),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
-
                                 MakeFixedBuilder(
                                     CultureInfo.InvariantCulture),
                                 MakeFixedBuilder(
                                     Encoding.UTF8),
                                 MakeFixedBuilder(
                                     IPAddress.Loopback),
-
                                 new DataAnnotationsSupportNode(
                                     new CompositeSpecimenBuilder(
                                         new RangeAttributeRelay(),
