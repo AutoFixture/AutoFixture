@@ -297,7 +297,7 @@ namespace AutoFixtureUnitTest.Kernel
                 }
             };
 
-            var expected = new[, , ,]
+            var expected = new[,,,]
             {
                 {
                     {
