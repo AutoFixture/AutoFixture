@@ -19,7 +19,7 @@ namespace TestTypeFoundation
             this.Item = item;
         }
 
-        public static TStaticProperty Property { get;private set;}
+        public static TStaticProperty Property { get; private set; }
 
         public TItem Item { get; private set; }
     }

@@ -10,7 +10,6 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id = "SA0001" Action = "None" /> <!-- XML comment analysis is disabled due to project configuration -->
-    <Rule Id = "SA1002" Action = "None" /> <!-- Semicolons should be followed by a space. -->
     <Rule Id = "SA1003" Action = "None" /> <!-- Operator ':' should be preceded by whitespace. -->
     <Rule Id = "SA1004" Action = "None" /> <!-- Documentation line should begin with a space. -->
     <Rule Id = "SA1005" Action = "None" /> <!-- Single line comment should begin with a space. -->
