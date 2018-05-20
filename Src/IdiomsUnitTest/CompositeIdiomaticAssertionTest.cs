@@ -62,7 +62,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedConstructors = new List<ConstructorInfo>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnConstructorInfoVerify = observedConstructors.Add}, 3).ToArray();
+                new DelegatingIdiomaticAssertion { OnConstructorInfoVerify = observedConstructors.Add }, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithConstructor = typeof(UnguardedConstructorHost<object>);
@@ -79,7 +79,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedMethods = new List<MethodInfo>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnMethodInfoVerify = observedMethods.Add}, 3).ToArray();
+                new DelegatingIdiomaticAssertion { OnMethodInfoVerify = observedMethods.Add }, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithMethod = typeof(TypeWithConcreteParameterMethod);
@@ -96,7 +96,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedProperties = new List<PropertyInfo>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnPropertyInfoVerify = observedProperties.Add}, 3).ToArray();
+                new DelegatingIdiomaticAssertion { OnPropertyInfoVerify = observedProperties.Add }, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithMethod = typeof(PropertyHolder<object>);
@@ -113,7 +113,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedFields = new List<FieldInfo>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnFieldInfoVerify = observedFields.Add}, 3).ToArray();
+                new DelegatingIdiomaticAssertion { OnFieldInfoVerify = observedFields.Add }, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type typeWithField = typeof(FieldHolder<object>);
@@ -130,7 +130,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedAssemblies = new List<Assembly>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnAssemblyVerify = observedAssemblies.Add}, 3).ToArray();
+                new DelegatingIdiomaticAssertion { OnAssemblyVerify = observedAssemblies.Add }, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Assembly assembly = typeof(AbstractType).Assembly;
@@ -146,7 +146,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedTypes = new List<Type>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnTypeVerify = observedTypes.Add}, 3).ToArray();
+                new DelegatingIdiomaticAssertion { OnTypeVerify = observedTypes.Add }, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
             Type type = typeof(AbstractType);
@@ -162,7 +162,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedAssemblies = new List<Assembly[]>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnAssemblyArrayVerify = observedAssemblies.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnAssemblyArrayVerify = observedAssemblies.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -184,7 +184,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedAssemblies = new List<IEnumerable<Assembly>>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnAssembliesVerify = observedAssemblies.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnAssembliesVerify = observedAssemblies.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -207,7 +207,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedTypeArrays = new List<Type[]>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnTypeArrayVerify = observedTypeArrays.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnTypeArrayVerify = observedTypeArrays.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -229,7 +229,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedTypes = new List<IEnumerable<Type>>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnTypesVerify = observedTypes.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnTypesVerify = observedTypes.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -252,7 +252,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedMemberInfoArrays = new List<MemberInfo[]>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnMemberInfoArrayVerify = observedMemberInfoArrays.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnMemberInfoArrayVerify = observedMemberInfoArrays.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -274,7 +274,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedMemberInfos = new List<IEnumerable<MemberInfo>>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnMemberInfosVerify = observedMemberInfos.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnMemberInfosVerify = observedMemberInfos.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -297,7 +297,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedConstructors = new List<IEnumerable<ConstructorInfo>>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnConstructorInfosVerify = observedConstructors.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnConstructorInfosVerify = observedConstructors.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -320,7 +320,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedMethods = new List<IEnumerable<MethodInfo>>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnMethodInfosVerify = observedMethods.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnMethodInfosVerify = observedMethods.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -343,7 +343,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedPropertyArrays = new List<PropertyInfo[]>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnPropertyInfoArrayVerify = observedPropertyArrays.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnPropertyInfoArrayVerify = observedPropertyArrays.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -365,7 +365,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedProperties = new List<IEnumerable<PropertyInfo>>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnPropertyInfosVerify = observedProperties.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnPropertyInfosVerify = observedProperties.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -388,7 +388,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedFieldArrays = new List<FieldInfo[]>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnFieldInfoArrayVerify = observedFieldArrays.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnFieldInfoArrayVerify = observedFieldArrays.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
@@ -410,7 +410,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var observedFields = new List<IEnumerable<FieldInfo>>();
             var expectations = Enumerable.Repeat(
-                new DelegatingIdiomaticAssertion { OnFieldInfosVerify = observedFields.Add}, 3)
+                new DelegatingIdiomaticAssertion { OnFieldInfosVerify = observedFields.Add }, 3)
                 .ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);

@@ -20,7 +20,7 @@ namespace AutoFixture.AutoNSubstitute
 
             return type.GetInterfaces()
                 .Where(i => !interfaces.Contains(i))
-                .Concat(new[] { type.GetTypeInfo().BaseType});
+                .Concat(new[] { type.GetTypeInfo().BaseType });
         }
     }
 }

@@ -114,7 +114,7 @@ namespace AutoFixture.Kernel
                         // When we create collection for multiple items, we add the already enumerated one as well.
                         if (multipleItems == null)
                         {
-                            multipleItems = new List<ISpecimenBuilder> { singleItem};
+                            multipleItems = new List<ISpecimenBuilder> { singleItem };
                         }
                         
                         multipleItems.Add(enumerator.Current);

@@ -59,7 +59,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Arrange
             var context = Substitute.For<ISpecimenContext>();
             Type targetType = typeof(IComparable);
-            var constructedSubstute = Substitute.For(new[] { targetType}, new object[0]);
+            var constructedSubstute = Substitute.For(new[] { targetType }, new object[0]);
             var constructor = Substitute.For<ISpecimenBuilder>();
             constructor.Create(targetType, context).Returns(constructedSubstute);
             var sut = new SubstituteRequestHandler(constructor);

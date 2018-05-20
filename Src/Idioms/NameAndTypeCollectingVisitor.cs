@@ -29,7 +29,7 @@ namespace AutoFixture.Idioms
                 fieldInfoElement.FieldInfo.Name,
                 fieldInfoElement.FieldInfo.FieldType);
             return new NameAndTypeCollectingVisitor(
-                this.values.Concat(new[] { v}).ToArray());
+                this.values.Concat(new[] { v }).ToArray());
         }
 
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
@@ -40,7 +40,7 @@ namespace AutoFixture.Idioms
                 parameterInfoElement.ParameterInfo.Name,
                 parameterInfoElement.ParameterInfo.ParameterType);
             return new NameAndTypeCollectingVisitor(
-                this.values.Concat(new[] { v}).ToArray());
+                this.values.Concat(new[] { v }).ToArray());
         }
 
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
@@ -51,7 +51,7 @@ namespace AutoFixture.Idioms
                 propertyInfoElement.PropertyInfo.Name,
                 propertyInfoElement.PropertyInfo.PropertyType);
             return new NameAndTypeCollectingVisitor(
-                this.values.Concat(new[] { v}).ToArray());
+                this.values.Concat(new[] { v }).ToArray());
         }
     }
 }

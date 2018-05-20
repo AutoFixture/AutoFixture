@@ -10,7 +10,6 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id = "SA0001" Action = "None" /> <!-- XML comment analysis is disabled due to project configuration -->
-    <Rule Id = "SA1013" Action = "None" /> <!-- Closing brace should be preceded by a space. -->
     <Rule Id = "SA1015" Action = "None" /> <!-- Closing generic bracket should be followed by a space. -->
     <Rule Id = "SA1021" Action = "None" /> <!-- Negative sign should be preceded by a space. -->
     <Rule Id = "SA1024" Action = "None" /> <!-- Colon should be preceded by a space. -->
