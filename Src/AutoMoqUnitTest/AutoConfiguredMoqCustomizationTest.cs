@@ -61,7 +61,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         {
             // Arrange
             var customizations = new List<ISpecimenBuilder>();
-            var fixture = new Mock<IFixture> {DefaultValue = DefaultValue.Mock};
+            var fixture = new Mock<IFixture> { DefaultValue = DefaultValue.Mock};
             fixture.Setup(f => f.Customizations)
                    .Returns(customizations);
 
@@ -80,7 +80,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         {
             // Arrange
             var customizations = new List<ISpecimenBuilder>();
-            var fixture = new Mock<IFixture> {DefaultValue = DefaultValue.Mock};
+            var fixture = new Mock<IFixture> { DefaultValue = DefaultValue.Mock};
             fixture.Setup(f => f.Customizations)
                    .Returns(customizations);
 
@@ -100,7 +100,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Arrange
             var relay = new Mock<ISpecimenBuilder>();
             var collectors = new List<ISpecimenBuilder>();
-            var fixture = new Mock<IFixture> {DefaultValue = DefaultValue.Mock};
+            var fixture = new Mock<IFixture> { DefaultValue = DefaultValue.Mock};
             fixture.Setup(f => f.ResidueCollectors)
                    .Returns(collectors);
 

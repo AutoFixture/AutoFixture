@@ -193,7 +193,7 @@ namespace AutoFixture.NUnit3.UnitTest
                 customizationLog.Add(c);
                 return fixture;
             };
-            var sut = new InlineAutoDataAttributeStub(() => fixture, new[] {42});
+            var sut = new InlineAutoDataAttributeStub(() => fixture, new[] { 42});
 
             // Act
             sut.BuildFrom(method, new TestSuite(this.GetType())).ToArray();

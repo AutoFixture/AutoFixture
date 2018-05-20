@@ -550,7 +550,7 @@ namespace AutoFixture.Dsl
             }
             else if (currentSpecification is AndRequestSpecification andSpec)
             {
-                specification = new AndRequestSpecification(andSpec.Specifications.Concat(new[] {newRule}));
+                specification = new AndRequestSpecification(andSpec.Specifications.Concat(new[] { newRule}));
             }
             else
             {

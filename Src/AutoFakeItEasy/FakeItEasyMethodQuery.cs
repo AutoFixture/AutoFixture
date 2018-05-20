@@ -100,7 +100,7 @@ namespace AutoFixture.AutoFakeItEasy
 
                     var withArgumentsForConstructorMethod = fakeOptionsType.GetMethod(
                         "WithArgumentsForConstructor",
-                        new[] {typeof(object[]) });
+                        new[] { typeof(object[]) });
 
                     if (withArgumentsForConstructorMethod == null)
                     {
@@ -108,9 +108,9 @@ namespace AutoFixture.AutoFakeItEasy
                     }
 
                     Action<object> addConstructorArgumentsToOptionsAction =
-                        options => withArgumentsForConstructorMethod.Invoke(options, new object[] {parameters});
+                        options => withArgumentsForConstructorMethod.Invoke(options, new object[] { parameters});
 
-                    return constructor.Invoke(new object[] {addConstructorArgumentsToOptionsAction});
+                    return constructor.Invoke(new object[] { addConstructorArgumentsToOptionsAction});
                 }
 
                 return null;

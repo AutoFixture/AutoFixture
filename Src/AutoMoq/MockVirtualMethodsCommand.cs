@@ -61,14 +61,14 @@ namespace AutoFixture.AutoMoq
                         this.GetType()
                             .GetMethod(nameof(SetupVoidMethod), BindingFlags.NonPublic | BindingFlags.Static)
                             .MakeGenericMethod(mockedType)
-                            .Invoke(this, new object[] {mock, methodInvocationLambda});
+                            .Invoke(this, new object[] { mock, methodInvocationLambda});
                     }
                     else
                     {
                         this.GetType()
                             .GetMethod(nameof(SetupMethod), BindingFlags.NonPublic | BindingFlags.Static)
                             .MakeGenericMethod(mockedType, returnType)
-                            .Invoke(this, new object[] {mock, methodInvocationLambda, context});
+                            .Invoke(this, new object[] { mock, methodInvocationLambda, context});
                     }
                 }
             }

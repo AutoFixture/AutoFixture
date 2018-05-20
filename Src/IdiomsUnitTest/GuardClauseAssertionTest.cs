@@ -612,7 +612,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public ReadOnlyCollection<string> GetValues(string someString)
             {
-                return new ReadOnlyCollection<string>(new[] {someString, someString, someString });
+                return new ReadOnlyCollection<string>(new[] { someString, someString, someString });
             }
         }
 
