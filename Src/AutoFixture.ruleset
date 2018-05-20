@@ -79,7 +79,6 @@
     <Rule Id = "SA1502" Action = "None" /> <!-- Element should not be on a single line -->
     <Rule Id = "SA1503" Action = "None" /> <!-- Braces should not be omitted -->
     <Rule Id = "SA1504" Action = "None" /> <!-- All accessors should be single-line or multi-line -->
-    <Rule Id = "SA1509" Action = "None" /> <!-- Opening braces should not be preceded by blank line. -->
     <Rule Id = "SA1512" Action = "None" /> <!-- Single-line comments should not be followed by blank line -->
     <Rule Id = "SA1513" Action = "None" /> <!-- Closing brace should be followed by blank line -->
     <Rule Id = "SA1514" Action = "None" /> <!-- Element documentation header should be preceded by blank line -->

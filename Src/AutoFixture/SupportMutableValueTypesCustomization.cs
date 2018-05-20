@@ -2,7 +2,6 @@
 using AutoFixture.Kernel;
 
 namespace AutoFixture
-
 {
     /// <summary>
     /// A customization that changes how custom <see langword="struct"/> are generated. Uses <see cref="MutableValueTypeGenerator"/>.

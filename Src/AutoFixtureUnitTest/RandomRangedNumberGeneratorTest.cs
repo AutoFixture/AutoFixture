@@ -344,25 +344,19 @@ namespace AutoFixtureUnitTest
             {
                 { typeof(float), float.MinValue, (float)0 },
                 { typeof(float), (float)0, float.MaxValue },
-
                 { typeof(double), double.MinValue, (double)0 },
                 { typeof(double), (double)0, double.MaxValue },
-
                 { typeof(decimal), decimal.MinValue, (decimal)0 },
                 { typeof(decimal), (decimal)0, decimal.MaxValue },
-
                 { typeof(sbyte), sbyte.MinValue, (sbyte)0 },
                 { typeof(sbyte), (sbyte)0, sbyte.MaxValue },
                 { typeof(byte), (byte)0, byte.MaxValue },
-
                 { typeof(short), short.MinValue, (short)0 },
                 { typeof(short), (short)0, short.MaxValue },
                 { typeof(ushort), (ushort)0, ushort.MaxValue },
-
                 { typeof(int), int.MinValue, (int)0 },
                 { typeof(int), (int)0, int.MaxValue },
                 { typeof(uint), (uint)0, uint.MaxValue },
-
                 { typeof(long), long.MinValue, (long)0 },
                 { typeof(long), (long)0, long.MaxValue },
                 { typeof(ulong), (ulong)0, ulong.MaxValue }
@@ -371,41 +365,42 @@ namespace AutoFixtureUnitTest
         public static TheoryData<Type, Type> PairsOfDifferentIntegerTypes =>
             new TheoryData<Type, Type>
             {
+                // sbyte
                 { typeof(sbyte), typeof(int) },
                 { typeof(sbyte), typeof(byte) },
                 { typeof(sbyte), typeof(short) },
                 { typeof(sbyte), typeof(long) },
                 { typeof(sbyte), typeof(ulong) },
                 { typeof(sbyte), typeof(ushort) },
-
+                // long
                 { typeof(long), typeof(int) },
                 { typeof(long), typeof(byte) },
                 { typeof(long), typeof(short) },
                 { typeof(long), typeof(sbyte) },
                 { typeof(long), typeof(ushort) },
                 { typeof(long), typeof(uint) },
-
+                // int
                 { typeof(int), typeof(ulong) },
                 { typeof(int), typeof(byte) },
                 { typeof(int), typeof(short) },
                 { typeof(int), typeof(long) },
                 { typeof(int), typeof(ushort) },
                 { typeof(int), typeof(sbyte) },
-
+                // short
                 { typeof(short), typeof(int) },
                 { typeof(short), typeof(byte) },
                 { typeof(short), typeof(ushort) },
                 { typeof(short), typeof(long) },
                 { typeof(short), typeof(sbyte) },
                 { typeof(short), typeof(ulong) },
-
+                // byte
                 { typeof(byte), typeof(int) },
                 { typeof(byte), typeof(short) },
                 { typeof(byte), typeof(sbyte) },
                 { typeof(byte), typeof(long) },
                 { typeof(byte), typeof(ushort) },
                 { typeof(byte), typeof(ulong) },
-
+                // unit
                 { typeof(uint), typeof(int) },
                 { typeof(uint), typeof(short) },
                 { typeof(uint), typeof(sbyte) },

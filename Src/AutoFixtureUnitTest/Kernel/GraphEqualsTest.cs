@@ -173,7 +173,6 @@ namespace AutoFixtureUnitTest.Kernel
 
         public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> DifferentlyShapedGraphs =>
             new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
-
             {
                 {
                     new CompositeSpecimenBuilder(),
