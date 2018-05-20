@@ -139,7 +139,6 @@ namespace AutoFixture.DataAnnotations
             {
                 // Mimic RangeAttribute conversion behavior:
                 // https://github.com/Microsoft/referencesource/blob/b31308b03e8bd5bf779fb80fda71f31eb959fe0b/System.ComponentModel.DataAnnotations/DataAnnotations/RangeAttribute.cs#L140
-
                 if (attributeValue.GetType() == conversionType)
                     return attributeValue;
 

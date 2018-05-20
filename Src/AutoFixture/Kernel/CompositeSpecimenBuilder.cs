@@ -97,7 +97,6 @@ namespace AutoFixture.Kernel
             // It's optimized to not perform unnecessary allocations and do not enumerate builders more than once.
             // Code is written expecting that single builder is the most common case.
             // See more detail here: https://github.com/AutoFixture/AutoFixture/pull/793
-            
             ISpecimenBuilder singleItem = null;
             List<ISpecimenBuilder> multipleItems = null;
             bool hasItems = false;

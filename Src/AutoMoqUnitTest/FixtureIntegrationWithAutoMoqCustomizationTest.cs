@@ -469,7 +469,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             var result = fixture.Create(delegateType, context);
             // Assert
-
             Assert.Null(Record.Exception(() => AssertIsMock(result, delegateType)));
         }
 

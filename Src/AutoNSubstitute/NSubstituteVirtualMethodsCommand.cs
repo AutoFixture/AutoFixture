@@ -188,7 +188,6 @@ namespace AutoFixture.AutoNSubstitute
                 //    That is because Do() {} callback is executed before known return values are returned.
                 //    After our substitute is configured in When-Do, NSubstitute checks whether there is return value for current call.
                 //    Return value is, of course, present and it returns that value to the consumer.
-
                 this.Substitute
                     .WhenForAnyArgs(_ => this.InvokeMethod(methodInfo))
                     .Do(callInfo =>
@@ -225,7 +224,6 @@ namespace AutoFixture.AutoNSubstitute
                 // otherwise, NSubstitute would not be able to set up the methods
                 // that return a circular reference.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
-
                 using (var cancelableTokenSource = new CancellationTokenSource())
                 {
                     var cancelableToken = cancelableTokenSource.Token;

@@ -891,7 +891,6 @@ namespace AutoFixture.IdiomsUnitTest
             sut.Verify(methodInfo);
             sut.Verify(methodInfo);
             // Assert
-
             var assembliesAfter = AppDomain.CurrentDomain.GetAssemblies();
 
             Assert.Equal(assembliesBefore, assembliesAfter);

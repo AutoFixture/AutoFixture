@@ -232,7 +232,6 @@ namespace AutoFixtureUnitTest
             var sut = new RandomRangedNumberGenerator();
 
             // Act
-
             var numbers = Enumerable
                 .Range(0, numberOfThreads)
                 .AsParallel()

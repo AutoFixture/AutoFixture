@@ -812,7 +812,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
             //Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
-
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
