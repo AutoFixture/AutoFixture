@@ -15,8 +15,8 @@ namespace AutoFixture.AutoNSubstitute
 
         internal static IEnumerable<Type> GetSubstituteTypes(this Type type)
         {
-	        var substitute = Substitute.For<object>();
-	        var interfaces = substitute.GetType().GetInterfaces();
+            var substitute = Substitute.For<object>();
+            var interfaces = substitute.GetType().GetInterfaces();
 
             return type.GetInterfaces()
                 .Where(i => !interfaces.Contains(i))

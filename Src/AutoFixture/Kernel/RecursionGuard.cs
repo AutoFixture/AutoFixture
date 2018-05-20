@@ -214,7 +214,7 @@ namespace AutoFixture.Kernel
         /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
         /// <remarks>
-        /// 	<para>
+        /// <para>
         /// The <paramref name="request"/> can be any object, but will often be a
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
