@@ -808,17 +808,17 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         // All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
-        enum TestIntEnum { none = 0, one, two, three };
-        enum TestByteEnum : byte { none = 0, one, two, three };
-        enum TestSByteEnum : sbyte { none = 0, one, two, three };
-        enum TestShortEnum : short { none = 0, one, two, three };
-        enum TestUShortEnum : ushort { none = 0, one, two, three };
-        enum TestUIntEnum : uint { none = 0, one, two, three };
-        enum TestLongEnum : long { none = 0, one, two, three };
-        enum TestULongEnum : ulong { none = 0, one, two, three };
+        enum TestIntEnum { none = 0, one, two, three }
+        enum TestByteEnum : byte { none = 0, one, two, three }
+        enum TestSByteEnum : sbyte { none = 0, one, two, three }
+        enum TestShortEnum : short { none = 0, one, two, three }
+        enum TestUShortEnum : ushort { none = 0, one, two, three }
+        enum TestUIntEnum : uint { none = 0, one, two, three }
+        enum TestLongEnum : long { none = 0, one, two, three }
+        enum TestULongEnum : ulong { none = 0, one, two, three }
 
-        enum TestDefaultOnlyEnum { none = 0 };
+        enum TestDefaultOnlyEnum { none = 0 }
 
-        enum TestSingleNonDefaultEnum { none = 1 };
+        enum TestSingleNonDefaultEnum { none = 1 }
     }
 }

@@ -31,7 +31,7 @@ namespace AutoFixture
                 return new NoSpecimen();
 
             if (!this.cultureTypeSpecification.IsSatisfiedBy(request))
-                return new NoSpecimen(); ;
+                return new NoSpecimen();
 
             return CultureInfo.InvariantCulture;
         }
