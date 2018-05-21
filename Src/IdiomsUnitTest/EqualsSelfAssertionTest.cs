@@ -89,7 +89,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public override bool Equals(object obj)
             {
-                if (obj != null && Object.ReferenceEquals(this, obj))
+                if (obj != null && object.ReferenceEquals(this, obj))
                     return true;
 
                 throw new Exception();
@@ -100,7 +100,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public override bool Equals(object obj)
             {
-                if (obj != null && Object.ReferenceEquals(this, obj))
+                if (obj != null && object.ReferenceEquals(this, obj))
                     return false;
 
                 throw new Exception();

@@ -50,7 +50,7 @@ namespace AutoFixture
         /// <param name="context">Not used.</param>
         /// <returns>
         /// The next number in a consecutive sequence, if <paramref name="request"/> is a request
-        /// for a <see cref="System.Single"/>; otherwise, a <see cref="NoSpecimen"/> instance.
+        /// for a <see cref="float"/>; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {

@@ -36,12 +36,12 @@ namespace AutoFixture
         public string LocalPart { get; }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.
         /// </param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance;
+        ///   <c>true</c> if the specified <see cref="object"/> is equal to this instance;
         /// otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="NullReferenceException">
@@ -70,10 +70,10 @@ namespace AutoFixture
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the local part for this instance.
+        /// Returns a <see cref="string"/> that represents the local part for this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents the local part for this instance.
+        /// A <see cref="string"/> that represents the local part for this instance.
         /// </returns>
         public override string ToString()
         {

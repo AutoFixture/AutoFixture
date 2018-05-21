@@ -169,7 +169,7 @@ namespace AutoFixture.IdiomsUnitTest
             var assemblies = new Assembly[]
             {
                 typeof(AbstractType).Assembly,
-                typeof(System.String).Assembly,
+                typeof(string).Assembly,
             };
 
             // Act
@@ -191,7 +191,7 @@ namespace AutoFixture.IdiomsUnitTest
             var assemblies = new[]
             {
                 typeof(AbstractType).Assembly,
-                typeof(System.String).Assembly,
+                typeof(string).Assembly,
             }
                 .AsEnumerable();
 
@@ -214,7 +214,7 @@ namespace AutoFixture.IdiomsUnitTest
             var types = new[]
             {
                 typeof(AbstractType),
-                typeof(System.String),
+                typeof(string),
             };
 
             // Act
@@ -236,7 +236,7 @@ namespace AutoFixture.IdiomsUnitTest
             var assemblies = new[]
             {
                 typeof(AbstractType),
-                typeof(System.String),
+                typeof(string),
             }
                 .AsEnumerable();
 
@@ -259,7 +259,7 @@ namespace AutoFixture.IdiomsUnitTest
             var members = new[]
             {
                 typeof(AbstractType).GetMembers().First(),
-                typeof(System.String).GetMembers().First(),
+                typeof(string).GetMembers().First(),
             };
 
             // Act
@@ -281,7 +281,7 @@ namespace AutoFixture.IdiomsUnitTest
             IEnumerable<MemberInfo> members = new[]
             {
                 typeof(AbstractType).GetMembers().First(),
-                typeof(System.String).GetMembers().First(),
+                typeof(string).GetMembers().First(),
             }
                 .AsEnumerable();
 
@@ -304,7 +304,7 @@ namespace AutoFixture.IdiomsUnitTest
             IEnumerable<ConstructorInfo> ctors = new[]
             {
                 typeof(ConcreteType).GetConstructors().First(),
-                typeof(System.String).GetConstructors().First(),
+                typeof(string).GetConstructors().First(),
             }
                 .AsEnumerable();
 
@@ -327,7 +327,7 @@ namespace AutoFixture.IdiomsUnitTest
             IEnumerable<MethodInfo> methods = new[]
             {
                 typeof(AbstractType).GetMethods().First(),
-                typeof(System.String).GetMethods().First(),
+                typeof(string).GetMethods().First(),
             }
                 .AsEnumerable();
 
@@ -350,7 +350,7 @@ namespace AutoFixture.IdiomsUnitTest
             var properties = new[]
             {
                 typeof(AbstractType).GetProperties().First(),
-                typeof(System.String).GetProperties().First(),
+                typeof(string).GetProperties().First(),
             };
 
             // Act
@@ -372,7 +372,7 @@ namespace AutoFixture.IdiomsUnitTest
             IEnumerable<PropertyInfo> properties = new[]
             {
                 typeof(AbstractType).GetProperties().First(),
-                typeof(System.String).GetProperties().First(),
+                typeof(string).GetProperties().First(),
             }
                 .AsEnumerable();
 
@@ -395,7 +395,7 @@ namespace AutoFixture.IdiomsUnitTest
             var fields = new[]
             {
                 typeof(FieldHolder<object>).GetFields().First(),
-                typeof(System.String).GetFields().First(),
+                typeof(string).GetFields().First(),
             };
 
             // Act
@@ -417,7 +417,7 @@ namespace AutoFixture.IdiomsUnitTest
             IEnumerable<FieldInfo> fields = new[]
             {
                 typeof(FieldHolder<object>).GetFields().First(),
-                typeof(System.String).GetFields().First(),
+                typeof(string).GetFields().First(),
             }
                 .AsEnumerable();
 

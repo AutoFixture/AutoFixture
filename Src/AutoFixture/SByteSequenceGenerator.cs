@@ -46,12 +46,12 @@ namespace AutoFixture
         }
 
         /// <summary>
-        /// Creates an anonymous <see cref="SByte"/>.
+        /// Creates an anonymous <see cref="sbyte"/>.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">Not used.</param>
         /// <returns>
-        /// The next <see cref="SByte"/> in a consecutive sequence, if <paramref name="request"/>
+        /// The next <see cref="sbyte"/> in a consecutive sequence, if <paramref name="request"/>
         /// is a request for an SByte; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)

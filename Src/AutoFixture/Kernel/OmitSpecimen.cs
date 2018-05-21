@@ -22,14 +22,14 @@ namespace AutoFixture.Kernel
     public class OmitSpecimen : IEquatable<OmitSpecimen>
     {
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object" /> is equal to this
+        /// Determines whether the specified <see cref="object" /> is equal to this
         /// instance.
         /// </summary>
         /// <param name="obj">
-        /// The <see cref="System.Object" /> to compare with this instance.
+        /// The <see cref="object" /> to compare with this instance.
         /// </param>
         /// <returns>
-        /// <see langword="true" /> if the specified <see cref="System.Object" /> is an instance of
+        /// <see langword="true" /> if the specified <see cref="object" /> is an instance of
         /// <see cref="OmitSpecimen" />; otherwise, <see langword="false"/>.
         /// </returns>
         /// <seealso cref="Equals(OmitSpecimen)" />

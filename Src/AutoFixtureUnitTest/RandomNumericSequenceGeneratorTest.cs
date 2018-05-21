@@ -27,9 +27,9 @@ namespace AutoFixtureUnitTest
             var expectedResult = new long[]
             {
                 1,
-                Byte.MaxValue,
-                Int16.MaxValue,
-                Int32.MaxValue
+                byte.MaxValue,
+                short.MaxValue,
+                int.MaxValue
             };
             // Act
             IEnumerable<long> result = sut.Limits;
@@ -61,7 +61,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [InlineData(new long[] { 10, 5 })]
-        [InlineData(new long[] { 32, 8, Int32.MaxValue })]
+        [InlineData(new long[] { 32, 8, int.MaxValue })]
         [InlineData(new long[] { 0, -2, 5 })]
         [InlineData(new long[] { -4, -8 })]
         [InlineData(new long[] { 1, 1, 5 })]

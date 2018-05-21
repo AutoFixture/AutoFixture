@@ -39,7 +39,7 @@ namespace AutoFixtureUnitTest
             return new DelegatingRecursionGuard(new CompositeSpecimenBuilder(builders));
         }
 
-        internal IEnumerable<Object> UnprotectedRecordedRequests
+        internal IEnumerable<object> UnprotectedRecordedRequests
         {
             get { return this.RecordedRequests.Cast<object>(); }
         }

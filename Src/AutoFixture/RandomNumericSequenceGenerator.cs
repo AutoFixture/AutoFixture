@@ -23,7 +23,7 @@ namespace AutoFixture
         /// with the default limits, 255, 32767, and 2147483647.
         /// </summary>
         public RandomNumericSequenceGenerator()
-            : this(1, Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
+            : this(1, byte.MaxValue, short.MaxValue, int.MaxValue)
         {
         }
 
@@ -202,7 +202,7 @@ namespace AutoFixture
         /// <returns></returns>
         private long GetUpperRangeFromLimits()
         {
-            return this.limits[1] >= Int32.MaxValue
+            return this.limits[1] >= int.MaxValue
                     ? this.limits[1]
                     : this.limits[1] + 1;
         }

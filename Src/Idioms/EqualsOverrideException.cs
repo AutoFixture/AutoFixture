@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace AutoFixture.Idioms
 {
     /// <summary>
-    /// Represents an error about an ill-behaved override of the <see cref="Object.Equals(object)"/>
+    /// Represents an error about an ill-behaved override of the <see cref="object.Equals(object)"/>
     /// method.
     /// </summary>
     [Serializable]
