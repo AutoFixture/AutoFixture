@@ -205,7 +205,7 @@ namespace AutoFixtureUnitTest
             // Act
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
-            var otherResult = ((IComparable)sut.Create(otherRequest, dummyContext));
+            var otherResult = (IComparable)sut.Create(otherRequest, dummyContext);
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
 
             // Verify
@@ -225,7 +225,7 @@ namespace AutoFixtureUnitTest
         public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int minimum, int maximum, int numberOfThreads)
         {
             // Arrange
-            int expectedDistinctCount = Math.Abs((maximum - minimum + 1));
+            int expectedDistinctCount = Math.Abs(maximum - minimum + 1);
             int requestsPerThread = expectedDistinctCount / numberOfThreads;
             var dummyContext = new DelegatingSpecimenContext();
 

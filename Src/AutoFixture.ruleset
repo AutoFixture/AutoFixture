@@ -13,7 +13,6 @@
     <Rule Id = "SA1116" Action = "None" /> <!-- The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines-->
     <Rule Id = "SA1117" Action = "None" /> <!-- The parameters should all be placed on the same line or each parameter should be placed on its own line. -->
     <Rule Id = "SA1118" Action = "None" /> <!-- The parameter spans multiple lines -->
-    <Rule Id = "SA1119" Action = "None" /> <!-- Statement should not use unnecessary parenthesis -->
     <Rule Id = "SA1121" Action = "None" /> <!-- Use built-in type alias -->
     <Rule Id = "SA1122" Action = "None" /> <!-- Use string.Empty for empty strings -->
     <Rule Id = "SA1124" Action = "None" /> <!-- Do not use regions -->

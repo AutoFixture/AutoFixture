@@ -125,7 +125,7 @@ namespace AutoFixture.Kernel
         private static bool AreTypesRelated(Type x, Type y)
         {
             return x.GetTypeInfo().IsAssignableFrom(y)
-                || (y.GetTypeInfo().IsAssignableFrom(x));
+                || y.GetTypeInfo().IsAssignableFrom(x);
         }
     }
 }

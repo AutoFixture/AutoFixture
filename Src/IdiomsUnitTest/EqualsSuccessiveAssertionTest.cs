@@ -99,7 +99,7 @@ namespace AutoFixture.IdiomsUnitTest
 
             public override bool Equals(object obj)
             {
-                return (++this.equalsCallCount % 2 == 0);
+                return ++this.equalsCallCount % 2 == 0;
             }
         }
 #pragma warning restore 659

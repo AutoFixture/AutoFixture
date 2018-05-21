@@ -273,7 +273,7 @@ namespace AutoFixtureUnitTest
                 {
                     request =
                         new RangedNumberRequest(
-                            typeof(short), (short)(byte.MaxValue), short.MaxValue),
+                            typeof(short), (short)byte.MaxValue, short.MaxValue),
                     contextStub =
                         new DelegatingSpecimenContext
                         {
@@ -321,7 +321,7 @@ namespace AutoFixtureUnitTest
                 {
                     request =
                         new RangedNumberRequest(
-                            typeof(int), (int)(short.MaxValue), int.MaxValue),
+                            typeof(int), (int)short.MaxValue, int.MaxValue),
                     contextStub =
                         new DelegatingSpecimenContext
                         {

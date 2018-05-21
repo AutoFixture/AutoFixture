@@ -245,9 +245,9 @@ namespace AutoFixtureUnitTest
         [InlineData(new[] { (long)int.MaxValue + 10, long.MaxValue })]
         [InlineData(new[] { (long)int.MaxValue + 200, long.MaxValue })]
         [InlineData(new[] { (long)int.MaxValue + 3000, long.MaxValue })]
-        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 10 })]
-        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 200 })]
-        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 3000 })]
+        [InlineData(new[] { -byte.MaxValue, (long)int.MaxValue + 10 })]
+        [InlineData(new[] { -byte.MaxValue, (long)int.MaxValue + 200 })]
+        [InlineData(new[] { -byte.MaxValue, (long)int.MaxValue + 3000 })]
         [InlineData(new[] { long.MinValue + byte.MaxValue, byte.MaxValue })]
         public void CreateReturnsNumberInCorrectRangeForInt64OnMultipleCall(long[] limits)
         {

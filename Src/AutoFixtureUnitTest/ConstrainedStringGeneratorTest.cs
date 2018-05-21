@@ -121,9 +121,9 @@ namespace AutoFixtureUnitTest
             };
             var sut = new ConstrainedStringGenerator();
             // Act
-            var result = (from s in Enumerable.Range(1, 30).Select(i => (string)sut.Create(request, context))
-                          where (s.Length <= request.MinimumLength || s.Length > request.MaximumLength)
-                          select s);
+            var result = from s in Enumerable.Range(1, 30).Select(i => (string)sut.Create(request, context))
+                         where s.Length <= request.MinimumLength || s.Length > request.MaximumLength
+                         select s;
             // Assert
             Assert.False(result.Any());
         }

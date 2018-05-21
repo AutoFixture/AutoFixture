@@ -1409,9 +1409,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1423,9 +1423,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Field)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Field)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1437,9 +1437,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property2)
-                          where (n < RangeValidatedType.DoubleMinimum && n > RangeValidatedType.DoubleMaximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property2)
+                         where n < RangeValidatedType.DoubleMinimum && n > RangeValidatedType.DoubleMaximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1451,9 +1451,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property3)
-                          where (n < Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && n > Convert.ToDecimal(RangeValidatedType.DoubleMaximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property3)
+                         where n < Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && n > Convert.ToDecimal(RangeValidatedType.DoubleMaximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1465,9 +1465,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property4)
-                          where (n < Convert.ToDecimal(RangeValidatedType.StringMinimum) && n > Convert.ToDecimal(RangeValidatedType.StringMaximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property4)
+                         where n < Convert.ToDecimal(RangeValidatedType.StringMinimum) && n > Convert.ToDecimal(RangeValidatedType.StringMaximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1479,9 +1479,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property5)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property5)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1493,9 +1493,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property6)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property6)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1507,9 +1507,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property7)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property7)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1521,9 +1521,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedShortProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedShortProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1535,9 +1535,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedIntProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedIntProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1549,9 +1549,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedLongProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedLongProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1563,9 +1563,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().SignedByteProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().SignedByteProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1577,9 +1577,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumDoubleMinValue)
-                          where (n > Convert.ToDouble(RangeValidatedType.Maximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumDoubleMinValue)
+                         where n > Convert.ToDouble(RangeValidatedType.Maximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1591,9 +1591,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumDoubleMaxValue)
-                          where (n < Convert.ToDouble(RangeValidatedType.Minimum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumDoubleMaxValue)
+                         where n < Convert.ToDouble(RangeValidatedType.Minimum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1605,9 +1605,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumFloatMinValue)
-                          where (n > Convert.ToSingle(RangeValidatedType.Maximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumFloatMinValue)
+                         where n > Convert.ToSingle(RangeValidatedType.Maximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1619,9 +1619,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumFloatMaxValue)
-                          where (n < Convert.ToSingle(RangeValidatedType.Minimum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumFloatMaxValue)
+                         where n < Convert.ToSingle(RangeValidatedType.Minimum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1652,9 +1652,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<StringLengthValidatedType>().Property.Length)
-                          where (n > StringLengthValidatedType.MaximumLength)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<StringLengthValidatedType>().Property.Length)
+                         where n > StringLengthValidatedType.MaximumLength
+                         select n;
             // Assert
             Assert.False(result.Any());
         }

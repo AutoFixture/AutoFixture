@@ -36,10 +36,10 @@ namespace AutoFixture.AutoMoq
 
         internal static bool IsMock(this Type type)
         {
-            return (type != null
+            return type != null
                 && type.GetTypeInfo().IsGenericType
                 && typeof(Mock<>).IsAssignableFrom(type.GetGenericTypeDefinition())
-                && !type.GetMockedType().IsGenericParameter);
+                && !type.GetMockedType().IsGenericParameter;
         }
 
         internal static ConstructorInfo GetDefaultConstructor(this Type type)

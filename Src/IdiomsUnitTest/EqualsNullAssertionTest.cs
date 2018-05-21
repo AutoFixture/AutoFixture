@@ -90,7 +90,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var dummyComposer = new Fixture();
             var sut = new EqualsNullAssertion(dummyComposer);
-            var method = (MethodInfo)(new MethodInfoWithNullDeclaringAndReflectedType());
+            var method = (MethodInfo)new MethodInfoWithNullDeclaringAndReflectedType();
 
             // Act & Assert
             Assert.Null(Record.Exception(() =>
