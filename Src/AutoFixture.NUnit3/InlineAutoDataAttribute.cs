@@ -51,8 +51,8 @@ namespace AutoFixture.NUnit3
                   "Please use the overload with a factory method, so fixture will be constructed only if needed.")]
         protected InlineAutoDataAttribute(IFixture fixture, params object[] arguments)
         {
-            if (null == fixture) throw new ArgumentNullException(nameof(fixture));
-            if (null == arguments) throw new ArgumentNullException(nameof(arguments));
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (arguments == null) throw new ArgumentNullException(nameof(arguments));
 
             this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
             this.existingParameterValues = arguments;
@@ -65,8 +65,8 @@ namespace AutoFixture.NUnit3
         /// </summary>
         protected InlineAutoDataAttribute(Func<IFixture> fixtureFactory, params object[] arguments)
         {
-            if (null == fixtureFactory) throw new ArgumentNullException(nameof(fixtureFactory));
-            if (null == arguments) throw new ArgumentNullException(nameof(arguments));
+            if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
+            if (arguments == null) throw new ArgumentNullException(nameof(arguments));
 
             this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
             this.existingParameterValues = arguments;

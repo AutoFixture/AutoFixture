@@ -13,7 +13,6 @@
     <Rule Id = "SA1116" Action = "None" /> <!-- The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines-->
     <Rule Id = "SA1117" Action = "None" /> <!-- The parameters should all be placed on the same line or each parameter should be placed on its own line. -->
     <Rule Id = "SA1118" Action = "None" /> <!-- The parameter spans multiple lines -->
-    <Rule Id = "SA1131" Action = "None" /> <!-- Constant values should appear on the right-hand side of comparisons-->
     <Rule Id = "SA1133" Action = "None" /> <!-- Each attribute should be placed in its own set of square brackets. -->
     <Rule Id = "SA1136" Action = "None" /> <!-- Enum values should be on separate lines -->
     <Rule Id = "SA1137" Action = "None" /> <!-- Elements should have the same indentation -->

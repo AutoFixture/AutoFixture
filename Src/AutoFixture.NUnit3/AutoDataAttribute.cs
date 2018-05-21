@@ -49,7 +49,7 @@ namespace AutoFixture.NUnit3
                   "Please use the AutoDataAttribute(Func<IFixture> fixtureFactory) overload, so fixture will be constructed only if needed.")]
         protected AutoDataAttribute(IFixture fixture)
         {
-            if (null == fixture)
+            if (fixture == null)
             {
                 throw new ArgumentNullException(nameof(fixture));
             }
