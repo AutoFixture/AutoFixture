@@ -201,12 +201,12 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData((int)42)]
-        [InlineData((uint)42)]
-        [InlineData((long)42)]
-        [InlineData((ulong)42)]
-        [InlineData((double)42.0)]
-        [InlineData((float)42.0f)]
+        [InlineData(42)]
+        [InlineData(42U)]
+        [InlineData(42L)]
+        [InlineData(42UL)]
+        [InlineData(42.0D)]
+        [InlineData(42.0F)]
         [InlineData("42")]
         public void ShouldCorrectlyConvertMinimum(object bounaryValue)
         {
@@ -221,12 +221,12 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData((int)42)]
-        [InlineData((uint)42)]
-        [InlineData((long)42)]
-        [InlineData((ulong)42)]
-        [InlineData((double)42.0)]
-        [InlineData((float)42.0f)]
+        [InlineData(42)]
+        [InlineData(42U)]
+        [InlineData(42L)]
+        [InlineData(42UL)]
+        [InlineData(42.0D)]
+        [InlineData(42.0F)]
         [InlineData("42")]
         public void ShouldCorrectlyConvertMaximum(object bounaryValue)
         {

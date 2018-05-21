@@ -823,11 +823,11 @@ namespace AutoFixtureUnitTest
             var definedNumbers = new object[]
             {
                 1,
-                (uint)2,
+                2U,
                 (byte)3,
                 (sbyte)4,
-                (long)5,
-                (ulong)6,
+                5L,
+                6UL,
                 (short)7,
                 (ushort)8,
                 9.0F,

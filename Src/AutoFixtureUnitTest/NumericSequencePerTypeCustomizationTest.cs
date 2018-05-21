@@ -68,12 +68,12 @@ namespace AutoFixtureUnitTest
                 1.0D,
                 (short)1,
                 1,
-                (long)1,
+                1L,
                 (sbyte)1,
                 1.0F,
                 (ushort)1,
-                (uint)1,
-                (ulong)1
+                1U,
+                1UL
             };
             var sut = new Fixture();
             var customization = new NumericSequencePerTypeCustomization();
