@@ -18,7 +18,6 @@
     <Rule Id = "SA1202" Action = "None" /> <!-- 'public' members should come before 'private' members -->
     <Rule Id = "SA1203" Action = "None" /> <!-- Constant fields should appear before non-constant fields -->
     <Rule Id = "SA1204" Action = "None" /> <!-- Static members should appear before non-static members -->
-    <Rule Id = "SA1210" Action = "None" /> <!-- Using directives should be ordered alphabetically by the namespaces. -->
     <Rule Id = "SA1214" Action = "None" /> <!-- Readonly fields should appear before non-readonly fields -->
     <Rule Id = "SA1300" Action = "None" /> <!-- Element 'none' should begin with an uppercase letter -->
     <Rule Id = "SA1307" Action = "None" /> <!-- Field 'specimenBuilder' should begin with upper-case letter -->
