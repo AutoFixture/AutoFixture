@@ -32,7 +32,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void MessageWillBeDefineWhenInitializedWithMethodInfo()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var sut = new TypeArgumentsCannotBeInferredException(dummy.GetMethodInfo());
 
             var result = sut.Message;

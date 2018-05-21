@@ -32,7 +32,7 @@ namespace AutoFixture.NUnit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
 
             var attributes = new[]
@@ -62,7 +62,7 @@ namespace AutoFixture.NUnit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
 
             var attributes = new[]
@@ -93,7 +93,7 @@ namespace AutoFixture.NUnit2.UnitTest
         public void GetArgumentsOnMethodWithNoParametersReturnsNoTheory()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
 
             var sut = new CompositeDataAttribute(

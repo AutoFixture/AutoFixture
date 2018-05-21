@@ -13,7 +13,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsIMethod()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var anonymousFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(dummy.GetMethodInfo(), anonymousFactory);
             Assert.IsAssignableFrom<IMethod>(sut);
@@ -30,7 +30,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void InitializeWithNullFactoryThrows()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
 
             Assert.Throws<ArgumentNullException>(() =>
                 new GenericMethod(dummy.GetMethodInfo(), null));
@@ -39,7 +39,8 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void MethodIsCorrect()
         {
-            var expectedMethod = ((Action)delegate { }).GetMethodInfo();
+            Action action = () => { };
+            var expectedMethod = action.GetMethodInfo();
             var anonymousFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(expectedMethod, anonymousFactory);
 
@@ -51,7 +52,8 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void FactoryIsCorrect()
         {
-            var anonymousMethod = ((Action)delegate { }).GetMethodInfo();
+            Action action = () => { };
+            var anonymousMethod = action.GetMethodInfo();
             var expectedFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(anonymousMethod, expectedFactory);
 
@@ -63,7 +65,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ParametersIsCorrect()
         {
-            Action<int, double> dummy = delegate { };
+            Action<int, double> dummy = (i, d) => { };
             var anonymousFactory = new DelegatingMethodFactory();
             var expectedParameters = dummy.GetMethodInfo().GetParameters();
             var sut = new GenericMethod(dummy.GetMethodInfo(), anonymousFactory);
