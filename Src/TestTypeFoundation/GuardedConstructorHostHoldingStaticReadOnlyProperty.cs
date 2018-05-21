@@ -2,7 +2,8 @@
 
 namespace TestTypeFoundation
 {
-    public class GuardedConstructorHostHoldingStaticReadOnlyProperty<TItem, TStaticProperty> where TItem : class
+    public class GuardedConstructorHostHoldingStaticReadOnlyProperty<TItem, TStaticProperty>
+        where TItem : class
     {
         static GuardedConstructorHostHoldingStaticReadOnlyProperty()
         {

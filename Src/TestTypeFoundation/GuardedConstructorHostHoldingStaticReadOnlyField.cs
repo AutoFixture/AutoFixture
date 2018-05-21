@@ -2,7 +2,8 @@
 
 namespace TestTypeFoundation
 {
-    public class GuardedConstructorHostHoldingStaticReadOnlyField<TItem, TStaticField> where TItem : class
+    public class GuardedConstructorHostHoldingStaticReadOnlyField<TItem, TStaticField>
+        where TItem : class
     {
         public static readonly TStaticField Field = default(TStaticField);
 

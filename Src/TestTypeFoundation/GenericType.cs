@@ -2,7 +2,8 @@ using System;
 
 namespace TestTypeFoundation
 {
-    public class GenericType<T> where T : class
+    public class GenericType<T>
+        where T : class
     {
         public GenericType(T t)
         {

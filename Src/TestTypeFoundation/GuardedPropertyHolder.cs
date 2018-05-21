@@ -2,7 +2,8 @@ using System;
 
 namespace TestTypeFoundation
 {
-    public class GuardedPropertyHolder<T> where T : class
+    public class GuardedPropertyHolder<T>
+        where T : class
     {
         private T property;
 

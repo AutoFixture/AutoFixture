@@ -1188,7 +1188,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class InterfacesContraint<T> where T : IInterfaceTestType, IEnumerable<object>
+        private class InterfacesContraint<T>
+            where T : IInterfaceTestType, IEnumerable<object>
         {
             public InterfacesContraint(T argument)
             {
@@ -1201,7 +1202,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class StructureAndInterfacesContraint<T> where T : struct, IInterfaceTestType, IEnumerable<object>
+        private class StructureAndInterfacesContraint<T>
+            where T : struct, IInterfaceTestType, IEnumerable<object>
         {
             public StructureAndInterfacesContraint(T argument)
             {
@@ -1223,7 +1225,8 @@ namespace AutoFixture.IdiomsUnitTest
             void Method(object argument);
         }
 
-        private class ClassContraint<T> where T : class
+        private class ClassContraint<T>
+            where T : class
         {
             public ClassContraint(T argument)
             {
@@ -1236,7 +1239,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class CertainClassContraint<T> where T : ConcreteType
+        private class CertainClassContraint<T>
+            where T : ConcreteType
         {
             public CertainClassContraint(T argument)
             {
@@ -1263,7 +1267,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class MultipleGenericArguments<T1, T2> where T1 : class
+        private class MultipleGenericArguments<T1, T2>
+            where T1 : class
         {
             public MultipleGenericArguments(T1 argument1, T2 argument2)
             {
@@ -1303,7 +1308,8 @@ namespace AutoFixture.IdiomsUnitTest
             protected abstract void ProtectedMethod(object argument);
         }
 
-        private class OpenGenericTestType<T> : OpenGenericTestTypeBase<T> where T : class
+        private class OpenGenericTestType<T> : OpenGenericTestTypeBase<T>
+            where T : class
         {
             public OpenGenericTestType(T argument) : base(argument)
             {
@@ -1323,7 +1329,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class ConstructedGenericTestType<T> : ConstructedGenericTestTypeBase<string, T> where T : class
+        private class ConstructedGenericTestType<T> : ConstructedGenericTestTypeBase<string, T>
+            where T : class
         {
             public ConstructedGenericTestType(string argument1, T argument2) : base(argument1, argument2)
             {
@@ -1345,7 +1352,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class ParameterizedConstructorTestConstraint<T> where T : ParameterizedConstructorTestType, new()
+        private class ParameterizedConstructorTestConstraint<T>
+            where T : ParameterizedConstructorTestType, new()
         {
             public void Method(T argument, object test)
             {
@@ -1378,7 +1386,8 @@ namespace AutoFixture.IdiomsUnitTest
             public string Argument2 { get; }
         }
 
-        private class InternalProtectedConstructorTestConstraint<T> where T : InternalProtectedConstructorTestType
+        private class InternalProtectedConstructorTestConstraint<T>
+            where T : InternalProtectedConstructorTestType
         {
             public InternalProtectedConstructorTestConstraint(T argument)
             {
@@ -1392,7 +1401,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class ModestConstructorTestConstraint<T> where T : ModestConstructorTestType
+        private class ModestConstructorTestConstraint<T>
+            where T : ModestConstructorTestType
         {
             public ModestConstructorTestConstraint(T argument)
             {
@@ -1416,7 +1426,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class NoAccessibleConstructorTestConstraint<T> where T : NoAccessibleConstructorTestType
+        private class NoAccessibleConstructorTestConstraint<T>
+            where T : NoAccessibleConstructorTestType
         {
             public NoAccessibleConstructorTestConstraint(T argument)
             {
@@ -1430,7 +1441,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        public class DynamicInstanceTestConstraint<T> where T : IDynamicInstanceTestType
+        public class DynamicInstanceTestConstraint<T>
+            where T : IDynamicInstanceTestType
         {
             public void Method(T argument)
             {
@@ -1446,10 +1458,12 @@ namespace AutoFixture.IdiomsUnitTest
             int ReturnMethod(object argument1, int argument2);
         }
 
-        private class UnclosedGenericMethodTestType<T1> where T1 : class
+        private class UnclosedGenericMethodTestType<T1>
+            where T1 : class
         {
             public void Method<T2, T3, T4>(T1 argument1, int argument2, T2 argument3, T3 argument4, T4 argument5)
-                where T2 : class where T4 : class
+                where T2 : class
+                where T4 : class
             {
                 if (argument1 == null)
                 {
@@ -1466,7 +1480,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class ConstructorMatchTestType<T1, T2> where T1 : class
+        private class ConstructorMatchTestType<T1, T2>
+            where T1 : class
         {
             public ConstructorMatchTestType(T1 argument)
             {
@@ -1485,7 +1500,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class MethodMatchTestType<T1, T2> where T1 : class
+        private class MethodMatchTestType<T1, T2>
+            where T1 : class
         {
             public MethodMatchTestType(T1 argument)
             {
@@ -1519,7 +1535,8 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private class ByRefTestType<T1> where T1 : class
+        private class ByRefTestType<T1>
+            where T1 : class
         {
             public ByRefTestType(T1 argument)
             {
@@ -1529,7 +1546,8 @@ namespace AutoFixture.IdiomsUnitTest
             {
             }
 
-            public void Method<T2>(ref T2 argument) where T2 : class
+            public void Method<T2>(ref T2 argument)
+                where T2 : class
             {
             }
 
@@ -1653,7 +1671,8 @@ namespace AutoFixture.IdiomsUnitTest
         /// <summary>
         /// Wrapper around member to produce nice theory name
         /// </summary>
-        public class MemberRef<T> where T : MemberInfo
+        public class MemberRef<T>
+            where T : MemberInfo
         {
             public MemberRef(T member)
             {

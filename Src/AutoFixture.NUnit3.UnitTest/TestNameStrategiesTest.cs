@@ -118,7 +118,8 @@ namespace AutoFixture.NUnit3.UnitTest
                 Is.EqualTo(@"AutoFixture.NUnit3.UnitTest.TestNameStrategiesFixture.InlineVolatileNameDecoratedMethod(""alpha"",""beta"",""foo"")"));
         }
 
-        private static TestMethod GetTestMethod<TAttribute>(string testName) where TAttribute : Attribute, NUnit.Framework.Interfaces.ITestBuilder
+        private static TestMethod GetTestMethod<TAttribute>(string testName)
+            where TAttribute : Attribute, NUnit.Framework.Interfaces.ITestBuilder
         {
             var method = new MethodWrapper(typeof(TestNameStrategiesFixture), testName);
             var inlineAttribute = (TAttribute)method.MethodInfo.GetCustomAttribute(typeof(TAttribute));

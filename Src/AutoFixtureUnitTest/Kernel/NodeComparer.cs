@@ -329,7 +329,8 @@ namespace AutoFixtureUnitTest.Kernel
             }
         }
 
-        private abstract class GenericEquatable<T> : IEquatable<T> where T : class
+        private abstract class GenericEquatable<T> : IEquatable<T>
+            where T : class
         {
             public GenericEquatable(T item)
             {
