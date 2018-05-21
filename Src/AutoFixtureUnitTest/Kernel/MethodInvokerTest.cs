@@ -181,11 +181,11 @@ namespace AutoFixtureUnitTest.Kernel
                     var pType = ((ParameterInfo)r).ParameterType;
                     if (typeof(long) == pType)
                     {
-                        return new long();
+                        return default(long);
                     }
                     if (typeof(short) == pType)
                     {
-                        return new short();
+                        return default(short);
                     }
                 }
                 throw new ArgumentException("Unexpected container request.", nameof(r));
