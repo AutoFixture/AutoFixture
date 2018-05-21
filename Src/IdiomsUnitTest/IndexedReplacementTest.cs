@@ -6,7 +6,6 @@ using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
-    #region <object>
     public class IndexedReplacementTestOfObject : IndexedReplacementTest<object>
     {
         protected override object CreateItem()
@@ -14,8 +13,6 @@ namespace AutoFixture.IdiomsUnitTest
             return new object();
         }
     }
-    #endregion
-    #region <int>
     public class IndexedReplacementTestOfInt : IndexedReplacementTest<int>
     {
         private int i;
@@ -25,8 +22,6 @@ namespace AutoFixture.IdiomsUnitTest
             return this.i++;
         }
     }
-    #endregion
-    #region <string>
     public class IndexedReplacementTestOfString : IndexedReplacementTest<string>
     {
         protected override string CreateItem()
@@ -34,8 +29,6 @@ namespace AutoFixture.IdiomsUnitTest
             return Guid.NewGuid().ToString();
         }
     }
-    #endregion
-    #region <Version>
     public class IndexedReplacementTestOfVersion : IndexedReplacementTest<Version>
     {
         protected override Version CreateItem()
@@ -43,7 +36,6 @@ namespace AutoFixture.IdiomsUnitTest
             return new Version();
         }
     }
-    #endregion
     public abstract class IndexedReplacementTest<T>
     {
         [Fact]

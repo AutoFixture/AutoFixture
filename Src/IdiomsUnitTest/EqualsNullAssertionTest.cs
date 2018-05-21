@@ -109,8 +109,6 @@ namespace AutoFixture.IdiomsUnitTest
                 get { return null; }
             }
 
-            #region Other
-
             public override MethodInfo GetBaseDefinition()
             {
                 throw new NotImplementedException();
@@ -165,8 +163,6 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 get { throw new NotImplementedException(); }
             }
-
-            #endregion
         }
 
 #pragma warning disable 659

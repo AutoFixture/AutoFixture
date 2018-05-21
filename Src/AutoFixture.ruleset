@@ -13,7 +13,6 @@
     <Rule Id = "SA1116" Action = "None" /> <!-- The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines-->
     <Rule Id = "SA1117" Action = "None" /> <!-- The parameters should all be placed on the same line or each parameter should be placed on its own line. -->
     <Rule Id = "SA1118" Action = "None" /> <!-- The parameter spans multiple lines -->
-    <Rule Id = "SA1124" Action = "None" /> <!-- Do not use regions -->
     <Rule Id = "SA1125" Action = "None" /> <!-- Use shorthand for nullable types -->
     <Rule Id = "SA1127" Action = "None" /> <!-- Generic type constraints should be on their own line -->
     <Rule Id = "SA1128" Action = "None" /> <!-- Put constructor initializers on their own line -->
