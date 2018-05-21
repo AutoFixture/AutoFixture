@@ -810,63 +810,63 @@ namespace AutoFixture.IdiomsUnitTest
         // All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
         enum TestIntEnum
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
         enum TestByteEnum : byte
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
         enum TestSByteEnum : sbyte
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
         enum TestShortEnum : short
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
         enum TestUShortEnum : ushort
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
         enum TestUIntEnum : uint
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
         enum TestLongEnum : long
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
         enum TestULongEnum : ulong
         {
-            none = 0,
-            one,
-            two,
-            three
+            None = 0,
+            One,
+            Two,
+            Three
         }
 
-        enum TestDefaultOnlyEnum { none = 0 }
+        enum TestDefaultOnlyEnum { None = 0 }
 
-        enum TestSingleNonDefaultEnum { none = 1 }
+        enum TestSingleNonDefaultEnum { None = 1 }
     }
 }
