@@ -136,7 +136,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act & Assert
             var result = fixture.Create<IInterfaceWithRefMethod>();
 
-            string refResult = "";
+            string refResult = string.Empty;
             string returnValue = result.Method(ref refResult);
 
             Assert.Equal(frozenString, refResult);

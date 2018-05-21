@@ -523,7 +523,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Act
             var result = fixture.Create<IInterfaceWithRefMethod>();
             // Assert
-            string refResult = "";
+            string refResult = string.Empty;
             string returnValue = result.Method(ref refResult);
             Assert.Equal(frozenString, refResult);
             Assert.Equal(frozenString, returnValue);

@@ -286,7 +286,7 @@ namespace AutoFixtureUnitTest.Dsl
             // Arrange
             var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>();
             Action<PropertyHolder<string>> dummy = _ => { };
-            Action<PropertyHolder<string>> a = ph => ph.Property = "";
+            Action<PropertyHolder<string>> a = ph => ph.Property = string.Empty;
             // Act
             var actual = sut.Do(dummy).Do(a);
             // Assert

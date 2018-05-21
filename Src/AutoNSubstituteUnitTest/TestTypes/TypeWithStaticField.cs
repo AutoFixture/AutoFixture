@@ -2,6 +2,6 @@
 {
     public abstract class TypeWithStaticField
     {
-        public static string StaticField = "";
+        public static string StaticField = string.Empty;
     }
 }

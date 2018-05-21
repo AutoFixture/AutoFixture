@@ -2,7 +2,7 @@
 {
     public class TypeWithPrivateField
     {
-        private string field = "";
+        private string field = string.Empty;
 
         public string GetPrivateField()
         {

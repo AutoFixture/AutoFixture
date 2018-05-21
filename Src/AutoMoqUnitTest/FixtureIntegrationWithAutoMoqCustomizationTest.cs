@@ -356,7 +356,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             IInterfaceWithRefMethod result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithRefMethod>()));
 
-            string refResult = "";
+            string refResult = string.Empty;
             string returnValue = result.Method(ref refResult);
             Assert.NotEqual(frozenString, refResult);
             Assert.NotEqual(frozenString, returnValue);
