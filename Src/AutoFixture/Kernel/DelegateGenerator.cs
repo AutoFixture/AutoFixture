@@ -19,7 +19,8 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Creates a new instance of the <see cref="DelegateGenerator"/> type.
         /// </summary>
-        public DelegateGenerator() : this(new DelegateSpecification())
+        public DelegateGenerator()
+            : this(new DelegateSpecification())
         {
         }
 

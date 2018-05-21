@@ -21,7 +21,8 @@
 
         public class AutoDataVolatileNameAttribute : AutoDataAttribute
         {
-            public AutoDataVolatileNameAttribute() : base(CreateFixtureWithInjectedValues)
+            public AutoDataVolatileNameAttribute()
+                : base(CreateFixtureWithInjectedValues)
             {
                 this.TestMethodBuilder = new VolatileNameTestMethodBuilder();
             }

@@ -1311,7 +1311,8 @@ namespace AutoFixture.IdiomsUnitTest
         private class OpenGenericTestType<T> : OpenGenericTestTypeBase<T>
             where T : class
         {
-            public OpenGenericTestType(T argument) : base(argument)
+            public OpenGenericTestType(T argument)
+                : base(argument)
             {
             }
         }
@@ -1332,7 +1333,8 @@ namespace AutoFixture.IdiomsUnitTest
         private class ConstructedGenericTestType<T> : ConstructedGenericTestTypeBase<string, T>
             where T : class
         {
-            public ConstructedGenericTestType(string argument1, T argument2) : base(argument1, argument2)
+            public ConstructedGenericTestType(string argument1, T argument2)
+                : base(argument1, argument2)
             {
             }
         }

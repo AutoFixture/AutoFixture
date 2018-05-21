@@ -21,7 +21,8 @@ namespace AutoFixture
         {
         }
 
-        public ObjectCreationExceptionWithPath(string message) : base(message)
+        public ObjectCreationExceptionWithPath(string message)
+            : base(message)
         {
         }
 

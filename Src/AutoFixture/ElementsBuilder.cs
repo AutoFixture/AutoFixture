@@ -18,7 +18,8 @@ namespace AutoFixture
         /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
         /// </summary>
         /// <param name="elements">The elements from which to draw from.</param>
-        public ElementsBuilder(params T[] elements) : this(elements.AsEnumerable())
+        public ElementsBuilder(params T[] elements)
+            : this(elements.AsEnumerable())
         {
         }
 
