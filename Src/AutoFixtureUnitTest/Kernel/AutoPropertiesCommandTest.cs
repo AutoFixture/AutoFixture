@@ -119,7 +119,7 @@ namespace AutoFixtureUnitTest.Kernel
 
         [Fact]
         [Obsolete]
-        void ExecuteDoesNotSetStaticField()
+        public void ExecuteDoesNotSetStaticField()
         {
             // Arrange
             var sut = new AutoPropertiesCommand<StaticFieldHolder<object>>();

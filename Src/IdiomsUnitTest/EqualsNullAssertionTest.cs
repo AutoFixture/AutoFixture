@@ -97,7 +97,7 @@ namespace AutoFixture.IdiomsUnitTest
                 sut.Verify(method)));
         }
 
-        class MethodInfoWithNullDeclaringAndReflectedType : MethodInfo
+        private class MethodInfoWithNullDeclaringAndReflectedType : MethodInfo
         {
             public override Type ReflectedType
             {
@@ -166,7 +166,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
 #pragma warning disable 659
-        class IllbehavedEqualsNullOverride
+        private class IllbehavedEqualsNullOverride
         {
             public override bool Equals(object obj)
             {
@@ -178,7 +178,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class WellBehavedEqualsNullOverride
+        private class WellBehavedEqualsNullOverride
         {
             public override bool Equals(object obj)
             {
@@ -191,7 +191,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 #pragma warning restore 659
 
-        class ClassThatDoesNotOverrideObjectEquals
+        private class ClassThatDoesNotOverrideObjectEquals
         {
         }
     }

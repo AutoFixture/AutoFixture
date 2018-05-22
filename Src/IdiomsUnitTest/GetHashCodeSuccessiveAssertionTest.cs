@@ -85,7 +85,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
 #pragma warning disable 659
-        class WellBehavedGetHashCodeSelfObjectOverride
+        private class WellBehavedGetHashCodeSelfObjectOverride
         {
             public override int GetHashCode()
             {
@@ -93,7 +93,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class IllBehavedEqualsSelfObjectOverride
+        private class IllBehavedEqualsSelfObjectOverride
         {
             private static readonly Random HashCodeGenerator = new Random();
 
@@ -104,7 +104,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 #pragma warning restore 659
 
-        class ClassThatDoesNotOverrideObjectGetHashCode
+        private class ClassThatDoesNotOverrideObjectGetHashCode
         {
         }
     }

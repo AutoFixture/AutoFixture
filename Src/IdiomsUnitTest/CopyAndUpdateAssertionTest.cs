@@ -375,7 +375,7 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Equal(memberWithInvalidValue, ex.MemberWithInvalidValue);
         }
 
-        class DummyReflectionElementComparer : IEqualityComparer<IReflectionElement>
+        private class DummyReflectionElementComparer : IEqualityComparer<IReflectionElement>
         {
             public bool Equals(IReflectionElement x, IReflectionElement y)
             {
@@ -388,7 +388,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class DummyEqualityComparer<T> : IEqualityComparer
+        private class DummyEqualityComparer<T> : IEqualityComparer
         {
             bool IEqualityComparer.Equals(object x, object y)
             {

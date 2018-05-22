@@ -521,7 +521,7 @@ namespace AutoFixture.IdiomsUnitTest
 
         private class ClassWithEnumerableNonDeferredReadOnlyCollectionBaseMissingGuard
         {
-            class ReadOnlyCollection : ReadOnlyCollectionBase
+            private class ReadOnlyCollection : ReadOnlyCollectionBase
             {
                 public ReadOnlyCollection(params object[] items)
                 {

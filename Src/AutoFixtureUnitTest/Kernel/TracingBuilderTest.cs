@@ -364,7 +364,7 @@ return c.Resolve(r);
             Assert.Equal(1, lastRequestDepth);
         }
 
-        class PrivateException : Exception { }
+        private class PrivateException : Exception { }
 
         [Fact]
         public void CreateWillNotRaiseSpecimenCreatedForIgnoredType()
