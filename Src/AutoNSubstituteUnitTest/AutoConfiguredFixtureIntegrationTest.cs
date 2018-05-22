@@ -756,12 +756,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         private class Issue630_TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
         {
             private const int DELAY_MSEC = 100;
-            private readonly object _syncRoot = new object();
+            private readonly object syncRoot = new object();
             private HashSet<Task> Tasks { get; } = new HashSet<Task>();
 
             protected override void QueueTask(Task task)
             {
-                lock (this._syncRoot)
+                lock (this.syncRoot)
                 {
                     this.Tasks.Add(task);
                 }
@@ -780,7 +780,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             protected override bool TryDequeue(Task task)
             {
-                lock (this._syncRoot)
+                lock (this.syncRoot)
                 {
                     return this.Tasks.Remove(task);
                 }
@@ -800,7 +800,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             protected override IEnumerable<Task> GetScheduledTasks()
             {
-                lock (this._syncRoot)
+                lock (this.syncRoot)
                 {
                     // Create copy to ensure that it's not modified during enumeration
                     return this.Tasks.ToArray();

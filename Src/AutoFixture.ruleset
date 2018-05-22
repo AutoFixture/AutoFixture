@@ -19,7 +19,6 @@
     <Rule Id = "SA1203" Action = "None" /> <!-- Constant fields should appear before non-constant fields -->
     <Rule Id = "SA1204" Action = "None" /> <!-- Static members should appear before non-static members -->
     <Rule Id = "SA1214" Action = "None" /> <!-- Readonly fields should appear before non-readonly fields -->
-    <Rule Id = "SA1309" Action = "None" /> <!-- Field '_as' should not begin with an underscore -->
     <Rule Id = "SA1310" Action = "None" /> <!-- Field 'DELAY_MSEC' should not contain an underscore -->
     <Rule Id = "SA1311" Action = "None" /> <!-- Static readonly fields should begin with upper-case letter -->
     <Rule Id = "SA1312" Action = "None" /> <!-- Variable '_' should begin with lower-case letter -->
