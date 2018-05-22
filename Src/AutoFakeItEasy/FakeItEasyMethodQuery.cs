@@ -13,7 +13,7 @@ namespace AutoFixture.AutoFakeItEasy
     /// </summary>
     public class FakeItEasyMethodQuery : IMethodQuery
     {
-        private static readonly DelegateSpecification delegateSpecification = new DelegateSpecification();
+        private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
 
         /// <summary>
         /// Selects constructors for the supplied type.
@@ -36,7 +36,7 @@ namespace AutoFixture.AutoFakeItEasy
             }
 
             var fakeType = type.GetFakedType();
-            if (fakeType.GetTypeInfo().IsInterface || delegateSpecification.IsSatisfiedBy(fakeType))
+            if (fakeType.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(fakeType))
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }

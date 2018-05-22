@@ -194,7 +194,7 @@ namespace AutoFixtureUnitTest.Kernel
 
         private static class GenericComparer
         {
-            private static readonly Dictionary<Type, Type> equatables =
+            private static readonly Dictionary<Type, Type> Equatables =
                 new Dictionary<Type, Type>
                 {
                     { typeof(SeededFactory<>), typeof(SeededFactoryEquatable<>) },
@@ -213,7 +213,7 @@ namespace AutoFixtureUnitTest.Kernel
                 if (!t.GetTypeInfo().IsGenericType)
                     return new object();
 
-                if (equatables.TryGetValue(t.GetGenericTypeDefinition(), out Type equatableType))
+                if (Equatables.TryGetValue(t.GetGenericTypeDefinition(), out Type equatableType))
                 {
                     var typeArguments = t.GetGenericArguments();
                     return equatableType.MakeGenericType(typeArguments)
