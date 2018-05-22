@@ -945,7 +945,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
         private class Issue630_TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
         {
-            private const int DELAY_MSEC = 100;
+            private const int DelayMSec = 100;
             private readonly object syncRoot = new object();
             private HashSet<Task> Tasks { get; } = new HashSet<Task>();
 
@@ -958,7 +958,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
                 ThreadPool.QueueUserWorkItem(delegate
                 {
-                    Thread.Sleep(DELAY_MSEC);
+                    Thread.Sleep(DelayMSec);
 
                     // If task cannot be dequeued - it was already executed.
                     if (this.TryDequeue(task))
