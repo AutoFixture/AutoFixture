@@ -1374,8 +1374,8 @@ namespace AutoFixture.IdiomsUnitTest
 
         public class ParameterizedConstructorTestType
         {
-            // to test duplicating with the specimenBuilder field of a dummy type.
-            public static ISpecimenBuilder specimenBuilder = null;
+            // to test duplicating with the SpecimenBuilder field of a dummy type.
+            public static ISpecimenBuilder SpecimenBuilder = null;
 
             public ParameterizedConstructorTestType(object argument1, string argument2)
             {

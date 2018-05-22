@@ -95,11 +95,11 @@ namespace AutoFixture.IdiomsUnitTest
 
         class IllBehavedEqualsSuccessiveObjectOverride
         {
-            public int equalsCallCount;
+            public int EqualsCallCount;
 
             public override bool Equals(object obj)
             {
-                return ++this.equalsCallCount % 2 == 0;
+                return ++this.EqualsCallCount % 2 == 0;
             }
         }
 #pragma warning restore 659
