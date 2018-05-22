@@ -90,8 +90,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             var cachedResult = "cachedResult";
 
-            CallResultData _;
-            sut.ResultCache.TryGetResult(call, out _)
+            CallResultData ignored;
+            sut.ResultCache.TryGetResult(call, out ignored)
                 .Returns(c =>
                 {
                     c[1] = new CallResultData(Maybe.Just<object>(cachedResult),
@@ -137,8 +137,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithRefIntMethod>();
-            int _ = 0;
-            var call = CallHelper.CreateCallMock(() => target.Method(ref _));
+            int ignored = 0;
+            var call = CallHelper.CreateCallMock(() => target.Method(ref ignored));
 
             var callResult = new CallResultData(
                 Maybe.Nothing<object>(),
@@ -160,8 +160,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithOutVoidMethod>();
-            int _;
-            var call = CallHelper.CreateCallMock(() => target.Method(out _));
+            int ignored;
+            var call = CallHelper.CreateCallMock(() => target.Method(out ignored));
 
             var callResult = new CallResultData(
                 Maybe.Nothing<object>(),
