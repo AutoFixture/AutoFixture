@@ -196,12 +196,12 @@ namespace AutoFixtureUnitTest.Kernel
             return new TypeWithGenericMethod();
         }
 
-        public static TypeWithGenericMethod Create<T, U>(T argument1, U argument2)
+        public static TypeWithGenericMethod Create<T1, T2>(T1 argument1, T2 argument2)
         {
             return new TypeWithGenericMethod();
         }
 
-        public static TypeWithGenericMethod Create<T, U>(T argument1, Func<T, U> argument2)
+        public static TypeWithGenericMethod Create<T1, T2>(T1 argument1, Func<T1, T2> argument2)
         {
             return new TypeWithGenericMethod();
         }
