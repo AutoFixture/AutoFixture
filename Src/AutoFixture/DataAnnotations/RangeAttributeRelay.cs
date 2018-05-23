@@ -10,6 +10,17 @@ namespace AutoFixture.DataAnnotations
     /// </summary>
     public class RangeAttributeRelay : ISpecimenBuilder
     {
+        private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
+
+        /// <summary>
+        /// Gets or sets the current IRequestMemberTypeResolver.
+        /// </summary>
+        public IRequestMemberTypeResolver RequestMemberTypeResolver
+        {
+            get => requestMemberTypeResolver;
+            set => requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
         /// <summary>
         /// Creates a new specimen based on a requested range.
         /// </summary>
@@ -48,36 +59,15 @@ namespace AutoFixture.DataAnnotations
 
             return context.Resolve(rangedRequest);
         }
-
-        private static Type GetMemberType(RangeAttribute rangeAttribute, object request)
+        
+        private Type GetMemberType(RangeAttribute rangeAttribute, object request)
         {
-            Type conversionType;
-            switch (request)
+            if (this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
             {
-                case PropertyInfo pi:
-                    conversionType = pi.PropertyType;
-                    break;
-
-                case FieldInfo fi:
-                    conversionType = fi.FieldType;
-                    break;
-
-                case ParameterInfo pi:
-                    conversionType = pi.ParameterType;
-                    break;
-
-                default:
-                    conversionType = rangeAttribute.OperandType;
-                    break;
+                return memberType;
             }
 
-            Type underlyingType = Nullable.GetUnderlyingType(conversionType);
-            if (underlyingType != null)
-            {
-                conversionType = underlyingType;
-            }
-
-            return conversionType;
+            return Nullable.GetUnderlyingType(rangeAttribute.OperandType) ?? rangeAttribute.OperandType;
         }
     }
 }

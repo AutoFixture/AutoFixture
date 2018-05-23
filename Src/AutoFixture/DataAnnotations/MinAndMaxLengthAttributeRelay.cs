@@ -12,15 +12,15 @@ namespace AutoFixture.DataAnnotations
     /// </summary>
     public class MinAndMaxLengthAttributeRelay : ISpecimenBuilder
     {
-        private readonly IMemberTypeResolver memberTypeResolver;
+        private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
 
         /// <summary>
-        /// Creates a new instance of MinAndMaxLengthAttributeRelay
+        /// Gets or sets the current IRequestMemberTypeResolver.
         /// </summary>
-        /// <param name="memberTypeResolver">MemberTypeResolver to determine member type of requested object</param>
-        public MinAndMaxLengthAttributeRelay(IMemberTypeResolver memberTypeResolver)
+        public IRequestMemberTypeResolver RequestMemberTypeResolver
         {
-            this.memberTypeResolver = memberTypeResolver;
+            get => requestMemberTypeResolver;
+            set => requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -45,14 +45,15 @@ namespace AutoFixture.DataAnnotations
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var range = Range.TryGetFromAttributes(request);
-            
-            if (range == null)
+            if(!Range.TryGetFromAttributes(request, out var range))
             {
                 return new NoSpecimen();
             }
 
-            var memberType = memberTypeResolver.TryGetMemberType(request);
+            if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
+            {
+                return new NoSpecimen();
+            }
 
             if (IsString(memberType))
             {
@@ -82,28 +83,49 @@ namespace AutoFixture.DataAnnotations
             return context.Resolve(new ConstrainedStringRequest(range.Min, range.Max));
         }
 
-        private static object ResolveArray(ISpecimenContext context, Type memberType, Range range)
+        private static object ResolveArray(ISpecimenContext context, Type arrayType, Range range)
         {
-            var elementType = memberType.GetElementType();
-
-            var collectionCount = GetRandomNumberWithinRange(context, range);
-
-            if (collectionCount is NoSpecimen)
+            if (!TryGetRandomNumberWithinRange(context, range, out var collectionCount))
+            {
                 return new NoSpecimen();
+            }
 
-            var resultCollection = GetRandomCollection(context, elementType, collectionCount);
+            var elementType = arrayType.GetElementType();
 
-            return ToArray((IEnumerable)resultCollection, elementType);
+            if (!TryGetRandomCollection(context, elementType, collectionCount, out var randomCollection))
+            {
+                return new NoSpecimen();
+            }
+            
+            return ToArray(randomCollection, elementType);
         }
 
-        private static object GetRandomNumberWithinRange(ISpecimenContext context, Range range)
+        private static bool TryGetRandomNumberWithinRange(ISpecimenContext context, Range range, out int randomNumber)
         {
-            return context.Resolve(new RangedNumberRequest(typeof(int), range.Min, range.Max));
+            var result = context.Resolve(new RangedNumberRequest(typeof(int), range.Min, range.Max));
+
+            if (result is int number)
+            {
+                randomNumber = number;
+                return true;
+            }
+
+            randomNumber = default(int);
+            return false;
         }
 
-        private static object GetRandomCollection(ISpecimenContext context, Type elementType, object collectionCount)
+        private static bool TryGetRandomCollection(ISpecimenContext context, Type elementType, int collectionCount, out IEnumerable randomCollection)
         {
-            return context.Resolve(new FiniteSequenceRequest(elementType, (int)collectionCount));
+            var result = context.Resolve(new FiniteSequenceRequest(elementType, collectionCount));
+
+            if (result is IEnumerable collection)
+            {
+                randomCollection = collection;
+                return true;
+            }
+
+            randomCollection = null;
+            return false;
         }
 
         private static object ToArray(IEnumerable elements, Type elementType)
@@ -133,14 +155,19 @@ namespace AutoFixture.DataAnnotations
                 Max = max;
             }
 
-            public static Range TryGetFromAttributes(object request)
+            public static bool TryGetFromAttributes(object request, out Range range)
             {
                 var minLengthAttribute = TypeEnvy.GetAttribute<MinLengthAttribute>(request);
                 var maxLengthAttribute = TypeEnvy.GetAttribute<MaxLengthAttribute>(request);
 
-                return minLengthAttribute == null && maxLengthAttribute == null
-                    ? null
-                    : GetRange(minLengthAttribute, maxLengthAttribute);
+                if (minLengthAttribute == null && maxLengthAttribute == null)
+                {
+                    range = null;
+                    return false;
+                }
+
+                range = GetRange(minLengthAttribute, maxLengthAttribute);
+                return true;
             }
 
             private static Range GetRange(MinLengthAttribute minLengthAttribute, MaxLengthAttribute maxLengthAttribute)
@@ -148,7 +175,7 @@ namespace AutoFixture.DataAnnotations
                 var min = minLengthAttribute?.Length ?? 0;
                 var max = maxLengthAttribute?.Length ?? Int32.MaxValue;
 
-                //to avoid creation of empty strings/arrays
+                // To avoid creation of empty strings/arrays
                 if (max > 0 && min == 0)
                 {
                     min = 1;

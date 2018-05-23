@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using AutoFixture;
 using AutoFixture.DataAnnotations;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
@@ -15,8 +16,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void SutIsSpecimenBuilder()
         {
             // Act
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+            var sut = new MinAndMaxLengthAttributeRelay();
 
             // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
@@ -26,8 +26,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void CreateWithNullRequestReturnsCorrectResult()
         {
             // Arrange
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+            var sut = new MinAndMaxLengthAttributeRelay();
 
             // Act
             var dummyContext = new DelegatingSpecimenContext();
@@ -41,8 +40,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void CreateWithNullContextThrows()
         {
             // Arrange
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+            var sut = new MinAndMaxLengthAttributeRelay();
             var dummyRequest = new object();
 
             // Act & assert
@@ -54,8 +52,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
             // Arrange
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+            var sut = new MinAndMaxLengthAttributeRelay();
             var dummyRequest = new object();
 
             // Act
@@ -78,8 +75,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         public void CreateWithNonConstrainedStringRequestReturnsCorrectResult(object request)
         {
             // Arrange
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+            var sut = new MinAndMaxLengthAttributeRelay();
 
             // Act
             var dummyContext = new DelegatingSpecimenContext();
@@ -108,8 +104,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
             {
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => typeof(string)
+                }
+            };
 
             // Act
             var result = sut.Create(request, context);
@@ -136,8 +138,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
             {
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => typeof(string)
+                }
+            };
 
             // Act
             var result = sut.Create(request, context);
@@ -167,8 +175,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
             {
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
             };
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => typeof(string)
+                }
+            };
 
             // Act
             var result = sut.Create(request, context);
@@ -211,8 +225,13 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 }
             };
 
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver { MemberType = memberType });
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => memberType
+                }
+            };
 
             // Act
             var result = sut.Create(request, context);
@@ -247,8 +266,13 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 }
             };
 
-            var sut = new MinAndMaxLengthAttributeRelay(
-                new MockMemberTypeResolver());
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => typeof(string)
+                }
+            };
 
             // Act
             sut.Create(request, context);
@@ -257,17 +281,6 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var expectedRequest = new ConstrainedStringRequest(expectedMin, max);
 
             Assert.Equal(expectedRequest, actualRequest);
-
-        }
-
-        private class MockMemberTypeResolver : IMemberTypeResolver
-        {
-            public Type MemberType { get; set; } = typeof(string);
-
-            public Type TryGetMemberType(object request)
-            {
-                return MemberType;
-            }
         }
     }
 }
