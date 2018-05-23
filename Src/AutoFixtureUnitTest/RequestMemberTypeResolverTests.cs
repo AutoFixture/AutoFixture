@@ -140,8 +140,10 @@ namespace AutoFixtureUnitTest
             public int Property { get; set; }
             public int? NullableProperty { get; set; }
 
+#pragma warning disable 649
             public int Field;
             public int? NullableField;
+#pragma warning restore 649
 
             public void MethodWithParameter(int parameter)
             {
