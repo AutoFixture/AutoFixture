@@ -17,8 +17,8 @@ namespace AutoFixture.DataAnnotations
         /// </summary>
         public IRequestMemberTypeResolver RequestMemberTypeResolver
         {
-            get => requestMemberTypeResolver;
-            set => requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+            get => this.requestMemberTypeResolver;
+            set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -33,15 +33,7 @@ namespace AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
-
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             var rangeAttribute = TypeEnvy.GetAttribute<RangeAttribute>(request);
             if (rangeAttribute == null)
@@ -59,7 +51,7 @@ namespace AutoFixture.DataAnnotations
 
             return context.Resolve(rangedRequest);
         }
-        
+
         private Type GetMemberType(RangeAttribute rangeAttribute, object request)
         {
             if (this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))

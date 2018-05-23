@@ -19,8 +19,8 @@ namespace AutoFixture.DataAnnotations
         /// </summary>
         public IRequestMemberTypeResolver RequestMemberTypeResolver
         {
-            get => requestMemberTypeResolver;
-            set => requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+            get => this.requestMemberTypeResolver;
+            set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -35,17 +35,9 @@ namespace AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            if(!Range.TryGetFromAttributes(request, out var range))
+            if (!Range.TryGetFromAttributes(request, out var range))
             {
                 return new NoSpecimen();
             }
@@ -55,12 +47,12 @@ namespace AutoFixture.DataAnnotations
                 return new NoSpecimen();
             }
 
-            if (IsString(memberType))
+            if (memberType == typeof(string))
             {
                 return ResolveString(context, range);
             }
 
-            if (IsArray(memberType))
+            if (memberType.IsArray)
             {
                 return ResolveArray(context, memberType, range);
             }
@@ -68,35 +60,25 @@ namespace AutoFixture.DataAnnotations
             return new NoSpecimen();
         }
 
-        private static bool IsString(Type memberType)
-        {
-            return memberType == typeof(string);
-        }
-
-        private static bool IsArray(Type memberType)
-        {
-            return memberType?.IsArray ?? false;
-        }
-        
-       private static object ResolveString(ISpecimenContext context, Range range)
+        private static object ResolveString(ISpecimenContext context, Range range)
         {
             return context.Resolve(new ConstrainedStringRequest(range.Min, range.Max));
         }
 
         private static object ResolveArray(ISpecimenContext context, Type arrayType, Range range)
         {
-            if (!TryGetRandomNumberWithinRange(context, range, out var collectionCount))
+            if (!TryGetRandomNumberWithinRange(context, range, out int collectionCount))
             {
                 return new NoSpecimen();
             }
 
             var elementType = arrayType.GetElementType();
 
-            if (!TryGetRandomCollection(context, elementType, collectionCount, out var randomCollection))
+            if (!TryGetRandomCollection(context, elementType, collectionCount, out IEnumerable randomCollection))
             {
                 return new NoSpecimen();
             }
-            
+
             return ToArray(randomCollection, elementType);
         }
 
@@ -114,7 +96,8 @@ namespace AutoFixture.DataAnnotations
             return false;
         }
 
-        private static bool TryGetRandomCollection(ISpecimenContext context, Type elementType, int collectionCount, out IEnumerable randomCollection)
+        private static bool TryGetRandomCollection(ISpecimenContext context, Type elementType, int collectionCount,
+            out IEnumerable randomCollection)
         {
             var result = context.Resolve(new FiniteSequenceRequest(elementType, collectionCount));
 
@@ -130,8 +113,7 @@ namespace AutoFixture.DataAnnotations
 
         private static object ToArray(IEnumerable elements, Type elementType)
         {
-            var collection = elements as ICollection;
-            var count = (collection != null) ? collection.Count : elements.Cast<object>().Count();
+            var count = elements is ICollection collection ? collection.Count : elements.Cast<object>().Count();
             var array = Array.CreateInstance(elementType, count);
             var index = 0;
 
@@ -151,8 +133,8 @@ namespace AutoFixture.DataAnnotations
 
             private Range(int min, int max)
             {
-                Min = min;
-                Max = max;
+                this.Min = min;
+                this.Max = max;
             }
 
             public static bool TryGetFromAttributes(object request, out Range range)
@@ -173,9 +155,9 @@ namespace AutoFixture.DataAnnotations
             private static Range GetRange(MinLengthAttribute minLengthAttribute, MaxLengthAttribute maxLengthAttribute)
             {
                 var min = minLengthAttribute?.Length ?? 0;
-                var max = maxLengthAttribute?.Length ?? Int32.MaxValue;
+                var max = maxLengthAttribute?.Length ?? int.MaxValue;
 
-                // To avoid creation of empty strings/arrays
+                // To avoid creation of empty strings/arrays.
                 if (max > 0 && min == 0)
                 {
                     min = 1;

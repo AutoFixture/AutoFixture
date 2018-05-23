@@ -37,8 +37,7 @@ namespace AutoFixture
             }
 
             memberType = Nullable.GetUnderlyingType(memberType) ?? memberType;
-            
-            return memberType != null;
+            return true;
         }
     }
 }

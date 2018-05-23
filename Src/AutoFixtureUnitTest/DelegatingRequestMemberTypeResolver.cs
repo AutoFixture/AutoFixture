@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest
 {
     internal class DelegatingRequestMemberTypeResolver : IRequestMemberTypeResolver
     {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using AutoFixture;
 using Xunit;
 
@@ -14,31 +9,31 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CannotGetTypeFromUnsupportedRequests()
         {
-            //Arrange
+            // Arrange
             var request = new object();
             var sut = new RequestMemberTypeResolver();
 
-            //Act
-            var canGetType = sut.TryGetMemberType(request, out var _);
+            // Act
+            var canGetType = sut.TryGetMemberType(request, out _);
 
-            //Assert
+            // Assert
             Assert.False(canGetType);
         }
 
         [Fact]
         public void CanGetTypeFromProperty()
         {
-            //Arrange
+            // Arrange
             var request = typeof(TestClass)
                 .GetTypeInfo()
                 .GetProperty(nameof(TestClass.Property));
 
             var sut = new RequestMemberTypeResolver();
 
-            //Act
+            // Act
             var canGetType = sut.TryGetMemberType(request, out var memberType);
 
-            //Assert
+            // Assert
             Assert.True(canGetType);
             Assert.Equal(typeof(int), memberType);
         }
@@ -46,17 +41,17 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CanGetTypeFromNullableProperty()
         {
-            //Arrange
+            // Arrange
             var request = typeof(TestClass)
                 .GetTypeInfo()
                 .GetProperty(nameof(TestClass.NullableProperty));
 
             var sut = new RequestMemberTypeResolver();
 
-            //Act
+            // Act
             var canGetType = sut.TryGetMemberType(request, out var memberType);
 
-            //Assert
+            // Assert
             Assert.True(canGetType);
             Assert.Equal(typeof(int), memberType);
         }
@@ -64,17 +59,17 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CanGetTypeFromField()
         {
-            //Arrange
+            // Arrange
             var request = typeof(TestClass)
                 .GetTypeInfo()
                 .GetField(nameof(TestClass.Field));
 
             var sut = new RequestMemberTypeResolver();
 
-            //Act
+            // Act
             var canGetType = sut.TryGetMemberType(request, out var memberType);
 
-            //Assert
+            // Assert
             Assert.True(canGetType);
             Assert.Equal(typeof(int), memberType);
         }
@@ -82,17 +77,17 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CanGetTypeFromNullableField()
         {
-            //Arrange
+            // Arrange
             var request = typeof(TestClass)
                 .GetTypeInfo()
                 .GetField(nameof(TestClass.NullableField));
 
             var sut = new RequestMemberTypeResolver();
 
-            //Act
+            // Act
             var canGetType = sut.TryGetMemberType(request, out var memberType);
 
-            //Assert
+            // Assert
             Assert.True(canGetType);
             Assert.Equal(typeof(int), memberType);
         }
@@ -100,7 +95,7 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CanGetTypeFromParameter()
         {
-            //Arrange
+            // Arrange
             var request = typeof(TestClass)
                 .GetTypeInfo()
                 .GetMethod(nameof(TestClass.MethodWithParameter))
@@ -108,10 +103,10 @@ namespace AutoFixtureUnitTest
 
             var sut = new RequestMemberTypeResolver();
 
-            //Act
+            // Act
             var canGetType = sut.TryGetMemberType(request, out var memberType);
 
-            //Assert
+            // Assert
             Assert.True(canGetType);
             Assert.Equal(typeof(int), memberType);
         }
@@ -119,7 +114,7 @@ namespace AutoFixtureUnitTest
         [Fact]
         public void CanGetTypeFromNullableParameter()
         {
-            //Arrange
+            // Arrange
             var request = typeof(TestClass)
                 .GetTypeInfo()
                 .GetMethod(nameof(TestClass.MethodWithNullableParameter))
@@ -127,10 +122,10 @@ namespace AutoFixtureUnitTest
 
             var sut = new RequestMemberTypeResolver();
 
-            //Act
+            // Act
             var canGetType = sut.TryGetMemberType(request, out var memberType);
 
-            //Assert
+            // Assert
             Assert.True(canGetType);
             Assert.Equal(typeof(int), memberType);
         }
@@ -140,7 +135,7 @@ namespace AutoFixtureUnitTest
             public int Property { get; set; }
             public int? NullableProperty { get; set; }
 
-#pragma warning disable 649
+#pragma warning disable 649 // Unassinged fields
             public int Field;
             public int? NullableField;
 #pragma warning restore 649
