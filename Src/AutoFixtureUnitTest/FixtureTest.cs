@@ -6030,5 +6030,137 @@ namespace AutoFixtureUnitTest
             // Assert
             Validator.ValidateObject(timeSpan, new ValidationContext(timeSpan), true);
         }
+
+        private class TypeWithStringPropertyWithMinLength
+        {
+            [MinLength(100)]
+            public string PropertyWithMinLength { get; set; }
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveStringPropertyDecoratedWithMinLength()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithStringPropertyWithMinLength>();
+
+            // Assert
+            Assert.True(item.PropertyWithMinLength.Length >= 100);
+        }
+
+        [Fact]
+        public void StringDecoratedWithMinLengthAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithStringPropertyWithMinLength>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        private class TypeWithStringPropertyWithMaxLength
+        {
+            [MaxLength(5)]
+            public string PropertyWithMaxLength { get; set; }
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveStringPropertyDecoratedWithMaxLength()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithStringPropertyWithMaxLength>();
+
+            // Assert
+            Assert.True(item.PropertyWithMaxLength.Length <= 5);
+        }
+
+        [Fact]
+        public void StringDecoratedWithMaxLengthAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithStringPropertyWithMaxLength>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        private class TypeWithStringPropertyWithMinAndMaxLength
+        {
+            [MinLength(5)]
+            [MaxLength(10)]
+            public string PropertyWithMinAndMaxLength { get; set; }
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveStringPropertyDecoratedWithMinAndMaxLength()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithStringPropertyWithMinAndMaxLength>();
+
+            // Assert
+            Assert.True(item.PropertyWithMinAndMaxLength.Length >= 5);
+            Assert.True(item.PropertyWithMinAndMaxLength.Length <= 10);
+        }
+
+        [Fact]
+        public void StringDecoratedWithMinAndMaxLengthAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithStringPropertyWithMinAndMaxLength>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        private class TypeWithArrayPropertyWithMinAndMaxLength
+        {
+            [MinLength(5)]
+            [MaxLength(10)]
+            public string[] PropertyWithMinAndMaxLength { get; set; }
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveArrayPropertyDecoratedWithMinAndMaxLength()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithArrayPropertyWithMinAndMaxLength>();
+
+            // Assert
+            Assert.True(item.PropertyWithMinAndMaxLength.Length >= 5);
+            Assert.True(item.PropertyWithMinAndMaxLength.Length <= 10);
+        }
+
+        [Fact]
+        public void ArrayDecoratedWithMinAndMaxLengthAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithArrayPropertyWithMinAndMaxLength>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
     }
 }
