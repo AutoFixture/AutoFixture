@@ -4,6 +4,7 @@ using System.Globalization;
 
 namespace AutoFixture.Kernel
 {
+#pragma warning disable SA1402 // File may only contain a single type
     /// <summary>
     /// Performs post-processing on a created specimen.
     /// </summary>
@@ -316,4 +317,5 @@ namespace AutoFixture.Kernel
             return this.GetEnumerator();
         }
     }
+#pragma warning restore SA1402 // File may only contain a single type
 }

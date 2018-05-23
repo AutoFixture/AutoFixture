@@ -2,6 +2,7 @@
 
 namespace AutoFixture.Kernel
 {
+#pragma warning disable SA1402 // File may only contain a single type
     /// <summary>
     /// Creates a new specimen using a <see cref="Func{T}"/>.
     /// </summary>
@@ -269,4 +270,5 @@ namespace AutoFixture.Kernel
             return this.Factory(p1, p2, p3, p4);
         }
     }
+#pragma warning restore SA1402 // File may only contain a single type
 }

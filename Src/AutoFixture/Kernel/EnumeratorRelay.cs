@@ -45,34 +45,28 @@ namespace AutoFixture.Kernel
             if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerator<>), out Type enumeratorType))
                 return new NoSpecimen();
 
-            var specimenBuilder = (ISpecimenBuilder)Activator.CreateInstance(
-                typeof(EnumeratorRelay<>).MakeGenericType(enumeratorType));
-            return specimenBuilder.Create(request, context);
+            var specimenBuilder = (IEnumeratorBuilder)Activator.CreateInstance(
+                typeof(GenericEnumeratorRelay<>).MakeGenericType(enumeratorType));
+            return specimenBuilder.Create(context);
         }
-    }
 
-    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
-        Justification = "It's activated via reflection.")]
-    internal class EnumeratorRelay<T> : ISpecimenBuilder
-    {
-        public object Create(object request, ISpecimenContext context)
+        private interface IEnumeratorBuilder
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            object Create(ISpecimenContext context);
+        }
 
-            var t = request as Type;
-            if (t == null)
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
+        private class GenericEnumeratorRelay<T> : IEnumeratorBuilder
+        {
+            public object Create(ISpecimenContext context)
+            {
+                var result = context.Resolve(typeof(IEnumerable<T>));
+                if (result is IEnumerable<T> enumerable)
+                    return enumerable.GetEnumerator();
+
                 return new NoSpecimen();
-
-            if (t != typeof(IEnumerator<T>))
-                return new NoSpecimen();
-
-            var enumerable =
-                context.Resolve(typeof(IEnumerable<T>)) as IEnumerable<T>;
-
-            if (enumerable == null)
-                return new NoSpecimen();
-
-            return enumerable.GetEnumerator();
+            }
         }
     }
 }

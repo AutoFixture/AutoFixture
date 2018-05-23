@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
+#pragma warning disable SA1402 // File may only contain a single type
     /// <summary>
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
@@ -270,4 +271,5 @@ namespace AutoFixture.Kernel
             }
         }
     }
+#pragma warning restore SA1402 // File may only contain a single type
 }
