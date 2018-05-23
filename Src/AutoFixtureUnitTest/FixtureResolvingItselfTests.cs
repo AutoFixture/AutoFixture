@@ -18,7 +18,13 @@ namespace AutoFixtureUnitTest
         }
     }
 
-    public class FixtureResolvingItselfTestsOfFixture : FixtureResolvingItselfTests<Fixture> { }
-    public class FixtureResolvingItselfTestsOfFixtureInterface : FixtureResolvingItselfTests<IFixture> { }
-    public class FixtureResolvingItselfTestsOfSpecimenBuilder : FixtureResolvingItselfTests<ISpecimenBuilder> { }
+    public class FixtureResolvingItselfTestsOfFixture : FixtureResolvingItselfTests<Fixture>
+    {
+    }
+    public class FixtureResolvingItselfTestsOfFixtureInterface : FixtureResolvingItselfTests<IFixture>
+    {
+    }
+    public class FixtureResolvingItselfTestsOfSpecimenBuilder : FixtureResolvingItselfTests<ISpecimenBuilder>
+    {
+    }
 }

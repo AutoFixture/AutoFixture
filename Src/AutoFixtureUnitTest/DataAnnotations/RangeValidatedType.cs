@@ -67,8 +67,12 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [Range(Minimum, float.MaxValue)]
         public float PropertyWithMaximumFloatMaxValue { get; set; }
 
-        public void MethodWithRangedParameter([Range(Minimum, Maximum)] decimal argument) { }
+        public void MethodWithRangedParameter([Range(Minimum, Maximum)] decimal argument)
+        {
+        }
 
-        public void MethodWithRangedNullableParameter([Range(Minimum, Maximum)] decimal? argument) { }
+        public void MethodWithRangedNullableParameter([Range(Minimum, Maximum)] decimal? argument)
+        {
+        }
     }
 }

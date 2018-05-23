@@ -628,7 +628,9 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        private interface IHaveNoImplementers { }
+        private interface IHaveNoImplementers
+        {
+        }
 
         [Fact]
         public void VerifyNullConstructorThrows()

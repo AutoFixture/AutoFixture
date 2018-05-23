@@ -592,7 +592,7 @@ namespace AutoFixture.IdiomsUnitTest
 
         private class ReadOnlyPropertyWithNoSetterHolder<T>
         {
-            public T Property { get { return default(T); } }
+            public T Property => default(T);
         }
 
         private class WritablePropertyAndIllBehavedConstructor
@@ -865,8 +865,14 @@ namespace AutoFixture.IdiomsUnitTest
             Three
         }
 
-        private enum TestDefaultOnlyEnum { None = 0 }
+        private enum TestDefaultOnlyEnum
+        {
+            None = 0
+        }
 
-        private enum TestSingleNonDefaultEnum { None = 1 }
+        private enum TestSingleNonDefaultEnum
+        {
+            None = 1
+        }
     }
 }

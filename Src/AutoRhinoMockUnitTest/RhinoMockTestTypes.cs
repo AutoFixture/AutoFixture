@@ -14,29 +14,24 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
 
         public sealed class ConcreteGenericType<T>
         {
-            private readonly T value;
-
             public ConcreteGenericType(T value)
             {
-                this.value = value;
+                this.Value = value;
             }
 
-            public T Value { get { return this.value; } }
+            public T Value { get; }
         }
 
         public sealed class ConcreteDoublyGenericType<T1, T2>
         {
-            private readonly T1 value1;
-            private readonly T2 value2;
-
             public ConcreteDoublyGenericType(T1 value1, T2 value2)
             {
-                this.value1 = value1;
-                this.value2 = value2;
+                this.Value1 = value1;
+                this.Value2 = value2;
             }
 
-            public T1 Value1 { get { return this.value1; } }
-            public T2 Value2 { get { return this.value2; } }
+            public T1 Value1 { get; }
+            public T2 Value2 { get; }
         }
     }
 }
