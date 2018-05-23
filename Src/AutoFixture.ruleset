@@ -20,7 +20,6 @@
     <Rule Id = "SA1204" Action = "None" /> <!-- Static members should appear before non-static members -->
     <Rule Id = "SA1214" Action = "None" /> <!-- Readonly fields should appear before non-readonly fields -->
     <Rule Id = "SA1413" Action = "None" /> <!-- Use trailing comma in multi-line initializers -->
-    <Rule Id = "SA1500" Action = "None" /> <!-- Braces for multi-line statements should not share line -->
     <Rule Id = "SA1501" Action = "None" /> <!-- Statement should not be on a single line -->
     <Rule Id = "SA1502" Action = "None" /> <!-- Element should not be on a single line -->
     <Rule Id = "SA1503" Action = "None" /> <!-- Braces should not be omitted -->

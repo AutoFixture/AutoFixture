@@ -301,7 +301,8 @@ namespace AutoFixture.IdiomsUnitTest
                 new EqualsSelfAssertion(fixture),
                 new EqualsSuccessiveAssertion(fixture));
 
-            var typesToExclude = new[] {
+            var typesToExclude = new[]
+            {
                 // Needs parameters of type object to be IComparable
                 typeof(RangedNumberRequest),
 

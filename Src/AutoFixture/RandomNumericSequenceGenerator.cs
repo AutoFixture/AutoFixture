@@ -217,7 +217,8 @@ namespace AutoFixture
                 var buffer = new byte[sizeof(ulong)];
                 this.random.NextBytes(buffer);
                 number = BitConverter.ToUInt64(buffer, 0);
-            } while (number > limit);
+            }
+            while (number > limit);
             return (long)((number % range) + (ulong)this.lower);
         }
     }

@@ -129,7 +129,8 @@ namespace AutoFixture.NUnit2
                               "Expected {0} parameters, got {1} parameters",
                               numberOfParameters, foundData[iteration].Count));
                 }
-            } while (++iteration < numberOfIterations);
+            }
+            while (++iteration < numberOfIterations);
         }
     }
 }

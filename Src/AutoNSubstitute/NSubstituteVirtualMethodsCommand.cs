@@ -198,8 +198,10 @@ namespace AutoFixture.AutoNSubstitute
                             SubstitutionContext.Current.GetCallRouterFor(this.Substitute);
 
                         callRouter.SetRoute(state => new Route(
-                            new ICallHandler[] {
-                                new NoSetupCallbackHandler(state, () => {
+                            new ICallHandler[]
+                            {
+                                new NoSetupCallbackHandler(state, () =>
+                                {
                                     var value = this.Resolve(methodInfo.ReturnType);
                                     if (value is OmitSpecimen)
                                         return;

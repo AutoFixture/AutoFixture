@@ -69,7 +69,9 @@ namespace AutoFixtureUnitTest.Kernel
                         },
                         Expected = new[,]
                         {
-                            { 1 }
+                            {
+                                1
+                            }
                         }
                     },
                     new // 2 dimension - 2 length
@@ -81,8 +83,12 @@ namespace AutoFixtureUnitTest.Kernel
                         },
                         Expected = new[,]
                         {
-                            { 1, 2 },
-                            { 3, 4 }
+                            {
+                                1, 2
+                            },
+                            {
+                                3, 4
+                            }
                         }
                     },
                     new // 2 dimension - 3 length
@@ -95,9 +101,15 @@ namespace AutoFixtureUnitTest.Kernel
                         },
                         Expected = new[,]
                         {
-                            { 1, 2, 3 },
-                            { 11, 12, 13 },
-                            { 211, 212, 213 }
+                            {
+                                1, 2, 3
+                            },
+                            {
+                                11, 12, 13
+                            },
+                            {
+                                211, 212, 213
+                            }
                         }
                     },
                     new // 2 dimension - 4 length
@@ -111,10 +123,18 @@ namespace AutoFixtureUnitTest.Kernel
                             },
                             Expected = new[,]
                             {
-                                { 1, 2, 3, 4 },
-                                { 11, 12, 13, 34 },
-                                { 211, 212, 213, 23 },
-                                { 3, 4, 5, 6 }
+                                {
+                                    1, 2, 3, 4
+                                },
+                                {
+                                    11, 12, 13, 34
+                                },
+                                {
+                                    211, 212, 213, 23
+                                },
+                                {
+                                    3, 4, 5, 6
+                                }
                             }
                         }
                 }
@@ -169,7 +189,9 @@ namespace AutoFixtureUnitTest.Kernel
                         Expected = new[,,]
                         {
                             {
-                                { 12 }
+                                {
+                                    12
+                                }
                             }
                         }
                     },
@@ -191,12 +213,20 @@ namespace AutoFixtureUnitTest.Kernel
                         Expected = new[,,]
                         {
                             {
-                                { 1, 2 },
-                                { 3, 4 }
+                                {
+                                    1, 2
+                                },
+                                {
+                                    3, 4
+                                }
                             },
                             {
-                                { 31, 32 },
-                                { 33, 34 }
+                                {
+                                    31, 32
+                                },
+                                {
+                                    33, 34
+                                }
                             }
                         }
                     },
@@ -226,19 +256,37 @@ namespace AutoFixtureUnitTest.Kernel
                         Expected = new[,,]
                         {
                             {
-                                { 1, 2, 4 },
-                                { 2, 4, 6 },
-                                { 3, 5, 7 }
+                                {
+                                    1, 2, 4
+                                },
+                                {
+                                    2, 4, 6
+                                },
+                                {
+                                    3, 5, 7
+                                }
                             },
                             {
-                                { 31, 32, 2 },
-                                { 33, 34, 4 },
-                                { 45, 34, 342 }
+                                {
+                                    31, 32, 2
+                                },
+                                {
+                                    33, 34, 4
+                                },
+                                {
+                                    45, 34, 342
+                                }
                             },
                             {
-                                { 1, 2, 3 },
-                                { 4, 5, 6 },
-                                { 7, 8, 9 }
+                                {
+                                    1, 2, 3
+                                },
+                                {
+                                    4, 5, 6
+                                },
+                                {
+                                    7, 8, 9
+                                }
                             }
                         }
                     }
@@ -301,22 +349,38 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 {
                     {
-                        { 11, 22 },
-                        { 33, 44 }
+                        {
+                            11, 22
+                        },
+                        {
+                            33, 44
+                        }
                     },
                     {
-                        { 531, 632 },
-                        { 733, 834 }
+                        {
+                            531, 632
+                        },
+                        {
+                            733, 834
+                        }
                     }
                 },
                 {
                     {
-                        { 1, 2 },
-                        { 3, 4 }
+                        {
+                            1, 2
+                        },
+                        {
+                            3, 4
+                        }
                     },
                     {
-                        { 31, 32 },
-                        { 33, 34 }
+                        {
+                            31, 32
+                        },
+                        {
+                            33, 34
+                        }
                     }
                 }
             };
