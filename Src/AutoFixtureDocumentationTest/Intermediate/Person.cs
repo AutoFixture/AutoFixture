@@ -12,7 +12,7 @@ namespace AutoFixtureDocumentationTest.Intermediate
 
         public Person Spouse
         {
-            get { return this.spouse; }
+            get => this.spouse;
             set
             {
                 this.spouse = value;
