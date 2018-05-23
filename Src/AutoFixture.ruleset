@@ -19,7 +19,6 @@
     <Rule Id = "SA1203" Action = "None" /> <!-- Constant fields should appear before non-constant fields -->
     <Rule Id = "SA1204" Action = "None" /> <!-- Static members should appear before non-static members -->
     <Rule Id = "SA1214" Action = "None" /> <!-- Readonly fields should appear before non-readonly fields -->
-    <Rule Id = "SA1404" Action = "None" /> <!-- Code analysis suppression should have justification -->
     <Rule Id = "SA1407" Action = "None" /> <!-- Arithmetic expressions should declare precedence -->
     <Rule Id = "SA1408" Action = "None" /> <!-- Conditional expressions should declare precedence -->
     <Rule Id = "SA1413" Action = "None" /> <!-- Use trailing comma in multi-line initializers -->

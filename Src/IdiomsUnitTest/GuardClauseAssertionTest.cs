@@ -15,8 +15,8 @@ using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
-    [SuppressMessage("ReSharper", "UnusedMember.Local")]
-    [SuppressMessage("ReSharper", "UnusedParameter.Local")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local", Justification="Used via reflection.")]
+    [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification="Required for testing.")]
     public class GuardClauseAssertionTest
     {
         [Fact]
