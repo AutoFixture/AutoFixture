@@ -39,6 +39,5 @@
     <Rule Id = "SA1629" Action = "None" /> <!-- Documentation text should end with a period. -->
     <Rule Id = "SA1633" Action = "None" /> <!-- The file header is missing or not located at the top of the file. -->
     <Rule Id = "SA1642" Action = "None" /> <!-- Constructor summary documentation should begin with standard text -->
-    <Rule Id = "SA1649" Action = "None" /> <!-- File name should match first type name. -->
   </Rules>
 </RuleSet>

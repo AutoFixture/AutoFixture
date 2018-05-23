@@ -6,36 +6,6 @@ using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
-    public class IndexedReplacementTestOfObject : IndexedReplacementTest<object>
-    {
-        protected override object CreateItem()
-        {
-            return new object();
-        }
-    }
-    public class IndexedReplacementTestOfInt : IndexedReplacementTest<int>
-    {
-        private int i;
-
-        protected override int CreateItem()
-        {
-            return this.i++;
-        }
-    }
-    public class IndexedReplacementTestOfString : IndexedReplacementTest<string>
-    {
-        protected override string CreateItem()
-        {
-            return Guid.NewGuid().ToString();
-        }
-    }
-    public class IndexedReplacementTestOfVersion : IndexedReplacementTest<Version>
-    {
-        protected override Version CreateItem()
-        {
-            return new Version();
-        }
-    }
     public abstract class IndexedReplacementTest<T>
     {
         [Fact]
@@ -124,5 +94,39 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         protected abstract T CreateItem();
+    }
+
+    public class IndexedReplacementTestOfObject : IndexedReplacementTest<object>
+    {
+        protected override object CreateItem()
+        {
+            return new object();
+        }
+    }
+
+    public class IndexedReplacementTestOfInt : IndexedReplacementTest<int>
+    {
+        private int i;
+
+        protected override int CreateItem()
+        {
+            return this.i++;
+        }
+    }
+
+    public class IndexedReplacementTestOfString : IndexedReplacementTest<string>
+    {
+        protected override string CreateItem()
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
+    public class IndexedReplacementTestOfVersion : IndexedReplacementTest<Version>
+    {
+        protected override Version CreateItem()
+        {
+            return new Version();
+        }
     }
 }

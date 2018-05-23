@@ -9,21 +9,6 @@ using Xunit;
 
 namespace AutoFixtureUnitTest
 {
-    public class GeneratorTestOfObject : GeneratorTest<object>
-    {
-    }
-    public class GeneratorTestOfString : GeneratorTest<string>
-    {
-    }
-    public class GeneratorTestOfInt32 : GeneratorTest<int>
-    {
-    }
-    public class GeneratorTestOfGuid : GeneratorTest<Guid>
-    {
-    }
-    public class GeneratorTestOfNetPipeStyleUriParser : GeneratorTest<ConcreteType>
-    {
-    }
     public abstract class GeneratorTest<T>
     {
         [Theory, ClassData(typeof(CountTestCases))]
@@ -149,5 +134,25 @@ namespace AutoFixtureUnitTest
         {
             return this.GetEnumerator();
         }
+    }
+
+    public class GeneratorTestOfObject : GeneratorTest<object>
+    {
+    }
+
+    public class GeneratorTestOfString : GeneratorTest<string>
+    {
+    }
+
+    public class GeneratorTestOfInt32 : GeneratorTest<int>
+    {
+    }
+
+    public class GeneratorTestOfGuid : GeneratorTest<Guid>
+    {
+    }
+
+    public class GeneratorTestOfNetPipeStyleUriParser : GeneratorTest<ConcreteType>
+    {
     }
 }

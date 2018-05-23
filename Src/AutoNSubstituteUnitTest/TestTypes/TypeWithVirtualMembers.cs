@@ -1,9 +1,5 @@
 ﻿namespace AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public class ConcreteTypeWithVirtualMembers : TypeWithVirtualMembers
-    {
-    }
-
     public abstract class TypeWithVirtualMembers
     {
         public virtual string VirtualProperty { get; set; }
@@ -12,5 +8,9 @@
         {
             return "Awesome string";
         }
+    }
+
+    public class ConcreteTypeWithVirtualMembers : TypeWithVirtualMembers
+    {
     }
 }
