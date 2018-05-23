@@ -165,11 +165,15 @@ namespace AutoFixture.AutoMoq
 
             Expression methodCall;
             if (DelegateSpecification.IsSatisfiedBy(mockedType))
+            {
                 // e.g. "x(It.IsAny<string>(), out parameter)"
                 methodCall = Expression.Invoke(lambdaParam, methodCallParams);
+            }
             else
+            {
                 // e.g. "x.Method(It.IsAny<string>(), out parameter)"
                 methodCall = Expression.Call(lambdaParam, method, methodCallParams);
+            }
 
             // e.g. "x => x.Method(It.IsAny<string>(), out parameter)"
             // or "x => x(It.IsAny<string>(), out parameter)"

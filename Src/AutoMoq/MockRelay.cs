@@ -71,6 +71,7 @@ namespace AutoFixture.AutoMoq
                 return new NoSpecimen();
 
             var result = ResolveMock(t, context);
+
             // Note: null is a valid specimen (e.g., returned by NullRecursionHandler)
             if (result is NoSpecimen || result is OmitSpecimen || result == null)
                 return result;
