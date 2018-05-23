@@ -73,14 +73,14 @@ namespace AutoFixture
                 if (this.rangedValue != null)
                 {
                     object target;
-                    if (range.OperandType == typeof(byte) &&
+                    if ((range.OperandType == typeof(byte) &&
                         Convert.ToInt32(
                             this.rangedValue,
-                            CultureInfo.CurrentCulture) > byte.MaxValue ||
-                        range.OperandType == typeof(short) &&
+                            CultureInfo.CurrentCulture) > byte.MaxValue) ||
+                        (range.OperandType == typeof(short) &&
                         Convert.ToInt32(
                             this.rangedValue,
-                            CultureInfo.CurrentCulture) > short.MaxValue)
+                            CultureInfo.CurrentCulture) > short.MaxValue))
                         target = minimum;
                     else
                         target = this.rangedValue;
