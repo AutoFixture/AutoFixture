@@ -210,7 +210,7 @@ namespace AutoFixture
         private long GetNextInt64InRange()
         {
             var range = (ulong)(this.upper - this.lower);
-            ulong limit = ulong.MaxValue - ulong.MaxValue % range;
+            ulong limit = ulong.MaxValue - (ulong.MaxValue % range);
             ulong number;
             do
             {
@@ -218,7 +218,7 @@ namespace AutoFixture
                 this.random.NextBytes(buffer);
                 number = BitConverter.ToUInt64(buffer, 0);
             } while (number > limit);
-            return (long)(number % range + (ulong)this.lower);
+            return (long)((number % range) + (ulong)this.lower);
         }
     }
 }

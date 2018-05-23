@@ -123,7 +123,7 @@ namespace AutoFixture
                 this.generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
 
                 // (max - min) could lead to overflow, so we divide each part on range individually.
-                this.factor = Math.Abs(this.maximum / RandomValueRange - this.minimum / RandomValueRange);
+                this.factor = Math.Abs((this.maximum / RandomValueRange) - (this.minimum / RandomValueRange));
             }
 
             public object Create(object request, ISpecimenContext context)
@@ -157,7 +157,7 @@ namespace AutoFixture
                 this.generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
 
                 // (max - min) could lead to overflow, so we divide each part on range individually.
-                this.factor = Math.Abs(this.maximum / RandomValueRange - this.minimum / RandomValueRange);
+                this.factor = Math.Abs((this.maximum / RandomValueRange) - (this.minimum / RandomValueRange));
             }
 
             public object Create(object request, ISpecimenContext context)
