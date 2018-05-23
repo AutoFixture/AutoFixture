@@ -66,9 +66,11 @@ namespace AutoFixture.Kernel
                     pi.Name));
 
             if (returnValue is OmitSpecimen)
+            {
                 return Array.CreateInstance(
                     pi.ParameterType.GetElementType(),
                     0);
+            }
 
             return returnValue;
         }

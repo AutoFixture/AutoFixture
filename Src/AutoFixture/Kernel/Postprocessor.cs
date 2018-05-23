@@ -280,8 +280,11 @@ namespace AutoFixture.Kernel
                 return specimen;
 
             if (!(specimen is T))
+            {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     "The specimen returned by the decorated ISpecimenBuilder is not compatible with {0}.", typeof(T)));
+            }
+
             this.Command.Execute(specimen, context);
             return specimen;
         }

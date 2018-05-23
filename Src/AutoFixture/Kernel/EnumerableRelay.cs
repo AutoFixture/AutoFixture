@@ -67,8 +67,10 @@ namespace AutoFixture.Kernel
             public IEnumerator<T> GetEnumerator()
             {
                 foreach (var item in this.enumerable)
+                {
                     if (item is T variable)
                         yield return variable;
+                }
             }
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

@@ -76,8 +76,10 @@ namespace AutoFixture
                 ISpecimenContext context)
             {
                 foreach (var kvp in GetValues(context))
+                {
                     if (!dictionary.ContainsKey(kvp.Key))
                         dictionary.Add(kvp);
+                }
             }
 
             private static IEnumerable<KeyValuePair<TKey, TValue>> GetValues(

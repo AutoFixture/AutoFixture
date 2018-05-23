@@ -58,8 +58,10 @@ namespace AutoFixture.Kernel
             this.To = to ?? throw new ArgumentNullException(nameof(to));
 
             if (from.GetTypeInfo().IsGenericTypeDefinition ^ to.GetTypeInfo().IsGenericTypeDefinition)
+            {
                 throw new ArgumentException("Relaying from open generic type to open generic type " +
                                             "or from closed type to closed type are supported only.");
+            }
 
             this.fromSpecification = new ExactTypeSpecification(from);
         }

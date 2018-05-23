@@ -108,8 +108,10 @@ namespace AutoFixture.Kernel
                 return true;
 
             if (parameterType.IsGenericParameter)
+            {
                 return templateParameterType.IsGenericParameter
                     && parameterType.GenericParameterPosition == templateParameterType.GenericParameterPosition;
+            }
 
             var genericArguments = GetTypeArguments(parameterType);
             var templateGenericArguments = GetTypeArguments(templateParameterType);
@@ -192,8 +194,10 @@ namespace AutoFixture.Kernel
             private static IEnumerable<Type> GetHierarchy(Type type)
             {
                 if (!type.GetTypeInfo().IsClass)
+                {
                     foreach (var interfaceType in type.GetTypeInfo().GetInterfaces())
                         yield return interfaceType;
+                }
 
                 while (type != null)
                 {

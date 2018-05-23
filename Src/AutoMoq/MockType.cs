@@ -73,20 +73,24 @@ namespace AutoFixture.AutoMoq
 
                 // check if specimen is null but member is non-nullable value type
                 if (specimen == null && (default(TResult) != null))
+                {
                     throw new InvalidOperationException(
                         string.Format(
                             CultureInfo.CurrentCulture,
                             "Tried to setup a member with a return type of {0}, but null was found instead.",
                             typeof(TResult)));
+                }
 
                 // check if specimen can be safely converted to TResult
                 if (specimen != null && !(specimen is TResult))
+                {
                     throw new InvalidOperationException(
                         string.Format(
                             CultureInfo.CurrentCulture,
                             "Tried to setup a member with a return type of {0}, but an instance of {1} was found instead.",
                             typeof(TResult),
                             specimen.GetType()));
+                }
 
                 TResult result = (TResult)specimen;
 

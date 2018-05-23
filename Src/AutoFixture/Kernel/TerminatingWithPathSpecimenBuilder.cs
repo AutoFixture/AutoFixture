@@ -97,14 +97,17 @@ namespace AutoFixture.Kernel
         private static string BuildCoreMessageTemplate(object request, Exception innerException)
         {
             if (innerException != null)
+            {
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because creation unexpectedly failed with exception. " +
                     "Please refer to the inner exception to investigate the root cause of the failure.";
+            }
 
             var t = request as Type;
 
             if (t != null && t.GetTypeInfo().IsInterface)
+            {
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an interface. There's no single, most " +
@@ -115,8 +118,10 @@ namespace AutoFixture.Kernel
                     "If you have a concrete class implementing the " +
                     "interface, you can map the interface to that class:" +
                     TypeMappingOptionsHelp;
+            }
 
             if (t != null && t.GetTypeInfo().IsAbstract)
+            {
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an abstract class. There's no single, " +
@@ -128,6 +133,7 @@ namespace AutoFixture.Kernel
                     "class, you can map the abstract class to that derived " +
                     "class:" +
                     TypeMappingOptionsHelp;
+            }
 
             return
                 "AutoFixture was unable to create an instance from {0}, " +

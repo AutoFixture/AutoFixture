@@ -129,10 +129,12 @@ namespace AutoFixture.AutoNSubstitute
             private static string GetFriendlyName(Type type)
             {
                 if (type.GetTypeInfo().IsGenericType)
+                {
                     return string.Format(CultureInfo.CurrentCulture,
                         "{0}<{1}>",
                         type.Name.Split('`')[0],
                         string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+                }
 
                 return type.Name;
             }
@@ -275,8 +277,10 @@ namespace AutoFixture.AutoNSubstitute
             private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
             {
                 foreach (var value in values)
+                {
                     if (!(value.Item2.Value is OmitSpecimen))
                         callInfo[value.Item1] = value.Item2.Value;
+                }
             }
 
             private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)

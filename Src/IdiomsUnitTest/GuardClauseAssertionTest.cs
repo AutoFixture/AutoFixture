@@ -443,9 +443,11 @@ namespace AutoFixture.IdiomsUnitTest
             public IEnumerable<Guid> GetValues(Guid someGuid)
             {
                 if (someGuid == null)
+                {
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
                         nameof(someGuid));
+                }
 
                 yield return someGuid;
                 yield return someGuid;
@@ -458,9 +460,11 @@ namespace AutoFixture.IdiomsUnitTest
             public IEnumerator<Guid> GetValues(Guid someGuid)
             {
                 if (someGuid == null)
+                {
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
                         nameof(someGuid));
+                }
 
                 yield return someGuid;
                 yield return someGuid;
