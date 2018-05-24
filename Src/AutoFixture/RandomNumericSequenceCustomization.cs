@@ -13,7 +13,7 @@ namespace AutoFixture
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// fixture is null
+        /// fixture is null.
         /// </exception>
         public void Customize(IFixture fixture)
         {

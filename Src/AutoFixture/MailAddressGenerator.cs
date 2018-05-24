@@ -22,7 +22,7 @@ namespace AutoFixture
         /// </returns>
         /// <remarks>>
         /// The generated MailAddress will have one of the reserved domains,
-        /// so as to avoid any possibility of tests bothering real email addresses
+        /// so as to avoid any possibility of tests bothering real email addresses.
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {

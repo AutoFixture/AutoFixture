@@ -102,7 +102,7 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Returns the hash code for the object.
         /// </summary>
-        /// <returns>The hash code</returns>
+        /// <returns>The hash code.</returns>
         public override int GetHashCode()
         {
             return

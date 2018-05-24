@@ -48,7 +48,7 @@ namespace AutoFixture.Kernel
         /// </para>
         /// </remarks>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="context" /> is <see langword="null"/>
+        /// <paramref name="context" /> is <see langword="null"/>.
         /// </exception>
         public object Create(object request, ISpecimenContext context)
         {

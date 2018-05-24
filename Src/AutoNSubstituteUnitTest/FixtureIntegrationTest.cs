@@ -896,7 +896,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         /// The values configured by AutoFixture are not being manually-configured.
         ///
         /// If user needs that, it could easily override the auto-generated value using the
-        /// substitute.Method(...).Returns(...);
+        /// substitute.Method(...).Returns(...);.
         /// </summary>
         [Theory]
         [InlineData(ClearOptions.CallActions)]

@@ -15,7 +15,7 @@ namespace AutoFixture.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the <see cref="RangedRequest"/> class.
         /// </summary>
-        /// <param name="memberType">Type of the member the range is specified for</param>
+        /// <param name="memberType">Type of the member the range is specified for.</param>
         /// <param name="operandType">Type of the operand.</param>
         /// <param name="minimum">The minimum.</param>
         /// <param name="maximum">The maximum.</param>

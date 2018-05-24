@@ -25,7 +25,7 @@ namespace AutoFixture.Kernel
         /// <see cref="NoSpecimen" /> instance.
         /// </returns>
         /// <exception cref="System.ArgumentNullException">
-        /// context is null
+        /// context is null.
         /// </exception>
         /// <remarks>
         /// <para>

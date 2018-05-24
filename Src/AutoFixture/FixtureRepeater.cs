@@ -16,7 +16,7 @@ namespace AutoFixture
         /// The type of object that <paramref name="function"/> creates.
         /// </typeparam>
         /// <param name="fixture">
-        /// The <see cref="IFixture"/>to use
+        /// The <see cref="IFixture"/>to use.
         /// </param>
         /// <param name="function">
         /// A function that creates an instance of <typeparamref name="T"/>.

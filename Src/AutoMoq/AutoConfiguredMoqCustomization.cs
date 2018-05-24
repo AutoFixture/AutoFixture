@@ -22,7 +22,6 @@ namespace AutoFixture.AutoMoq
         /// <summary>
         /// Creates a new instance of <see cref="AutoConfiguredMoqCustomization"/>.
         /// </summary>
-        /// <param name="relay">A mock relay to be added to <see cref="IFixture.ResidueCollectors"/></param>
         public AutoConfiguredMoqCustomization(ISpecimenBuilder relay)
             : base(relay)
         {

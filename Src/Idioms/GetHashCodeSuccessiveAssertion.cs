@@ -42,7 +42,7 @@ namespace AutoFixture.Idioms
         /// the same value, if the supplied method is an override of the
         /// <see cref="object.GetHashCode()"/>.
         /// </summary>
-        /// <param name="methodInfo">The method to verify</param>
+        /// <param name="methodInfo">The method to verify.</param>
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
             MessageId = "GetHashCode",
             Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]

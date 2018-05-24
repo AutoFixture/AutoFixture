@@ -149,7 +149,7 @@ namespace AutoFixture.AutoMoq
 
         /// <summary>
         /// Returns a lambda expression thats represents an invocation of a mocked type's method.
-        /// E.g., <![CDATA[ x => x.Method(It.IsAny<string>(), out parameter) ]]>
+        /// E.g.,. <![CDATA[ x => x.Method(It.IsAny<string>(), out parameter) ]]>
         /// </summary>
         private static Expression MakeMethodInvocationLambda(Type mockedType, MethodInfo method,
                                                              ISpecimenContext context)

@@ -11,7 +11,7 @@ namespace AutoFixture.NUnit3
 {
     /// <summary>
     /// This attribute uses AutoFixture to generate values for unit test parameters.
-    /// This implementation is based on TestCaseAttribute of NUnit3
+    /// This implementation is based on TestCaseAttribute of NUnit3.
     /// </summary>
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
@@ -34,7 +34,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Construct a <see cref="AutoDataAttribute"/>
+        /// Construct a <see cref="AutoDataAttribute"/>.
         /// </summary>
         public AutoDataAttribute()
             : this(() => new Fixture())
@@ -42,9 +42,8 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Construct a <see cref="AutoDataAttribute"/> with an <see cref="IFixture"/>
+        /// Construct a <see cref="AutoDataAttribute"/> with an <see cref="IFixture"/>.
         /// </summary>
-        /// <param name="fixture"></param>
         [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
                   "Please use the AutoDataAttribute(Func<IFixture> fixtureFactory) overload, so fixture will be constructed only if needed.")]
         protected AutoDataAttribute(IFixture fixture)
@@ -76,7 +75,7 @@ namespace AutoFixture.NUnit3
         /// </summary>
         /// <param name="method">The MethodInfo for which tests are to be constructed.</param>
         /// <param name="suite">The suite to which the tests will be added.</param>
-        /// <returns>One or more TestMethods</returns>
+        /// <returns>One or more TestMethods.</returns>
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
             var test = this.TestMethodBuilder.Build(method, suite, this.GetParameterValues(method), 0);

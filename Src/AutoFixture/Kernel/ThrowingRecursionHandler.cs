@@ -20,7 +20,7 @@ namespace AutoFixture.Kernel
         /// <returns>
         /// An object intended to break the recursion.
         /// </returns>
-        /// <exception cref="ObjectCreationException">Always</exception>
+        /// <exception cref="ObjectCreationException">Always.</exception>
         /// <remarks>
         /// <para>
         /// This method is called when AutoFixture detects an infinite

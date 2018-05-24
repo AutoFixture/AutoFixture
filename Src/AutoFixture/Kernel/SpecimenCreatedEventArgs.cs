@@ -9,7 +9,7 @@
         /// Initializes a new instance of the <see cref="SpecimenCreatedEventArgs"/> class with the
         /// supplied values.
         /// </summary>
-        /// <param name="request">A request for a specimen</param>
+        /// <param name="request">A request for a specimen.</param>
         /// <param name="specimen">
         /// The specimen that was created base on <paramref name="request"/>.
         /// </param>

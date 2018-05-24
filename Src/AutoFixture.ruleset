@@ -35,7 +35,6 @@
     <Rule Id = "SA1623" Action = "None" /> <!-- The property's documentation summary text should begin with: 'Gets' -->
     <Rule Id = "SA1625" Action = "None" /> <!-- Element documentation should not be copied and pasted -->
     <Rule Id = "SA1627" Action = "None" /> <!-- The documentation text within the \'exception\' tag should not be empty. -->
-    <Rule Id = "SA1629" Action = "None" /> <!-- Documentation text should end with a period. -->
     <Rule Id = "SA1633" Action = "None" /> <!-- The file header is missing or not located at the top of the file. -->
     <Rule Id = "SA1642" Action = "None" /> <!-- Constructor summary documentation should begin with standard text -->
   </Rules>

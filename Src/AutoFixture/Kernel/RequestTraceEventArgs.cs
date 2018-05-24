@@ -3,7 +3,7 @@
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Event args about a request for a specimen
+    /// Event args about a request for a specimen.
     /// </summary>
     public class RequestTraceEventArgs : EventArgs
     {
@@ -11,7 +11,7 @@ namespace AutoFixture.Kernel
         /// Initializes a new instance of the <see cref="RequestTraceEventArgs"/> class with the
         /// supplied values.
         /// </summary>
-        /// <param name="request">A request for a specimen</param>
+        /// <param name="request">A request for a specimen.</param>
         /// <param name="depth">
         /// The recursion depth at which <paramref name="request"/> occurred.
         /// </param>
@@ -27,7 +27,7 @@ namespace AutoFixture.Kernel
         public int Depth { get; }
 
         /// <summary>
-        /// Gets the original request for a specimen
+        /// Gets the original request for a specimen.
         /// </summary>
         public object Request { get; }
     }

@@ -6,21 +6,20 @@ using System.Reflection;
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Decorates another method invoking it supplying missing parameters
+    /// Decorates another method invoking it supplying missing parameters.
     /// </summary>
     public class MissingParametersSupplyingMethod : IMethod, IEquatable<MissingParametersSupplyingMethod>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MissingParametersSupplyingMethod"/> class.
         /// </summary>
-        /// <param name="method">The <see cref="IMethod"/> to decorate.</param>
         public MissingParametersSupplyingMethod(IMethod method)
         {
             this.Method = method ?? throw new ArgumentNullException(nameof(method));
         }
 
         /// <summary>
-        /// Gets the decorated method
+        /// Gets the decorated method.
         /// </summary>
         public IMethod Method { get; }
 
@@ -29,45 +28,20 @@ namespace AutoFixture.Kernel
         /// </summary>
         public IEnumerable<ParameterInfo> Parameters => this.Method.Parameters;
 
-        /// <summary>
-        /// Determines whether the specified <see cref="object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        /// <exception cref="System.NullReferenceException">
-        /// The <paramref name="obj"/> parameter is null.
-        ///   </exception>
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is MissingParametersSupplyingMethod other)
-            {
-                return this.Equals(other);
-            }
-            return base.Equals(obj);
+            return obj is MissingParametersSupplyingMethod other && this.Equals(other);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table.
-        /// </returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return this.Method.GetHashCode()
                  ^ this.Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
+        /// <inheritdoc />
         public bool Equals(MissingParametersSupplyingMethod other)
         {
             if (other == null)
@@ -79,8 +53,7 @@ namespace AutoFixture.Kernel
                 && this.Parameters.SequenceEqual(other.Parameters);
         }
 
-        private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters,
-            object[] arguments)
+        private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters, object[] arguments)
         {
             return parameters.Select((p, i) => arguments.Length > i ? arguments[i] : GetDefault(p));
         }

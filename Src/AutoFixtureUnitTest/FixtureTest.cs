@@ -5169,7 +5169,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Checks the scenario: https://github.com/AutoFixture/AutoFixture/issues/531
+        /// Checks the scenario: https://github.com/AutoFixture/AutoFixture/issues/531.
         /// </summary>
         [Fact]
         public void CustomizationOfBasePropOfChildADoesNotAffectChildB()
@@ -5187,7 +5187,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Checks the scenario reported in https://github.com/AutoFixture/AutoFixture/issues/772
+        /// Checks the scenario reported in https://github.com/AutoFixture/AutoFixture/issues/772.
         /// </summary>
         [Fact]
         public void CustomizatonOfSamePropertyIsIgnoredDuringTheBuild()
@@ -5208,7 +5208,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321
+        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321.
         /// </summary>
         [Fact]
         public void CustomizationOfIntPropertyDoesntThrowInBuild()
@@ -5508,7 +5508,7 @@ namespace AutoFixtureUnitTest
 
         /// <summary>
         /// This test reproduces the issue as reported in pull request:
-        /// https://github.com/AutoFixture/AutoFixture/pull/604
+        /// https://github.com/AutoFixture/AutoFixture/pull/604.
         /// </summary>
         [Fact]
         public void WithoutOnFieldInBaseClassThrowsNullPointerException()
@@ -5952,7 +5952,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Scenario for: https://github.com/AutoFixture/AutoFixture/issues/722
+        /// Scenario for: https://github.com/AutoFixture/AutoFixture/issues/722.
         /// </summary>
         [Fact]
         public void ShouldCorrectlyResolveEnumPropertiesDecoratedWithRange()

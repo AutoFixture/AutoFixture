@@ -204,7 +204,7 @@ namespace AutoFixture.Kernel
         /// should be performed for a request.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// builder, command, or specification is null
+        /// builder, command, or specification is null.
         /// </exception>
         public Postprocessor(
             ISpecimenBuilder builder,

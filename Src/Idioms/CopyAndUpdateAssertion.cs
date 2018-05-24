@@ -38,7 +38,7 @@ namespace AutoFixture.Idioms
         /// A composer which can create instances required to implement the idiomatic unit test.
         /// </param>
         /// <param name="comparer">A comparer that compares public member values from the
-        /// specimen with public member values from the 'copied' and updated' instance</param>
+        /// specimen with public member values from the 'copied' and updated' instance.</param>
         /// <param name="parameterMemberMatcher">Allows customizing the way 'updated' parameters
         /// are matched to members. The boolean value returned from
         /// <see cref="IEqualityComparer{T}.Equals(T,T)"/> indicates if the parameter and member
@@ -66,7 +66,7 @@ namespace AutoFixture.Idioms
         /// A composer which can create instances required to implement the idiomatic unit test.
         /// </param>
         /// <param name="comparer">A comparer that compares public member values from the
-        /// specimen with public member values from the 'copied' and updated' instance</param>
+        /// specimen with public member values from the 'copied' and updated' instance.</param>
         /// <remarks>
         /// <para>
         /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
@@ -123,7 +123,7 @@ namespace AutoFixture.Idioms
         /// Verifies that a method correctly makes a copy of an object while changing
         /// one or more public properties or fields.
         /// </summary>
-        /// <param name="methodInfo">The 'copy and update' method to verify</param>
+        /// <param name="methodInfo">The 'copy and update' method to verify.</param>
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));

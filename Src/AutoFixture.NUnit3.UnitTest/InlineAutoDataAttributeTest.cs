@@ -141,7 +141,7 @@ namespace AutoFixture.NUnit3.UnitTest
         }
 
         /// <summary>
-        /// This is used in BuildFromYieldsParameterValues for building a unit test method
+        /// This is used in BuildFromYieldsParameterValues for building a unit test method.
         /// </summary>
         public void DummyTestMethod(int anyInt, double anyDouble)
         {

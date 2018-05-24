@@ -30,7 +30,7 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
         public ISpecimenContext SpecimenContext { get; }
 
         /// <summary>
-        /// Creates a new instance of <see cref="CallResultResolver"/>
+        /// Creates a new instance of <see cref="CallResultResolver"/>.
         /// </summary>
         public CallResultResolver(ISpecimenContext specimenContext)
         {

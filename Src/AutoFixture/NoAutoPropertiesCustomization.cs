@@ -4,7 +4,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// A customization that will turn off the auto population of properties on the target type
+    /// A customization that will turn off the auto population of properties on the target type.
     /// </summary>
     public class NoAutoPropertiesCustomization : ICustomization
     {

@@ -141,7 +141,7 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Assigns anonymous values to properties and fields on a specimen
+        /// Assigns anonymous values to properties and fields on a specimen.
         /// </summary>
         /// <param name="specimen">
         /// The specimen on which property and field values will be assigned.
@@ -240,15 +240,8 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Assigns anonymous values to properties and fields on a specimen
+        /// Assigns anonymous values to properties and fields on a specimen.
         /// </summary>
-        /// <param name="specimen">
-        /// The specimen on which property and field values will be assigned.
-        /// </param>
-        /// <param name="context">
-        /// An <see cref="ISpecimenContext"/> that is used to create property
-        /// and field values.
-        /// </param>
         public void Execute(object specimen, ISpecimenContext context)
         {
             if (specimen == null)

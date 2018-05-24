@@ -13,9 +13,9 @@ namespace AutoFixture.Xunit2
         /// Always returns 'false', indicating that discovery of tests is
         /// not supported.
         /// </summary>
-        /// <param name="dataAttribute">The attribute</param>
-        /// <param name="testMethod">The method being discovered</param>
-        /// <returns>false</returns>
+        /// <param name="dataAttribute">The attribute.</param>
+        /// <param name="testMethod">The method being discovered.</param>
+        /// <returns>false.</returns>
         public override bool SupportsDiscoveryEnumeration(
             IAttributeInfo dataAttribute, IMethodInfo testMethod)
         {

@@ -31,7 +31,7 @@ namespace AutoFixture.Dsl
         /// A node which may contain <see cref="NodeComposer{T}" /> sub-nodes.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// node is null
+        /// node is null.
         /// </exception>
         /// <seealso cref="Node" />
         public CompositeNodeComposer(ISpecimenBuilderNode node)

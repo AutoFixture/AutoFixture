@@ -6,9 +6,8 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// Draws a random element from the given collection
+    /// Draws a random element from the given collection.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public sealed class ElementsBuilder<T> : ISpecimenBuilder
     {
         private readonly T[] elements;
@@ -17,7 +16,6 @@ namespace AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
         /// </summary>
-        /// <param name="elements">The elements from which to draw from.</param>
         public ElementsBuilder(params T[] elements)
             : this(elements.AsEnumerable())
         {
@@ -26,8 +24,6 @@ namespace AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
         /// </summary>
-        /// <param name="elements">The collection from which elements should be drawn from.
-        /// It must contain at least one element.</param>
         public ElementsBuilder(IEnumerable<T> elements)
         {
             if (elements == null) throw new ArgumentNullException(nameof(elements));

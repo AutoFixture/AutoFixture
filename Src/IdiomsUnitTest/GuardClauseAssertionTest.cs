@@ -1677,7 +1677,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         /// <summary>
-        /// Wrapper around member to produce nice theory name
+        /// Wrapper around member to produce nice theory name.
         /// </summary>
         public class MemberRef<T>
             where T : MemberInfo

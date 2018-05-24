@@ -37,7 +37,7 @@ namespace AutoFixture
         /// Creates an anonymous number.
         /// </summary>
         /// <returns>The next number in a consecutive sequence.</returns>
-        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release.</remarks>
         [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         [CLSCompliant(false)]
         public sbyte CreateAnonymous()

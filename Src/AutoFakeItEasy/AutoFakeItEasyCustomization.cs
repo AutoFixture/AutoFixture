@@ -10,7 +10,7 @@ namespace AutoFixture.AutoFakeItEasy
     /// Enables auto-mocking with FakeItEasy.
     /// </summary>
     /// <remarks>
-    /// NOTICE! You can assign the customization properties to tweak the features you would like to enable. Example:
+    /// NOTICE! You can assign the customization properties to tweak the features you would like to enable. See example.
     /// <br />
     /// <code>new AutoFakeItEasyCustomization { GenerateDelegates = true }</code>
     /// </remarks>

@@ -18,8 +18,8 @@ namespace AutoFixture.NUnit2.Addins
         /// extension points are supported by the host that is
         /// passed to it and taking the appropriate action.
         /// </summary>
-        /// <param name="host">The host in which to install the add-in</param>
-        /// <returns>True if the add-in was installed, otehrwise false</returns>
+        /// <param name="host">The host in which to install the add-in.</param>
+        /// <returns>True if the add-in was installed, otehrwise false.</returns>
         public bool Install(IExtensionHost host)
         {
             if (host == null) throw new ArgumentNullException(nameof(host));

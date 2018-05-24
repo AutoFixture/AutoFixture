@@ -38,7 +38,7 @@ namespace AutoFixture.Kernel
         public ISpecimenBuilder Builder { get; }
 
         /// <summary>
-        /// Gets or sets a filter for tracking
+        /// Gets or sets a filter for tracking.
         /// </summary>
         /// <remarks>
         /// <para>

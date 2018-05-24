@@ -6,7 +6,7 @@ namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>Enables auto-mocking with NSubstitute.</summary>
     /// <remarks>
-    /// NOTICE! You can assign the customization properties to tweak the features you would like to enable. Example:
+    /// NOTICE! You can assign the customization properties to tweak the features you would like to enable. See example.
     /// <br />
     /// <code>new AutoNSubstituteCustomization { ConfigureMembers = true }</code>
     /// </remarks>

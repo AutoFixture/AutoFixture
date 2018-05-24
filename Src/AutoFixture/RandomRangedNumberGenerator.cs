@@ -16,7 +16,7 @@ namespace AutoFixture
         private readonly ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder> generatorMap;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class
+        /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class.
         /// </summary>
         public RandomRangedNumberGenerator()
         {

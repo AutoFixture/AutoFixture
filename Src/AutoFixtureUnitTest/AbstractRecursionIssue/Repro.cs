@@ -9,7 +9,7 @@ namespace AutoFixtureUnitTest.AbstractRecursionIssue
     {
         /// <summary>
         /// This test reproduces the issue exactly as reported at
-        /// https://github.com/AutoFixture/AutoFixture/issues/3
+        /// https://github.com/AutoFixture/AutoFixture/issues/3.
         /// </summary>
         [Fact]
         public void IssueAsReported()
