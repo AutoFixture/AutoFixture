@@ -61,7 +61,5 @@ namespace AutoFixture.Idioms
                     methodInfo.DeclaringType.FullName));
             }
         }
-
     }
-
 }

@@ -199,5 +199,4 @@ namespace AutoFixture.IdiomsUnitTest
         {
         }
     }
-
 }

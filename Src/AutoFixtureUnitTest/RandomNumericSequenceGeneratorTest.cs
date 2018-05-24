@@ -391,6 +391,5 @@ namespace AutoFixtureUnitTest
                 new long[] { 2, 5, 9, 30, 255, 512 },
                 new long[] { -30, -9, -5, 2, 5, 9, 30 }
             };
-
     }
 }

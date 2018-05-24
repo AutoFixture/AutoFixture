@@ -119,6 +119,5 @@ namespace AutoFixtureUnitTest
             var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
         }
-
     }
 }

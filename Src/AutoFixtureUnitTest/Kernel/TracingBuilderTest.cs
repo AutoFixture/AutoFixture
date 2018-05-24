@@ -62,7 +62,6 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Assert
             Assert.Equal(expectedSpecimen, result);
-
         }
 
         [Fact]
@@ -124,7 +123,6 @@ namespace AutoFixtureUnitTest.Kernel
             // Assert
             Assert.Equal(2, spy.Count);
             Assert.Equal(subRequest, spy[1]);
-
         }
 
         [Fact]
@@ -158,7 +156,6 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Assert
             Assert.Equal(res, tracked);
-
         }
 
         [Fact]
@@ -210,7 +207,6 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Equal(2, spy.Count);
             Assert.Equal(createdSpecimen, spy[0]);
             Assert.Equal(createdSpecimen, spy[1]);
-
         }
 
         [Fact]
@@ -337,7 +333,6 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Assert
             Assert.Null(tracked);
-
         }
 
         [Fact]
@@ -409,7 +404,6 @@ return c.Resolve(r);
 
             // Assert
             Assert.Null(tracked);
-
         }
     }
 }

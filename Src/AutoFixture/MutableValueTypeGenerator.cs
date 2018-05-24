@@ -17,7 +17,6 @@ namespace AutoFixture
         {
             this.valueTypeWithoutConstructorsSpecification = new AndRequestSpecification(new ValueTypeSpecification(),
                                                                                     new NoConstructorsSpecification());
-
         }
 
         /// <summary>

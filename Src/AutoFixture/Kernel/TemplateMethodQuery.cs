@@ -203,5 +203,4 @@ namespace AutoFixture.Kernel
             }
         }
     }
-
 }

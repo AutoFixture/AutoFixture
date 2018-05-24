@@ -318,7 +318,6 @@ namespace AutoFixtureUnitTest
                 .SelectMany(t => t.SelectMany(s => s.ValuesNotPopulated));
 
             Assert.Empty(allValuesNotPopulated);
-
         }
 
         [Fact]
@@ -5506,7 +5505,6 @@ namespace AutoFixtureUnitTest
                 fixture.Create<TypeWithCastOperatorsWithoutPublicConstructor>());
 
             Assert.Contains("most likely because it has no public constructor", ex.Message);
-
         }
 
         [Fact]
@@ -5523,7 +5521,6 @@ namespace AutoFixtureUnitTest
                     .With(x => x.Property.Property1, "Dummy");
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5540,7 +5537,6 @@ namespace AutoFixtureUnitTest
                     .With(x => x.Property.Property1);
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5557,7 +5553,6 @@ namespace AutoFixtureUnitTest
                     .Without(x => x.Property.Property1);
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5572,7 +5567,6 @@ namespace AutoFixtureUnitTest
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1, "dummy"));
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5587,7 +5581,6 @@ namespace AutoFixtureUnitTest
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1));
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5602,7 +5595,6 @@ namespace AutoFixtureUnitTest
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.Without(x => x.Property.Property1));
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5614,7 +5606,6 @@ namespace AutoFixtureUnitTest
 
             // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(null, specimenContext));
-
         }
 
         [Fact]
@@ -5626,7 +5617,6 @@ namespace AutoFixtureUnitTest
 
             // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
-
         }
 
 #if SYSTEM_NET_MAIL
@@ -5654,7 +5644,6 @@ namespace AutoFixtureUnitTest
 
             Assert.IsType<OverflowException>(actualEx.InnerException);
             Assert.Contains("To solve the issue", actualEx.InnerException.Message);
-
         }
 
         private class Issue453_AnnotationWithOverflow
@@ -5699,7 +5688,6 @@ namespace AutoFixtureUnitTest
                 new Regex(Regex.Escape(requestToLookFor.ToString())).Matches(actualEx.Message).Count;
 
             Assert.Equal(1, numberOfRequestOccurence);
-
         }
 
         [Theory]

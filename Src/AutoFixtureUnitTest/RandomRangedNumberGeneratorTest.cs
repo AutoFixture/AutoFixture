@@ -93,7 +93,6 @@ namespace AutoFixtureUnitTest
             // Verify
             Assert.True(generatedValues.All(a => a >= minimum && a <= maximum));
             Assert.InRange(shouldBeRepeatedValue, minimum, maximum);
-
         }
 
         [Theory]
@@ -250,7 +249,6 @@ namespace AutoFixtureUnitTest
             // Verify
             int actualDistinctCount = numbers.SelectMany(a => a).Distinct().Count();
             Assert.Equal(expectedDistinctCount, actualDistinctCount);
-
         }
 
         [Theory]
@@ -264,7 +262,6 @@ namespace AutoFixtureUnitTest
 
             // Act & Assert
             Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
-
         }
 
         [Theory]
@@ -281,7 +278,6 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Assert.IsType(type, result);
-
         }
 
         [Theory]
@@ -298,7 +294,6 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Assert.InRange(result, (IComparable)minimum, (IComparable)maximum);
-
         }
 
         [Theory]

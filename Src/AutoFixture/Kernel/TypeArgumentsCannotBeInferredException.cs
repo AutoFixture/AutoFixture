@@ -101,6 +101,5 @@ namespace AutoFixture.Kernel
 
             return type.Name;
         }
-
     }
 }

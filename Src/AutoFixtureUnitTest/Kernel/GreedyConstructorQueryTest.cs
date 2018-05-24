@@ -85,6 +85,5 @@ namespace AutoFixtureUnitTest.Kernel
             {
             }
         }
-
     }
 }

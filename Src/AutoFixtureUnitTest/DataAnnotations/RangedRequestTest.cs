@@ -17,7 +17,6 @@ namespace AutoFixtureUnitTest.DataAnnotations
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new RangedRequest(memberType, operandType, min, max));
-
         }
 
         [Fact]
@@ -37,7 +36,6 @@ namespace AutoFixtureUnitTest.DataAnnotations
             Assert.Equal(operandType, sut.OperandType);
             Assert.Equal(min, sut.Minimum);
             Assert.Equal(max, sut.Maximum);
-
         }
 
         [Fact]
@@ -300,7 +298,6 @@ namespace AutoFixtureUnitTest.DataAnnotations
             Assert.Contains("Int64", stringResult);
             Assert.Contains("42", stringResult);
             Assert.Contains("100", stringResult);
-
         }
     }
 }

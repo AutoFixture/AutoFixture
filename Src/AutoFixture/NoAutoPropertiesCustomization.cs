@@ -44,7 +44,6 @@ namespace AutoFixture
                 this.targetType, constructor);
 
             fixture.Customizations.Insert(0, builder);
-
         }
     }
 }

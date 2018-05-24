@@ -200,7 +200,6 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
             var result = fixture.Create<List<ConcreteType>>();
             // Assert
             Assert.True(result.Any());
-
         }
 
         [Fact]

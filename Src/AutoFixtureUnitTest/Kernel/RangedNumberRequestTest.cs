@@ -293,7 +293,6 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Contains("Int64", stringResult);
             Assert.Contains("42", stringResult);
             Assert.Contains("100", stringResult);
-
         }
     }
 }

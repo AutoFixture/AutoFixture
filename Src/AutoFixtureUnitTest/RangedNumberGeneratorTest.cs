@@ -254,7 +254,6 @@ namespace AutoFixtureUnitTest
             {
                 Assert.Null(Record.Exception(() => sut.Create(r, context)));
             }
-
         }
 
         [Fact]

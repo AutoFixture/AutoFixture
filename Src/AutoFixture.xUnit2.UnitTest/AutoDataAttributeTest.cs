@@ -306,7 +306,6 @@ namespace AutoFixture.Xunit2.UnitTest
             // Assert
             Assert.Equal(expectedType, actualType);
             Assert.Equal(expectedAssembly, actualAssembly);
-
         }
     }
 }

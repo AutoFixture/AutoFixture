@@ -63,6 +63,5 @@ namespace AutoFixture.AutoNSubstitute
                 return Substitute.For<T>(parameters.ToArray());
             }
         }
-
     }
 }

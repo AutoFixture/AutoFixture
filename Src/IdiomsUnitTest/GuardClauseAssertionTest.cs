@@ -1118,7 +1118,6 @@ namespace AutoFixture.IdiomsUnitTest
             typeof(ParameterizedConstructorTestConstraint<>),
             typeof(UnclosedGenericMethodTestType<>),
             typeof(NestedGenericParameterTestType<,>)
-
         };
 
         public static TheoryData<MemberRef<ConstructorInfo>> ConstructorsOnGuardedOpenGenericTypes =>

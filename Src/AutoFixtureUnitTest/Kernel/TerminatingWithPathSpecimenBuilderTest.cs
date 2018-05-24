@@ -448,7 +448,6 @@ namespace AutoFixtureUnitTest.Kernel
             var actualEx = Assert.ThrowsAny<ObjectCreationException>(() => sut.Create(request, context));
             Assert.Contains("WRAPPED_INNER_EXCEPTION", actualEx.Message);
             Assert.Contains("INNER_INNER_EXCEPTION", actualEx.Message);
-
         }
     }
 }

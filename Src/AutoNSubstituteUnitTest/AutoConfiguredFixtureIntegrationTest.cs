@@ -848,7 +848,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             }
 
             protected override IEnumerable<Task> GetScheduledTasks() => Enumerable.Empty<Task>();
-
         }
 
         [Fact]

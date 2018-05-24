@@ -820,6 +820,5 @@ namespace AutoFixture.IdiomsUnitTest
         enum TestDefaultOnlyEnum { none = 0 };
 
         enum TestSingleNonDefaultEnum { none = 1 };
-
     }
 }

@@ -94,7 +94,6 @@ namespace AutoFixtureUnitTest
             var result = sut.Create(valueTypeRequest, dummyContainer);
             // Assert
             Assert.IsType<NoSpecimen>(result);
-
         }
     }
 }
