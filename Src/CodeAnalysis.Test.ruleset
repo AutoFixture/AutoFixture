@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Empty" Description="Rule set with disabled rules for the test projects" ToolsVersion="15.0">
-  <Include Path="AutoFixture.ruleset" Action="Default" />
+  <Include Path="CodeAnalysis.AutoFixture.ruleset" Action="Default" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1000" Action="None" />
     <Rule Id="CA1001" Action="None" />
@@ -139,7 +139,7 @@
     <Rule Id="CA1822" Action="None" />
     <Rule Id="CA1823" Action="None" />
     <Rule Id="CA1824" Action="None" />
-	<Rule Id="CA1825" Action="None" />
+    <Rule Id="CA1825" Action="None" />
     <Rule Id="CA1900" Action="None" />
     <Rule Id="CA1901" Action="None" />
     <Rule Id="CA1903" Action="None" />
