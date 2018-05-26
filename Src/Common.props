@@ -7,7 +7,7 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
     <Features>IOperation</Features>
 
     <SignAssembly>True</SignAssembly>
@@ -59,6 +59,7 @@
         <Optimize>true</Optimize>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.AutoFixture.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
   </Choose>
