@@ -14,7 +14,7 @@ namespace AutoFixture
         /// <see cref="SpecimenBuilderNodeEventArgs" /> class.
         /// </summary>
         /// <param name="graph">The graph associated with an event.</param>
-        /// <exception cref="System.ArgumentNullException">graph</exception>
+        /// <exception cref="System.ArgumentNullException">graph.</exception>
         public SpecimenBuilderNodeEventArgs(ISpecimenBuilderNode graph)
         {
             this.Graph = graph ?? throw new ArgumentNullException(nameof(graph));

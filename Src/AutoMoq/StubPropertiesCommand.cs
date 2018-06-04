@@ -26,12 +26,12 @@ namespace AutoFixture.AutoMoq
             var mockDefaultValueSetting = mock.DefaultValue;
             mock.DefaultValue = DefaultValue.Empty;
 
-            //stub properties
+            // stub properties
             mock.GetType()
                 .GetMethod("SetupAllProperties")
                 .Invoke(mock, new object[0]);
 
-            //restore setting
+            // restore setting
             mock.DefaultValue = mockDefaultValueSetting;
         }
     }

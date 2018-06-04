@@ -139,7 +139,7 @@ namespace AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Act & Assert
-            var constructorWithNoParameters = typeof (PropertyHolder<object>).GetConstructors().First();
+            var constructorWithNoParameters = typeof(PropertyHolder<object>).GetConstructors().First();
             Assert.Empty(constructorWithNoParameters.GetParameters());
             Assert.Null(Record.Exception(() =>
                 sut.Verify(constructorWithNoParameters)));
@@ -212,7 +212,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var illBehavedType = typeof (PropertiesIncorrectlyInitializedViaConstructor<object, object>);
+            var illBehavedType = typeof(PropertiesIncorrectlyInitializedViaConstructor<object, object>);
             var propertyInfo1 = illBehavedType.GetProperty("Property1");
             var propertyInfo2 = illBehavedType.GetProperty("Property2");
             // Act & Assert
@@ -266,8 +266,8 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof (FieldsInitializedViaConstructor<object, int>)
-                .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
+            var ctor = typeof(FieldsInitializedViaConstructor<object, int>)
+                .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
             // Act & Assert
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingField");
@@ -556,7 +556,7 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
         }
 
-        static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
+        private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
         {
             Assert.Equal(param, ex.MissingParameter);
             Assert.Equal(ctor, ex.MemberInfo);
@@ -565,7 +565,7 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Null(ex.PropertyInfo);
         }
 
-        static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, PropertyInfo pi)
+        private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, PropertyInfo pi)
         {
             Assert.Null(ex.ConstructorInfo);
             Assert.Null(ex.MissingParameter);
@@ -574,7 +574,7 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Equal(pi, ex.PropertyInfo);
         }
 
-        static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, FieldInfo fi)
+        private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, FieldInfo fi)
         {
             Assert.Null(ex.ConstructorInfo);
             Assert.Null(ex.MissingParameter);
@@ -583,19 +583,19 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Null(ex.PropertyInfo);
         }
 
-        class PublicReadOnlyFieldNotInitializedByConstructor
+        private class PublicReadOnlyFieldNotInitializedByConstructor
         {
 #pragma warning disable 649
             public readonly int Field;
 #pragma warning restore 649
         }
 
-        class ReadOnlyPropertyWithNoSetterHolder<T>
+        private class ReadOnlyPropertyWithNoSetterHolder<T>
         {
-            public T Property { get { return default(T); } }
+            public T Property => default(T);
         }
 
-        class WritablePropertyAndIllBehavedConstructor
+        private class WritablePropertyAndIllBehavedConstructor
         {
             public WritablePropertyAndIllBehavedConstructor(int property)
             {
@@ -604,7 +604,7 @@ namespace AutoFixture.IdiomsUnitTest
             public int Property { get; set; }
         }
 
-        class WriteOnlyPropertyHolder<T>
+        private class WriteOnlyPropertyHolder<T>
         {
             private T writeOnlyPropertyBackingField;
 
@@ -627,7 +627,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ComplexType
+        private class ComplexType
         {
             public ComplexType()
             {
@@ -637,12 +637,12 @@ namespace AutoFixture.IdiomsUnitTest
             public ICollection<ComplexTypeChild> Children { get; set; }
         }
 
-        class ComplexTypeChild
+        private class ComplexTypeChild
         {
             public string Name { get; set; }
         }
 
-        class PropertyIsAssignableFromConstructorArgumentType
+        private class PropertyIsAssignableFromConstructorArgumentType
         {
             private readonly IEnumerable<string> bribbets;
 
@@ -657,7 +657,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ReadOnlyFieldInitializedViaConstructorWithDifferentType
+        private class ReadOnlyFieldInitializedViaConstructorWithDifferentType
         {
             public readonly string Field;
 
@@ -667,7 +667,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ReadOnlyFieldInitializedViaConstructor<T>
+        private class ReadOnlyFieldInitializedViaConstructor<T>
         {
             public readonly T Field;
 
@@ -677,7 +677,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ReadOnlyFieldIncorrectlyInitializedViaConstructor<T>
+        private class ReadOnlyFieldIncorrectlyInitializedViaConstructor<T>
         {
 #pragma warning disable 649
             public readonly T Field;
@@ -688,7 +688,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class ReadOnlyPropertiesInitializedViaConstructor<T1, T2>
+        private class ReadOnlyPropertiesInitializedViaConstructor<T1, T2>
         {
             public ReadOnlyPropertiesInitializedViaConstructor(T1 property1)
             {
@@ -716,7 +716,7 @@ namespace AutoFixture.IdiomsUnitTest
             public T2 Property2 { get; private set; }
         }
 
-        class PropertiesIncorrectlyInitializedViaConstructor<T1, T2>
+        private class PropertiesIncorrectlyInitializedViaConstructor<T1, T2>
         {
             public PropertiesIncorrectlyInitializedViaConstructor(T1 property1, T2 property2)
             {
@@ -734,7 +734,7 @@ namespace AutoFixture.IdiomsUnitTest
             public T2 Property2 { get; set; }
         }
 
-        class FieldsInitializedViaConstructor<T1, T2>
+        private class FieldsInitializedViaConstructor<T1, T2>
         {
             public FieldsInitializedViaConstructor(T1 field1)
             {
@@ -762,7 +762,7 @@ namespace AutoFixture.IdiomsUnitTest
             public T2 Field2;
         }
 
-        class ReadOnlyPropertyInitializedViaConstructor<T>
+        private class ReadOnlyPropertyInitializedViaConstructor<T>
         {
             public ReadOnlyPropertyInitializedViaConstructor(T property)
             {
@@ -772,7 +772,7 @@ namespace AutoFixture.IdiomsUnitTest
             public T Property { get; private set; }
         }
 
-        class ReadOnlyPropertyIncorrectlyInitializedViaConstructor<T>
+        private class ReadOnlyPropertyIncorrectlyInitializedViaConstructor<T>
         {
             public ReadOnlyPropertyIncorrectlyInitializedViaConstructor(T property)
             {
@@ -781,7 +781,7 @@ namespace AutoFixture.IdiomsUnitTest
             public T Property { get; private set; }
         }
 
-        class FakeReflectionElementComparer : IEqualityComparer<IReflectionElement>
+        private class FakeReflectionElementComparer : IEqualityComparer<IReflectionElement>
         {
             public bool Equals(IReflectionElement x, IReflectionElement y)
             {
@@ -794,7 +794,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class FakeEqualityComparer<T> : IEqualityComparer
+        private class FakeEqualityComparer<T> : IEqualityComparer
         {
             bool IEqualityComparer.Equals(object x, object y)
             {
@@ -807,19 +807,72 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        //All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
-        enum TestIntEnum { none = 0, one, two, three };
-        enum TestByteEnum : byte { none = 0, one, two, three };
-        enum TestSByteEnum : sbyte { none = 0, one, two, three };
-        enum TestShortEnum : short { none = 0, one, two, three };
-        enum TestUShortEnum : ushort { none = 0, one, two, three };
-        enum TestUIntEnum : uint { none = 0, one, two, three };
-        enum TestLongEnum : long { none = 0, one, two, three };
-        enum TestULongEnum : ulong { none = 0, one, two, three };
+        // All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
+        private enum TestIntEnum
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
+        private enum TestByteEnum : byte
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
+        private enum TestSByteEnum : sbyte
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
+        private enum TestShortEnum : short
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
+        private enum TestUShortEnum : ushort
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
+        private enum TestUIntEnum : uint
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
+        private enum TestLongEnum : long
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
+        private enum TestULongEnum : ulong
+        {
+            None = 0,
+            One,
+            Two,
+            Three
+        }
 
-        enum TestDefaultOnlyEnum { none = 0 };
+        private enum TestDefaultOnlyEnum
+        {
+            None = 0
+        }
 
-        enum TestSingleNonDefaultEnum { none = 1 };
-
+        private enum TestSingleNonDefaultEnum
+        {
+            None = 1
+        }
     }
 }

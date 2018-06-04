@@ -85,7 +85,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
 #pragma warning disable 659
-        class WellBehavedEqualsSuccessiveObjectOverride
+        private class WellBehavedEqualsSuccessiveObjectOverride
         {
             public override bool Equals(object obj)
             {
@@ -93,21 +93,19 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class IllBehavedEqualsSuccessiveObjectOverride
+        private class IllBehavedEqualsSuccessiveObjectOverride
         {
-            public int equalsCallCount;
+            public int EqualsCallCount;
 
             public override bool Equals(object obj)
             {
-                return (++this.equalsCallCount % 2 == 0);
+                return ++this.EqualsCallCount % 2 == 0;
             }
         }
 #pragma warning restore 659
 
-
-        class ClassThatDoesNotOverrideObjectEquals
+        private class ClassThatDoesNotOverrideObjectEquals
         {
         }
     }
-
 }

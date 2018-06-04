@@ -9,7 +9,7 @@ namespace AutoFixtureDocumentationTest.Simple
 
         public int Max
         {
-            get { return this.max; }
+            get => this.max;
             set
             {
                 if (value < this.Min)
@@ -22,7 +22,7 @@ namespace AutoFixtureDocumentationTest.Simple
 
         public int Min
         {
-            get { return this.min; }
+            get => this.min;
             set
             {
                 if (value > this.Max)

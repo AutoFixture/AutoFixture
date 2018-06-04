@@ -22,7 +22,7 @@ namespace AutoFixture
         /// </returns>
         /// <remarks>>
         /// The generated MailAddress will have one of the reserved domains,
-        /// so as to avoid any possibility of tests bothering real email addresses
+        /// so as to avoid any possibility of tests bothering real email addresses.
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
@@ -36,7 +36,7 @@ namespace AutoFixture
             try
             {
                 return TryCreateMailAddress(context);
-            }                    
+            }
             catch (FormatException)
             {
                 return new NoSpecimen();
@@ -56,7 +56,7 @@ namespace AutoFixture
             var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, domainName);
             return new MailAddress(email);
         }
-    }       
+    }
 }
 
 #endif

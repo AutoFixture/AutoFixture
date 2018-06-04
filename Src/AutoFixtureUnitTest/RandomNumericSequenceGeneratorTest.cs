@@ -27,9 +27,9 @@ namespace AutoFixtureUnitTest
             var expectedResult = new long[]
             {
                 1,
-                Byte.MaxValue,
-                Int16.MaxValue,
-                Int32.MaxValue
+                byte.MaxValue,
+                short.MaxValue,
+                int.MaxValue
             };
             // Act
             IEnumerable<long> result = sut.Limits;
@@ -61,7 +61,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [InlineData(new long[] { 10, 5 })]
-        [InlineData(new long[] { 32, 8, Int32.MaxValue })]
+        [InlineData(new long[] { 32, 8, int.MaxValue })]
         [InlineData(new long[] { 0, -2, 5 })]
         [InlineData(new long[] { -4, -8 })]
         [InlineData(new long[] { 1, 1, 5 })]
@@ -208,8 +208,7 @@ namespace AutoFixtureUnitTest
             var result = (double)sut.Create(request, dummyContext);
             // Assert
             Assert.True(
-                result >= expectedMin && result <= expectedMax
-                );
+                result >= expectedMin && result <= expectedMax);
         }
 
         [Theory]
@@ -230,8 +229,7 @@ namespace AutoFixtureUnitTest
                 .Cast<int>();
             // Assert
             Assert.True(
-                result.All(x => x >= expectedMin && x <= expectedMax)
-                );
+                result.All(x => x >= expectedMin && x <= expectedMax));
         }
 
         [Theory]
@@ -247,9 +245,9 @@ namespace AutoFixtureUnitTest
         [InlineData(new[] { (long)int.MaxValue + 10, long.MaxValue })]
         [InlineData(new[] { (long)int.MaxValue + 200, long.MaxValue })]
         [InlineData(new[] { (long)int.MaxValue + 3000, long.MaxValue })]
-        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 10 })]
-        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 200 })]
-        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 3000 })]
+        [InlineData(new[] { -byte.MaxValue, (long)int.MaxValue + 10 })]
+        [InlineData(new[] { -byte.MaxValue, (long)int.MaxValue + 200 })]
+        [InlineData(new[] { -byte.MaxValue, (long)int.MaxValue + 3000 })]
         [InlineData(new[] { long.MinValue + byte.MaxValue, byte.MaxValue })]
         public void CreateReturnsNumberInCorrectRangeForInt64OnMultipleCall(long[] limits)
         {
@@ -266,8 +264,7 @@ namespace AutoFixtureUnitTest
                 .Cast<long>();
             // Assert
             Assert.True(
-                result.All(x => x >= expectedMin && x <= expectedMax)
-                );
+                result.All(x => x >= expectedMin && x <= expectedMax));
         }
 
         [Theory]
@@ -391,6 +388,5 @@ namespace AutoFixtureUnitTest
                 new long[] { 2, 5, 9, 30, 255, 512 },
                 new long[] { -30, -9, -5, 2, 5, 9, 30 }
             };
-
     }
 }

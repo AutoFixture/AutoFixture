@@ -18,7 +18,7 @@ namespace AutoFixture.Kernel
     /// <seealso cref="IntPtrGuard"/>
 #if SYSTEM_RUNTIME_SERIALIZATION
     [Serializable]
-#endif 
+#endif
     public class IllegalRequestException : Exception
     {
         /// <summary>

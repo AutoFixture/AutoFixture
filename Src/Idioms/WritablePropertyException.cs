@@ -79,7 +79,7 @@ namespace AutoFixture.Idioms
         /// Gets the property supplied via the constructor.
         /// <remarks>
         /// Notice, value might null after deserialization on platforms that don't support <see cref="PropertyInfo"/> serialization.
-        /// </remarks> 
+        /// </remarks>
         /// </summary>
         public PropertyInfo PropertyInfo => this.propertyInfo;
 

@@ -7,7 +7,7 @@ namespace AutoFixtureDocumentationTest.Extension.Constraints
         private readonly int minimumLength;
         private readonly int maximumLength;
 
-        public ConstrainedStringGenerator(int minimumLength, 
+        public ConstrainedStringGenerator(int minimumLength,
             int maximumLength)
         {
             if (maximumLength < 0)

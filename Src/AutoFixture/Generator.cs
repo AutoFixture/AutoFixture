@@ -31,7 +31,7 @@ namespace AutoFixture
         /// A builder which is used to generate items.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="builder" /> is null
+        /// <paramref name="builder" /> is null.
         /// </exception>
         public Generator(ISpecimenBuilder builder)
         {

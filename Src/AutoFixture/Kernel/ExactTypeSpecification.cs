@@ -4,7 +4,7 @@ using System.Reflection;
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// A specification that evaluates requests for types against a target type. 
+    /// A specification that evaluates requests for types against a target type.
     /// Also matches generic type requests agains the specified open generic.
     /// </summary>
     public class ExactTypeSpecification : IRequestSpecification

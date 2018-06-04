@@ -77,7 +77,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.False(string.IsNullOrEmpty(p.Text));
             Assert.AreNotEqual(0, p.Number);
         }
-        
+
         [Test, AutoData]
         public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen][Greedy]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {
@@ -85,7 +85,7 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.AreNotEqual(0, p2.Number);
         }
 
-        //Note that Order of [Greedy] and [Frozen] is reversed than in BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter
+        // Note that Order of [Greedy] and [Frozen] is reversed than in BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter
         [Test, AutoData]
         public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameterRegardlessOfOrder([Greedy][Frozen]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {
@@ -380,8 +380,7 @@ namespace AutoFixture.NUnit3.UnitTest
         public void NoAutoPropertiesAttributeLeavesPropertiesUnset(
             [NoAutoProperties]PropertyHolder<object> ph1,
             [NoAutoProperties]PropertyHolder<string> ph2,
-            [NoAutoProperties]PropertyHolder<int> ph3
-            )
+            [NoAutoProperties]PropertyHolder<int> ph3)
         {
             Assert.That(ph1.Property, Is.EqualTo(default(object)));
             Assert.That(ph2.Property, Is.EqualTo(default(string)));

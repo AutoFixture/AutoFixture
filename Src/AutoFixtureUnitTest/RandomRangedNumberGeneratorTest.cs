@@ -56,7 +56,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal(new NoSpecimen(), result);
         }
 
-
         [Theory]
         [InlineData(typeof(int), "a", "b")]
         [InlineData(typeof(long), 'd', 'e')]
@@ -73,7 +72,6 @@ namespace AutoFixtureUnitTest
             // Verify
             Assert.Equal(new NoSpecimen(), result);
         }
-
 
         [Fact]
         public void CreateReturnsAllValuesInSetBeforeRepeating()
@@ -95,7 +93,6 @@ namespace AutoFixtureUnitTest
             // Verify
             Assert.True(generatedValues.All(a => a >= minimum && a <= maximum));
             Assert.InRange(shouldBeRepeatedValue, minimum, maximum);
-
         }
 
         [Theory]
@@ -103,8 +100,8 @@ namespace AutoFixtureUnitTest
         [InlineData(-20, 10, 20, 11, -20, 15, 21, 15, -20, 20, 21, 20)]
         [InlineData(0, 2, 1, 2, -1, 2, 2, 2, -2, 2, 2, 3)]
         [InlineData(-20, 10, 20, 11, -15, 10, 16, 10, -10, 10, 11, 10)]
-        public void CreateReturnsCorrectValuesForRequestsOfSameTypeAndSingleSharedLimit
-            (int request1Min, int request1Max, int request1FirstGroup, int request1SecondGroup,
+        public void CreateReturnsCorrectValuesForRequestsOfSameTypeAndSingleSharedLimit(
+            int request1Min, int request1Max, int request1FirstGroup, int request1SecondGroup,
             int request2Min, int request2Max, int request2FirstGroup, int request2SecondGroup,
             int request3Min, int request3Max, int request3FirstGroup, int request3SecondGroup)
         {
@@ -134,7 +131,7 @@ namespace AutoFixtureUnitTest
             results[request2].AddMany(() => (int)sut.Create(request2, dummyContext), request2SecondGroup);
             results[request3].AddMany(() => (int)sut.Create(request3, dummyContext), request3SecondGroup);
 
-            // Verify           
+            // Verify
             Assert.True(Enumerable.Range(request1Min, request1Count)
                                   .Intersect(results[request1]).Count() == request1Count);
             Assert.True(Enumerable.Range(request2Min, request2Count)
@@ -142,7 +139,6 @@ namespace AutoFixtureUnitTest
             Assert.True(Enumerable.Range(request3Min, request3Count)
                                   .Intersect(results[request3]).Count() == request3Count);
         }
-
 
         [Fact]
         public void CreateReturnsValuesFromCorrectSetForTwoRequestsOfSameTypeAndDifferentLimits()
@@ -190,7 +186,6 @@ namespace AutoFixtureUnitTest
             Assert.NotEqual(value1, value3);
         }
 
-
         [Theory]
         [MemberData(nameof(PairsOfDifferentIntegerTypes))]
         public void CreateReturnsValuesFromCorrectSetForRequestsWithDifferentTypesAndSameLimits(
@@ -210,7 +205,7 @@ namespace AutoFixtureUnitTest
             // Act
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
-            var otherResult = ((IComparable)sut.Create(otherRequest, dummyContext));
+            var otherResult = (IComparable)sut.Create(otherRequest, dummyContext);
             primaryResults.Add((IComparable)sut.Create(primaryRequest, dummyContext));
 
             // Verify
@@ -230,14 +225,13 @@ namespace AutoFixtureUnitTest
         public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int minimum, int maximum, int numberOfThreads)
         {
             // Arrange
-            int expectedDistinctCount = Math.Abs((maximum - minimum + 1));
+            int expectedDistinctCount = Math.Abs(maximum - minimum + 1);
             int requestsPerThread = expectedDistinctCount / numberOfThreads;
             var dummyContext = new DelegatingSpecimenContext();
 
             var sut = new RandomRangedNumberGenerator();
 
             // Act
-
             var numbers = Enumerable
                 .Range(0, numberOfThreads)
                 .AsParallel()
@@ -254,7 +248,6 @@ namespace AutoFixtureUnitTest
             // Verify
             int actualDistinctCount = numbers.SelectMany(a => a).Distinct().Count();
             Assert.Equal(expectedDistinctCount, actualDistinctCount);
-
         }
 
         [Theory]
@@ -268,7 +261,6 @@ namespace AutoFixtureUnitTest
 
             // Act & Assert
             Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
-
         }
 
         [Theory]
@@ -285,7 +277,6 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Assert.IsType(type, result);
-
         }
 
         [Theory]
@@ -302,7 +293,6 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Assert.InRange(result, (IComparable)minimum, (IComparable)maximum);
-
         }
 
         [Theory]
@@ -351,71 +341,65 @@ namespace AutoFixtureUnitTest
         public static TheoryData<Type, IConvertible, IConvertible> RequestsWithLimitsToZeroRange =>
             new TheoryData<Type, IConvertible, IConvertible>
             {
-                { typeof(float), float.MinValue, (float)0 },
-                { typeof(float), (float)0, float.MaxValue },
-
-                { typeof(double), double.MinValue, (double)0 },
-                { typeof(double), (double)0, double.MaxValue },
-
-                { typeof(decimal), decimal.MinValue, (decimal)0 },
-                { typeof(decimal), (decimal)0, decimal.MaxValue },
-
+                { typeof(float), float.MinValue, 0F },
+                { typeof(float), 0F, float.MaxValue },
+                { typeof(double), double.MinValue, 0D },
+                { typeof(double), 0D, double.MaxValue },
+                { typeof(decimal), decimal.MinValue, 0M },
+                { typeof(decimal), 0M, decimal.MaxValue },
                 { typeof(sbyte), sbyte.MinValue, (sbyte)0 },
                 { typeof(sbyte), (sbyte)0, sbyte.MaxValue },
-                { typeof(byte), (byte)0, byte.MaxValue },
-
+                { typeof(byte), byte.MinValue, byte.MaxValue },
                 { typeof(short), short.MinValue, (short)0 },
                 { typeof(short), (short)0, short.MaxValue },
-                { typeof(ushort), (ushort)0, ushort.MaxValue },
-
-                { typeof(int), int.MinValue, (int)0 },
-                { typeof(int), (int)0, int.MaxValue },
-                { typeof(uint), (uint)0, uint.MaxValue },
-
-                { typeof(long), long.MinValue, (long)0 },
-                { typeof(long), (long)0, long.MaxValue },
-                { typeof(ulong), (ulong)0, ulong.MaxValue }
+                { typeof(ushort), ushort.MinValue, ushort.MaxValue },
+                { typeof(int), int.MinValue, 0 },
+                { typeof(int), 0, int.MaxValue },
+                { typeof(uint), uint.MinValue, uint.MaxValue },
+                { typeof(long), long.MinValue, 0L },
+                { typeof(long), 0L, long.MaxValue },
+                { typeof(ulong), ulong.MinValue, ulong.MaxValue }
             };
 
         public static TheoryData<Type, Type> PairsOfDifferentIntegerTypes =>
             new TheoryData<Type, Type>
             {
+                // sbyte
                 { typeof(sbyte), typeof(int) },
                 { typeof(sbyte), typeof(byte) },
                 { typeof(sbyte), typeof(short) },
                 { typeof(sbyte), typeof(long) },
                 { typeof(sbyte), typeof(ulong) },
                 { typeof(sbyte), typeof(ushort) },
-
+                // long
                 { typeof(long), typeof(int) },
                 { typeof(long), typeof(byte) },
                 { typeof(long), typeof(short) },
                 { typeof(long), typeof(sbyte) },
                 { typeof(long), typeof(ushort) },
                 { typeof(long), typeof(uint) },
-
-
+                // int
                 { typeof(int), typeof(ulong) },
                 { typeof(int), typeof(byte) },
                 { typeof(int), typeof(short) },
                 { typeof(int), typeof(long) },
                 { typeof(int), typeof(ushort) },
                 { typeof(int), typeof(sbyte) },
-
+                // short
                 { typeof(short), typeof(int) },
                 { typeof(short), typeof(byte) },
                 { typeof(short), typeof(ushort) },
                 { typeof(short), typeof(long) },
                 { typeof(short), typeof(sbyte) },
                 { typeof(short), typeof(ulong) },
-
+                // byte
                 { typeof(byte), typeof(int) },
                 { typeof(byte), typeof(short) },
                 { typeof(byte), typeof(sbyte) },
                 { typeof(byte), typeof(long) },
                 { typeof(byte), typeof(ushort) },
                 { typeof(byte), typeof(ulong) },
-
+                // unit
                 { typeof(uint), typeof(int) },
                 { typeof(uint), typeof(short) },
                 { typeof(uint), typeof(sbyte) },

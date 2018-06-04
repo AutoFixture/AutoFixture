@@ -26,7 +26,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void CreateReturnsCorrectResult()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var owner = new object();
             var sut = new MissingParametersSupplyingMethodFactory(owner);
 

@@ -38,7 +38,7 @@ namespace AutoFixture.Idioms
         /// A composer which can create instances required to implement the idiomatic unit test.
         /// </param>
         /// <param name="comparer">A comparer that compares public member values from the
-        /// specimen with public member values from the 'copied' and updated' instance</param>
+        /// specimen with public member values from the 'copied' and updated' instance.</param>
         /// <param name="parameterMemberMatcher">Allows customizing the way 'updated' parameters
         /// are matched to members. The boolean value returned from
         /// <see cref="IEqualityComparer{T}.Equals(T,T)"/> indicates if the parameter and member
@@ -66,7 +66,7 @@ namespace AutoFixture.Idioms
         /// A composer which can create instances required to implement the idiomatic unit test.
         /// </param>
         /// <param name="comparer">A comparer that compares public member values from the
-        /// specimen with public member values from the 'copied' and updated' instance</param>
+        /// specimen with public member values from the 'copied' and updated' instance.</param>
         /// <remarks>
         /// <para>
         /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
@@ -78,7 +78,7 @@ namespace AutoFixture.Idioms
             : this(builder, comparer, new DefaultParameterMemberMatcher())
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
         /// </summary>
@@ -108,22 +108,22 @@ namespace AutoFixture.Idioms
         public IEqualityComparer Comparer { get; }
 
         /// <summary>
-        /// Gets the comparer instance which is used to determine if a 'copy and update' method 
+        /// Gets the comparer instance which is used to determine if a 'copy and update' method
         /// parameter matches a given public member (property or field).
         /// </summary>
         /// <remarks>
         /// If the parameter and member are matched, the member is expected to be initialized
         /// from the value given to the parameter. A return value of <see langword="true"/> from
-        /// the <see cref="IEqualityComparer{T}.Equals(T,T)"/> method means the parameter and 
+        /// the <see cref="IEqualityComparer{T}.Equals(T,T)"/> method means the parameter and
         /// member are 'matched'.
         /// </remarks>
         public IEqualityComparer<IReflectionElement> ParameterMemberMatcher { get; }
 
         /// <summary>
-        /// Verifies that a method correctly makes a copy of an object while changing                                  
+        /// Verifies that a method correctly makes a copy of an object while changing
         /// one or more public properties or fields.
         /// </summary>
-        /// <param name="methodInfo">The 'copy and update' method to verify</param>
+        /// <param name="methodInfo">The 'copy and update' method to verify.</param>
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
@@ -232,7 +232,7 @@ namespace AutoFixture.Idioms
             }
             else
             {
-                var fieldInfo = (FieldInfo) member;
+                var fieldInfo = (FieldInfo)member;
                 specimenMemberValue = fieldInfo.GetValue(specimen);
                 copiedAndUpdatedMemberValue = fieldInfo.GetValue(copiedAndUpdatedSpecimen);
             }

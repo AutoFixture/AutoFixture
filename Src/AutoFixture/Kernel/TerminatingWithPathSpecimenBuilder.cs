@@ -11,7 +11,7 @@ namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Decorates an <see cref="ISpecimenBuilder"/> with a node which tracks specimen requests, and
-    /// when <see cref="NoSpecimen"/> is detected or creation fails with exception, throws an 
+    /// when <see cref="NoSpecimen"/> is detected or creation fails with exception, throws an
     /// <see cref="ObjectCreationException"/>, which  includes a description of the request path.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
@@ -74,7 +74,7 @@ namespace AutoFixture.Kernel
             }
             catch (ObjectCreationExceptionWithPath)
             {
-                // Do not modify exception thrown before as it already contains the full requests path. 
+                // Do not modify exception thrown before as it already contains the full requests path.
                 throw;
             }
             catch (Exception ex)
@@ -97,14 +97,17 @@ namespace AutoFixture.Kernel
         private static string BuildCoreMessageTemplate(object request, Exception innerException)
         {
             if (innerException != null)
+            {
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because creation unexpectedly failed with exception. " +
                     "Please refer to the inner exception to investigate the root cause of the failure.";
+            }
 
             var t = request as Type;
 
             if (t != null && t.GetTypeInfo().IsInterface)
+            {
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an interface. There's no single, most " +
@@ -115,8 +118,10 @@ namespace AutoFixture.Kernel
                     "If you have a concrete class implementing the " +
                     "interface, you can map the interface to that class:" +
                     TypeMappingOptionsHelp;
+            }
 
             if (t != null && t.GetTypeInfo().IsAbstract)
+            {
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an abstract class. There's no single, " +
@@ -125,9 +130,10 @@ namespace AutoFixture.Kernel
                     "{1}" +
                     "{1}" +
                     "If you have a concrete class deriving from the abstract " +
-                    "class, you can map the abstract class to that derived " + 
+                    "class, you can map the abstract class to that derived " +
                     "class:" +
                     TypeMappingOptionsHelp;
+            }
 
             return
                 "AutoFixture was unable to create an instance from {0}, " +

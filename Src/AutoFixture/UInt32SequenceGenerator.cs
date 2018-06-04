@@ -45,7 +45,7 @@ namespace AutoFixture
             {
                 return new NoSpecimen();
             }
-            
+
             lock (this.syncRoot)
             {
                 return ++this.u;

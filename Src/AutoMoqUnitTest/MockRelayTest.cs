@@ -118,12 +118,12 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Theory]
-        [ClassData(typeof (ValidNonMockSpecimens))]
+        [ClassData(typeof(ValidNonMockSpecimens))]
         public void CreateReturnsCorrectResultWhenContextReturnsValidNonMockSpecimen(object validNonMockSpecimen)
         {
             // Arrange
-            var request = typeof (IInterface);
-            var mockType = typeof (Mock<>).MakeGenericType(request);
+            var request = typeof(IInterface);
+            var mockType = typeof(Mock<>).MakeGenericType(request);
 
             var contextStub = new Mock<ISpecimenContext>();
             contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(validNonMockSpecimen);

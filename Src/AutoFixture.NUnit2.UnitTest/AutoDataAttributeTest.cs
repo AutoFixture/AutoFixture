@@ -33,16 +33,16 @@ namespace AutoFixture.NUnit2.UnitTest
             // Assert
             Assert.IsAssignableFrom<Fixture>(result);
         }
-        
+
         [Test]
         public void InitializedWithFixtureFactoryConstrucorHasCorrectFixture()
         {
             // Arrange
             var fixture = new Fixture();
-            
+
             // Act
             var sut = new DerivedAutoDataAttribute(() => fixture);
-            
+
             // Assert
 #pragma warning disable 618
             Assert.AreSame(fixture, sut.Fixture);
@@ -59,14 +59,14 @@ namespace AutoFixture.NUnit2.UnitTest
                 new DerivedAutoDataAttribute((IFixture)null));
 #pragma warning restore 612
         }
-        
+
         [Test]
         public void InitializeWithNullFixtureFactoryThrows()
         {
             // Arrange
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
-                new DerivedAutoDataAttribute((Func<IFixture>) null));
+                new DerivedAutoDataAttribute((Func<IFixture>)null));
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace AutoFixture.NUnit2.UnitTest
 
             // Act
             var sut = new DerivedAutoDataAttribute(fixtureFactory);
-            
+
             // Assert
             Assert.False(wasInvoked);
         }
@@ -235,7 +235,7 @@ namespace AutoFixture.NUnit2.UnitTest
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
         }
-        
+
         private class TypeWithIParameterCustomizationSourceUsage
         {
             public void DecoratedMethod([CustomizationSource] int arg)
@@ -249,8 +249,8 @@ namespace AutoFixture.NUnit2.UnitTest
                     return new Customization();
                 }
             }
-            
-            public class Customization: ICustomization
+
+            public class Customization : ICustomization
             {
                 public void Customize(IFixture fixture)
                 {
@@ -273,13 +273,13 @@ namespace AutoFixture.NUnit2.UnitTest
                 return fixture;
             };
             var sut = new DerivedAutoDataAttribute(() => fixture);
-            
+
             // Act
             sut.GetData(method);
             // Assert
             Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
         }
-        
+
         private class DerivedAutoDataAttribute : AutoDataAttribute
         {
             [Obsolete]

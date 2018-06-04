@@ -35,7 +35,7 @@ namespace AutoFixture
         {
             this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
         }
-        
+
         /// <summary>Composes the supplied builders.</summary>
         /// <param name="builders">The builders to compose.</param>
         /// <returns>

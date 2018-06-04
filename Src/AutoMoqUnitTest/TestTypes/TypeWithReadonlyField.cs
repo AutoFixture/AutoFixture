@@ -2,6 +2,6 @@
 {
     public class TypeWithReadonlyField
     {
-        public readonly string ReadonlyField = "";
+        public readonly string ReadonlyField = string.Empty;
     }
 }

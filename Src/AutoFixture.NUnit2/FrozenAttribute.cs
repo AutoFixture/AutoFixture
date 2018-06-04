@@ -14,7 +14,7 @@ namespace AutoFixture.NUnit2
     public sealed class FrozenAttribute : CustomizeAttribute
     {
         [Obsolete("The As property is deprecated.")]
-        private Type _as;
+        private Type @as;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
@@ -48,8 +48,8 @@ namespace AutoFixture.NUnit2
         [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].", true)]
         public Type As
         {
-            get => this._as;
-            set => this._as = value;
+            get => this.@as;
+            set => this.@as = value;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace AutoFixture.NUnit2
         private bool ShouldMatchBySpecificType()
         {
 #pragma warning disable 618
-            return this._as != null;
+            return this.@as != null;
 #pragma warning restore 618
         }
 
@@ -92,7 +92,7 @@ namespace AutoFixture.NUnit2
             return new FreezingCustomization(
                 type,
 #pragma warning disable 618
-                this._as ?? type);
+                this.@as ?? type);
 #pragma warning restore 618
         }
 

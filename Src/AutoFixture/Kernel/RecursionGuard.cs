@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", 
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable",
         Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
@@ -24,7 +24,6 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
-        /// <param name="builder">The intercepted builder to decorate.</param>
         [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler) instead.", true)]
         public RecursionGuard(ISpecimenBuilder builder)
             : this(builder, EqualityComparer<object>.Default)
@@ -32,19 +31,13 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecursionGuard" />
-        /// class.
+        /// Initializes a new instance of the <see cref="RecursionGuard" /> class.
         /// </summary>
-        /// <param name="builder">The intercepted builder to decorate.</param>
-        /// <param name="recursionHandler">
-        /// An <see cref="IRecursionHandler" /> that will handle a recursion
-        /// situation, if one is detected.
-        /// </param>
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler)
             : this(
-                builder, 
+                builder,
                 recursionHandler,
                 EqualityComparer<object>.Default,
                 1)
@@ -52,22 +45,14 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecursionGuard" />
-        /// class.
+        /// Initializes a new instance of the <see cref="RecursionGuard" /> class.
         /// </summary>
-        /// <param name="builder">The intercepted builder to decorate.</param>
-        /// <param name="recursionHandler">
-        /// An <see cref="IRecursionHandler" /> that will handle a recursion
-        /// situation, if one is detected.
-        /// </param>
-        /// <param name="recursionDepth">The recursion depth at which the request will be treated as a recursive
-        /// request</param>
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
             int recursionDepth)
             : this(
-                builder, 
+                builder,
                 recursionHandler,
                 EqualityComparer<object>.Default,
                 recursionDepth)
@@ -77,10 +62,6 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
-        /// <param name="builder">The intercepted builder to decorate.</param>
-        /// <param name="comparer">
-        /// An IEqualityComparer implementation to use when comparing requests to determine recursion.
-        /// </param>
         [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
         public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
@@ -90,76 +71,37 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecursionGuard" />
-        /// class.
+        /// Initializes a new instance of the <see cref="RecursionGuard" /> class.
         /// </summary>
-        /// <param name="builder">The intercepted builder to decorate.</param>
-        /// <param name="recursionHandler">
-        /// An <see cref="IRecursionHandler" /> that will handle a recursion
-        /// situation, if one is detected.
-        /// </param>
-        /// <param name="comparer">
-        /// An <see cref="IEqualityComparer" /> implementation to use when
-        /// comparing requests to determine recursion.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// builder
-        /// or
-        /// recursionHandler
-        /// or
-        /// comparer
-        /// </exception>
         [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer)
             : this(
-            builder, 
-            recursionHandler, 
-            comparer, 
+            builder,
+            recursionHandler,
+            comparer,
             1)
         {
-        }        
-        
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard" />
         /// class.
         /// </summary>
-        /// <param name="builder">The intercepted builder to decorate.</param>
-        /// <param name="recursionHandler">
-        /// An <see cref="IRecursionHandler" /> that will handle a recursion
-        /// situation, if one is detected.
-        /// </param>
-        /// <param name="comparer">
-        /// An <see cref="IEqualityComparer" /> implementation to use when
-        /// comparing requests to determine recursion.
-        /// </param>
-        /// <param name="recursionDepth">The recursion depth at which the request will be treated as a recursive
-        /// request.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// builder
-        /// or
-        /// recursionHandler
-        /// or
-        /// comparer
-        /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">recursionDepth is less than one.</exception>
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer,
             int recursionDepth)
         {
-            if (builder == null) throw new ArgumentNullException(nameof(builder));
-            if (recursionHandler == null) throw new ArgumentNullException(nameof(recursionHandler));
-            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
             if (recursionDepth < 1)
                 throw new ArgumentOutOfRangeException(nameof(recursionDepth), "Recursion depth must be greater than 0.");
 
-            this.Builder = builder;
-            this.RecursionHandler = recursionHandler;
-            this.Comparer = comparer;
+            this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+            this.RecursionHandler = recursionHandler ?? throw new ArgumentNullException(nameof(recursionHandler));
+            this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             this.RecursionDepth = recursionDepth;
         }
 
@@ -169,34 +111,24 @@ namespace AutoFixture.Kernel
         public ISpecimenBuilder Builder { get; }
 
         /// <summary>
-        /// Gets the recursion handler originally supplied as a constructor
-        /// argument.
+        /// Gets the recursion handler originally supplied as a constructor argument.
         /// </summary>
-        /// <value>
-        /// The recursion handler used to handle recursion situations.
-        /// </value>
-        /// <seealso cref="RecursionGuard(ISpecimenBuilder, IRecursionHandler)" />
         public IRecursionHandler RecursionHandler { get; }
 
         /// <summary>
-        /// The recursion depth at which the request will be treated as a 
-        /// recursive request
+        /// The recursion depth at which the request will be treated as a recursive request.
         /// </summary>
         public int RecursionDepth { get; }
 
-        /// <summary>Gets the comparer supplied via the constructor.</summary>
+        /// <summary> Gets the comparer supplied via the constructor. </summary>
         public IEqualityComparer Comparer { get; }
 
-        /// <summary>
-        /// Gets the recorded requests so far.
-        /// </summary>
+        /// <summary> Gets the recorded requests so far. </summary>
         protected IEnumerable RecordedRequests => this.GetMonitoredRequestsForCurrentThread();
 
         /// <summary>
         /// Handles a request that would cause recursion.
         /// </summary>
-        /// <param name="request">The recursion causing request.</param>
-        /// <returns>The specimen to return.</returns>
         [Obsolete("This method will be removed in a future version of AutoFixture. Use IRecursionHandler.HandleRecursiveRequest instead.", true)]
         public virtual object HandleRecursiveRequest(object request)
         {
@@ -205,20 +137,7 @@ namespace AutoFixture.Kernel
                 this.GetMonitoredRequestsForCurrentThread());
         }
 
-        /// <summary>
-        /// Creates a new specimen based on a request.
-        /// </summary>
-        /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A container that can be used to create other specimens.</param>
-        /// <returns>
-        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
-        /// </returns>
-        /// <remarks>
-        /// 	<para>
-        /// The <paramref name="request"/> can be any object, but will often be a
-        /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
-        /// </para>
-        /// </remarks>
+        /// <inheritdoc />
         public object Create(object request, ISpecimenContext context)
         {
             var requestsForCurrentThread = this.GetMonitoredRequestsForCurrentThread();
@@ -256,29 +175,7 @@ namespace AutoFixture.Kernel
             }
         }
 
-        /// <summary>Composes the supplied builders.</summary>
-        /// <param name="builders">The builders to compose.</param>
-        /// <returns>A <see cref="ISpecimenBuilderNode" /> instance.</returns>
-        /// <remarks>
-        /// <para>
-        /// Note to implementers:
-        /// </para>
-        /// <para>
-        /// The intent of this method is to compose the supplied
-        /// <paramref name="builders" /> into a new instance of the type
-        /// implementing <see cref="ISpecimenBuilderNode" />. Thus, the
-        /// concrete return type is expected to the same type as the type
-        /// implementing the method. However, it is not considered a failure to
-        /// deviate from this idiom - it would just not be a mainstream
-        /// implementation.
-        /// </para>
-        /// <para>
-        /// The returned instance is normally expected to contain the builders
-        /// supplied as an argument, but again this is not strictly required.
-        /// The implementation may decide to filter the sequence or add to it
-        /// during composition.
-        /// </para>
-        /// </remarks>
+        /// <inheritdoc />
         public virtual ISpecimenBuilderNode Compose(
             IEnumerable<ISpecimenBuilder> builders)
         {
@@ -291,18 +188,13 @@ namespace AutoFixture.Kernel
                 this.RecursionDepth);
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="IEnumerator{ISpecimenBuilder}" /> that can be used to
-        /// iterate through the collection.
-        /// </returns>
+        /// <inheritdoc />
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return this.Builder;
         }
 
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();

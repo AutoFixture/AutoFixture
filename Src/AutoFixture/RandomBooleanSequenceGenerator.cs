@@ -25,7 +25,7 @@ namespace AutoFixture
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">Not used.</param>
         /// <returns>
-        /// <see langword="true"/> or <see langword="false"/> generated randomly using <see cref="Random"/>, 
+        /// <see langword="true"/> or <see langword="false"/> generated randomly using <see cref="Random"/>,
         /// if <paramref name="request"/> is a request for a boolean; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)

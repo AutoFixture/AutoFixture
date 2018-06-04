@@ -2,7 +2,8 @@
 
 namespace TestTypeFoundation
 {
-    public class GuardedConstructorHostHoldingStaticReadOnlyProperty<TItem, TStaticProperty> where TItem : class
+    public class GuardedConstructorHostHoldingStaticReadOnlyProperty<TItem, TStaticProperty>
+        where TItem : class
     {
         static GuardedConstructorHostHoldingStaticReadOnlyProperty()
         {
@@ -19,7 +20,7 @@ namespace TestTypeFoundation
             this.Item = item;
         }
 
-        public static TStaticProperty Property { get;private set;}
+        public static TStaticProperty Property { get; private set; }
 
         public TItem Item { get; private set; }
     }

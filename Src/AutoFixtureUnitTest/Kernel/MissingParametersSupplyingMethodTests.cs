@@ -37,7 +37,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ParametersIsCorrect()
         {
-            Action<int, double> dummy = delegate { };
+            Action<int, double> dummy = (i, d) => { };
             var expectedParameters = dummy.GetMethodInfo().GetParameters();
             var method = new DelegatingMethod { OnParameters = () => expectedParameters };
             var sut = new MissingParametersSupplyingMethod(method);
@@ -52,7 +52,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             var arguments = new[] { new object(), new object() };
             var expected = new object();
-            Action<object, object> dummy = delegate { };
+            Action<object, object> dummy = (o1, o2) => { };
             var method = new DelegatingMethod();
             method.OnParameters = () => dummy.GetMethodInfo().GetParameters();
             method.OnInvoke = args => arguments.SequenceEqual(args) ? expected : null;

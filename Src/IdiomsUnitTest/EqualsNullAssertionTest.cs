@@ -90,14 +90,14 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var dummyComposer = new Fixture();
             var sut = new EqualsNullAssertion(dummyComposer);
-            var method = (MethodInfo)(new MethodInfoWithNullDeclaringAndReflectedType());
+            var method = (MethodInfo)new MethodInfoWithNullDeclaringAndReflectedType();
 
             // Act & Assert
             Assert.Null(Record.Exception(() =>
                 sut.Verify(method)));
         }
 
-        class MethodInfoWithNullDeclaringAndReflectedType : MethodInfo
+        private class MethodInfoWithNullDeclaringAndReflectedType : MethodInfo
         {
             public override Type ReflectedType
             {
@@ -108,8 +108,6 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 get { return null; }
             }
-
-            #region Other
 
             public override MethodInfo GetBaseDefinition()
             {
@@ -165,12 +163,10 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 get { throw new NotImplementedException(); }
             }
-
-            #endregion
         }
 
 #pragma warning disable 659
-        class IllbehavedEqualsNullOverride
+        private class IllbehavedEqualsNullOverride
         {
             public override bool Equals(object obj)
             {
@@ -182,7 +178,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class WellBehavedEqualsNullOverride
+        private class WellBehavedEqualsNullOverride
         {
             public override bool Equals(object obj)
             {
@@ -195,9 +191,8 @@ namespace AutoFixture.IdiomsUnitTest
         }
 #pragma warning restore 659
 
-        class ClassThatDoesNotOverrideObjectEquals
+        private class ClassThatDoesNotOverrideObjectEquals
         {
         }
     }
-
 }

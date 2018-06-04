@@ -91,8 +91,6 @@ namespace AutoFixtureUnitTest
                 .Any());
         }
 
-        #region Usage/scenario tests
-
         [Fact]
         public void CreateAnonymousEnumerableReturnsCorrectResult()
         {
@@ -180,7 +178,5 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.True(result.Any());
         }
-
-        #endregion
     }
 }

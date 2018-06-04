@@ -26,7 +26,7 @@ namespace AutoFixture.Idioms
         /// <para>
         /// The Verify method attempts to invoke the <paramref name="command" /> instance's
         /// <see cref="IGuardClauseCommand.Execute" /> with <see langword="null" />. The expected
-        /// result is that this action throws an <see cref="ArgumentNullException" /> with proper parameter name, 
+        /// result is that this action throws an <see cref="ArgumentNullException" /> with proper parameter name,
         /// in which case the expected behavior is considered verified. If any other exception is thrown, or
         /// if no exception is thrown at all, the verification fails and an exception is thrown.
         /// </para>

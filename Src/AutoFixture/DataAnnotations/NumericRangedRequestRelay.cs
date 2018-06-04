@@ -4,7 +4,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture.DataAnnotations
 {
     /// <summary>
-    /// Handles the <see cref="RangedRequest"/> for the number type by forwarding it 
+    /// Handles the <see cref="RangedRequest"/> for the number type by forwarding it
     /// to the <see cref="RangedNumberRequest"/>.
     /// </summary>
     public class NumericRangedRequestRelay : ISpecimenBuilder

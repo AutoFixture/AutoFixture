@@ -75,7 +75,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal(matcher, sut.Matcher);
         }
 
-
         [Fact]
         public void InitializeWithSingleNullRequestArgumentShouldThrowArgumentNullException()
         {

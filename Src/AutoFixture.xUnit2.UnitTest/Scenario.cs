@@ -84,16 +84,16 @@ namespace AutoFixture.Xunit2.UnitTest
 
         private class MyCustomInlineAutoDataAttribute : InlineAutoDataAttribute
         {
-            public MyCustomInlineAutoDataAttribute(params object[] values) :
-                base(new MyCustomAutoDataAttribute(), values)
+            public MyCustomInlineAutoDataAttribute(params object[] values)
+                : base(new MyCustomAutoDataAttribute(), values)
             {
             }
         }
 
         private class MyCustomAutoDataAttribute : AutoDataAttribute
         {
-            public MyCustomAutoDataAttribute() :
-                base(() => new Fixture().Customize(new TheAnswer()))
+            public MyCustomAutoDataAttribute()
+                : base(() => new Fixture().Customize(new TheAnswer()))
             {
             }
 
@@ -163,9 +163,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [Obsolete]
         public class Obsoleted
         {
-#pragma warning disable 618
             [Theory, AutoData(typeof(CustomizedFixture))]
-#pragma warning restore 618
             public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
             {
                 Assert.Equal("Ploeh", ph.Property);
@@ -173,9 +171,7 @@ namespace AutoFixture.Xunit2.UnitTest
 
             [Theory, AutoData]
             public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
-#pragma warning disable 0618
                 [Frozen(As = typeof(AbstractType))] ConcreteType p1,
-#pragma warning restore 0618
                 AbstractType p2)
             {
                 Assert.Same(p1, p2);
@@ -183,9 +179,7 @@ namespace AutoFixture.Xunit2.UnitTest
 
             [Theory, AutoData]
             public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
-#pragma warning disable 0618
                 [Frozen(As = null)] ConcreteType p1,
-#pragma warning restore 0618
                 ConcreteType p2)
             {
                 Assert.Same(p1, p2);

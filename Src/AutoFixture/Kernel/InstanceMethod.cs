@@ -50,11 +50,11 @@ namespace AutoFixture.Kernel
         public object Owner { get; }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        /// <see langword="true"/> if the specified <see cref="System.Object"/> is equal to this
+        /// <see langword="true"/> if the specified <see cref="object"/> is equal to this
         /// instance; otherwise, <see langword="false"/>.
         /// </returns>
         /// <exception cref="System.NullReferenceException">
@@ -74,7 +74,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table. 
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -111,7 +111,7 @@ namespace AutoFixture.Kernel
                 return false;
             }
 
-            return object.Equals(this.Method, other.Method) 
+            return object.Equals(this.Method, other.Method)
                 && object.Equals(this.Owner, other.Owner);
         }
     }

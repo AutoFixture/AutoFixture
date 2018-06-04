@@ -153,8 +153,8 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             sut.Customize(fixtureStub);
             // Assert
-            var postprocessor = (Postprocessor) fixtureStub.Customizations.Single(builder => builder is Postprocessor);
-            var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
+            var postprocessor = (Postprocessor)fixtureStub.Customizations.Single(builder => builder is Postprocessor);
+            var compositeCommand = (CompositeSpecimenCommand)postprocessor.Command;
 
             Assert.Contains(compositeCommand.Commands, command => command.GetType() == expectedCommandType);
         }

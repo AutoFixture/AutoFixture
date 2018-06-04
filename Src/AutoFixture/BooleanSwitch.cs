@@ -4,7 +4,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// Creates an alternating sequence of <see langword="true"/> and <see langword="false"/>,
+    /// Creates an alternating sequence of <see langword="true"/> and <see langword="false"/>.
     /// </summary>
     public class BooleanSwitch : ISpecimenBuilder
     {
@@ -24,8 +24,7 @@ namespace AutoFixture
         /// every other time it is invoked.
         /// </summary>
         /// <returns>
-        /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
-        /// so on.
+        /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and so on.
         /// </returns>
         [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
         public bool Create()
@@ -45,7 +44,7 @@ namespace AutoFixture
         /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
         /// so on.
         /// </returns>
-        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release.</remarks>
         [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public bool CreateAnonymous()
         {

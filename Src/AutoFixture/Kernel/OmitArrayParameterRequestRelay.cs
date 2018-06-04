@@ -47,7 +47,7 @@ namespace AutoFixture.Kernel
         /// </para>
         /// </remarks>
         /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="context" /> is <see langword="null"/>
+        /// <paramref name="context" /> is <see langword="null"/>.
         /// </exception>
         public object Create(object request, ISpecimenContext context)
         {
@@ -66,9 +66,11 @@ namespace AutoFixture.Kernel
                     pi.Name));
 
             if (returnValue is OmitSpecimen)
+            {
                 return Array.CreateInstance(
                     pi.ParameterType.GetElementType(),
                     0);
+            }
 
             return returnValue;
         }

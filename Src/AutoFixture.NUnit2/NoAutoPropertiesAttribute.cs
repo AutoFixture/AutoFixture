@@ -23,7 +23,7 @@ namespace AutoFixture.NUnit2
         /// </exception>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-             if (parameter == null) throw new ArgumentNullException(nameof(parameter));
+            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
 
             var targetType = parameter.ParameterType;
             return new NoAutoPropertiesCustomization(targetType);

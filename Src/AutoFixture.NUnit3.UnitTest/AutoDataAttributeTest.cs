@@ -24,16 +24,16 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.Throws<ArgumentNullException>(() => new AutoDataAttributeStub((IFixture)null));
 #pragma warning restore 612
         }
-        
+
         [Test]
         public void InitializeWithNullFixtureFactoryThrows()
         {
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoDataAttributeStub((Func<IFixture>) null));
+                new AutoDataAttributeStub((Func<IFixture>)null));
         }
-        
+
         [Test]
         public void FixtureFactoryIsNotInvokedImmediately()
         {
@@ -47,11 +47,11 @@ namespace AutoFixture.NUnit3.UnitTest
 
             // Assert
             var sut = new AutoDataAttributeStub(fixtureFactory);
-            
+
             // Assert
             Assert.False(wasInvoked);
         }
-        
+
         [Test]
         public void ImplementsITestBuilder()
         {
@@ -81,17 +81,17 @@ namespace AutoFixture.NUnit3.UnitTest
         {
             // Arrange
             bool wasActivated = false;
-            
+
             var sut = new AutoDataAttributeStub(() =>
             {
                 wasActivated = true;
                 return null;
             });
             sut.TestMethodBuilder = new TestMethodBuilderWithoutParametersUsage();
-            
+
             var methodWrapper = new MethodWrapper(this.GetType(), nameof(this.DummyTestMethod));
             var testSuite = new TestSuite(this.GetType());
-            
+
             // Act
             var dummy = sut.BuildFrom(methodWrapper, testSuite).ToArray();
 
@@ -100,7 +100,7 @@ namespace AutoFixture.NUnit3.UnitTest
         }
 
         /// <summary>
-        /// This is used in BuildFromYieldsParameterValues for building a unit test method
+        /// This is used in BuildFromYieldsParameterValues for building a unit test method.
         /// </summary>
         public void DummyTestMethod(int anyInt, double anyDouble)
         {
@@ -168,8 +168,8 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
         }
-        
-        private class TestMethodBuilderWithoutParametersUsage: ITestMethodBuilder
+
+        private class TestMethodBuilderWithoutParametersUsage : ITestMethodBuilder
         {
             public TestMethod Build(
                 IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)

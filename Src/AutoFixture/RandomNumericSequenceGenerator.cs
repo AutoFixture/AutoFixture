@@ -23,7 +23,7 @@ namespace AutoFixture
         /// with the default limits, 255, 32767, and 2147483647.
         /// </summary>
         public RandomNumericSequenceGenerator()
-            : this(1, Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
+            : this(1, byte.MaxValue, short.MaxValue, int.MaxValue)
         {
         }
 
@@ -45,7 +45,7 @@ namespace AutoFixture
         public RandomNumericSequenceGenerator(params long[] limits)
         {
             if (limits == null) throw new ArgumentNullException(nameof(limits));
-            if (limits.Length < 2) 
+            if (limits.Length < 2)
                 throw new ArgumentException("Limits must be at least two ascending numbers.", nameof(limits));
 
             ValidateThatLimitsAreStrictlyAscending(limits);
@@ -101,48 +101,38 @@ namespace AutoFixture
             switch (Type.GetTypeCode(request))
             {
                 case TypeCode.Byte:
-                    return (byte)
-                        this.GetNextRandom();
+                    return (byte)this.GetNextRandom();
 
                 case TypeCode.Decimal:
-                    return (decimal)
-                        this.GetNextRandom();
+                    return (decimal)this.GetNextRandom();
 
                 case TypeCode.Double:
-                    return (double)
-                        this.GetNextRandom();
+                    return (double)this.GetNextRandom();
 
                 case TypeCode.Int16:
-                    return (short)
-                        this.GetNextRandom();
+                    return (short)this.GetNextRandom();
 
                 case TypeCode.Int32:
-                    return (int)
-                        this.GetNextRandom();
+                    return (int)this.GetNextRandom();
 
                 case TypeCode.Int64:
                     return
                         this.GetNextRandom();
 
                 case TypeCode.SByte:
-                    return (sbyte)
-                        this.GetNextRandom();
+                    return (sbyte)this.GetNextRandom();
 
                 case TypeCode.Single:
-                    return (float)
-                        this.GetNextRandom();
+                    return (float)this.GetNextRandom();
 
                 case TypeCode.UInt16:
-                    return (ushort)
-                        this.GetNextRandom();
+                    return (ushort)this.GetNextRandom();
 
                 case TypeCode.UInt32:
-                    return (uint)
-                        this.GetNextRandom();
+                    return (uint)this.GetNextRandom();
 
                 case TypeCode.UInt64:
-                    return (ulong)
-                        this.GetNextRandom();
+                    return (ulong)this.GetNextRandom();
 
                 default:
                     return new NoSpecimen();
@@ -206,13 +196,13 @@ namespace AutoFixture
         /// <summary>
         /// Returns upper limit + 1 when expecting to use upper as max value in Random.Next(Int32,Int32).
         /// This ensures that the upper limit is included in the possible values returned by Random.Next(Int32,Int32)
-        /// 
+        ///
         /// When not expecting to use Random.Next(Int32,Int32).  It returns the original upper limit.
         /// </summary>
         /// <returns></returns>
         private long GetUpperRangeFromLimits()
         {
-            return this.limits[1] >= Int32.MaxValue
+            return this.limits[1] >= int.MaxValue
                     ? this.limits[1]
                     : this.limits[1] + 1;
         }
@@ -220,15 +210,16 @@ namespace AutoFixture
         private long GetNextInt64InRange()
         {
             var range = (ulong)(this.upper - this.lower);
-            ulong limit = ulong.MaxValue - ulong.MaxValue % range;
+            ulong limit = ulong.MaxValue - (ulong.MaxValue % range);
             ulong number;
             do
             {
                 var buffer = new byte[sizeof(ulong)];
                 this.random.NextBytes(buffer);
                 number = BitConverter.ToUInt64(buffer, 0);
-            } while (number > limit);
-            return (long)(number % range + (ulong)this.lower);
+            }
+            while (number > limit);
+            return (long)((number % range) + (ulong)this.lower);
         }
     }
 }

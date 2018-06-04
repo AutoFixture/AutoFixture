@@ -9,10 +9,10 @@ namespace AutoFixture.AutoMoq.Extensions
         {
             /*
              * From MSDN (http://goo.gl/WvOgYq)
-             * 
+             *
              * To determine if a method is overridable, it is not sufficient to check that IsVirtual is true.
              * For a method to be overridable, IsVirtual must be true and IsFinal must be false.
-             * 
+             *
              * For example, interface implementations are marked as "virtual final".
              * Methods marked with "override sealed" are also marked as "virtual final".
              */
@@ -27,7 +27,7 @@ namespace AutoFixture.AutoMoq.Extensions
 
         internal static bool IsVoid(this MethodInfo method)
         {
-            return method.ReturnType == typeof (void);
+            return method.ReturnType == typeof(void);
         }
 
         internal static bool HasOutParameters(this MethodInfo method)
@@ -38,7 +38,7 @@ namespace AutoFixture.AutoMoq.Extensions
 
         internal static bool HasRefParameters(this MethodInfo method)
         {
-            //"out" parameters are also considered "byref", so we have to filter these out
+            // "out" parameters are also considered "byref", so we have to filter these out
             return method.GetParameters()
                          .Any(p => p.ParameterType.IsByRef && !p.IsOut);
         }

@@ -24,8 +24,8 @@ namespace AutoFixture.Idioms
         /// such as the owner of the property, as well as the value to be assigned and read from
         /// the member.
         /// </param>
-        /// <param name="comparer"> An <see cref="IEqualityComparer"/> instance, which is used 
-        /// to determine if each member has the same value which was passed to the matching 
+        /// <param name="comparer"> An <see cref="IEqualityComparer"/> instance, which is used
+        /// to determine if each member has the same value which was passed to the matching
         /// constructor parameter.
         /// </param>
         /// <param name="parameterMemberMatcher">Provides a way to customize the way parameters
@@ -141,7 +141,7 @@ namespace AutoFixture.Idioms
         /// reads from the field. The assertion passes if the value read from the property is the same as
         /// the value passed to the constructor. If more than one constructor has an argument with the
         /// same name and type, all constructors are checked. If any constructor (with a matching argument)
-        /// does not initialise the property with the correct value, a 
+        /// does not initialise the property with the correct value, a
         /// <see cref="ConstructorInitializedMemberException" /> is thrown.
         /// </para>
         /// </remarks>
@@ -194,7 +194,7 @@ namespace AutoFixture.Idioms
         /// reads from the field. The assertion passes if the value read from the field is the same as
         /// the value passed to the constructor. If more than one constructor has an argument with the
         /// same name and type, all constructors are checked. If any constructor does not initialise
-        /// the field with the correct value, a <see cref="ConstructorInitializedMemberException" /> 
+        /// the field with the correct value, a <see cref="ConstructorInitializedMemberException" />
         /// is thrown.
         /// </para>
         /// </remarks>
@@ -237,7 +237,7 @@ namespace AutoFixture.Idioms
         {
             if (type.IsEnum)
             {
-                //Check for a default value only enum
+                // Check for a default value only enum
                 var values = Enum.GetValues(type);
                 return values.Length == 1 && values.GetValue(0).Equals(Activator.CreateInstance(type));
             }
@@ -332,6 +332,7 @@ namespace AutoFixture.Idioms
             }
 
             public object Expected { get; }
+
             public object Actual { get; }
         }
 

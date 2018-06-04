@@ -91,9 +91,7 @@ namespace AutoFixture.NUnit2.UnitTest
         {
             [Test, AutoData]
             public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
-#pragma warning disable 0618
                 [Frozen(As = typeof(AbstractType))]ConcreteType p1,
-#pragma warning restore 0618
                 AbstractType p2)
             {
                 Assert.AreSame(p1, p2);
@@ -101,17 +99,13 @@ namespace AutoFixture.NUnit2.UnitTest
 
             [Test, AutoData]
             public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
-#pragma warning disable 0618
                 [Frozen(As = null)]ConcreteType p1,
-#pragma warning restore 0618
                 ConcreteType p2)
             {
                 Assert.AreSame(p1, p2);
             }
 
-#pragma warning disable 618
             [Test, AutoData(typeof(CustomizedFixture))]
-#pragma warning restore 618
             public void AutoTestCaseProvidesCustomizedObject(PropertyHolder<string> ph)
             {
                 Assert.AreEqual("Ploeh", ph.Property);

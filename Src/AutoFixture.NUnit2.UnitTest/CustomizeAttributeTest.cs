@@ -25,7 +25,7 @@ namespace AutoFixture.NUnit2.UnitTest
             // Assert
             Assert.IsInstanceOf<Attribute>(sut);
         }
-        
+
         [Test]
         public void SutImplementsIParameterCustomizationSource()
         {

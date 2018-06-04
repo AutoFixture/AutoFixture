@@ -106,7 +106,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             var fixture = new Fixture();
             var assertion = new ConstructorInitializedMemberAssertion(fixture);
-            var members = typeof (UnguardedConstructorHost<Version>).GetProperties();
+            var members = typeof(UnguardedConstructorHost<Version>).GetProperties();
             assertion.Verify(members);
         }
 
@@ -136,7 +136,7 @@ namespace AutoFixture.IdiomsUnitTest
             assertion.Verify(properties);
         }
 
-        class PublicPropertiesAreAssignableFromConstructorParameterTypes
+        private class PublicPropertiesAreAssignableFromConstructorParameterTypes
         {
             public PublicPropertiesAreAssignableFromConstructorParameterTypes(
                 string[] bribbets, int[] numbers)
@@ -161,7 +161,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class NameAndType
+        private class NameAndType
         {
             public NameAndType(string name, Type type)
             {
@@ -173,7 +173,7 @@ namespace AutoFixture.IdiomsUnitTest
             public Type Type { get; private set; }
         }
 
-        class NameAndTypeAssignableComparer : IEqualityComparer<NameAndType>
+        private class NameAndTypeAssignableComparer : IEqualityComparer<NameAndType>
         {
             public bool Equals(NameAndType x, NameAndType y)
             {
@@ -187,7 +187,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class NameAndTypeCollectingVisitor
+        private class NameAndTypeCollectingVisitor
             : ReflectionVisitor<IEnumerable<NameAndType>>
         {
             private readonly NameAndType[] values;
@@ -237,7 +237,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class VisitorEqualityComparer<T> : IEqualityComparer<IReflectionElement>
+        private class VisitorEqualityComparer<T> : IEqualityComparer<IReflectionElement>
         {
             private readonly IReflectionVisitor<IEnumerable<T>> visitor;
             private readonly IEqualityComparer<T> comparer;
@@ -301,7 +301,8 @@ namespace AutoFixture.IdiomsUnitTest
                 new EqualsSelfAssertion(fixture),
                 new EqualsSuccessiveAssertion(fixture));
 
-            var typesToExclude = new[] {
+            var typesToExclude = new[]
+            {
                 // Needs parameters of type object to be IComparable
                 typeof(RangedNumberRequest),
 

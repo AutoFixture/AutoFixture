@@ -71,7 +71,7 @@ namespace AutoFixture.NUnit3
             {
                 var clonedArguments = new object[parameters.OriginalArguments.Length];
                 Array.Copy(parameters.OriginalArguments, clonedArguments, parameters.OriginalArguments.Length);
-                
+
                 // Unfortunately the property has a private setter, so can be updated via reflection only.
                 // Should use the type where the property is declared as otherwise the private setter is not available.
                 var property = typeof(TestParameters).GetTypeInfo().GetProperty(nameof(TestCaseParameters.OriginalArguments));

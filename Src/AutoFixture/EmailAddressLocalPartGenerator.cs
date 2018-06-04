@@ -11,7 +11,7 @@ namespace AutoFixture
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
-        /// <param name="request">The request that describes what to create</param>
+        /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
@@ -33,6 +33,6 @@ namespace AutoFixture
             }
 
             return new EmailAddressLocalPart(localPart);
-        }       
+        }
     }
 }

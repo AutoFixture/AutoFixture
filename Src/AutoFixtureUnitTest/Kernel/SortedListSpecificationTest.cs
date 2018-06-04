@@ -44,7 +44,7 @@ namespace AutoFixtureUnitTest.Kernel
 
         [Theory]
         [InlineData(null)]
-        [InlineData("")]  // non-Type
+        [InlineData("")] // non-Type
         [InlineData(1)]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
@@ -58,8 +58,8 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Version[]))]
         [InlineData(typeof(int?[]))]
         [InlineData(typeof(EmptyEnum?[]))]
-        [InlineData(typeof(List<object>))]  // Generic, but not SortedList<,>
-        [InlineData(typeof(Dictionary<object, Version>))]  // double parameter generic, that implements same interface
+        [InlineData(typeof(List<object>))] // Generic, but not SortedList<,>
+        [InlineData(typeof(Dictionary<object, Version>))] // double parameter generic, that implements same interface
         public void IsSatisfiedByNonSortedListRequestReturnsCorrectResult(object request)
         {
             // Arrange

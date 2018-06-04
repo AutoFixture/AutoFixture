@@ -90,8 +90,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             var cachedResult = "cachedResult";
 
-            CallResultData _;
-            sut.ResultCache.TryGetResult(call, out _)
+            CallResultData ignored;
+            sut.ResultCache.TryGetResult(call, out ignored)
                 .Returns(c =>
                 {
                     c[1] = new CallResultData(Maybe.Just<object>(cachedResult),
@@ -137,12 +137,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithRefIntMethod>();
-            int _ = 0;
-            var call = CallHelper.CreateCallMock(() => target.Method(ref _));
+            int ignored = 0;
+            var call = CallHelper.CreateCallMock(() => target.Method(ref ignored));
 
             var callResult = new CallResultData(
                 Maybe.Nothing<object>(),
-                new[] {new CallResultData.ArgumentValue(0, 42)});
+                new[] { new CallResultData.ArgumentValue(0, 42) });
 
             sut.ResultResolver.ResolveResult(call).Returns(callResult);
 
@@ -160,12 +160,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var sut = CreateSutWithMockedDependencies();
 
             var target = Substitute.For<IInterfaceWithOutVoidMethod>();
-            int _;
-            var call = CallHelper.CreateCallMock(() => target.Method(out _));
+            int ignored;
+            var call = CallHelper.CreateCallMock(() => target.Method(out ignored));
 
             var callResult = new CallResultData(
                 Maybe.Nothing<object>(),
-                new[] {new CallResultData.ArgumentValue(0, 42)});
+                new[] { new CallResultData.ArgumentValue(0, 42) });
 
             sut.ResultResolver.ResolveResult(call).Returns(callResult);
 
@@ -175,7 +175,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             // Assert
             Assert.Equal(42, call.GetArguments()[0]);
         }
-
 
         [Fact]
         public void ShouldNotUpdateModifiedRefArgument()
@@ -196,7 +195,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
                 .Returns(
                     new CallResultData(
                         Maybe.Nothing<object>(),
-                        new[] {new CallResultData.ArgumentValue(0, 84)}));
+                        new[] { new CallResultData.ArgumentValue(0, 84) }));
 
             // Act
             sut.Handle(call);
@@ -217,13 +216,12 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var call = CallHelper.CreateCallMock(() => target.Method(out origValue));
             call.GetArguments()[0] = 42;
 
-
             sut.ResultResolver
                 .ResolveResult(call)
                 .Returns(
                     new CallResultData(
                         Maybe.Nothing<object>(),
-                        new[] {new CallResultData.ArgumentValue(0, 84)}));
+                        new[] { new CallResultData.ArgumentValue(0, 84) }));
 
             // Act
             sut.Handle(call);

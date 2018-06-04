@@ -25,13 +25,13 @@ namespace AutoFixture.Kernel
         /// <see cref="NoSpecimen" /> instance.
         /// </returns>
         /// <exception cref="System.ArgumentNullException">
-        /// context is null
+        /// context is null.
         /// </exception>
         /// <remarks>
         /// <para>
         /// The <paramref name="request" /> can be any object, but will often
         /// be a <see cref="Type" /> or other
-        /// <see cref="System.Reflection.MemberInfo" /> instances. This 
+        /// <see cref="System.Reflection.MemberInfo" /> instances. This
         /// particular implementation only handles
         /// <see cref="MultipleRequest" /> instances.
         /// <see cref="MultipleRequest.Request" /> must either be a Type
@@ -44,7 +44,7 @@ namespace AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-            
+
             var multipleRequest = request as MultipleRequest;
             if (multipleRequest == null)
                 return new NoSpecimen();

@@ -68,7 +68,7 @@ namespace AutoFixtureDocumentationTest.Multiple.Specific
         public void CreatePopulatedListInterface()
         {
             var fixture = new Fixture();
-            fixture.Register<IList<int>>(() => 
+            fixture.Register<IList<int>>(() =>
                 fixture.CreateMany<int>().ToList());
             var list = fixture.Create<IList<int>>();
             Assert.True(list.Any());

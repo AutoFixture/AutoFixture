@@ -13,7 +13,7 @@ namespace AutoFixture.AutoMoq
     /// <summary>
     /// Sets up a mocked object's methods so that the return values will be retrieved from a fixture,
     /// instead of being created directly by Moq.
-    /// 
+    ///
     /// This will setup any virtual methods that are either non-void or have "out" parameters.
     /// </summary>
     /// <remarks>
@@ -21,7 +21,7 @@ namespace AutoFixture.AutoMoq
     /// This includes:
     ///  - interface's methods/property getters;
     ///  - class's abstract/virtual/overridden/non-sealed methods/property getters.
-    /// 
+    ///
     /// Notes:
     /// - Due to a limitation in Moq, methods with "ref" parameters are skipped.
     /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with.
@@ -61,14 +61,14 @@ namespace AutoFixture.AutoMoq
                         this.GetType()
                             .GetMethod(nameof(SetupVoidMethod), BindingFlags.NonPublic | BindingFlags.Static)
                             .MakeGenericMethod(mockedType)
-                            .Invoke(this, new object[] {mock, methodInvocationLambda});
+                            .Invoke(this, new object[] { mock, methodInvocationLambda });
                     }
                     else
                     {
                         this.GetType()
                             .GetMethod(nameof(SetupMethod), BindingFlags.NonPublic | BindingFlags.Static)
                             .MakeGenericMethod(mockedType, returnType)
-                            .Invoke(this, new object[] {mock, methodInvocationLambda, context});
+                            .Invoke(this, new object[] { mock, methodInvocationLambda, context });
                     }
                 }
             }
@@ -130,10 +130,10 @@ namespace AutoFixture.AutoMoq
                 .Where(p => p.GetGetMethod() != null &&
                             p.GetSetMethod() != null)
                 .Select(p => p.GetGetMethod());
-            
+
             return methods.Except(getterMethods);
         }
-        
+
         /// <summary>
         /// Determines whether a method can be mocked.
         /// </summary>
@@ -149,7 +149,7 @@ namespace AutoFixture.AutoMoq
 
         /// <summary>
         /// Returns a lambda expression thats represents an invocation of a mocked type's method.
-        /// E.g., <![CDATA[ x => x.Method(It.IsAny<string>(), out parameter) ]]> 
+        /// E.g.,. <![CDATA[ x => x.Method(It.IsAny<string>(), out parameter) ]]>
         /// </summary>
         private static Expression MakeMethodInvocationLambda(Type mockedType, MethodInfo method,
                                                              ISpecimenContext context)
@@ -165,11 +165,15 @@ namespace AutoFixture.AutoMoq
 
             Expression methodCall;
             if (DelegateSpecification.IsSatisfiedBy(mockedType))
+            {
                 // e.g. "x(It.IsAny<string>(), out parameter)"
                 methodCall = Expression.Invoke(lambdaParam, methodCallParams);
+            }
             else
+            {
                 // e.g. "x.Method(It.IsAny<string>(), out parameter)"
                 methodCall = Expression.Call(lambdaParam, method, methodCallParams);
+            }
 
             // e.g. "x => x.Method(It.IsAny<string>(), out parameter)"
             // or "x => x(It.IsAny<string>(), out parameter)"

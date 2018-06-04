@@ -85,22 +85,22 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
 #pragma warning disable 659
-        class WellBehavedEqualsSelfObjectOverride
+        private class WellBehavedEqualsSelfObjectOverride
         {
             public override bool Equals(object obj)
             {
-                if (obj != null && Object.ReferenceEquals(this, obj))
+                if (obj != null && object.ReferenceEquals(this, obj))
                     return true;
 
                 throw new Exception();
             }
         }
 
-        class IllBehavedEqualsSelfObjectOverride
+        private class IllBehavedEqualsSelfObjectOverride
         {
             public override bool Equals(object obj)
             {
-                if (obj != null && Object.ReferenceEquals(this, obj))
+                if (obj != null && object.ReferenceEquals(this, obj))
                     return false;
 
                 throw new Exception();
@@ -108,9 +108,8 @@ namespace AutoFixture.IdiomsUnitTest
         }
 #pragma warning restore 659
 
-        class ClassThatDoesNotOverrideObjectEquals
+        private class ClassThatDoesNotOverrideObjectEquals
         {
         }
     }
-
 }

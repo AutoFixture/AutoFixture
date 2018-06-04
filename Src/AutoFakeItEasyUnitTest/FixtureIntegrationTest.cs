@@ -364,7 +364,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var result = fixture.Create<IInterfaceWithRefMethod>();
             // Act
             int argument = 42;
-            var returnValue1 = result.Method(ref argument );
+            var returnValue1 = result.Method(ref argument);
             argument = 42;
             var returnValue2 = result.Method(ref argument);
             // Assert
@@ -523,7 +523,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Act
             var result = fixture.Create<IInterfaceWithRefMethod>();
             // Assert
-            string refResult = "";
+            string refResult = string.Empty;
             string returnValue = result.Method(ref refResult);
             Assert.Equal(frozenString, refResult);
             Assert.Equal(frozenString, returnValue);
@@ -658,7 +658,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
 
         [Fact]
         public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnSameValueWhenCalledWithSameArguments()
-        { 
+        {
             // Arrange
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization
             {

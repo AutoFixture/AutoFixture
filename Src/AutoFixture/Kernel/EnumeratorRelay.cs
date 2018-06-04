@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Relays a request for <see cref="IEnumerator{T}" /> to 
+    /// Relays a request for <see cref="IEnumerator{T}" /> to
     /// <see cref="IEnumerable{T}"/> and converts the result to an enumerator
     /// of a sequence of the requested type.
     /// </summary>
@@ -21,12 +21,12 @@ namespace AutoFixture.Kernel
         /// A context that can be used to create other specimens.
         /// </param>
         /// <returns>
-        /// An enumerator of the requested type if possible; otherwise a 
+        /// An enumerator of the requested type if possible; otherwise a
         /// <see cref="NoSpecimen"/> instance.
         /// </returns>
         /// <remarks>
         /// <para>
-        /// If <paramref name="request"/> is a request for an 
+        /// If <paramref name="request"/> is a request for an
         /// <see cref="IEnumerator{T}"/> and <paramref name="context"/> can
         /// satisfy an <see cref="IEnumerable{T}"/> request for the
         /// element type, the return value is an enumerator of the
@@ -45,35 +45,28 @@ namespace AutoFixture.Kernel
             if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerator<>), out Type enumeratorType))
                 return new NoSpecimen();
 
-            var specimenBuilder = (ISpecimenBuilder) Activator.CreateInstance(
-                typeof (EnumeratorRelay<>).MakeGenericType(enumeratorType));
-            return specimenBuilder.Create(request, context);
+            var specimenBuilder = (IEnumeratorBuilder)Activator.CreateInstance(
+                typeof(GenericEnumeratorRelay<>).MakeGenericType(enumeratorType));
+            return specimenBuilder.Create(context);
         }
-    }
 
-    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", 
-        Justification = "It's activated via reflection.")]
-    internal class EnumeratorRelay<T> : ISpecimenBuilder
-    {
-        public object Create(object request, ISpecimenContext context)
+        private interface IEnumeratorBuilder
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            object Create(ISpecimenContext context);
+        }
 
-            var t = request as Type;
-            if (t == null)
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
+        private class GenericEnumeratorRelay<T> : IEnumeratorBuilder
+        {
+            public object Create(ISpecimenContext context)
+            {
+                var result = context.Resolve(typeof(IEnumerable<T>));
+                if (result is IEnumerable<T> enumerable)
+                    return enumerable.GetEnumerator();
+
                 return new NoSpecimen();
-
-            if (t != typeof(IEnumerator<T>))
-                return new NoSpecimen();
-
-            var enumerable =
-                context.Resolve(typeof (IEnumerable<T>)) as IEnumerable<T>;
-
-            if (enumerable == null)
-                return new NoSpecimen();
-
-            return enumerable.GetEnumerator();
+            }
         }
     }
 }
-

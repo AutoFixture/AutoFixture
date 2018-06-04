@@ -34,7 +34,7 @@ namespace AutoFixture
         IList<ISpecimenBuilder> Customizations { get; }
 
         /// <summary>
-        /// Gets or sets if writable properties should generally be assigned a value when 
+        /// Gets or sets if writable properties should generally be assigned a value when
         /// generating an anonymous object.
         /// </summary>
         bool OmitAutoProperties { get; set; }
@@ -43,7 +43,7 @@ namespace AutoFixture
         /// Gets or sets a number that controls how many objects are created when a
         /// <see cref="Fixture"/> creates more than one anonymous objects.
         /// </summary>
-        ///  <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T})" />
+        /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T})" />
         /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T}, Func{T})" />
         /// <seealso cref="FixtureRepeater.Repeat{T}"/>
         int RepeatCount { get; set; }

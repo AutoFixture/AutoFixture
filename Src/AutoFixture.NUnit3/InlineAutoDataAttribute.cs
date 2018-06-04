@@ -10,8 +10,8 @@ using NUnit.Framework.Internal;
 namespace AutoFixture.NUnit3
 {
     /// <summary>
-    /// This attribute acts as a TestCaseAttribute but allow incomplete parameter values, 
-    /// which will be provided by AutoFixture. 
+    /// This attribute acts as a TestCaseAttribute but allow incomplete parameter values,
+    /// which will be provided by AutoFixture.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
@@ -20,9 +20,11 @@ namespace AutoFixture.NUnit3
     {
         private readonly object[] existingParameterValues;
         private readonly Lazy<IFixture> fixtureLazy;
+
         private IFixture Fixture => this.fixtureLazy.Value;
+
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
-        
+
         /// <summary>
         /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
         /// </summary>
@@ -33,8 +35,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Construct a <see cref="InlineAutoDataAttribute"/>
-        /// with parameter values for test method
+        /// Construct a <see cref="InlineAutoDataAttribute"/> with parameter values for test method.
         /// </summary>
         public InlineAutoDataAttribute(params object[] arguments)
             : this(() => new Fixture(), arguments)
@@ -42,20 +43,19 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Construct a <see cref="InlineAutoDataAttribute"/> with an <see cref="IFixture"/> 
-        /// and parameter values for test method
+        /// Construct a <see cref="InlineAutoDataAttribute"/> with an <see cref="IFixture"/>
+        /// and parameter values for test method.
         /// </summary>
         [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
                   "Please use the overload with a factory method, so fixture will be constructed only if needed.")]
         protected InlineAutoDataAttribute(IFixture fixture, params object[] arguments)
         {
-            if (null == fixture) throw new ArgumentNullException(nameof(fixture));
-            if (null == arguments) throw new ArgumentNullException(nameof(arguments));
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
-            this.existingParameterValues = arguments;
+            this.existingParameterValues = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
         /// with the supplied <paramref name="fixtureFactory"/>. Fixture will be created
@@ -63,11 +63,10 @@ namespace AutoFixture.NUnit3
         /// </summary>
         protected InlineAutoDataAttribute(Func<IFixture> fixtureFactory, params object[] arguments)
         {
-            if (null == fixtureFactory) throw new ArgumentNullException(nameof(fixtureFactory));
-            if (null == arguments) throw new ArgumentNullException(nameof(arguments));
+            if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
 
             this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
-            this.existingParameterValues = arguments;
+            this.existingParameterValues = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace AutoFixture.NUnit3
         /// </summary>
         /// <param name="method">The MethodInfo for which tests are to be constructed.</param>
         /// <param name="suite">The suite to which the tests will be added.</param>
-        /// <returns>One or more TestMethods</returns>
+        /// <returns>One or more TestMethods.</returns>
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
             var test = this.TestMethodBuilder.Build(
@@ -91,7 +90,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Get values for a collection of <see cref="IParameterInfo"/>
+        /// Get values for a collection of. <see cref="IParameterInfo"/>
         /// </summary>
         private IEnumerable<object> GetParameterValues(IMethodInfo method)
         {
@@ -107,7 +106,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Get value for an <see cref="IParameterInfo"/>
+        /// Get value for an. <see cref="IParameterInfo"/>
         /// </summary>
         private object GetValueForParameter(IParameterInfo parameterInfo)
         {

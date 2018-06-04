@@ -2,7 +2,6 @@
 using AutoFixture.Kernel;
 
 namespace AutoFixture
-
 {
     /// <summary>
     /// A customization that changes how custom <see langword="struct"/> are generated. Uses <see cref="MutableValueTypeGenerator"/>.
@@ -10,7 +9,7 @@ namespace AutoFixture
     public class SupportMutableValueTypesCustomization : ICustomization
     {
         /// <summary>
-        /// Customizes specified fixture by adding <see cref="MutableValueTypeGenerator"/> as a default strategy for 
+        /// Customizes specified fixture by adding <see cref="MutableValueTypeGenerator"/> as a default strategy for
         /// creating new custom <see langword="struct"/> that has only default constructor.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>

@@ -29,7 +29,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Assert
             Assert.Equal(expectedCommand, result);
         }
-        
+
         [Fact]
         public void RequestedParamNameIsCorrect()
         {

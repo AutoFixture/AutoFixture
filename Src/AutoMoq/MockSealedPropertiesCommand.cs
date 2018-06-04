@@ -45,7 +45,7 @@ namespace AutoFixture.AutoMoq
                 {
                     case PropertyInfo pi:
                         return pi.GetSetMethod().IsSealed();
-                    
+
                     case FieldInfo fi:
                         return !IsDynamicProxyMember(fi);
                 }

@@ -16,10 +16,12 @@ namespace AutoFixture.Kernel
             // expression may be (x => Convert(x.Property)) and we need to unwrap it.
             var memberExpr = bodyExpr.UnwrapIfConversionExpression() as MemberExpression;
             if (memberExpr == null)
+            {
                 throw new ArgumentException(
                     "The expression's Body is not a MemberExpression. " +
                     "Most likely this is because it does not represent access to a property or field.",
                     nameof(propertyPicker));
+            }
 
             if (memberExpr.Member is PropertyInfo pi && pi.GetSetMethod() == null)
             {
@@ -43,10 +45,12 @@ namespace AutoFixture.Kernel
 
             var parameterExpression = argExpression as ParameterExpression;
             if (parameterExpression == null)
+            {
                 throw new ArgumentException(
                     "The expression contains access to a nested property or field. " +
                     "Configuration API doesn't support this feature, therefore please rewrite the expression to avoid nested fields or properties.",
                     nameof(expression));
+            }
         }
 
         /// <summary>

@@ -39,12 +39,12 @@ namespace AutoFixture.Idioms
         /// Verifies that calling `x.Equals(null)` on the method returns false, if the supplied
         /// method is an override of the <see cref="object.Equals(object)"/>.
         /// </summary>
-        /// <param name="methodInfo">The Equals method to verify</param>
+        /// <param name="methodInfo">The Equals method to verify.</param>
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
 
-            if (methodInfo.ReflectedType == null || 
+            if (methodInfo.ReflectedType == null ||
                 !methodInfo.IsObjectEqualsOverrideMethod())
             {
                 // The method is not an override of the Object.Equals(object) method
@@ -61,7 +61,5 @@ namespace AutoFixture.Idioms
                     methodInfo.DeclaringType.FullName));
             }
         }
-
     }
-
 }

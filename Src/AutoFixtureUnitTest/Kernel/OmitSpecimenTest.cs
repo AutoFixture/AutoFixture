@@ -62,7 +62,8 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, actual);
         }
 
-        private static IEnumerable<bool> BothEquals<T>(T sut, T other) where T : IEquatable<T>
+        private static IEnumerable<bool> BothEquals<T>(T sut, T other)
+            where T : IEquatable<T>
         {
             yield return sut.Equals((object)other);
             yield return sut.Equals(other);

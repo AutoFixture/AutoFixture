@@ -13,7 +13,7 @@ namespace AutoFixture.NUnit3.UnitTest
             // Arrange
             var dummyMethod = new MethodWrapper(typeof(TestNameStrategiesFixture), nameof(TestNameStrategiesFixture.FixedNameDecoratedMethod));
             var sut = new FixedNameTestMethodBuilder();
-            var throwingParameters = Enumerable.Range(0,1).Select<int, object>(_ => throw new Exception());
+            var throwingParameters = Enumerable.Range(0, 1).Select<int, object>(_ => throw new Exception());
             // Act
             var testMethod = sut.Build(dummyMethod, null, throwingParameters, 0);
             // Assert

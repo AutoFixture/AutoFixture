@@ -26,7 +26,7 @@ namespace AutoFixtureDocumentationTest.Intermediate
         public void SimpleRegister()
         {
             Fixture fixture = new Fixture();
-            fixture.Register<IMyInterface>(() => 
+            fixture.Register<IMyInterface>(() =>
                 new FakeMyInterface());
             MyClass sut = fixture.Create<MyClass>();
 
@@ -40,7 +40,7 @@ namespace AutoFixtureDocumentationTest.Intermediate
             Fixture fixture = new Fixture();
             int anonymousNumber = fixture.Create<int>();
             string knownText = "This text is not anonymous";
-            fixture.Register<IMyInterface>(() => 
+            fixture.Register<IMyInterface>(() =>
                 new FakeMyInterface(anonymousNumber, knownText));
             // Act
             MyClass sut = fixture.Create<MyClass>();
@@ -54,7 +54,7 @@ namespace AutoFixtureDocumentationTest.Intermediate
             // Arrange
             Fixture fixture = new Fixture();
             string knownText = "This text is not anonymous";
-            fixture.Register<int, string, IMyInterface>((i, s) => 
+            fixture.Register<int, string, IMyInterface>((i, s) =>
                 new FakeMyInterface(i, knownText));
             // Act
             MyClass sut = fixture.Create<MyClass>();

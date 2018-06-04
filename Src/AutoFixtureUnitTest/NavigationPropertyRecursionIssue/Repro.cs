@@ -8,7 +8,7 @@ namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue
     {
         /// <summary>
         /// This test reproduces the issue reported at
-        /// http://stackoverflow.com/q/12531920/126014
+        /// http://stackoverflow.com/q/12531920/126014.
         /// </summary>
         [Fact]
         public void Issue()

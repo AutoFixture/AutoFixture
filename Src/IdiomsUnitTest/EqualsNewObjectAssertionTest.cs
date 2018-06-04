@@ -85,7 +85,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
 #pragma warning disable 659
-        class WellBehavedEqualsNewObjectOverride
+        private class WellBehavedEqualsNewObjectOverride
         {
             public override bool Equals(object obj)
             {
@@ -96,7 +96,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class IllBehavedEqualsNewObjectOverride
+        private class IllBehavedEqualsNewObjectOverride
         {
             public override bool Equals(object obj)
             {
@@ -108,9 +108,8 @@ namespace AutoFixture.IdiomsUnitTest
         }
 #pragma warning restore 659
 
-        class ClassThatDoesNotOverrideObjectEquals
+        private class ClassThatDoesNotOverrideObjectEquals
         {
         }
     }
-
 }

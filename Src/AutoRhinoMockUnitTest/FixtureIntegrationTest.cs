@@ -18,7 +18,7 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
             // Act
             var result = fixture.Create<string>();
             // Assert
-            Assert.Throws<InvalidOperationException>( () => result.GetMockRepository());
+            Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
         }
 
         [Fact]
@@ -200,7 +200,6 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
             var result = fixture.Create<List<ConcreteType>>();
             // Assert
             Assert.True(result.Any());
-
         }
 
         [Fact]

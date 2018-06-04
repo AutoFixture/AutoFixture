@@ -4,15 +4,15 @@ using System.Reflection;
 namespace AutoFixture
 {
     /// <summary>
-    /// Resolver of the member type for the class member requests (e.g. PropertyInfo, FieldInfo)
+    /// Resolver of the member type for the class member requests (e.g. PropertyInfo, FieldInfo).
     /// </summary>
     public class RequestMemberTypeResolver : IRequestMemberTypeResolver
     {
         /// <summary>
-        /// Tries to determine requested member type and returns it. 
+        /// Tries to determine requested member type and returns it.
         /// </summary>
-        /// <param name="request">Relay request object</param>
-        /// <param name="memberType">Output variable for resolved request member type</param>
+        /// <param name="request">Relay request object.</param>
+        /// <param name="memberType">Output variable for resolved request member type.</param>
         /// <returns></returns>
         public bool TryGetMemberType(object request, out Type memberType)
         {

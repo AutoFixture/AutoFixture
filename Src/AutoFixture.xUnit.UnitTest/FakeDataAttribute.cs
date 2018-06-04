@@ -13,7 +13,7 @@ namespace AutoFixture.Xunit.UnitTest
         private readonly Type[] expectedTypes;
         private readonly IEnumerable<object[]> output;
 
-        public FakeDataAttribute(MethodInfo expectedMethod, 
+        public FakeDataAttribute(MethodInfo expectedMethod,
             Type[] expectedTypes, IEnumerable<object[]> output)
         {
             this.expectedMethod = expectedMethod;

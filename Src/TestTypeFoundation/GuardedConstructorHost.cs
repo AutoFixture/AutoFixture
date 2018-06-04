@@ -2,7 +2,8 @@
 
 namespace TestTypeFoundation
 {
-    public class GuardedConstructorHost<T> where T : class
+    public class GuardedConstructorHost<T>
+        where T : class
     {
         public GuardedConstructorHost(T item)
         {

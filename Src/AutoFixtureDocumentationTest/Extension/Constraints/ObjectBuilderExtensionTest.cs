@@ -34,7 +34,7 @@ namespace AutoFixtureDocumentationTest.Extension.Constraints
                 .With(x => x.SomeText, 0, 100)
                 .Create();
             // Assert
-            Assert.True(0 <= mc.SomeText.Length && mc.SomeText.Length <= 100, "SomeText within constraints.");
+            Assert.True(mc.SomeText.Length >= 0 && mc.SomeText.Length <= 100, "SomeText within constraints.");
         }
     }
 }

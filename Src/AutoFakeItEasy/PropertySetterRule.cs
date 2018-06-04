@@ -6,7 +6,7 @@ using FakeItEasy.Core;
 namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
-    /// A rule that intercepts property setter calls. Values will be saved into a result cache to be 
+    /// A rule that intercepts property setter calls. Values will be saved into a result cache to be
     /// provided as the return value from the matching get methods when the latter are called.
     /// </summary>
     internal class PropertySetterRule : IFakeObjectCallRule
@@ -37,7 +37,7 @@ namespace AutoFixture.AutoFakeItEasy
 
         /// <summary>
         /// Stores the value provided in the property setter to be returned from later
-        /// calls to the corresponding getter. 
+        /// calls to the corresponding getter.
         /// </summary>
         /// <param name="interceptedFakeObjectCall">The call to apply the rule to.</param>
         public void Apply(IInterceptedFakeObjectCall interceptedFakeObjectCall)

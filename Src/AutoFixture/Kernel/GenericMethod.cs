@@ -41,7 +41,7 @@ namespace AutoFixture.Kernel
         public MethodInfo Method { get; }
 
         /// <summary>
-        /// Gets information about the factory to create <see cref="IMethod" /> from
+        /// Gets information about the factory to create <see cref="IMethod" /> from.
         /// <see cref="MethodInfo" />
         /// </summary>
         public IMethodFactory Factory { get; }

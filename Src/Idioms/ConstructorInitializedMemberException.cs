@@ -16,7 +16,7 @@ namespace AutoFixture.Idioms
     {
         [NonSerialized]
         private readonly MemberInfo memberInfo;
-        
+
         [NonSerialized]
         private readonly ParameterInfo missingParameter;
 

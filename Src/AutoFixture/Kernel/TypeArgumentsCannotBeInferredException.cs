@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// The exception that is thrown when AutoFixture is unable to infer the type 
+    /// The exception that is thrown when AutoFixture is unable to infer the type
     /// parameters of a generic method from its arguments.
     /// </summary>
 #if SYSTEM_RUNTIME_SERIALIZATION
@@ -27,7 +27,7 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class 
+        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class
         /// from a <see cref="MethodInfo"/>.
         /// </summary>
         /// <param name="methodInfo">
@@ -42,13 +42,12 @@ namespace AutoFixture.Kernel
                     methodInfo.DeclaringType.FullName,
                     methodInfo.Name,
                     string.Join(", ", methodInfo.GetGenericArguments().Select(a => a.ToString())),
-                    string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))
-                    ))
+                    string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))))
         {
             if (methodInfo == null)
                 throw new ArgumentNullException(nameof(methodInfo));
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with a
         /// custom <see cref="Exception.Message"/>.
@@ -94,13 +93,14 @@ namespace AutoFixture.Kernel
         private static string GetFriendlyName(Type type)
         {
             if (type.GetTypeInfo().IsGenericType)
-                return string.Format(CultureInfo.CurrentCulture, 
-                    "{0}<{1}>", 
-                    type.Name.Split('`')[0], 
+            {
+                return string.Format(CultureInfo.CurrentCulture,
+                    "{0}<{1}>",
+                    type.Name.Split('`')[0],
                     string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(GetFriendlyName)));
+            }
 
             return type.Name;
         }
-
     }
 }

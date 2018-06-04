@@ -22,14 +22,14 @@ namespace AutoFixture.Kernel
     public class OmitSpecimen : IEquatable<OmitSpecimen>
     {
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object" /> is equal to this
+        /// Determines whether the specified <see cref="object" /> is equal to this
         /// instance.
         /// </summary>
         /// <param name="obj">
-        /// The <see cref="System.Object" /> to compare with this instance.
+        /// The <see cref="object" /> to compare with this instance.
         /// </param>
         /// <returns>
-        /// <see langword="true" /> if the specified <see cref="System.Object" /> is an instance of
+        /// <see langword="true" /> if the specified <see cref="object" /> is an instance of
         /// <see cref="OmitSpecimen" />; otherwise, <see langword="false"/>.
         /// </returns>
         /// <seealso cref="Equals(OmitSpecimen)" />
@@ -37,7 +37,7 @@ namespace AutoFixture.Kernel
         {
             if (obj is OmitSpecimen other)
                 return this.Equals(other);
-            
+
             return base.Equals(obj);
         }
 
@@ -69,7 +69,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table. 
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

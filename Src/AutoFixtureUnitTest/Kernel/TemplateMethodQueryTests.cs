@@ -13,7 +13,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutIsIMethodQuery()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var sut = new TemplateMethodQuery(dummy.GetMethodInfo());
             Assert.IsAssignableFrom<IMethodQuery>(sut);
         }
@@ -34,14 +34,14 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void InitializeWithNullOwnerThrows()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             Assert.Throws<ArgumentNullException>(() => new TemplateMethodQuery(dummy.GetMethodInfo(), null));
         }
 
         [Fact]
         public void TemplateIsCorrect()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var sut = new TemplateMethodQuery(dummy.GetMethodInfo());
             Assert.Equal(dummy.GetMethodInfo(), sut.Template);
         }
@@ -49,7 +49,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void OwnerIsCorrect()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var owner = new object();
 
             var sut = new TemplateMethodQuery(dummy.GetMethodInfo(), owner);
@@ -60,7 +60,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SelectMethodsWithNullThrows()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var sut = new TemplateMethodQuery(dummy.GetMethodInfo());
 
             Assert.Throws<ArgumentNullException>(() => sut.SelectMethods(null));

@@ -6,8 +6,8 @@ using AutoFixture.Kernel;
 namespace AutoFixture.NUnit3.UnitTest
 {
     /// <summary>
-    /// A <see cref="IFixture"/> for the benefit of creating stubs of <see cref="AutoDataAttribute"/> 
-    /// and <see cref="InlineAutoDataAttribute"/> for unit testing
+    /// A <see cref="IFixture"/> for the benefit of creating stubs of <see cref="AutoDataAttribute"/>
+    /// and <see cref="InlineAutoDataAttribute"/> for unit testing.
     /// </summary>
     public class ThrowingStubFixture : IFixture
     {
@@ -66,7 +66,7 @@ namespace AutoFixture.NUnit3.UnitTest
         }
 
         /// <summary>
-        /// This throws a unique <see cref="DummyException"/> for testing purpose
+        /// This throws a unique <see cref="DummyException"/> for testing purpose.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="context"></param>
@@ -77,7 +77,7 @@ namespace AutoFixture.NUnit3.UnitTest
         }
 
         /// <summary>
-        /// A unique exception for the benefit of unit testing
+        /// A unique exception for the benefit of unit testing.
         /// </summary>
         public class DummyException : Exception
         {

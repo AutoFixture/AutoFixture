@@ -21,8 +21,8 @@ namespace AutoFixture.AutoNSubstitute
     /// Notes:
     /// - Calling a method more than once with the same parameters will return the same value by default.
     ///   To override that behavior pass a custom <see cref="ICallResultCacheFactory"/> instance.
-    /// - Methods inherited from <see cref="Object" /> are not set up due to a limitation in NSubstitute
-    ///     (http://stackoverflow.com/a/21787891)
+    /// - Methods inherited from <see cref="object" /> are not set up due to a limitation in NSubstitute
+    ///     (http://stackoverflow.com/a/21787891).
     /// </remarks>
     public class NSubstituteRegisterCallHandlerCommand : ISpecimenCommand
     {
@@ -42,7 +42,7 @@ namespace AutoFixture.AutoNSubstitute
         public ICallResultResolverFactory CallResultResolverFactory { get; }
 
         /// <summary>
-        /// Creates a new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance 
+        /// Creates a new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance
         /// with default <see cref="ICallResultCacheFactory"/> and <see cref="ICallResultResolverFactory"/> instances.
         /// </summary>
         public NSubstituteRegisterCallHandlerCommand(ISubstitutionContext substitutionContext)

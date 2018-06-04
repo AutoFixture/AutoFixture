@@ -17,7 +17,7 @@ namespace AutoFixtureDocumentationTest.Contact.ValidatingValueObject
 
         public static bool IsValid(int number)
         {
-            return (112 <= number)
+            return (number >= 112)
                 && (number <= 99999999);
         }
 

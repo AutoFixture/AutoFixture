@@ -134,7 +134,6 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<DerivedType>(actual);
         }
 
-
         [Fact]
         public void ShouldNotFailIfOpenGenericsIsPassedToConstructor()
         {
@@ -217,8 +216,12 @@ namespace AutoFixtureUnitTest.Kernel
                 sut.Create(request, dummyContext));
         }
 
-        private abstract class BaseType { }
+        private abstract class BaseType
+        {
+        }
 
-        private class DerivedType : BaseType { }
+        private class DerivedType : BaseType
+        {
+        }
     }
 }

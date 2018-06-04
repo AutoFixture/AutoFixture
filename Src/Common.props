@@ -7,7 +7,7 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
     <Features>IOperation</Features>
 
     <SignAssembly>True</SignAssembly>
@@ -60,12 +60,14 @@
         <Optimize>true</Optimize>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.AutoFixture.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
   </Choose>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" ExcludeAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta007" PrivateAssets="all" />
   </ItemGroup>
   
   <ItemGroup>

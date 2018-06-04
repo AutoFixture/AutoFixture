@@ -61,7 +61,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         {
             // Arrange
             var customizations = new List<ISpecimenBuilder>();
-            var fixture = new Mock<IFixture> {DefaultValue = DefaultValue.Mock};
+            var fixture = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
             fixture.Setup(f => f.Customizations)
                    .Returns(customizations);
 
@@ -80,7 +80,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         {
             // Arrange
             var customizations = new List<ISpecimenBuilder>();
-            var fixture = new Mock<IFixture> {DefaultValue = DefaultValue.Mock};
+            var fixture = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
             fixture.Setup(f => f.Customizations)
                    .Returns(customizations);
 
@@ -88,8 +88,8 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             sut.Customize(fixture.Object);
             // Assert
-            var postprocessor = (Postprocessor) customizations.Single(builder => builder is Postprocessor);
-            var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
+            var postprocessor = (Postprocessor)customizations.Single(builder => builder is Postprocessor);
+            var compositeCommand = (CompositeSpecimenCommand)postprocessor.Command;
 
             Assert.Contains(compositeCommand.Commands, command => command.GetType() == expectedCommandType);
         }
@@ -100,7 +100,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Arrange
             var relay = new Mock<ISpecimenBuilder>();
             var collectors = new List<ISpecimenBuilder>();
-            var fixture = new Mock<IFixture> {DefaultValue = DefaultValue.Mock};
+            var fixture = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
             fixture.Setup(f => f.ResidueCollectors)
                    .Returns(collectors);
 

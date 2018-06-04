@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="AutoFixture" Description="Rule set for all AutoFixture projects" ToolsVersion="15.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1006" Action="None" />
+    <Rule Id="CA2243" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="System.Runtime.Analyzers" RuleNamespace="System.Runtime.Analyzers">
+    <Rule Id="CA1825" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id = "SA1116" Action = "None" /> <!-- The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines-->
+    <Rule Id = "SA1117" Action = "None" /> <!-- The parameters should all be placed on the same line or each parameter should be placed on its own line. -->
+    <Rule Id = "SA1118" Action = "None" /> <!-- The parameter spans multiple lines -->
+    <Rule Id = "SA1200" Action = "None" /> <!-- Using directive should appear within a namespace declaration -->
+    <Rule Id = "SA1201" Action = "None" /> <!-- A property should not follow a method -->
+    <Rule Id = "SA1202" Action = "None" /> <!-- 'public' members should come before 'private' members -->
+    <Rule Id = "SA1203" Action = "None" /> <!-- Constant fields should appear before non-constant fields -->
+    <Rule Id = "SA1204" Action = "None" /> <!-- Static members should appear before non-static members -->
+    <Rule Id = "SA1214" Action = "None" /> <!-- Readonly fields should appear before non-readonly fields -->
+    <Rule Id = "SA1413" Action = "None" /> <!-- Use trailing comma in multi-line initializers -->
+    <Rule Id = "SA1501" Action = "None" /> <!-- Statement should not be on a single line -->
+    <Rule Id = "SA1503" Action = "None" /> <!-- Braces should not be omitted -->
+    <Rule Id = "SA1513" Action = "None" /> <!-- Closing brace should be followed by blank line -->
+    <Rule Id = "SA1600" Action = "None" /> <!-- Elements should be documented -->
+    <Rule Id = "SA1604" Action = "None" /> <!-- Element documentation should have summary -->
+    <Rule Id = "SA1610" Action = "None" /> <!-- Property documentation should have value text -->
+    <Rule Id = "SA1611" Action = "None" /> <!-- The documentation for parameter 'predicate' is missing -->
+    <Rule Id = "SA1612" Action = "None" /> <!-- The parameter documentation for 'context' should be at position 1. -->
+    <Rule Id = "SA1614" Action = "None" /> <!-- Element parameter documentation should have text -->
+    <Rule Id = "SA1615" Action = "None" /> <!-- Element return value should be documented -->
+    <Rule Id = "SA1616" Action = "None" /> <!-- Element return value documentation should have text -->
+    <Rule Id = "SA1618" Action = "None" /> <!-- The documentation for type parameter 'TProperty' is missing -->
+    <Rule Id = "SA1622" Action = "None" /> <!-- Generic type parameter documentation should have text. -->
+    <Rule Id = "SA1623" Action = "None" /> <!-- The property's documentation summary text should begin with: 'Gets' -->
+    <Rule Id = "SA1625" Action = "None" /> <!-- Element documentation should not be copied and pasted -->
+    <Rule Id = "SA1627" Action = "None" /> <!-- The documentation text within the \'exception\' tag should not be empty. -->
+    <Rule Id = "SA1633" Action = "None" /> <!-- The file header is missing or not located at the top of the file. -->
+    <Rule Id = "SA1642" Action = "None" /> <!-- Constructor summary documentation should begin with standard text -->
+  </Rules>
+</RuleSet>

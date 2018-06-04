@@ -71,7 +71,6 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Empty(result);
         }
 
-
         public class TypeWithCopyConstructorsOnly
         {
             public TypeWithCopyConstructorsOnly(TypeWithCopyConstructorsOnly other)
@@ -86,6 +85,5 @@ namespace AutoFixtureUnitTest.Kernel
             {
             }
         }
-
     }
 }

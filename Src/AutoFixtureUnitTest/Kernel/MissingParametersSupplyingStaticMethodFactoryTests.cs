@@ -17,7 +17,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void CreateReturnsCorrectResult()
         {
-            Action dummy = delegate { };
+            Action dummy = () => { };
             var sut = new MissingParametersSupplyingStaticMethodFactory();
 
             var result = sut.Create(dummy.GetMethodInfo());

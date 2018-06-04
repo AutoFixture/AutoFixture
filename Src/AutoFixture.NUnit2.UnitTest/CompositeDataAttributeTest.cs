@@ -32,9 +32,9 @@ namespace AutoFixture.NUnit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
-            
+
             var attributes = new[]
             {
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
@@ -62,9 +62,9 @@ namespace AutoFixture.NUnit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
-            
+
             var attributes = new[]
             {
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
@@ -93,14 +93,13 @@ namespace AutoFixture.NUnit2.UnitTest
         public void GetArgumentsOnMethodWithNoParametersReturnsNoTheory()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
-            
+
             var sut = new CompositeDataAttribute(
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>())
-               );
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>()));
 
             // Act & Assert
             var result = sut.GetData(a.Method);

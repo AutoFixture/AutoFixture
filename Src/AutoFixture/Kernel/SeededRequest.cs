@@ -68,7 +68,7 @@ namespace AutoFixture.Kernel
             {
                 return false;
             }
-        
+
             return this.Request == other.Request
                 && object.Equals(this.Seed, other.Seed);
         }

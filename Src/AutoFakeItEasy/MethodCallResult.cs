@@ -15,7 +15,7 @@ namespace AutoFixture.AutoFakeItEasy
         public void ApplyToCall(FakeObjectCall fakeObjectCall)
         {
             fakeObjectCall.SetReturnValue(this.returnValue);
-            if (outAndRefValues == null) return;
+            if (this.outAndRefValues == null) return;
 
             foreach (var positionedValue in this.outAndRefValues)
             {
@@ -36,6 +36,7 @@ namespace AutoFixture.AutoFakeItEasy
         private class PositionedValue
         {
             public int Position { get; }
+
             public object Value { get; }
 
             public PositionedValue(int position, object value)

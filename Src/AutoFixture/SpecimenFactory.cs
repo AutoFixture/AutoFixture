@@ -31,7 +31,7 @@ namespace AutoFixture
         /// <typeparam name="T">The type of object to create.</typeparam>
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
-        /// <remarks>Obsolete: Please move over to using <see cref="Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create&lt;T&gt;()</see> as this method will be removed in the next release</remarks>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create&lt;T&gt;()</see> as this method will be removed in the next release.</remarks>
         [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
         public static T CreateAnonymous<T>(this ISpecimenContext context)
         {
@@ -83,7 +83,7 @@ namespace AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static T Create<T>(this IPostprocessComposer<T> composer)
         {
-            return Create<T>((ISpecimenBuilder) composer);
+            return Create<T>((ISpecimenBuilder)composer);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace AutoFixture
         /// <typeparam name="T">The type of object to create.</typeparam>
         /// <param name="composer">The composer used to resolve the type request.</param>
         /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
-        /// <remarks>Obsolete: "Please move over to using <see cref="Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create{T}</see> as this method will be removed in the next release
+        /// <remarks>Obsolete: "Please move over to using <see cref="Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create{T}</see> as this method will be removed in the next release.
         /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
@@ -155,7 +155,7 @@ namespace AutoFixture
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             var rawResult = context.Resolve(new MultipleRequest(new SeededRequest(typeof(T), default(T))));
-            return ((IEnumerable<object>) rawResult).Cast<T>();
+            return ((IEnumerable<object>)rawResult).Cast<T>();
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace AutoFixture
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             var rawResult = context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), default(T)), count));
-            return ((IEnumerable<object>) rawResult).Cast<T>();
+            return ((IEnumerable<object>)rawResult).Cast<T>();
         }
 
         /// <summary>

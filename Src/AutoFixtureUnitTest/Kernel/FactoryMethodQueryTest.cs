@@ -85,7 +85,6 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Assert
             Assert.Empty(result);
-
         }
     }
 }

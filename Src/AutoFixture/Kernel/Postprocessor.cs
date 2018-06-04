@@ -4,10 +4,11 @@ using System.Globalization;
 
 namespace AutoFixture.Kernel
 {
+#pragma warning disable SA1402 // File may only contain a single type
     /// <summary>
     /// Performs post-processing on a created specimen.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
 #pragma warning disable 618
     public class Postprocessor : Postprocessor<object>
@@ -203,7 +204,7 @@ namespace AutoFixture.Kernel
         /// should be performed for a request.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// builder, command, or specification is null
+        /// builder, command, or specification is null.
         /// </exception>
         public Postprocessor(
             ISpecimenBuilder builder,
@@ -279,8 +280,11 @@ namespace AutoFixture.Kernel
                 return specimen;
 
             if (!(specimen is T))
+            {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     "The specimen returned by the decorated ISpecimenBuilder is not compatible with {0}.", typeof(T)));
+            }
+
             this.Command.Execute(specimen, context);
             return specimen;
         }
@@ -316,4 +320,5 @@ namespace AutoFixture.Kernel
             return this.GetEnumerator();
         }
     }
+#pragma warning restore SA1402 // File may only contain a single type
 }

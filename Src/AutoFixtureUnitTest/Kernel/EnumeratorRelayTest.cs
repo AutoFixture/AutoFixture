@@ -44,7 +44,6 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedResult, result);
         }
 
-
         [Theory]
         [InlineData(typeof(IEnumerator<object>), typeof(object))]
         [InlineData(typeof(IEnumerator<string>), typeof(string))]

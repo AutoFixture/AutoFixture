@@ -39,8 +39,8 @@ namespace AutoFixture.Kernel
             var typeArguments = type.GetTypeInfo().GetGenericArguments();
             if (typeArguments.Length != 1) return new NoSpecimen();
             var gtd = type.GetGenericTypeDefinition();
-            if (gtd != typeof (ICollection<>)) return new NoSpecimen();
-            return context.Resolve(typeof (List<>).MakeGenericType(typeArguments));
+            if (gtd != typeof(ICollection<>)) return new NoSpecimen();
+            return context.Resolve(typeof(List<>).MakeGenericType(typeArguments));
         }
     }
 }

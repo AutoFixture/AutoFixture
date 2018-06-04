@@ -33,6 +33,7 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
         private class ResultForCallSpec
         {
             private readonly ICallSpecification callSpecification;
+
             public CallResultData Result { get; }
 
             public ResultForCallSpec(ICallSpecification callSpecification, CallResultData result)

@@ -66,7 +66,7 @@ namespace AutoFixture
             params ISpecimenBuilderTransformation[] transformations)
         {
             if (transformations == null) throw new ArgumentNullException(nameof(transformations));
-            
+
             this.Graph = graph ?? throw new ArgumentNullException(nameof(graph));
             this.isWrappedGraph = wrappedGraphPredicate ?? throw new ArgumentNullException(nameof(wrappedGraphPredicate));
 
@@ -129,7 +129,7 @@ namespace AutoFixture
         protected override void InsertItem(int index, ISpecimenBuilderTransformation item)
         {
             base.InsertItem(index, item);
-            this.UpdateGraph();            
+            this.UpdateGraph();
         }
 
         /// <summary>
@@ -181,7 +181,8 @@ namespace AutoFixture
                 handler(this, e);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderNode"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderTransformation", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderNode", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderTransformation", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private void UpdateGraph()
         {
             ISpecimenBuilderNode g = this.Graph.FindFirstNode(this.isWrappedGraph);

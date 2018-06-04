@@ -8,7 +8,7 @@ namespace AutoFixture.Idioms
     /// <summary>
     /// Allows comparing <see cref="IReflectionElement"/> instances, where the comparison
     /// is implemented by collecting the elements using an <see cref="IReflectionVisitor{T}"/>
-    /// then comparing them using
+    /// then comparing them using.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     internal abstract class ReflectionVisitorElementComparer<T> : IEqualityComparer<IReflectionElement>

@@ -1,6 +1,6 @@
 ﻿namespace AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public interface IDerivedInterfaceWithOwnMethod: IInterfaceWithParameterVoidMethod
+    public interface IDerivedInterfaceWithOwnMethod : IInterfaceWithParameterVoidMethod
     {
         int IntMethod();
     }

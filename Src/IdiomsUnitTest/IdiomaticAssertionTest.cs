@@ -143,7 +143,7 @@ namespace AutoFixture.IdiomsUnitTest
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
-        [InlineData(typeof(int))]        
+        [InlineData(typeof(int))]
         [InlineData(typeof(Version))]
         public void VerifyTypeCorrectlyInvokesConstructorsVerify(Type type)
         {
@@ -179,7 +179,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             // Arrange
             Type type = typeof(UnguardedStaticMethodOnStaticTypeHost);
-            var expectedMethods = new[] { type.GetMethod("Method")};
+            var expectedMethods = new[] { type.GetMethod("Method") };
             var mockVerified = false;
             var sut = new DelegatingIdiomaticAssertion
             {

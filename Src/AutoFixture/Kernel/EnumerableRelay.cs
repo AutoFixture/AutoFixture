@@ -38,7 +38,7 @@ namespace AutoFixture.Kernel
             if (type == null)
                 return new NoSpecimen();
 
-            if(!type.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
+            if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
                 return new NoSpecimen();
 
             var specimen = context.Resolve(new MultipleRequest(enumerableType));
@@ -67,8 +67,10 @@ namespace AutoFixture.Kernel
             public IEnumerator<T> GetEnumerator()
             {
                 foreach (var item in this.enumerable)
+                {
                     if (item is T variable)
                         yield return variable;
+                }
             }
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

@@ -4,7 +4,7 @@
     {
         public string GetOnlyProperty
         {
-            get { return ""; }
+            get { return string.Empty; }
         }
     }
 }

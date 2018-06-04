@@ -46,7 +46,7 @@ namespace AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             var type = request as Type;
-            if(type == null)
+            if (type == null)
                 return new NoSpecimen();
 
             if (!type.GetTypeInfo().IsEnum)
@@ -76,7 +76,7 @@ namespace AutoFixture
             return enumerator;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1010:Collections should implement generic interface", 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1010:Collections should implement generic interface",
             Justification = "This is not a usual enumerable and for our purpose generic interface is not required.")]
         private class RoundRobinEnumEnumerable : IEnumerable
         {

@@ -29,7 +29,7 @@ namespace AutoFixture.Kernel
         public ConstructorInfo Constructor { get; }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
@@ -50,7 +50,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table. 
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -92,10 +92,7 @@ fixture.Customizations.Add(
         typeof(TestDouble)));
 
 This will cause AutoFixture to create an instance of TestDouble every time AbstractClassWithPublicConstructor is requested. However, please keep in mind that this is only a workaround for the case where you can't address the root cause, which is that an abstract class has a public constructor.",
-                                    this.Constructor.DeclaringType.Name
-                                    )
-                                );
-
+                                    this.Constructor.DeclaringType.Name));
             }
             return this.Constructor.Invoke(parameters.ToArray());
         }

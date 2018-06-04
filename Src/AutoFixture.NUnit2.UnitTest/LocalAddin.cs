@@ -5,6 +5,6 @@ namespace AutoFixture.NUnit2.UnitTest
 {
     [NUnitAddin]
     public class LocalAddin : Addin
-    {   
+    {
     }
 }

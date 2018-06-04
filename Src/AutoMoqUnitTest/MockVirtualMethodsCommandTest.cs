@@ -9,7 +9,7 @@ namespace AutoFixture.AutoMoq.UnitTest
     public class MockVirtualMethodsCommandTest
     {
         [Theory]
-        [ClassData(typeof (ValidNonMockSpecimens))]
+        [ClassData(typeof(ValidNonMockSpecimens))]
         public void ExecuteShouldNotThrowWhenSpecimenIsValidNonMockSpecimen(object validNonMockSpecimen)
         {
             // Arrange
@@ -353,7 +353,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         {
             // Arrange
             var contextMock = new Mock<ISpecimenContext>();
-            contextMock.Setup(ctx => ctx.Resolve(typeof (string)))
+            contextMock.Setup(ctx => ctx.Resolve(typeof(string)))
                 .Returns(null);
             var mock = new Mock<IInterfaceWithMethodWithOutParameterOfReferenceType>();
 
@@ -371,7 +371,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         {
             // Arrange
             var contextMock = new Mock<ISpecimenContext>();
-            contextMock.Setup(ctx => ctx.Resolve(typeof (int)))
+            contextMock.Setup(ctx => ctx.Resolve(typeof(int)))
                 .Returns(new OmitSpecimen());
             var mock = new Mock<IInterfaceWithOutMethod>(MockBehavior.Strict);
 

@@ -13,7 +13,7 @@ namespace AutoFixture.Dsl
     /// <typeparam name="T">The type of specimen.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
-    public class NodeComposer<T> : 
+    public class NodeComposer<T> :
         ICustomizationComposer<T>,
         ISpecimenBuilderNode
     {
@@ -226,7 +226,7 @@ namespace AutoFixture.Dsl
 
             var filter = FindContainer(graphWithDoNode);
             return (NodeComposer<T>)graphWithDoNode.ReplaceNodes(
-                with: n => n.Compose(n.Concat(new [] { new SeedIgnoringRelay() })),
+                with: n => n.Compose(n.Concat(new[] { new SeedIgnoringRelay() })),
                 when: filter.Equals);
         }
 
@@ -262,10 +262,10 @@ namespace AutoFixture.Dsl
 
             // We disable postprocessor rather than delete it.
             // The reason is that it's the only holder of which properties/fields should not be populated.
-            // If user later decide to enable properties population, we'll need this information 
+            // If user later decide to enable properties population, we'll need this information
             // (e.g. if user does smth like fixture.Build().Without(x => x.P).OmitAutoProperties().WithAutoProperties()
             // the information from "Without" should not be missed)
-            return (NodeComposer<T>) this.ReplaceNodes(
+            return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => new Postprocessor(
                     autoPropertiesNode.Builder,
                     autoPropertiesNode.Command,
@@ -293,7 +293,7 @@ namespace AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker)
         {
             ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
-            
+
             var targetToDecorate = this.FindFirstNode(n => n is NoSpecimenOutputGuard);
 
             return (NodeComposer<T>)this.ReplaceNodes(
@@ -327,12 +327,12 @@ namespace AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
-            
+
             var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
             var graphWithoutSeedIgnoringRelay = WithoutSeedIgnoringRelay(graphWithAutoPropertiesNode);
 
             var container = FindContainer(graphWithoutSeedIgnoringRelay);
-         
+
             var graphWithProperty = graphWithoutSeedIgnoringRelay.ReplaceNodes(
                 with: n => n.Compose(
                     new ISpecimenBuilder[]
@@ -346,7 +346,7 @@ namespace AutoFixture.Dsl
                 when: container.Equals);
 
             var member = propertyPicker.GetWritableMember().Member;
-            return (NodeComposer<T>) ExcludeMemberFromAutoProperties(member, graphWithProperty);
+            return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithProperty);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace AutoFixture.Dsl
             var g = this.GetGraphWithAutoPropertiesNode();
             var autoProperties = FindAutoPropertiesNode(g);
 
-            return (NodeComposer<T>) g.ReplaceNodes(
+            return (NodeComposer<T>)g.ReplaceNodes(
                 with: n => new Postprocessor(
                     autoProperties.Builder,
                     autoProperties.Command,
@@ -387,11 +387,11 @@ namespace AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker)
         {
             ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
-            
+
             var member = propertyPicker.GetWritableMember().Member;
             var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
 
-            return (NodeComposer<T>) ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
+            return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
         }
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace AutoFixture.Dsl
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => n.Compose(new[] { factory }),
                 when: n => n is NoSpecimenOutputGuard);
-        }        
+        }
 
         private static IRequestSpecification CreateSpecification()
         {
@@ -500,12 +500,12 @@ namespace AutoFixture.Dsl
         private NodeComposer<T> GetGraphWithAutoPropertiesNode()
         {
             var existingNode = FindAutoPropertiesNode(this);
-            if(existingNode != null) return this;
-            
+            if (existingNode != null) return this;
+
             var g = WithoutSeedIgnoringRelay(this);
             var filter = FindContainer(g);
 
-            //Create AutoProperties node in inactive state
+            // Create AutoProperties node in inactive state
             return (NodeComposer<T>)g.ReplaceNodes(
                 with: n => n.Compose(
                     new ISpecimenBuilder[]
@@ -521,22 +521,22 @@ namespace AutoFixture.Dsl
 
         private static Postprocessor FindAutoPropertiesNode(ISpecimenBuilderNode graph)
         {
-            return (Postprocessor) graph
+            return (Postprocessor)graph
                 .FindFirstNodeOrDefault(n => n is Postprocessor postprocessor &&
                                              postprocessor.Command is AutoPropertiesCommand);
         }
-        
+
         /// <summary>
         /// Adjusts the AutoProperties postprocessor and changes rule to avoid the specified member population.
-        /// If AutoProperties node is missing, nothing is done. 
+        /// If AutoProperties node is missing, nothing is done.
         /// </summary>
-        private static ISpecimenBuilderNode ExcludeMemberFromAutoProperties(MemberInfo member, 
+        private static ISpecimenBuilderNode ExcludeMemberFromAutoProperties(MemberInfo member,
             ISpecimenBuilderNode graph)
         {
             var autoPropertiesNode = FindAutoPropertiesNode(graph);
             if (autoPropertiesNode == null) return graph;
 
-            var currentSpecification = ((AutoPropertiesCommand) autoPropertiesNode.Command).Specification;
+            var currentSpecification = ((AutoPropertiesCommand)autoPropertiesNode.Command).Specification;
             var newRule = new InverseRequestSpecification(
                 new EqualRequestSpecification(
                     member,
@@ -550,7 +550,7 @@ namespace AutoFixture.Dsl
             }
             else if (currentSpecification is AndRequestSpecification andSpec)
             {
-                specification = new AndRequestSpecification(andSpec.Specifications.Concat(new[] {newRule}));
+                specification = new AndRequestSpecification(andSpec.Specifications.Concat(new[] { newRule }));
             }
             else
             {
@@ -564,7 +564,7 @@ namespace AutoFixture.Dsl
                     autoPropertiesNode.Specification),
                 when: autoPropertiesNode.Equals);
         }
-        
+
         private static ISpecimenBuilderNode WithoutSeedIgnoringRelay(ISpecimenBuilderNode graph)
         {
             var g = graph.ReplaceNodes(

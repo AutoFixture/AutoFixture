@@ -111,7 +111,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var e = Assert.Throws<InvalidOperationException>(() => sut.Create(request, context));
             // Assert
             Assert.Contains(request.FullName, e.Message);
-            Assert.Contains(typeof(SubstituteRequestHandler).FullName, e.Message); 
+            Assert.Contains(typeof(SubstituteRequestHandler).FullName, e.Message);
             Assert.IsType<NotASubstituteException>(e.InnerException);
         }
 

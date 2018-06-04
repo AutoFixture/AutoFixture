@@ -1,4 +1,4 @@
-﻿//#define ALLOWCONSOLE
+﻿// #define ALLOWCONSOLE
 
 using System.IO;
 using System.Text;

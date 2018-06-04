@@ -24,7 +24,7 @@ namespace AutoFixture.Dsl
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositePostprocessComposer&lt;T&gt;"/>
-        /// class with an array of <see cref="IPostprocessComposer{T}"/> instances. 
+        /// class with an array of <see cref="IPostprocessComposer{T}"/> instances.
         /// </summary>
         /// <param name="composers">The composers to aggregate.</param>
         public CompositePostprocessComposer(params IPostprocessComposer<T>[] composers)

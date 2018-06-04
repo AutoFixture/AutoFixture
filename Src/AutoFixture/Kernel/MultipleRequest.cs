@@ -35,10 +35,10 @@ namespace AutoFixture.Kernel
         public object Request { get; }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
         /// <param name="obj">
-        /// The <see cref="System.Object"/> to compare with this instance.
+        /// The <see cref="object"/> to compare with this instance.
         /// </param>
         /// <returns>
         /// <see langword="true"/> if <paramref name="obj"/> is a <see cref="MultipleRequest"/>

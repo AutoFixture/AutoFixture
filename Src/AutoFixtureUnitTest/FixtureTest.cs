@@ -318,7 +318,6 @@ namespace AutoFixtureUnitTest
                 .SelectMany(t => t.SelectMany(s => s.ValuesNotPopulated));
 
             Assert.Empty(allValuesNotPopulated);
-
         }
 
         [Fact]
@@ -824,11 +823,11 @@ namespace AutoFixtureUnitTest
             var definedNumbers = new object[]
             {
                 1,
-                (uint)2,
+                2U,
                 (byte)3,
                 (sbyte)4,
-                (long)5,
-                (ulong)6,
+                5L,
+                6UL,
                 (short)7,
                 (ushort)8,
                 9.0F,
@@ -868,8 +867,7 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.True(
                 (result.Property1 >= lower && result.Property1 <= upper) &&
-                (result.Property2 >= lower && result.Property2 <= upper)
-                );
+                (result.Property2 >= lower && result.Property2 <= upper));
         }
 
         [Fact]
@@ -1209,7 +1207,7 @@ namespace AutoFixtureUnitTest
             var result = fixture.Create<RangeValidatedType>();
             // Assert
             Assert.True(
-                RangeValidatedType.Minimum <= result.Property && result.Property <= RangeValidatedType.Maximum,
+                result.Property >= RangeValidatedType.Minimum && result.Property <= RangeValidatedType.Maximum,
                 string.Format(
                     "Expected result to fall into the interval [{0}, {1}], but was {2}",
                     RangeValidatedType.Minimum,
@@ -1411,9 +1409,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1425,9 +1423,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Field)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Field)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1439,9 +1437,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property2)
-                          where (n < RangeValidatedType.DoubleMinimum && n > RangeValidatedType.DoubleMaximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property2)
+                         where n < RangeValidatedType.DoubleMinimum && n > RangeValidatedType.DoubleMaximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1453,9 +1451,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property3)
-                          where (n < Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && n > Convert.ToDecimal(RangeValidatedType.DoubleMaximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property3)
+                         where n < Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && n > Convert.ToDecimal(RangeValidatedType.DoubleMaximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1467,9 +1465,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property4)
-                          where (n < Convert.ToDecimal(RangeValidatedType.StringMinimum) && n > Convert.ToDecimal(RangeValidatedType.StringMaximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property4)
+                         where n < Convert.ToDecimal(RangeValidatedType.StringMinimum) && n > Convert.ToDecimal(RangeValidatedType.StringMaximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1481,9 +1479,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property5)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property5)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1495,9 +1493,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property6)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property6)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1509,9 +1507,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property7)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property7)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1523,9 +1521,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedShortProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedShortProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1537,9 +1535,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedIntProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedIntProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1551,9 +1549,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedLongProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedLongProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1565,9 +1563,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().SignedByteProperty)
-                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().SignedByteProperty)
+                         where n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1579,9 +1577,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumDoubleMinValue)
-                          where (n > Convert.ToDouble(RangeValidatedType.Maximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumDoubleMinValue)
+                         where n > Convert.ToDouble(RangeValidatedType.Maximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1593,9 +1591,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumDoubleMaxValue)
-                          where (n < Convert.ToDouble(RangeValidatedType.Minimum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumDoubleMaxValue)
+                         where n < Convert.ToDouble(RangeValidatedType.Minimum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1607,9 +1605,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumFloatMinValue)
-                          where (n > Convert.ToSingle(RangeValidatedType.Maximum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumFloatMinValue)
+                         where n > Convert.ToSingle(RangeValidatedType.Maximum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1621,9 +1619,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumFloatMaxValue)
-                          where (n < Convert.ToSingle(RangeValidatedType.Minimum))
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumFloatMaxValue)
+                         where n < Convert.ToSingle(RangeValidatedType.Minimum)
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -1654,9 +1652,9 @@ namespace AutoFixtureUnitTest
             // Arrange
             var fixture = new Fixture();
             // Act
-            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<StringLengthValidatedType>().Property.Length)
-                          where (n > StringLengthValidatedType.MaximumLength)
-                          select n);
+            var result = from n in Enumerable.Range(1, 33).Select(i => fixture.Create<StringLengthValidatedType>().Property.Length)
+                         where n > StringLengthValidatedType.MaximumLength
+                         select n;
             // Assert
             Assert.False(result.Any());
         }
@@ -2163,7 +2161,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<ulong, bool>();
-            mock.OnQuery = x => { methodInvoked = true; return true; };
+            mock.OnQuery = x =>
+            {
+                methodInvoked = true;
+                return true;
+            };
             // Act
             sut.Get((ulong s) => mock.Query(s));
             // Assert
@@ -2180,7 +2182,11 @@ namespace AutoFixtureUnitTest
             sut.Register<double?>(() => expectedNumber);
 
             var mock = new QueryMock<double?, string>();
-            mock.OnQuery = x => { Assert.Equal<double?>(expectedNumber, x); return "Anonymous text"; };
+            mock.OnQuery = x =>
+            {
+                Assert.Equal<double?>(expectedNumber, x);
+                return "Anonymous text";
+            };
             // Act
             sut.Get((double? x) => mock.Query(x));
             // Assert (done by mock)
@@ -2219,7 +2225,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<string, int, long>();
-            mock.OnQuery = (x1, x2) => { methodInvoked = true; return 148; };
+            mock.OnQuery = (x1, x2) =>
+            {
+                methodInvoked = true;
+                return 148;
+            };
             // Act
             sut.Get((string x1, int x2) => mock.Query(x1, x2));
             // Assert
@@ -2236,7 +2246,11 @@ namespace AutoFixtureUnitTest
             sut.Register<byte>(() => expectedByte);
 
             var mock = new QueryMock<byte, int, double>();
-            mock.OnQuery = (x1, x2) => { Assert.Equal<byte>(expectedByte, x1); return 9823829; };
+            mock.OnQuery = (x1, x2) =>
+            {
+                Assert.Equal<byte>(expectedByte, x1);
+                return 9823829;
+            };
             // Act
             sut.Get((byte x1, int x2) => mock.Query(x1, x2));
             // Assert (done by mock)
@@ -2252,7 +2266,11 @@ namespace AutoFixtureUnitTest
             sut.Register<sbyte>(() => expectedByte);
 
             var mock = new QueryMock<DateTime, sbyte, bool>();
-            mock.OnQuery = (x1, x2) => { Assert.Equal<sbyte>(expectedByte, x2); return false; };
+            mock.OnQuery = (x1, x2) =>
+            {
+                Assert.Equal<sbyte>(expectedByte, x2);
+                return false;
+            };
             // Act
             sut.Get((DateTime x1, sbyte x2) => mock.Query(x1, x2));
             // Assert (done by mock)
@@ -2291,7 +2309,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<object, object, object, object>();
-            mock.OnQuery = (x1, x2, x3) => { methodInvoked = true; return new object(); };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                methodInvoked = true;
+                return new object();
+            };
             // Act
             sut.Get((object x1, object x2, object x3) => mock.Query(x1, x2, x3));
             // Assert
@@ -2308,7 +2330,11 @@ namespace AutoFixtureUnitTest
             sut.Register<sbyte?>(() => expectedByte);
 
             var mock = new QueryMock<sbyte?, bool, string, float>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<sbyte?>(expectedByte, x1); return 3646.77f; };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                Assert.Equal<sbyte?>(expectedByte, x1);
+                return 3646.77f;
+            };
             // Act
             sut.Get((sbyte? x1, bool x2, string x3) => mock.Query(x1, x2, x3));
             // Assert (done by mock)
@@ -2324,7 +2350,11 @@ namespace AutoFixtureUnitTest
             sut.Register<float>(() => expectedNumber);
 
             var mock = new QueryMock<bool, float, TimeSpan, object>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<float>(expectedNumber, x2); return new object(); };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                Assert.Equal<float>(expectedNumber, x2);
+                return new object();
+            };
             // Act
             sut.Get((bool x1, float x2, TimeSpan x3) => mock.Query(x1, x2, x3));
             // Assert (done by mock)
@@ -2340,7 +2370,11 @@ namespace AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new QueryMock<long, short, string, decimal?>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal(expectedText, x3); return 111.11m; };
+            mock.OnQuery = (x1, x2, x3) =>
+            {
+                Assert.Equal(expectedText, x3);
+                return 111.11m;
+            };
             // Act
             sut.Get((long x1, short x2, string x3) => mock.Query(x1, x2, x3));
             // Assert (done by mock)
@@ -2379,7 +2413,11 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             var mock = new QueryMock<object, object, object, object, object>();
-            mock.OnQuery = (x1, x2, x3, x4) => { methodInvoked = true; return new object(); };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                methodInvoked = true;
+                return new object();
+            };
             // Act
             sut.Get((object x1, object x2, object x3, object x4) => mock.Query(x1, x2, x3, x4));
             // Assert
@@ -2396,7 +2434,11 @@ namespace AutoFixtureUnitTest
             sut.Register<TimeSpan>(() => expectedTimeSpan);
 
             var mock = new QueryMock<TimeSpan, Version, Random, Guid, EventArgs>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<TimeSpan>(expectedTimeSpan, x1); return EventArgs.Empty; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<TimeSpan>(expectedTimeSpan, x1);
+                return EventArgs.Empty;
+            };
             // Act
             sut.Get((TimeSpan x1, Version x2, Random x3, Guid x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
@@ -2412,7 +2454,11 @@ namespace AutoFixtureUnitTest
             sut.Register<DateTimeKind>(() => expectedDateTimeKind);
 
             var mock = new QueryMock<Random, DateTimeKind, DateTime, string, float>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DateTimeKind>(expectedDateTimeKind, x2); return 77f; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<DateTimeKind>(expectedDateTimeKind, x2);
+                return 77f;
+            };
             // Act
             sut.Get((Random x1, DateTimeKind x2, DateTime x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
@@ -2428,7 +2474,11 @@ namespace AutoFixtureUnitTest
             sut.Register<DayOfWeek>(() => expectedDayOfWeek);
 
             var mock = new QueryMock<int, float, DayOfWeek, string, ConsoleColor>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return ConsoleColor.Black; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3);
+                return ConsoleColor.Black;
+            };
             // Act
             sut.Get((int x1, float x2, DayOfWeek x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
@@ -2444,7 +2494,11 @@ namespace AutoFixtureUnitTest
             sut.Register<int>(() => expectedNumber);
 
             var mock = new QueryMock<Version, ushort, string, int, ConsoleColor>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return ConsoleColor.Cyan; };
+            mock.OnQuery = (x1, x2, x3, x4) =>
+            {
+                Assert.Equal<int>(expectedNumber, x4);
+                return ConsoleColor.Cyan;
+            };
             // Act
             sut.Get((Version x1, ushort x2, string x3, int x4) => mock.Query(x1, x2, x3, x4));
             // Assert (done by mock)
@@ -2734,8 +2788,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal<DateTime>(expectedResult, result);
         }
 
-
-
         [Fact]
         public void FreezeWithNullTransformationThrows()
         {
@@ -2900,9 +2952,8 @@ namespace AutoFixtureUnitTest
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithReferenceOutA>()
-                    )
-                ).CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
+                        sut.Build<RecursionTestObjectWithReferenceOutA>()))
+                .CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
         }
 
         [Fact]
@@ -2915,9 +2966,8 @@ namespace AutoFixtureUnitTest
                 new SpecimenContext(
                     new RecursionGuard(
                         sut.Build<RecursionTestObjectWithReferenceOutA>(),
-                        new ThrowingRecursionHandler()
-                    )
-                ).Create<RecursionTestObjectWithReferenceOutA>());
+                        new ThrowingRecursionHandler()))
+                .Create<RecursionTestObjectWithReferenceOutA>());
         }
 
         [Fact]
@@ -2930,9 +2980,8 @@ namespace AutoFixtureUnitTest
             Assert.ThrowsAny<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                    )
-                ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
+                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()))
+                .CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
         [Fact]
@@ -2945,9 +2994,8 @@ namespace AutoFixtureUnitTest
                 new SpecimenContext(
                     new RecursionGuard(
                         sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
-                        new ThrowingRecursionHandler()
-                    )
-                ).Create<RecursionTestObjectWithConstructorReferenceOutA>());
+                        new ThrowingRecursionHandler()))
+                .Create<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
         [Fact]
@@ -2959,9 +3007,8 @@ namespace AutoFixtureUnitTest
             // Act
             var result = new SpecimenContext(
                 new NullRecursionGuard(
-                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                )
-            ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
+                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()))
+            .CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
             // Assert
             Assert.Null(result.ReferenceToB.ReferenceToA);
         }
@@ -2975,9 +3022,8 @@ namespace AutoFixtureUnitTest
             var result = new SpecimenContext(
                 new RecursionGuard(
                     sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
-                    new NullRecursionHandler()
-                )
-            ).Create<RecursionTestObjectWithConstructorReferenceOutA>();
+                    new NullRecursionHandler()))
+            .Create<RecursionTestObjectWithConstructorReferenceOutA>();
             // Assert
             Assert.Null(result.ReferenceToB.ReferenceToA);
         }
@@ -3616,7 +3662,6 @@ namespace AutoFixtureUnitTest
             Assert.Equal<int>(expectedValue, result.Property);
         }
 
-
         [Fact]
         public void BuilderSequenceWillBePreserved()
         {
@@ -4247,7 +4292,6 @@ namespace AutoFixtureUnitTest
             Assert.IsAssignableFrom<ConcreteType>(result);
         }
 
-
         [Fact]
         public void BuildAbstractTypeUsingBuilderIsPossible()
         {
@@ -4761,8 +4805,7 @@ namespace AutoFixtureUnitTest
                 sut.Customizations,
                 b => b is FilteringSpecimenBuilder fsb
                      && fsb.Specification is ExactTypeSpecification ets && ets.TargetType == matchingType
-                     && fsb.Builder is MethodInvoker mi && mi.Query.GetType() == queryType
-            );
+                     && fsb.Builder is MethodInvoker mi && mi.Query.GetType() == queryType);
         }
 
         [Theory]
@@ -4779,8 +4822,7 @@ namespace AutoFixtureUnitTest
                 b => b is FilteringSpecimenBuilder fsb
                      && fsb.Specification is ExactTypeSpecification ets && ets.TargetType == matchingType
                      && fsb.Builder is Postprocessor pp && pp.Command is DictionaryFiller
-                     && pp.Builder is MethodInvoker mi && mi.Query.GetType() == queryType
-            );
+                     && pp.Builder is MethodInvoker mi && mi.Query.GetType() == queryType);
         }
 
         [Fact]
@@ -4822,7 +4864,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// This test is just to make sure that edge cases as decimal which is not primitive type and is a structure will not fall within 
+        /// This test is just to make sure that edge cases as decimal which is not primitive type and is a structure will not fall within
         /// struct checking mechanism.
         /// </summary>
         [Fact]
@@ -5127,7 +5169,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Checks the scenario: https://github.com/AutoFixture/AutoFixture/issues/531
+        /// Checks the scenario: https://github.com/AutoFixture/AutoFixture/issues/531.
         /// </summary>
         [Fact]
         public void CustomizationOfBasePropOfChildADoesNotAffectChildB()
@@ -5145,47 +5187,47 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Checks the scenario reported in https://github.com/AutoFixture/AutoFixture/issues/772
+        /// Checks the scenario reported in https://github.com/AutoFixture/AutoFixture/issues/772.
         /// </summary>
         [Fact]
         public void CustomizatonOfSamePropertyIsIgnoredDuringTheBuild()
         {
-            //arrange
+            // arrange
             var sut = new Fixture();
             sut.Customize<DoublePropertyHolder<string, int>>(c => c.With(x => x.Property1, "foo"));
 
-            //act
+            // act
             var result = sut
                 .Build<DoublePropertyHolder<string, int>>()
                 .With(x => x.Property2, 42)
                 .Create();
 
-            //assert
+            // assert
             Assert.NotEqual("foo", result.Property1);
             Assert.Equal(42, result.Property2);
         }
 
         /// <summary>
-        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321 
+        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321.
         /// </summary>
         [Fact]
         public void CustomizationOfIntPropertyDoesntThrowInBuild()
         {
-            //arrange
+            // arrange
             var sut = new Fixture();
             sut.Customize<PropertyHolder<long>>(c => c.Without(x => x.Property));
 
-            //act
+            // act
             var result = sut.Build<PropertyHolder<long>>().With(x => x.Property).Create();
 
-            //assert
+            // assert
             Assert.NotEqual(0L, result.Property);
         }
 
         [Fact]
         public void EnableDisableAutoPropertiesDoesntBreakCustomization()
         {
-            //arrange
+            // arrange
             var sut = new Fixture();
             sut.Customize<PropertyHolder<string>>(c =>
                 c
@@ -5193,10 +5235,10 @@ namespace AutoFixtureUnitTest
                     .OmitAutoProperties()
                     .WithAutoProperties());
 
-            //act
+            // act
             var result = sut.Create<PropertyHolder<string>>();
 
-            //assert
+            // assert
             Assert.Null(result.Property);
         }
 
@@ -5464,10 +5506,9 @@ namespace AutoFixtureUnitTest
             Assert.Equal(expected, actual.Field);
         }
 
-
         /// <summary>
         /// This test reproduces the issue as reported in pull request:
-        /// https://github.com/AutoFixture/AutoFixture/pull/604
+        /// https://github.com/AutoFixture/AutoFixture/pull/604.
         /// </summary>
         [Fact]
         public void WithoutOnFieldInBaseClassThrowsNullPointerException()
@@ -5478,9 +5519,9 @@ namespace AutoFixtureUnitTest
             /*
                 Success when no ArgumentNullException is thrown:
 
-                When reported, the call to Without on Field1 residing 
-                in ConcreteType's base class (AbstractType) will cause 
-                a null pointer exception to bubble. 
+                When reported, the call to Without on Field1 residing
+                in ConcreteType's base class (AbstractType) will cause
+                a null pointer exception to bubble.
             */
         }
 
@@ -5511,7 +5552,6 @@ namespace AutoFixtureUnitTest
                 fixture.Create<TypeWithCastOperatorsWithoutPublicConstructor>());
 
             Assert.Contains("most likely because it has no public constructor", ex.Message);
-
         }
 
         [Fact]
@@ -5528,7 +5568,6 @@ namespace AutoFixtureUnitTest
                     .With(x => x.Property.Property1, "Dummy");
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5545,9 +5584,7 @@ namespace AutoFixtureUnitTest
                     .With(x => x.Property.Property1);
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
-
 
         [Fact]
         public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithout()
@@ -5563,7 +5600,6 @@ namespace AutoFixtureUnitTest
                     .Without(x => x.Property.Property1);
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5578,7 +5614,6 @@ namespace AutoFixtureUnitTest
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1, "dummy"));
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5593,7 +5628,6 @@ namespace AutoFixtureUnitTest
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1));
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5608,7 +5642,6 @@ namespace AutoFixtureUnitTest
                 fixture.Customize<PropertyHolder<ConcreteType>>(c => c.Without(x => x.Property.Property1));
             });
             Assert.Contains("nested property or field", ex.Message);
-
         }
 
         [Fact]
@@ -5620,7 +5653,6 @@ namespace AutoFixtureUnitTest
 
             // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(null, specimenContext));
-
         }
 
         [Fact]
@@ -5632,7 +5664,6 @@ namespace AutoFixtureUnitTest
 
             // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
-
         }
 
 #if SYSTEM_NET_MAIL
@@ -5660,7 +5691,6 @@ namespace AutoFixtureUnitTest
 
             Assert.IsType<OverflowException>(actualEx.InnerException);
             Assert.Contains("To solve the issue", actualEx.InnerException.Message);
-
         }
 
         private class Issue453_AnnotationWithOverflow
@@ -5705,7 +5735,6 @@ namespace AutoFixtureUnitTest
                 new Regex(Regex.Escape(requestToLookFor.ToString())).Matches(actualEx.Message).Count;
 
             Assert.Equal(1, numberOfRequestOccurence);
-
         }
 
         [Theory]
@@ -5727,8 +5756,7 @@ namespace AutoFixtureUnitTest
             var fakeMember = new FakeMemberInfo(
                 new ProvidedAttribute(
                     new RangeAttribute(type, "42", "42"),
-                    inherited: false
-                ));
+                    inherited: false));
 
             var sut = new Fixture();
 
@@ -5823,10 +5851,10 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var sut = new Fixture();
-            
+
             // Act
             var result = sut.Create<ISet<string>>();
-            
+
             // Assert
             Assert.IsAssignableFrom<ISet<string>>(result);
         }
@@ -5924,7 +5952,7 @@ namespace AutoFixtureUnitTest
         }
 
         /// <summary>
-        /// Scenario for: https://github.com/AutoFixture/AutoFixture/issues/722
+        /// Scenario for: https://github.com/AutoFixture/AutoFixture/issues/722.
         /// </summary>
         [Fact]
         public void ShouldCorrectlyResolveEnumPropertiesDecoratedWithRange()
@@ -5993,7 +6021,7 @@ namespace AutoFixtureUnitTest
             Assert.Equal("42", result.Value);
 
             IPostprocessComposer<T> ConfigurePropertyField<T>(IPostprocessComposer<T> composer)
-                where T: IIssue970_ValueHolder
+                where T : IIssue970_ValueHolder
             {
                 return composer.With(x => x.Value, "42");
             }
@@ -6020,7 +6048,7 @@ namespace AutoFixtureUnitTest
 
         [Fact]
         public void TimeSpanDecoratedWithRangeCreatedByFixtureShouldPassValidation()
-        { 
+        {
             // Arrange
             var sut = new Fixture();
 

@@ -6,12 +6,12 @@
         {
         }
 
-        public static implicit operator TypeWithCastOperatorsWithoutPublicConstructor(int _)
+        public static implicit operator TypeWithCastOperatorsWithoutPublicConstructor(int ignored)
         {
             return new TypeWithCastOperatorsWithoutPublicConstructor();
         }
 
-        public static explicit operator TypeWithCastOperatorsWithoutPublicConstructor(string _)
+        public static explicit operator TypeWithCastOperatorsWithoutPublicConstructor(string ignored)
         {
             return new TypeWithCastOperatorsWithoutPublicConstructor();
         }

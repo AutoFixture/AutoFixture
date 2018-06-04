@@ -119,7 +119,7 @@ namespace AutoFixtureUnitTest.Kernel
 
         [Fact]
         [Obsolete]
-        void ExecuteDoesNotSetStaticField()
+        public void ExecuteDoesNotSetStaticField()
         {
             // Arrange
             var sut = new AutoPropertiesCommand<StaticFieldHolder<object>>();
@@ -608,7 +608,6 @@ namespace AutoFixtureUnitTest.Kernel
             // Assert
             Assert.Null(sut.ExplicitSpecimenType);
         }
-
 
         public void Dispose()
         {

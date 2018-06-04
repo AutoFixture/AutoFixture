@@ -48,11 +48,11 @@ namespace AutoFixture.AutoNSubstitute
             {
                 switch (request)
                 {
-                    //exclude non-sealed properties
+                    // exclude non-sealed properties
                     case PropertyInfo pi:
                         return pi.GetSetMethod().IsSealed();
-                        
-                    //exclude interceptor fields
+
+                    // exclude interceptor fields
                     case FieldInfo fi:
                         return !IsDynamicProxyMember(fi);
                 }

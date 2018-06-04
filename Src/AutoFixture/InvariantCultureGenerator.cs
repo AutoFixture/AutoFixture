@@ -5,14 +5,14 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// Handles creation requests for <see cref="CultureInfo"/> instances, 
+    /// Handles creation requests for <see cref="CultureInfo"/> instances,
     /// returning always the same <see cref="CultureInfo.InvariantCulture"/>.
     /// </summary>
     [Obsolete("Please use a 'AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]
     public class InvariantCultureGenerator : ISpecimenBuilder
     {
-        private readonly ExactTypeSpecification cultureTypeSpecification 
-            = new ExactTypeSpecification(typeof (CultureInfo));
+        private readonly ExactTypeSpecification cultureTypeSpecification
+            = new ExactTypeSpecification(typeof(CultureInfo));
 
         /// <summary>
         /// Generates a CultureInfo specimen based on a <see cref="CultureInfo"/> type request.
@@ -31,7 +31,7 @@ namespace AutoFixture
                 return new NoSpecimen();
 
             if (!this.cultureTypeSpecification.IsSatisfiedBy(request))
-                return new NoSpecimen(); ;
+                return new NoSpecimen();
 
             return CultureInfo.InvariantCulture;
         }

@@ -58,7 +58,7 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var composer = new Fixture();
             var sut = new WritablePropertyAssertion(composer);
-            
+
             var propertyInfo = typeof(IllBehavedPropertyHolder<object>).GetProperty("PropertyIllBehavedGet");
             // Act & Assert
             var e = Assert.Throws<WritablePropertyException>(() =>

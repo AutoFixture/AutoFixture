@@ -37,7 +37,7 @@ namespace AutoFixtureUnitTest.Kernel
         [InlineData(typeof(char), false)]
         [InlineData(typeof(ActivityScope), false)]
         [InlineData(typeof(decimal), true)]
-        [InlineData(typeof(Nullable<int>), true)]
+        [InlineData(typeof(int?), true)]
         public void IsSatisfiedByReturnsCorrectResult(object request, bool expectedResult)
         {
             // Arrange

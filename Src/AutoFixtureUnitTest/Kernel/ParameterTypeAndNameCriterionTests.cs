@@ -77,7 +77,6 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ConstructWithNullNameCriterionThrows()
         {
-
             Assert.Throws<ArgumentNullException>(
                 () => new ParameterTypeAndNameCriterion(
                     new DelegatingCriterion<Type>(),

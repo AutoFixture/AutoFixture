@@ -22,10 +22,10 @@ namespace AutoFixture.Kernel
 
             return request is Type typeRequest && IsValueTypeButNotPrimitiveOrEnum(typeRequest);
         }
-        
+
         /// <summary>
-        /// Checks if type is a struct. This will exclude primitive types (int, char etc.) considered as IsPrimitive as 
-        /// well as enums but not .NET structs. 
+        /// Checks if type is a struct. This will exclude primitive types (int, char etc.) considered as IsPrimitive as
+        /// well as enums but not .NET structs.
         /// </summary>
         private static bool IsValueTypeButNotPrimitiveOrEnum(Type type)
         {

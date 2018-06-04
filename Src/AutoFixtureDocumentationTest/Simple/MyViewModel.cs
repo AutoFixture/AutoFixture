@@ -20,8 +20,8 @@ namespace AutoFixtureDocumentationTest.Simple
 
         public MyClass SelectedItem
         {
-            get { return this.selectedItem; }
-            set 
+            get => this.selectedItem;
+            set
             {
                 if (!this.availableItems.Contains(value))
                 {

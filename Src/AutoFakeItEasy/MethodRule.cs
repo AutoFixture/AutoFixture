@@ -6,7 +6,7 @@ namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// A rule that intercepts method calls. Supplies the return and all out and ref values
-    /// from the fixture. When a method is called repeatedly with the same arguments, the 
+    /// from the fixture. When a method is called repeatedly with the same arguments, the
     /// same return value and out and ref values will be provided.
     /// </summary>
     internal class MethodRule : IFakeObjectCallRule
@@ -45,7 +45,7 @@ namespace AutoFixture.AutoFakeItEasy
             if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
             var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
-            var callResult = this.resultSource.GetOrAdd(CreateMethodCall(fakeObjectCall), () => CreateMethodCallResult(fakeObjectCall));
+            var callResult = this.resultSource.GetOrAdd(CreateMethodCall(fakeObjectCall), () => this.CreateMethodCallResult(fakeObjectCall));
             callResult.ApplyToCall(fakeObjectCall);
         }
 
@@ -57,8 +57,8 @@ namespace AutoFixture.AutoFakeItEasy
 
         private MethodCallResult CreateMethodCallResult(FakeObjectCall fakeObjectCall)
         {
-            var result = new MethodCallResult(ResolveReturnValue(fakeObjectCall));
-            AddOutAndRefValues(result, fakeObjectCall);
+            var result = new MethodCallResult(this.ResolveReturnValue(fakeObjectCall));
+            this.AddOutAndRefValues(result, fakeObjectCall);
             return result;
         }
 

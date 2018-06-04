@@ -256,7 +256,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act & Assert
             var result = fixture.Create<IInterfaceWithRefMethod>();
 
-            string refResult = "";
+            string refResult = string.Empty;
             string returnValue = result.Method(ref refResult);
 
             Assert.Equal(frozenString, refResult);
@@ -896,7 +896,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         /// The values configured by AutoFixture are not being manually-configured.
         ///
         /// If user needs that, it could easily override the auto-generated value using the
-        /// substitute.Method(...).Returns(...);
+        /// substitute.Method(...).Returns(...);.
         /// </summary>
         [Theory]
         [InlineData(ClearOptions.CallActions)]
@@ -945,7 +945,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
         private class Issue630_TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
         {
-            private const int DELAY_MSEC = 100;
+            private const int DelayMSec = 100;
             private readonly object syncRoot = new object();
             private HashSet<Task> Tasks { get; } = new HashSet<Task>();
 
@@ -958,7 +958,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
                 ThreadPool.QueueUserWorkItem(delegate
                 {
-                    Thread.Sleep(DELAY_MSEC);
+                    Thread.Sleep(DelayMSec);
 
                     // If task cannot be dequeued - it was already executed.
                     if (this.TryDequeue(task))
@@ -1043,11 +1043,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             var task = new Task(() =>
             {
-                //arrange
+                // arrange
                 var fixture = new Fixture().Customize(new AutoNSubstituteCustomization { ConfigureMembers = true });
                 var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
-                //act & assert not throw
+                // act & assert not throw
                 var result = interfaceSource.Method();
             });
             task.Start(new InlineOnQueueTaskScheduler());
@@ -1066,8 +1066,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             fixture.Customizations.Insert(0,
                 new FilteringSpecimenBuilder(
                     new FixedBuilder(expected),
-                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))
-                ));
+                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));
 
             // Act
             var result = subsitute.Property;
@@ -1119,7 +1118,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                         substitute.Method();
                     },
                     cts.Token));
-
 
             // Act
             start.Release(degreeOfParallelism);

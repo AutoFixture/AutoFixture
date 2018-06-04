@@ -11,7 +11,6 @@ namespace AutoFixture
     /// </summary>
     public static class CreateSeedExtensions
     {
-
         /// <summary>
         /// Creates an anonymous object, potentially using the supplied seed as additional
         /// information when creating the object.
@@ -22,13 +21,12 @@ namespace AutoFixture
         /// </param>
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object.</returns>
-        /// <remarks>Obsolete: Please move over to using <see cref="SpecimenFactory.Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create{T}()</see> as this method will be removed in the next release</remarks>
+        /// <remarks>Obsolete: Please move over to using <see cref="SpecimenFactory.Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create{T}()</see> as this method will be removed in the next release.</remarks>
         [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
         public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
         {
             return Create<T>(context, seed);
         }
-
 
         /// <summary>Creates many anonymous objects.</summary>
         /// <typeparam name="T">The type of objects to create.</typeparam>
@@ -67,7 +65,6 @@ namespace AutoFixture
             return new SpecimenContext(builder);
         }
 
-
         /// <summary>
         /// Creates many anonymous objects.
         /// </summary>
@@ -101,7 +98,6 @@ namespace AutoFixture
 
             return ((IEnumerable<object>)rawResult).Cast<T>();
         }
-
 
         /// <summary>Creates many anonymous objects.</summary>
         /// <typeparam name="T">The type of objects to create.</typeparam>
@@ -169,7 +165,6 @@ namespace AutoFixture
             var rawResult = context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), seed), count));
             return ((IEnumerable<object>)rawResult).Cast<T>();
         }
-
 
         /// <summary>
         /// Creates an anonymous object, potentially using the supplied seed as

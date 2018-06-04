@@ -17,7 +17,7 @@ namespace AutoFixture
         /// </summary>
         public NullRecursionBehavior()
             : this(DefaultRecursionDepth)
-        {            
+        {
         }
 
         /// <summary>

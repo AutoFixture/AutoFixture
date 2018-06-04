@@ -52,7 +52,7 @@ namespace AutoFixture.Kernel
                 var result = this.composedBuilders[i].Create(request, context);
                 if (!(result is NoSpecimen)) return result;
             }
-            
+
             return new NoSpecimen();
         }
 
@@ -97,7 +97,6 @@ namespace AutoFixture.Kernel
             // It's optimized to not perform unnecessary allocations and do not enumerate builders more than once.
             // Code is written expecting that single builder is the most common case.
             // See more detail here: https://github.com/AutoFixture/AutoFixture/pull/793
-            
             ISpecimenBuilder singleItem = null;
             List<ISpecimenBuilder> multipleItems = null;
             bool hasItems = false;
@@ -115,9 +114,9 @@ namespace AutoFixture.Kernel
                         // When we create collection for multiple items, we add the already enumerated one as well.
                         if (multipleItems == null)
                         {
-                            multipleItems = new List<ISpecimenBuilder> {singleItem};
+                            multipleItems = new List<ISpecimenBuilder> { singleItem };
                         }
-                        
+
                         multipleItems.Add(enumerator.Current);
                     }
                 }

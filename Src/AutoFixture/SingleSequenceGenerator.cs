@@ -36,7 +36,7 @@ namespace AutoFixture
         /// Creates an anonymous number.
         /// </summary>
         /// <returns>The next number in a consecutive sequence.</returns>
-        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release.</remarks>
         [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public float CreateAnonymous()
         {
@@ -50,7 +50,7 @@ namespace AutoFixture
         /// <param name="context">Not used.</param>
         /// <returns>
         /// The next number in a consecutive sequence, if <paramref name="request"/> is a request
-        /// for a <see cref="System.Single"/>; otherwise, a <see cref="NoSpecimen"/> instance.
+        /// for a <see cref="float"/>; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {

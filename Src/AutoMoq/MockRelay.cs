@@ -71,6 +71,7 @@ namespace AutoFixture.AutoMoq
                 return new NoSpecimen();
 
             var result = ResolveMock(t, context);
+
             // Note: null is a valid specimen (e.g., returned by NullRecursionHandler)
             if (result is NoSpecimen || result is OmitSpecimen || result == null)
                 return result;
@@ -84,7 +85,7 @@ namespace AutoFixture.AutoMoq
 
         private static object ResolveMock(Type t, ISpecimenContext context)
         {
-            var mockType = typeof (Mock<>).MakeGenericType(t);
+            var mockType = typeof(Mock<>).MakeGenericType(t);
             return context.Resolve(mockType);
         }
 

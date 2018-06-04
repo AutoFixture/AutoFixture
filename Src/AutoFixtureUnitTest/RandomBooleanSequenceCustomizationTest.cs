@@ -38,7 +38,5 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.NotNull(result);
         }
-
-
     }
 }

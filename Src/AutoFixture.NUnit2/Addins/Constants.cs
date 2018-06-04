@@ -1,7 +1,7 @@
 ﻿namespace AutoFixture.NUnit2.Addins
 {
     /// <summary>
-    /// Class to contains all static string constants
+    /// Class to contains all static string constants.
     /// </summary>
     public static class Constants
     {

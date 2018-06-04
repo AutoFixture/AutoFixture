@@ -31,7 +31,7 @@ namespace AutoFixture.Xunit.UnitTest
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
             var parameters = method.GetParameters();
             var parameterTypes = (from pi in parameters
@@ -64,7 +64,7 @@ namespace AutoFixture.Xunit.UnitTest
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
             var parameters = method.GetParameters();
             var parameterTypes = (from pi in parameters
@@ -100,7 +100,7 @@ namespace AutoFixture.Xunit.UnitTest
         {
             // Arrange
             var sut = new CompositeDataAttribute();
-            Action a = delegate { };
+            Action a = () => { };
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetData(a.Method, null).ToList());
@@ -110,7 +110,7 @@ namespace AutoFixture.Xunit.UnitTest
         public void GetDataOnMethodWithNoParametersReturnsNoTheory()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.Method;
             var parameters = method.GetParameters();
             var parameterTypes = (from pi in parameters
@@ -119,8 +119,7 @@ namespace AutoFixture.Xunit.UnitTest
             var sut = new CompositeDataAttribute(
                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
-               );
+               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()));
 
             // Act & assert
             var result = sut.GetData(a.Method, Type.EmptyTypes);

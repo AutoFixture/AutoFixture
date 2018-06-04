@@ -29,7 +29,7 @@ namespace AutoFixture.Kernel
         /// unspecified.
         /// </para>
         /// <para>
-        /// Factory methods that contain parameters of the requested <paramref name="type"/> 
+        /// Factory methods that contain parameters of the requested <paramref name="type"/>
         /// are skipped in order to avoid circular references.
         /// </para>
         /// </remarks>

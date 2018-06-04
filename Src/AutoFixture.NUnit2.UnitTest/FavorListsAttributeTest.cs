@@ -39,7 +39,7 @@ namespace AutoFixture.NUnit2.UnitTest
             var result = sut.GetCustomization(parameter);
             // Assert
             Assert.IsAssignableFrom<ConstructorCustomization>(result);
-            var invoker = (ConstructorCustomization) result;
+            var invoker = (ConstructorCustomization)result;
             Assert.AreEqual(parameter.ParameterType, invoker.TargetType);
             Assert.IsAssignableFrom<ListFavoringConstructorQuery>(invoker.Query);
         }

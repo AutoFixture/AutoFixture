@@ -175,7 +175,7 @@ throw new PrivateUnexpectedException("Recursive handling should not be triggered
             Assert.Empty(sut.UnprotectedRecordedRequests);
         }
 
-        class PrivateExpectedException : Exception
+        private class PrivateExpectedException : Exception
         {
             public PrivateExpectedException(string message)
                 : base(message)
@@ -183,7 +183,7 @@ throw new PrivateUnexpectedException("Recursive handling should not be triggered
             }
         }
 
-        class PrivateUnexpectedException : Exception
+        private class PrivateUnexpectedException : Exception
         {
             public PrivateUnexpectedException(string message)
                 : base(message)
@@ -228,7 +228,6 @@ throw new PrivateUnexpectedException("Recursive handling should not be triggered
             object recursiveRequest = null;
 
             sut.OnHandleRecursiveRequest = obj => recursiveRequest = obj;
-
 
             var container = new DelegatingSpecimenContext();
             container.OnResolve = r => sut.Create(r, container);

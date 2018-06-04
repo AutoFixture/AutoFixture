@@ -116,8 +116,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Assert
             Assert.Equal(expected, result);
         }
-        
-        
+
         [Fact]
         public void DoesntActivateFixtureImmediately()
         {
@@ -135,8 +134,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Assert
             Assert.False(wasInvoked);
         }
-        
-        
+
         [Fact]
         public void PreDiscoveryShouldBeDisabled()
         {
@@ -150,15 +148,14 @@ namespace AutoFixture.Xunit2.UnitTest
             var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
 
             // Act
-            var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
-            var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
+            var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
+            var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
 
             // Assert
             Assert.Equal(expectedType, actualType);
             Assert.Equal(expectedAssembly, actualAssembly);
-
         }
-        
+
         private class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute
         {
             public DerivedInlineAutoDataAttribute(
@@ -168,7 +165,7 @@ namespace AutoFixture.Xunit2.UnitTest
             {
             }
         }
-        
+
         private class DerivedAutoDataAttribute : AutoDataAttribute
         {
             public DerivedAutoDataAttribute(Func<IFixture> fixtureFactory)

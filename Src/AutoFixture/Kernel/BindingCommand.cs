@@ -165,7 +165,7 @@ namespace AutoFixture.Kernel
         /// </param>
         /// <remarks>
         /// <para>
-        /// This method assigns a value to the property or field identified by 
+        /// This method assigns a value to the property or field identified by
         /// the expression supplied to the class' constructor. If no value (or
         /// creator) was supplied to the constructor,
         /// <paramref name="context" /> will be used to create the value.
@@ -180,19 +180,23 @@ namespace AutoFixture.Kernel
 
             var pi = this.Member as PropertyInfo;
             if (pi != null)
+            {
                 TrySetValue(
                     specimen,
                     bindingValue,
                     pi.PropertyType,
                     (s, v) => pi.SetValue(s, v, null));
+            }
 
             var fi = this.Member as FieldInfo;
             if (fi != null)
+            {
                 TrySetValue(
                     specimen,
                     bindingValue,
                     fi.FieldType,
                     (s, v) => fi.SetValue(s, v));
+            }
         }
 
         private static void TrySetValue(
@@ -207,15 +211,15 @@ namespace AutoFixture.Kernel
             }
             catch (ArgumentException)
             {
-                if (value is IConvertible)
-                    setValue(
-                        specimen,
-                        Convert.ChangeType(
-                            value,
-                            targetType,
-                            CultureInfo.CurrentCulture));
-                else
+                if (!(value is IConvertible))
                     throw;
+
+                setValue(
+                    specimen,
+                    Convert.ChangeType(
+                        value,
+                        targetType,
+                        CultureInfo.CurrentCulture));
             }
         }
     }

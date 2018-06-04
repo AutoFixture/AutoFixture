@@ -62,8 +62,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var sut = new CallResultResolver(specimenContext);
 
             var target = Substitute.For<IInterfaceWithParameterAndOutVoidMethod>();
-            int _;
-            var call = CallHelper.CreateCallMock(() => target.Method(null, out _));
+            int ignored;
+            var call = CallHelper.CreateCallMock(() => target.Method(null, out ignored));
 
             specimenContext.Resolve(typeof(int)).Returns(42);
 
@@ -98,7 +98,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             Assert.Equal(42, callResult.ArgumentValues.First().Value);
         }
 
-
         [Fact]
         public void ShouldNotReturnValueIfOmitted()
         {
@@ -127,8 +126,8 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             var target = Substitute.For<IInterfaceWithRefIntMethod>();
 
-            int _ = 0;
-            var call = CallHelper.CreateCallMock(() => target.Method(ref _));
+            int ignored = 0;
+            var call = CallHelper.CreateCallMock(() => target.Method(ref ignored));
 
             specimenContext.Resolve(typeof(int)).Returns(new OmitSpecimen());
 

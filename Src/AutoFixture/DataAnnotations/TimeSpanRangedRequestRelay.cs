@@ -10,7 +10,7 @@ namespace AutoFixture.DataAnnotations
     /// </summary>
     public class TimeSpanRangedRequestRelay : ISpecimenBuilder
     {
-        /// <inheritdoc />   
+        /// <inheritdoc />
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -58,6 +58,7 @@ namespace AutoFixture.DataAnnotations
         private struct TimeSpanRange
         {
             public TimeSpan Min { get; set; }
+
             public TimeSpan Max { get; set; }
         }
     }

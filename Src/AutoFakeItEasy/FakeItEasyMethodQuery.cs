@@ -13,7 +13,7 @@ namespace AutoFixture.AutoFakeItEasy
     /// </summary>
     public class FakeItEasyMethodQuery : IMethodQuery
     {
-        private static readonly DelegateSpecification delegateSpecification = new DelegateSpecification();
+        private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
 
         /// <summary>
         /// Selects constructors for the supplied type.
@@ -36,7 +36,7 @@ namespace AutoFixture.AutoFakeItEasy
             }
 
             var fakeType = type.GetFakedType();
-            if (fakeType.GetTypeInfo().IsInterface || delegateSpecification.IsSatisfiedBy(fakeType))
+            if (fakeType.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(fakeType))
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
@@ -53,7 +53,7 @@ namespace AutoFixture.AutoFakeItEasy
                 Type type,
                 IEnumerable<ParameterInfo> parameterInfos)
             {
-                var constructedType = 
+                var constructedType =
                     typeof(FakeMethod<>).MakeGenericType(type);
                 return (IMethod)Activator.CreateInstance(
                     constructedType,
@@ -74,7 +74,7 @@ namespace AutoFixture.AutoFakeItEasy
 
             public object Invoke(IEnumerable<object> parameters)
             {
-                var genericFakeType = typeof (Fake<>).MakeGenericType(typeof (T));
+                var genericFakeType = typeof(Fake<>).MakeGenericType(typeof(T));
 
                 foreach (var constructor in genericFakeType.GetConstructors())
                 {
@@ -86,7 +86,7 @@ namespace AutoFixture.AutoFakeItEasy
 
                     var parameterType = constructorParameterInfos[0].ParameterType;
                     if (!parameterType.GetTypeInfo().IsGenericType ||
-                        parameterType.GetGenericTypeDefinition() != typeof (Action<>))
+                        parameterType.GetGenericTypeDefinition() != typeof(Action<>))
                     {
                         continue;
                     }
@@ -100,7 +100,7 @@ namespace AutoFixture.AutoFakeItEasy
 
                     var withArgumentsForConstructorMethod = fakeOptionsType.GetMethod(
                         "WithArgumentsForConstructor",
-                        new[] {typeof (object[])});
+                        new[] { typeof(object[]) });
 
                     if (withArgumentsForConstructorMethod == null)
                     {
@@ -108,9 +108,9 @@ namespace AutoFixture.AutoFakeItEasy
                     }
 
                     Action<object> addConstructorArgumentsToOptionsAction =
-                        options => withArgumentsForConstructorMethod.Invoke(options, new object[] {parameters});
+                        options => withArgumentsForConstructorMethod.Invoke(options, new object[] { parameters });
 
-                    return constructor.Invoke(new object[] {addConstructorArgumentsToOptionsAction});
+                    return constructor.Invoke(new object[] { addConstructorArgumentsToOptionsAction });
                 }
 
                 return null;

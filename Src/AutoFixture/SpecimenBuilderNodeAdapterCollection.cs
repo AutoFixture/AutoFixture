@@ -32,12 +32,12 @@ namespace AutoFixture
                 // Usually during the Fixture construction it's customized a lot of times.
                 // Some of the collections are not even touched after the construction and are immediately
                 // recreated again after a subsequent customization.
-                // To cover such scenarios we evaluate value on demand only saving the initialization time. 
+                // To cover such scenarios we evaluate value on demand only saving the initialization time.
                 if (this.adaptedBuilderNode != null)
                     return this.adaptedBuilderNode;
 
                 // The intermediate "result" variable is needed to ensure that null value can be never returned
-                // in case of concurrency (we can set field to null). While current collection implementation doesn't 
+                // in case of concurrency (we can set field to null). While current collection implementation doesn't
                 // seem to support concurrency, the additional guard adds more safety.
                 var result = this.adaptedBuilderNode = this.FindAdaptedSpecimenBuilderNode();
                 return result;
@@ -47,7 +47,6 @@ namespace AutoFixture
         private void InvalidateCachedAdaptedBuilderNode() => this.adaptedBuilderNode = null;
 
         private IEnumerable<ISpecimenBuilder> AdaptedBuilders => this.AdaptedBuilderNode;
-
 
         /// <summary>
         /// Initializes a new instance of the
@@ -190,14 +189,8 @@ namespace AutoFixture
         /// </returns>
         public ISpecimenBuilder this[int index]
         {
-            get
-            {
-                return this.AdaptedBuilders.ElementAt(index);
-            }
-            set
-            {
-                this.Mutate(this.AdaptedBuilders.SetItem(index, value));
-            }
+            get => this.AdaptedBuilders.ElementAt(index);
+            set => this.Mutate(this.AdaptedBuilders.SetItem(index, value));
         }
 
         /// <summary>
@@ -447,7 +440,7 @@ namespace AutoFixture
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
             var adaptedNode = this.AdaptedBuilderNode;
-            
+
             this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
                 when: adaptedNode.Equals);
@@ -456,7 +449,7 @@ namespace AutoFixture
         private ISpecimenBuilderNode FindAdaptedSpecimenBuilderNode()
         {
             var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
-            return (ISpecimenBuilderNode) markerNode.First();
+            return (ISpecimenBuilderNode)markerNode.First();
         }
     }
 }

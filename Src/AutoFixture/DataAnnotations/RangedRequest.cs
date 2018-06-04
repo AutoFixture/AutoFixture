@@ -15,7 +15,7 @@ namespace AutoFixture.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the <see cref="RangedRequest"/> class.
         /// </summary>
-        /// <param name="memberType">Type of the member the range is specified for</param>
+        /// <param name="memberType">Type of the member the range is specified for.</param>
         /// <param name="operandType">Type of the operand.</param>
         /// <param name="minimum">The minimum.</param>
         /// <param name="maximum">The maximum.</param>
@@ -139,7 +139,6 @@ namespace AutoFixture.DataAnnotations
             {
                 // Mimic RangeAttribute conversion behavior:
                 // https://github.com/Microsoft/referencesource/blob/b31308b03e8bd5bf779fb80fda71f31eb959fe0b/System.ComponentModel.DataAnnotations/DataAnnotations/RangeAttribute.cs#L140
-
                 if (attributeValue.GetType() == conversionType)
                     return attributeValue;
 
@@ -153,7 +152,7 @@ namespace AutoFixture.DataAnnotations
                 // https://stackoverflow.com/a/30877647/2009373
                 // That's why we resort to Convert.ChangeType() if we detect that we cannot convert.
                 var converter = TypeDescriptor.GetConverter(conversionType);
-                if(converter.CanConvertFrom(attributeValue.GetType()))
+                if (converter.CanConvertFrom(attributeValue.GetType()))
                     return converter.ConvertFrom(attributeValue);
 
                 return Convert.ChangeType(attributeValue, conversionType, CultureInfo.CurrentCulture);
@@ -181,8 +180,7 @@ namespace AutoFixture.DataAnnotations
                         "RangeAttribute(typeof(long), \"0\", \"9223372036854775807\")",
                         Environment.NewLine,
                         attributeValue.GetType().FullName,
-                        conversionType.FullName
-                    ),
+                        conversionType.FullName),
                     ex);
             }
         }

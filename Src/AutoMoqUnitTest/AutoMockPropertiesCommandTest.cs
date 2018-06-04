@@ -10,7 +10,7 @@ namespace AutoFixture.AutoMoq.UnitTest
     public class AutoMockPropertiesCommandTest
     {
         [Theory]
-        [ClassData(typeof (ValidNonMockSpecimens))]
+        [ClassData(typeof(ValidNonMockSpecimens))]
         public void ExecuteDoesNotThrowsWhenSpecimenIsValidNonMockSpecimen(object validNonMockSpecimen)
         {
             // Arrange

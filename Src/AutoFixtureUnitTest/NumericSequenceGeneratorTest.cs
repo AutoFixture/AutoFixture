@@ -99,8 +99,8 @@ namespace AutoFixtureUnitTest
         public void CreateWith256ByteRequestsReturnsByteSpecimens()
         {
             // Arrange
-            var sequence = Enumerable.Range(0, Byte.MaxValue + 1);
-            var request = typeof(Byte);
+            var sequence = Enumerable.Range(0, byte.MaxValue + 1);
+            var request = typeof(byte);
             var sut = new NumericSequenceGenerator();
             // Act
             var dummyContainer = new DelegatingSpecimenContext();
@@ -113,8 +113,8 @@ namespace AutoFixtureUnitTest
         public void CreateWith128SByteRequestsReturnsSByteSpecimens()
         {
             // Arrange
-            var sequence = Enumerable.Range(0, SByte.MaxValue + 1);
-            var request = typeof(SByte);
+            var sequence = Enumerable.Range(0, sbyte.MaxValue + 1);
+            var request = typeof(sbyte);
             var sut = new NumericSequenceGenerator();
             // Act
             var dummyContainer = new DelegatingSpecimenContext();

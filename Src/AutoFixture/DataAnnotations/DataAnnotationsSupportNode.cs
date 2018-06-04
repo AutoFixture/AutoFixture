@@ -23,7 +23,7 @@ namespace AutoFixture.DataAnnotations
         public ISpecimenBuilder Builder { get; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DataAnnotationsSupportNode"/>
+        /// Initializes a new instance of <see cref="DataAnnotationsSupportNode"/>.
         /// </summary>
         /// <param name="builder">Builder that handles all the data annotation related requests.</param>
         public DataAnnotationsSupportNode(ISpecimenBuilder builder)

@@ -11,8 +11,7 @@ namespace AutoFixture
         private readonly ElementsBuilder<string> fictitiousDomainBuilder = new ElementsBuilder<string>(
                 "example.com",
                 "example.net",
-                "example.org"
-            );
+                "example.org");
 
         /// <inheritdoc />
         public object Create(object request, ISpecimenContext context)

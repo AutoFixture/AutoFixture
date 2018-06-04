@@ -101,16 +101,16 @@ namespace AutoFixture.IdiomsUnitTest
             var sut = new CopyAndUpdateAssertion(dummyComposer);
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((MethodInfo) null));
+                sut.Verify((MethodInfo)null));
         }
 
         [Theory]
-        [InlineData(typeof (ImmutableWellBehavedCopyMethods), "WithFirst")]
-        [InlineData(typeof (ImmutableWellBehavedCopyMethods), "WithSecond")]
-        [InlineData(typeof (ImmutableWellBehavedCopyMethods), "WithThird")]
-        [InlineData(typeof (MutableWellBehavedCopyMethods), "WithFirst")]
-        [InlineData(typeof (MutableWellBehavedCopyMethods), "WithSecond")]
-        [InlineData(typeof (MutableWellBehavedCopyMethods), "WithThird")]
+        [InlineData(typeof(ImmutableWellBehavedCopyMethods), "WithFirst")]
+        [InlineData(typeof(ImmutableWellBehavedCopyMethods), "WithSecond")]
+        [InlineData(typeof(ImmutableWellBehavedCopyMethods), "WithThird")]
+        [InlineData(typeof(MutableWellBehavedCopyMethods), "WithFirst")]
+        [InlineData(typeof(MutableWellBehavedCopyMethods), "WithSecond")]
+        [InlineData(typeof(MutableWellBehavedCopyMethods), "WithThird")]
         public void VerifyWellBehavedDoesNotThrow(Type typeWithCopyUpdateMethod, string copyUpdateMethodName)
         {
             // Arrange
@@ -123,15 +123,15 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithFirstButFirstDifferent", "First")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithSecondButSecondDifferent", "Second")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithThirdButThirdDifferent", "Third")]
-        [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
-        [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
-        [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
-        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithFirstButFirstDifferent", "First")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithSecondButSecondDifferent", "Second")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithThirdButThirdDifferent", "Third")]
+        [InlineData(typeof(ImmutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
+        [InlineData(typeof(ImmutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
+        [InlineData(typeof(ImmutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
+        [InlineData(typeof(MutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
         public void VerifyIllBehavedWithInvalidMemberValueThrows(
             Type typeWithCopyUpdateMethod,
             string copyUpdateMethodName,
@@ -149,9 +149,9 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof (ImmutableWithDifferentName), "With", "differentName")]
-        [InlineData(typeof (ImmutableWithDifferentType), "With", "differentType")]
-        [InlineData(typeof (ImmutableWithDifferentBoth), "With", "differentBoth")]
+        [InlineData(typeof(ImmutableWithDifferentName), "With", "differentName")]
+        [InlineData(typeof(ImmutableWithDifferentType), "With", "differentType")]
+        [InlineData(typeof(ImmutableWithDifferentBoth), "With", "differentBoth")]
         public void VerifyWhenMethodHasNoMatchingPublicMembersThrows(
             Type copyUpdateMethodType,
             string methodName,
@@ -283,7 +283,7 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 var differentThird = new ComplexMutable<int, int, int>
                 {
-                    First = third.First+1,
+                    First = third.First + 1,
                     Second = third.Second,
                     Third = third.Third,
                 };
@@ -375,7 +375,7 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Equal(memberWithInvalidValue, ex.MemberWithInvalidValue);
         }
 
-        class DummyReflectionElementComparer : IEqualityComparer<IReflectionElement>
+        private class DummyReflectionElementComparer : IEqualityComparer<IReflectionElement>
         {
             public bool Equals(IReflectionElement x, IReflectionElement y)
             {
@@ -388,7 +388,7 @@ namespace AutoFixture.IdiomsUnitTest
             }
         }
 
-        class DummyEqualityComparer<T> : IEqualityComparer
+        private class DummyEqualityComparer<T> : IEqualityComparer
         {
             bool IEqualityComparer.Equals(object x, object y)
             {

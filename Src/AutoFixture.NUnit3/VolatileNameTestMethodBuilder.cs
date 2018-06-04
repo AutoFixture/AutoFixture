@@ -31,7 +31,7 @@ namespace AutoFixture.NUnit3
             return new NUnitTestCaseBuilder().BuildTestMethod(method, suite, GetParametersForMethod(parameterValues));
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
         private static TestCaseParameters GetParametersForMethod(IEnumerable<object> parameterValues)
         {

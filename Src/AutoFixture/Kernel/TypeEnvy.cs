@@ -16,7 +16,7 @@ namespace AutoFixture.Kernel
             var attributes = attributeProvider.GetCustomAttributes(typeof(TAttribute), true);
 
             if (attributes.Length == 0) return null;
-            if (attributes.Length == 1) return (TAttribute) attributes[0];
+            if (attributes.Length == 1) return (TAttribute)attributes[0];
 
             throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
                 "Member '{0}' contains more than one attribute of type '{1}'", candidate, typeof(TAttribute)));
@@ -42,10 +42,10 @@ namespace AutoFixture.Kernel
             argument = null;
             return false;
         }
-        
+
         public static bool IsNumberType(this Type type)
         {
-            if(type.GetTypeInfo().IsEnum) return false;
+            if (type.GetTypeInfo().IsEnum) return false;
 
             var typeCode = Type.GetTypeCode(type);
             switch (typeCode)

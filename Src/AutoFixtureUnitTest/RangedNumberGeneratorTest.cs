@@ -223,18 +223,15 @@ namespace AutoFixtureUnitTest
                 new RangedNumberRequest(
                     typeof(decimal),
                     Convert.ChangeType(minimum, typeof(decimal)),
-                    Convert.ChangeType(maximum, typeof(decimal))
-                    ),
+                    Convert.ChangeType(maximum, typeof(decimal))),
                 new RangedNumberRequest(
                     typeof(double),
                     Convert.ChangeType(minimum, typeof(double)),
-                    Convert.ChangeType(maximum, typeof(double))
-                    ),
+                    Convert.ChangeType(maximum, typeof(double))),
                 new RangedNumberRequest(
                     typeof(decimal),
                     Convert.ChangeType(minimum, typeof(decimal)),
-                    Convert.ChangeType(maximum, typeof(decimal))
-                    )
+                    Convert.ChangeType(maximum, typeof(decimal)))
             };
             var context = new DelegatingSpecimenContext
             {
@@ -254,7 +251,6 @@ namespace AutoFixtureUnitTest
             {
                 Assert.Null(Record.Exception(() => sut.Create(r, context)));
             }
-
         }
 
         [Fact]
@@ -277,7 +273,7 @@ namespace AutoFixtureUnitTest
                 {
                     request =
                         new RangedNumberRequest(
-                            typeof(short), (short)(byte.MaxValue), short.MaxValue),
+                            typeof(short), (short)byte.MaxValue, short.MaxValue),
                     contextStub =
                         new DelegatingSpecimenContext
                         {
@@ -325,7 +321,7 @@ namespace AutoFixtureUnitTest
                 {
                     request =
                         new RangedNumberRequest(
-                            typeof(int), (int)(short.MaxValue), int.MaxValue),
+                            typeof(int), (int)short.MaxValue, int.MaxValue),
                     contextStub =
                         new DelegatingSpecimenContext
                         {
@@ -372,14 +368,14 @@ namespace AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: new object(),
                     expectedResult: new NoSpecimen());
 
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 1, expectedResult: (uint)11);
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 2, expectedResult: (uint)12);
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 3, expectedResult: (uint)13);
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 10, expectedResult: (uint)10);
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 17, expectedResult: (uint)17);
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (uint)20);
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (uint)10);
-                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 13, contextValue: 4, expectedResult: (uint)10);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 1, expectedResult: 11U);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 2, expectedResult: 12U);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 3, expectedResult: 13U);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 10, expectedResult: 10U);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 17, expectedResult: 17U);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 20, expectedResult: 20U);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 21, expectedResult: 10U);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 13, contextValue: 4, expectedResult: 10U);
                 yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: new object(),
                     expectedResult: new NoSpecimen());
 
@@ -413,14 +409,14 @@ namespace AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(long), minimum: 100000000000, maximum: 200000000000, contextValue: new object(),
                     expectedResult: new NoSpecimen());
 
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 1, expectedResult: (ulong)11);
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 2, expectedResult: (ulong)12);
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 3, expectedResult: (ulong)13);
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 10, expectedResult: (ulong)10);
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 17, expectedResult: (ulong)17);
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (ulong)20);
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (ulong)10);
-                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 13, contextValue: 4, expectedResult: (ulong)10);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 1, expectedResult: 11UL);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 2, expectedResult: 12UL);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 3, expectedResult: 13UL);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 10, expectedResult: 10UL);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 17, expectedResult: 17UL);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 20, expectedResult: 20UL);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 21, expectedResult: 10UL);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 13, contextValue: 4, expectedResult: 10UL);
                 yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: new object(),
                     expectedResult: new NoSpecimen());
 

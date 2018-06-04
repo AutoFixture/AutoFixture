@@ -46,7 +46,7 @@ namespace AutoFixture.Idioms
         /// the new value. The index is zero-based.
         /// </para>
         /// </remarks>
-        /// <seealso cref="Expand" />        
+        /// <seealso cref="Expand" />
         public IndexedReplacement(int replacementIndex, IEnumerable<T> source)
             : this(replacementIndex, source.ToArray())
         {

@@ -24,16 +24,16 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.Throws<ArgumentNullException>(() => new InlineAutoDataAttributeStub((IFixture)null));
 #pragma warning restore 612
         }
-        
+
         [Test]
         public void InitializeWithNullFixtureFactoryThrows()
         {
             // Arrange
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoDataAttributeStub((Func<IFixture>) null));
+                new AutoDataAttributeStub((Func<IFixture>)null));
         }
-        
+
         [Test]
         public void FixtureFactoryIsNotInvokedImmediately()
         {
@@ -47,11 +47,10 @@ namespace AutoFixture.NUnit3.UnitTest
 
             // Act
             var sut = new AutoDataAttributeStub(fixtureFactory);
-            
+
             // Assert
             Assert.False(wasInvoked);
         }
-        
 
         [Test]
         public void IfCreateParametersThrowsExceptionThenReturnsNotRunnableTestMethodWithExceptionInfoAsSkipReason()
@@ -74,23 +73,23 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.That(testMethod.Properties.Get(PropertyNames.SkipReason),
                 Is.EqualTo(ExceptionHelper.BuildMessage(new ThrowingStubFixture.DummyException())));
         }
-        
+
         [Test]
         public void BuildFromDontActivateFixtureIfArgsValuesAreNotUsedByTestBuilder()
         {
             // Arrange
             bool wasActivated = false;
-            
+
             var sut = new AutoDataAttributeStub(() =>
             {
                 wasActivated = true;
                 return null;
             });
             sut.TestMethodBuilder = new TestMethodBuilderWithoutParametersUsage();
-            
+
             var methodWrapper = new MethodWrapper(this.GetType(), nameof(this.DummyTestMethod));
             var testSuite = new TestSuite(this.GetType());
-            
+
             // Assert
             var dummy = sut.BuildFrom(methodWrapper, testSuite).ToArray();
 
@@ -109,7 +108,7 @@ namespace AutoFixture.NUnit3.UnitTest
             // Assert
             Assert.AreSame(expectedArguments, result);
         }
-        
+
         [TestCase("CreateWithFrozenAndFavorArrays")]
         [TestCase("CreateWithFavorArraysAndFrozen")]
         [TestCase("CreateWithFrozenAndFavorEnumerables")]
@@ -142,13 +141,13 @@ namespace AutoFixture.NUnit3.UnitTest
         }
 
         /// <summary>
-        /// This is used in BuildFromYieldsParameterValues for building a unit test method
+        /// This is used in BuildFromYieldsParameterValues for building a unit test method.
         /// </summary>
         public void DummyTestMethod(int anyInt, double anyDouble)
         {
         }
-        
-        private class TestMethodBuilderWithoutParametersUsage: ITestMethodBuilder
+
+        private class TestMethodBuilderWithoutParametersUsage : ITestMethodBuilder
         {
             public TestMethod Build(
                 IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)
@@ -194,7 +193,7 @@ namespace AutoFixture.NUnit3.UnitTest
                 customizationLog.Add(c);
                 return fixture;
             };
-            var sut = new InlineAutoDataAttributeStub(() => fixture, new[] {42});
+            var sut = new InlineAutoDataAttributeStub(() => fixture, new[] { 42 });
 
             // Act
             sut.BuildFrom(method, new TestSuite(this.GetType())).ToArray();

@@ -8,9 +8,9 @@ namespace AutoFixture.NUnit2.Addins
     /// Abstract attribute which represents a testcase provider for a testcase.
     ///             TestCase providers derive from this attribute and implement GetArguments
     ///             to return the arguments for the testcase.
-    /// 
+    ///
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]   
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public abstract class DataAttribute : Attribute
     {
         /// <summary>

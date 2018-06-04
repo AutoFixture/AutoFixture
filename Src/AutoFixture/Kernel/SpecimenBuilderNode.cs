@@ -11,22 +11,8 @@ namespace AutoFixture.Kernel
     public static class SpecimenBuilderNode
     {
         /// <summary>
-        /// Determines whether two <see cref="ISpecimenBuilderNode" />
-        /// instances are define the same graph.
+        /// Determines whether two <see cref="ISpecimenBuilderNode" /> instances are define the same graph.
         /// </summary>
-        /// <param name="first">
-        /// An <see cref="ISpecimenBuilderNode" /> to compare against
-        /// <paramref name="second" />.
-        /// </param>
-        /// <param name="second">
-        /// An <see cref="ISpecimenBuilderNode" /> to compare against
-        /// <paramref name="first" />.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if the two
-        /// <see cref="ISpecimenBuilderNode" /> define the same graph;
-        /// otherwise, <see langword="false" />.
-        /// </returns>
         /// <remarks>
         /// <para>
         /// Two <see cref="ISpecimenBuilderNode" /> instances define the same
@@ -34,9 +20,6 @@ namespace AutoFixture.Kernel
         /// child nodes recursively are equal to each other.
         /// </para>
         /// </remarks>
-        /// <exception cref="System.ArgumentNullException">first</exception>
-        /// <exception cref="System.ArgumentNullException">second</exception>
-        /// <seealso cref="GraphEquals(ISpecimenBuilderNode, ISpecimenBuilderNode, IEqualityComparer{ISpecimenBuilder})"/>
         public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second)
         {
             if (first == null) throw new ArgumentNullException(nameof(first));
@@ -46,25 +29,8 @@ namespace AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Determines whether two <see cref="ISpecimenBuilderNode" />
-        /// instances are define the same graph.
+        /// Determines whether two <see cref="ISpecimenBuilderNode" /> instances are define the same graph.
         /// </summary>
-        /// <param name="first">
-        /// An <see cref="ISpecimenBuilderNode" /> to compare against
-        /// <paramref name="second" />.
-        /// </param>
-        /// <param name="second">
-        /// An <see cref="ISpecimenBuilderNode" /> to compare against
-        /// <paramref name="first" />.
-        /// </param>
-        /// <param name="comparer">
-        /// The comparer used to compare each node to another node.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if the two
-        /// <see cref="ISpecimenBuilderNode" /> define the same graph;
-        /// otherwise, <see langword="false" />.
-        /// </returns>
         /// <remarks>
         /// <para>
         /// Two <see cref="ISpecimenBuilderNode" /> instances define the same
@@ -73,10 +39,6 @@ namespace AutoFixture.Kernel
         /// defined by <paramref name="comparer" />.
         /// </para>
         /// </remarks>
-        /// <exception cref="System.ArgumentNullException">first</exception>
-        /// <exception cref="System.ArgumentNullException">second</exception>
-        /// <exception cref="System.ArgumentNullException">comparer</exception>
-        /// <seealso cref="GraphEquals(ISpecimenBuilderNode, ISpecimenBuilderNode)"/>
         public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second, IEqualityComparer<ISpecimenBuilder> comparer)
         {
             if (first == null) throw new ArgumentNullException(nameof(first));
@@ -86,8 +48,7 @@ namespace AutoFixture.Kernel
             if (!comparer.Equals(first, second))
                 return false;
 
-            using (IEnumerator<ISpecimenBuilder> e1 = first.GetEnumerator(),
-                e2 = second.GetEnumerator())
+            using (IEnumerator<ISpecimenBuilder> e1 = first.GetEnumerator(), e2 = second.GetEnumerator())
             {
                 while (e1.MoveNext())
                 {
@@ -169,8 +130,7 @@ namespace AutoFixture.Kernel
 
             foreach (var builder in graph)
             {
-                var builderNode = builder as ISpecimenBuilderNode;
-                if (builderNode != null)
+                if (builder is ISpecimenBuilderNode builderNode)
                 {
                     var result = FindFirstNodeOrDefault(builderNode, predicate);
                     if (result != null) return result;

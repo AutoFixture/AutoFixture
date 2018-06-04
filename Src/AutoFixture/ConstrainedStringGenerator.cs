@@ -39,7 +39,7 @@ namespace AutoFixture
                 sb.Append(context.Resolve(typeof(string)));
             }
             while (sb.Length < minimumLength);
-            
+
             if (sb.Length > maximumLength)
             {
                 return sb.ToString().Substring(0, maximumLength);

@@ -15,11 +15,10 @@ using NSubstitute.Routing.Handlers;
 
 namespace AutoFixture.AutoNSubstitute
 {
-
     /// <summary>
     /// Sets up a substitute object's methods so that the return values will be retrieved from a fixture,
     /// instead of being created directly by NSubstitute.
-    /// 
+    ///
     /// This will setup any non-void virtual methods.
     /// </summary>
     /// <remarks>
@@ -27,14 +26,14 @@ namespace AutoFixture.AutoNSubstitute
     /// This includes:
     ///  - interface's methods/property getters;
     ///  - class's abstract/virtual/overridden/non-sealed methods/property getters.
-    /// 
+    ///
     /// Notes:
-    /// - Automatic mocking of generic methods isn't feasible - we'd have to antecipate any type 
-    ///     parameters that this method could be called with. 
+    /// - Automatic mocking of generic methods isn't feasible - we'd have to antecipate any type
+    ///     parameters that this method could be called with.
     /// - Void methods are not set up due to a limitation in NSubstitute that When..Do setups can't be overriden
     /// - Calling a method more than once with the same parameters will always return the same value
-    /// - Methods inherited from <see cref="Object" /> are not set up due to a limitation in NSubstitute
-    ///     (http://stackoverflow.com/a/21787891)
+    /// - Methods inherited from <see cref="object" /> are not set up due to a limitation in NSubstitute
+    ///     (http://stackoverflow.com/a/21787891).
     /// </remarks>
     [Obsolete("This class belongs to the legacy integration approach. " +
               "Use the NSubstituteRegisterCallHandlerCommand class and its dependencies instead.")]
@@ -130,10 +129,12 @@ namespace AutoFixture.AutoNSubstitute
             private static string GetFriendlyName(Type type)
             {
                 if (type.GetTypeInfo().IsGenericType)
+                {
                     return string.Format(CultureInfo.CurrentCulture,
                         "{0}<{1}>",
                         type.Name.Split('`')[0],
                         string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+                }
 
                 return type.Name;
             }
@@ -171,14 +172,14 @@ namespace AutoFixture.AutoNSubstitute
                 // 3. NoSetupCallbackHandler uses substitute state to check whether we already have result for the call.
                 //    That could happen if client already configured return value for particular property/method manually.
                 //    Also, that happens if we already configured return value for the call.
-                //      
+                //
                 //    If value is not already present:
                 //    3.1 Resolve result using the AutoFixture.
                 //    3.2 Configure NSubstitute to return that value using the `Returns()` method.
-                //    3.3 Invoke the method again. The points 1-3 will be repeated, 
+                //    3.3 Invoke the method again. The points 1-3 will be repeated,
                 //           but this time the NoSetupCallbackHandler will do nothing - we have a result.
                 //
-                // 
+                //
                 // Consider the following things during the code analysis:
                 //  - Each time consumer invokes property/method, we set our custom route and pass control to it.
                 //    We need that to access substitute state and check whether we already have a result for the call.
@@ -189,7 +190,6 @@ namespace AutoFixture.AutoNSubstitute
                 //    That is because Do() {} callback is executed before known return values are returned.
                 //    After our substitute is configured in When-Do, NSubstitute checks whether there is return value for current call.
                 //    Return value is, of course, present and it returns that value to the consumer.
-
                 this.Substitute
                     .WhenForAnyArgs(_ => this.InvokeMethod(methodInfo))
                     .Do(callInfo =>
@@ -200,8 +200,10 @@ namespace AutoFixture.AutoNSubstitute
                             SubstitutionContext.Current.GetCallRouterFor(this.Substitute);
 
                         callRouter.SetRoute(state => new Route(
-                            new ICallHandler[] {
-                                new NoSetupCallbackHandler(state, () => {
+                            new ICallHandler[]
+                            {
+                                new NoSetupCallbackHandler(state, () =>
+                                {
                                     var value = this.Resolve(methodInfo.ReturnType);
                                     if (value is OmitSpecimen)
                                         return;
@@ -226,7 +228,6 @@ namespace AutoFixture.AutoNSubstitute
                 // otherwise, NSubstitute would not be able to set up the methods
                 // that return a circular reference.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
-
                 using (var cancelableTokenSource = new CancellationTokenSource())
                 {
                     var cancelableToken = cancelableTokenSource.Token;
@@ -276,8 +277,10 @@ namespace AutoFixture.AutoNSubstitute
             private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
             {
                 foreach (var value in values)
+                {
                     if (!(value.Item2.Value is OmitSpecimen))
                         callInfo[value.Item1] = value.Item2.Value;
+                }
             }
 
             private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)

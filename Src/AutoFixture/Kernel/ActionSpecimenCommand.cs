@@ -3,7 +3,7 @@
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Adapts an action delegate to <see cref="ISpecimenCommand" />
+    /// Adapts an action delegate to <see cref="ISpecimenCommand" />.
     /// </summary>
     /// <typeparam name="T">
     /// The type of specimen operated on by the adapted action delegate.

@@ -15,7 +15,7 @@ namespace AutoFixture
     /// <summary>
     /// Provides object creation services.
     /// </summary>
-    [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", 
+    [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling",
         Justification = "Fixture is coupled to many other types, because it embodies rules for creating various well-known types from the base class library.")]
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main purpose of Fixture isn't to be a collection of anything." +
@@ -57,7 +57,7 @@ namespace AutoFixture
         /// </summary>
         /// <param name="engine">The engine.</param>
         /// <param name="multiple">The definition and implementation of 'many'.</param>
-        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", 
+        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling",
             Justification = "This is the Façade that binds everything else together, so being coupled to many other types must follow.")]
         public Fixture(ISpecimenBuilder engine, MultipleRelay multiple)
         {
@@ -79,9 +79,7 @@ namespace AutoFixture
                                             typeof(IFixture)),
                                         new ExactTypeSpecification(
                                             typeof(ISpecimenBuilder)))),
-
                                 new StableFiniteSequenceRelay(),
-
                                 MakeQueryBasedBuilderForMatchingType(
                                     typeof(Dictionary<,>),
                                     new ModestConstructorQuery(),
@@ -109,21 +107,18 @@ namespace AutoFixture
                                 MakeQueryBasedBuilderForMatchingType(
                                     typeof(ObservableCollection<>),
                                     new EnumerableFavoringConstructorQuery()),
-
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
                                     new NullableEnumRequestSpecification()),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
-
                                 MakeFixedBuilder(
                                     CultureInfo.InvariantCulture),
                                 MakeFixedBuilder(
                                     Encoding.UTF8),
                                 MakeFixedBuilder(
                                     IPAddress.Loopback),
-
                                 new DataAnnotationsSupportNode(
                                     new CompositeSpecimenBuilder(
                                         new RangeAttributeRelay(),
@@ -172,7 +167,7 @@ namespace AutoFixture
                                 new NoConstructorsSpecification())))));
 
             this.UpdateGraphAndSetupAdapters(newGraph, Enumerable.Empty<ISpecimenBuilderTransformation>());
-            
+
             this.Behaviors.Add(new ThrowingRecursionBehavior());
         }
 
@@ -204,11 +199,11 @@ namespace AutoFixture
             set
             {
                 IRequestSpecification newSpecification = value
-                    ? (IRequestSpecification) new FalseRequestSpecification()
+                    ? (IRequestSpecification)new FalseRequestSpecification()
                     : new AnyTypeSpecification();
 
                 var existingPostProcessor = this.FindAutoPropertiesPostProcessor();
-                
+
                 // Optimization. Do nothing if no change is required (i.e. you set property to its current value).
                 if (existingPostProcessor.Specification.GetType() == newSpecification.GetType())
                     return;
@@ -241,7 +236,7 @@ namespace AutoFixture
         public IList<ISpecimenBuilder> ResidueCollectors => this.residueCollector;
 
         /// <inheritdoc />
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", 
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "This method is required to be generic by design, so there is no way to refactor it.")]
         public ICustomizationComposer<T> Build<T>()
         {
@@ -348,8 +343,8 @@ namespace AutoFixture
 
         private Postprocessor FindAutoPropertiesPostProcessor()
         {
-            var postprocessorHolder = (AutoPropertiesTarget) this.graph.FindFirstNode(b => b is AutoPropertiesTarget);
-            return (Postprocessor) postprocessorHolder.Builder;
+            var postprocessorHolder = (AutoPropertiesTarget)this.graph.FindFirstNode(b => b is AutoPropertiesTarget);
+            return (Postprocessor)postprocessorHolder.Builder;
         }
 
         private static ISpecimenBuilder MakeFixedBuilder<T>(T value)

@@ -171,7 +171,7 @@ namespace AutoFixture.Idioms
 
             return t.IsArray ||
                 nonGenericCollectionTypes.Any(gt => gt.IsAssignableFrom(t)) ||
-                (isGeneric && (genericCollectionTypeGtds.Any(gtd => gtdInterfaces.Contains(gtd))));
+                (isGeneric && genericCollectionTypeGtds.Any(gtd => gtdInterfaces.Contains(gtd)));
         }
 
         /// <summary>

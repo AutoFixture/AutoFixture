@@ -97,7 +97,6 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var dummyTarget = new object();
             // Act & assert
-
             Assert.Throws<ArgumentNullException>(() =>
                 new EqualRequestSpecification(dummyTarget, null));
         }

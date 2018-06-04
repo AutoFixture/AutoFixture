@@ -51,7 +51,7 @@ namespace AutoFixture.Xunit
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
-        /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets
+        /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets.
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {

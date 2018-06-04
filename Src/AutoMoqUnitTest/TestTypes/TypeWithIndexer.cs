@@ -2,7 +2,7 @@
 {
     public class TypeWithIndexer
     {
-        private readonly int[] array = new[] {-99, -99, -99};
+        private readonly int[] array = new[] { -99, -99, -99 };
 
         public int this[int index]
         {

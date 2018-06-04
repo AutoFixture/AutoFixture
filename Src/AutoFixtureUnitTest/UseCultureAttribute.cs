@@ -27,7 +27,6 @@ namespace AutoFixtureUnitTest
             this.uiCulture = new CultureInfo(uiCulture);
         }
 
-
         public override void Before(MethodInfo methodUnderTest)
         {
             originalCulture = CultureInfo.CurrentCulture;

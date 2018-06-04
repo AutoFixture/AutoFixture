@@ -61,7 +61,7 @@ namespace AutoFixture.Kernel
             Type jaggedArrayType = elementType;
             for (int i = 0; i < dimension; i++)
                 jaggedArrayType = jaggedArrayType.MakeArrayType();
-            
+
             return jaggedArrayType;
         }
 

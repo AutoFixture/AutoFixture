@@ -21,7 +21,8 @@ namespace AutoFixture
         {
         }
 
-        public ObjectCreationExceptionWithPath(string message) : base(message)
+        public ObjectCreationExceptionWithPath(string message)
+            : base(message)
         {
         }
 
@@ -95,6 +96,6 @@ namespace AutoFixture
             return messages.ToString();
         }
 
-        private static string Indent(int level) => "".PadLeft(level * 2);
+        private static string Indent(int level) => string.Empty.PadLeft(level * 2);
     }
 }

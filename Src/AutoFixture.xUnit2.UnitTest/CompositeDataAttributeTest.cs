@@ -32,7 +32,7 @@ namespace AutoFixture.Xunit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.GetMethodInfo();
 
             var attributes = new[]
@@ -62,7 +62,7 @@ namespace AutoFixture.Xunit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.GetMethodInfo();
 
             var attributes = new[]
@@ -93,7 +93,7 @@ namespace AutoFixture.Xunit2.UnitTest
         public void GetDataOnMethodWithNoParametersReturnsNoTheory()
         {
             // Arrange
-            Action a = delegate { };
+            Action a = () => { };
             var method = a.GetMethodInfo();
             var parameters = method.GetParameters();
             var parameterTypes = (from pi in parameters
@@ -102,8 +102,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new CompositeDataAttribute(
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>())
-               );
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>()));
 
             // Act & assert
             var result = sut.GetData(a.GetMethodInfo());

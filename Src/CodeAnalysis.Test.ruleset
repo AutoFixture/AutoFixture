@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Empty" Description="Rule set with disabled rules for the test projects" ToolsVersion="15.0">
-  <IncludeAll Action="Warning" />
+  <Include Path="CodeAnalysis.AutoFixture.ruleset" Action="Default" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1000" Action="None" />
     <Rule Id="CA1001" Action="None" />
@@ -139,7 +139,7 @@
     <Rule Id="CA1822" Action="None" />
     <Rule Id="CA1823" Action="None" />
     <Rule Id="CA1824" Action="None" />
-	<Rule Id="CA1825" Action="None" />
+    <Rule Id="CA1825" Action="None" />
     <Rule Id="CA1900" Action="None" />
     <Rule Id="CA1901" Action="None" />
     <Rule Id="CA1903" Action="None" />
@@ -597,5 +597,13 @@
   </Rules>
   <Rules AnalyzerId="XmlDocumentationComments.Analyzers" RuleNamespace="XmlDocumentationComments.Analyzers">
     <Rule Id="RS0010" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA0001" Action="None" /> <!-- XML comment analysis is disabled due to project configuration -->
+    <Rule Id="SA1133" Action="None" /> <!-- Each attribute should be placed in its own set of square brackets. -->
+    <Rule Id="SA1401" Action="None" /> <!-- Field should be private -->
+    <Rule Id="SA1402" Action="None" /> <!-- File may only contain a single type -->
+    <Rule Id="SA1515" Action="None" /> <!-- Single-line comment should be preceded by blank line -->
+    <Rule Id="SA1516" Action="None" /> <!-- Elements should be separated by blank line -->
   </Rules>
 </RuleSet>

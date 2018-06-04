@@ -51,7 +51,6 @@ namespace AutoFixture.AutoMoq.UnitTest
         [Fact]
         public void InitializesPublicFields()
         {
-
             // Arrange
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
@@ -111,7 +110,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithPrivateProperty>();
-            var privateProperty = typeof (TypeWithPrivateProperty)
+            var privateProperty = typeof(TypeWithPrivateProperty)
                 .GetProperty("PrivateProperty",
                              BindingFlags.Instance | BindingFlags.NonPublic);
 

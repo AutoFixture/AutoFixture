@@ -136,7 +136,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act & Assert
             var result = fixture.Create<IInterfaceWithRefMethod>();
 
-            string refResult = "";
+            string refResult = string.Empty;
             string returnValue = result.Method(ref refResult);
 
             Assert.Equal(frozenString, refResult);
@@ -701,9 +701,9 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         /// <summary>
         /// Subsitute clear is used to reset manually configured user returns.
         /// The values configured by AutoFixture are not being manually-configured.
-        /// 
+        ///
         /// If user needs that, it could easily override the auto-generated value using the
-        /// substitute.Method(...).Returns(...); 
+        /// substitute.Method(...).Returns(...);.
         /// </summary>
         [Theory]
         [InlineData(ClearOptions.CallActions)]
@@ -729,7 +729,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         /// <summary>
         /// Current implementation of NSubsitute doesn't call custom handlers for the Received.InOrder() scope (which
         /// we use for our integration with NSubstitute). That shouldsn't cause any usability issues for users.
-        ///  
+        ///
         /// Asserting that behavior via test to get a notification when that behavior changes, so we can make a decision
         /// whether we need to alter something in AF or not to respect that change.
         /// </summary>
@@ -755,22 +755,22 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
         private class Issue630_TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
         {
-            private const int DELAY_MSEC = 100;
-            private readonly object _syncRoot = new object();
+            private const int DelayMSec = 100;
+            private readonly object syncRoot = new object();
             private HashSet<Task> Tasks { get; } = new HashSet<Task>();
 
             protected override void QueueTask(Task task)
             {
-                lock (this._syncRoot)
+                lock (this.syncRoot)
                 {
                     this.Tasks.Add(task);
                 }
 
                 ThreadPool.QueueUserWorkItem(delegate
                 {
-                    Thread.Sleep(DELAY_MSEC);
+                    Thread.Sleep(DelayMSec);
 
-                    //If task cannot be dequeued - it was already executed.
+                    // If task cannot be dequeued - it was already executed.
                     if (this.TryDequeue(task))
                     {
                         this.TryExecuteTask(task);
@@ -780,7 +780,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             protected override bool TryDequeue(Task task)
             {
-                lock (this._syncRoot)
+                lock (this.syncRoot)
                 {
                     return this.Tasks.Remove(task);
                 }
@@ -788,8 +788,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
             {
-
-                //If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
+                // If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
                 if (taskWasPreviouslyQueued && !this.TryDequeue(task))
                 {
                     return false;
@@ -801,9 +800,9 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             protected override IEnumerable<Task> GetScheduledTasks()
             {
-                lock (this._syncRoot)
+                lock (this.syncRoot)
                 {
-                    //Create copy to ensure that it's not modified during enumeration
+                    // Create copy to ensure that it's not modified during enumeration
                     return this.Tasks.ToArray();
                 }
             }
@@ -812,8 +811,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
-            //Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
-
+            // Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
@@ -823,7 +821,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
              * Simulate situation when tasks are always inlined on current thread.
              * To do that we implement our custom scheduler which put some delay before running task.
              * That gives a chance for task to be inlined.
-             * 
+             *
              * Schedulers are propagated to the nested tasks, so we are resolving IInterfaceWithMethod inside the task.
              * All the tasks created during that resolve will be inlined, if that is possible.
              */
@@ -832,7 +830,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             var instance = task.Result;
 
-            //This test should not fail. Assertion is dummy and to specify that we use instance.
+            // This test should not fail. Assertion is dummy and to specify that we use instance.
             Assert.NotNull(instance);
         }
 
@@ -849,7 +847,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             }
 
             protected override IEnumerable<Task> GetScheduledTasks() => Enumerable.Empty<Task>();
-
         }
 
         [Fact]
@@ -857,11 +854,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             var task = new Task(() =>
             {
-                //arrange
+                // arrange
                 var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
                 var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
-                //act & assert not throw
+                // act & assert not throw
                 var result = interfaceSource.Method();
             });
             task.Start(new InlineOnQueueTaskScheduler());
@@ -877,11 +874,10 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var subsitute = fixture.Create<IInterfaceWithProperty>();
 
             var expected = fixture.Create<string>();
-            fixture.Customizations.Insert(0, 
+            fixture.Customizations.Insert(0,
                 new FilteringSpecimenBuilder(
                     new FixedBuilder(expected),
-                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))
-                ));
+                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));
 
             // Act
             var result = subsitute.Property;
@@ -901,7 +897,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var result = fixture.Create<int>();
 
             // Act
-            substitute.Method(parameter, out int dummy).Returns(c => { c[1] = result; return true; });
+            substitute.Method(parameter, out int dummy).Returns(c =>
+            {
+                c[1] = result;
+                return true;
+            });
 
             int actualResult;
             substitute.Method(parameter, out actualResult);
@@ -923,14 +923,13 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             var tasks = Enumerable
                 .Range(0, degreeOfParallelism)
-                .Select(_ => Task.Run
-                (async () =>
+                .Select(_ => Task.Run(
+                    async () =>
                     {
                         await start.WaitAsync(cts.Token).ConfigureAwait(false);
                         substitute.Method();
                     },
                     cts.Token));
-
 
             // Act
             start.Release(degreeOfParallelism);

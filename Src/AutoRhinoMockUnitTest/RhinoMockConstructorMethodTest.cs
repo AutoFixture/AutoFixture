@@ -23,7 +23,7 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
         public void ConstructorWithNullConstructorMethodThrows()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => 
+            Assert.Throws<ArgumentNullException>(() =>
                 new RhinoMockConstructorMethod(null, Enumerable.Empty<ParameterInfo>().ToArray()));
         }
 

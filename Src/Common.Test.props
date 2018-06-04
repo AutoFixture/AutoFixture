@@ -7,7 +7,7 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\Empty.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition=" $(Configuration)=='Verify' ">$(MSBuildThisFileDirectory)\CodeAnalysis.Test.ruleset</CodeAnalysisRuleSet>
 
     <IsPackable>false</IsPackable>
     <!-- Disable source link support for test projects as they are not publishable. -->

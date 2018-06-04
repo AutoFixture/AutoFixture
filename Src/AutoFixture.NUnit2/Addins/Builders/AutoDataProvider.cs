@@ -14,7 +14,7 @@ namespace AutoFixture.NUnit2.Addins.Builders
         /// <summary>
         /// Determine whether any test cases are available for a parameterized method.
         /// </summary>
-        /// <param name="method">A MethodInfo representing a parameterized test</param>
+        /// <param name="method">A MethodInfo representing a parameterized test.</param>
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method)
         {
@@ -35,8 +35,8 @@ namespace AutoFixture.NUnit2.Addins.Builders
         /// <summary>
         /// Determine whether any test cases are available for a parameterized method.
         /// </summary>
-        /// <param name="method">A MethodInfo representing a parameterized test</param>
-        /// <param name="suite">A Suite representing a NUnit TestSuite</param>
+        /// <param name="method">A MethodInfo representing a parameterized test.</param>
+        /// <param name="suite">A Suite representing a NUnit TestSuite.</param>
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method, Test suite)
         {

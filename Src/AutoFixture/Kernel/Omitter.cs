@@ -25,7 +25,7 @@ namespace AutoFixture.Kernel
         /// <see cref="OmitSpecimen" /> instance should be issued.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
-        /// specification
+        /// specification.
         /// </exception>
         /// <seealso cref="Specification" />
         public Omitter(IRequestSpecification specification)
@@ -43,7 +43,7 @@ namespace AutoFixture.Kernel
         /// <see cref="Specification" /> allows it; otherwise a
         /// <see cref="NoSpecimen" /> instance.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException">request</exception>
+        /// <exception cref="System.ArgumentNullException">request.</exception>
         /// <remarks>
         ///   <para>
         /// The <paramref name="request" /> can be any object, but will often be a
@@ -56,7 +56,7 @@ namespace AutoFixture.Kernel
 
             if (this.Specification.IsSatisfiedBy(request))
                 return new OmitSpecimen();
-            
+
             return new NoSpecimen();
         }
 

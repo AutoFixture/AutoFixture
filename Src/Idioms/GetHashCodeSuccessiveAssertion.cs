@@ -38,13 +38,13 @@ namespace AutoFixture.Idioms
         public ISpecimenBuilder Builder { get; }
 
         /// <summary>
-        /// Verifies that `x.GetHashCode()` 3 times on the same instance of the type returns 
-        /// the same value, if the supplied method is an override of the 
+        /// Verifies that `x.GetHashCode()` 3 times on the same instance of the type returns
+        /// the same value, if the supplied method is an override of the
         /// <see cref="object.GetHashCode()"/>.
         /// </summary>
-        /// <param name="methodInfo">The method to verify</param>
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", 
-            MessageId = "GetHashCode", 
+        /// <param name="methodInfo">The method to verify.</param>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
+            MessageId = "GetHashCode",
             Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public override void Verify(MethodInfo methodInfo)
         {
@@ -71,6 +71,5 @@ namespace AutoFixture.Idioms
                     methodInfo.ReflectedType.FullName));
             }
         }
-
     }
 }

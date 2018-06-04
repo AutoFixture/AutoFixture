@@ -159,7 +159,7 @@ namespace AutoFixtureUnitTest.Kernel
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder()),
                     new CompositeSpecimenBuilder(
-                        new[] {new CompositeSpecimenBuilder()})
+                        new[] { new CompositeSpecimenBuilder() })
                 },
                 {
                     new CompositeSpecimenBuilder(
@@ -173,7 +173,6 @@ namespace AutoFixtureUnitTest.Kernel
 
         public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> DifferentlyShapedGraphs =>
             new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
-
             {
                 {
                     new CompositeSpecimenBuilder(),

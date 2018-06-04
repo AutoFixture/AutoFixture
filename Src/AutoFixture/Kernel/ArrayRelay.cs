@@ -54,7 +54,7 @@ namespace AutoFixture.Kernel
             var count = (collection != null) ? collection.Count : elements.Cast<object>().Count();
             var array = Array.CreateInstance(elementType, count);
             int index = 0;
-            foreach(var element in elements)
+            foreach (var element in elements)
             {
                 array.SetValue(element, index);
                 index++;

@@ -39,9 +39,7 @@ var customization = new {1}();
 customization.Customize(fixture);
 
 For more information about mutable value types please refer to: http://tinyurl.com/pegtw57",
-                    request, typeof(SupportMutableValueTypesCustomization).Name
-                    )
-                );
+                    request, typeof(SupportMutableValueTypesCustomization).Name));
         }
     }
 }

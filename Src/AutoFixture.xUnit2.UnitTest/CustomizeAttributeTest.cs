@@ -24,7 +24,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Assert
             Assert.IsAssignableFrom<Attribute>(sut);
         }
-        
+
         [Fact]
         public void SutImplementsIParameterCustomizationSource()
         {

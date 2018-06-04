@@ -13,7 +13,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutIsMethod()
         {
             // Arrange
-            Action dummy = delegate { };
+            Action dummy = () => { };
             // Act
             var sut = new StaticMethod(dummy.GetMethodInfo());
             // Assert
@@ -33,7 +33,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void InitializeWithNullMethodInfoThrows()
         {
             // Arrange
-            Action dummy = delegate { };
+            Action dummy = () => { };
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new StaticMethod(null, dummy.GetMethodInfo().GetParameters()));
@@ -43,7 +43,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void InitializeWithNullMethodParametersThrows()
         {
             // Arrange
-            Action dummy = delegate { };
+            Action dummy = () => { };
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
                 new StaticMethod(dummy.GetMethodInfo(), null));
@@ -53,7 +53,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void MethodIsCorrect()
         {
             // Arrange
-            var expectedMethod = ((Action)delegate { }).GetMethodInfo();
+            Action action = () => { };
+            var expectedMethod = action.GetMethodInfo();
             var sut = new StaticMethod(expectedMethod);
             // Act
             var result = sut.Method;
@@ -65,7 +66,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ParametersIsCorrectWhenPassedOnOneParamsConstructor()
         {
             // Arrange
-            Action<object> dummy = delegate { };
+            Action<object> dummy = o => { };
             var expectedParameters = dummy.GetMethodInfo().GetParameters();
             var sut = new StaticMethod(dummy.GetMethodInfo());
             // Act
@@ -78,7 +79,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ParametersIsCorrect()
         {
             // Arrange
-            Action<int, double> dummy = delegate { };
+            Action<int, double> dummy = (i, d) => { };
             var expectedParameters = dummy.GetMethodInfo().GetParameters();
             var sut = new StaticMethod(dummy.GetMethodInfo(), expectedParameters);
             // Act
@@ -110,7 +111,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutIsEquatable()
         {
             // Arrange
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             // Act
             var sut = new StaticMethod(method);
             // Assert
@@ -121,7 +123,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullObject()
         {
             // Arrange
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var sut = new StaticMethod(method);
             // Act
             var result = sut.Equals((object)null);
@@ -133,7 +136,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullSut()
         {
             // Arrange
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var sut = new StaticMethod(method);
             // Act
             var result = sut.Equals((StaticMethod)null);
@@ -145,7 +149,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualSomeOtherObject()
         {
             // Arrange
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var sut = new StaticMethod(method);
             // Act
             var result = sut.Equals(new object());
@@ -157,10 +162,12 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWithDifferentMethod()
         {
             // Arrange
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var sut = new StaticMethod(method);
 
-            var otherMethod = ((Action<int>)delegate { }).GetMethodInfo();
+            Action<int> otherAction = i => { };
+            var otherMethod = otherAction.GetMethodInfo();
             object other = new StaticMethod(otherMethod);
 
             // Act
@@ -173,10 +180,12 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWithDifferentParameters()
         {
             // Arrange
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var sut = new StaticMethod(method, method.GetParameters());
 
-            var otherParameters = ((Action<int>)delegate { }).GetMethodInfo().GetParameters();
+            Action<int> otherAction = i => { };
+            var otherParameters = otherAction.GetMethodInfo().GetParameters();
             object other = new StaticMethod(method, otherParameters);
 
             // Act
@@ -188,7 +197,8 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutEqualsOtherObjectWithSameMethod()
         {
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var sut = new StaticMethod(method);
             object other = new StaticMethod(method);
             // Act
@@ -200,7 +210,8 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutEqualsOtherObjectWithSameMethodAndSameParameters()
         {
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var parameters = method.GetParameters();
             var sut = new StaticMethod(method, parameters);
             object other = new StaticMethod(method, parameters);
@@ -214,7 +225,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void GetHashCodeReturnsCorrectResult()
         {
             // Arrange
-            var method = ((Action<object>)delegate { }).GetMethodInfo();
+            Action<object> action = o => { };
+            var method = action.GetMethodInfo();
             var sut = new StaticMethod(method);
             // Act
             var result = sut.GetHashCode();

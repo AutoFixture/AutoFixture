@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace AutoFixture.Idioms
 {
     /// <summary>
-    /// Represents an error about an ill-behaved override of the <see cref="Object.GetHashCode()"/>
+    /// Represents an error about an ill-behaved override of the <see cref="object.GetHashCode()"/>
     /// method.
     /// </summary>
     [Serializable]

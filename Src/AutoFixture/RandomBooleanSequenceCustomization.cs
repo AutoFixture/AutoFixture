@@ -3,13 +3,13 @@
 namespace AutoFixture
 {
     /// <summary>
-    /// A customization that changes how <see cref="Boolean"/> are generated. Uses <see cref="RandomBooleanSequenceGenerator"/>.
+    /// A customization that changes how <see cref="bool"/> are generated. Uses <see cref="RandomBooleanSequenceGenerator"/>.
     /// </summary>
     public class RandomBooleanSequenceCustomization : ICustomization
     {
         /// <summary>
-        /// Customizes specified fixture by adding <see cref="RandomBooleanSequenceGenerator"/> as a default strategy for 
-        /// creating new <see cref="Boolean"/>.
+        /// Customizes specified fixture by adding <see cref="RandomBooleanSequenceGenerator"/> as a default strategy for
+        /// creating new <see cref="bool"/>.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>
         public void Customize(IFixture fixture)

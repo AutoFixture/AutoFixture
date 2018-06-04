@@ -107,25 +107,31 @@ namespace AutoFixtureUnitTest
 
     public class LazyRelayTestOfInt32
         : LazyRelayTest<int>
-    { }
+    {
+    }
 
     public class LazyRelayTestOfString
         : LazyRelayTest<string>
-    { }
+    {
+    }
 
     public class LazyRelayTestOfVersion
         : LazyRelayTest<Version>
-    { }
+    {
+    }
 
     public class LazyRelayTestOfSingleParameterType
         : LazyRelayTest<SingleParameterType<int>>
-    { }
+    {
+    }
 
     public class LazyRelayTestOfDoubleParameterType
         : LazyRelayTest<DoubleParameterType<int, string>>
-    { }
+    {
+    }
 
     public class LazyRelayTestOfTripleParameterType
         : LazyRelayTest<TripleParameterType<int, string, Version>>
-    { }
+    {
+    }
 }

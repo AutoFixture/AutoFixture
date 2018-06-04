@@ -9,7 +9,7 @@ namespace AutoFixtureDocumentationTest.Simple
 
         public string Message
         {
-            get { return this.message; }
+            get => this.message;
             set
             {
                 if (this.mc == null)

@@ -35,7 +35,7 @@ namespace AutoFixture.Idioms
 
         /// <summary>
         /// Gets a value that indicates if the method is the <see cref="object.Equals(object)"/>
-        /// method declared on the <see cref="System.Object"/> type.
+        /// method declared on the <see cref="object"/> type.
         /// </summary>
         internal static bool IsObjectEqualsMethod(this MethodInfo method)
         {
@@ -44,7 +44,7 @@ namespace AutoFixture.Idioms
 
         /// <summary>
         /// Gets a value that indicates if the method is the <see cref="object.GetHashCode()"/>
-        /// method declared on the <see cref="System.Object"/> type.
+        /// method declared on the <see cref="object"/> type.
         /// </summary>
         internal static bool IsObjectGetHashCodeMethod(this MethodInfo method)
         {

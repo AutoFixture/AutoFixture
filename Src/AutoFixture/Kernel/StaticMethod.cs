@@ -43,11 +43,11 @@ namespace AutoFixture.Kernel
         public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
@@ -66,7 +66,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data
-        /// structures like a hash table. 
+        /// structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -98,7 +98,7 @@ namespace AutoFixture.Kernel
                 return false;
             }
 
-            return this.Method.Equals(other.Method) 
+            return this.Method.Equals(other.Method)
                 && this.Parameters.SequenceEqual(other.Parameters);
         }
 

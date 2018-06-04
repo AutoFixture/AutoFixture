@@ -81,9 +81,9 @@ namespace AutoFixtureUnitTest
             var verifications = new List<bool>();
             var customizations = new[]
             {
-                new DelegatingCustomization { OnCustomize = f => verifications.Add(f == fixture)},
-                new DelegatingCustomization { OnCustomize = f => verifications.Add(f == fixture)},
-                new DelegatingCustomization { OnCustomize = f => verifications.Add(f == fixture)}
+                new DelegatingCustomization { OnCustomize = f => verifications.Add(f == fixture) },
+                new DelegatingCustomization { OnCustomize = f => verifications.Add(f == fixture) },
+                new DelegatingCustomization { OnCustomize = f => verifications.Add(f == fixture) }
             };
 
             var sut = new CompositeCustomization(customizations);

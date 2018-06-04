@@ -43,7 +43,7 @@ namespace AutoFixture
 
             if (!registeredType.GetTypeInfo().IsAssignableFrom(targetType))
             {
-                var message = String.Format(
+                var message = string.Format(
                     CultureInfo.CurrentCulture,
                     "The type '{0}' cannot be frozen as '{1}' because the two types are not compatible.",
                     targetType,
@@ -84,7 +84,7 @@ namespace AutoFixture
             var types = new[]
                 {
                     this.TargetType,
-                    this.RegisteredType 
+                    this.RegisteredType
                 };
 
             var builder = new CompositeSpecimenBuilder(

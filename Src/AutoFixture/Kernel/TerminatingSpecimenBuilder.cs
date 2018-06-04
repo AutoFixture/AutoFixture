@@ -32,9 +32,7 @@ namespace AutoFixture.Kernel
                 string.Format(
                     CultureInfo.CurrentCulture,
                     "AutoFixture was unable to create an instance from {0}, most likely because it has no public constructor, is an abstract or non-public type.",
-                    request
-                    )
-                );
+                    request));
         }
     }
 }

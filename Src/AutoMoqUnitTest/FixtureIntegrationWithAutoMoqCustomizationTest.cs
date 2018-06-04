@@ -107,7 +107,7 @@ namespace AutoFixture.AutoMoq.UnitTest
 
             // Act
             var actual = mockOfFunc.Object(42);
-            
+
             // Assert
             Assert.Equal(expected, actual);
         }
@@ -356,7 +356,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             IInterfaceWithRefMethod result = null;
             Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithRefMethod>()));
 
-            string refResult = "";
+            string refResult = string.Empty;
             string returnValue = result.Method(ref refResult);
             Assert.NotEqual(frozenString, refResult);
             Assert.NotEqual(frozenString, returnValue);
@@ -469,7 +469,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             var result = fixture.Create(delegateType, context);
             // Assert
-
             Assert.Null(Record.Exception(() => AssertIsMock(result, delegateType)));
         }
 
