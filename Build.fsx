@@ -202,7 +202,17 @@ Target "EnableSourceLinkGeneration" (fun _ ->
     enableSourceLink <- true
 )
 
-Target "VerifyOnly" (fun _ -> rebuild "Verify")
+Target "VerifyOnly" (fun _ ->
+    try
+        rebuild "Verify"
+    with
+    | BuildException (msg, errors) -> 
+        let msg = sprintf
+                    "%s\r\nHINT: To simplify the fix process it's recommended to switch to the 'Verify' configuration \
+                    in the IDE. This way you might get Roslyn quick fixes for the violated rules."
+                    msg
+        raise (BuildException(msg, errors))
+)
 
 Target "BuildOnly" (fun _ -> rebuild configuration)
 Target "TestOnly" (fun _ ->
