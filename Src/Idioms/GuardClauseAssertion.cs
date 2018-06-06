@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -99,7 +100,7 @@ namespace AutoFixture.Idioms
             constructorInfo = this.ResolveUnclosedGenericType(constructorInfo);
 
             var method = new ConstructorMethod(constructorInfo);
-            this.DoVerify(method, false, false);
+            this.DoVerify(method, isReturnValueDeferable: false, isReturnValueTask: false);
         }
 
         /// <summary>
@@ -128,50 +129,23 @@ namespace AutoFixture.Idioms
             methodInfo = this.ResolveUnclosedGenericMethod(methodInfo);
 
             var method = this.CreateMethod(methodInfo);
+            var returnType = methodInfo.ReturnType;
 
-            var isReturnValueIterator =
-                typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType) ||
-                    typeof(System.Collections.IEnumerator).IsAssignableFrom(methodInfo.ReturnType);
+            // According to MSDN method with yield could have only 4 possible types:
+            // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield
+            var isReturnTypePossibleDefferable = returnType == typeof(IEnumerable)
+                   || returnType == typeof(IEnumerator)
+                   || (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                   || (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(IEnumerator<>));
 
-            var isReturnValueNonDeferred = IsNonDeferredEnumerable(methodInfo.ReturnType);
-            var isReturnValueDeferable = isReturnValueIterator && !isReturnValueNonDeferred;
+            var containsByRefArgs = methodInfo.GetParameters().Select(p => p.ParameterType).Any(t => t.IsByRef);
+
+            var isReturnValueDeferable = isReturnTypePossibleDefferable && !containsByRefArgs;
 
             var isReturnValueTask =
-                typeof(System.Threading.Tasks.Task).IsAssignableFrom(methodInfo.ReturnType);
+                typeof(System.Threading.Tasks.Task).IsAssignableFrom(returnType);
 
             this.DoVerify(method, isReturnValueDeferable, isReturnValueTask);
-        }
-
-        private static bool IsNonDeferredEnumerable(Type t)
-        {
-            var nonGenericCollectionTypes = new[]
-            {
-                typeof(System.Collections.ICollection),
-                typeof(System.Collections.IList),
-                typeof(System.Collections.IDictionary)
-            };
-
-            var genericCollectionTypeGtds = new[]
-            {
-                typeof(IList<>),
-                typeof(ICollection<>),
-                typeof(IDictionary<,>)
-            };
-
-            var isGeneric = t.IsGenericType;
-
-            var gtdInterfaces = (isGeneric && !t.IsInterface)
-                ? t.GetInterfaces()
-                    .Where(i => i.IsGenericType)
-                    .Select(i => i.GetGenericTypeDefinition())
-                    .ToArray()
-                : (isGeneric && t.IsInterface)
-                    ? new[] { t.GetGenericTypeDefinition() }
-                    : null;
-
-            return t.IsArray ||
-                nonGenericCollectionTypes.Any(gt => gt.IsAssignableFrom(t)) ||
-                (isGeneric && genericCollectionTypeGtds.Any(gtd => gtdInterfaces.Contains(gtd)));
         }
 
         /// <summary>

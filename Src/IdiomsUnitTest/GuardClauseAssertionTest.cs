@@ -487,6 +487,7 @@ namespace AutoFixture.IdiomsUnitTest
         [InlineData(typeof(ClassWithEnumerableNonDeferredArrayListMissingGuard))]
         [InlineData(typeof(ClassWithEnumerableNonDeferredStackMissingGuard))]
         [InlineData(typeof(ClassWithEnumerableNonDeferredReadOnlyCollectionBaseMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredStringMissingGuard))]
         public void VerifyMethodWithNonDeferredMissingGuardThrowsExceptionWithoutDeferredMessage(
             Type type)
         {
@@ -629,6 +630,14 @@ namespace AutoFixture.IdiomsUnitTest
                     { "uniqueKey1", someString },
                     { "uniqueKey2", someString }
                 };
+            }
+        }
+
+        private class ClassWithEnumerableNonDeferredStringMissingGuard
+        {
+            public string GetValues(string someString)
+            {
+                return someString;
             }
         }
 
@@ -1104,8 +1113,10 @@ namespace AutoFixture.IdiomsUnitTest
 
         [Theory]
         [InlineData(nameof(NonProperlyGuardedClass.Method), "Guard Clause prevented it, however")]
-        [InlineData(nameof(NonProperlyGuardedClass.DeferredMethod), "deferred")]
-        [InlineData(nameof(NonProperlyGuardedClass.AnotherDeferredMethod), "deferred")]
+        [InlineData(nameof(NonProperlyGuardedClass.DeferredMethodReturningGenericEnumerable), "deferred")]
+        [InlineData(nameof(NonProperlyGuardedClass.DeferredMethodReturningGenericEnumerator), "deferred")]
+        [InlineData(nameof(NonProperlyGuardedClass.DeferredMethodReturningNonGenericEnumerable), "deferred")]
+        [InlineData(nameof(NonProperlyGuardedClass.DeferredMethodReturningNonGenericEnumerator), "deferred")]
         public void VerifyNonProperlyGuardedMethodThrowsException(string methodName, string expectedMessage)
         {
             var sut = new GuardClauseAssertion(new Fixture());
@@ -1626,11 +1637,9 @@ namespace AutoFixture.IdiomsUnitTest
 
         private class NonProperlyGuardedClass
         {
-            private const string InvalidParamName = "invalidParamName";
-
             public NonProperlyGuardedClass(object argument)
             {
-                if (argument == null) throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException("invalid parameter name");
             }
 
             public object Property
@@ -1638,25 +1647,39 @@ namespace AutoFixture.IdiomsUnitTest
                 get => null;
                 set
                 {
-                    if (value == null) throw new ArgumentNullException(InvalidParamName);
+                    if (value == null) throw new ArgumentNullException("invalid parameter name");
                 }
             }
 
             public void Method(object argument)
             {
-                if (argument == null) throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException("invalid parameter name");
             }
 
-            public IEnumerable<object> DeferredMethod(object argument)
+            public IEnumerable<object> DeferredMethodReturningGenericEnumerable(object argument)
             {
-                if (argument == null) throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException(nameof(argument));
 
                 yield return argument;
             }
 
-            public IEnumerator<object> AnotherDeferredMethod(object argument)
+            public IEnumerator<object> DeferredMethodReturningGenericEnumerator(object argument)
             {
-                if (argument == null) throw new ArgumentNullException(InvalidParamName);
+                if (argument == null) throw new ArgumentNullException(nameof(argument));
+
+                yield return argument;
+            }
+
+            public IEnumerable DeferredMethodReturningNonGenericEnumerable(object argument)
+            {
+                if (argument == null) throw new ArgumentNullException(nameof(argument));
+
+                yield return argument;
+            }
+
+            public IEnumerator DeferredMethodReturningNonGenericEnumerator(object argument)
+            {
+                if (argument == null) throw new ArgumentNullException(nameof(argument));
 
                 yield return argument;
             }
