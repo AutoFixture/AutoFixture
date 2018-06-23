@@ -98,7 +98,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var request = new FakeMemberInfo(
                 new ProvidedAttribute(minLengthAttribute, true));
 
-            var expectedRequest = new ConstrainedStringRequest(min, int.MaxValue);
+            var expectedRequest = new ConstrainedStringRequest(min, min + 100);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
