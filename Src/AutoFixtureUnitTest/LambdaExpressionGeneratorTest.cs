@@ -61,6 +61,7 @@ namespace AutoFixtureUnitTest
         }
 
         [Theory]
+        [InlineData(typeof(LambdaExpression))]
         [InlineData(typeof(Expression<Action>))]
         [InlineData(typeof(Expression<Action<object>>))]
         [InlineData(typeof(Expression<Action<bool, int>>))]
