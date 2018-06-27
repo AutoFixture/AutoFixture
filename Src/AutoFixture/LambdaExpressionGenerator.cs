@@ -37,26 +37,21 @@ namespace AutoFixture
             if (!typeof(LambdaExpression).GetTypeInfo().IsAssignableFrom(requestType))
                 return new NoSpecimen();
 
-            var delegateType = requestType.GetTypeInfo().GetGenericArguments().SingleOrDefault();
-            if ((delegateType == null) || (delegateType == typeof(Action)))
-            {
-                return Expression.Lambda(Expression.Empty());
-            }
+            var delegateType = requestType == typeof(LambdaExpression)
+                               ? typeof(Action)
+                               : requestType.GetTypeInfo().GetGenericArguments().Single();
 
-            var genericArguments = delegateType.GetTypeInfo()
-                .GetGenericArguments()
-                .Select(Expression.Parameter)
-                .ToList();
+            var delegateSignature = delegateType.GetTypeInfo().GetMethod("Invoke");
+            var parameterExpressions = delegateSignature
+                .GetParameters()
+                .Select(p => Expression.Parameter(p.ParameterType, p.Name))
+                .ToArray();
 
-            if (delegateType.FullName.StartsWith("System.Action`", StringComparison.Ordinal))
-            {
-                return Expression.Lambda(Expression.Empty(), genericArguments);
-            }
+            var body = delegateSignature.ReturnType == typeof(void)
+                ? (Expression)Expression.Empty()
+                : Expression.Constant(context.Resolve(delegateSignature.ReturnType));
 
-            var body = context.Resolve(delegateType.GetTypeInfo().GetGenericArguments().Last());
-            var parameters = genericArguments.Except(new[] { genericArguments.Last() });
-
-            return Expression.Lambda(Expression.Constant(body), parameters);
+            return Expression.Lambda(delegateType, body, parameterExpressions);
         }
     }
 }
