@@ -34,19 +34,19 @@ namespace AutoFixture
             if (requestType == null)
                 return new NoSpecimen();
 
-            if (requestType.GetTypeInfo().BaseType != typeof(LambdaExpression))
+            if (!typeof(LambdaExpression).GetTypeInfo().IsAssignableFrom(requestType))
                 return new NoSpecimen();
 
-            var delegateType = requestType.GetTypeInfo().GetGenericArguments().Single();
+            var delegateType = requestType.GetTypeInfo().GetGenericArguments().SingleOrDefault();
+            if ((delegateType == null) || (delegateType == typeof(Action)))
+            {
+                return Expression.Lambda(Expression.Empty());
+            }
+
             var genericArguments = delegateType.GetTypeInfo()
                 .GetGenericArguments()
                 .Select(Expression.Parameter)
                 .ToList();
-
-            if (delegateType == typeof(Action))
-            {
-                return Expression.Lambda(Expression.Empty());
-            }
 
             if (delegateType.FullName.StartsWith("System.Action`", StringComparison.Ordinal))
             {
