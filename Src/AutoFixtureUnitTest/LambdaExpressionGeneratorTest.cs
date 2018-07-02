@@ -60,6 +60,9 @@ namespace AutoFixtureUnitTest
             Assert.IsAssignableFrom<Expression<Func<object>>>(result);
         }
 
+        public delegate void CustomDelegateWithoutResult(int input);
+        public delegate string CustomDelegateWithResult(int input);
+
         [Theory]
         [InlineData(typeof(LambdaExpression))]
         [InlineData(typeof(Expression<Action>))]
@@ -69,6 +72,8 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(Expression<Func<object, object>>))]
         [InlineData(typeof(Expression<Func<bool, int>>))]
         [InlineData(typeof(Expression<Func<bool, int, string>>))]
+        [InlineData(typeof(Expression<CustomDelegateWithoutResult>))]
+        [InlineData(typeof(Expression<CustomDelegateWithResult>))]
         public void CreateWithExpressionRequestReturnsCorrectResult(Type expected)
         {
             var expressionRequest = expected;
