@@ -156,7 +156,7 @@ namespace AutoFixture.DataAnnotations
             private static Range GetRange(MinLengthAttribute minLengthAttribute, MaxLengthAttribute maxLengthAttribute)
             {
                 var min = minLengthAttribute?.Length ?? 0;
-                var max = maxLengthAttribute?.Length ?? int.MaxValue;
+                var max = maxLengthAttribute?.Length ?? min + 100;
 
                 // To avoid creation of empty strings/arrays.
                 if (max > 0 && min == 0)
