@@ -324,6 +324,9 @@ namespace AutoFixture.IdiomsUnitTest
                 typeof(FieldTypeAndNameCriterion),
                 typeof(ParameterTypeAndNameCriterion),
                 typeof(PropertyTypeAndNameCriterion),
+
+                // Needs parameters to have the specific properties (max >= min).
+                typeof(RangedSequenceRequest)
             };
 
             var typesToVerify = typeof(IFixture).Assembly

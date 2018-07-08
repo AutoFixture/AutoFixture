@@ -26,6 +26,7 @@ namespace AutoFixture
             yield return new ParameterRequestRelay();
             yield return new PropertyRequestRelay();
             yield return new FieldRequestRelay();
+            yield return new RangedSequenceRelay();
             yield return new FiniteSequenceRelay();
             yield return new SeedIgnoringRelay();
             yield return new MethodInvoker(

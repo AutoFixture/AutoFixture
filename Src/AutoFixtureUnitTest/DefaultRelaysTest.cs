@@ -32,6 +32,7 @@ namespace AutoFixtureUnitTest
                 typeof(ParameterRequestRelay),
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
+                typeof(RangedSequenceRelay),
                 typeof(FiniteSequenceRelay),
                 typeof(SeedIgnoringRelay),
                 typeof(MethodInvoker)
