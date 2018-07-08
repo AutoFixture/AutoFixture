@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 
 namespace AutoFixture.Kernel
 {
@@ -36,30 +35,20 @@ namespace AutoFixture.Kernel
             var type = request as Type;
             if (type == null)
                 return new NoSpecimen();
+
             if (!type.IsArray)
                 return new NoSpecimen();
+
             var elementType = type.GetElementType();
             var specimen = context.Resolve(new MultipleRequest(elementType));
             if (specimen is OmitSpecimen)
                 return specimen;
+
             var elements = specimen as IEnumerable;
             if (elements == null)
                 return new NoSpecimen();
-            return ToArray(elements, elementType);
-        }
 
-        private static object ToArray(IEnumerable elements, Type elementType)
-        {
-            var collection = elements as ICollection;
-            var count = (collection != null) ? collection.Count : elements.Cast<object>().Count();
-            var array = Array.CreateInstance(elementType, count);
-            int index = 0;
-            foreach (var element in elements)
-            {
-                array.SetValue(element, index);
-                index++;
-            }
-            return array;
+            return elements.ToTypedArray(elementType);
         }
     }
 }

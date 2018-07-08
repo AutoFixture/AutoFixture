@@ -71,24 +71,9 @@ namespace AutoFixture.DataAnnotations
 
             var result = context.Resolve(new RangedSequenceRequest(elementType, range.Min, range.Max));
             if (result is IEnumerable seqResult)
-                return ToArray(seqResult, elementType);
+                return seqResult.ToTypedArray(elementType);
 
             return new NoSpecimen();
-        }
-
-        private static object ToArray(IEnumerable elements, Type elementType)
-        {
-            var count = elements is ICollection collection ? collection.Count : elements.Cast<object>().Count();
-            var array = Array.CreateInstance(elementType, count);
-            var index = 0;
-
-            foreach (var element in elements)
-            {
-                array.SetValue(element, index);
-                index++;
-            }
-
-            return array;
         }
 
         private class Range
