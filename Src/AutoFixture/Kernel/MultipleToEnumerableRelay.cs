@@ -9,6 +9,9 @@ namespace AutoFixture.Kernel
     /// </summary>
     /// <seealso cref="MultipleToEnumerableRelay.Create(object, ISpecimenContext)" />
     /// <seealso cref="MapCreateManyToEnumerable" />
+    [Obsolete("This relay is obsolete and will be removed in future versions. " +
+              "The reason is that it causes recursion overflow for many requests " +
+              "if you forget to add IEnumerable<T> customization.")]
     public class MultipleToEnumerableRelay : ISpecimenBuilder
     {
         /// <summary>
