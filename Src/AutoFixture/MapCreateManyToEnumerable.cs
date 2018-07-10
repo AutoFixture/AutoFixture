@@ -25,6 +25,20 @@ namespace AutoFixture
     /// </para>
     /// </remarks>
     /// <seealso cref="MultipleToEnumerableRelay" />
+    [Obsolete("This relay is obsolete and will be removed in future versions. " +
+              "The reason is that it causes recursion overflow for \"many\" requests " +
+              "if you forget to add IEnumerable<T> customization.\n" +
+              "Please use the following code snippet instead:\n" +
+              "fixture.Customizations.Add(" +
+              "  new FilteringSpecimenBuilder(" +
+              "    new FixedBuilder(" +
+              "      SEQUENCE_TO_RETURN)," +
+              "    new EqualRequestSpecification(" +
+              "      new MultipleRequest(" +
+              "        new SeededRequest(" +
+              "          typeof(T)," +
+              "          default(T))))));\n\n" +
+              "If you need that often, please create an extension method inside your project.")]
     public class MapCreateManyToEnumerable : ICustomization
     {
         /// <summary>

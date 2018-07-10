@@ -4890,7 +4890,7 @@ namespace AutoFixtureUnitTest
             Assert.NotNull(result.Property2);
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CustomizingEnumerableCustomizedCreateManyWhenCreateManyIsMappedToEnumerable()
         {
             // Arrange
@@ -4902,6 +4902,29 @@ namespace AutoFixtureUnitTest
             var actual = fixture.CreateMany<string>();
             // Assert
             Assert.Equal(expected, actual.ToArray());
+        }
+
+        [Fact]
+        public void ItIsPossibleToMapManyRequestToCustomEnumerableInstance()
+        {
+            // Arrange
+            var sut = new Fixture();
+            var expected = new[] { "a", "b", "c", "d" };
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new FixedBuilder(
+                        expected),
+                    new EqualRequestSpecification(
+                        new MultipleRequest(
+                            new SeededRequest(
+                                typeof(string),
+                                default(string))))));
+
+            // Act
+            var actual = sut.CreateMany<string>();
+
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
