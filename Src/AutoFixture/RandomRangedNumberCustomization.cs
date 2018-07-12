@@ -5,7 +5,8 @@ namespace AutoFixture
     /// <summary>
     /// A customization that enables numeric specimens to be random and unique per equivalence set of type and range limits.
     /// </summary>
-    [Obsolete("The RandomRangedNumberGenerator now is used by default, therefore this customization is no longer needed and will be removed in future versions of AutoFixture.")]
+    [Obsolete("The RandomRangedNumberGenerator is now used by default, therefore this customization " +
+              "is no longer needed and will be removed in future versions of AutoFixture.")]
     public class RandomRangedNumberCustomization : ICustomization
     {
         /// <summary>

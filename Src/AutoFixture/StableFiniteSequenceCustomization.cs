@@ -22,6 +22,8 @@ namespace AutoFixture
     /// </para>
     /// </remarks>
     /// <seealso cref="StableFiniteSequenceRelay" />
+    [Obsolete("The StableFiniteSequenceRelay is now used by default, therefore this customization " +
+              "is no longer needed and will be removed in future versions of AutoFixture.")]
     public class StableFiniteSequenceCustomization : ICustomization
     {
         /// <summary>

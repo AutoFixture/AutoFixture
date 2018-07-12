@@ -5,6 +5,7 @@ using Xunit;
 
 namespace AutoFixtureUnitTest
 {
+    [Obsolete]
     public class RandomNumericSequenceCustomizationTest
     {
         [Fact]
