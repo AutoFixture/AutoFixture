@@ -4488,7 +4488,7 @@ namespace AutoFixtureUnitTest
             Assert.NotEmpty(result);
         }
 
-        [Fact]
+        [Fact, Obsolete]
         public void CreateAnonymousEnumerableWhenEnumerableRelayIsPresentReturnsCorrectResult()
         {
             // Arrange
@@ -6250,6 +6250,41 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldResolveRangedSequenceRequest()
+        {
+            // Arrange
+            var sut = new Fixture();
+            var minLength = 5;
+            var maxLength = 10;
+            var rsr = new RangedSequenceRequest(typeof(string), minLength, maxLength);
+
+            // Act
+            var result = sut.Create(rsr, new SpecimenContext(sut));
+
+            // Assert
+            Assert.IsNotType<NoSpecimen>(result);
+            var resultSeq = ((IEnumerable<object>)result).Cast<string>();
+            Assert.InRange(resultSeq.Count(), minLength, maxLength);
+        }
+
+        [Fact]
+        public void ShouldResolveFixedNumberOfItemsForRangedSequenceRequest()
+        {
+            // Arrange
+            var sut = new Fixture();
+            var expectedLength = 5;
+            var request = new RangedSequenceRequest(typeof(string), expectedLength, expectedLength);
+
+            // Act
+            var result = sut.Create(request, new SpecimenContext(sut));
+
+            // Assert
+            Assert.IsNotType<NoSpecimen>(result);
+            var resultSeq = ((IEnumerable<object>)result).Cast<string>();
+            Assert.Equal(expectedLength, resultSeq.Count());
         }
     }
 }

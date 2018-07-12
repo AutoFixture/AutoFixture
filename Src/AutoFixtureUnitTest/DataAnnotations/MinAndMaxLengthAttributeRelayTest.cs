@@ -49,7 +49,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Fact]
-        public void CreateWithAnonymousRequestReturnsCorrectResult()
+        public void CreateWithAnonymousRequestReturnsNoResult()
         {
             // Arrange
             var sut = new MinAndMaxLengthAttributeRelay();
@@ -72,7 +72,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(string))]
         [InlineData(typeof(int))]
         [InlineData(typeof(Version))]
-        public void CreateWithNonConstrainedStringRequestReturnsCorrectResult(object request)
+        public void CreateWithNonConstrainedStringRequestReturnsNoResult(object request)
         {
             // Arrange
             var sut = new MinAndMaxLengthAttributeRelay();
@@ -90,15 +90,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void CreateWithStringRequestConstrainedbyMinLengthReturnsCorrectResult(int min)
+        public void CreateWithStringRequestConstrainedByMinLengthReturnsCorrectResult(int min)
         {
             // Arrange
             var minLengthAttribute = new MinLengthAttribute(min);
-
             var request = new FakeMemberInfo(
                 new ProvidedAttribute(minLengthAttribute, true));
 
-            var expectedRequest = new ConstrainedStringRequest(min, min + 100);
+            var expectedRequest = new ConstrainedStringRequest(min, min * 2);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
@@ -124,11 +123,10 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void CreateWithStringRequestConstrainedbyMaxLengthReturnsCorrectResult(int max)
+        public void CreateWithStringRequestConstrainedByMaxLengthReturnsCorrectResult(int max)
         {
             // Arrange
             var maxLengthAttribute = new MaxLengthAttribute(max);
-
             var request = new FakeMemberInfo(
                 new ProvidedAttribute(maxLengthAttribute, true));
 
@@ -158,12 +156,11 @@ namespace AutoFixtureUnitTest.DataAnnotations
         [InlineData(1, 4)]
         [InlineData(2, 5)]
         [InlineData(3, 6)]
-        public void CreateWithStringRequestConstrainedbyMinAndMaxLengthReturnsCorrectResult(int min, int max)
+        public void CreateWithStringRequestConstrainedByMinAndMaxLengthReturnsCorrectResult(int min, int max)
         {
             // Arrange
             var minLengthAttribute = new MinLengthAttribute(min);
             var maxLengthAttribute = new MaxLengthAttribute(max);
-
             var request = new FakeMemberInfo(
                 new ProvidedAttribute(minLengthAttribute, true),
                 new ProvidedAttribute(maxLengthAttribute, true));
@@ -192,35 +189,108 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(1, 4)]
-        [InlineData(2, 5)]
-        [InlineData(3, 6)]
-        public void CreateWithFiniteSequenceRequestConstrainedbyMinAndMaxLengthReturnsCorrectResult(int min, int max)
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void CreateWithRangedSequenceRequestConstrainedByMinLengthReturnsCorrectResult(int min)
         {
             // Arrange
             var memberType = typeof(string[]);
-            var randomNumberWithinRange = (min + max) / 2;
 
             var minLengthAttribute = new MinLengthAttribute(min);
-            var maxLengthAttribute = new MaxLengthAttribute(max);
-
             var request = new FakeMemberInfo(
-                new ProvidedAttribute(minLengthAttribute, true),
-                new ProvidedAttribute(maxLengthAttribute, true));
+                new ProvidedAttribute(minLengthAttribute, true));
 
-            var expectedRangedNumberRequest = new RangedNumberRequest(typeof(int), min, max);
-            var expectedFiniteSequenceRequest = new FiniteSequenceRequest(
-                memberType.GetElementType(),
-                randomNumberWithinRange);
-
+            var expectedRangedSequenceRequest = new RangedSequenceRequest(typeof(string), min, min * 2);
             var expectedResult = new List<string>();
 
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
                 {
-                    if (r.Equals(expectedRangedNumberRequest)) return randomNumberWithinRange;
-                    if (r.Equals(expectedFiniteSequenceRequest)) return expectedResult;
+                    if (expectedRangedSequenceRequest.Equals(r)) return expectedResult;
+                    return new NoSpecimen();
+                }
+            };
+
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => memberType
+                }
+            };
+
+            // Act
+            var result = sut.Create(request, context);
+
+            // Assert
+            Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
+        [InlineData(4)]
+        [InlineData(5)]
+        [InlineData(6)]
+        public void CreateWithRangedSequenceRequestConstrainedByMaxLengthReturnsCorrectResult(int max)
+        {
+            // Arrange
+            var memberType = typeof(string[]);
+
+            var maxLengthAttribute = new MaxLengthAttribute(max);
+            var request = new FakeMemberInfo(
+                new ProvidedAttribute(maxLengthAttribute, true));
+
+            var expectedRangedSequenceRequest = new RangedSequenceRequest(typeof(string), 1, max);
+            var expectedResult = new List<string>();
+
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    if (expectedRangedSequenceRequest.Equals(r)) return expectedResult;
+                    return new NoSpecimen();
+                }
+            };
+
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => memberType
+                }
+            };
+
+            // Act
+            var result = sut.Create(request, context);
+
+            // Assert
+            Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
+        [InlineData(1, 4)]
+        [InlineData(2, 5)]
+        [InlineData(3, 6)]
+        public void CreateWithRangedSequenceRequestConstrainedByMinAndMaxLengthReturnsCorrectResult(int min, int max)
+        {
+            // Arrange
+            var memberType = typeof(string[]);
+
+            var minLengthAttribute = new MinLengthAttribute(min);
+            var maxLengthAttribute = new MaxLengthAttribute(max);
+            var request = new FakeMemberInfo(
+                new ProvidedAttribute(minLengthAttribute, true),
+                new ProvidedAttribute(maxLengthAttribute, true));
+
+            var expectedRangedSequenceRequest = new RangedSequenceRequest(typeof(string), min, max);
+            var expectedResult = new List<string>();
+
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    if (expectedRangedSequenceRequest.Equals(r)) return expectedResult;
                     return new NoSpecimen();
                 }
             };

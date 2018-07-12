@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -67,63 +67,13 @@ namespace AutoFixture.DataAnnotations
 
         private static object ResolveArray(ISpecimenContext context, Type arrayType, Range range)
         {
-            if (!TryGetRandomNumberWithinRange(context, range, out int collectionCount))
-            {
-                return new NoSpecimen();
-            }
-
             var elementType = arrayType.GetElementType();
 
-            if (!TryGetRandomCollection(context, elementType, collectionCount, out IEnumerable randomCollection))
-            {
-                return new NoSpecimen();
-            }
+            var result = context.Resolve(new RangedSequenceRequest(elementType, range.Min, range.Max));
+            if (result is IEnumerable seqResult)
+                return seqResult.ToTypedArray(elementType);
 
-            return ToArray(randomCollection, elementType);
-        }
-
-        private static bool TryGetRandomNumberWithinRange(ISpecimenContext context, Range range, out int randomNumber)
-        {
-            var result = context.Resolve(new RangedNumberRequest(typeof(int), range.Min, range.Max));
-
-            if (result is int number)
-            {
-                randomNumber = number;
-                return true;
-            }
-
-            randomNumber = default(int);
-            return false;
-        }
-
-        private static bool TryGetRandomCollection(ISpecimenContext context, Type elementType, int collectionCount,
-            out IEnumerable randomCollection)
-        {
-            var result = context.Resolve(new FiniteSequenceRequest(elementType, collectionCount));
-
-            if (result is IEnumerable collection)
-            {
-                randomCollection = collection;
-                return true;
-            }
-
-            randomCollection = null;
-            return false;
-        }
-
-        private static object ToArray(IEnumerable elements, Type elementType)
-        {
-            var count = elements is ICollection collection ? collection.Count : elements.Cast<object>().Count();
-            var array = Array.CreateInstance(elementType, count);
-            var index = 0;
-
-            foreach (var element in elements)
-            {
-                array.SetValue(element, index);
-                index++;
-            }
-
-            return array;
+            return new NoSpecimen();
         }
 
         private class Range
@@ -156,7 +106,7 @@ namespace AutoFixture.DataAnnotations
             private static Range GetRange(MinLengthAttribute minLengthAttribute, MaxLengthAttribute maxLengthAttribute)
             {
                 var min = minLengthAttribute?.Length ?? 0;
-                var max = maxLengthAttribute?.Length ?? min + 100;
+                var max = maxLengthAttribute?.Length ?? min * 2;
 
                 // To avoid creation of empty strings/arrays.
                 if (max > 0 && min == 0)
