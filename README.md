@@ -170,7 +170,7 @@ If you want to add your own testimonial to this list, we (the AutoFixture mainta
 
 ## Additional resources ##
 
-* [Pluralsight course](http://www.shareasale.com/r.cfm?u=1017843&b=611266&m=53701&afftrack=&urllink=www%2Epluralsight%2Ecom%2Fcourses%2Fautofixture%2Ddotnet%2Dunit%2Dtest%2Dget%2Dstarted)
+* [Pluralsight course](https://www.pluralsight.com/courses/autofixture-dotnet-unit-test-get-started)
 * [ploeh blog](http://blog.ploeh.dk/tags/#AutoFixture-ref)
 * [Nikos Baxevanis' blog](http://nikosbaxevanis.com/categories/autofixture)
 * [Enrico Campidoglio's blog](http://megakemp.com/tag/autofixture)
