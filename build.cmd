@@ -1,7 +1,7 @@
 @echo off
 cls
 
-SET BUILD_DIR=build
+SET BUILD_DIR=%~dp0\build
 SET TOOLS_DIR=%BUILD_DIR%\tools
 SET NUGET_PATH=%TOOLS_DIR%\nuget.exe
 
