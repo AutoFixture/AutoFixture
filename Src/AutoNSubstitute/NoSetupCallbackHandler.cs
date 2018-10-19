@@ -18,7 +18,7 @@ namespace AutoFixture.AutoNSubstitute
 
         public bool HasResultFor(ICall call)
         {
-            return this.state.CallResults.HasResultFor(call);
+            return CompatShim.CallResults_HasCallResultFor(this.state.CallResults, call);
         }
 
         RouteAction ICallHandler.Handle(ICall call)

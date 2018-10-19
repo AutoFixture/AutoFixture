@@ -199,7 +199,7 @@ namespace AutoFixture.AutoNSubstitute
                         var callRouter =
                             SubstitutionContext.Current.GetCallRouterFor(this.Substitute);
 
-                        callRouter.SetRoute(state => new Route(
+                        callRouter.SetRoute(state => CompatShim.Route_CreateNew(
                             new ICallHandler[]
                             {
                                 new NoSetupCallbackHandler(state, () =>

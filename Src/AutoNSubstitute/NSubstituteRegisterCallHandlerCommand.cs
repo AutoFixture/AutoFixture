@@ -83,18 +83,18 @@ namespace AutoFixture.AutoNSubstitute
                 return;
             }
 
-            // Add extensibility point for users to allow to use differnt cache implementation.
+            // Add extensibility point for users to allow to use different cache implementation.
             // For instance users might want to disable results caching, as was proposed here:
             // https://github.com/AutoFixture/AutoFixture/issues/625
             var resultsCacheForSubstitution = this.CallResultCacheFactory.CreateCache();
-            var callResultsResover = this.CallResultResolverFactory.Create(context);
+            var callResultsResolver = this.CallResultResolverFactory.Create(context);
 
             router.RegisterCustomCallHandlerFactory(
                 substituteState =>
                     new AutoFixtureValuesHandler(
-                        callResultsResover,
+                        callResultsResolver,
                         resultsCacheForSubstitution,
-                        substituteState.CallSpecificationFactory));
+                        CompatShim.GetCallSpecificationFactory(substituteState, this.SubstitutionContext)));
         }
     }
 }
