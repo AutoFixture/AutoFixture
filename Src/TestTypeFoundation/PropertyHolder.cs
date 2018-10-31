@@ -9,4 +9,14 @@
             this.Property = value;
         }
     }
+
+    public class PrivatePropertyHolder<T>
+    {
+        public T Property { get; private set; }
+
+        public void SetProperty(T value)
+        {
+            this.Property = value;
+        }
+    }
 }

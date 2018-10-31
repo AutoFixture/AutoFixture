@@ -134,8 +134,8 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var ctorInvoker = new MethodInvoker(new ModestConstructorQuery());
-            var strCmd = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1);
-            var intCmd = new BindingCommand<DoublePropertyHolder<string, int>, int>(ph => ph.Property2);
+            var strCmd = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, false);
+            var intCmd = new BindingCommand<DoublePropertyHolder<string, int>, int>(ph => ph.Property2, false);
             var strPostprocessor = new Postprocessor(ctorInvoker, strCmd);
             var intPostprocessor = new Postprocessor(strPostprocessor, intCmd);
 
@@ -200,7 +200,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var expectedText = "Fnaah";
 
-            var specifiedCommand = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, expectedText);
+            var specifiedCommand = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, expectedText, false);
             var reservedProperty = new InverseRequestSpecification(specifiedCommand);
 
             var customizedBuilder = new Postprocessor(

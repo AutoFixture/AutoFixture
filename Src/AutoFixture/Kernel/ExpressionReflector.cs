@@ -7,15 +7,14 @@ namespace AutoFixture.Kernel
 {
     internal static class ExpressionReflector
     {
-        internal static MemberExpression GetWritableMember(this LambdaExpression propertyPicker)
+        internal static MemberExpression GetWritableMember(this LambdaExpression propertyPicker, bool nonPublic)
         {
             var bodyExpr = propertyPicker.Body;
 
             // Method from C# may lead to an implicit conversion - e.g. if the property or field type is System.Byte,
             // but the supplied value is a System.Int32 value. Since there's an implicit conversion, the resulting
             // expression may be (x => Convert(x.Property)) and we need to unwrap it.
-            var memberExpr = bodyExpr.UnwrapIfConversionExpression() as MemberExpression;
-            if (memberExpr == null)
+            if (!(bodyExpr.UnwrapIfConversionExpression() is MemberExpression memberExpr))
             {
                 throw new ArgumentException(
                     "The expression's Body is not a MemberExpression. " +
@@ -23,7 +22,7 @@ namespace AutoFixture.Kernel
                     nameof(propertyPicker));
             }
 
-            if (memberExpr.Member is PropertyInfo pi && pi.GetSetMethod() == null)
+            if (memberExpr.Member is PropertyInfo pi && pi.GetSetMethod(nonPublic) == null)
             {
                 throw new ArgumentException(
                     string.Format(
@@ -31,12 +30,13 @@ namespace AutoFixture.Kernel
                         "The property \"{0}\" is read-only.", pi.Name),
                     nameof(propertyPicker));
             }
+
             return memberExpr;
         }
 
-        internal static void VerifyIsNonNestedWritableMemberExpression(LambdaExpression expression)
+        internal static void VerifyIsNonNestedWritableMemberExpression(LambdaExpression expression, bool nonPublic)
         {
-            var memberExpression = expression.GetWritableMember();
+            var memberExpression = expression.GetWritableMember(nonPublic);
 
             // It could happen that parameter is implicitly converted to an interface when e.g. a custom helper
             // extension method is used. In such cases we need to unwrap the expression to access the underlying

@@ -20,9 +20,12 @@ namespace AutoFixtureUnitTest.Dsl
             this.OnDo = f => new DelegatingComposer<T>();
             this.OnOmitAutoProperties = () => new DelegatingComposer<T>();
             this.OnAnonymousWith = f => new DelegatingComposer<T>();
+            this.OnAnonymousWithPrivate = f => new DelegatingComposer<T>();
             this.OnWith = (f, v) => new DelegatingComposer<T>();
+            this.OnWithPrivate = (f, v) => new DelegatingComposer<T>();
             this.OnWithAutoProperties = () => new DelegatingComposer<T>();
             this.OnWithout = f => new DelegatingComposer<T>();
+            this.OnWithoutPrivate = f => new DelegatingComposer<T>();
             this.OnCreate = (r, c) => new object();
         }
 
@@ -76,9 +79,19 @@ namespace AutoFixtureUnitTest.Dsl
             return this.OnAnonymousWith(propertyPicker);
         }
 
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return this.OnAnonymousWithPrivate(propertyPicker);
+        }
+
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             return this.OnWith(propertyPicker, value);
+        }
+
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        {
+            return this.OnWithPrivate(propertyPicker, value);
         }
 
         public IPostprocessComposer<T> WithAutoProperties()
@@ -89,6 +102,11 @@ namespace AutoFixtureUnitTest.Dsl
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             return this.OnWithout(propertyPicker);
+        }
+
+        public IPostprocessComposer<T> WithoutPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return this.OnWithoutPrivate(propertyPicker);
         }
 
         public object Create(object request, ISpecimenContext context)
@@ -103,9 +121,12 @@ namespace AutoFixtureUnitTest.Dsl
         internal Func<Action<T>, IPostprocessComposer<T>> OnDo { get; set; }
         internal Func<IPostprocessComposer<T>> OnOmitAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnAnonymousWith { get; set; }
+        internal Func<object, IPostprocessComposer<T>> OnAnonymousWithPrivate { get; set; }
         internal Func<object, object, IPostprocessComposer<T>> OnWith { get; set; }
+        internal Func<object, object, IPostprocessComposer<T>> OnWithPrivate { get; set; }
         internal Func<IPostprocessComposer<T>> OnWithAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnWithout { get; set; }
+        internal Func<object, IPostprocessComposer<T>> OnWithoutPrivate { get; set; }
         internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
     }
 }

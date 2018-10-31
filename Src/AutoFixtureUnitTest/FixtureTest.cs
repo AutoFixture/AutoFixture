@@ -3385,6 +3385,18 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void BuildWithWillSetPrivatePropertyOnCreatedObject()
+        {
+            // Arrange
+            string expectedText = "Anonymous text";
+            var sut = new Fixture();
+            // Act
+            PrivatePropertyHolder<string> result = sut.Build<PrivatePropertyHolder<string>>().WithPrivate(ph => ph.Property, expectedText).Create();
+            // Assert
+            Assert.Equal(expectedText, result.Property);
+        }
+
+        [Fact]
         [Obsolete]
         public void BuildWithWillSetFieldOnCreatedObjectObsolete()
         {

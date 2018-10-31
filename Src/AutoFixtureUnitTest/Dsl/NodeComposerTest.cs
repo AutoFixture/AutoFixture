@@ -402,7 +402,7 @@ namespace AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(PropertyHolder<int>)))),
-                            new BindingCommand<PropertyHolder<int>, int>(x => x.Property),
+                            new BindingCommand<PropertyHolder<int>, int>(x => x.Property, false),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<int>)),
                                 new ExactTypeSpecification(typeof(PropertyHolder<int>)))),
@@ -410,6 +410,37 @@ namespace AutoFixtureUnitTest.Dsl
                     new OrRequestSpecification(
                         new SeedRequestSpecification(typeof(PropertyHolder<int>)),
                         new ExactTypeSpecification(typeof(PropertyHolder<int>)))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+        }
+
+        [Fact]
+        public void WithAnonymousPrivateValueReturnsCorrectResult()
+        {
+            // Arrange
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PrivatePropertyHolder<int>>();
+            // Act
+            var actual = sut.WithPrivate(x => x.Property);
+            // Assert
+            var expected = new NodeComposer<PrivatePropertyHolder<int>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor(
+                            new NoSpecimenOutputGuard(
+                                new MethodInvoker(
+                                    new ModestConstructorQuery()),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(PrivatePropertyHolder<int>)))),
+                            new BindingCommand<PrivatePropertyHolder<int>, int>(x => x.Property, true),
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(PrivatePropertyHolder<int>)),
+                                new ExactTypeSpecification(typeof(PrivatePropertyHolder<int>)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(PrivatePropertyHolder<int>)),
+                        new ExactTypeSpecification(typeof(PrivatePropertyHolder<int>)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -445,7 +476,7 @@ namespace AutoFixtureUnitTest.Dsl
                                             pi,
                                             new MemberInfoEqualityComparer()))),
                                 new FalseRequestSpecification()),
-                            new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value),
+                            new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value, false),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<string>)),
                                 new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
@@ -453,6 +484,49 @@ namespace AutoFixtureUnitTest.Dsl
                     new OrRequestSpecification(
                         new SeedRequestSpecification(typeof(PropertyHolder<string>)),
                         new ExactTypeSpecification(typeof(PropertyHolder<string>)))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithExplicitPrivateValueReturnsCorrectResult(string value)
+        {
+            // Arrange
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PrivatePropertyHolder<string>>();
+            var pi = typeof(PrivatePropertyHolder<string>).GetProperty("Property");
+            // Act
+            var actual = sut.WithPrivate(x => x.Property, value);
+            // Assert
+            var expected = new NodeComposer<PrivatePropertyHolder<string>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor(
+                            new Postprocessor(
+                                new NoSpecimenOutputGuard(
+                                    new MethodInvoker(
+                                        new ModestConstructorQuery()),
+                                    new InverseRequestSpecification(
+                                        new SeedRequestSpecification(
+                                            typeof(PrivatePropertyHolder<string>)))),
+                                new AutoPropertiesCommand(
+                                    typeof(PrivatePropertyHolder<string>),
+                                    new InverseRequestSpecification(
+                                        new EqualRequestSpecification(
+                                            pi,
+                                            new MemberInfoEqualityComparer()))),
+                                new FalseRequestSpecification()),
+                            new BindingCommand<PrivatePropertyHolder<string>, string>(x => x.Property, value, true),
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(PrivatePropertyHolder<string>)),
+                                new ExactTypeSpecification(typeof(PrivatePropertyHolder<string>)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(PrivatePropertyHolder<string>)),
+                        new ExactTypeSpecification(typeof(PrivatePropertyHolder<string>)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -501,11 +575,11 @@ namespace AutoFixtureUnitTest.Dsl
                                                     pi2,
                                                     new MemberInfoEqualityComparer())))),
                                     new FalseRequestSpecification()),
-                                new BindingCommand<DoublePropertyHolder<string, int>, string>(x => x.Property1, value1),
+                                new BindingCommand<DoublePropertyHolder<string, int>, string>(x => x.Property1, value1, false),
                                 new OrRequestSpecification(
                                     new SeedRequestSpecification(typeof(DoublePropertyHolder<string, int>)),
                                     new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>)))),
-                            new BindingCommand<DoublePropertyHolder<string, int>, int>(x => x.Property2, value2),
+                            new BindingCommand<DoublePropertyHolder<string, int>, int>(x => x.Property2, value2, false),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(DoublePropertyHolder<string, int>)),
                                 new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>)))),

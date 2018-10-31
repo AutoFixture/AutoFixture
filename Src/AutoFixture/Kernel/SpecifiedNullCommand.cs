@@ -25,11 +25,14 @@ namespace AutoFixture.Kernel
         /// property picker expression.
         /// </summary>
         /// <param name="propertyPicker">An expression that identifies a property or field.</param>
-        public SpecifiedNullCommand(Expression<Func<T, TProperty>> propertyPicker)
+        /// <param name="nonPublic">
+        /// An flag that indicates if property has private get/set.
+        /// </param>
+        public SpecifiedNullCommand(Expression<Func<T, TProperty>> propertyPicker, bool nonPublic)
         {
             if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
 
-            this.Member = propertyPicker.GetWritableMember().Member;
+            this.Member = propertyPicker.GetWritableMember(nonPublic).Member;
         }
 
         /// <summary>

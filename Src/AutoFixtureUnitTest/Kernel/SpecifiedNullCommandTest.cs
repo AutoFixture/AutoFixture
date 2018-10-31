@@ -15,7 +15,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             // Act
-            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Assert
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<PropertyHolder<object>>>(sut);
         }
@@ -25,7 +25,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => new SpecifiedNullCommand<PropertyHolder<object>, object>(null));
+            Assert.Throws<ArgumentNullException>(() => new SpecifiedNullCommand<PropertyHolder<object>, object>(null, false));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             Expression<Func<object, object>> invalidExpression = obj => obj;
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, object>(invalidExpression));
+            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, object>(invalidExpression, false));
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, string>(methodExpression));
+            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, string>(methodExpression, false));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression));
+            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, false));
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var expectedMember = typeof(PropertyHolder<object>).GetProperty("Property");
-            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Act
             MemberInfo result = sut.Member;
             // Assert
@@ -71,7 +71,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ExecuteDoesNotThrow()
         {
             // Arrange
-            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Act & assert
             Assert.Null(Record.Exception(() => sut.Execute(null, null)));
         }
@@ -80,7 +80,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByNullThrows()
         {
             // Arrange
-            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Act & assert
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
         }
@@ -90,7 +90,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = new object();
-            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Act
             bool result = sut.IsSatisfiedBy(request);
             // Assert
@@ -102,7 +102,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
-            var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2);
+            var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2, false);
             // Act
             bool result = sut.IsSatisfiedBy(request);
             // Assert
@@ -114,7 +114,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
-            var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1);
+            var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1, false);
             // Act
             bool result = sut.IsSatisfiedBy(request);
             // Assert
@@ -126,7 +126,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = typeof(ConcreteType).GetProperty("Property1");
-            var sut = new SpecifiedNullCommand<AbstractType, object>(x => x.Property1);
+            var sut = new SpecifiedNullCommand<AbstractType, object>(x => x.Property1, false);
             // Act
             var result = sut.IsSatisfiedBy(request);
             // Assert

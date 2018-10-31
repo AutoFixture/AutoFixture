@@ -14,7 +14,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null));
+            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, false));
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             Expression<Func<object, object>> invalidExpression = obj => obj;
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, false));
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, false));
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, false));
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             Func<ISpecimenContext, object> dummyValueCreator = c => new object();
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, dummyValueCreator));
+            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, dummyValueCreator, false));
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace AutoFixtureUnitTest.Kernel
             Expression<Func<object, object>> invalidExpression = obj => obj;
             Func<ISpecimenContext, object> dummyValueCreator = c => new object();
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyValueCreator));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyValueCreator, false));
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace AutoFixtureUnitTest.Kernel
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
             Func<ISpecimenContext, string> dummyValueCreator = c => "Anonymous value";
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValueCreator));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValueCreator, false));
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace AutoFixtureUnitTest.Kernel
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             Func<ISpecimenContext, object> dummyValueCreator = c => new object();
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, dummyValueCreator));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, dummyValueCreator, false));
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (Func<ISpecimenContext, object>)null));
+            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (Func<ISpecimenContext, object>)null, false));
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var dummyValue = new object();
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, dummyValue));
+            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, dummyValue, false));
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace AutoFixtureUnitTest.Kernel
             Expression<Func<object, object>> invalidExpression = obj => obj;
             var dummyValue = new object();
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyValue));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyValue, false));
         }
 
         [Fact]
@@ -117,7 +117,7 @@ namespace AutoFixtureUnitTest.Kernel
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
             var dummyValue = "Anonymous value";
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValue));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValue, false));
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace AutoFixtureUnitTest.Kernel
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             var dummyValue = new object();
             // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, dummyValue));
+            Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, dummyValue, false));
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             // Act & assert
             Assert.Null(Record.Exception(() =>
-                new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (object)null)));
+                new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (object)null, false)));
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var expectedMember = typeof(PropertyHolder<object>).GetProperty("Property");
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Act
             MemberInfo result = sut.Member;
             // Assert
@@ -156,7 +156,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             Func<ISpecimenContext, double> expectedCreator = c => 8;
-            var sut = new BindingCommand<PropertyHolder<double>, double>(ph => ph.Property, expectedCreator);
+            var sut = new BindingCommand<PropertyHolder<double>, double>(ph => ph.Property, expectedCreator, false);
             // Act
             Func<ISpecimenContext, double> result = sut.ValueCreator;
             // Assert
@@ -167,7 +167,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ExecuteWithNullItemWillThrow()
         {
             // Arrange
-            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property, false);
             // Act & assert
             var dummyContainer = new DelegatingSpecimenContext();
             Assert.Throws<ArgumentNullException>(() => sut.Execute((object)null, dummyContainer));
@@ -177,7 +177,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ExecuteWithNullContainerWillThrow()
         {
             // Arrange
-            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property, false);
             // Act & assert
             var dummySpecimen = new PropertyHolder<string>();
 #pragma warning disable 618
@@ -193,7 +193,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             var specimen = new PropertyHolder<object>();
             // Act
 #pragma warning disable 618
@@ -211,7 +211,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
-            var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
+            var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field, false);
             var specimen = new FieldHolder<object>();
             // Act
 #pragma warning disable 618
@@ -228,7 +228,7 @@ namespace AutoFixtureUnitTest.Kernel
             var nonInt = "Anonymous variable";
             var container = new DelegatingSpecimenContext { OnResolve = r => nonInt };
 
-            var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property, false);
             // Act & assert
             var dummySpecimen = new PropertyHolder<int>();
 #pragma warning disable 618
@@ -243,7 +243,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedValue = new object();
             var expectedContainer = new DelegatingSpecimenContext();
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContainer == c ? expectedValue : new NoSpecimen());
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContainer == c ? expectedValue : new NoSpecimen(), false);
             var specimen = new PropertyHolder<object>();
             // Act
 #pragma warning disable 618
@@ -259,7 +259,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var expectedValue = new object();
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue);
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue, false);
             var specimen = new PropertyHolder<object>();
             // Act
             var dummyContainer = new DelegatingSpecimenContext();
@@ -276,7 +276,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             // Act
-            var sut = new BindingCommand<FieldHolder<DateTimeOffset>, DateTimeOffset>(fh => fh.Field);
+            var sut = new BindingCommand<FieldHolder<DateTimeOffset>, DateTimeOffset>(fh => fh.Field, false);
             // Assert
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<FieldHolder<DateTimeOffset>>>(sut);
         }
@@ -285,7 +285,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByNullThrows()
         {
             // Arrange
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Act & assert
 #pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
@@ -297,7 +297,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = new object();
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             // Act
 #pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
@@ -311,7 +311,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
-            var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2);
+            var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2, false);
             // Act
 #pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
@@ -325,7 +325,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
-            var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1);
+            var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1, false);
             // Act
 #pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
@@ -339,7 +339,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var request = typeof(ConcreteType).GetProperty("Property1");
-            var sut = new BindingCommand<AbstractType, object>(x => x.Property1);
+            var sut = new BindingCommand<AbstractType, object>(x => x.Property1, false);
             // Act
 #pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
@@ -352,14 +352,14 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutIsSpecimenCommand()
         {
             var request = typeof(ConcreteType).GetProperty("Property1");
-            var sut = new BindingCommand<AbstractType, object>(x => x.Property1);
+            var sut = new BindingCommand<AbstractType, object>(x => x.Property1, false);
             Assert.IsAssignableFrom<ISpecimenCommand>(sut);
         }
 
         [Fact]
         public void ExecuteWithNullSpecimenThrows()
         {
-            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property, false);
             var dummyContext = new DelegatingSpecimenContext();
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Execute((object)null, dummyContext));
@@ -368,7 +368,7 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ExecuteWithNullContextThrows()
         {
-            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property, false);
             object dummySpecimen = new PropertyHolder<string>();
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Execute(dummySpecimen, null));
@@ -385,7 +385,7 @@ namespace AutoFixtureUnitTest.Kernel
                 OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen()
             };
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, false);
             var specimen = new PropertyHolder<object>();
             // Act
             sut.Execute((object)specimen, context);
@@ -404,7 +404,7 @@ namespace AutoFixtureUnitTest.Kernel
                 OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen()
             };
 
-            var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
+            var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field, false);
             var specimen = new FieldHolder<object>();
             // Act
             sut.Execute((object)specimen, context);
@@ -417,7 +417,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             var nonInt = "Anonymous variable";
             var context = new DelegatingSpecimenContext { OnResolve = r => nonInt };
-            var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);
+            var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property, false);
 
             object dummySpecimen = new PropertyHolder<int>();
             Assert.Throws<InvalidOperationException>(() =>
@@ -431,7 +431,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedValue = new object();
             var expectedContext = new DelegatingSpecimenContext();
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContext == c ? expectedValue : new NoSpecimen());
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContext == c ? expectedValue : new NoSpecimen(), false);
             var specimen = new PropertyHolder<object>();
             // Act
             sut.Execute((object)specimen, expectedContext);
@@ -445,7 +445,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var expectedValue = new object();
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue);
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue, false);
             var specimen = new PropertyHolder<object>();
             // Act
             var dummyContext = new DelegatingSpecimenContext();

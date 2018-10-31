@@ -125,7 +125,23 @@ namespace AutoFixture.Dsl
         /// <summary>
         /// Does nothing.
         /// </summary>
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Does nothing.
+        /// </summary>
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Does nothing.
+        /// </summary>
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             return this;
         }
@@ -142,6 +158,14 @@ namespace AutoFixture.Dsl
         /// Does nothing.
         /// </summary>
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Does nothing.
+        /// </summary>
+        public IPostprocessComposer<T> WithoutPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             return this;
         }

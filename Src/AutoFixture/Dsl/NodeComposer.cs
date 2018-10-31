@@ -13,9 +13,9 @@ namespace AutoFixture.Dsl
     /// <typeparam name="T">The type of specimen.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
-    public class NodeComposer<T> :
-        ICustomizationComposer<T>,
-        ISpecimenBuilderNode
+    public class NodeComposer<T>
+        : ICustomizationComposer<T>,
+            ISpecimenBuilderNode
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeComposer{T}" />
@@ -230,8 +230,7 @@ namespace AutoFixture.Dsl
                 when: filter.Equals);
         }
 
-        private static NodeComposer<T> WithDoNode(
-            Action<T> action,
+        private static NodeComposer<T> WithDoNode(Action<T> action,
             ISpecimenBuilderNode graph,
             ISpecimenBuilderNode container)
         {
@@ -289,17 +288,46 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> With<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
-            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker, false);
 
             var targetToDecorate = this.FindFirstNode(n => n is NoSpecimenOutputGuard);
 
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => new Postprocessor(
                     n,
-                    new BindingCommand<T, TProperty>(propertyPicker),
+                    new BindingCommand<T, TProperty>(propertyPicker, false),
+                    CreateSpecification()),
+                when: targetToDecorate.Equals);
+        }
+
+        /// <summary>
+        /// Registers that a private property or field should be assigned an
+        /// anonymous value as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will
+        /// should have a value
+        /// assigned.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which NodeComposer can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker, true);
+
+            var targetToDecorate = this.FindFirstNode(n => n is NoSpecimenOutputGuard);
+
+            return (NodeComposer<T>)this.ReplaceNodes(
+                with: n => new Postprocessor(
+                    n,
+                    new BindingCommand<T, TProperty>(propertyPicker, true),
                     CreateSpecification()),
                 when: targetToDecorate.Equals);
         }
@@ -323,10 +351,9 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> With<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
-            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker, false);
 
             var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
             var graphWithoutSeedIgnoringRelay = WithoutSeedIgnoringRelay(graphWithAutoPropertiesNode);
@@ -339,13 +366,57 @@ namespace AutoFixture.Dsl
                     {
                         new Postprocessor(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            new BindingCommand<T, TProperty>(propertyPicker, value),
+                            new BindingCommand<T, TProperty>(propertyPicker, value, false),
                             CreateSpecification()),
                         new SeedIgnoringRelay()
                     }),
                 when: container.Equals);
 
-            var member = propertyPicker.GetWritableMember().Member;
+            var member = propertyPicker.GetWritableMember(false).Member;
+            return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithProperty);
+        }
+
+        /// <summary>
+        /// Registers that a private property or field should be assigned a
+        /// specific value as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will have
+        /// <paramref name="value"/> assigned.
+        /// </param>
+        /// <param name="value">
+        /// The value to assign to the property or field identified by
+        /// <paramref name="propertyPicker"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        {
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker, true);
+
+            var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
+            var graphWithoutSeedIgnoringRelay = WithoutSeedIgnoringRelay(graphWithAutoPropertiesNode);
+
+            var container = FindContainer(graphWithoutSeedIgnoringRelay);
+
+            var graphWithProperty = graphWithoutSeedIgnoringRelay.ReplaceNodes(
+                with: n => n.Compose(
+                    new ISpecimenBuilder[]
+                    {
+                        new Postprocessor(
+                            CompositeSpecimenBuilder.ComposeIfMultiple(n),
+                            new BindingCommand<T, TProperty>(propertyPicker, value, true),
+                            CreateSpecification()),
+                        new SeedIgnoringRelay()
+                    }),
+                when: container.Equals);
+
+            var member = propertyPicker.GetWritableMember(true).Member;
             return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithProperty);
         }
 
@@ -383,12 +454,35 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> Without<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
-            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker, false);
 
-            var member = propertyPicker.GetWritableMember().Member;
+            var member = propertyPicker.GetWritableMember(false).Member;
+            var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
+
+            return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
+        }
+
+        /// <summary>
+        /// Registers that a private property should not be assigned an
+        /// automatic value as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property or field to ignore.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field to be ignored.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> WithoutPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker, true);
+
+            var member = propertyPicker.GetWritableMember(true).Member;
             var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
 
             return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
@@ -433,8 +527,7 @@ namespace AutoFixture.Dsl
         /// A new <see cref="ISpecimenBuilderNode" /> instance containing
         /// <paramref name="builders" /> as child nodes.
         /// </returns>
-        public ISpecimenBuilderNode Compose(
-            IEnumerable<ISpecimenBuilder> builders)
+        public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder =
                 CompositeSpecimenBuilder.ComposeIfMultiple(builders);

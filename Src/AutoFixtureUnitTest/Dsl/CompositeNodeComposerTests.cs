@@ -16,8 +16,10 @@ namespace AutoFixtureUnitTest.Dsl
         {
             // Arrange
             var dummyNode = new CompositeSpecimenBuilder();
+
             // Act
             var sut = new CompositeNodeComposer<object>(dummyNode);
+
             // Assert
             Assert.IsAssignableFrom<ICustomizationComposer<object>>(sut);
         }
@@ -27,8 +29,10 @@ namespace AutoFixtureUnitTest.Dsl
         {
             // Arrange
             var dummyNode = new CompositeSpecimenBuilder();
+
             // Act
             var sut = new CompositeNodeComposer<float>(dummyNode);
+
             // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
         }
@@ -39,6 +43,7 @@ namespace AutoFixtureUnitTest.Dsl
             // Arrange
             var dummyNode = new CompositeSpecimenBuilder();
             var sut = new CompositeNodeComposer<uint>(dummyNode);
+
             // Act
             var expectedBuilders = new[]
             {
@@ -47,6 +52,7 @@ namespace AutoFixtureUnitTest.Dsl
                 new DelegatingSpecimenBuilder()
             };
             var actual = sut.Compose(expectedBuilders);
+
             // Assert
             var c =
                 Assert.IsAssignableFrom<CompositeNodeComposer<uint>>(actual);
@@ -62,8 +68,10 @@ namespace AutoFixtureUnitTest.Dsl
             var dummyNode = new CompositeSpecimenBuilder();
             var sut = new CompositeNodeComposer<uint>(dummyNode);
             ISpecimenBuilderNode expected = new CompositeSpecimenBuilder();
+
             // Act
             var actual = sut.Compose(new[] { expected });
+
             // Assert
             var c =
                 Assert.IsAssignableFrom<CompositeNodeComposer<uint>>(actual);
@@ -79,15 +87,15 @@ namespace AutoFixtureUnitTest.Dsl
             var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
-                OnCreate = (r, c) => r == request && c == context ?
-                    expected :
-                    new NoSpecimen()
+                OnCreate = (r, c) => r == request && c == context ? expected : new NoSpecimen()
             };
             var sut = new CompositeNodeComposer<ushort>(
                 new CompositeSpecimenBuilder(
                     builder));
+
             // Act
             var actual = sut.Create(request, context);
+
             // Assert
             Assert.Equal(expected, actual);
         }
@@ -97,8 +105,10 @@ namespace AutoFixtureUnitTest.Dsl
         {
             // Arrange
             var expected = new CompositeSpecimenBuilder();
+
             // Act
             var sut = new CompositeNodeComposer<uint>(expected);
+
             // Assert
             Assert.True(new[] { expected }.SequenceEqual(sut));
             Assert.True(new object[] { expected }.SequenceEqual(
@@ -111,8 +121,10 @@ namespace AutoFixtureUnitTest.Dsl
             // Arrange
             var expected = new CompositeSpecimenBuilder();
             var sut = new CompositeNodeComposer<string>(expected);
+
             // Act
             ISpecimenBuilderNode actual = sut.Node;
+
             // Assert
             Assert.Equal(expected, actual);
         }
@@ -136,8 +148,10 @@ namespace AutoFixtureUnitTest.Dsl
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<int>(node);
             Func<int, int> f = i => i;
+
             // Act
             var actual = sut.FromSeed(f);
+
             // Assert
             var expected = new CompositeNodeComposer<int>(
                 new CompositeSpecimenBuilder(
@@ -162,8 +176,10 @@ namespace AutoFixtureUnitTest.Dsl
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<decimal>(node);
             var factory = new DelegatingSpecimenBuilder();
+
             // Act
             var actual = sut.FromFactory(factory);
+
             // Assert
             var expected = new CompositeNodeComposer<decimal>(
                 new CompositeSpecimenBuilder(
@@ -188,8 +204,10 @@ namespace AutoFixtureUnitTest.Dsl
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<Guid>(node);
             Func<Guid> f = () => Guid.Empty;
+
             // Act
             var actual = sut.FromFactory(f);
+
             // Assert
             var expected = new CompositeNodeComposer<Guid>(
                 new CompositeSpecimenBuilder(
@@ -214,8 +232,10 @@ namespace AutoFixtureUnitTest.Dsl
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<string>(node);
             Func<int, string> f = i => i.ToString();
+
             // Act
             var actual = sut.FromFactory(f);
+
             // Assert
             var expected = new CompositeNodeComposer<string>(
                 new CompositeSpecimenBuilder(
@@ -240,8 +260,10 @@ namespace AutoFixtureUnitTest.Dsl
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<Version>(node);
             Func<int, int, Version> f = (mj, mn) => new Version(mj, mn);
+
             // Act
             var actual = sut.FromFactory(f);
+
             // Assert
             var expected = new CompositeNodeComposer<Version>(
                 new CompositeSpecimenBuilder(
@@ -266,8 +288,10 @@ namespace AutoFixtureUnitTest.Dsl
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<long>(node);
             Func<long, int, short, long> f = (x, y, z) => x;
+
             // Act
             var actual = sut.FromFactory(f);
+
             // Assert
             var expected = new CompositeNodeComposer<long>(
                 new CompositeSpecimenBuilder(
@@ -293,8 +317,10 @@ namespace AutoFixtureUnitTest.Dsl
             var sut = new CompositeNodeComposer<Version>(node);
             Func<int, int, int, int, Version> f =
                 (mj, mn, b, r) => new Version(mj, mn, b, r);
+
             // Act
             var actual = sut.FromFactory(f);
+
             // Assert
             var expected = new CompositeNodeComposer<Version>(
                 new CompositeSpecimenBuilder(
@@ -313,8 +339,10 @@ namespace AutoFixtureUnitTest.Dsl
             // Arrange
             var dummyNode = new CompositeSpecimenBuilder();
             var sut = new CompositeNodeComposer<UTF8Encoding>(dummyNode);
+
             // Act
             var actual = sut.Compose();
+
             // Assert
             Assert.Equal(sut, actual);
         }
@@ -332,8 +360,10 @@ namespace AutoFixtureUnitTest.Dsl
             var sut = new CompositeNodeComposer<ConcreteType>(node);
             Action<ConcreteType> a =
                 ads => ads.Property1 = null;
+
             // Act
             var actual = sut.Do(a);
+
             // Assert
             var expected = new CompositeNodeComposer<ConcreteType>(
                 new CompositeSpecimenBuilder(
@@ -357,8 +387,10 @@ namespace AutoFixtureUnitTest.Dsl
                 SpecimenBuilderNodeFactory.CreateComposer<Version>(),
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<Version>(node);
+
             // Act
             var actual = sut.WithAutoProperties();
+
             // Assert
             var expected = new CompositeNodeComposer<Version>(
                 new CompositeSpecimenBuilder(
@@ -382,8 +414,10 @@ namespace AutoFixtureUnitTest.Dsl
                 SpecimenBuilderNodeFactory.CreateComposer<Version>(),
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<Version>(node);
+
             // Act
             var actual = sut.OmitAutoProperties();
+
             // Assert
             var expected = new CompositeNodeComposer<Version>(
                 new CompositeSpecimenBuilder(
@@ -407,8 +441,10 @@ namespace AutoFixtureUnitTest.Dsl
                 SpecimenBuilderNodeFactory.CreateComposer<Version>(),
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<Version>(node);
+
             // Act
             var actual = sut.WithAutoProperties().OmitAutoProperties();
+
             // Assert
             var expected = new CompositeNodeComposer<Version>(
                 new CompositeSpecimenBuilder(
@@ -432,8 +468,10 @@ namespace AutoFixtureUnitTest.Dsl
                 SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>(),
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<PropertyHolder<int>>(node);
+
             // Act
             var actual = sut.With(x => x.Property);
+
             // Assert
             var expected = new CompositeNodeComposer<PropertyHolder<int>>(
                 new CompositeSpecimenBuilder(
@@ -460,8 +498,10 @@ namespace AutoFixtureUnitTest.Dsl
                 SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<PropertyHolder<string>>(node);
+
             // Act
             var actual = sut.With(x => x.Property, value);
+
             // Assert
             var expected = new CompositeNodeComposer<PropertyHolder<string>>(
                 new CompositeSpecimenBuilder(
@@ -469,6 +509,36 @@ namespace AutoFixtureUnitTest.Dsl
                     (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, value),
                     SpecimenBuilderNodeFactory.CreateComposer<Version>(),
                     (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, value),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithExplicitPrivateValueReturnsCorrectResult(string value)
+        {
+            // Arrange
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                SpecimenBuilderNodeFactory.CreateComposer<PrivatePropertyHolder<string>>(),
+                SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                SpecimenBuilderNodeFactory.CreateComposer<PrivatePropertyHolder<string>>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<PrivatePropertyHolder<string>>(node);
+
+            // Act
+            var actual = sut.WithPrivate(x => x.Property, value);
+
+            // Assert
+            var expected = new CompositeNodeComposer<PrivatePropertyHolder<string>>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PrivatePropertyHolder<string>>().WithPrivate(x => x.Property, value),
+                    SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PrivatePropertyHolder<string>>().WithPrivate(x => x.Property, value),
                     new DelegatingSpecimenBuilder()));
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -485,8 +555,10 @@ namespace AutoFixtureUnitTest.Dsl
                 SpecimenBuilderNodeFactory.CreateComposer<FieldHolder<short>>(),
                 new DelegatingSpecimenBuilder());
             var sut = new CompositeNodeComposer<FieldHolder<short>>(node);
+
             // Act
             var actual = sut.Without(x => x.Field);
+
             // Assert
             var expected = new CompositeNodeComposer<FieldHolder<short>>(
                 new CompositeSpecimenBuilder(

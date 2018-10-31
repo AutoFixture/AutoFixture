@@ -23,16 +23,19 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <param name="propertyPicker">An expression that identifies a property or field.</param>
         /// <remarks>
-        /// <para>
+        /// <param>
         /// This constructor implies that an anonymous value will be assigned to the property or
         /// field identified by <paramref name="propertyPicker"/>.
-        /// </para>
+        /// </param>
+        /// <param name="readOnlyProperty">
+        /// An flag that indicates if property has private get/set.
+        /// </param>
         /// </remarks>
-        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker)
+        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, bool readOnlyProperty)
         {
             if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
 
-            this.Member = propertyPicker.GetWritableMember().Member;
+            this.Member = propertyPicker.GetWritableMember(readOnlyProperty).Member;
             this.ValueCreator = this.CreateAnonymousValue;
         }
 
@@ -46,11 +49,14 @@ namespace AutoFixture.Kernel
         /// The value to assign to the property or field identified by
         /// <paramref name="propertyPicker"/>.
         /// </param>
-        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, TProperty propertyValue)
+        /// <param name="readOnlyProperty">
+        /// An flag that indicates if property has private get/set.
+        /// </param>
+        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, TProperty propertyValue, bool readOnlyProperty)
         {
             if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
 
-            this.Member = propertyPicker.GetWritableMember().Member;
+            this.Member = propertyPicker.GetWritableMember(readOnlyProperty).Member;
             this.ValueCreator = c => propertyValue;
         }
 
@@ -64,13 +70,15 @@ namespace AutoFixture.Kernel
         /// A function that creates a value that will be assigned to the property or field
         /// identified by <paramref name="propertyPicker"/>.
         /// </param>
-        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContext, TProperty> valueCreator)
+        /// <param name="readOnlyProperty">
+        /// An flag that indicates if property has private get/set.
+        /// </param>
+        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContext, TProperty> valueCreator, bool readOnlyProperty)
         {
             if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
-            if (valueCreator == null) throw new ArgumentNullException(nameof(valueCreator));
 
-            this.Member = propertyPicker.GetWritableMember().Member;
-            this.ValueCreator = valueCreator;
+            this.ValueCreator = valueCreator ?? throw new ArgumentNullException(nameof(valueCreator));
+            this.Member = propertyPicker.GetWritableMember(readOnlyProperty).Member;
         }
 
         /// <summary>

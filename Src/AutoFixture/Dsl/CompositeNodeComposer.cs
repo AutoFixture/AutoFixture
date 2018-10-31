@@ -18,10 +18,11 @@ namespace AutoFixture.Dsl
     /// in the wrapped graph and applies the appropriate method to all matches.
     /// </para>
     /// </remarks>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
-    public class CompositeNodeComposer<T> :
-        ICustomizationComposer<T>,
-        ISpecimenBuilderNode
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification =
+        "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
+    public class CompositeNodeComposer<T>
+        : ICustomizationComposer<T>,
+            ISpecimenBuilderNode
     {
         /// <summary>
         /// Initializes a new instance of the
@@ -115,8 +116,7 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> FromFactory<TInput>(
-            Func<TInput, T> factory)
+        public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
@@ -145,8 +145,7 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(
-            Func<TInput1, TInput2, T> factory)
+        public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
@@ -180,8 +179,7 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(
-            Func<TInput1, TInput2, TInput3, T> factory)
+        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(Func<TInput1, TInput2, TInput3, T> factory)
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
@@ -219,8 +217,7 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(
-            Func<TInput1, TInput2, TInput3, TInput4, T> factory)
+        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
@@ -288,12 +285,35 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> With<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
                     (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker),
+                when: n => n is NodeComposer<T>);
+        }
+
+        /// <summary>
+        /// Registers that a private property or field should be assigned an
+        /// anonymous value as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will
+        /// should have a value
+        /// assigned.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).WithPrivate(propertyPicker),
                 when: n => n is NodeComposer<T>);
         }
 
@@ -316,12 +336,38 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> With<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
                     (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, value),
+                when: n => n is NodeComposer<T>);
+        }
+
+        /// <summary>
+        /// Registers that a private property or field should be assigned a
+        /// specific value as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will have
+        /// <paramref name="value"/> assigned.
+        /// </param>
+        /// <param name="value">
+        /// The value to assign to the property or field identified by
+        /// <paramref name="propertyPicker"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> WithPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        {
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).WithPrivate(propertyPicker, value),
                 when: n => n is NodeComposer<T>);
         }
 
@@ -370,12 +416,28 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> Without<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
                     (NodeComposer<T>)((NodeComposer<T>)n).Without(propertyPicker),
+                when: n => n is NodeComposer<T>);
+        }
+
+        /// <summary>
+        /// Withouts the specified property picker.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="propertyPicker">The property picker.</param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> WithoutPrivate<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).WithoutPrivate(propertyPicker),
                 when: n => n is NodeComposer<T>);
         }
 
