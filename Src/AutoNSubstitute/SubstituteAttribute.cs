@@ -7,10 +7,10 @@ namespace AutoFixture.AutoNSubstitute
     /// substitute.
     /// </summary>
     /// <remarks>
-    /// When this attribute is applied to a parameter in a data-driven test, such as xUnit's <code>[Theory]</code>,
+    /// When this attribute is applied to a parameter in a data-driven test, such as xUnit's <c>[Theory]</c>,
     /// the test must also have a test conventions attribute that enables automatic generation of the
     /// <see cref="Fixture"/> with the <see cref="AutoNSubstituteCustomization"/>. For xUnit, this is done by deriving
-    /// the test conventions attribute from the <code>AutoDataAttribute</code> supplied by the AutoFixture for xUnit.net.
+    /// the test conventions attribute from the <c>AutoDataAttribute</c> supplied by the AutoFixture for xUnit.net.
     /// </remarks>
     [AttributeUsage(
         AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field,

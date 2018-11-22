@@ -47,7 +47,7 @@ namespace AutoFixtureUnitTest
 #endif
                     typeof(EmailAddressLocalPartGenerator),
                     typeof(DomainNameGenerator)
-                 };
+                };
             // Act
             var sut = new DefaultPrimitiveBuilders();
             // Assert
