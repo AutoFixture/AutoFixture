@@ -90,7 +90,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Get values for a collection of. <see cref="IParameterInfo"/>
+        /// Get values for a collection of <see cref="IParameterInfo"/>.
         /// </summary>
         private IEnumerable<object> GetParameterValues(IMethodInfo method)
         {
@@ -106,7 +106,7 @@ namespace AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Get value for an. <see cref="IParameterInfo"/>
+        /// Get value for an <see cref="IParameterInfo"/>.
         /// </summary>
         private object GetValueForParameter(IParameterInfo parameterInfo)
         {

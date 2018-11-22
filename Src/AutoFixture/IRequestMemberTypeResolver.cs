@@ -3,7 +3,7 @@
 namespace AutoFixture
 {
     /// <summary>
-    /// Resolver of the member type for the class member requests (e.g. PropertyInfo, FieldInfo)
+    /// Resolver of the member type for the class member requests (e.g. PropertyInfo, FieldInfo).
     /// </summary>
     public interface IRequestMemberTypeResolver
     {

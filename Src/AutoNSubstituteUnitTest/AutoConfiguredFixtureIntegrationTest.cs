@@ -766,7 +766,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                     this.Tasks.Add(task);
                 }
 
-                ThreadPool.QueueUserWorkItem(delegate
+                ThreadPool.QueueUserWorkItem(_ =>
                 {
                     Thread.Sleep(DelayMSec);
 

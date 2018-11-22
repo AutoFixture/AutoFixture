@@ -10,8 +10,8 @@ namespace AutoFixture.Kernel
     public class OmitOnRecursionHandler : IRecursionHandler
     {
         /// <summary>
-        /// Handles a recursive request by instructing AutoFixture to ignore.
-        /// <paramref name="request" />
+        /// Handles a recursive request by instructing AutoFixture to ignore
+        /// <paramref name="request" />.
         /// </summary>
         /// <param name="request">The request causing the recursion.</param>
         /// <param name="recordedRequests">
