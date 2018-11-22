@@ -8,6 +8,8 @@
     <AssemblyTitle>Idioms.FsCheck.FsCheck2UnitTest</AssemblyTitle>
     <AssemblyName>Idioms.FsCheck.FsCheck2UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>
+    <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects -->
+    <NoWarn>FS2003</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
