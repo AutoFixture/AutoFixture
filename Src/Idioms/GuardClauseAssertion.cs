@@ -821,6 +821,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             private void ImplementMethod()
             {
                 this.DefineMethodBuilder();
+                this.DefineMethodGenericParameters();
                 this.DefineStaticSpecimenBuilderFieldBuilder();
                 this.EmitReturningDefaultValue();
             }
@@ -833,6 +834,26 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
                     CallingConventions.Standard,
                     this.methodInfo.ReturnType,
                     this.methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
+            }
+
+            private void DefineMethodGenericParameters()
+            {
+                var genericArguments = this.methodInfo.GetGenericArguments();
+                if (genericArguments.Any())
+                {
+                    var typeParameters = this.methodBuilder.DefineGenericParameters(genericArguments.Select(a => a.Name).ToArray());
+                    for (int i = 0; i < genericArguments.Length; i++)
+                    {
+                        DefineMethodGenericConstraints(genericArguments[i], typeParameters[i]);
+                    }
+                }
+            }
+
+            private static void DefineMethodGenericConstraints(Type genericArgument, GenericTypeParameterBuilder typeParameter)
+            {
+                typeParameter.SetGenericParameterAttributes(genericArgument.GenericParameterAttributes);
+                typeParameter.SetBaseTypeConstraint(genericArgument.BaseType);
+                typeParameter.SetInterfaceConstraints(genericArgument.GetInterfaces());
             }
 
             private void EmitReturningDefaultValue()

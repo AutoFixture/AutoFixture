@@ -1240,6 +1240,10 @@ namespace AutoFixture.IdiomsUnitTest
             object Property { get; set; }
 
             void Method(object argument);
+
+            TResult GenericMethod<TValue, TResult>(TValue argument)
+                where TValue : ICloneable
+                where TResult : class, ICloneable;
         }
 
         private class ClassContraint<T>
