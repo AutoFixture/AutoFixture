@@ -81,6 +81,17 @@ namespace AutoFixtureUnitTest.Dsl
             return this.OnWith(propertyPicker, value);
         }
 
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueFactory)
+        {
+            return this.OnValueFactoryWith(propertyPicker, () => valueFactory());
+        }
+
+        public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory)
+        {
+            return this.OnInputValueFactoryWith(propertyPicker, o => valueFactory((TInput)o));
+        }
+
+
         public IPostprocessComposer<T> WithAutoProperties()
         {
             return this.OnWithAutoProperties();
@@ -104,6 +115,8 @@ namespace AutoFixtureUnitTest.Dsl
         internal Func<IPostprocessComposer<T>> OnOmitAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnAnonymousWith { get; set; }
         internal Func<object, object, IPostprocessComposer<T>> OnWith { get; set; }
+        internal Func<object, Func<object>, IPostprocessComposer<T>> OnValueFactoryWith { get; set; }
+        internal Func<object, Func<object, object>, IPostprocessComposer<T>> OnInputValueFactoryWith { get; set; }
         internal Func<IPostprocessComposer<T>> OnWithAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnWithout { get; set; }
         internal Func<object, ISpecimenContext, object> OnCreate { get; set; }

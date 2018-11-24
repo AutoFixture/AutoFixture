@@ -349,6 +349,19 @@ namespace AutoFixture.Dsl
             return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithProperty);
         }
 
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueFactory)
+        {
+            var value = valueFactory();
+
+            return this.With(propertyPicker, value);
+        }
+
+        public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory)
+        {
+
+        }
+
+
         /// <summary>
         /// Enables auto-properties for a type of specimen.
         /// </summary>

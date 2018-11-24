@@ -130,6 +130,17 @@ namespace AutoFixture.Dsl
             return this;
         }
 
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueFactory)
+        {
+            return this;
+        }
+
+        public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory)
+        {
+            return this;
+        }
+
+
         /// <summary>
         /// Does nothing.
         /// </summary>
