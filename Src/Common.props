@@ -23,6 +23,13 @@
     <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</PackageIconUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition=" '$(CommitHash)' != '' ">
+      <_Parameter1>CommitHash</_Parameter1>
+      <_Parameter2>$(CommitHash)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <Choose>
     <When Condition="$(TargetFramework.StartsWith('netstandard')) Or $(TargetFramework.StartsWith('netcoreapp'))">
       <PropertyGroup>

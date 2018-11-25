@@ -45,7 +45,7 @@ let getVersionSourceFromGit buildNumber =
       buildNumber = buildNumber
     }
 
-type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string; 
+type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string; commitHash: string;
                           source: Option<BuildVersionCalculationSource> }
 let calculateVersion source =
     let s = source
@@ -67,7 +67,7 @@ let calculateVersion source =
                       | 0 -> nugetVersion
                       | _ -> sprintf "%s-%s" nugetVersion sha
 
-    { assemblyVersion=assemblyVersion; fileVersion=fileVersion; infoVersion=infoVersion; nugetVersion=nugetVersion; 
+    { assemblyVersion=assemblyVersion; fileVersion=fileVersion; infoVersion=infoVersion; nugetVersion=nugetVersion; commitHash=s.sha;
       source = Some source }
 
 // Calculate version that should be used for the build. Define globally as data might be required by multiple targets.
@@ -83,6 +83,7 @@ let mutable buildVersion = match getBuildParamOrDefault "BuildVersion" "git" wit
                                               fileVersion = getBuildParamOrDefault "BuildFileVersion" assemblyVer
                                               infoVersion = getBuildParamOrDefault "BuildInfoVersion" assemblyVer
                                               nugetVersion = getBuildParamOrDefault "BuildNugetVersion" assemblyVer
+                                              commitHash = getBuildParamOrDefault "BuildComitHash" ""
                                               source = None }
 
 let setVNextBranchVersion vNextVersion =
@@ -127,6 +128,7 @@ let runMsBuild target configuration properties =
                          "FileVersion", buildVersion.fileVersion
                          "InformationalVersion", buildVersion.infoVersion
                          "PackageVersion", buildVersion.nugetVersion
+                         "CommitHash", buildVersion.commitHash
                          "SourceLinkCreateOverride", sourceLinkCreatePropertyValue ]
 
     solutionToBuild
