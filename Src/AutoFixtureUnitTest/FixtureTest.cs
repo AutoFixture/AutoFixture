@@ -3367,7 +3367,9 @@ namespace AutoFixtureUnitTest
             string expectedText = "Anonymous text";
             var sut = new Fixture();
             // Act
-            PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).CreateAnonymous();
+            PropertyHolder<string> result = sut.Build<PropertyHolder<string>>()
+                .With(ph => ph.Property, expectedText)
+                .CreateAnonymous();
             // Assert
             Assert.Equal(expectedText, result.Property);
         }
@@ -3379,7 +3381,9 @@ namespace AutoFixtureUnitTest
             string expectedText = "Anonymous text";
             var sut = new Fixture();
             // Act
-            PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).Create();
+            PropertyHolder<string> result = sut.Build<PropertyHolder<string>>()
+                .With(ph => ph.Property, expectedText)
+                .Create();
             // Assert
             Assert.Equal(expectedText, result.Property);
         }
@@ -3392,7 +3396,9 @@ namespace AutoFixtureUnitTest
             string expectedText = "Anonymous text";
             var fixture = new Fixture();
             // Act
-            FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).CreateAnonymous();
+            FieldHolder<string> result = fixture.Build<FieldHolder<string>>()
+                .With(fh => fh.Field, expectedText)
+                .CreateAnonymous();
             // Assert
             Assert.Equal(expectedText, result.Field);
         }
@@ -3404,9 +3410,80 @@ namespace AutoFixtureUnitTest
             string expectedText = "Anonymous text";
             var fixture = new Fixture();
             // Act
-            FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).Create();
+            FieldHolder<string> result = fixture
+                .Build<FieldHolder<string>>()
+                .With(fh => fh.Field, expectedText)
+                .Create();
             // Assert
             Assert.Equal(expectedText, result.Field);
+        }
+
+        [Fact]
+        public void BuildWithFactoryWillSetPropertyOnCreatedObject()
+        {
+            // Arrange
+            var values = new Queue<string>(new[] { "value1", "value2" });
+            var fixture = new Fixture();
+            // Act
+            var builder = fixture
+                .Build<PropertyHolder<string>>()
+                .With(ph => ph.Property, () => values.Dequeue());
+            var result1 = builder.Create();
+            var result2 = builder.Create();
+            // Assert
+            Assert.Equal("value1", result1.Property);
+            Assert.Equal("value2", result2.Property);
+        }
+
+        [Fact]
+        public void BuildWithFactoryWillSetFieldOnCreatedObject()
+        {
+            // Arrange
+            var values = new Queue<string>(new[] { "value1", "value2" });
+            var fixture = new Fixture();
+            // Act
+            var builder = fixture
+                .Build<FieldHolder<string>>()
+                .With(ph => ph.Field, () => values.Dequeue());
+            var result1 = builder.Create();
+            var result2 = builder.Create();
+            // Assert
+            Assert.Equal("value1", result1.Field);
+            Assert.Equal("value2", result2.Field);
+        }
+
+        [Fact]
+        public void BuildWithSingleArgFactoryWillSetPropertyOnCreatedObject()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            fixture.Inject<Queue<string>>(new Queue<string>(new[] { "value1", "value2" }));
+            // Act
+            var builder = fixture
+                .Build<PropertyHolder<string>>()
+                .With(ph => ph.Property, (Queue<string> values) => values.Dequeue());
+            var result1 = builder.Create();
+            var result2 = builder.Create();
+            // Assert
+            Assert.Equal("value1", result1.Property);
+            Assert.Equal("value2", result2.Property);
+        }
+
+        [Fact]
+        public void BuildWithSingleArgFactoryWillSetFieldOnCreatedObject()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            fixture.Inject<Queue<string>>(new Queue<string>(new[] { "value1", "value2" }));
+            // Act
+            var builder = fixture
+                .Build<FieldHolder<string>>()
+                .With(ph => ph.Field, (Queue<string> values) => values.Dequeue());
+            var result1 = builder.Create();
+            var result2 = builder.Create();
+            // Assert
+            Assert.Equal("value1", result1.Field);
+            Assert.Equal("value2", result2.Field);
         }
 
         [Fact]
@@ -3417,7 +3494,11 @@ namespace AutoFixtureUnitTest
             long unexpectedNumber = default(long);
             var sut = new Fixture();
             // Act
-            var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().CreateAnonymous();
+            var result = sut
+                .Build<DoublePropertyHolder<long, long>>()
+                .With(ph => ph.Property1)
+                .OmitAutoProperties()
+                .CreateAnonymous();
             // Assert
             Assert.NotEqual<long>(unexpectedNumber, result.Property1);
         }
@@ -3429,7 +3510,11 @@ namespace AutoFixtureUnitTest
             long unexpectedNumber = default(long);
             var sut = new Fixture();
             // Act
-            var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().Create();
+            var result = sut
+                .Build<DoublePropertyHolder<long, long>>()
+                .With(ph => ph.Property1)
+                .OmitAutoProperties()
+                .Create();
             // Assert
             Assert.NotEqual<long>(unexpectedNumber, result.Property1);
         }
@@ -3442,7 +3527,11 @@ namespace AutoFixtureUnitTest
             int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Act
-            var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().CreateAnonymous();
+            var result = sut
+                .Build<DoubleFieldHolder<int, decimal>>()
+                .With(fh => fh.Field1)
+                .OmitAutoProperties()
+                .CreateAnonymous();
             // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Field1);
         }
@@ -3454,7 +3543,11 @@ namespace AutoFixtureUnitTest
             int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Act
-            var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().Create();
+            var result = sut
+                .Build<DoubleFieldHolder<int, decimal>>()
+                .With(fh => fh.Field1)
+                .OmitAutoProperties()
+                .Create();
             // Assert
             Assert.NotEqual<int>(unexpectedNumber, result.Field1);
         }
@@ -4452,7 +4545,9 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
             var expected = Guid.NewGuid();
             // Act
-            var result = sut.Build<ConcreteType>().With(x => x.Property4, expected).CreateAnonymous();
+            var result = sut.Build<ConcreteType>()
+                .With(x => x.Property4, expected)
+                .CreateAnonymous();
             // Assert
             Assert.Equal(expected, result.Property4);
         }
@@ -4464,7 +4559,9 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
             var expected = Guid.NewGuid();
             // Act
-            var result = sut.Build<ConcreteType>().With(x => x.Property4, expected).Create();
+            var result = sut.Build<ConcreteType>()
+                .With(x => x.Property4, expected)
+                .Create();
             // Assert
             Assert.Equal(expected, result.Property4);
         }

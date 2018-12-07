@@ -204,7 +204,8 @@ namespace AutoFixtureUnitTest.Kernel
                     { typeof(SpecimenFactory<,,,>), typeof(SpecimenFactoryEquatable<,,,>) },
                     { typeof(SpecimenFactory<,,,,>), typeof(SpecimenFactoryEquatable<,,,,>) },
                     { typeof(NodeComposer<>), typeof(NodeComposerEquatable<>) },
-                    { typeof(CompositeNodeComposer<>), typeof(CompositeNodeComposerEquatable<>) }
+                    { typeof(CompositeNodeComposer<>), typeof(CompositeNodeComposerEquatable<>) },
+                    { typeof(BindingCommand<,>), typeof(BindingCommandEquatable<,>) }
                 };
 
             public static object CreateFromTemplate(object obj)
@@ -326,6 +327,19 @@ namespace AutoFixtureUnitTest.Kernel
             protected override bool EqualsInstance(CompositeNodeComposer<T> other)
             {
                 return true;
+            }
+        }
+
+        private class BindingCommandEquatable<T, TProperty> : GenericEquatable<BindingCommand<T, TProperty>>
+        {
+            public BindingCommandEquatable(BindingCommand<T, TProperty> item)
+                : base(item)
+            {
+            }
+
+            protected override bool EqualsInstance(BindingCommand<T, TProperty> other)
+            {
+                return this.Item.Member == other.Member;
             }
         }
 

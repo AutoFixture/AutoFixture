@@ -474,6 +474,64 @@ namespace AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
         }
 
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithValueFactoryReturnsCorrectResult(string value)
+        {
+            // Arrange
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<PropertyHolder<string>>(node);
+            Func<string> valueFactory = () => value;
+            // Act
+            var actual = sut.With(x => x.Property, valueFactory);
+            // Assert
+            var expected = new CompositeNodeComposer<PropertyHolder<string>>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, valueFactory),
+                    SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, valueFactory),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithSingleArgValueFactoryReturnsCorrectResult(string value)
+        {
+            // Arrange
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<PropertyHolder<string>>(node);
+            Func<string, string> valueFactory = _ => value;
+            // Act
+            var actual = sut.With(x => x.Property, valueFactory);
+            // Assert
+            var expected = new CompositeNodeComposer<PropertyHolder<string>>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, valueFactory),
+                    SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, valueFactory),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+        }
+
         [Fact]
         public void WithoutReturnsCorrectResult()
         {

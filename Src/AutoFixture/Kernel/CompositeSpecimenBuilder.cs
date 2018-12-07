@@ -124,7 +124,7 @@ namespace AutoFixture.Kernel
 
             if (!hasItems)
             {
-                // It's very rare case and it does't make sense to optimize it.
+                // It's very rare case and it doesn't make sense to optimize it.
                 return new CompositeSpecimenBuilder();
             }
 
