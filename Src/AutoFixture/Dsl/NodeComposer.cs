@@ -159,16 +159,9 @@ namespace AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
-            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
-
-            var targetToDecorate = this.FindFirstNode(n => n is NoSpecimenOutputGuard);
-
-            return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => new Postprocessor(
-                    n,
-                    new BindingCommand<T, TProperty>(propertyPicker),
-                    CreateSpecification()),
-                when: targetToDecorate.Equals);
+            return this.WithCommand(
+                propertyPicker,
+                new BindingCommand<T, TProperty>(propertyPicker));
         }
 
         /// <inheritdoc />
