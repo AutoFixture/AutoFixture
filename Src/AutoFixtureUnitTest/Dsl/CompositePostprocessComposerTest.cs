@@ -8,6 +8,7 @@ using Xunit;
 
 namespace AutoFixtureUnitTest.Dsl
 {
+    [Obsolete]
     public class CompositePostprocessComposerTest
     {
         [Fact]
@@ -116,7 +117,7 @@ namespace AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void WithReturnsCorrectResult()
+        public void WithValueReturnsCorrectResult()
         {
             // Arrange
             Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
@@ -126,11 +127,55 @@ namespace AutoFixtureUnitTest.Dsl
             var initialComposers = (from c in expectedComposers
                                     select new DelegatingComposer<PropertyHolder<object>>
                                     {
-                                        OnWith = (f, v) => f == expectedExpression && v == value ? c : new DelegatingComposer<PropertyHolder<object>>()
+                                        OnWithOverloadValue = (e, v) => e == expectedExpression && v == value ? c : new DelegatingComposer<PropertyHolder<object>>()
                                     }).ToArray();
             var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
             // Act
             var result = sut.With(expectedExpression, value);
+            // Assert
+            var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
+            Assert.True(expectedComposers.SequenceEqual(composite.Composers));
+        }
+
+        [Fact]
+        public void WithValueFactoryReturnsCorrectResult()
+        {
+            // Arrange
+            Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
+            Func<object> valueFactory = () => new object();
+
+            var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<PropertyHolder<object>>()).ToArray();
+            var initialComposers = (from c in expectedComposers
+                                    select new DelegatingComposer<PropertyHolder<object>>
+                                    {
+                                        OnWithOverloadFactory = (f, vf) =>
+                                            f == expectedExpression && object.Equals(vf, valueFactory) ? c : new DelegatingComposer<PropertyHolder<object>>()
+                                    }).ToArray();
+            var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
+            // Act
+            var result = sut.With(expectedExpression, valueFactory);
+            // Assert
+            var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
+            Assert.True(expectedComposers.SequenceEqual(composite.Composers));
+        }
+
+        [Fact]
+        public void WithSingleArgValueFactoryReturnsCorrectResult()
+        {
+            // Arrange
+            Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
+            Func<object, object> valueFactory = _ => new object();
+
+            var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<PropertyHolder<object>>()).ToArray();
+            var initialComposers = (from c in expectedComposers
+                                    select new DelegatingComposer<PropertyHolder<object>>
+                                    {
+                                        OnWithOverloadFactory = (f, vf) =>
+                                            f == expectedExpression && object.Equals(vf, valueFactory) ? c : new DelegatingComposer<PropertyHolder<object>>()
+                                    }).ToArray();
+            var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
+            // Act
+            var result = sut.With(expectedExpression, valueFactory);
             // Assert
             var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));

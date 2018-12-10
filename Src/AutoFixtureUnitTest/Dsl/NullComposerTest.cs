@@ -185,12 +185,34 @@ namespace AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void WithReturnsCorrectResult()
+        public void WithValueReturnsCorrectResult()
         {
             // Arrange
             var sut = new NullComposer<PropertyHolder<object>>();
             // Act
             var result = sut.With(x => x.Property, new object());
+            // Assert
+            Assert.Same(sut, result);
+        }
+
+        [Fact]
+        public void WithValueFactoryReturnsCorrectResult()
+        {
+            // Arrange
+            var sut = new NullComposer<PropertyHolder<object>>();
+            // Act
+            var result = sut.With(x => x.Property, () => new object());
+            // Assert
+            Assert.Same(sut, result);
+        }
+
+        [Fact]
+        public void WithSingleArgValueFactoryReturnsCorrectResult()
+        {
+            // Arrange
+            var sut = new NullComposer<PropertyHolder<object>>();
+            // Act
+            var result = sut.With(x => x.Property, (object obj) => obj);
             // Assert
             Assert.Same(sut, result);
         }

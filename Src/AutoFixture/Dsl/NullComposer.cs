@@ -42,109 +42,50 @@ namespace AutoFixture.Dsl
             this.compose = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> FromSeed(Func<T, T> factory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> FromFactory(Func<T> factory)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> FromFactory(Func<T> factory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(Func<TInput1, TInput2, TInput3, T> factory)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(Func<TInput1, TInput2, TInput3, T> factory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> Do(Action<T> action)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> Do(Action<T> action) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> OmitAutoProperties()
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> OmitAutoProperties() => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> WithAutoProperties()
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueFactory) => this;
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
-        {
-            return this;
-        }
+        /// <inheritdoc />
+        public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory) => this;
+
+        /// <inheritdoc />
+        public IPostprocessComposer<T> WithAutoProperties() => this;
+
+        /// <inheritdoc />
+        public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker) => this;
 
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance.

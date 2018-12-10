@@ -326,6 +326,45 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void ComposeWithValueFactoryReturnsCorrectResult()
+        {
+            // Arrange
+            var values = new Queue<string>(new[] { "value1", "value2" });
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>()
+                .With(x => x.Property, () => values.Dequeue());
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                Scenario.CreateCoreBuilder());
+            // Act
+            var result1 = new SpecimenContext(builder).Create<PropertyHolder<string>>();
+            var result2 = new SpecimenContext(builder).Create<PropertyHolder<string>>();
+            // Assert
+            Assert.Equal("value1", result1.Property);
+            Assert.Equal("value2", result2.Property);
+        }
+
+        [Fact]
+        public void ComposeWithSingleArgumentValueFactoryReturnsCorrectResult()
+        {
+            // Arrange
+            var values = new Queue<string>(new[] { "value1", "value2" });
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>()
+                .With(x => x.Property, (Queue<string> v) => v.Dequeue());
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                new FilteringSpecimenBuilder(
+                    new FixedBuilder(values),
+                    new ExactTypeSpecification(typeof(Queue<string>))),
+                Scenario.CreateCoreBuilder());
+            // Act
+            var result1 = new SpecimenContext(builder).Create<PropertyHolder<string>>();
+            var result2 = new SpecimenContext(builder).Create<PropertyHolder<string>>();
+            // Assert
+            Assert.Equal("value1", result1.Property);
+            Assert.Equal("value2", result2.Property);
+        }
+
+        [Fact]
         [Obsolete]
         public void ComposeWithAutoPropertiesAndExplicitPropertyObsolete()
         {
