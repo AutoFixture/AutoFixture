@@ -85,7 +85,7 @@ Using AutoFixture is as easy as referencing the library and creating a new insta
 | AutoFixture.xUnit2         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
 | AutoFixture.NUnit2         | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
 | AutoFixture.NUnit3         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
-| AutoFakeItEasy             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.6      |
+| AutoFakeItEasy             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.6, 2.0 |
 | AutoFoq                    | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
 | AutoMoq                    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
 | AutoNSubstitute            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |

@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.6;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>AutoFakeItEasy</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFakeItEasy</AssemblyName>
     <RootNamespace>AutoFixture.AutoFakeItEasy</RootNamespace>
@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="[1.7.4109.1,5.0.0)" Condition=" '$(TargetFramework)'=='net452' " />
     <PackageReference Include="FakeItEasy" Version="[3.0.0,5.0.0)" Condition=" '$(TargetFramework)'=='netstandard1.6' " />
+    <PackageReference Include="FakeItEasy" Version="[4.9.0,5.0.0)" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
   </ItemGroup>
 
   <ItemGroup>
