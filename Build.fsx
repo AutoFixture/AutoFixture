@@ -6,7 +6,6 @@ open Fake.AppVeyor
 open Fake.DotNetCli
 open Fake.Testing
 open System
-open System.Diagnostics;
 open System.Text.RegularExpressions
 
 let buildDir = getBuildParamOrDefault "BuildDir" "build"
@@ -18,7 +17,6 @@ let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
                     -- (nuGetOutputFolder </> "*.symbols.nupkg")
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
-let bakFileExt = ".orig"
 let repositoryUrlsOnGitHub = [ "git@github.com:AutoFixture/AutoFixture.git"
                                "https://github.com/AutoFixture/AutoFixture.git" ]
 
@@ -47,7 +45,7 @@ let getVersionSourceFromGit buildNumber =
       buildNumber = buildNumber
     }
 
-type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string; 
+type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string; commitHash: string;
                           source: Option<BuildVersionCalculationSource> }
 let calculateVersion source =
     let s = source
@@ -69,7 +67,7 @@ let calculateVersion source =
                       | 0 -> nugetVersion
                       | _ -> sprintf "%s-%s" nugetVersion sha
 
-    { assemblyVersion=assemblyVersion; fileVersion=fileVersion; infoVersion=infoVersion; nugetVersion=nugetVersion; 
+    { assemblyVersion=assemblyVersion; fileVersion=fileVersion; infoVersion=infoVersion; nugetVersion=nugetVersion; commitHash=s.sha;
       source = Some source }
 
 // Calculate version that should be used for the build. Define globally as data might be required by multiple targets.
@@ -85,6 +83,7 @@ let mutable buildVersion = match getBuildParamOrDefault "BuildVersion" "git" wit
                                               fileVersion = getBuildParamOrDefault "BuildFileVersion" assemblyVer
                                               infoVersion = getBuildParamOrDefault "BuildInfoVersion" assemblyVer
                                               nugetVersion = getBuildParamOrDefault "BuildNugetVersion" assemblyVer
+                                              commitHash = getBuildParamOrDefault "BuildComitHash" ""
                                               source = None }
 
 let setVNextBranchVersion vNextVersion =
@@ -104,47 +103,6 @@ let setVNextBranchVersion vNextVersion =
                           revision = 0
                           preSuffix = "-alpha" }
             |> calculateVersion
-
-let addBakExt path = sprintf "%s%s" path bakFileExt
-
-Target "PatchAssemblyVersions" (fun _ ->
-    printfn 
-        "Patching assembly versions. Assembly version: %s, File version: %s, Informational version: %s" 
-        buildVersion.assemblyVersion
-        buildVersion.fileVersion
-        buildVersion.infoVersion
-
-    // .NET Core SDK creates attributes for C# automatically, therefore only F# files should be updated.
-    // Patching and backup restore should be completely deleted after F# supports auto-generated attributes.
-    let filesToPatch = !! "Src/*/Properties/AssemblyInfo.fs"
-                       -- addBakExt "Src/*/Properties/*"
-    
-    // Backup the original file versions.
-    filesToPatch
-    |> Seq.iter (fun f ->
-        let bakFilePath = addBakExt f
-        CopyFile bakFilePath f
-
-        printfn "Backed up %s to %s" f bakFilePath
-    )
-
-    ReplaceAssemblyInfoVersionsBulk filesToPatch 
-                                    (fun f -> { f with AssemblyVersion              = buildVersion.assemblyVersion
-                                                       AssemblyFileVersion          = buildVersion.fileVersion
-                                                       AssemblyInformationalVersion = buildVersion.infoVersion })
-)
-
-Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
-    !! (addBakExt "Src/*/Properties/AssemblyInfo.fs")
-    |> Seq.iter (fun bakFile ->
-        let originalPath = bakFile.Substring(0, bakFile.Length - bakFileExt.Length)
-
-        DeleteFile originalPath
-        Rename originalPath bakFile
-
-        printfn "Restored %s to %s" bakFile originalPath
-    )
-)
 
 let mutable enableSourceLink = false
 
@@ -170,6 +128,7 @@ let runMsBuild target configuration properties =
                          "FileVersion", buildVersion.fileVersion
                          "InformationalVersion", buildVersion.infoVersion
                          "PackageVersion", buildVersion.nugetVersion
+                         "CommitHash", buildVersion.commitHash
                          "SourceLinkCreateOverride", sourceLinkCreatePropertyValue ]
 
     solutionToBuild
@@ -347,12 +306,8 @@ Target "PublishNuGetAll" DoNothing
 "EnableSourceLinkGeneration" ?=> "Verify"
 "VerifyOnly"                 ==> "Verify"
 
-"Verify"                             ==> "Build"
-"PatchAssemblyVersions"              ==> "Build"
-"BuildOnly"                          ==> "Build"
-"RestorePatchedAssemblyVersionFiles" ==> "Build"
-
-"BuildOnly" ?=> "RestorePatchedAssemblyVersionFiles"
+"Verify"    ==> "Build"
+"BuildOnly" ==> "Build"
 
 "BuildOnly"              ==> "TestOnly"
 "CleanTestResultsFolder" ==> "TestOnly"
