@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using AutoFixture.AutoMoq.Extensions;
 using AutoFixture.Kernel;
 using Moq;
 
@@ -79,8 +80,13 @@ namespace AutoFixture.AutoMoq
 
             private static void Configure(Mock<T> mock)
             {
-                mock.CallBase = true;
+                mock.CallBase = ShouldUseCallBase(typeof(T));
                 mock.DefaultValue = DefaultValue.Mock;
+            }
+
+            private static bool ShouldUseCallBase(Type type)
+            {
+                return !type.IsDelegate();
             }
         }
 

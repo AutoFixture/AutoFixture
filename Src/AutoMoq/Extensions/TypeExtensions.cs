@@ -34,5 +34,13 @@ namespace AutoFixture.AutoMoq.Extensions
 
             return result;
         }
+
+        /// <summary>
+        /// Returns whether or not a type represents a delegate.
+        /// </summary>
+        internal static bool IsDelegate(this Type type)
+        {
+            return typeof(MulticastDelegate).IsAssignableFrom(type.GetTypeInfo().BaseType);
+        }
     }
 }
