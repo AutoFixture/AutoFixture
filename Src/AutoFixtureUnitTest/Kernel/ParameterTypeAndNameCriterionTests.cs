@@ -28,7 +28,7 @@ namespace AutoFixtureUnitTest.Kernel
             bool expected)
         {
             var parameter =
-                typeof(string).GetMethod("Contains").GetParameters().First();
+                typeof(string).GetMethod("Contains", new[] { typeof(string) }).GetParameters().First();
             var typeCriterion = new DelegatingCriterion<Type>
             {
                 OnEquals = t =>
