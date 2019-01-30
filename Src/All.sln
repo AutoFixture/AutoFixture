@@ -87,6 +87,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.SeedExtensions.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy5UnitTest", "AutoFakeItEasy.FakeItEasy5UnitTest\AutoFakeItEasy.FakeItEasy5UnitTest.csproj", "{FA9FA942-3E9F-49B5-A622-396DB0FC791F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoNSubstitute.NSubstitute4UnitTest", "AutoNSubstitute.NSubstitute4UnitTest\AutoNSubstitute.NSubstitute4UnitTest.csproj", "{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -310,6 +312,12 @@ Global
 		{FA9FA942-3E9F-49B5-A622-396DB0FC791F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA9FA942-3E9F-49B5-A622-396DB0FC791F}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{FA9FA942-3E9F-49B5-A622-396DB0FC791F}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

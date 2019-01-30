@@ -10,7 +10,7 @@ using Xunit;
 
 namespace AutoFixture.AutoNSubstitute.UnitTest
 {
-    public class NSubstituteRegisterCallHandlerCommandTest
+    public partial class NSubstituteRegisterCallHandlerCommandTest
     {
         [Fact]
         public void ShouldReturnValuesFromConstructor()
@@ -168,32 +168,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal(context, ((CallResultResolver)handler.ResultResolver).SpecimenContext);
         }
 
-        [Fact]
-        public void ValidCallSpecificationFactoryIsPassedToHandler()
-        {
-            // Arrange
-            var substitutionContext = Substitute.For<ISubstitutionContext>();
-            var sut = new NSubstituteRegisterCallHandlerCommand(substitutionContext);
-
-            var specimen = new object();
-            var context = Substitute.For<ISpecimenContext>();
-            var substituteState = Substitute.For<ISubstituteState>();
-
-            var callRouter = new CallRouterStub();
-            substitutionContext.GetCallRouterFor(specimen).Returns(callRouter);
-
-            var callSpecFactory = Substitute.For<ICallSpecificationFactory>();
-            substituteState.CallSpecificationFactory.Returns(callSpecFactory);
-
-            sut.Execute(specimen, context);
-
-            // Act
-            var handler = (AutoFixtureValuesHandler)callRouter.RegisteredFactory.Invoke(substituteState);
-
-            // Assert
-            Assert.Equal(callSpecFactory, handler.CallSpecificationFactory);
-        }
-
         /// <summary>
         /// It's required to create custom mock, because NSubstitute cannot create fully functional
         /// mock for the ICallRouter interface - it plays a special role inside NSubstitute.
@@ -202,9 +176,18 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             public CallHandlerFactory RegisteredFactory { get; private set; }
 
+            public bool CallBaseByDefault
+            {
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
+            }
+
             public bool IsLastCallInfoPresent() => throw new NotImplementedException();
 
             public ConfiguredCall LastCallShouldReturn(IReturn returnValue, MatchArgs matchArgs) =>
+                throw new NotImplementedException();
+
+            public ConfiguredCall LastCallShouldReturn(IReturn returnValue, MatchArgs matchArgs, PendingSpecificationInfo pendingSpecInfo) =>
                 throw new NotImplementedException();
 
             public object Route(ICall call) => throw new NotImplementedException();
