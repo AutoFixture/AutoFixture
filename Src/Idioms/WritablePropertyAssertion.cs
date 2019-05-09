@@ -12,7 +12,7 @@ namespace AutoFixture.Idioms
     /// According to the framework design guidelines, a writable property should always have both a
     /// setter and getter. In order not to violate the Principle of Least Astonishment the getter
     /// should always return the object assigned via the setter. Thus, for every writable property
-    /// one should always write a unit test that verifies that the value read from the proeprty is
+    /// one should always write a unit test that verifies that the value read from the property is
     /// the same as the value assigned to the property.
     /// </para>
     /// <para>
