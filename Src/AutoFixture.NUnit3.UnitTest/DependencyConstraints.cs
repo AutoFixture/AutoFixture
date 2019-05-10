@@ -29,7 +29,6 @@ namespace AutoFixture.NUnit3.UnitTest
         [InlineAutoData("FakeItEasy")]
         [InlineAutoData("Foq")]
         [InlineAutoData("FsCheck")]
-        [InlineAutoData("Moq")]
         [InlineAutoData("NSubstitute")]
         [InlineAutoData("Rhino.Mocks")]
         [InlineAutoData("Unquote")]
