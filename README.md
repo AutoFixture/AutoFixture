@@ -80,15 +80,15 @@ Using AutoFixture is as easy as referencing the library and creating a new insta
 | Product                    | .NET Framework            | .NET Standard               |
 | -------------------------- | ------------------------  | ------------------------    |
 | AutoFixture                | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
-| AutoFixture.SeedExtensions | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoFixture.SeedExtensions | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoFixture.xUnit          | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
-| AutoFixture.xUnit2         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoFixture.xUnit2         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoFixture.NUnit2         | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
-| AutoFixture.NUnit3         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoFixture.NUnit3         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoFakeItEasy             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.6, 2.0 |
 | AutoFoq                    | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
-| AutoMoq                    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
-| AutoNSubstitute            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoMoq                    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
+| AutoNSubstitute            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoRhinoMock              | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
 | Idioms                     | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0      |
 | Idioms.FsCheck             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0      |
