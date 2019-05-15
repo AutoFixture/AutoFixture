@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net452;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>IdiomsUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.IdiomsUnitTest</AssemblyName>
     <RootNamespace>AutoFixture.IdiomsUnitTest</RootNamespace>
