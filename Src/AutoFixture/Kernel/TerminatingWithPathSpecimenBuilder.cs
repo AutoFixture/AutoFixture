@@ -77,6 +77,7 @@ namespace AutoFixture.Kernel
                 // Do not modify exception thrown before as it already contains the full requests path.
                 throw;
             }
+            #pragma warning disable CA1031 // Modify 'Create' to catch a more specific exception type, or rethrow the exception.
             catch (Exception ex)
             {
                 throw new ObjectCreationExceptionWithPath(
@@ -88,6 +89,7 @@ namespace AutoFixture.Kernel
                     this.SpecimenRequests,
                     ex);
             }
+            #pragma warning restore CA1031
             finally
             {
                 this.GetPathForCurrentThread().Pop();
