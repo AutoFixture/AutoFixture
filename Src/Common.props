@@ -60,20 +60,14 @@
       <PropertyGroup>
         <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <DebugType>pdbonly</DebugType>
-        <!-- Temporarily disable code analysis for the .NET Standard as it fails due to unknown framework version. -->
-        <RunCodeAnalysis Condition=" '$(_IsFullFramework)'=='true' " >true</RunCodeAnalysis>
-        <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-        <Optimize>true</Optimize>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
         <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.AutoFixture.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
   </Choose>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2" ExcludeAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
   
