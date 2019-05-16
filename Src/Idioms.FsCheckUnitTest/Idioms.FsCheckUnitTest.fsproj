@@ -16,7 +16,6 @@
     <Compile Include="TestDsl.fs" />
     <Compile Include="TestTypes.fs" />
     <Compile Include="ReturnValueMustNotBeNullAssertionTest.fs" />
-    <Compile Include="Program.fs" Condition=" '$(TargetFramework)'=='netcoreapp2.1' " />
   </ItemGroup>
 
   <ItemGroup>
