@@ -334,11 +334,13 @@ Target "AppVeyor_SetVNextVersion" (fun _ ->
 )
 
 Target "AppVeyor_UploadTestReports" (fun _ ->
+    let shuffle xs = xs |> Seq.sortBy (fun _ -> Guid())
 
     !!"*.trx"
     |> SetBaseDir testResultsFolder
     |> Seq.map (fun file -> (file, MsTest))
     |> Seq.append [(testResultsFolder </> "NUnit2TestResult.xml", NUnit)]
+    |> shuffle
     |> Seq.map (fun (file, format) -> async { AppVeyor.UploadTestResultsFile format file })
     |> Async.Parallel
     |> Async.RunSynchronously
