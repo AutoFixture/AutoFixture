@@ -15,10 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Albedo" Version="[2.0.0,3.0.0)" />
 
     <PackageReference Include="System.Reflection.Emit" Version="4.3.0" Condition=" '$(TargetFramework)'=='netstandard2.0' " />

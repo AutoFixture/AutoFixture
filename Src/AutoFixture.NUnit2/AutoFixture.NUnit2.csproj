@@ -16,10 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
   </ItemGroup>
 

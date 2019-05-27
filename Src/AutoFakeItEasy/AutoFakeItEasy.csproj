@@ -28,8 +28,4 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-  </ItemGroup>
 </Project>
