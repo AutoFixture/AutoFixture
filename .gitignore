@@ -30,6 +30,9 @@ nCrunchTemp_*
 # Visual Studio 2015 cache/options directory
 .vs/
 
+# VS Code cache/options
+.vscode/
+
 # package files can be ignored because of the NuGet restore
 **/packages/*
 

@@ -52,7 +52,6 @@ namespace AutoFixture.Kernel
         /// <returns>
         /// The requested specimen if possible; otherwise a creation exception is thrown.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
             this.GetPathForCurrentThread().Push(request);
@@ -77,6 +76,7 @@ namespace AutoFixture.Kernel
                 // Do not modify exception thrown before as it already contains the full requests path.
                 throw;
             }
+            #pragma warning disable CA1031 // Modify 'Create' to catch a more specific exception type, or rethrow the exception.
             catch (Exception ex)
             {
                 throw new ObjectCreationExceptionWithPath(
@@ -88,6 +88,7 @@ namespace AutoFixture.Kernel
                     this.SpecimenRequests,
                     ex);
             }
+            #pragma warning restore CA1031
             finally
             {
                 this.GetPathForCurrentThread().Pop();

@@ -34,7 +34,6 @@ namespace AutoFixture.Kernel
         /// <exception cref="IllegalRequestException">
         /// <paramref name="request"/> is the <see cref="IntPtr"/> <see cref="Type"/>.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "IntPtr", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
             if (!typeof(IntPtr).Equals(request))

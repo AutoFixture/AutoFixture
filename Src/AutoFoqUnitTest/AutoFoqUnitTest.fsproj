@@ -8,8 +8,8 @@
     <AssemblyTitle>AutoFixture.AutoFoq.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFoq.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFoq.UnitTest</RootNamespace>
-    <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects -->
-    <NoWarn>FS2003</NoWarn>
+    <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects. And about wrong FSharp version during restore. -->
+    <NoWarn>FS2003;NU1601</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

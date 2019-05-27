@@ -4,9 +4,11 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net452;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixtureUnitTest</AssemblyName>
+
+    <DefineConstants Condition=" '$(TargetFramework)'=='netcoreapp1.1' ">$(DefineConstants);VALIDATE_VALIDATEOBJECT_IS_FLACKY</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

@@ -82,7 +82,6 @@ namespace AutoFixture
         {
             private readonly IEnumerable<object> values;
 
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
             internal RoundRobinEnumEnumerable(Type enumType)
             {
                 if (enumType == null)
