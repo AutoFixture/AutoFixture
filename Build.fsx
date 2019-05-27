@@ -12,9 +12,7 @@ let buildDir = getBuildParamOrDefault "BuildDir" "build"
 let buildToolsDir = buildDir </> "tools"
 let testResultsFolder = buildDir </> "TestResults" |> FullName
 let nuGetOutputFolder = buildDir </> "NuGetPackages"
-let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
-                    // Skip symbol packages because NuGet publish symbols automatically when package is published.
-                    -- (nuGetOutputFolder </> "*.symbols.nupkg")
+let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg")
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
 let repositoryUrlsOnGitHub = [ "git@github.com:AutoFixture/AutoFixture.git"
@@ -217,9 +215,7 @@ Target "CleanNuGetPackages" (fun _ ->
 
 Target "NuGetPack" (fun _ ->
     // Pack projects using MSBuild.
-    runMsBuild "Pack" (Some configuration) [ "IncludeSource", "true"
-                                             "IncludeSymbols", "true"
-                                             "PackageOutputPath", FullName nuGetOutputFolder
+    runMsBuild "Pack" (Some configuration) [ "PackageOutputPath", FullName nuGetOutputFolder
                                              "NoBuild", "true" ]
 
     let findDependencyNode name (doc:Xml.XmlDocument) =
@@ -243,7 +239,7 @@ Target "NuGetPack" (fun _ ->
                    buildVersion.nugetVersion
 )
 
-let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
+let publishPackages packageFeed accessKey =
     nuGetPackages
     |> Seq.map (fun pkg ->
         let meta = GetMetaDataFromPackageFile pkg
@@ -254,8 +250,6 @@ let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
                                                                       OutputPath = nuGetOutputFolder
                                                                       PublishUrl = packageFeed
                                                                       AccessKey = accessKey
-                                                                      SymbolPublishUrl = symbolFeed
-                                                                      SymbolAccessKey = accessKey
                                                                       WorkingDir = nuGetOutputFolder
                                                                       ToolPath = buildToolsDir </> "nuget.exe" }))
 
@@ -263,15 +257,14 @@ Target "PublishNuGetPublic" (fun _ ->
     let feed = "https://www.nuget.org/api/v2/package"
     let key = getBuildParam "NuGetPublicKey"
 
-    publishPackagesWithSymbols feed "" key
+    publishPackages feed key
 )
 
 Target "PublishNuGetPrivate" (fun _ ->
     let packageFeed = "https://www.myget.org/F/autofixture/api/v2/package"
-    let symbolFeed = "https://www.myget.org/F/autofixture/symbols/api/v2/package"
     let key = getBuildParam "NuGetPrivateKey"
 
-    publishPackagesWithSymbols packageFeed symbolFeed key
+    publishPackages packageFeed key
 )
 
 Target "CompleteBuild"   DoNothing
