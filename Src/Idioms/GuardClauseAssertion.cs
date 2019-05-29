@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using AutoFixture.Kernel;
 
 namespace AutoFixture.Idioms
@@ -76,6 +78,12 @@ namespace AutoFixture.Idioms
         public IBehaviorExpectation BehaviorExpectation { get; }
 
         /// <summary>
+        /// Configuration flag allowing to support lazily thrown exception for methods with `async` modifier.
+        /// While the fast-fail principle is violated, the `async` methods are usually awaited so it might be acceptable.
+        /// </summary>
+        public bool AllowAsyncMethods { get; set; }
+
+        /// <summary>
         /// Verifies that a constructor has appropriate Guard Clauses in place.
         /// </summary>
         /// <param name="constructorInfo">The constructor.</param>
@@ -93,7 +101,7 @@ namespace AutoFixture.Idioms
             constructorInfo = this.openGenericTypeClosingUtil.CloseGenericType(constructorInfo);
 
             var method = new ConstructorMethod(constructorInfo);
-            this.DoVerify(method, isReturnValueDeferable: false, isReturnValueTask: false);
+            this.DoVerify(method, isReturnValueDeferrable: false, isReturnValueTask: false, isAsyncMethod: false);
         }
 
         /// <summary>
@@ -126,19 +134,22 @@ namespace AutoFixture.Idioms
 
             // According to MSDN method with yield could have only 4 possible types:
             // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield
-            var isReturnTypePossibleDefferable = returnType == typeof(IEnumerable)
+            var isReturnTypePossibleDeferrable = returnType == typeof(IEnumerable)
                    || returnType == typeof(IEnumerator)
                    || (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
                    || (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(IEnumerator<>));
 
             var containsByRefArgs = methodInfo.GetParameters().Select(p => p.ParameterType).Any(t => t.IsByRef);
 
-            var isReturnValueDeferable = isReturnTypePossibleDefferable && !containsByRefArgs;
+            var isReturnValueDeferrable = isReturnTypePossibleDeferrable && !containsByRefArgs;
 
-            var isReturnValueTask =
-                typeof(System.Threading.Tasks.Task).IsAssignableFrom(returnType);
+            var isReturnValueTask = typeof(Task).IsAssignableFrom(returnType);
 
-            this.DoVerify(method, isReturnValueDeferable, isReturnValueTask);
+            // According to official docs it's a reliable way to detect async methods
+            // https://docs.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.asyncstatemachineattribute
+            var isAsyncMethod = methodInfo.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) != null;
+
+            this.DoVerify(method, isReturnValueDeferrable, isReturnValueTask, isAsyncMethod);
         }
 
         /// <summary>
@@ -202,14 +213,27 @@ namespace AutoFixture.Idioms
             }
         }
 
-        private void DoVerify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
+        private void DoVerify(IMethod method, bool isReturnValueDeferrable, bool isReturnValueTask, bool isAsyncMethod)
         {
-            if (isReturnValueDeferable)
+            if (isReturnValueDeferrable)
+            {
                 this.VerifyDeferrableIterator(method);
-            else if (isReturnValueTask)
+                return;
+            }
+
+            if (this.AllowAsyncMethods && isAsyncMethod)
+            {
+                this.VerifyAsyncMethod(method);
+                return;
+            }
+
+            if (isReturnValueTask)
+            {
                 this.VerifyDeferrableTask(method);
-            else
-                this.VerifyNormal(method);
+                return;
+            }
+
+            this.VerifyNormal(method);
         }
 
         private void VerifyDeferrableIterator(IMethod method)
@@ -225,6 +249,15 @@ namespace AutoFixture.Idioms
             foreach (var command in this.GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(new TaskReturnMethodInvokeCommand(command));
+            }
+        }
+
+        private void VerifyAsyncMethod(IMethod method)
+        {
+            method = new AsyncAwaitingMethod(method);
+            foreach (var command in this.GetParameterGuardCommands(method))
+            {
+                this.BehaviorExpectation.Verify(command);
             }
         }
 
@@ -352,6 +385,56 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             {
                 var e = this.command.CreateException(value, customError, innerException);
                 return new GuardClauseException(Message, e);
+            }
+        }
+
+        private class AsyncAwaitingMethod : IMethod
+        {
+            private readonly IMethod method;
+
+            public AsyncAwaitingMethod(IMethod method)
+            {
+                this.method = method;
+            }
+
+            public IEnumerable<ParameterInfo> Parameters => this.method.Parameters;
+
+            public object Invoke(IEnumerable<object> parameters)
+            {
+                var result = this.method.Invoke(parameters);
+
+                if (result == null)
+                {
+                    throw new InvalidOperationException("Async method is never supposed to return null.");
+                }
+
+                // Force underlying state machine to execute.
+                // Optimize task as it's most often return result.
+                if (result is Task taskResult)
+                {
+                    taskResult.GetAwaiter().GetResult();
+                }
+                else
+                {
+                    // According to the contract, async method should return "something" which has `GetAwaiter` method.
+                    // In its turn, that result should return something which has "GetResult" method.
+                    // This case is hit e.g. for ValueTask
+                    try
+                    {
+                        object awaiter = result.GetType().InvokeMember(nameof(Task.GetAwaiter),
+                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, Type.DefaultBinder,
+                            result, new object[0], CultureInfo.InvariantCulture);
+                        awaiter.GetType().InvokeMember(nameof(TaskAwaiter.GetResult),
+                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, Type.DefaultBinder,
+                            awaiter, new object[0], CultureInfo.InvariantCulture);
+                    }
+                    catch (TargetInvocationException ex)
+                    {
+                        throw ex.InnerException;
+                    }
+                }
+
+                return result;
             }
         }
     }

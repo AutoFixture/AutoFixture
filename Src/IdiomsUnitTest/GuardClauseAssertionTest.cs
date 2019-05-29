@@ -1045,5 +1045,149 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public abstract void Method(object arg);
         }
+
+        public static TheoryData<MemberRef<MethodInfo>> ProperlyGuardedAsyncMethods =
+            new TheoryData<MemberRef<MethodInfo>>
+            {
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.GuardedMethodReturningTask)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.GuardedMethodReturningTaskWithResult)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.GuardedOpenGenericMethodReturningTaskResult)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.GuardedMethodReturningValueTask)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.GuardedMethodReturningValueTaskWithResult)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.GuardedStaticMethodReturningTaskWithResult))
+            };
+
+        [Theory]
+        [MemberData(nameof(ProperlyGuardedAsyncMethods))]
+        public void VerifyOnGuardedAsyncMethodsShouldReportSuccessIfAsyncSupportIsEnabled(MemberRef<MethodInfo> methodRef)
+        {
+            var sut = new GuardClauseAssertion(new Fixture())
+            {
+                AllowAsyncMethods = true
+            };
+
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(methodRef.Member)));
+        }
+
+        [Theory]
+        [MemberData(nameof(ProperlyGuardedAsyncMethods))]
+        public void VerifyOnGuardedAsyncMethodsShouldThrowIfAsyncSupportIsDisabled(MemberRef<MethodInfo> methodRef)
+        {
+            var sut = new GuardClauseAssertion(new Fixture())
+            {
+                AllowAsyncMethods = false
+            };
+
+            Assert.Throws<GuardClauseException>(() => sut.Verify(methodRef.Member));
+        }
+
+        public static TheoryData<MemberRef<MethodInfo>> NonGuardedAsyncMethods =
+            new TheoryData<MemberRef<MethodInfo>>
+            {
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.NonGuardedMethodReturningTask)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.NonGuardedMethodReturningTaskWithResult)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.NonGuardedMethodReturningValueTask)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.NonGuardedMethodReturningValueTaskWithResult)),
+                MemberRef.MethodByName(typeof(TypeWithAsyncMethods), nameof(TypeWithAsyncMethods.NonGuardedStaticMethodReturningTaskWithResult))
+            };
+
+        [Theory]
+        [MemberData(nameof(NonGuardedAsyncMethods))]
+        public void VerifyOnNonGuardedAsyncMethodsShouldThrowMissingGuardIfVerifyIsEnabled(MemberRef<MethodInfo> methodRef)
+        {
+            var sut = new GuardClauseAssertion(new Fixture())
+            {
+                AllowAsyncMethods = true
+            };
+
+            var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(methodRef.Member));
+            Assert.DoesNotContain("because of the async nature of the task", exception.Message);
+            Assert.Contains("and no Guard Clause prevented this", exception.Message);
+        }
+
+        public class TypeWithAsyncMethods
+        {
+            public async Task GuardedMethodReturningTask(object arg)
+            {
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+                await Task.Yield();
+            }
+
+            public async Task<int> GuardedMethodReturningTaskWithResult(object arg)
+            {
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+                await Task.Yield();
+
+                return 42;
+            }
+
+            public async Task<T> GuardedOpenGenericMethodReturningTaskResult<T>(object arg)
+            {
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+                await Task.Yield();
+
+                return default;
+            }
+
+            public async ValueTask GuardedMethodReturningValueTask(object arg)
+            {
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+                await Task.Yield();
+            }
+
+            public async ValueTask<int> GuardedMethodReturningValueTaskWithResult(object arg)
+            {
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+                await Task.Yield();
+
+                return 42;
+            }
+
+            public async Task<int> GuardedStaticMethodReturningTaskWithResult(object arg)
+            {
+                if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+                await Task.Yield();
+
+                return 42;
+            }
+
+            public async Task NonGuardedMethodReturningTask(object arg)
+            {
+                await Task.Yield();
+            }
+
+            public async Task<int> NonGuardedMethodReturningTaskWithResult(object arg)
+            {
+                await Task.Yield();
+
+                return 42;
+            }
+
+            public async ValueTask NonGuardedMethodReturningValueTask(object arg)
+            {
+                await Task.Yield();
+            }
+
+            public async ValueTask<int> NonGuardedMethodReturningValueTaskWithResult(object arg)
+            {
+                await Task.Yield();
+
+                return 42;
+            }
+
+            public async Task<int> NonGuardedStaticMethodReturningTaskWithResult(object arg)
+            {
+                await Task.Yield();
+
+                return 42;
+            }
+        }
     }
 }
