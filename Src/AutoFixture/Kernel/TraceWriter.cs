@@ -80,6 +80,8 @@ namespace AutoFixture.Kernel
         /// </returns>
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
 
             return new TraceWriter(

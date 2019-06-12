@@ -44,7 +44,7 @@ namespace AutoFixture
         /// <para>
         /// The CreateMany implementation always returns a new instance of
         /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
-        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// Frozen by the <see cref="FixtureFreezer.Freeze{T}(AutoFixture.IFixture)" /> method
         /// or explicitly assigned with the
         /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
         /// CreateMany method returns a new, independent instance of
@@ -79,7 +79,7 @@ namespace AutoFixture
         /// <para>
         /// The CreateMany implementation always returns a new instance of
         /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
-        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// Frozen by the <see cref="FixtureFreezer.Freeze{T}(AutoFixture.IFixture)" /> method
         /// or explicitly assigned with the
         /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
         /// CreateMany method returns a new, independent instance of
@@ -116,7 +116,7 @@ namespace AutoFixture
         /// <para>
         /// The CreateMany implementation always returns a new instance of
         /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
-        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// Frozen by the <see cref="FixtureFreezer.Freeze{T}(AutoFixture.IFixture)" /> method
         /// or explicitly assigned with the
         /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
         /// CreateMany method returns a new, independent instance of
@@ -147,7 +147,7 @@ namespace AutoFixture
         /// <para>
         /// The CreateMany implementation always returns a new instance of
         /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
-        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// Frozen by the <see cref="FixtureFreezer.Freeze{T}(AutoFixture.IFixture)" /> method
         /// or explicitly assigned with the
         /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
         /// CreateMany method returns a new, independent instance of

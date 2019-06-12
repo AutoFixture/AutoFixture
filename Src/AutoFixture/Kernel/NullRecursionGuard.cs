@@ -49,6 +49,8 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new NullRecursionGuard(builder, this.Comparer);
         }

@@ -233,9 +233,10 @@ namespace AutoFixture.Dsl
         }
 
         /// <inheritdoc />
-        public IPostprocessComposer<T> Without<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
+            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
+
             ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
 
             var member = propertyPicker.GetWritableMember().Member;
@@ -278,9 +279,10 @@ namespace AutoFixture.Dsl
         }
 
         /// <inheritdoc />
-        public ISpecimenBuilderNode Compose(
-            IEnumerable<ISpecimenBuilder> builders)
+        public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var composedBuilder =
                 CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new NodeComposer<T>(composedBuilder);

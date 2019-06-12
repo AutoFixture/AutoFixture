@@ -78,6 +78,8 @@ namespace AutoFixture.NUnit3
         /// <returns>One or more TestMethods.</returns>
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
+            if (method == null) throw new ArgumentNullException(nameof(method));
+
             var test = this.TestMethodBuilder.Build(method, suite, this.GetParameterValues(method), 0);
 
             yield return test;

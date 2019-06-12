@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -151,6 +152,7 @@ namespace AutoFixture.Idioms
         /// <see cref="BehaviorExpectation" />.
         /// </para>
         /// </remarks>
+        [SuppressMessage("Microsoft.Design", "CA1062: Validate arguments of public methods", Justification = "False positive for `propertyInfo` parameter.")]
         public override void Verify(PropertyInfo propertyInfo)
         {
             if (propertyInfo == null)

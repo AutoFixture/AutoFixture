@@ -61,6 +61,8 @@ fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         /// </returns>
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new ThrowingRecursionGuard(builder, this.Comparer);
         }

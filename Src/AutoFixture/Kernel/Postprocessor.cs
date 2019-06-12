@@ -99,6 +99,8 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             var pp = new Postprocessor(composedBuilder, this.Command, this.Specification);
 #pragma warning disable 618
@@ -296,6 +298,8 @@ namespace AutoFixture.Kernel
         /// </returns>
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             var pp = new Postprocessor<T>(composedBuilder, this.Command, this.Specification);
             pp.action = this.action;

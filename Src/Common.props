@@ -8,7 +8,7 @@
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
-    <Features>IOperation</Features>
+    <Features>$(Features);IOperation</Features>
 
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\AutoFixture.snk</AssemblyOriginatorKeyFile>
@@ -67,8 +67,8 @@
   </Choose>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
