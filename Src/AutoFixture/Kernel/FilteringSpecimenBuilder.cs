@@ -61,6 +61,8 @@ namespace AutoFixture.Kernel
         /// </returns>
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new FilteringSpecimenBuilder(composedBuilder, this.Specification);
         }

@@ -40,6 +40,8 @@ namespace AutoFixture.DataAnnotations
         /// <inheritdoc />
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             return new DataAnnotationsSupportNode(CompositeSpecimenBuilder.ComposeIfMultiple(builders));
         }
 

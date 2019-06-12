@@ -66,12 +66,10 @@ namespace AutoFixture.Idioms
                         e.ParamName),
                     e);
             }
-            #pragma warning disable CA1031 // Modify 'Create' to catch a more specific exception type, or rethrow the exception.
             catch (Exception e)
             {
                 throw command.CreateException("null", e);
             }
-            #pragma warning restore CA1031
 
             throw command.CreateException("null");
         }
