@@ -12,12 +12,6 @@ namespace AutoFixture.NUnit3.UnitTest
     public class InlineAutoDataAttributeTest
     {
         [Test]
-        public void IfArguementsIsNullThenThrows()
-        {
-            Assert.Throws<ArgumentNullException>(() => new InlineAutoDataAttribute(null));
-        }
-
-        [Test]
         public void IfExtendedWithNullFixtureThenThrows()
         {
 #pragma warning disable 612
@@ -107,6 +101,18 @@ namespace AutoFixture.NUnit3.UnitTest
             var result = sut.Arguments;
             // Assert
             Assert.AreSame(expectedArguments, result);
+        }
+
+        [Test]
+        public void ArgumentsIsNullBecomesObjectArrayWithNull()
+        {
+            // Arrange
+            var expectedArguments = new object[] { null };
+            var sut = new InlineAutoDataAttribute(null);
+            // Act
+            var result = sut.Arguments;
+            // Assert
+            Assert.AreEqual(expectedArguments, result);
         }
 
         [TestCase("CreateWithFrozenAndFavorArrays")]
