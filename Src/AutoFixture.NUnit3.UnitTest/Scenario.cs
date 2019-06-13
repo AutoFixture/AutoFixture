@@ -393,5 +393,29 @@ namespace AutoFixture.NUnit3.UnitTest
         {
             Assert.True(p.Length == 3);
         }
+
+        [Test]
+        [InlineAutoData(null)]
+        public void InlineAutoDataTakesNullAsParameterValue(string p1)
+        {
+            Assert.That(p1, Is.Null);
+        }
+
+        [Test]
+        [InlineAutoData(null)]
+        public void InlineAutoDataWithNullArgumentProvidesParameterValuesWhenMissing(string p1, string p2, string p3)
+        {
+            Assert.That(p1, Is.Null);
+            Assert.That(p2, Is.Not.Null);
+            Assert.That(p3, Is.Not.Null);
+        }
+
+        [Test]
+        [InlineAutoData(null)]
+        public void InlineAutoDataWithNullArgumentCanBeUsedWithFrozen(int? p1, int p2, [Frozen]string p3, string p4)
+        {
+            Assert.That(p1, Is.Null);
+            Assert.That(p3, Is.EqualTo(p4));
+        }
     }
 }
