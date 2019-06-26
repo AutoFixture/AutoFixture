@@ -8,18 +8,19 @@ namespace TestTypeFoundation
         private TypeWithFactoryMethodReturningInterface()
         {
         }
-        
+
         public static IEquatable<TypeWithFactoryMethodReturningInterface> Instance
         {
             get;
-        } = new TypeWithFactoryMethodReturningInterface();
+        }
+        = new TypeWithFactoryMethodReturningInterface();
 
         public bool Equals(TypeWithFactoryMethodReturningInterface other) =>
             true;
 
         public override bool Equals(object obj) =>
             obj is TypeWithFactoryMethodReturningInterface other &&
-            Equals(other);
+            this.Equals(other);
 
         public override int GetHashCode() => 0;
     }
