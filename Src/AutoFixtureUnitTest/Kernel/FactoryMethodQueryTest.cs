@@ -86,5 +86,20 @@ namespace AutoFixtureUnitTest.Kernel
             // Assert
             Assert.Empty(result);
         }
+
+        [Fact]
+        public void
+            SelectMethodsFromTypeWithInterfacePropertyReturnsNonEmptyResult()
+        {
+            // Arrange
+            var type = typeof(TypeWithFactoryMethodReturningInterface);
+            var sut = new FactoryMethodQuery();
+
+            // Act
+            var result = sut.SelectMethods(type);
+
+            // Assert
+            Assert.NotEmpty(result);
+        }
     }
 }
