@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
@@ -58,13 +59,13 @@ namespace AutoFixture.Xunit2
         public DataAttribute AutoDataAttribute { get; }
 
         /// <summary>
-        /// Gets the type of the class that provides the data.
+        /// Gets the member name.
         /// </summary>
         public string MemberName { get; }
 
         /// <summary>
         /// Gets the parameters passed to the member. Only supported for static methods.
         /// </summary>
-        public object[] Parameters { get; }
+        public IEnumerable<object> Parameters { get; }
     }
 }
