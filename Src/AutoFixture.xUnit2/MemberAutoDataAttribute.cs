@@ -49,7 +49,7 @@ namespace AutoFixture.Xunit2
         {
             this.AutoDataAttribute = autoDataAttribute ?? throw new ArgumentNullException(nameof(autoDataAttribute));
             this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
-            this.Parameters = parameters;
+            this.Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
         /// <summary>

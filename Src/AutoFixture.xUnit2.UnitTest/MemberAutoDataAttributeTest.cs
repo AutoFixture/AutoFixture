@@ -61,7 +61,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Act
             var result = sut.Attributes;
             // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().FirstOrDefault();
+            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
             Assert.NotNull(memberDataAttribute);
             Assert.Equal(expectedMemberName, memberDataAttribute.MemberName);
         }
@@ -73,7 +73,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Act
             var result = sut.Attributes;
             // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().FirstOrDefault();
+            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
             Assert.NotNull(memberDataAttribute);
             Assert.Equal(expectedParameters, memberDataAttribute.Parameters);
         }
