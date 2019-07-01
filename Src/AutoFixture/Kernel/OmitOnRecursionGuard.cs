@@ -55,9 +55,10 @@ namespace AutoFixture.Kernel
         /// A new <see cref="ISpecimenBuilderNode" /> instance containing
         /// <paramref name="builders" /> as child nodes.
         /// </returns>
-        public override ISpecimenBuilderNode Compose(
-            IEnumerable<ISpecimenBuilder> builders)
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new OmitOnRecursionGuard(composedBuilder, this.Comparer);
         }

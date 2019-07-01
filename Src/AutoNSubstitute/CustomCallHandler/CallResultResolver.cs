@@ -40,6 +40,8 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
         /// <inheritdoc />
         public CallResultData ResolveResult(ICall callInfo)
         {
+            if (callInfo == null) throw new ArgumentNullException(nameof(callInfo));
+
             var returnValue = this.ResolveReturnValue(callInfo);
             var returnMaybe = returnValue is OmitSpecimen ? Maybe.Nothing<object>() : Maybe.Just(returnValue);
 

@@ -65,8 +65,6 @@ namespace AutoFixture.Kernel
         /// <see cref="Specification"/> returned <see langword="true"/> for
         /// <paramref name="request"/>.
         /// </exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilder", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "IFactoryComposer", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
             var result = this.Builder.Create(request, context);
@@ -86,6 +84,8 @@ namespace AutoFixture.Kernel
         /// </returns>
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new NoSpecimenOutputGuard(composedBuilder, this.Specification);
         }

@@ -1,11 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/vpre/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture) <a href="https://twitter.com/AutoFixture"><img src="https://img.shields.io/twitter/follow/AutoFixture.svg?style=social&label=@AutoFixture" alt="AutoFixture" align="right" /></a>
 
-## Announcement - v4 was released 🎈
-
-Refer to the [v4 Release Notes](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes) for information about the breaking changes, new features, enhancements and fixes.
-
-❗️❗️❗️ Notice, the default namespace prefix has been changed from `Ploeh.AutoFixture` to `AutoFixture` because [Mark](https://github.com/ploeh) stopped to maintain this project. Please use the text replace feature of your IDE to quickly fix all the namespace imports in your code. See more detail [here](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes#%EF%B8%8F%EF%B8%8F-removed-the-ploeh-namespace-and-assembly-name-prefix).
-
 ## Project Description ##
 
 Write maintainable unit tests, faster.
@@ -80,15 +74,15 @@ Using AutoFixture is as easy as referencing the library and creating a new insta
 | Product                    | .NET Framework            | .NET Standard               |
 | -------------------------- | ------------------------  | ------------------------    |
 | AutoFixture                | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
-| AutoFixture.SeedExtensions | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoFixture.SeedExtensions | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoFixture.xUnit          | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
-| AutoFixture.xUnit2         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoFixture.xUnit2         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoFixture.NUnit2         | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
-| AutoFixture.NUnit3         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoFixture.NUnit3         | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoFakeItEasy             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.6, 2.0 |
 | AutoFoq                    | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
-| AutoMoq                    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
-| AutoNSubstitute            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5      |
+| AutoMoq                    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
+| AutoNSubstitute            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5, 2.0 |
 | AutoRhinoMock              | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:          |
 | Idioms                     | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0      |
 | Idioms.FsCheck             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0      |

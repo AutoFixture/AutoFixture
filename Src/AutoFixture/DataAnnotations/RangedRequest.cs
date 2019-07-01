@@ -121,17 +121,6 @@ namespace AutoFixture.DataAnnotations
                 this.Maximum);
         }
 
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
-            MessageId = "RangeAttribute",
-            Justification =
-                "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
-            MessageId = "OverflowException",
-            Justification =
-                "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "typeof",
-            Justification =
-                "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private static object GetConvertedRangeBoundary(object attributeValue, Type conversionType)
         {
             if (attributeValue == null) throw new ArgumentNullException(nameof(attributeValue));

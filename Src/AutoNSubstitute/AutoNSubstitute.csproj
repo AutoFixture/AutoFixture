@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.5;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>AutoNSubstitute</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoNSubstitute</AssemblyName>
     <RootNamespace>AutoFixture.AutoNSubstitute</RootNamespace>
@@ -25,9 +25,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
 </Project>

@@ -12,9 +12,7 @@ let buildDir = getBuildParamOrDefault "BuildDir" "build"
 let buildToolsDir = buildDir </> "tools"
 let testResultsFolder = buildDir </> "TestResults" |> FullName
 let nuGetOutputFolder = buildDir </> "NuGetPackages"
-let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
-                    // Skip symbol packages because NuGet publish symbols automatically when package is published.
-                    -- (nuGetOutputFolder </> "*.symbols.nupkg")
+let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg")
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
 let repositoryUrlsOnGitHub = [ "git@github.com:AutoFixture/AutoFixture.git"
@@ -181,36 +179,23 @@ Target "TestOnly" (fun _ ->
         |> Seq.map (fun proj -> !! (sprintf "bin/%s/%s/*Test.dll" configuration framework)
                                 |> SetBaseDir proj)
         |> Seq.collect id
-    let flip f x y = f y x
 
     let nUnit2TestProjects = findProjects "AutoFixture.NUnit2.*Test"
-    let nUnit3TestProjects = findProjects "AutoFixture.NUnit3.*Test"
-    let xUnitTestProjects  = findProjects "*Test" 
+    let dotnetTestProjects = findProjects "*Test" 
                              |> Seq.except nUnit2TestProjects
-                             |> Seq.except nUnit3TestProjects
 
-    let xUnitCoreAppAssemblies = xUnitTestProjects
-                                 |> getTestAssemblies "netcoreapp*"
-
-    let xUnitDesktopFrameworkAssemblies = xUnitTestProjects
-                                          |> getTestAssemblies "*"
-                                          |> Seq.except xUnitCoreAppAssemblies
-
-    // Run xUnit desktop tests.
-    xUnitDesktopFrameworkAssemblies
-    // A bit hacky way to pass custom parameter to xUnit, but it works.
-    |> flip Seq.append [ "-noautoreporters" ]
-    |> xUnit2 (fun p -> { p with ToolPath = buildToolsDir </> "xunit.runner.console/tools/net452/xunit.console.exe"
-                                 XmlOutputPath = testResultsFolder </> "xunit-desktop.xml" |> FullName |> Some
-                                 Parallel = Collections })
-
-    // Run xUnit .NET Core tests.
-    DotNetCli.RunCommand id 
-                         (sprintf "exec \"%s\" %s -xml \"%s\" -noautoreporters"
-                                  (buildToolsDir </> "xunit.runner.console/tools/netcoreapp2.0/xunit.console.dll")
-                                  (separated " " xUnitCoreAppAssemblies)
-                                  (testResultsFolder </> "xunit-netcore.xml" |> FullName)
-                         )
+    // Save test results in MSTest format in the test results folder.
+    // Later results are uploaded to AppVeyor manually.
+    // It allows to fix NUnit not supporting AppVeyor directly (http://help.appveyor.com/discussions/questions/7805-nunit-test-results-on-net-core).
+    // Also it's faster as results are uploaded in batches.
+    dotnetTestProjects
+    |> Seq.iter (fun projDir ->
+        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
+                             (sprintf 
+                                 "test --no-build --configuration %s --logger:trx --results-directory \"%s\" -- RunConfiguration.NoAutoReporters=true"
+                                 configuration
+                                 testResultsFolder)
+    )
 
     nUnit2TestProjects
     |> getTestAssemblies "*"
@@ -218,18 +203,6 @@ Target "TestOnly" (fun _ ->
                                                 ShowLabels = false
                                                 OutputFile  = testResultsFolder </> "NUnit2TestResult.xml"
                                                 ToolPath = buildToolsDir </> "NUnit.Runners.2.6.2" </> "tools" })
-
-    // Save test results in MSTest format in the test results folder.
-    // In future NUnit test runner should support AppVeyor directly.
-    // See more detail: http://help.appveyor.com/discussions/questions/7805-nunit-test-results-on-net-core
-    nUnit3TestProjects
-    |> Seq.iter (fun projDir ->
-        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
-                             (sprintf 
-                                 "test --no-build --configuration %s --logger:trx --results-directory \"%s\""
-                                 configuration
-                                 testResultsFolder)
-    )
 )
 
 Target "Verify" DoNothing
@@ -242,9 +215,7 @@ Target "CleanNuGetPackages" (fun _ ->
 
 Target "NuGetPack" (fun _ ->
     // Pack projects using MSBuild.
-    runMsBuild "Pack" (Some configuration) [ "IncludeSource", "true"
-                                             "IncludeSymbols", "true"
-                                             "PackageOutputPath", FullName nuGetOutputFolder
+    runMsBuild "Pack" (Some configuration) [ "PackageOutputPath", FullName nuGetOutputFolder
                                              "NoBuild", "true" ]
 
     let findDependencyNode name (doc:Xml.XmlDocument) =
@@ -268,7 +239,7 @@ Target "NuGetPack" (fun _ ->
                    buildVersion.nugetVersion
 )
 
-let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
+let publishPackages packageFeed accessKey =
     nuGetPackages
     |> Seq.map (fun pkg ->
         let meta = GetMetaDataFromPackageFile pkg
@@ -279,8 +250,6 @@ let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
                                                                       OutputPath = nuGetOutputFolder
                                                                       PublishUrl = packageFeed
                                                                       AccessKey = accessKey
-                                                                      SymbolPublishUrl = symbolFeed
-                                                                      SymbolAccessKey = accessKey
                                                                       WorkingDir = nuGetOutputFolder
                                                                       ToolPath = buildToolsDir </> "nuget.exe" }))
 
@@ -288,15 +257,14 @@ Target "PublishNuGetPublic" (fun _ ->
     let feed = "https://www.nuget.org/api/v2/package"
     let key = getBuildParam "NuGetPublicKey"
 
-    publishPackagesWithSymbols feed "" key
+    publishPackages feed key
 )
 
 Target "PublishNuGetPrivate" (fun _ ->
     let packageFeed = "https://www.myget.org/F/autofixture/api/v2/package"
-    let symbolFeed = "https://www.myget.org/F/autofixture/symbols/api/v2/package"
     let key = getBuildParam "NuGetPrivateKey"
 
-    publishPackagesWithSymbols packageFeed symbolFeed key
+    publishPackages packageFeed key
 )
 
 Target "CompleteBuild"   DoNothing
@@ -359,17 +327,14 @@ Target "AppVeyor_SetVNextVersion" (fun _ ->
 )
 
 Target "AppVeyor_UploadTestReports" (fun _ ->
-    let uploadResults pattern format =
-        async {
-            !! pattern
-            |> SetBaseDir testResultsFolder
-            |> Seq.iter (fun file -> AppVeyor.UploadTestResultsFile format file)
-        }
+    let shuffle xs = xs |> Seq.sortBy (fun _ -> Guid())
 
-    [ uploadResults "xunit-desktop.xml" Xunit;
-      uploadResults "xunit-netcore.xml" Xunit;
-      uploadResults "NUnit2TestResult.xml" NUnit;
-      uploadResults "*.trx" MsTest ]
+    !!"*.trx"
+    |> SetBaseDir testResultsFolder
+    |> Seq.map (fun file -> (file, MsTest))
+    |> Seq.append [(testResultsFolder </> "NUnit2TestResult.xml", NUnit)]
+    |> shuffle
+    |> Seq.map (fun (file, format) -> async { AppVeyor.UploadTestResultsFile format file })
     |> Async.Parallel
     |> Async.RunSynchronously
     |> ignore

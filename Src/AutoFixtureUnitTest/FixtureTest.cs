@@ -6166,6 +6166,7 @@ namespace AutoFixtureUnitTest
             Assert.InRange(result.StringRangedTimeSpanProperty, TimeSpan.FromHours(2), TimeSpan.FromHours(12));
         }
 
+#if !VALIDATE_VALIDATEOBJECT_IS_FLACKY
         [Fact]
         public void TimeSpanDecoratedWithRangeCreatedByFixtureShouldPassValidation()
         {
@@ -6178,6 +6179,7 @@ namespace AutoFixtureUnitTest
             // Assert
             Validator.ValidateObject(timeSpan, new ValidationContext(timeSpan), true);
         }
+#endif
 
         private class TypeWithStringPropertyWithMinLength
         {

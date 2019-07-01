@@ -53,7 +53,7 @@ namespace AutoFixture.NUnit3
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
             this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
-            this.existingParameterValues = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.existingParameterValues = arguments ?? new object[] { null };
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace AutoFixture.NUnit3
             if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
 
             this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
-            this.existingParameterValues = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.existingParameterValues = arguments ?? new object[] { null };
         }
 
         /// <summary>
@@ -83,6 +83,8 @@ namespace AutoFixture.NUnit3
         /// <returns>One or more TestMethods.</returns>
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
+            if (method == null) throw new ArgumentNullException(nameof(method));
+
             var test = this.TestMethodBuilder.Build(
                 method, suite, this.GetParameterValues(method), this.existingParameterValues.Length);
 

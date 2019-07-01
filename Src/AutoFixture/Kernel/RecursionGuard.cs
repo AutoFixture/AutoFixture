@@ -176,11 +176,11 @@ namespace AutoFixture.Kernel
         }
 
         /// <inheritdoc />
-        public virtual ISpecimenBuilderNode Compose(
-            IEnumerable<ISpecimenBuilder> builders)
+        public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(
-                builders);
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new RecursionGuard(
                 composedBuilder,
                 this.RecursionHandler,

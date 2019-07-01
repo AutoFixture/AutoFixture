@@ -44,6 +44,8 @@ namespace AutoFixture
         /// </returns>
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new AutoPropertiesTarget(composedBuilder);
         }

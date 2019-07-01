@@ -10,8 +10,8 @@
     <SignAssembly>False</SignAssembly>
     <!-- Disable source link support for F# projects as they don't support this feature. -->
     <SourceLinkCreate>false</SourceLinkCreate>
-    <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects -->
-    <NoWarn>FS2003</NoWarn>
+    <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects. And about wrong FSharp version during restore. -->
+    <NoWarn>FS2003;NU1601</NoWarn>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.AutoFoq</PackageId>
@@ -32,10 +32,6 @@
   <ItemGroup>
     <PackageReference Include="Foq" Version="[1.5.1,2.0.0)" />
     <PackageReference Include="FSharp.Core" Version="3.0.2" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
 
   <ItemGroup>

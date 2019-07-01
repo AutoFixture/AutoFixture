@@ -29,6 +29,8 @@ namespace AutoFixture.AutoFakeItEasy2
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+
             if (!type.IsFake())
             {
                 return Enumerable.Empty<IMethod>();

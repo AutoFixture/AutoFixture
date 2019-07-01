@@ -52,7 +52,6 @@ namespace AutoFixture.Kernel
         /// <returns>
         /// The requested specimen if possible; otherwise a creation exception is thrown.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
             this.GetPathForCurrentThread().Push(request);
@@ -170,6 +169,8 @@ namespace AutoFixture.Kernel
         /// </returns>
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            if (builders == null) throw new ArgumentNullException(nameof(builders));
+
             return new TerminatingWithPathSpecimenBuilder(CompositeSpecimenBuilder.ComposeIfMultiple(builders));
         }
 

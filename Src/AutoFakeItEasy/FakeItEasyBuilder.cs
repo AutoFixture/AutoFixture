@@ -57,7 +57,7 @@ namespace AutoFixture.AutoFakeItEasy
         public object Create(object request, ISpecimenContext context)
         {
             var type = request as Type;
-            if (!type.IsFake())
+            if (type == null || !type.IsFake())
             {
                 return new NoSpecimen();
             }
