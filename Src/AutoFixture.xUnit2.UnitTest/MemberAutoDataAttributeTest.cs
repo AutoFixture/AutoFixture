@@ -13,33 +13,42 @@ namespace AutoFixture.Xunit2.UnitTest
         public void SutIsCompositeDataAttribute()
         {
             // Arrange
+            var memberName = Guid.NewGuid().ToString();
+
             // Act
-            var sut = new MemberAutoDataAttribute(Guid.NewGuid().ToString());
+            var sut = new MemberAutoDataAttribute(memberName);
+
             // Assert
             Assert.IsAssignableFrom<CompositeDataAttribute>(sut);
-        }
-
-        [Theory]
-        [MemberData(nameof(GetAttributes))]
-        public void AttributesAreInCorrectOrder(MemberAutoDataAttribute sut)
-        {
-            // Arrange
-            var expected = new[] { typeof(MemberDataAttribute), typeof(AutoDataAttribute) };
-            // Act
-            IEnumerable<DataAttribute> result = sut.Attributes;
-            // Assert
-            Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
         }
 
         [Fact]
         public void AttributesContainsDefaultAttributeWhenConstructedWithDefaultConstructor()
         {
             // Arrange
-            var sut = new MemberAutoDataAttribute(Guid.NewGuid().ToString());
+            var memberName = Guid.NewGuid().ToString();
+            var sut = new MemberAutoDataAttribute(memberName);
+
             // Act
             var result = sut.Attributes;
+
             // Assert
             Assert.Contains(result, a => a is AutoDataAttribute);
+        }
+
+        [Fact]
+        public void AttributesAreInCorrectOrderWhenConstructedWithDefaultConstructor()
+        {
+            // Arrange
+            var expected = new[] { typeof(MemberDataAttribute), typeof(AutoDataAttribute) };
+            var memberName = Guid.NewGuid().ToString();
+            var sut = new MemberAutoDataAttribute(memberName);
+
+            // Act
+            IEnumerable<DataAttribute> result = sut.Attributes;
+
+            // Assert
+            Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
         }
 
         [Fact]
@@ -47,97 +56,199 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var autoDataAttribute = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(autoDataAttribute, Guid.NewGuid().ToString());
+            var memberName = Guid.NewGuid().ToString();
+            var sut = new DerivedMemberAutoDataAttribute(autoDataAttribute, memberName);
+
             // Act
             var result = sut.Attributes;
+
             // Assert
             Assert.Contains(autoDataAttribute, result);
         }
 
-        [Theory]
-        [MemberData(nameof(GetAttributesWithMemberName))]
-        public void AttributesContainsMemberDataAttributeWithRightMemberName(MemberAutoDataAttribute sut, string expectedMemberName)
-        {
-            // Act
-            var result = sut.Attributes;
-            // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
-            Assert.NotNull(memberDataAttribute);
-            Assert.Equal(expectedMemberName, memberDataAttribute.MemberName);
-        }
-
-        [Theory]
-        [MemberData(nameof(GetAttributesWithParameters))]
-        public void AttributesContainsMemberDataAttributeWithRightParameters(MemberAutoDataAttribute sut, object[] expectedParameters)
-        {
-            // Act
-            var result = sut.Attributes;
-            // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
-            Assert.NotNull(memberDataAttribute);
-            Assert.Equal(expectedParameters, memberDataAttribute.Parameters);
-        }
-
-        [Theory]
-        [MemberData(nameof(GetAttributesWithMemberName))]
-        public void MemberNameIsCorrect(MemberAutoDataAttribute sut, string expectedMemberName)
+        [Fact]
+        public void AttributesAreInCorrectOrderWhenConstructedWithExplicitDataAttribute()
         {
             // Arrange
-            var expected = expectedMemberName;
+            var expected = new[] { typeof(MemberDataAttribute), typeof(AutoDataAttribute) };
+            var memberName = Guid.NewGuid().ToString();
+            var autoDataAttribute = new AutoDataAttribute();
+            var sut = new DerivedMemberAutoDataAttribute(autoDataAttribute, memberName);
+
+            // Act
+            IEnumerable<DataAttribute> result = sut.Attributes;
+
+            // Assert
+            Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
+        }
+
+        [Fact]
+        public void AttributesContainsMemberDataAttributeWithRightMemberNameWhenConstructedWithDefaultCtor()
+        {
+            // Arrange
+            var memberName = Guid.NewGuid().ToString();
+            var sut = new MemberAutoDataAttribute(memberName);
+
+            // Act
+            var result = sut.Attributes;
+
+            // Assert
+            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
+            Assert.NotNull(memberDataAttribute);
+            Assert.Equal(memberName, memberDataAttribute.MemberName);
+        }
+
+        [Fact]
+        public void AttributesContainsMemberDataAttributeWithRightMemberNameWhenConstructedWithDataAttribute()
+        {
+            // Arrange
+            var memberName = Guid.NewGuid().ToString();
+            var dataAttribute = new AutoDataAttribute();
+            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName);
+
+            // Act
+            var result = sut.Attributes;
+
+            // Assert
+            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
+            Assert.NotNull(memberDataAttribute);
+            Assert.Equal(memberName, memberDataAttribute.MemberName);
+        }
+
+        [Fact]
+        public void AttributesContainsMemberDataAttributeWithRightParametersWhenConstructedWithDefaultCtor()
+        {
+            // Act
+            var memberName = Guid.NewGuid().ToString();
+            var parameters = new object[] { 42, "42" };
+            var sut = new MemberAutoDataAttribute(memberName, parameters);
+            var result = sut.Attributes;
+
+            // Assert
+            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
+            Assert.NotNull(memberDataAttribute);
+            Assert.Equal(parameters, memberDataAttribute.Parameters);
+        }
+
+        [Fact]
+        public void AttributesContainsMemberDataAttributeWithRightParametersWhenConstructedWithDataAttribute()
+        {
+            // Act
+            var memberName = Guid.NewGuid().ToString();
+            var parameters = new object[] { 42, "42" };
+            var dataAttribute = new AutoDataAttribute();
+            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName, parameters);
+            var result = sut.Attributes;
+
+            // Assert
+            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
+            Assert.NotNull(memberDataAttribute);
+            Assert.Equal(parameters, memberDataAttribute.Parameters);
+        }
+
+        [Fact]
+        public void MemberNameIsCorrectWhenConstructedWithDefaultConstructor()
+        {
+            // Arrange
+            var memberName = Guid.NewGuid().ToString();
+            var sut = new MemberAutoDataAttribute(memberName);
+
             // Act
             var result = sut.MemberName;
+
             // Assert
-            Assert.Equal(expected, result);
+            Assert.Equal(memberName, result);
         }
 
-        [Theory]
-        [MemberData(nameof(GetAttributesWithParameters))]
-        public void ParametersAreCorrect(MemberAutoDataAttribute sut, object[] expectedParameters)
+        [Fact]
+        public void MemberNameIsCorrectWhenConstructedWithDataAttribute()
         {
             // Arrange
-            var expected = expectedParameters;
+            var memberName = Guid.NewGuid().ToString();
+            var dataAttribute = new AutoDataAttribute();
+            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName);
+
+            // Act
+            var result = sut.MemberName;
+
+            // Assert
+            Assert.Equal(memberName, result);
+        }
+
+        [Fact]
+        public void ParametersAreCorrectWhenConstructedWithDefaultCtor()
+        {
+            // Arrange
+            var memberName = Guid.NewGuid().ToString();
+            var parameters = new object[] { 42, "42" };
+            var sut = new MemberAutoDataAttribute(memberName, parameters);
+
             // Act
             var result = sut.Parameters;
+
             // Assert
-            Assert.Equal(expected, result);
+            Assert.Equal(parameters, result);
+        }
+
+        [Fact]
+        public void ParametersAreCorrectWhenConstructedWithDataAttribute()
+        {
+            // Arrange
+            var memberName = Guid.NewGuid().ToString();
+            var parameters = new object[] { 42, "42" };
+            var dataAttribute = new AutoDataAttribute();
+            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName, parameters);
+
+            // Act
+            var result = sut.Parameters;
+
+            // Assert
+            Assert.Equal(parameters, result);
         }
 
         [Fact]
         public void AutoDataAttributeIsCorrectWhenConstructedWithDefaultConstructor()
         {
             // Arrange
-            var sut = new MemberAutoDataAttribute(Guid.NewGuid().ToString());
+            var memberName = Guid.NewGuid().ToString();
+            var sut = new MemberAutoDataAttribute(memberName);
+
             // Act
             var result = sut.AutoDataAttribute;
+
             // Assert
             Assert.IsType<AutoDataAttribute>(result);
         }
 
         [Fact]
-        public void AutoDataAttributeIsCorrectWhenConstructedWithExplicitAutoDataAttribute()
+        public void AutoDataAttributeIsCorrectWhenConstructedWithExplicitDataAttribute()
         {
             // Arrange
+            var memberName = Guid.NewGuid().ToString();
             var expected = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(expected, Guid.NewGuid().ToString());
+            var sut = new DerivedMemberAutoDataAttribute(expected, memberName);
+
             // Act
             var result = sut.AutoDataAttribute;
+
             // Assert
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void DoesntActivateFixtureImmediately()
+        public void DoesNotActivateFixtureImmediately()
         {
             // Arrange
+            var memberName = Guid.NewGuid().ToString();
             bool wasInvoked = false;
             var autoData = new DerivedAutoDataAttribute(() =>
             {
                 wasInvoked = true;
-                return null;
+                return new Fixture();
             });
 
             // Act
-            var sut = new DerivedMemberAutoDataAttribute(autoData, Guid.NewGuid().ToString());
+            var sut = new DerivedMemberAutoDataAttribute(autoData, memberName);
 
             // Assert
             Assert.False(wasInvoked);
@@ -181,30 +292,6 @@ namespace AutoFixture.Xunit2.UnitTest
                 : base(fixtureFactory)
             {
             }
-        }
-
-        public static IEnumerable<object[]> GetAttributes()
-        {
-            var memberName = Guid.NewGuid().ToString();
-            yield return new object[] { new MemberAutoDataAttribute(memberName) };
-            yield return new object[] { new DerivedMemberAutoDataAttribute(new AutoDataAttribute(), memberName) };
-        }
-
-        public static IEnumerable<object[]> GetAttributesWithMemberName()
-        {
-            var memberName = Guid.NewGuid().ToString();
-            yield return new object[] { new MemberAutoDataAttribute(memberName), memberName };
-            yield return new object[] { new DerivedMemberAutoDataAttribute(new AutoDataAttribute(), memberName), memberName };
-        }
-
-        public static IEnumerable<object[]> GetAttributesWithParameters()
-        {
-            var memberName = Guid.NewGuid().ToString();
-            var parameters = new[] { new object(), new object(), new object() };
-            yield return new object[] { new MemberAutoDataAttribute(memberName), Enumerable.Empty<object>() };
-            yield return new object[] { new DerivedMemberAutoDataAttribute(new AutoDataAttribute(), memberName), Enumerable.Empty<object>() };
-            yield return new object[] { new MemberAutoDataAttribute(memberName, parameters), parameters };
-            yield return new object[] { new DerivedMemberAutoDataAttribute(new AutoDataAttribute(), memberName, parameters), parameters };
         }
     }
 }
