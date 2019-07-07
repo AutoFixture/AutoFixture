@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using TestTypeFoundation;
@@ -86,6 +87,86 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             public MyCustomInlineAutoDataAttribute(params object[] values)
                 : base(new MyCustomAutoDataAttribute(), values)
+            {
+            }
+        }
+
+        [Theory, MemberAutoData(nameof(StringData))]
+        public void MemberAutoDataUsesSuppliedDataValues(string s1, string s2)
+        {
+            Assert.Equal("foo", s1);
+            Assert.NotNull(s2);
+        }
+
+        [Theory, MemberAutoData(nameof(StringData))]
+        public void MemberAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
+        {
+            Assert.Equal("foo", s1);
+            Assert.NotNull(s2);
+            Assert.NotNull(myClass);
+        }
+
+        [Theory, MemberAutoData(nameof(StringData))]
+        public void MemberAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
+        {
+            Assert.Equal("foo", s1);
+            Assert.NotNull(s2);
+            Assert.NotEqual("foo", s3);
+            Assert.NotEqual("bar", s3);
+        }
+
+        [Theory, MemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+        public void MemberAutoDataCanBeParametrized(int x, int y, int z)
+        {
+            Assert.Equal(21, x);
+            Assert.Equal(38, y);
+            Assert.Equal(43, z);
+        }
+
+        [Theory, MyCustomMemberAutoData(nameof(IntData))]
+        public void CustomMemberAutoDataSuppliesExtraValues(int x, int y, int z)
+        {
+            Assert.Equal(1337, x);
+            Assert.NotEqual(0, y);
+            Assert.Equal(42, z);
+        }
+
+        [Theory, MyCustomMemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+        public void CustomMemberAutoDataCanBeParametrized(int x, int y, int z)
+        {
+            Assert.Equal(21, x);
+            Assert.Equal(38, y);
+            Assert.Equal(43, z);
+        }
+
+        public static IEnumerable<object[]> StringData
+        {
+            get
+            {
+                yield return new object[] { "foo", };
+                yield return new object[] { "foo", "bar" };
+            }
+        }
+
+        public static IEnumerable<object[]> IntData
+        {
+            get
+            {
+                yield return new object[] { 1337, };
+                yield return new object[] { 1337, 7 };
+                yield return new object[] { 1337, 7, 42 };
+            }
+        }
+
+        public static IEnumerable<object[]> GetParametrizedData(int x, int y, int z)
+        {
+            yield return new object[] { x, y, z };
+        }
+
+        private class MyCustomMemberAutoDataAttribute : MemberAutoDataAttribute
+        {
+            public MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
+                : base(new MyCustomAutoDataAttribute(), memberName, parameters)
             {
             }
         }
