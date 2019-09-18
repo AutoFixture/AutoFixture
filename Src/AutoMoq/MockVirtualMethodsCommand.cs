@@ -142,7 +142,6 @@ namespace AutoFixture.AutoMoq
         private static bool CanBeConfigured(MethodInfo method)
         {
             return method.IsOverridable() &&
-                   !method.IsGenericMethod &&
                    !method.HasRefParameters() &&
                    (!method.IsVoid() || method.HasOutParameters());
         }
@@ -168,6 +167,11 @@ namespace AutoFixture.AutoMoq
             {
                 // e.g. "x(It.IsAny<string>(), out parameter)"
                 methodCall = Expression.Invoke(lambdaParam, methodCallParams);
+            }
+            else if (method.IsGenericMethod)
+            {
+                var typeArguments = method.GetGenericArguments().Select(param => typeof(It.IsAnyType)).ToArray();
+                methodCall = Expression.Call(lambdaParam, method.MakeGenericMethod(typeArguments), methodCallParams);
             }
             else
             {

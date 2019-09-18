@@ -285,6 +285,19 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void WithConfigureMembers_GenericReturnValuesFromFixture()
+        {
+            // Arrange
+            var fixture = new Fixture().Customize(new AutoMoqCustomization { ConfigureMembers = true });
+            var frozenString = fixture.Freeze<string>();
+            // Act & Assert
+            IInterfaceWithGenericMethod result = null;
+            result = fixture.Create<IInterfaceWithGenericMethod>();
+
+            Assert.Equal(frozenString, result.GenericMethod<string>());
+        }
+
+        [Fact]
         public void WithConfigureMembers_SealedSettablePropertiesAreSetUsingFixture()
         {
             // Arrange
@@ -360,19 +373,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             string returnValue = result.Method(ref refResult);
             Assert.NotEqual(frozenString, refResult);
             Assert.NotEqual(frozenString, returnValue);
-        }
-
-        [Fact]
-        public void WithConfigureMembers_GenericMethodsAreIgnored()
-        {
-            // Arrange
-            var fixture = new Fixture().Customize(new AutoMoqCustomization { ConfigureMembers = true });
-            var frozenString = fixture.Freeze<string>();
-            // Act & Assert
-            IInterfaceWithGenericMethod result = null;
-            Assert.Null(Record.Exception(() => result = fixture.Create<IInterfaceWithGenericMethod>()));
-
-            Assert.NotEqual(frozenString, result.GenericMethod<string>());
         }
 
         [Fact]

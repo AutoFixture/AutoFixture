@@ -193,6 +193,20 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void SetsUpGenericMethods()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<IInterfaceWithGenericMethod>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Act & Assert
+            sut.Execute(mock, new SpecimenContext(fixture));
+            Assert.Equal(frozenString, mock.Object.GenericMethod<string>());
+        }
+
+        [Fact]
         public void SetsUpMethodsLazily()
         {
             // Arrange
@@ -245,20 +259,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             var sut = new MockVirtualMethodsCommand();
             // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-        }
-
-        [Fact]
-        public void IgnoresGenericMethods()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<IInterfaceWithGenericMethod>();
-
-            var sut = new MockVirtualMethodsCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, mock.Object.GenericMethod<string>());
         }
 
         [Fact]
