@@ -19,7 +19,7 @@ namespace AutoFixture.AutoMoq
         public void Customize(IFixture fixture)
         {
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
-            fixture.Customizations.Add(new MockPostprocessor(new MethodInvoker(new MockConstructorQuery())));
+            fixture.Customizations.Add(new MethodInvoker(new MockConstructorQuery()));
             fixture.Customizations.Add(new AutoMoqTypeRelay());
         }
 

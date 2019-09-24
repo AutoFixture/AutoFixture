@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using AutoFixture.Kernel;
 using Moq;
-using Moq.Language;
-using Moq.Language.Flow;
 
 namespace AutoFixture.AutoMoq
 {
@@ -15,25 +11,6 @@ namespace AutoFixture.AutoMoq
     /// </summary>
     public static class MockType
     {
-        /// <summary>
-        /// Sets up a member to lazily retrieve the return value from a fixture.
-        /// </summary>
-        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
-        /// <typeparam name="TResult">The return type of the object's member being mocked.</typeparam>
-        /// <param name="setup">The member setup.</param>
-        /// <param name="fixture">The fixture from which the return value will be retrieved.</param>
-        /// <returns>The result of setting up <paramref name="setup"/> to retrieve the return value from <paramref name="fixture"/>.</returns>
-        [CLSCompliant(false)]
-        public static IReturnsResult<TMock> ReturnsUsingFixture<TMock, TResult>(this IReturns<TMock, TResult> setup,
-                                                                                ISpecimenBuilder fixture)
-            where TMock : class
-        {
-            if (setup == null) throw new ArgumentNullException(nameof(setup));
-            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
-
-            return setup.ReturnsUsingContext(new SpecimenContext(fixture));
-        }
-
         internal static bool IsMock(this Type type)
         {
             return type != null
@@ -61,43 +38,6 @@ namespace AutoFixture.AutoMoq
         internal static Type GetMockedType(this Type type)
         {
             return type.GetTypeInfo().GetGenericArguments().Single();
-        }
-
-        internal static IReturnsResult<TMock> ReturnsUsingContext<TMock, TResult>(this IReturns<TMock, TResult> setup,
-            ISpecimenContext context)
-            where TMock : class
-        {
-            return setup.Returns(() =>
-            {
-                var specimen = context.Resolve(typeof(TResult));
-
-                // check if specimen is null but member is non-nullable value type
-                if (specimen == null && (default(TResult) != null))
-                {
-                    throw new InvalidOperationException(
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            "Tried to setup a member with a return type of {0}, but null was found instead.",
-                            typeof(TResult)));
-                }
-
-                // check if specimen can be safely converted to TResult
-                if (specimen != null && !(specimen is TResult))
-                {
-                    throw new InvalidOperationException(
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            "Tried to setup a member with a return type of {0}, but an instance of {1} was found instead.",
-                            typeof(TResult),
-                            specimen.GetType()));
-                }
-
-                TResult result = (TResult)specimen;
-
-                // "cache" value for future invocations
-                setup.Returns(result);
-                return result;
-            });
         }
     }
 }
