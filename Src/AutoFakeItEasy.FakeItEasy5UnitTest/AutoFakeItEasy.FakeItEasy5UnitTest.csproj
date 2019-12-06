@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="[5.0.0]" />
+    <PackageReference Include="FakeItEasy" Version="[5.5.0]" />
   </ItemGroup>
 
   <ItemGroup>
