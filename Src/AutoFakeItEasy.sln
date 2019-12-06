@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTypeFoundation", "TestT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy", "AutoFakeItEasy\AutoFakeItEasy.csproj", "{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasyUnitTest", "AutoFakeItEasyUnitTest\AutoFakeItEasyUnitTest.csproj", "{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy2UnitTest", "AutoFakeItEasy.FakeItEasy2UnitTest\AutoFakeItEasy.FakeItEasy2UnitTest.csproj", "{7F957CC0-79C3-48A1-9A3E-47BED7539248}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy3UnitTest", "AutoFakeItEasy.FakeItEasy3UnitTest\AutoFakeItEasy.FakeItEasy3UnitTest.csproj", "{B8FEC47B-ABF1-41DB-8DF8-4343B8F50910}"
@@ -52,12 +50,6 @@ Global
 		{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}.Verify|Any CPU.Build.0 = Verify|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
-		{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}.Verify|Any CPU.Build.0 = Verify|Any CPU
 		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Release|Any CPU.ActiveCfg = Release|Any CPU

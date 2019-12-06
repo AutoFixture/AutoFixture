@@ -181,8 +181,10 @@ Target "TestOnly" (fun _ ->
         |> Seq.collect id
 
     let nUnit2TestProjects = findProjects "AutoFixture.NUnit2.*Test"
+    let autoFakeItEasyTestSourceDirectory = findProjects "AutoFakeItEasyUnitTest"
     let dotnetTestProjects = findProjects "*Test" 
                              |> Seq.except nUnit2TestProjects
+                             |> Seq.except autoFakeItEasyTestSourceDirectory
 
     // Save test results in MSTest format in the test results folder.
     // Later results are uploaded to AppVeyor manually.
