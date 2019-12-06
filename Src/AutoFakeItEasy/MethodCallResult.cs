@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FakeItEasy.Core;
 
 namespace AutoFixture.AutoFakeItEasy
 {
@@ -12,7 +13,7 @@ namespace AutoFixture.AutoFakeItEasy
             this.returnValue = returnValue;
         }
 
-        public void ApplyToCall(FakeObjectCall fakeObjectCall)
+        public void ApplyToCall(IInterceptedFakeObjectCall fakeObjectCall)
         {
             fakeObjectCall.SetReturnValue(this.returnValue);
             if (this.outAndRefValues == null) return;

@@ -44,31 +44,30 @@ namespace AutoFixture.AutoFakeItEasy
         {
             if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
-            var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
-            var callResult = this.resultSource.GetOrAdd(CreateMethodCall(fakeObjectCall), () => this.CreateMethodCallResult(fakeObjectCall));
-            callResult.ApplyToCall(fakeObjectCall);
+            var callResult = this.resultSource.GetOrAdd(CreateMethodCall(interceptedFakeObjectCall), () => this.CreateMethodCallResult(interceptedFakeObjectCall));
+            callResult.ApplyToCall(interceptedFakeObjectCall);
         }
 
-        private static MethodCall CreateMethodCall(FakeObjectCall fakeCall)
+        private static MethodCall CreateMethodCall(IInterceptedFakeObjectCall fakeCall)
         {
             var parameters = fakeCall.Method.GetParameters();
             return new MethodCall(fakeCall.Method.DeclaringType, fakeCall.Method.Name, parameters, fakeCall.Arguments);
         }
 
-        private MethodCallResult CreateMethodCallResult(FakeObjectCall fakeObjectCall)
+        private MethodCallResult CreateMethodCallResult(IInterceptedFakeObjectCall fakeObjectCall)
         {
             var result = new MethodCallResult(this.ResolveReturnValue(fakeObjectCall));
             this.AddOutAndRefValues(result, fakeObjectCall);
             return result;
         }
 
-        private object ResolveReturnValue(FakeObjectCall fakeObjectCall)
+        private object ResolveReturnValue(IInterceptedFakeObjectCall fakeObjectCall)
         {
             var methodReturnType = fakeObjectCall.Method.ReturnType;
             return methodReturnType == typeof(void) ? null : this.context.Resolve(methodReturnType);
         }
 
-        private void AddOutAndRefValues(MethodCallResult result, FakeObjectCall fakeObjectCall)
+        private void AddOutAndRefValues(MethodCallResult result, IInterceptedFakeObjectCall fakeObjectCall)
         {
             var parameters = fakeObjectCall.Method.GetParameters();
             for (int i = 0; i < parameters.Length; i++)

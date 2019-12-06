@@ -44,16 +44,15 @@ namespace AutoFixture.AutoFakeItEasy
         {
             if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
 
-            var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
-            var methodCall = CreateMethodCallForGetter(fakeObjectCall);
-            this.resultCache.Put(methodCall, new MethodCallResult(fakeObjectCall.Arguments.Last()));
+            var methodCall = CreateMethodCallForGetter(interceptedFakeObjectCall);
+            this.resultCache.Put(methodCall, new MethodCallResult(interceptedFakeObjectCall.Arguments.Last()));
         }
 
         private static bool IsSetter(MethodInfo method) =>
             method.IsSpecialName &&
             method.Name.StartsWith("set_", StringComparison.Ordinal);
 
-        private static MethodCall CreateMethodCallForGetter(FakeObjectCall fakeCall)
+        private static MethodCall CreateMethodCallForGetter(IInterceptedFakeObjectCall fakeCall)
         {
             var methodName = "get_" + fakeCall.Method.Name.Substring(4);
             var numberOfArguments = fakeCall.Arguments.Count() - 1;
