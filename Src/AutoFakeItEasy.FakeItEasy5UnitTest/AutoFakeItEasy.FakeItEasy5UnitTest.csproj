@@ -8,8 +8,6 @@
     <AssemblyTitle>AutoFakeItEasy.FakeItEasy5.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFakeItEasy.FakeItEasy5UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
-
-    <DefineConstants>$(DefineConstants);CAN_FAKE_DELEGATES;HAS_A_CALL_TO_SET_SPECIFIER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

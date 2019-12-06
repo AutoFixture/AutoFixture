@@ -12,8 +12,6 @@
     <!--  Suppress warning about invalid dependency version in Castle.Core.
           That is FakeItEasy dependency and we cannot fix that somehow. -->
     <NoWarn>$(NoWarn);NU1603</NoWarn>
-
-    <DefineConstants>$(DefineConstants);CAN_FAKE_DELEGATES;HAS_A_CALL_TO_SET_SPECIFIER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
