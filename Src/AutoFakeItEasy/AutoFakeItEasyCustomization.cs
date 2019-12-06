@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Globalization;
-using System.Reflection;
 using AutoFixture.Kernel;
-using FakeItEasy;
 
 namespace AutoFixture.AutoFakeItEasy
 {
@@ -16,7 +13,6 @@ namespace AutoFixture.AutoFakeItEasy
     /// </remarks>
     public class AutoFakeItEasyCustomization : ICustomization
     {
-        private bool generateDelegates;
         private ISpecimenBuilder relay;
 
         /// <summary>
@@ -59,19 +55,7 @@ namespace AutoFixture.AutoFakeItEasy
         /// <summary>
         /// When <c>true</c>, configures the fixture to automatically generate Fakes when a delegate is requested.
         /// </summary>
-        public bool GenerateDelegates
-        {
-            get => this.generateDelegates;
-            set
-            {
-                if (value)
-                {
-                    AssertFakeItEasyCanFakeDelegates();
-                }
-
-                this.generateDelegates = value;
-            }
-        }
+        public bool GenerateDelegates { get; set; }
 
         /// <summary>
         /// Specifies whether members of a Fake will be automatically setup to retrieve the return values from a fixture.
@@ -104,22 +88,6 @@ namespace AutoFixture.AutoFakeItEasy
 
             fixture.Customizations.Add(fakeBuilder);
             fixture.ResidueCollectors.Add(this.Relay);
-        }
-
-        private static void AssertFakeItEasyCanFakeDelegates()
-        {
-            var minimumFakeItEasyAssemblyVersion = new Version(1, 7, 4257, 42);
-            var actualFakeItEasyAssemblyVersion = typeof(A).GetTypeInfo().Assembly.GetName().Version;
-            if (actualFakeItEasyAssemblyVersion < minimumFakeItEasyAssemblyVersion)
-            {
-                throw new ArgumentException(string.Format(
-                    CultureInfo.CurrentCulture,
-                    "Option {0} was specified, but this requires FakeItEasy version {1} or higher, and {2} was detected. " +
-                    "Either remove the option or upgrade FakeItEasy.",
-                    nameof(GenerateDelegates),
-                    minimumFakeItEasyAssemblyVersion,
-                    actualFakeItEasyAssemblyVersion));
-            }
         }
     }
 }
