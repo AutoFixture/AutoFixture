@@ -57,8 +57,23 @@ namespace AutoFixture.AutoFakeItEasy
             var methodInfo = callType.GetMethod(methodName);
             if (methodInfo == null)
             {
-                throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture,
-                    "Method {0} cannot be found on {1}", methodName, callType.FullName));
+                // In FakeItEasy 5.4.1, FakeItEasy.Creation.CastleDynamicProxy.CastleInvocationCallAdapter.SetReturnValue
+                // was changed to be solely an explicit interface implementation, so it is no longer available on the type
+                // directly and must be found on an interface.
+                foreach (var callTypeInterface in callType.GetInterfaces())
+                {
+                    methodInfo = callTypeInterface.GetMethod(methodName);
+                    if (methodInfo != null)
+                    {
+                        break;
+                    }
+                }
+
+                if (methodInfo == null)
+                {
+                    throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture,
+                        "Method {0} cannot be found on {1}", methodName, callType.FullName));
+                }
             }
 
             methodInfo.Invoke(this.wrappedCall, parameters);
