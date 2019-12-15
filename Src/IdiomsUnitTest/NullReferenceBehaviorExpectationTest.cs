@@ -73,10 +73,25 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifySucceedsWhenCommandThrowsCorrectException()
+        public void VerifySucceedsWhenCommandThrowsArgumentNullException()
         {
             // Arrange
-            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new ArgumentNullException(); } };
+            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => throw new ArgumentNullException() };
+            var sut = new NullReferenceBehaviorExpectation();
+            // Act & Assert
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(cmd)));
+        }
+
+        [Fact]
+        public void VerifySucceedsWhenCommandThrowsArgumentException()
+        {
+            // Arrange
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnExecute = v => throw new ArgumentException("Should not be null", "paramName"),
+                RequestedParameterName = "paramName"
+            };
             var sut = new NullReferenceBehaviorExpectation();
             // Act & Assert
             Assert.Null(Record.Exception(() =>

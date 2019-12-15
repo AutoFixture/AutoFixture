@@ -50,7 +50,7 @@ namespace AutoFixture.Idioms
             {
                 command.Execute(null);
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentException e)
             {
                 if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
                     return;

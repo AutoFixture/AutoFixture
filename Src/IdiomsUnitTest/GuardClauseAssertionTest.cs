@@ -1045,5 +1045,43 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public abstract void Method(object arg);
         }
+
+        public class TypeWithArgumentExceptionForNullGuardChecks
+        {
+            private string property;
+
+            public TypeWithArgumentExceptionForNullGuardChecks(object obj, string str)
+            {
+                if (obj == null) throw new ArgumentException("Value cannot be null", nameof(obj));
+                if (string.IsNullOrEmpty(str)) throw new ArgumentException("Value cannot be null or empty.", nameof(str));
+
+                this.property = str;
+            }
+
+            private string Property
+            {
+                get => this.property;
+                set
+                {
+                    if (string.IsNullOrEmpty(value)) throw new ArgumentException("Value cannot be null or empty.", nameof(value));
+
+                    this.property = value;
+                }
+            }
+
+            public void RegularMethod(object obj, string str)
+            {
+                if (obj == null) throw new ArgumentException("Value cannot be null", nameof(obj));
+                if (string.IsNullOrEmpty(str)) throw new ArgumentException("Value cannot be null or empty.", nameof(str));
+            }
+        }
+
+        [Fact]
+        public void VerifyShouldRespectArgumentExceptionForNullChecksIfArgumentNameIsValid()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            sut.Verify(typeof(TypeWithArgumentExceptionForNullGuardChecks));
+        }
     }
 }
