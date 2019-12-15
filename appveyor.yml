@@ -2,7 +2,7 @@ image: Visual Studio 2017
 
 environment:
   NUGET_API_KEY:
-    secure: 1q9oaTItjmBZxBqmtGWAVqH5WU/kukCvmvsNACrXFzcbNdNibOLvFWk5Xbd5JEfI
+    secure: HfXETLxj9E/LFgaLp0YY0lZHwpQ+7wFUrbtXdvTh/YXrFjPkVBrsdX6F54Xj+loK
   MYGET_API_KEY:
     secure: hA4Ut1N2lrrdEtAN24Bty/FNiU0d/Ur/dLYSqpr8jKHOvoO7MU4jD+KwzUvATh+E
 
