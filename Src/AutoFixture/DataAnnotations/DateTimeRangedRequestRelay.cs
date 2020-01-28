@@ -4,12 +4,13 @@ using AutoFixture.Kernel;
 
 namespace AutoFixture.DataAnnotations
 {
+    /// <summary>
+    /// Handles <see cref="RangedRequest"/> of DateTime type by forwarding requests
+    /// to the <see cref="RangedNumberRequest"/> with min and max DateTime as ticks values.
+    /// </summary>
     public class DateTimeRangedRequestRelay : ISpecimenBuilder
     {
-        /// <summary>
-        /// Handles <see cref="RangedRequest"/> of DateTime type by forwarding requests
-        /// to the <see cref="RangedNumberRequest"/> with min and max DateTime as ticks values.
-        /// </summary>
+        /// <inheritdoc />
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
