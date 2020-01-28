@@ -1,9 +1,8 @@
-using AutoFixture.DataAnnotations;
-using AutoFixture.Kernel;
 using System;
 using System.Globalization;
+using AutoFixture.Kernel;
 
-namespace QH.MemberService.XTests.Framework.Services
+namespace AutoFixture.DataAnnotations
 {
     public class DateTimeRangedRequestRelay : ISpecimenBuilder
     {
