@@ -100,7 +100,7 @@ namespace AutoFixture.Xunit2.UnitTest
 
         [Theory]
         [MemberAutoData(nameof(StringData))]
-        [MemberAutoData(nameof(ComplexData))]        
+        [MemberAutoData(nameof(ComplexData))]
         public void MemberAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
         {
             Assert.Equal("foo", s1);

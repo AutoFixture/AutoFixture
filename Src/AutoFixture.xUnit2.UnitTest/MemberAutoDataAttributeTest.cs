@@ -179,12 +179,14 @@ namespace AutoFixture.Xunit2.UnitTest
 
         public static IEnumerable<object[]> FooBarTestCase => new List<object[]>
         {
-            new [] { "foo" },
-            new [] { "foo", "bar" },
-            new [] { "bar" },
+            new[] { "foo" },
+            new[] { "foo", "bar" },
+            new[] { "bar" },
         };
 
-        private void FooBarTestMethod(string s1, string s2) { }
+        private void FooBarTestMethod(string s1, string s2)
+        {
+        }
 
         private class DerivedMemberAutoDataAttribute : MemberAutoDataAttribute
         {

@@ -24,8 +24,6 @@ namespace AutoFixture.Xunit2
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class MemberAutoDataAttribute : DataAttribute
     {
-        protected readonly MemberDataAttribute MemberDataAttribute;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberAutoDataAttribute"/> class.
         /// </summary>
@@ -58,6 +56,11 @@ namespace AutoFixture.Xunit2
         }
 
         /// <summary>
+        /// Gets the attribute used to retrieve the test data in a public static member.
+        /// </summary>
+        protected MemberDataAttribute MemberDataAttribute { get; }
+
+        /// <summary>
         /// Gets the attribute used to automatically generate the remaining theory parameters, which are not fixed.
         /// </summary>
         public DataAttribute AutoDataAttribute { get; }
@@ -87,15 +90,15 @@ namespace AutoFixture.Xunit2
             var memberData = this.MemberDataAttribute.GetData(testMethod).ToList();
             var autoData = this.AutoDataAttribute.GetData(testMethod).FirstOrDefault();
 
-            if (autoData == null) throw new ArgumentNullException(nameof(testMethod));
+            if (autoData == null) throw new InvalidOperationException($"{nameof(autoData)} cannot be null");
 
-            var dataSource = new List<IEnumerable<object[]>>
+            var combinedDataSet = new List<IEnumerable<object[]>>
             {
                 memberData,
                 Enumerable.Repeat(autoData, memberData.Count)
             };
 
-            return dataSource.Zip(dataSets => dataSets.Collapse().ToArray());
+            return combinedDataSet.Zip(dataSet => dataSet.Collapse().ToArray());
         }
     }
 }
