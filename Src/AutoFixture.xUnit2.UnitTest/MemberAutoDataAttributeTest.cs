@@ -23,6 +23,32 @@ namespace AutoFixture.Xunit2.UnitTest
         }
 
         [Fact]
+        public void GetDataWithNullMethodThrows()
+        {
+            // Arrange
+            var memberName = Guid.NewGuid().ToString();
+            var sut = new MemberAutoDataAttribute(memberName);
+
+            // Act & assert
+            Assert.Throws<ArgumentNullException>(() => sut.GetData(null));
+        }
+
+        [Fact]
+        public void GetDataShouldReturnSameNumberOfRowsAsMemberDatasource()
+        {
+            // Arrange
+            var method = ((Action<string, string>)this.FooBarTestMethod).GetMethodInfo();
+
+            var sut = new MemberAutoDataAttribute(nameof(FooBarTestCase));
+
+            // Act
+            var data = sut.GetData(method);
+
+            // Assert
+            Assert.Equal(FooBarTestCase.Count(), data.Count());
+        }
+
+        [Fact]
         public void MemberNameIsCorrectWhenConstructedWithDefaultConstructor()
         {
             // Arrange
@@ -150,6 +176,15 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Equal(expectedType, actualType);
             Assert.Equal(expectedAssembly, actualAssembly);
         }
+
+        public static IEnumerable<object[]> FooBarTestCase => new List<object[]>
+        {
+            new [] { "foo" },
+            new [] { "foo", "bar" },
+            new [] { "bar" },
+        };
+
+        private void FooBarTestMethod(string s1, string s2) { }
 
         private class DerivedMemberAutoDataAttribute : MemberAutoDataAttribute
         {

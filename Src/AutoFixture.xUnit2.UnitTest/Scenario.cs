@@ -98,12 +98,14 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.NotNull(s2);
         }
 
-        [Theory, MemberAutoData(nameof(StringData))]
+        [Theory]
+        [MemberAutoData(nameof(StringData))]
+        [MemberAutoData(nameof(ComplexData))]        
         public void MemberAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
         {
             Assert.Equal("foo", s1);
             Assert.NotNull(s2);
-            Assert.NotNull(myClass);
+            Assert.NotNull(myClass?.Prop1);
         }
 
         [Theory, MemberAutoData(nameof(StringData))]
@@ -145,6 +147,14 @@ namespace AutoFixture.Xunit2.UnitTest
             {
                 yield return new object[] { "foo", };
                 yield return new object[] { "foo", "bar" };
+            }
+        }
+
+        public static IEnumerable<object[]> ComplexData
+        {
+            get
+            {
+                yield return new object[] { "foo", string.Empty, new MyClass { Prop1 = "bar" } };
             }
         }
 
