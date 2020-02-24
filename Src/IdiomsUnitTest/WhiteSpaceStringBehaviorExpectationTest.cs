@@ -1,16 +1,16 @@
-using AutoFixture.Idioms;
 using System;
+using AutoFixture.Idioms;
 using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
-    public class EmptyStringBehaviorExpectationTest
+    public class WhiteSpaceStringBehaviorExpectationTest
     {
         [Fact]
         public void SutIsBehaviorExpectation()
         {
             // Arrange
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act & Assert
             Assert.IsAssignableFrom<IBehaviorExpectation>(expectation);
@@ -20,7 +20,7 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifyNullCommandThrows()
         {
             // Arrange
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => expectation.Verify(default));
@@ -41,7 +41,7 @@ namespace AutoFixture.IdiomsUnitTest
                 RequestedType = typeof(string),
                 RequestedParameterName = "paramName"
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             expectation.Verify(command);
@@ -65,7 +65,7 @@ namespace AutoFixture.IdiomsUnitTest
                 OnExecute = (v) => commandExecuted = true,
                 RequestedType = type
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             expectation.Verify(command);
@@ -84,7 +84,7 @@ namespace AutoFixture.IdiomsUnitTest
                 RequestedType = typeof(string),
                 RequestedParameterName = "paramName"
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
@@ -104,7 +104,7 @@ namespace AutoFixture.IdiomsUnitTest
                 OnCreateException = v => expected,
                 RequestedType = typeof(string)
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
@@ -123,13 +123,13 @@ namespace AutoFixture.IdiomsUnitTest
                 OnCreateException = v => new Exception(v),
                 RequestedType = typeof(string)
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
 
             // Assert
-            Assert.Equal("\"string.Empty\"", actual.Message);
+            Assert.Equal("<white space>", actual.Message);
         }
 
         [Fact]
@@ -143,7 +143,7 @@ namespace AutoFixture.IdiomsUnitTest
                 OnCreateExceptionWithInner = (v, e) => expected,
                 RequestedType = typeof(string)
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual =  Record.Exception(() => expectation.Verify(command));
@@ -162,13 +162,13 @@ namespace AutoFixture.IdiomsUnitTest
                 OnCreateExceptionWithInner = (v, e) => new Exception(v, e),
                 RequestedType = typeof(string)
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
 
             // Assert
-            Assert.Equal("\"string.Empty\"", actual.Message);
+            Assert.Equal("<white space>", actual.Message);
         }
 
         [Fact]
@@ -182,7 +182,7 @@ namespace AutoFixture.IdiomsUnitTest
                 OnCreateExceptionWithInner = (v, e) => new Exception(v, e),
                 RequestedType = typeof(string)
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
@@ -203,7 +203,7 @@ namespace AutoFixture.IdiomsUnitTest
                 RequestedType = typeof(string),
                 RequestedParameterName = "expectedParamName"
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
@@ -224,7 +224,7 @@ namespace AutoFixture.IdiomsUnitTest
                 RequestedType = typeof(string),
                 RequestedParameterName = "expectedParamName"
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
@@ -245,7 +245,7 @@ namespace AutoFixture.IdiomsUnitTest
                 RequestedType = typeof(string),
                 RequestedParameterName = "expectedParamName"
             };
-            var expectation = new EmptyStringBehaviorExpectation();
+            var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
             var actual = Record.Exception(() => expectation.Verify(command));
