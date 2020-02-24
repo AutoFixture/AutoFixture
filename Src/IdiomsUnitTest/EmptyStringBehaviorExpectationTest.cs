@@ -1,5 +1,5 @@
-using AutoFixture.Idioms;
 using System;
+using AutoFixture.Idioms;
 using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
@@ -146,7 +146,7 @@ namespace AutoFixture.IdiomsUnitTest
             var expectation = new EmptyStringBehaviorExpectation();
 
             // Act
-            var actual =  Record.Exception(() => expectation.Verify(command));
+            var actual = Record.Exception(() => expectation.Verify(command));
 
             // Assert
             Assert.Equal(expected, actual);

@@ -13,8 +13,8 @@ using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
-    [SuppressMessage("ReSharper", "UnusedMember.Local", Justification="Used via reflection.")]
-    [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification="Required for testing.")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local", Justification = "Used via reflection.")]
+    [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Required for testing.")]
     public partial class GuardClauseAssertionTest
     {
         [Fact]
@@ -747,6 +747,7 @@ namespace AutoFixture.IdiomsUnitTest
         private class TypeWithPropertyOfTypeWithoutImplementers
         {
             private IHaveNoImplementers propertyOfTypeWithoutImplementers;
+
             public IHaveNoImplementers PropertyOfTypeWithoutImplementers
             {
                 get => this.propertyOfTypeWithoutImplementers;
@@ -1076,7 +1077,7 @@ namespace AutoFixture.IdiomsUnitTest
                 .GetConstructors();
 
             var actual = Record.Exception(() => sut.Verify(constructors));
-            
+
             Assert.StartsWith(
                 "An attempt was made to assign the value \"string.Empty\"",
                 actual.Message);
@@ -1110,7 +1111,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public ClassWithEmptyStringGuard(string arg)
             {
-                if(arg is null)
+                if (arg is null)
                     throw new ArgumentNullException(nameof(arg));
 
                 if (arg == string.Empty)
@@ -1122,7 +1123,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public ClassWithoutEmptyStringGuard(string arg)
             {
-                if(arg is null)
+                if (arg is null)
                     throw new ArgumentNullException(nameof(arg));
             }
         }
@@ -1131,7 +1132,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public ClassWithImproperEmptyStringGuard(string arg)
             {
-                if(arg == string.Empty)
+                if (arg == string.Empty)
                     throw new ArgumentException("Value cannot be empty.", "invalid parameter name");
             }
         }
@@ -1180,7 +1181,7 @@ namespace AutoFixture.IdiomsUnitTest
             var actual = Record.Exception(() => sut.Verify(constructors));
 
             Assert.Contains(
-                $"Expected parameter name: arg{Environment.NewLine}Actual parameter name: invalid parameter name", 
+                $"Expected parameter name: arg{Environment.NewLine}Actual parameter name: invalid parameter name",
                 actual.Message);
         }
 
@@ -1198,13 +1199,13 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public ClassWithWhiteSpaceStringGuard(string arg)
             {
-                if(arg is null)
+                if (arg is null)
                     throw new ArgumentNullException(nameof(arg));
 
                 if (arg == string.Empty)
                     throw new ArgumentException("Value cannot be empty.", nameof(arg));
 
-                if(arg.All(x => x == ' '))
+                if (arg.All(x => x == ' '))
                     throw new ArgumentException("Value cannot be whitespace.", nameof(arg));
             }
         }
@@ -1213,7 +1214,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public ClassWithoutWhiteSpaceStringGuard(string arg)
             {
-                if(arg is null)
+                if (arg is null)
                     throw new ArgumentNullException(nameof(arg));
 
                 if (arg == string.Empty)
@@ -1225,7 +1226,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public ClassWithImproperWhiteSpaceStringGuard(string arg)
             {
-                if(arg.All(x => x == ' '))
+                if (arg.All(x => x == ' '))
                     throw new ArgumentException("Value cannot be whitespace.", "invalid parameter name");
             }
         }

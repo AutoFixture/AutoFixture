@@ -146,7 +146,7 @@ namespace AutoFixture.IdiomsUnitTest
             var expectation = new WhiteSpaceStringBehaviorExpectation();
 
             // Act
-            var actual =  Record.Exception(() => expectation.Verify(command));
+            var actual = Record.Exception(() => expectation.Verify(command));
 
             // Assert
             Assert.Equal(expected, actual);
