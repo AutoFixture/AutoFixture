@@ -1088,5 +1088,54 @@ namespace AutoFixture.IdiomsUnitTest
                     throw new ArgumentNullException(nameof(arg));
             }
         }
+        
+        [Fact]
+        public void VerifyClassWithWhiteSpaceStringGuardDoesNotThrow()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new WhiteSpaceStringBehaviorExpectation());
+            var constructors = typeof(ClassWithWhiteSpaceStringGuard)
+                .GetConstructors();
+
+            var exception = Record.Exception(() => sut.Verify(constructors));
+
+            Assert.Null(exception);
+        }
+        
+        [Fact]
+        public void VerifyClassWithoutWhiteSpaceStringGuardThrows()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new WhiteSpaceStringBehaviorExpectation());
+            var constructors = typeof(ClassWithoutWhiteSpaceStringGuard)
+                .GetConstructors();
+
+            Assert.Throws<GuardClauseException>(() => sut.Verify(constructors));
+        }
+
+        private class ClassWithWhiteSpaceStringGuard
+        {
+            public ClassWithWhiteSpaceStringGuard(string arg)
+            {
+                if(arg is null)
+                    throw new ArgumentNullException(nameof(arg));
+
+                if (arg == string.Empty)
+                    throw new ArgumentException("Value cannot be empty.", nameof(arg));
+
+                if(arg.All(x => x == ' '))
+                    throw new ArgumentException("Value cannot be whitespace.", nameof(arg));
+            }
+        }
+        
+        private class ClassWithoutWhiteSpaceStringGuard
+        {
+            public ClassWithoutWhiteSpaceStringGuard(string arg)
+            {
+                if(arg is null)
+                    throw new ArgumentNullException(nameof(arg));
+
+                if (arg == string.Empty)
+                    throw new ArgumentException("Value cannot be empty.", nameof(arg));
+            }
+        }
     }
 }
