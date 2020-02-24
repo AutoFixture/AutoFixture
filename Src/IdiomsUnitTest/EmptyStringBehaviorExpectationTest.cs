@@ -216,7 +216,6 @@ namespace AutoFixture.IdiomsUnitTest
         public void VerifyThrowsExceptionWithExpectedMessageWhenCommandThrowsArgumentExceptionWithWrongParameterName()
         {
             // Arrange
-            var expectedEndString = $"Expected parameter name: expectedParamName{Environment.NewLine}Actual parameter name: wrongParamName";
             var command = new DelegatingGuardClauseCommand
             {
                 OnExecute = v => throw new ArgumentException(string.Empty, "wrongParamName"),
@@ -230,7 +229,9 @@ namespace AutoFixture.IdiomsUnitTest
             var actual = Record.Exception(() => expectation.Verify(command));
 
             // Assert
-            Assert.EndsWith(expectedEndString, actual.Message);
+            Assert.EndsWith(
+                $"Expected parameter name: expectedParamName{Environment.NewLine}Actual parameter name: wrongParamName",
+                actual.Message);
         }
 
         [Fact]
