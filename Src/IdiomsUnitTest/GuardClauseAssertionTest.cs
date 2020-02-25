@@ -1034,6 +1034,91 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyNonProperlyGuidGuardedConstructorThrowsException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var constructorInfo = typeof(NonProperlyGuidGuardedClass).GetConstructors().Single();
+
+            var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(constructorInfo));
+            Assert.Contains("Guard Clause prevented it, however", exception.Message);
+        }
+
+        [Fact]
+        public void VerifyNonProperlyGuidGuardedPropertyThrowsException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var propertyInfo = typeof(NonProperlyGuidGuardedClass).GetProperty(nameof(NonProperlyGuidGuardedClass.Property));
+
+            var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(propertyInfo));
+            Assert.Contains("Guard Clause prevented it, however", exception.Message);
+        }
+
+        [Theory]
+        [InlineData(nameof(NonProperlyGuidGuardedClass.Method), "Guard Clause prevented it, however")]
+        [InlineData(nameof(NonProperlyGuidGuardedClass.DeferredMethodReturningGenericEnumerable), "deferred")]
+        [InlineData(nameof(NonProperlyGuidGuardedClass.DeferredMethodReturningGenericEnumerator), "deferred")]
+        [InlineData(nameof(NonProperlyGuidGuardedClass.DeferredMethodReturningNonGenericEnumerable), "deferred")]
+        [InlineData(nameof(NonProperlyGuidGuardedClass.DeferredMethodReturningNonGenericEnumerator), "deferred")]
+        public void VerifyNonProperlyGuidGuardedMethodThrowsException(string methodName, string expectedMessage)
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var methodInfo = typeof(NonProperlyGuidGuardedClass).GetMethod(methodName);
+
+            var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(methodInfo));
+            Assert.Contains(expectedMessage, exception.Message);
+        }
+
+        private class NonProperlyGuidGuardedClass
+        {
+            public NonProperlyGuidGuardedClass(Guid argument)
+            {
+                if (argument == Guid.Empty) throw new ArgumentException(string.Empty, "invalid parameter name");
+            }
+
+            public Guid Property
+            {
+                get => Guid.Empty;
+                set
+                {
+                    if (value == Guid.Empty) throw new ArgumentException(string.Empty, "invalid parameter name");
+                }
+            }
+
+            public void Method(Guid argument)
+            {
+                if (argument == Guid.Empty) throw new ArgumentException(string.Empty, "invalid parameter name");
+            }
+
+            public IEnumerable<Guid> DeferredMethodReturningGenericEnumerable(Guid argument)
+            {
+                if (argument == Guid.Empty) throw new ArgumentException(string.Empty, "invalid parameter name");
+
+                yield return argument;
+            }
+
+            public IEnumerator<Guid> DeferredMethodReturningGenericEnumerator(Guid argument)
+            {
+                if (argument == Guid.Empty) throw new ArgumentException(string.Empty, "invalid parameter name");
+
+                yield return argument;
+            }
+
+            public IEnumerable DeferredMethodReturningNonGenericEnumerable(Guid argument)
+            {
+                if (argument == Guid.Empty) throw new ArgumentException(string.Empty, "invalid parameter name");
+
+                yield return argument;
+            }
+
+            public IEnumerator DeferredMethodReturningNonGenericEnumerator(Guid argument)
+            {
+                if (argument == Guid.Empty) throw new ArgumentException(string.Empty, "invalid parameter name");
+
+                yield return argument;
+            }
+        }
+
+        [Fact]
         public void VerifyOnAbstractMethodDoesNotThrow()
         {
             var method = typeof(AbstractTypeWithAbstractMethod)
