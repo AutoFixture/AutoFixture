@@ -129,7 +129,7 @@ namespace AutoFixture.IdiomsUnitTest
             var actual = Record.Exception(() => expectation.Verify(command));
 
             // Assert
-            Assert.Equal("\"string.Empty\"", actual.Message);
+            Assert.Equal("<empty string>", actual.Message);
         }
 
         [Fact]
@@ -168,7 +168,7 @@ namespace AutoFixture.IdiomsUnitTest
             var actual = Record.Exception(() => expectation.Verify(command));
 
             // Assert
-            Assert.Equal("\"string.Empty\"", actual.Message);
+            Assert.Equal("<empty string>", actual.Message);
         }
 
         [Fact]

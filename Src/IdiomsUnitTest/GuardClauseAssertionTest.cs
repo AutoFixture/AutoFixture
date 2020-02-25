@@ -1079,7 +1079,7 @@ namespace AutoFixture.IdiomsUnitTest
             var actual = Record.Exception(() => sut.Verify(constructors));
 
             Assert.StartsWith(
-                "An attempt was made to assign the value \"string.Empty\"",
+                "An attempt was made to assign the value <empty string>",
                 actual.Message);
         }
 
