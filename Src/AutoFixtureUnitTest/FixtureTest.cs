@@ -6160,7 +6160,7 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             // Act
-            var result = sut.Create<StringRangedDateTimeProperty>();
+            var result = sut.Create<TypeWithRangedDateTimeProperty>();
 
             // Assert
             Assert.InRange(result.StringRangedDateTimeProperty, new DateTime(1900,1,1), new DateTime(2020,12,31));
