@@ -6146,7 +6146,7 @@ namespace AutoFixtureUnitTest
                 return composer.With(x => x.Value, "42");
             }
         }
-        
+
         private class TypeWithRangedDateTimeProperty
         {
             [Range(typeof(DateTime), "01/01/1900", "12/31/2020")]
@@ -6163,7 +6163,7 @@ namespace AutoFixtureUnitTest
             var result = sut.Create<TypeWithRangedDateTimeProperty>();
 
             // Assert
-            Assert.InRange(result.StringRangedDateTimeProperty, new DateTime(1900,1,1), new DateTime(2020,12,31));
+            Assert.InRange(result.StringRangedDateTimeProperty, new DateTime(1900, 1, 1), new DateTime(2020, 12, 31));
         }
 
         private class TypeWithRangedTimeSpanProperty
