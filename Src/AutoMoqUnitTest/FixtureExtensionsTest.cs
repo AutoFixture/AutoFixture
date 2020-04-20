@@ -46,5 +46,13 @@ namespace AutoFixture.AutoMoq.UnitTest
 
             Assert.Same(fixture, result);
         }
+
+        [Fact]
+        public void AddAutoMoqThrowsIfFixtureIsNull()
+        {
+            IFixture fixture = null;
+
+            Assert.Throws<ArgumentNullException>(() => fixture.AddAutoMoq());
+        }
     }
 }
