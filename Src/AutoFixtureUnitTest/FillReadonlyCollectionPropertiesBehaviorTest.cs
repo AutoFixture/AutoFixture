@@ -14,6 +14,7 @@ namespace AutoFixtureUnitTest
             // Arrange
             // Act
             var sut = new FillReadonlyCollectionPropertiesBehavior();
+
             // Assert
             Assert.IsAssignableFrom<ISpecimenBuilderTransformation>(sut);
         }
@@ -23,6 +24,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var sut = new FillReadonlyCollectionPropertiesBehavior();
+
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => sut.Transform(null));
@@ -34,8 +36,10 @@ namespace AutoFixtureUnitTest
             // Arrange
             var sut = new FillReadonlyCollectionPropertiesBehavior();
             var dummyBuilder = new DelegatingSpecimenBuilder();
+
             // Act
             var result = sut.Transform(dummyBuilder);
+
             // Assert
             Assert.IsAssignableFrom<Postprocessor>(result);
         }
@@ -46,8 +50,10 @@ namespace AutoFixtureUnitTest
             // Arrange
             var sut = new FillReadonlyCollectionPropertiesBehavior();
             var expectedBuilder = new DelegatingSpecimenBuilder();
+
             // Act
             var result = sut.Transform(expectedBuilder);
+
             // Assert
             var p = Assert.IsAssignableFrom<Postprocessor>(result);
             Assert.IsAssignableFrom<ISpecimenBuilder>(p.Builder);
@@ -59,21 +65,25 @@ namespace AutoFixtureUnitTest
             // Arrange
             var sut = new FillReadonlyCollectionPropertiesBehavior();
             var dummyBuilder = new DelegatingSpecimenBuilder();
+
             // Act
             var result = sut.Transform(dummyBuilder);
+
             // Assert
             var p = Assert.IsAssignableFrom<Postprocessor>(result);
             Assert.IsAssignableFrom<FillReadonlyCollectionPropertiesCommand>(p.Command);
         }
-        
+
         [Fact]
         public void TransformReturnsPostprocessorWhichContainsAppropriateSpecification()
         {
             // Arrange
             var sut = new FillReadonlyCollectionPropertiesBehavior();
             var dummyBuilder = new DelegatingSpecimenBuilder();
+
             // Act
             var result = sut.Transform(dummyBuilder);
+
             // Assert
             var p = Assert.IsAssignableFrom<Postprocessor>(result);
             Assert.IsAssignableFrom<ReadonlyCollectionPropertiesSpecification>(p.Specification);

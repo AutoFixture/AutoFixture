@@ -14,6 +14,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             // Act
             var sut = new FillReadonlyCollectionPropertiesCommand();
+
             // Assert
             Assert.IsAssignableFrom<ISpecimenCommand>(sut);
         }
@@ -24,6 +25,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var sut = new FillReadonlyCollectionPropertiesCommand();
             var dummyContainer = new DelegatingSpecimenContext();
+
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => sut.Execute(null, dummyContainer));
@@ -35,6 +37,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var sut = new FillReadonlyCollectionPropertiesCommand();
             var dummySpecimen = new object();
+
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => sut.Execute(dummySpecimen, null));
@@ -50,12 +53,14 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => new Fixture().CreateMany<string>()
             };
+
             // Act
             sut.Execute(specimen, container);
+
             // Assert
             Assert.NotEmpty(specimen.Collection);
         }
-        
+
         [Fact]
         public void ExecuteDoesNotFillNonCompliantCollectionProperty()
         {
@@ -66,8 +71,10 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => new Fixture().CreateMany<string>()
             };
+
             // Act
             sut.Execute(specimen, container);
+
             // Assert
             Assert.Empty(specimen.Collection);
         }

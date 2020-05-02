@@ -34,7 +34,7 @@ namespace AutoFixture.Kernel
             {
                 var propertyType = pi.PropertyType;
                 var collectionTypeGenericArgument = propertyType.GenericTypeArguments[0];
-                
+
                 var addMethod = propertyType.GetTypeInfo().GetMethod(nameof(ICollection<object>.Add));
                 if (addMethod == null) continue;
 
@@ -46,7 +46,7 @@ namespace AutoFixture.Kernel
                 }
             }
         }
-        
+
         private IEnumerable<PropertyInfo> GetReadonlyCollectionProperties(Type type)
         {
             return type.GetTypeInfo()
@@ -59,11 +59,11 @@ namespace AutoFixture.Kernel
 
         private IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
         {
-            return ((IEnumerable<object>) context.Resolve(
+            return ((IEnumerable<object>)context.Resolve(
                     new MultipleRequest(new SeededRequest(type, this.GetDefaultValue(type)))))
                 .Select(v => Convert.ChangeType(v, type));
         }
-        
+
         private object GetDefaultValue(Type type)
         {
             return type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null;

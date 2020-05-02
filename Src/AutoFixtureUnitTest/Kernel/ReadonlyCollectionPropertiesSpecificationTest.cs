@@ -14,6 +14,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             // Act
             var sut = new ReadonlyCollectionPropertiesSpecification();
+
             // Assert
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
         }
@@ -36,12 +37,14 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var sut = new ReadonlyCollectionPropertiesSpecification();
+
             // Act
             var result = sut.IsSatisfiedBy(request);
+
             // Assert
             Assert.False(result);
         }
-        
+
         [Theory]
         [InlineData(typeof(CollectionHolder<string>))]
         [InlineData(typeof(CollectionHolder<int>))]
@@ -50,8 +53,10 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var sut = new ReadonlyCollectionPropertiesSpecification();
+
             // Act
             var result = sut.IsSatisfiedBy(request);
+
             // Assert
             Assert.True(result);
         }

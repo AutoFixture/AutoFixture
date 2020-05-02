@@ -27,7 +27,7 @@ namespace AutoFixture
         public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
-            
+
             return new Postprocessor(
                 builder,
                 new FillReadonlyCollectionPropertiesCommand(),
