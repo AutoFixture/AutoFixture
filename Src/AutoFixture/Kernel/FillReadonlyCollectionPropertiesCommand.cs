@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -61,7 +62,7 @@ namespace AutoFixture.Kernel
         {
             return ((IEnumerable<object>)context.Resolve(
                     new MultipleRequest(new SeededRequest(type, GetDefaultValue(type)))))
-                .Select(v => Convert.ChangeType(v, type));
+                .Select(v => Convert.ChangeType(v, type, CultureInfo.CurrentCulture));
         }
 
         private static object GetDefaultValue(Type type)
