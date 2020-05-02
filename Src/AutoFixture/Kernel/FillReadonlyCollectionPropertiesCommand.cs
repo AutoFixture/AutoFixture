@@ -30,7 +30,7 @@ namespace AutoFixture.Kernel
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             var specimenType = specimen.GetType();
-            foreach (var pi in this.GetReadonlyCollectionProperties(specimenType))
+            foreach (var pi in GetReadonlyCollectionProperties(specimenType))
             {
                 var propertyType = pi.PropertyType;
                 var collectionTypeGenericArgument = propertyType.GenericTypeArguments[0];
@@ -38,7 +38,7 @@ namespace AutoFixture.Kernel
                 var addMethod = propertyType.GetTypeInfo().GetMethod(nameof(ICollection<object>.Add));
                 if (addMethod == null) continue;
 
-                var valuesToAdd = this.CreateMany(context, collectionTypeGenericArgument);
+                var valuesToAdd = CreateMany(context, collectionTypeGenericArgument);
 
                 foreach (var valueToAdd in valuesToAdd)
                 {
@@ -47,7 +47,7 @@ namespace AutoFixture.Kernel
             }
         }
 
-        private IEnumerable<PropertyInfo> GetReadonlyCollectionProperties(Type type)
+        private static IEnumerable<PropertyInfo> GetReadonlyCollectionProperties(Type type)
         {
             return type.GetTypeInfo()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
@@ -57,14 +57,14 @@ namespace AutoFixture.Kernel
                                  || pi.PropertyType.GetTypeInfo().GetInterface(typeof(ICollection<>).Name) != null));
         }
 
-        private IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
+        private static IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
         {
             return ((IEnumerable<object>)context.Resolve(
-                    new MultipleRequest(new SeededRequest(type, this.GetDefaultValue(type)))))
+                    new MultipleRequest(new SeededRequest(type, GetDefaultValue(type)))))
                 .Select(v => Convert.ChangeType(v, type));
         }
 
-        private object GetDefaultValue(Type type)
+        private static object GetDefaultValue(Type type)
         {
             return type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null;
         }
