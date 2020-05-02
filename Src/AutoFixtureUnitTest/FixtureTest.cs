@@ -787,7 +787,7 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.NotEmpty(result.Collection);
         }
-        
+
         [Fact]
         public void CreateAnonymousWithReadonlyCollectionPropertiesFillsCollectionsWithRepeatCount()
         {
