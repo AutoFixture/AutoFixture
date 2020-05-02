@@ -169,6 +169,7 @@ namespace AutoFixture
             this.UpdateGraphAndSetupAdapters(newGraph, Enumerable.Empty<ISpecimenBuilderTransformation>());
 
             this.Behaviors.Add(new ThrowingRecursionBehavior());
+            this.Behaviors.Add(new FillReadonlyCollectionPropertiesBehavior());
         }
 
         /// <inheritdoc />

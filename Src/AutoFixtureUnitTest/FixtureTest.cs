@@ -205,6 +205,17 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void BehaviorsContainsFillReadonlyCollectionPropertiesBehavior()
+        {
+            // Arrange
+            var sut = new Fixture();
+            // Act
+            var result = sut.Behaviors;
+            // Assert
+            Assert.True(result.OfType<FillReadonlyCollectionPropertiesBehavior>().Any());
+        }
+
+        [Fact]
         public void SutIsCustomizableComposer()
         {
             // Arrange
@@ -764,6 +775,30 @@ namespace AutoFixtureUnitTest
             var result = sut.Create<DoublePropertyHolder<long, float>>();
             // Assert
             Assert.NotEqual(result.Property1, result.Property2);
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReadonlyCollectionPropertiesFillsCollections()
+        {
+            // Arrange
+            var sut = new Fixture();
+            // Act
+            var result = sut.Create<CollectionHolder<string>>();
+            // Assert
+            Assert.NotEmpty(result.Collection);
+        }
+        
+        [Fact]
+        public void CreateAnonymousWithReadonlyCollectionPropertiesFillsCollectionsWithRepeatCount()
+        {
+            // Arrange
+            var sut = new Fixture();
+            var expectedCount = 6;
+            sut.RepeatCount = expectedCount;
+            // Act
+            var result = sut.Create<CollectionHolder<string>>();
+            // Assert
+            Assert.Equal(expectedCount, result.Collection.Count);
         }
 
         [Fact]
