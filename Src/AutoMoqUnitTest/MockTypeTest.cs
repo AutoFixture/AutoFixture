@@ -60,6 +60,36 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void ReturnsUsingFixtureCachesResult()
+        {
+            // Arrange
+            var mock = new Mock<IInterfaceWithProperty>();
+            var setup = mock.Setup(x => x.Property);
+            var fixture = new Mock<ISpecimenBuilder>();
+            // Act
+            setup.ReturnsUsingFixture(fixture.Object);
+            var result = mock.Object.Property;
+            result = mock.Object.Property;
+            // Assert
+            fixture.Verify(f => f.Create(typeof(string), It.IsAny<SpecimenContext>()), Times.Once());
+        }
+
+        [Fact]
+        public void ReturnsUsingFixtureDoesNotCachesResult()
+        {
+            // Arrange
+            var mock = new Mock<IInterfaceWithProperty>();
+            var setup = mock.Setup(x => x.Property);
+            var fixture = new Mock<ISpecimenBuilder>();
+            // Act
+            setup.ReturnsUsingFixture(fixture.Object, false);
+            var result = mock.Object.Property;
+            result = mock.Object.Property;
+            // Assert
+            fixture.Verify(f => f.Create(typeof(string), It.IsAny<SpecimenContext>()), Times.Exactly(2));
+        }
+
+        [Fact]
         public void ReturnsUsingFixture_SetsMockUpWithNull_WhenContextReturnsNull_AndMemberIsReferenceType()
         {
             // Arrange

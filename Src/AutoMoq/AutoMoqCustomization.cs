@@ -54,6 +54,13 @@ namespace AutoFixture.AutoMoq
         public bool GenerateDelegates { get; set; }
 
         /// <summary>
+        /// If value is <c>true</c>, result of method call will be reused for following method calls.
+        /// Otherwise, if value is <c>false</c>, a separate result will be created for each method call.
+        /// The default value is <c>true</c>.
+        /// </summary>
+        public bool CacheMethodCallResults { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets the relay that will be added to <see cref="IFixture.ResidueCollectors"/> when
         /// <see cref="Customize"/> is invoked.
         /// </summary>

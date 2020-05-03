@@ -209,6 +209,38 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void SetsUpMethodsToCacheResult()
+        {
+            // Arrange
+            var context = new Mock<ISpecimenContext>();
+            var mock = new Mock<IInterfaceWithParameterlessMethod>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Act
+            sut.Execute(mock, context.Object);
+            // Assert
+            mock.Object.Method();
+            mock.Object.Method();
+            context.Verify(ctx => ctx.Resolve(It.IsAny<object>()), Times.Once());
+        }
+
+        [Fact]
+        public void SetsUpMethodsToNotCacheResult()
+        {
+            // Arrange
+            var context = new Mock<ISpecimenContext>();
+            var mock = new Mock<IInterfaceWithParameterlessMethod>();
+
+            var sut = new MockVirtualMethodsCommand(false);
+            // Act
+            sut.Execute(mock, context.Object);
+            // Assert
+            mock.Object.Method();
+            mock.Object.Method();
+            context.Verify(ctx => ctx.Resolve(It.IsAny<object>()), Times.Exactly(2));
+        }
+
+        [Fact]
         public void IgnoresMethodsWithRefParameters()
         {
             // Arrange

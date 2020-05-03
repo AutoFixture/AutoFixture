@@ -37,6 +37,16 @@ namespace AutoFixture.AutoMoq.UnitTest
             Assert.False(sut.GenerateDelegates);
         }
 
+        [Fact]
+        public void CacheMethodCallResultsIsEnabledByDefault()
+        {
+            // Arrange
+            // Act
+            var sut = new AutoMoqCustomization();
+            // Assert
+            Assert.True(sut.CacheMethodCallResults);
+        }
+
         [Fact, Obsolete]
         public void InitializeWithNullRelayThrows()
         {

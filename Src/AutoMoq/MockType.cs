@@ -22,16 +22,17 @@ namespace AutoFixture.AutoMoq
         /// <typeparam name="TResult">The return type of the object's member being mocked.</typeparam>
         /// <param name="setup">The member setup.</param>
         /// <param name="fixture">The fixture from which the return value will be retrieved.</param>
+        /// <param name="cacheResult">Should retrieved value be cached for later member invocations.</param>
         /// <returns>The result of setting up <paramref name="setup"/> to retrieve the return value from <paramref name="fixture"/>.</returns>
         [CLSCompliant(false)]
         public static IReturnsResult<TMock> ReturnsUsingFixture<TMock, TResult>(this IReturns<TMock, TResult> setup,
-                                                                                ISpecimenBuilder fixture)
+            ISpecimenBuilder fixture, bool cacheResult = true)
             where TMock : class
         {
             if (setup == null) throw new ArgumentNullException(nameof(setup));
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-            return setup.ReturnsUsingContext(new SpecimenContext(fixture));
+            return setup.ReturnsUsingContext(new SpecimenContext(fixture), cacheResult);
         }
 
         internal static bool IsMock(this Type type)
@@ -64,7 +65,7 @@ namespace AutoFixture.AutoMoq
         }
 
         internal static IReturnsResult<TMock> ReturnsUsingContext<TMock, TResult>(this IReturns<TMock, TResult> setup,
-            ISpecimenContext context)
+            ISpecimenContext context, bool cacheResult)
             where TMock : class
         {
             return setup.Returns(() =>
@@ -94,8 +95,12 @@ namespace AutoFixture.AutoMoq
 
                 TResult result = (TResult)specimen;
 
-                // "cache" value for future invocations
-                setup.Returns(result);
+                if (cacheResult)
+                {
+                    // "cache" value for future invocations
+                    setup.Returns(result);
+                }
+
                 return result;
             });
         }
