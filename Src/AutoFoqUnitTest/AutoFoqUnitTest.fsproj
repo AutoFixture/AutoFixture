@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFrameworks>net452;netcoreapp3.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.AutoFoq.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFoq.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFoq.UnitTest</RootNamespace>
@@ -19,12 +19,15 @@
     <Compile Include="FixtureIntegrationTest.fs" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
     <PackageReference Include="Unquote" Version="3.1.0" />
-    <!-- AutoFoq targets FSharp.Core 3.0.2, but we require 3.1.2 as Unquote was compiled against it. -->
+    <!-- AutoFoq targets FSharp.Core 3.0.2, but we require 3.1.2 as Unquote was compiled against it for .Net Framework. -->
     <PackageReference Include="FSharp.Core" Version="3.1.2" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
+    <PackageReference Include="Unquote" Version="4.0.0" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj" />
