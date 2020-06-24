@@ -1,0 +1,12 @@
+{
+  "solution": {
+    "path": "All.sln",
+    "projects": [
+      "AutoFixture.NUnit3.UnitTest\\AutoFixture.NUnit3.UnitTest.csproj",
+      "AutoFixture.NUnit3\\AutoFixture.NUnit3.csproj",
+      "AutoFixtureUnitTest\\AutoFixtureUnitTest.csproj",
+      "AutoFixture\\AutoFixture.csproj",
+      "TestTypeFoundation\\TestTypeFoundation.csproj"
+    ]
+  }
+}
