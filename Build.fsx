@@ -140,12 +140,15 @@ let configureMsBuildParams (parameters: MSBuild.CliArguments) =
                                         | true  -> "true"
                                         | false -> "false"
 
+    let isCiBuild = BuildServer.buildServer <> LocalBuild
+
     let properties = [ "AssemblyVersion", buildVersion.AssemblyVersion
                        "FileVersion", buildVersion.FileVersion
                        "InformationalVersion", buildVersion.InfoVersion
                        "PackageVersion", buildVersion.NugetVersion
                        "CommitHash", buildVersion.CommitHash
-                       "SourceLinkCreateOverride", sourceLinkCreatePropertyValue ]
+                       "SourceLinkCreateOverride", sourceLinkCreatePropertyValue
+                       "ContinuousIntegrationBuild", isCiBuild.ToString() ]
 
     { parameters with Verbosity = Some buildVerbosity
                       Properties = properties }

@@ -16,6 +16,8 @@
     <Configurations>Debug;Release;Verify</Configurations>
     <LangVersion>latest</LangVersion>
 
+    <Deterministic>true</Deterministic>
+
     <!-- NuGet options -->
     <Authors>Mark Seemann,AutoFixture</Authors>
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
