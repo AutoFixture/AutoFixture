@@ -52,7 +52,7 @@
       <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!-- Ensure that we create Windows PDB for Full framework and Portable PDB for NET Core -->
-        <DebugType Condition=" '$(_IsFullFramework)'=='true' ">pdbonly</DebugType>
+        <DebugType Condition=" '$(_IsFullFramework)'=='true' ">full</DebugType>
         <DebugType Condition=" '$(_IsFullFramework)'!='true' ">portable</DebugType>
       </PropertyGroup>
     </When>

@@ -60,7 +60,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0A01F00-72C7-4CE4-8BA4-9EB178B72329}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
-		..\Build.fsx = ..\Build.fsx
 		CodeAnalysis.AutoFixture.ruleset = CodeAnalysis.AutoFixture.ruleset
 		CodeAnalysis.Empty.ruleset = CodeAnalysis.Empty.ruleset
 		CodeAnalysis.Test.ruleset = CodeAnalysis.Test.ruleset
