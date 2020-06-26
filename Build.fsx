@@ -36,8 +36,6 @@ let nuGetOutputFolder = buildDir </> "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg")
 let sourcesDirPath = "src"
 let solutionPath = sourcesDirPath </> "All.sln" |> Path.getFullName
-let repositoryUrlsOnGitHub = [ "git@github.com:AutoFixture/AutoFixture.git"
-                               "https://github.com/AutoFixture/AutoFixture.git" ]
 let buildConfiguration = DotNet.BuildConfiguration.fromEnvironVarOrDefault "BUILD_CONFIGURATION" DotNet.BuildConfiguration.Release
 let buildVerbosity = match Environment.environVarOrDefault "BUILD_VERBOSITY" ""  |> String.toLower with
                      | "quiet" | "q"         -> Quiet
@@ -132,14 +130,7 @@ let setVNextBranchVersion vNextVersion =
                           PreSuffix = "-alpha" }
             |> calculateVersion
 
-let mutable enableSourceLink = false
-
 let configureMsBuildParams (parameters: MSBuild.CliArguments) = 
-    let isCiBuild = not BuildServer.isLocalBuild
-    let sourceLinkCreatePropertyValue = match enableSourceLink with
-                                        | true  -> "true"
-                                        | false -> "false"
-
     let isCiBuild = BuildServer.buildServer <> LocalBuild
 
     let properties = [ "AssemblyVersion", buildVersion.AssemblyVersion
@@ -147,29 +138,11 @@ let configureMsBuildParams (parameters: MSBuild.CliArguments) =
                        "InformationalVersion", buildVersion.InfoVersion
                        "PackageVersion", buildVersion.NugetVersion
                        "CommitHash", buildVersion.CommitHash
-                       "SourceLinkCreateOverride", sourceLinkCreatePropertyValue
+                       "EnableSourceLink", isCiBuild.ToString()
                        "ContinuousIntegrationBuild", isCiBuild.ToString() ]
 
     { parameters with Verbosity = Some buildVerbosity
                       Properties = properties }
-
-Target.create "EnableSourceLinkGeneration" (fun _ ->
-    let areEqual s1 s2 = String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase)
-
-    // A set of sanity checks to fail with meaningful errors.
-    let originUrl = Git.CommandHelper.runSimpleGitCommand "" "config --get remote.origin.url"
-    if (repositoryUrlsOnGitHub |> Seq.exists (areEqual originUrl) |> not) then
-        failwithf 
-            "Current repository has invalid git origin URL and will produce incorrect SourceLink info. Current: '%s'. Expected any of: '[%s]'."
-            originUrl
-            (String.separated ", " repositoryUrlsOnGitHub)
- 
-    let lineEndingConversion = Git.CommandHelper.runSimpleGitCommand "" "config --get core.autocrlf"
-    if(areEqual lineEndingConversion "input" |> not) then
-        failwithf "For correct SourceLink work git line conversion should be set to 'input'. Current: '%s'." lineEndingConversion
-
-    enableSourceLink <- true
-)
 
 Target.create "Verify" (fun _ ->
     try
@@ -279,8 +252,6 @@ Target.create "PublishMyGet" (fun _ ->
 
 Target.create "CompleteBuild"   ignore
 
-"EnableSourceLinkGeneration" ?=> "Verify"
-
 "Verify" ==> "Build"
 
 
@@ -293,10 +264,8 @@ Target.create "CompleteBuild"   ignore
 "NuGetPack" ==> "CompleteBuild"
 
 "NuGetPack" ==> "PublishNuGet"
-"EnableSourceLinkGeneration" ==> "PublishNuGetPublic"
 
 "NuGetPack" ==> "PublishMyGet"
-"EnableSourceLinkGeneration" ==> "PublishNuGetPrivate"
 
 // ==============================================
 // ================== AppVeyor ==================
@@ -364,7 +333,6 @@ Target.create "AppVeyor" ignore
          | PR | CustomTag | Unknown -> "CompleteBuild"
       <| "AppVeyor"
 
-"EnableSourceLinkGeneration" ==> "AppVeyor"
 "AppVeyor_UploadTestReports" ==> "AppVeyor"
 
 // Print state info at the very beginning.

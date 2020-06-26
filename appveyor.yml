@@ -9,11 +9,6 @@ environment:
 pull_requests:
   do_not_increment_build_number: true
 
-# Is required by SourceLink to have valid file hashes.
-# See more detail here: https://github.com/ctaggart/SourceLink/wiki/Line-Endings
-init:
-  - git config --global core.autocrlf input
-
 build_script:
 - ps: |
     $env:BUILD_VERSION="git";
