@@ -7,11 +7,10 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
-    <Features>$(Features);IOperation</Features>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
 
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\AutoFixture.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AutoFixture.snk</AssemblyOriginatorKeyFile>
 
     <Configurations>Debug;Release;Verify</Configurations>
     <LangVersion>latest</LangVersion>
@@ -21,10 +20,15 @@
     <!-- NuGet options -->
     <Authors>Mark Seemann,AutoFixture</Authors>
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/79c882c3f4af3cf52ad43e5c95851f25d217ac17/AutoFixtureLogo200x200.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
+  </ItemGroup>
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition=" '$(CommitHash)' != '' ">
