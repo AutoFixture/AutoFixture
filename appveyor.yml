@@ -1,22 +1,19 @@
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 environment:
   NUGET_API_KEY:
-    secure: HfXETLxj9E/LFgaLp0YY0lZHwpQ+7wFUrbtXdvTh/YXrFjPkVBrsdX6F54Xj+loK
+    secure: b/B9mFX99as5WjjR9Xzr7zAUDKwvCOmPgEkttJxcP+OClOv59lrcIE4OrsAdQRW3
   MYGET_API_KEY:
     secure: hA4Ut1N2lrrdEtAN24Bty/FNiU0d/Ur/dLYSqpr8jKHOvoO7MU4jD+KwzUvATh+E
 
 pull_requests:
   do_not_increment_build_number: true
 
-# Is required by SourceLink to have valid file hashes.
-# See more detail here: https://github.com/ctaggart/SourceLink/wiki/Line-Endings
-init:
-  - git config --global core.autocrlf input
-
 build_script:
 - ps: |
-    & .\build.cmd AppVeyor NuGetPublicKey="$($Env:NUGET_API_KEY)" NuGetPrivateKey="$($Env:MYGET_API_KEY)" BuildVersion=git BuildNumber=$($Env:APPVEYOR_BUILD_NUMBER)
+    $env:BUILD_VERSION="git";
+    $env:BUILD_NUMBER=$env:APPVEYOR_BUILD_NUMBER;
+    & .\build.cmd -t AppVeyor
 
 test: off
 
