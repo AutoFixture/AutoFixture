@@ -104,6 +104,31 @@ namespace AutoFixtureUnitTest
         }
 
         [Theory]
+        [InlineData(@"^[A-Z]{27}$")]
+        public void CreateMultipleWithRegularExpressionRequestReturnsDifferentResults(string pattern)
+        {
+            // This test exposes an issue with Xeger/Random.
+            // Xeger(pattern) internally creates an instance of Random with the default seed.
+            // This means that the RegularExpressionGenerator might create identical strings
+            // if called multiple times within a short time.
+
+            // Arrange
+            var sut = new RegularExpressionGenerator();
+            var request = new RegularExpressionRequest(pattern);
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Repeat a few times - because the issue seen comes from Random class using tickcount as seed.
+            for (int i = 0; i < 10; i++)
+            {
+                var result1 = sut.Create(request, dummyContext);
+                var result2 = sut.Create(request, dummyContext);
+
+                // Assert
+                Assert.NotEqual(result1, result2);
+            }
+        }
+
+        [Theory]
         [InlineData("[")]
         [InlineData(@"(?\[Test\]|\[Foo\]|\[Bar\])?(?:-)?(?\[[()a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?")]
         public void CreateWithNotSupportedRegularExpressionRequestReturnsCorrectResult(string pattern)
