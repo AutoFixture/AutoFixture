@@ -117,7 +117,7 @@ namespace AutoFixtureUnitTest
             var request = new RegularExpressionRequest(pattern);
             var dummyContext = new DelegatingSpecimenContext();
 
-            // Repeat a few times - because the issue seen comes from Random class using tickcount as seed.
+            // Repeat a few times to make the test more robust.
             for (int i = 0; i < 10; i++)
             {
                 var result1 = sut.Create(request, dummyContext);
