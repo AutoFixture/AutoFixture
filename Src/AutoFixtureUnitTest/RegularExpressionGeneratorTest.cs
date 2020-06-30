@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using AutoFixture;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
@@ -118,14 +119,10 @@ namespace AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
 
             // Repeat a few times to make the test more robust.
-            for (int i = 0; i < 10; i++)
-            {
-                var result1 = sut.Create(request, dummyContext);
-                var result2 = sut.Create(request, dummyContext);
+            // Use ToArray to iterate the IEnumerable at this point.
+            var result = Enumerable.Range(0, 10).Select(_ => sut.Create(request, dummyContext)).ToArray();
 
-                // Assert
-                Assert.NotEqual(result1, result2);
-            }
+            Assert.Equal(result.Distinct(), result);
         }
 
         [Theory]

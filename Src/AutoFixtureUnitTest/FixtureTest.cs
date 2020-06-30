@@ -1637,6 +1637,21 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateManyAnonymousWithRegularExpressionValidatedTypeReturnsDifferentResults()
+        {
+            // This test exposes an issue with Xeger/Random.
+            // Xeger(pattern) internally creates an instance of Random with the default seed.
+            // This means that the RegularExpressionGenerator might create identical strings
+            // if called multiple times within a short time.
+
+            // Arrange
+            var fixture = new Fixture();
+            var result = fixture.CreateMany<RegularExpressionValidatedType>(10).Select(x => x.Property).ToArray();
+            // Assert
+            Assert.Equal(result.Distinct(), result);
+        }
+
+        [Fact]
         public void CreateAnonymousWithStringLengthValidatedTypeReturnsCorrectResult()
         {
             // Arrange
