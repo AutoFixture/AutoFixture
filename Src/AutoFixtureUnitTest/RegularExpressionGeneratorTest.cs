@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using AutoFixture;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
@@ -101,6 +102,27 @@ namespace AutoFixtureUnitTest
             var result = sut.Create(request, dummyContext);
             // Assert
             Assert.True(Regex.IsMatch(result.ToString(), pattern), string.Format("result: {0}", result));
+        }
+
+        [Theory]
+        [InlineData(@"^[A-Z]{27}$")]
+        public void CreateMultipleWithRegularExpressionRequestReturnsDifferentResults(string pattern)
+        {
+            // This test exposes an issue with Xeger/Random.
+            // Xeger(pattern) internally creates an instance of Random with the default seed.
+            // This means that the RegularExpressionGenerator might create identical strings
+            // if called multiple times within a short time.
+
+            // Arrange
+            var sut = new RegularExpressionGenerator();
+            var request = new RegularExpressionRequest(pattern);
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Repeat a few times to make the test more robust.
+            // Use ToArray to iterate the IEnumerable at this point.
+            var result = Enumerable.Range(0, 10).Select(_ => sut.Create(request, dummyContext)).ToArray();
+
+            Assert.Equal(result.Distinct(), result);
         }
 
         [Theory]
