@@ -7,21 +7,28 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
-    <Features>$(Features);IOperation</Features>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
 
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\AutoFixture.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AutoFixture.snk</AssemblyOriginatorKeyFile>
 
     <Configurations>Debug;Release;Verify</Configurations>
     <LangVersion>latest</LangVersion>
 
+    <Deterministic>true</Deterministic>
+
     <!-- NuGet options -->
     <Authors>Mark Seemann,AutoFixture</Authors>
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/79c882c3f4af3cf52ad43e5c95851f25d217ac17/AutoFixtureLogo200x200.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
+  </ItemGroup>
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition=" '$(CommitHash)' != '' ">
@@ -52,7 +59,7 @@
       <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!-- Ensure that we create Windows PDB for Full framework and Portable PDB for NET Core -->
-        <DebugType Condition=" '$(_IsFullFramework)'=='true' ">pdbonly</DebugType>
+        <DebugType Condition=" '$(_IsFullFramework)'=='true' ">full</DebugType>
         <DebugType Condition=" '$(_IsFullFramework)'!='true' ">portable</DebugType>
       </PropertyGroup>
     </When>
@@ -67,18 +74,8 @@
   </Choose>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" PrivateAssets="All" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="SourceLink.Create.GitHub" Version="2.8.3" PrivateAssets="All" />
-    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.8.3" />
-  </ItemGroup>
-  <PropertyGroup>
-    <SourceLinkCreate Condition=" '$(SourceLinkCreateOverride)'!='' ">$(SourceLinkCreateOverride)</SourceLinkCreate>
-    <SourceLinkNotInGit>error</SourceLinkNotInGit>
-    <SourceLinkHashMismatch>error</SourceLinkHashMismatch>
-    <SourceLinkNoAutoLF>true</SourceLinkNoAutoLF>
-  </PropertyGroup>
 </Project>

@@ -143,7 +143,7 @@ namespace AutoFixtureUnitTest.Kernel
                 .Select(m => m.Invoke(arguments))
                 .ToArray();
 
-            var expected = Enumerable.Range(0, results.Count()).Cast<object>().ToArray();
+            var expected = Enumerable.Range(0, results.Length).Cast<object>().ToArray();
             Assert.Equal(expected, results);
         }
     }

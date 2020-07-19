@@ -1,0 +1,16 @@
+{
+  "solution": {
+    "path": "All.sln",
+    "projects": [
+      "AutoFixture\\AutoFixture.csproj",
+      "AutoFixtureUnitTest\\AutoFixtureUnitTest.csproj",
+      "AutoFakeItEasy\\AutoFakeItEasy.csproj",
+      "AutoFakeItEasyUnitTest\\AutoFakeItEasyUnitTest.csproj",
+      "AutoFakeItEasy.FakeItEasy2UnitTest\\AutoFakeItEasy.FakeItEasy2UnitTest.csproj",
+      "AutoFakeItEasy.FakeItEasy3UnitTest\\AutoFakeItEasy.FakeItEasy3UnitTest.csproj",
+      "AutoFakeItEasy.FakeItEasy4UnitTest\\AutoFakeItEasy.FakeItEasy4UnitTest.csproj",
+      "AutoFakeItEasy.FakeItEasy5UnitTest\\AutoFakeItEasy.FakeItEasy5UnitTest.csproj",
+      "TestTypeFoundation\\TestTypeFoundation.csproj"
+    ]
+  }
+}

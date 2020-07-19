@@ -113,6 +113,8 @@ namespace AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public int IndexOf(ISpecimenBuilder item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             return this.AdaptedBuilders.IndexOf(item);
         }
 
@@ -142,6 +144,8 @@ namespace AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public void Insert(int index, ISpecimenBuilder item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             this.Mutate(this.AdaptedBuilders.Insert(index, item));
         }
 
@@ -213,6 +217,8 @@ namespace AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public void Add(ISpecimenBuilder item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             this.Mutate(this.AdaptedBuilders.Concat(new[] { item }));
         }
 
@@ -258,6 +264,8 @@ namespace AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public bool Contains(ISpecimenBuilder item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             return this.AdaptedBuilders.Contains(item);
         }
 
@@ -348,6 +356,8 @@ namespace AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public bool Remove(ISpecimenBuilder item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             var contained = this.Contains(item);
 
             var index = this.IndexOf(item);

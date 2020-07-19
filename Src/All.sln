@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
 EndProject
@@ -60,7 +60,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0A01F00-72C7-4CE4-8BA4-9EB178B72329}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
-		..\Build.fsx = ..\Build.fsx
 		CodeAnalysis.AutoFixture.ruleset = CodeAnalysis.AutoFixture.ruleset
 		CodeAnalysis.Empty.ruleset = CodeAnalysis.Empty.ruleset
 		CodeAnalysis.Test.ruleset = CodeAnalysis.Test.ruleset
@@ -87,7 +86,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.SeedExtensions.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy5UnitTest", "AutoFakeItEasy.FakeItEasy5UnitTest\AutoFakeItEasy.FakeItEasy5UnitTest.csproj", "{FA9FA942-3E9F-49B5-A622-396DB0FC791F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoNSubstitute.NSubstitute4UnitTest", "AutoNSubstitute.NSubstitute4UnitTest\AutoNSubstitute.NSubstitute4UnitTest.csproj", "{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNSubstitute.NSubstitute4UnitTest", "AutoNSubstitute.NSubstitute4UnitTest\AutoNSubstitute.NSubstitute4UnitTest.csproj", "{4BDBE8A1-CF75-4049-9B3D-B194B1F45369}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,6 +12,7 @@
     <SourceLinkCreate>false</SourceLinkCreate>
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects. And about wrong FSharp version during restore. -->
     <NoWarn>FS2003;NU1601</NoWarn>
+    <Deterministic>false</Deterministic>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.Idioms.FsCheck</PackageId>

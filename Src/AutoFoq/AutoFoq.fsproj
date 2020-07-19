@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.AutoFoq</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFoq</AssemblyName>
     <RootNamespace>AutoFixture.AutoFoq</RootNamespace>
@@ -12,6 +12,7 @@
     <SourceLinkCreate>false</SourceLinkCreate>
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects. And about wrong FSharp version during restore. -->
     <NoWarn>FS2003;NU1601</NoWarn>
+    <Deterministic>false</Deterministic>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.AutoFoq</PackageId>
@@ -29,8 +30,12 @@
     <Compile Include="AutoFoqCustomization.fs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Foq" Version="[1.5.1,2.0.0)" />
+  <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
+    <PackageReference Include="Foq" Version="[1.8.0,2.0.0)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
+    <PackageReference Include="Foq" Version="[1.5.1,2.0.0)"  />
     <PackageReference Include="FSharp.Core" Version="3.0.2" PrivateAssets="All" />
   </ItemGroup>
 
