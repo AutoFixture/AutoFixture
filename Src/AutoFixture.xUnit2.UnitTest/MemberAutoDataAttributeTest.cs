@@ -10,7 +10,7 @@ namespace AutoFixture.Xunit2.UnitTest
     public class MemberAutoDataAttributeTest
     {
         [Fact]
-        public void SutIsCompositeDataAttribute()
+        public void SutIsDataAttribute()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
@@ -34,7 +34,7 @@ namespace AutoFixture.Xunit2.UnitTest
         }
 
         [Fact]
-        public void GetDataShouldReturnSameNumberOfRowsAsMemberDatasource()
+        public void GetDataShouldReturnSameNumberOfRowsAsMemberDataSource()
         {
             // Arrange
             var method = ((Action<string, string>)this.FooBarTestMethod).GetMethodInfo();

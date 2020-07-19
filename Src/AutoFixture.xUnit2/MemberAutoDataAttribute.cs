@@ -88,17 +88,11 @@ namespace AutoFixture.Xunit2
             if (testMethod == null) throw new ArgumentNullException(nameof(testMethod));
 
             var memberData = this.MemberDataAttribute.GetData(testMethod).ToList();
-            var autoData = this.AutoDataAttribute.GetData(testMethod).FirstOrDefault();
 
-            if (autoData == null) throw new InvalidOperationException($"{nameof(autoData)} cannot be null");
-
-            var combinedDataSet = new List<IEnumerable<object[]>>
-            {
-                memberData,
-                Enumerable.Repeat(autoData, memberData.Count)
-            };
-
-            return combinedDataSet.Zip(dataSet => dataSet.Collapse().ToArray());
+            return from memberValues in memberData
+                   from autoValues in this.AutoDataAttribute.GetData(testMethod).Take(1)
+                   let combinedValues = memberValues.Concat(autoValues.Skip(memberValues.Length))
+                   select combinedValues.ToArray();
         }
     }
 }

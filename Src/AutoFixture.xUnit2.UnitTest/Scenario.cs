@@ -125,6 +125,15 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Equal(43, z);
         }
 
+        [Theory, MemberAutoData(nameof(TheoryIntData))]
+        public void MemberAutoDataShouldNotReuseNonFrozenObjectsBetweenTestCases(int x, MyCollection<int> sut)
+        {
+            sut.Add(x);
+
+            var itemsCount = sut.Items.Count();
+            Assert.Equal(1, itemsCount);
+        }
+
         [Theory, MyCustomMemberAutoData(nameof(IntData))]
         public void CustomMemberAutoDataSuppliesExtraValues(int x, int y, int z)
         {
@@ -140,6 +149,8 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Equal(38, y);
             Assert.Equal(43, z);
         }
+
+        public static TheoryData<int> TheoryIntData => new TheoryData<int> { 1, 2, 4 };
 
         public static IEnumerable<object[]> StringData
         {
