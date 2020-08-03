@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TestTypeFoundation;
 using Xunit;
 using Xunit.Sdk;
 
@@ -67,7 +68,7 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
-            var dataAttribute = new AutoDataAttribute();
+            Func<DataAttribute> dataAttribute = () => new AutoDataAttribute();
             var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName);
 
             // Act
@@ -98,7 +99,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             var memberName = Guid.NewGuid().ToString();
             var parameters = new object[] { 42, "42" };
-            var dataAttribute = new AutoDataAttribute();
+            Func<DataAttribute> dataAttribute = () => new AutoDataAttribute();
             var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName, parameters);
 
             // Act
@@ -116,10 +117,10 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new MemberAutoDataAttribute(memberName);
 
             // Act
-            var result = sut.AutoDataAttribute;
+            var result = sut.DataAttributeFactory;
 
             // Assert
-            Assert.IsType<AutoDataAttribute>(result);
+            Assert.IsType<Func<DataAttribute>>(result);
         }
 
         [Fact]
@@ -127,11 +128,11 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
-            var expected = new AutoDataAttribute();
+            Func<DataAttribute> expected = () => new AutoDataAttribute();
             var sut = new DerivedMemberAutoDataAttribute(expected, memberName);
 
             // Act
-            var result = sut.AutoDataAttribute;
+            var result = sut.DataAttributeFactory;
 
             // Assert
             Assert.Equal(expected, result);
@@ -143,7 +144,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             var memberName = Guid.NewGuid().ToString();
             bool wasInvoked = false;
-            var autoData = new DerivedAutoDataAttribute(() =>
+            Func<DataAttribute> autoData = () => new DerivedAutoDataAttribute(() =>
             {
                 wasInvoked = true;
                 return new Fixture();
@@ -177,6 +178,46 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Equal(expectedAssembly, actualAssembly);
         }
 
+        [Fact]
+        public void ContainsDifferentFrozenInstancesEachRun()
+        {
+            var memberName = nameof(TestData);
+            var methodInfo = this.GetType().GetMethod(
+                nameof(this.TestMethodWithComplexType),
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            var sut = new MemberAutoDataAttribute(memberName);
+
+            var actual = sut.GetData(methodInfo)
+                .SelectMany(x => x)
+                .OfType<FieldHolder<int>>()
+                .Distinct()
+                .Count();
+
+            Assert.Equal(3, actual);
+        }
+
+        [Fact]
+        public void ContainsTestData()
+        {
+            var memberName = nameof(TestData);
+            var methodInfo = this.GetType().GetMethod(
+                nameof(this.TestMethodWithComplexType),
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            var sut = new MemberAutoDataAttribute(memberName);
+
+            var actual = sut.GetData(methodInfo)
+                .SelectMany(x => x)
+                .OfType<int>();
+
+            Assert.Equal(new[] { 1, 2, 4 }, actual);
+        }
+
+        public static TheoryData<int> TestData => new TheoryData<int> { 1, 2, 4 };
+
+        private void TestMethodWithComplexType(int intVal, [Frozen] FieldHolder<int> container)
+        {
+        }
+
         public static IEnumerable<object[]> FooBarTestCase => new List<object[]>
         {
             new[] { "foo" },
@@ -191,7 +232,7 @@ namespace AutoFixture.Xunit2.UnitTest
         private class DerivedMemberAutoDataAttribute : MemberAutoDataAttribute
         {
             public DerivedMemberAutoDataAttribute(
-                DataAttribute autoDataAttribute,
+                Func<DataAttribute> autoDataAttribute,
                 string memberName,
                 params object[] parameters)
                 : base(autoDataAttribute, memberName, parameters)

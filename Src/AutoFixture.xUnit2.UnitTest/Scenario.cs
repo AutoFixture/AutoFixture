@@ -187,7 +187,7 @@ namespace AutoFixture.Xunit2.UnitTest
         private class MyCustomMemberAutoDataAttribute : MemberAutoDataAttribute
         {
             public MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
-                : base(new MyCustomAutoDataAttribute(), memberName, parameters)
+                : base(() => new MyCustomAutoDataAttribute(), memberName, parameters)
             {
             }
         }

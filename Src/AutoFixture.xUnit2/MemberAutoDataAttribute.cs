@@ -30,7 +30,7 @@ namespace AutoFixture.Xunit2
         /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
         /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
         public MemberAutoDataAttribute(string memberName, params object[] parameters)
-            : this(new AutoDataAttribute(), memberName, parameters)
+            : this(() => new AutoDataAttribute(), memberName, parameters)
         {
         }
 
@@ -47,9 +47,9 @@ namespace AutoFixture.Xunit2
         /// contain custom behavior.
         /// </para>
         /// </remarks>
-        protected MemberAutoDataAttribute(DataAttribute autoDataAttribute, string memberName, params object[] parameters)
+        protected MemberAutoDataAttribute(Func<DataAttribute> autoDataAttribute, string memberName, params object[] parameters)
         {
-            this.AutoDataAttribute = autoDataAttribute ?? throw new ArgumentNullException(nameof(autoDataAttribute));
+            this.DataAttributeFactory = autoDataAttribute ?? throw new ArgumentNullException(nameof(autoDataAttribute));
             this.MemberDataAttribute = new MemberDataAttribute(memberName, parameters);
             this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
             this.Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
@@ -63,7 +63,7 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Gets the attribute used to automatically generate the remaining theory parameters, which are not fixed.
         /// </summary>
-        public DataAttribute AutoDataAttribute { get; }
+        public Func<DataAttribute> DataAttributeFactory { get; }
 
         /// <summary>
         /// Gets the member name.
@@ -90,7 +90,7 @@ namespace AutoFixture.Xunit2
             var memberData = this.MemberDataAttribute.GetData(testMethod).ToList();
 
             return from memberValues in memberData
-                   from autoValues in this.AutoDataAttribute.GetData(testMethod).Take(1)
+                   from autoValues in this.DataAttributeFactory.Invoke().GetData(testMethod).Take(1)
                    let combinedValues = memberValues.Concat(autoValues.Skip(memberValues.Length))
                    select combinedValues.ToArray();
         }
