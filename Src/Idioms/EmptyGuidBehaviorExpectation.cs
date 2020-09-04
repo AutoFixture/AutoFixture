@@ -26,15 +26,9 @@ namespace AutoFixture.Idioms
         /// </remarks>
         public void Verify(IGuardClauseCommand command)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException(nameof(command));
-            }
+            if (command == null) throw new ArgumentNullException(nameof(command));
 
-            if (command.RequestedType != typeof(Guid))
-            {
-                return;
-            }
+            if (command.RequestedType != typeof(Guid)) return;
 
             try
             {
@@ -42,10 +36,7 @@ namespace AutoFixture.Idioms
             }
             catch (ArgumentException e)
             {
-                if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
-                {
-                    return;
-                }
+                if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal)) return;
 
                 throw command.CreateException(
                     "\"Guid.Empty\"",
