@@ -50,13 +50,13 @@ namespace AutoFixture.Idioms
 
             var thirdTestSubject = this.Builder.CreateAnonymous(argumentType);
 
-            var firstResult = (bool)methodInfo.Invoke(comparer, new[] { firstTestSubject, secondTestSubject });
+            var firstToSecond = (bool)methodInfo.Invoke(comparer, new[] { firstTestSubject, secondTestSubject });
 
-            var secondResult = (bool)methodInfo.Invoke(comparer, new[] { secondTestSubject, thirdTestSubject });
+            var secondToThird = (bool)methodInfo.Invoke(comparer, new[] { secondTestSubject, thirdTestSubject });
 
-            var thirdResult = (bool)methodInfo.Invoke(comparer, new[] { firstTestSubject, thirdTestSubject });
+            var firstToThird = (bool)methodInfo.Invoke(comparer, new[] { firstTestSubject, thirdTestSubject });
 
-            if (firstResult != secondResult || firstResult != thirdResult)
+            if ((firstToSecond && secondToThird) != firstToThird)
             {
                 throw new EqualityComparerImplementationException(string.Format(CultureInfo.CurrentCulture,
                     "The type '{0}' implements the `IEqualityComparer<T>` interface incorrectly: " +
