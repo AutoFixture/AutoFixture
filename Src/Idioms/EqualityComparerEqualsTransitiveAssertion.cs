@@ -39,21 +39,15 @@ namespace AutoFixture.Idioms
         protected override void VerifyEquals(MethodInfo methodInfo, Type argumentType)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
-
             if (argumentType == null) throw new ArgumentNullException(nameof(argumentType));
 
             var comparer = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
-
             var firstTestSubject = this.Builder.CreateAnonymous(argumentType);
-
             var secondTestSubject = this.Builder.CreateAnonymous(argumentType);
-
             var thirdTestSubject = this.Builder.CreateAnonymous(argumentType);
 
             var firstToSecond = (bool)methodInfo.Invoke(comparer, new[] { firstTestSubject, secondTestSubject });
-
             var secondToThird = (bool)methodInfo.Invoke(comparer, new[] { secondTestSubject, thirdTestSubject });
-
             var firstToThird = (bool)methodInfo.Invoke(comparer, new[] { firstTestSubject, thirdTestSubject });
 
             if ((firstToSecond && secondToThird) != firstToThird)

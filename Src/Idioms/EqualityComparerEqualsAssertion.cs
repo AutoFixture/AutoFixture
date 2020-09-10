@@ -41,18 +41,9 @@ namespace AutoFixture.Idioms
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
+            if (!IsEqualityComparerEqualsMethod(methodInfo)) return;
 
-            if (methodInfo is { Name: nameof(IEqualityComparer.Equals), ReflectedType: { } type } && methodInfo.GetParameters().Length == 2 && type.ImplementsGenericInterfaceDefinition(typeof(IEqualityComparer<>)))
-            {
-                var argumentType = methodInfo.GetParameters()[0].ParameterType;
-
-                if (!methodInfo.ReflectedType.ImplementsGenericInterface(typeof(IEqualityComparer<>), argumentType))
-                {
-                    return;
-                }
-
-                this.VerifyEquals(methodInfo, argumentType);
-            }
+            this.VerifyEquals(methodInfo, methodInfo.GetParameters()[0].ParameterType);
         }
 
         /// <summary>
@@ -61,5 +52,15 @@ namespace AutoFixture.Idioms
         /// <param name="methodInfo">The method to verify.</param>
         /// <param name="argumentType">The argument type of <see cref="IEqualityComparer{T}.Equals(T,T)"/>.</param>
         protected abstract void VerifyEquals(MethodInfo methodInfo, Type argumentType);
+
+        private static bool IsEqualityComparerEqualsMethod(MethodInfo methodInfo)
+        {
+            return methodInfo is { Name: nameof(IEqualityComparer.Equals), ReflectedType: { } type }
+                   && methodInfo.GetParameters().Length == 2
+                   && type.ImplementsGenericInterfaceDefinition(typeof(IEqualityComparer<>))
+                   && type.ImplementsGenericInterface(
+                       typeof(IEqualityComparer<>),
+                       methodInfo.GetParameters()[0].ParameterType);
+        }
     }
 }

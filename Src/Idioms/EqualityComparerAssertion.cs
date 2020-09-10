@@ -29,13 +29,9 @@ namespace AutoFixture.Idioms
         private static IEnumerable<IIdiomaticAssertion> CreateChildAssertions(ISpecimenBuilder builder)
         {
             yield return new EqualityComparerEqualsSelfAssertion(builder);
-
             yield return new EqualityComparerEqualsSymmetricAssertion(builder);
-
             yield return new EqualityComparerEqualsTransitiveAssertion(builder);
-
             yield return new EqualityComparerGetHashCodeAssertion(builder);
-
             yield return new EqualityComparerEqualsNullAssertion(builder);
         }
     }

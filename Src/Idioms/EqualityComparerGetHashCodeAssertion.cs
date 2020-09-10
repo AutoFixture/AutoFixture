@@ -44,32 +44,31 @@ namespace AutoFixture.Idioms
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
+            if (!IsEqualityComparerGetHashCode(methodInfo)) return;
 
-            if (methodInfo is { Name: nameof(IEqualityComparer.GetHashCode), ReflectedType: { } type } && methodInfo.GetParameters().Length == 1 && type.ImplementsGenericInterfaceDefinition(typeof(IEqualityComparer<>)))
+            var comparer = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+            var testSubject = this.Builder.CreateAnonymous(methodInfo.GetParameters()[0].ParameterType);
+
+            var firstHashCode = (int)methodInfo.Invoke(comparer, new[] { testSubject });
+            var secondHashCode = (int)methodInfo.Invoke(comparer, new[] { testSubject });
+
+            if (firstHashCode != secondHashCode)
             {
-                var argumentType = methodInfo.GetParameters()[0].ParameterType;
-
-                if (!methodInfo.ReflectedType.ImplementsGenericInterface(typeof(IEqualityComparer<>), argumentType))
-                {
-                    return;
-                }
-
-                var comparer = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
-
-                var testSubject = this.Builder.CreateAnonymous(argumentType);
-
-                var firstHashCode = (int)methodInfo.Invoke(comparer, new[] { testSubject });
-
-                var secondHashCode = (int)methodInfo.Invoke(comparer, new[] { testSubject });
-
-                if (firstHashCode != secondHashCode)
-                {
-                    throw new EqualityComparerImplementationException(string.Format(CultureInfo.CurrentCulture,
-                        "The type '{0}' implements the `IEqualityComparer<T>` interface incorrectly: " +
-                        "calling GetHashCode(x) should always return same value.",
-                        type.FullName));
-                }
+                throw new EqualityComparerImplementationException(string.Format(CultureInfo.CurrentCulture,
+                    "The type '{0}' implements the `IEqualityComparer<T>` interface incorrectly: " +
+                    "calling GetHashCode(x) should always return same value.",
+                    methodInfo.ReflectedType?.FullName));
             }
+        }
+
+        private static bool IsEqualityComparerGetHashCode(MethodInfo methodInfo)
+        {
+            return methodInfo is { Name: nameof(IEqualityComparer.GetHashCode), ReflectedType: { } type }
+                   && methodInfo.GetParameters().Length == 1
+                   && type.ImplementsGenericInterfaceDefinition(typeof(IEqualityComparer<>))
+                   && type.ImplementsGenericInterface(
+                       typeof(IEqualityComparer<>),
+                       methodInfo.GetParameters()[0].ParameterType);
         }
     }
 }

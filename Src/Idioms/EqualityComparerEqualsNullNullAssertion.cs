@@ -39,13 +39,8 @@ namespace AutoFixture.Idioms
         protected override void VerifyEquals(MethodInfo methodInfo, Type argumentType)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
-
             if (argumentType == null) throw new ArgumentNullException(nameof(argumentType));
-
-            if (methodInfo.ReflectedType!.IsValueType)
-            {
-                return;
-            }
+            if (methodInfo.ReflectedType!.IsValueType) return;
 
             var comparer = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
 
