@@ -305,7 +305,7 @@ Target.createFinal "AppVeyor_UpdateVersion" (fun _ ->
 
 Target.create "AppVeyor" ignore
 
-"AppVeyor_SetVNextVersion" =?> ("PatchAssemblyVersions", anAppVeyorTrigger = VNextBranch)
+"AppVeyor_SetVNextVersion" =?> ("AppVeyor_UpdateVersion", anAppVeyorTrigger = VNextBranch)
 
 "Test" ==> "AppVeyor_UploadTestReports"
 

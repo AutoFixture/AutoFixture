@@ -23,6 +23,7 @@ nCrunchTemp_*
 
 # FAKE - F# Make
 .fake/
+.ionide
 
 # JetBrains Rider
 .idea/
