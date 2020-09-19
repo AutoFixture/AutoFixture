@@ -333,22 +333,22 @@ namespace AutoFixture.NUnit3.UnitTest
 
         [Test, AutoData]
         public void InjectFirstParameterShouldReturnAssignedValue(
-            [Injected("Hello World")] string p1)
+            [Injected(42)] int p1)
         {
-            Assert.AreEqual(p1, "Hello World");
+            Assert.AreEqual(p1, 42);
         }
 
         [Test, AutoData]
         public void InjectFirstParameterShouldAssignSameInstanceToSecondParameter(
-            [Injected("Hello World")] string p1,
-            string p2)
+            [Injected(42)] int p1,
+            int p2)
         {
             Assert.AreEqual(p1, p2);
         }
 
         [Test, AutoData]
         public void InjectParameterShouldAssignSameInstanceToPropertyHolder(
-            [Injected(42)] int value, 
+            [Injected(42)] int value,
             PropertyHolder<int> holder)
         {
             Assert.AreEqual(value, holder.Property);
