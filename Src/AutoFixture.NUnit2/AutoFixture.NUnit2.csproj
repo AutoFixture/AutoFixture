@@ -18,12 +18,20 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="nunit.core">
+      <HintPath>..\..\References\NUnit.2.6.2\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\References\NUnit.2.6.2\nunit.core.interfaces.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   
   <ItemGroup>
     <!-- Isn't actually needed by this library, but is present as a NuGet guard to prevent installation of this package 
      together with NUnit3 and higher. -->
-    <PackageReference Include="NUnit" Version="[2.7.1,3.0.0)" />
-    <PackageReference Include="NUnitV2.Core" Version="2.7.1" />
+    <PackageReference Include="NUnit" Version="[2.6.2,3.0.0)" />
   </ItemGroup>
 
   <!-- Include additional files to NuGet package -->
@@ -36,6 +44,12 @@
     <Content Include="LocalAddin.cs.pp">
       <Pack>true</Pack>
       <PackagePath>content</PackagePath>
+    </Content>
+
+    <!-- A bit hacky (but working) way to include the referenced assembly to the package. -->
+    <Content Include="$(TargetDir)nunit.core.interfaces.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
     </Content>
   </ItemGroup>
 </Project>
