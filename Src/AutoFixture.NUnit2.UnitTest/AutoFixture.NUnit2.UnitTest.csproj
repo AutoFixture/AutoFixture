@@ -10,10 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
-    <PackageReference Include="nunit" Version="2.7.1" />
-    <PackageReference Include="NUnitTestAdapter" Version="2.3.0" />
-    <PackageReference Include="NUnitV2.Core" Version="2.7.1" />
+    <PackageReference Include="NUnit" Version="2.6.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\References\NUnit.2.6.2\nunit.core.interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 

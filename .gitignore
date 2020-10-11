@@ -32,7 +32,6 @@ nCrunchTemp_*
 
 # VS Code cache/options
 .vscode/
-.ionide/
 
 # package files can be ignored because of the NuGet restore
 **/packages/*
