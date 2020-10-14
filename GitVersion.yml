@@ -1,0 +1,21 @@
+assembly-versioning-scheme: MajorMinorPatch
+mode: ContinuousDelivery
+next-version: 5.0.0
+branches:
+  master:
+    regex: ^master$
+    mode: ContinuousDelivery
+    tag: ''
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: false
+  vnext:
+    regex: ^[vV][0-9]+$
+    mode: ContinuousDelivery
+    tag: preview
+    source-branches: ['master']
+ignore:
+  sha: []
+merge-message-formats: {}

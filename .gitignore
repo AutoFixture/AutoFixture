@@ -23,6 +23,7 @@ nCrunchTemp_*
 
 # FAKE - F# Make
 .fake/
+.ionide/
 
 # JetBrains Rider
 .idea/
@@ -41,7 +42,7 @@ nCrunchTemp_*
 *.orig
 
 # Temp build artifacts and tools
-/build/
+/artifacts/
 
 # VIM tmp files
 *.swp

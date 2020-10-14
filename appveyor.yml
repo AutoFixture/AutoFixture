@@ -1,0 +1,21 @@
+image: Visual Studio 2019
+
+pull_requests:
+  do_not_increment_build_number: true
+
+build_script:
+- ps: |
+    $env:BUILD_VERSION="git";
+    $env:BUILD_NUMBER=$env:APPVEYOR_BUILD_NUMBER;
+    & .\fake.cmd run build.fsx -t AppVeyor
+
+test: off
+
+cache:
+  - '%userprofile%\.nuget\packages'
+
+artifacts:
+- path: artifacts\packages\*.nupkg
+  name: packages
+
+deploy: off

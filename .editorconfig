@@ -1,7 +1,11 @@
 root = true
 
-[*.{cs,fs,fsx}]
+[*.cs]
 indent_size = 4
+indent_style = space
+
+[*.{fs,fsx}]
+indent_size = 2
 indent_style = space
 
 [*.{sln,csproj,fsproj,config,xml,props}]
@@ -14,3 +18,4 @@ dotnet_style_qualification_for_field = true:suggestion
 dotnet_style_qualification_for_property = true:suggestion
 dotnet_style_qualification_for_method = true:suggestion
 dotnet_style_qualification_for_event = true:suggestion
+
