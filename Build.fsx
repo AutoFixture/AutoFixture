@@ -1,4 +1,4 @@
-﻿#r "paket:
+#r "paket:
 nuget Fake.BuildServer.AppVeyor
 nuget Fake.Core.Environment
 nuget Fake.Core.Target
@@ -30,14 +30,13 @@ open Fake.IO.FileSystemOperators
 open Fake.Tools;
 
 let buildDir = Environment.environVarOrDefault "BUILD_DIR" "build" |> Path.getFullName
-let buildToolsDir = buildDir </> "tools"
 let testResultsFolder = buildDir </> "TestResults" |> Path.getFullName
 let nuGetOutputFolder = buildDir </> "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg")
 let sourcesDirPath = "src"
 let solutionPath = sourcesDirPath </> "All.sln" |> Path.getFullName
 let buildConfiguration = DotNet.BuildConfiguration.fromEnvironVarOrDefault "BUILD_CONFIGURATION" DotNet.BuildConfiguration.Release
-let buildVerbosity = match Environment.environVarOrDefault "BUILD_VERBOSITY" ""  |> String.toLower with
+let buildVerbosity = match Environment.environVarOrDefault "BUILD_VERBOSITY" "" |> String.toLower with
                      | "quiet" | "q"         -> Quiet
                      | "minimal" | "m"       -> Minimal
                      | "normal" | "n"        -> Normal
@@ -167,14 +166,6 @@ Target.create "Build" (fun _ ->
 Target.create "CleanTestResultsFolder" (fun _ -> Shell.cleanDir testResultsFolder)
 
 Target.create "Test" (fun _ ->
-    let findProjects pattern = System.IO.Directory.GetDirectories("Src", pattern)
-    let getTestAssemblies framework projDirs =
-        projDirs
-        |> Seq.map (fun proj -> !! (sprintf "bin/%s/%s/*Test.dll" (buildConfiguration.ToString()) framework)
-                                |> GlobbingPattern.setBaseDir proj)
-        |> Seq.collect id
-
-
     // DotNet.test does not support -- parameters for now.
     let result = DotNet.exec id
                     "test"
@@ -185,13 +176,6 @@ Target.create "Test" (fun _ ->
                         testResultsFolder)
 
     if not result.OK then failwith "test failed"
-
-    findProjects "AutoFixture.NUnit2.*Test"
-    |> getTestAssemblies "*"
-    |> Testing.NUnit.Sequential.run (fun p -> { p with StopOnError = false
-                                                       ShowLabels = false
-                                                       OutputFile  = testResultsFolder </> "NUnit2TestResult.xml"
-                                                       ToolPath = buildToolsDir </> "NUnit.Runners.2.6.2" </> "tools" })
 )
 
 Target.create "CleanNuGetPackages" (fun _ ->
@@ -302,7 +286,6 @@ Target.create "AppVeyor_UploadTestReports" (fun _ ->
     !!"*.trx"
     |> GlobbingPattern.setBaseDir testResultsFolder
     |> Seq.map (fun file -> (file, ImportData.Mstest))
-    |> Seq.append [(testResultsFolder </> "NUnit2TestResult.xml", ImportData.Nunit NunitDataVersion.Nunit)]
     |> shuffle
     |> Seq.map (fun (file, format) -> async { Trace.publish format file })
     |> Async.Parallel
