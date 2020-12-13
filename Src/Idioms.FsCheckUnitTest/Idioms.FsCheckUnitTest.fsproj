@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <PackageReference Include="Unquote" Version="4.0.0" />
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" Condition="'$(TargetFramework)'=='net452'" />
+    <PackageReference Include="FSharp.Core" Version="4.2.3" PrivateAssets="All" Condition="'$(TargetFramework)'=='netcoreapp2.1'" />
   </ItemGroup>
 
   <ItemGroup>

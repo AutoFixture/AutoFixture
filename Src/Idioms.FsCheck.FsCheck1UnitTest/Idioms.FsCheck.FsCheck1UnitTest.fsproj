@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="FsCheck" Version="[1.0.0]" />
     <PackageReference Include="Unquote" Version="4.0.0" />
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
