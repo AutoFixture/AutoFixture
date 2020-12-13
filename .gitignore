@@ -24,6 +24,9 @@ nCrunchTemp_*
 # FAKE - F# Make
 .fake/
 
+# NUKE - C# Build
+.nuke/temp/
+
 # JetBrains Rider
 .idea/
 
@@ -41,8 +44,9 @@ nCrunchTemp_*
 *.orig
 
 # Temp build artifacts and tools
-/build/
-.tmp/
+artifacts/
 
 # VIM tmp files
 *.swp
+
+.tmp/

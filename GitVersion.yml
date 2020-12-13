@@ -1,0 +1,14 @@
+mode: ContinuousDelivery
+assembly-versioning-scheme: MajorMinorPatch
+tag-prefix: '[vV]'
+branches:
+  master:
+    tag: ''
+    increment: Minor
+  release:
+    source-branches: ['master']
+    prevent-increment-of-merged-branch-version: true
+    tag: 'preview'
+ignore:
+  sha: []
+merge-message-formats: {}

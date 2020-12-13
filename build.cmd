@@ -1,9 +1,7 @@
-@echo off
-cls
+:; set -eo pipefail
+:; SCRIPT_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
+:; ${SCRIPT_DIR}/build.sh "$@"
+:; exit $?
 
-SET SCRIPT_DIR=%~dp0
-
-dotnet tool restore
-
-echo Running FAKE Build...
-dotnet tool run fake --silent run %SCRIPT_DIR%\build.fsx %*
+@ECHO OFF
+powershell -ExecutionPolicy ByPass -NoProfile -File "%~dp0build.ps1" %*

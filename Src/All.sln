@@ -92,6 +92,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy6U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy7UnitTest", "AutoFakeItEasy.FakeItEasy7UnitTest\AutoFakeItEasy.FakeItEasy7UnitTest.csproj", "{1B42519B-24C2-4141-83A3-AB68AB09EE28}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{E709A052-9203-4991-954B-193F0E2046A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -327,6 +329,9 @@ Global
 		{311A3010-B938-4832-9D3A-21A1A56FE5EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{311A3010-B938-4832-9D3A-21A1A56FE5EA}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{311A3010-B938-4832-9D3A-21A1A56FE5EA}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{E709A052-9203-4991-954B-193F0E2046A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E709A052-9203-4991-954B-193F0E2046A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E709A052-9203-4991-954B-193F0E2046A3}.Verify|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B42519B-24C2-4141-83A3-AB68AB09EE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B42519B-24C2-4141-83A3-AB68AB09EE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B42519B-24C2-4141-83A3-AB68AB09EE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
