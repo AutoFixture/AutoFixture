@@ -12,5 +12,8 @@
     <IsPackable>false</IsPackable>
     <!-- Disable source link support for test projects as they are not publishable. -->
     <SourceLinkCreate>false</SourceLinkCreate>
+
+    <!--Prevents failing cross target NuGet package restores-->
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
 </Project>

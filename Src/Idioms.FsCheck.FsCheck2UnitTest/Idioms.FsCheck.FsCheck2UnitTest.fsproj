@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
+  <Import Project="..\Common.FSharp.props" />
   <Import Project="..\Common.Test.props" />
   <Import Project="..\Common.Test.xUnit.props" />
 
@@ -29,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
-    <PackageReference Include="FSharp.Core" Version="4.2.3" PrivateAssets="All" />
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
     <PackageReference Include="FsCheck" Version="2.9.0" />
   </ItemGroup>
 
