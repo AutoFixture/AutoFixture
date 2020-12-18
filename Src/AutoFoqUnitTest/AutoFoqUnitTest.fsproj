@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
+  <Import Project="..\Common.FSharp.props" />
   <Import Project="..\Common.Test.props" />
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>net452;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFixture.AutoFoq.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFoq.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFoq.UnitTest</RootNamespace>
@@ -22,13 +23,15 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
     <PackageReference Include="Unquote" Version="3.1.0" />
-    <!-- AutoFoq targets FSharp.Core 3.0.2, but we require 3.1.2 as Unquote was compiled against it for .Net Framework. -->
-    <PackageReference Include="FSharp.Core" Version="3.1.2" PrivateAssets="All" />
+    <!-- AutoFoq targets FSharp.Core 3.0.2, but we require 3.1.2 as Unquote was compiled against it for .NET Framework. -->
+    <PackageReference Include="FSharp.Core" Version="[3.1.2]" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
     <PackageReference Include="Unquote" Version="4.0.0" />
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj" />

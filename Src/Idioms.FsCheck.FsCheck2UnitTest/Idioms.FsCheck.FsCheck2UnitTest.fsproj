@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
+  <Import Project="..\Common.FSharp.props" />
   <Import Project="..\Common.Test.props" />
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFrameworks>net452;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>Idioms.FsCheck.FsCheck2UnitTest</AssemblyTitle>
     <AssemblyName>Idioms.FsCheck.FsCheck2UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>
@@ -20,8 +21,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FsCheck" Version="[2.0.1]" />
     <PackageReference Include="Unquote" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
+    <PackageReference Include="FsCheck" Version="[2.0.1]" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
+    <PackageReference Include="FsCheck" Version="2.9.0" />
   </ItemGroup>
 
   <ItemGroup>

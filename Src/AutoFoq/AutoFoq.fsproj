@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
+  <Import Project="..\Common.FSharp.props" />
 
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
@@ -30,13 +31,14 @@
     <Compile Include="AutoFoqCustomization.fs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Foq" Version="[1.8.0,2.0.0)" />
+    <PackageReference Include="FSharp.Core" Version="4.2.3" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
-    <PackageReference Include="Foq" Version="[1.5.1,2.0.0)"  />
-    <PackageReference Include="FSharp.Core" Version="3.0.2" PrivateAssets="All" />
+    <PackageReference Include="Foq" Version="[1.5.1,2.0.0)" />
+    <PackageReference Include="FSharp.Core" Version="[3.0.2,5.0.0)" />
   </ItemGroup>
 
   <ItemGroup>

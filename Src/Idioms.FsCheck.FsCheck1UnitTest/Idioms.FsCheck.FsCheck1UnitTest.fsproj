@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
+  <Import Project="..\Common.FSharp.props" />
   <Import Project="..\Common.Test.props" />
   <Import Project="..\Common.Test.xUnit.props" />
 
@@ -22,6 +23,7 @@
   <ItemGroup>
     <PackageReference Include="FsCheck" Version="[1.0.0]" />
     <PackageReference Include="Unquote" Version="4.0.0" />
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
