@@ -6400,5 +6400,37 @@ namespace AutoFixtureUnitTest
             var resultSeq = ((IEnumerable<object>)result).Cast<string>();
             Assert.Equal(expectedLength, resultSeq.Count());
         }
+
+        private class TypeWithEnumDataAnnotation
+        {
+            [EnumDataType(typeof(EnumType))]
+            public string EnumStringProperty { get; set; }
+        }
+
+        [Fact]
+        public void StringDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithEnumDataAnnotation>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveStringPropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+            
+            // Act
+            var result = sut.Create<TypeWithEnumDataAnnotation>();
+            
+            // Assert
+            Assert.Equal(EnumType.First.ToString(), result.EnumStringProperty);
+        }
     }
 }
