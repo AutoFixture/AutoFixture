@@ -21,6 +21,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
+[DotNetVerbosityMapping]
 class Build : NukeBuild
 {
     public static int Main () => Execute<Build>(x => x.Compile);
@@ -31,6 +32,16 @@ class Build : NukeBuild
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
+    
+    [Parameter("NuGet API Key")]
+    readonly string NuGetApiKey;
+    [Parameter("NuGet Source for Packages")]
+    readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
+    
+    [Parameter("MyGet API Key")]
+    readonly string MyGetApiKey;
+    [Parameter("MyGet Source for Packages")]
+    readonly string MyGetSource = "https://api.nuget.org/v3/index.json";
 
     [Partition(2)]
     readonly Partition TestPartition;
@@ -42,6 +53,7 @@ class Build : NukeBuild
     AbsolutePath TestResultsDirectory => ArtifactsDirectory / "testresults";
     AbsolutePath CoverageDirectory => ArtifactsDirectory / "coverage";
     AbsolutePath ReportsDirectory => ArtifactsDirectory / "reports";
+    AbsolutePath PackagesDirectory => ArtifactsDirectory / "packages";
 
     Target Clean => _ => _
         .Before(Restore)
@@ -114,5 +126,39 @@ class Build : NukeBuild
                 .SetReportTypes((ReportTypes)"lcov")
                 .When(IsLocalBuild, _ => _
                     .AddReportTypes(ReportTypes.HtmlInline)));
+        });
+
+    Target Pack => _ => _
+        .DependsOn(Compile)
+        .Consumes(Compile)
+        .Produces(PackagesDirectory / "*.nupkg")
+        .Executes(() =>
+        {
+            DotNetPack(s => s
+                .SetVersion(GitVersion.NuGetVersionV2)
+                .SetConfiguration(Configuration)
+                .SetOutputDirectory(PackagesDirectory)
+                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
+                .EnableIncludeSymbols()
+                .SetProject(Solution));
+        });
+
+    Target Publish => _ => _
+        .DependsOn(Pack)
+        .Consumes(Pack)
+        .Executes(() =>
+        {
+            DotNetNuGetPush(s => s
+                .EnableSkipDuplicate()
+                .When(
+                    IsServerBuild && GitRepository.IsOnMasterBranch(),
+                    v => v
+                        .SetApiKey(NuGetApiKey)
+                        .SetSource(NuGetSource))
+                .When(
+                    IsServerBuild && !GitRepository.IsOnMasterBranch(),
+                    v => v
+                        .SetApiKey(MyGetApiKey)
+                        .SetApiKey(MyGetSource)));
         });
 }
