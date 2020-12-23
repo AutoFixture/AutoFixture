@@ -9,6 +9,9 @@ using AutoFixture.Kernel;
 
 namespace AutoFixture.DataAnnotations
 {
+    /// <summary>
+    /// Handles a request for a string that matches an Enum data type.
+    /// </summary>
     public class EnumDataTypeAttributeRelay : ISpecimenBuilder
     {
         private readonly object syncLock = new object();
@@ -24,6 +27,14 @@ namespace AutoFixture.DataAnnotations
             set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
         }
 
+        /// <summary>
+        /// Creates a new specimen based on a request.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
+        /// <returns>
+        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+        /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
             if (request == null)
@@ -61,7 +72,6 @@ namespace AutoFixture.DataAnnotations
             return new NoSpecimen();
         }
 
-        #region EnumGenerator
         /// <summary>
         /// The code below was copied from the <see cref="EnumGenerator"/>.
         /// </summary>
@@ -120,6 +130,5 @@ namespace AutoFixture.DataAnnotations
                 }
             }
         }
-        #endregion
     }
 }

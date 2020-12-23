@@ -6425,10 +6425,10 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var sut = new Fixture();
-            
+
             // Act
             var result = sut.Create<TypeWithEnumDataAnnotation>();
-            
+
             // Assert
             Assert.Equal(EnumType.First.ToString(), result.EnumStringProperty);
         }
