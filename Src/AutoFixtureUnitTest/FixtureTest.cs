@@ -6401,10 +6401,10 @@ namespace AutoFixtureUnitTest
             Assert.Equal(expectedLength, resultSeq.Count());
         }
 
-        private class TypeWithEnumDataAnnotation
+        private class TypeWithStringPropertyWithEnumDataType
         {
             [EnumDataType(typeof(EnumType))]
-            public string EnumStringProperty { get; set; }
+            public string PropertyWithEnumDataType { get; set; }
         }
 
         [Fact]
@@ -6414,7 +6414,7 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             // Act
-            var item = sut.Create<TypeWithEnumDataAnnotation>();
+            var item = sut.Create<TypeWithStringPropertyWithEnumDataType>();
 
             // Assert
             Validator.ValidateObject(item, new ValidationContext(item), true);
@@ -6427,10 +6427,266 @@ namespace AutoFixtureUnitTest
             var sut = new Fixture();
 
             // Act
-            var result = sut.Create<TypeWithEnumDataAnnotation>();
+            var result = sut.Create<TypeWithStringPropertyWithEnumDataType>();
 
             // Assert
-            Assert.Equal(EnumType.First.ToString(), result.EnumStringProperty);
+            Assert.Equal(EnumType.First.ToString(), result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithBytePropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public byte PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void ByteDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithBytePropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveBytePropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithBytePropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((byte)EnumType.First, result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithSbytePropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public sbyte PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void SbyteDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithSbytePropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveSbytePropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithSbytePropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((sbyte)EnumType.First, result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithShortPropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public short PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void ShortDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithShortPropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveShortPropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithShortPropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((short)EnumType.First, result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithUshortPropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public ushort PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void UshortDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithUshortPropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveUshortPropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithUshortPropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((ushort)EnumType.First, result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithIntPropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public int PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void IntDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithIntPropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveIntPropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithIntPropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((int)EnumType.First, result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithUintPropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public uint PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void UintDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithUintPropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveUintPropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithUintPropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((uint)EnumType.First, result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithLongPropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public long PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void LongDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithLongPropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveLongPropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithLongPropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((long)EnumType.First, result.PropertyWithEnumDataType);
+        }
+
+        private class TypeWithUlongPropertyWithEnumDataType
+        {
+            [EnumDataType(typeof(EnumType))]
+            public ulong PropertyWithEnumDataType { get; set; }
+        }
+
+        [Fact]
+        public void UlongDecoratedWithEnumDataTypeAttributeShouldPassValidation()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var item = sut.Create<TypeWithUlongPropertyWithEnumDataType>();
+
+            // Assert
+            Validator.ValidateObject(item, new ValidationContext(item), true);
+        }
+
+        [Fact]
+        public void ShouldCorrectlyResolveUlongPropertiesDecoratedWithEnumDataTypeAttribute()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<TypeWithUlongPropertyWithEnumDataType>();
+
+            // Assert
+            Assert.Equal((ulong)EnumType.First, result.PropertyWithEnumDataType);
         }
     }
 }
