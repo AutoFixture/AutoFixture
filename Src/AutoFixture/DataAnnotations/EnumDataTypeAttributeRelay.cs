@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
@@ -11,15 +11,25 @@ namespace AutoFixture.DataAnnotations
     /// </summary>
     public class EnumDataTypeAttributeRelay : ISpecimenBuilder
     {
+        private readonly ISpecimenBuilder enumGenerator;
         private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
-        private readonly EnumGenerator enumGenerator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnumDataTypeAttributeRelay"/> class.
+        /// Initializes a new instance of the <see cref="EnumDataTypeAttributeRelay" /> class.
         /// </summary>
         public EnumDataTypeAttributeRelay()
+            : this(new EnumGenerator())
         {
-            this.enumGenerator = new EnumGenerator();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumDataTypeAttributeRelay" /> class.
+        /// </summary>
+        /// <param name="enumGenerator">The <see langword="enum" /> value builder.</param>
+        public EnumDataTypeAttributeRelay(ISpecimenBuilder enumGenerator)
+        {
+            this.enumGenerator = enumGenerator
+                ?? throw new ArgumentNullException(nameof(enumGenerator));
         }
 
         /// <summary>
@@ -28,7 +38,8 @@ namespace AutoFixture.DataAnnotations
         public IRequestMemberTypeResolver RequestMemberTypeResolver
         {
             get => this.requestMemberTypeResolver;
-            set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+            set => this.requestMemberTypeResolver = value
+                ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -37,46 +48,31 @@ namespace AutoFixture.DataAnnotations
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
-        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen" /> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
+            if (request == null) return new NoSpecimen();
 
-            var enumDataTypeAttribute = TypeEnvy.GetAttribute<EnumDataTypeAttribute>(request);
-            if (enumDataTypeAttribute == null)
-            {
-                return new NoSpecimen();
-            }
+            var attribute = TypeEnvy.GetAttribute<EnumDataTypeAttribute>(request);
+            if (attribute == null || !attribute.EnumType.GetTypeInfo().IsEnum) return new NoSpecimen();
+
+            var enumValue = this.enumGenerator.Create(attribute.EnumType, context);
+            if (enumValue is NoSpecimen) return enumValue;
 
             if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
             {
                 return new NoSpecimen();
             }
 
-            if (!enumDataTypeAttribute.EnumType.GetTypeInfo().IsEnum)
-                return new NoSpecimen();
-
-            var enumType = enumDataTypeAttribute.EnumType;
-            var enumValue = this.enumGenerator.Create(enumType, context);
-
-            if (enumValue is NoSpecimen)
-                return new NoSpecimen();
-
-            if (memberType == typeof(string))
+            return memberType switch
             {
-                return enumValue.ToString();
-            }
-
-            if (memberType.IsNumberType())
-            {
-                return Convert.ChangeType(enumValue, memberType, CultureInfo.CurrentCulture);
-            }
-
-            return new NoSpecimen();
+                var t when t == attribute.EnumType => enumValue,
+                var t when t == typeof(object) => enumValue,
+                var t when t.IsNumberType() => Convert.ChangeType(enumValue, memberType, CultureInfo.CurrentCulture),
+                var t when t == typeof(string) => enumValue.ToString(),
+                _ => new NoSpecimen()
+            };
         }
     }
 }
