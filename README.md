@@ -24,7 +24,7 @@ AutoFixture is designed to make Test-Driven Development more productive and unit
 
 When writing unit tests, you typically need to create some objects that represent the initial state of the test. Often, an API will force you to specify much more data than you really care about, so you frequently end up creating objects that has no influence on the test, simply to make the code compile.
 
-AutoFixture can help by creating such [Anonymous Variables](http://blogs.msdn.com/ploeh/archive/2008/11/17/anonymous-variables.aspx) for you. Here's a simple example:
+AutoFixture can help by creating such [Anonymous Variables](https://docs.microsoft.com/en-us/archive/blogs/ploeh/anonymous-variables) for you. Here's a simple example:
 
 ```c#
 [Fact]
@@ -141,7 +141,7 @@ The repository state (the last tag name and number of commits since the last tag
 $env:BUILD_VERSION='3.52.0'; .\build.cmd
 ```
 
-Refer to the [Build.fsx](build.fsx) file to get information about all the supported build keys.
+Refer to the [Build.fsx](Build.fsx) file to get information about all the supported build keys.
 
 ## Documentation
 
