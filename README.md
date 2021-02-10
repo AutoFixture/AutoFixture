@@ -153,7 +153,7 @@ Refer to the [Build.fsx](Build.fsx) file to get information about all the suppor
 If you have questions, feel free to ask. The best places to ask are:
 
 * [Stack Overflow - use the *autofixture* tag](http://stackoverflow.com/questions/tagged/autofixture)
-* [GitHub issues](http://github.com/AutoFixture/AutoFixture/issues)
+* [GitHub Q&A Discussions](https://github.com/AutoFixture/AutoFixture/discussions/categories/q-a)
 
 ## Who uses AutoFixture
 
