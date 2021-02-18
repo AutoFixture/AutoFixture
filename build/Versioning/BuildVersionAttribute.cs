@@ -2,14 +2,11 @@
 using Nuke.Common.CI.AppVeyor;
 using Nuke.Common.ValueInjection;
 
-public class BuildVersionAttribute : ValueInjectionAttributeBase
+namespace Versioning
 {
-    public override object GetValue(MemberInfo member, object instance)
+    public sealed class BuildVersionAttribute : ValueInjectionAttributeBase
     {
-        var version = GitBasedVersion.Calculate(AppVeyor.Instance?.BuildNumber ?? 0);
-
-        AppVeyor.Instance?.UpdateBuildVersion(version.FileVersion);
-
-        return version;
+        public override object GetValue(MemberInfo member, object instance)
+            => GitBasedVersion.Calculate(AppVeyor.Instance?.BuildNumber ?? 0);
     }
 }

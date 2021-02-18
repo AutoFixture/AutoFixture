@@ -13,8 +13,8 @@ pull_requests:
 test: off
 
 build_script:
-  - cmd: .\build.cmd Cover Pack
-  - sh: ./build.cmd Cover Pack
+  - cmd: .\build.cmd Cover Pack --no-logo
+  - sh: ./build.cmd Cover Pack --no-logo
 
 artifacts:
   - path: artifacts/testresults/*.trx
