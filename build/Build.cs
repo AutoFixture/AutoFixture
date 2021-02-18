@@ -24,7 +24,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 [DotNetVerbosityMapping]
 [AppVeyor(
     AppVeyorImage.VisualStudioLatest,
-    AutoGenerate = true,
+    AutoGenerate = false,
     InvokedTargets = new [] {nameof(Cover), nameof(Pack)})]
 class Build : NukeBuild
 {
