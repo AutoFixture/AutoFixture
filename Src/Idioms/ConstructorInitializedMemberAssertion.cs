@@ -105,8 +105,7 @@ namespace AutoFixture.Idioms
             if (constructorInfo == null) throw new ArgumentNullException(nameof(constructorInfo));
 
             var parameters = constructorInfo.GetParameters();
-            if (parameters.Length == 0)
-                return;
+            if (parameters.Length == 0) return;
 
             var publicPropertiesAndFields = GetPublicPropertiesAndFields(constructorInfo.DeclaringType).ToArray();
 
@@ -154,7 +153,7 @@ namespace AutoFixture.Idioms
 
             if (!matchingConstructors.Any())
             {
-                if (IsMemberThatRequiresConstructorInitialization(propertyInfo))
+                if (RequiresConstructorInitialization(propertyInfo))
                 {
                     throw new ConstructorInitializedMemberException(propertyInfo, string.Format(
                         CultureInfo.CurrentCulture,
@@ -206,7 +205,7 @@ namespace AutoFixture.Idioms
             var matchingConstructors = this.GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
-                if (IsMemberThatRequiresConstructorInitialization(fieldInfo))
+                if (RequiresConstructorInitialization(fieldInfo))
                 {
                     throw new ConstructorInitializedMemberException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
                         "No constructors with an argument that matches the read-only field '{0}' were found",
@@ -235,14 +234,11 @@ namespace AutoFixture.Idioms
 
         private static bool CouldLeadToFalsePositive(Type type)
         {
-            if (type.IsEnum)
-            {
-                // Check for a default value only enum
-                var values = Enum.GetValues(type);
-                return values.Length == 1 && values.GetValue(0).Equals(Activator.CreateInstance(type));
-            }
+            if (!type.IsEnum) return false;
 
-            return false;
+            // Check for a default value only enum
+            var values = Enum.GetValues(type);
+            return values.Length == 1 && values.GetValue(0).Equals(Activator.CreateInstance(type));
         }
 
         private static ConstructorInitializedMemberException BuildExceptionDueToPotentialFalsePositive(
@@ -253,21 +249,16 @@ namespace AutoFixture.Idioms
                 "Unable to properly detect a successful initialization due to {0} being of type enum having " +
                 "a single default value.{3}Declaring type: {1}{3}Reflected type: {2}{3}",
                 propertyOrField.Name,
-                propertyOrField.DeclaringType.AssemblyQualifiedName,
-                propertyOrField.ReflectedType.AssemblyQualifiedName,
+                propertyOrField.DeclaringType?.AssemblyQualifiedName,
+                propertyOrField.ReflectedType?.AssemblyQualifiedName,
                 Environment.NewLine);
 
-            switch (propertyOrField)
+            return propertyOrField switch
             {
-                case FieldInfo fi:
-                    return new ConstructorInitializedMemberException(fi, message);
-
-                case PropertyInfo pi:
-                    return new ConstructorInitializedMemberException(pi, message);
-
-                default:
-                    throw new ArgumentException("Must be a property or field", nameof(propertyOrField));
-            }
+                FieldInfo fi => new ConstructorInitializedMemberException(fi, message),
+                PropertyInfo pi => new ConstructorInitializedMemberException(pi, message),
+                _ => throw new ArgumentException("Must be a property or field", nameof(propertyOrField))
+            };
         }
 
         private ExpectedAndActual BuildSpecimenFromConstructor(
@@ -303,22 +294,12 @@ namespace AutoFixture.Idioms
             var specimen = ci.Invoke(parametersAndValues.Select(pv => pv.Value).ToArray());
 
             // Get the value from the specimen field/property
-            object actual;
-            switch (propertyOrField)
+            object actual = propertyOrField switch
             {
-                case FieldInfo fi:
-                    actual = fi.GetValue(specimen);
-                    break;
-
-                case PropertyInfo pi:
-                    actual = pi.CanRead
-                        ? pi.GetValue(specimen, null)
-                        : expectedValueForMember;
-                    break;
-
-                default:
-                    throw new ArgumentException("Must be a property or field", nameof(propertyOrField));
-            }
+                FieldInfo fi => fi.GetValue(specimen),
+                PropertyInfo pi => pi.CanRead ? pi.GetValue(specimen, null) : expectedValueForMember,
+                _ => throw new ArgumentException("Must be a property or field", nameof(propertyOrField))
+            };
 
             return new ExpectedAndActual(expectedValueForMember, actual);
         }
@@ -338,8 +319,7 @@ namespace AutoFixture.Idioms
 
         private IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
         {
-            return member.ReflectedType
-                .GetConstructors()
+            return member.ReflectedType?.GetConstructors()
                 .Where(ci => this.IsConstructorWithMatchingArgument(ci, member));
         }
 
@@ -358,35 +338,31 @@ namespace AutoFixture.Idioms
         private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
         {
             return t.GetMembers(BindingFlags.Instance | BindingFlags.Public)
-                .Where(m => m.MemberType.HasFlag(MemberTypes.Field) || m.MemberType.HasFlag(MemberTypes.Property));
+                .Where(m => m.MemberType.HasFlag(MemberTypes.Field)
+                            || m.MemberType.HasFlag(MemberTypes.Property));
         }
 
-        private static bool IsMemberThatRequiresConstructorInitialization(MemberInfo member)
+        private static bool RequiresConstructorInitialization(PropertyInfo propertyInfo)
         {
-            var memberAsPropertyInfo = member as PropertyInfo;
-            if (memberAsPropertyInfo != null)
-            {
-                MethodInfo setterMethod = memberAsPropertyInfo.GetSetMethod();
-                bool isReadOnly = memberAsPropertyInfo.CanRead &&
-                                  (setterMethod == null || setterMethod.IsPrivate || setterMethod.IsFamilyOrAssembly ||
-                                   setterMethod.IsFamilyAndAssembly);
+            MethodInfo setterMethod = propertyInfo.GetSetMethod();
+            bool isReadOnly = propertyInfo.CanRead
+                              && (setterMethod == null
+                                  || setterMethod.IsPrivate
+                                  || setterMethod.IsFamilyOrAssembly
+                                  || setterMethod.IsFamilyAndAssembly);
 
-                MethodInfo getterMethod = memberAsPropertyInfo.GetGetMethod();
-                bool isStatic = getterMethod.IsStatic;
+            MethodInfo getterMethod = propertyInfo.GetGetMethod();
+            bool isStatic = getterMethod.IsStatic;
 
-                return isReadOnly && !isStatic;
-            }
+            return isReadOnly && !isStatic;
+        }
 
-            var memberAsFieldInfo = member as FieldInfo;
-            if (memberAsFieldInfo != null)
-            {
-                bool isReadOnly = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.InitOnly);
-                bool isStatic = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.Static);
+        private static bool RequiresConstructorInitialization(FieldInfo fieldInfo)
+        {
+            bool isReadOnly = fieldInfo.Attributes.HasFlag(FieldAttributes.InitOnly);
+            bool isStatic = fieldInfo.Attributes.HasFlag(FieldAttributes.Static);
 
-                return isReadOnly && !isStatic;
-            }
-
-            return false;
+            return isReadOnly && !isStatic;
         }
 
         private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
