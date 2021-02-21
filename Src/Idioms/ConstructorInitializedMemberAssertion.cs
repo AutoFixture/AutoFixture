@@ -11,7 +11,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture.Idioms
 {
     /// <summary>
-    /// Encapsulates a unit test that verifies that a member (property or field) is correctly intialized
+    /// Encapsulates a unit test that verifies that a member (property or field) is correctly initialized
     /// by the constructor.
     /// </summary>
     public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
@@ -79,7 +79,7 @@ namespace AutoFixture.Idioms
         /// Gets the comparer supplied to the constructor.
         /// </summary>
         /// <remarks>
-        /// This comparer instance is used to determine if all of the value retreived from
+        /// This comparer instance is used to determine if all of the value retrieved from
         /// the members are equal to their corresponding 'matched' constructor parameter.
         /// </remarks>
         public IEqualityComparer Comparer { get; }
@@ -136,7 +136,7 @@ namespace AutoFixture.Idioms
         /// <remarks>
         /// <para>
         /// This method verifies that the <paramref name="propertyInfo" /> is correctly initialized with
-        /// the value given to the same-named constructor paramter. It uses the <see cref="Builder" /> to
+        /// the value given to the same-named constructor parameter. It uses the <see cref="Builder" /> to
         /// supply values to the constructor(s) of the Type on which the field is implemented, and then
         /// reads from the field. The assertion passes if the value read from the property is the same as
         /// the value passed to the constructor. If more than one constructor has an argument with the
@@ -172,11 +172,11 @@ namespace AutoFixture.Idioms
                 throw BuildExceptionDueToPotentialFalsePositive(propertyInfo);
             }
 
-            var expectedAndActuals = matchingConstructors
+            var expectedAndActual = matchingConstructors
                 .Select(ctor => this.BuildSpecimenFromConstructor(ctor, propertyInfo));
 
             // Compare the value passed into the constructor with the value returned from the property
-            if (expectedAndActuals.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
+            if (expectedAndActual.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(propertyInfo);
             }
@@ -189,7 +189,7 @@ namespace AutoFixture.Idioms
         /// <remarks>
         /// <para>
         /// This method verifies that <paramref name="fieldInfo" /> is correctly initialized with the
-        /// value given to the same-named constructor paramter. It uses the <see cref="Builder" /> to
+        /// value given to the same-named constructor parameter. It uses the <see cref="Builder" /> to
         /// supply values to the constructor(s) of the Type on which the field is implemented, and then
         /// reads from the field. The assertion passes if the value read from the field is the same as
         /// the value passed to the constructor. If more than one constructor has an argument with the
@@ -223,11 +223,11 @@ namespace AutoFixture.Idioms
                 throw BuildExceptionDueToPotentialFalsePositive(fieldInfo);
             }
 
-            var expectedAndActuals = matchingConstructors
+            var expectedAndActual = matchingConstructors
                 .Select(ctor => this.BuildSpecimenFromConstructor(ctor, fieldInfo));
 
             // Compare the value passed into the constructor with the value returned from the property
-            if (expectedAndActuals.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
+            if (expectedAndActual.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(fieldInfo);
             }
@@ -404,7 +404,7 @@ namespace AutoFixture.Idioms
                 public int GetHashCode(NameAndType obj)
                 {
                     // Forces methods like Distinct() to use the Equals method, because
-                    // the hashcodes will all be equal.
+                    // the hash codes will all be equal.
                     return 0;
                 }
             }
