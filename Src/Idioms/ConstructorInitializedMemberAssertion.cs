@@ -46,7 +46,7 @@ namespace AutoFixture.Idioms
             this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
             this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             this.ParameterMemberMatcher = parameterMemberMatcher ??
-                                          throw new ArgumentNullException(nameof(parameterMemberMatcher));
+                throw new ArgumentNullException(nameof(parameterMemberMatcher));
         }
 
         /// <summary>
@@ -105,7 +105,8 @@ namespace AutoFixture.Idioms
             if (constructorInfo == null) throw new ArgumentNullException(nameof(constructorInfo));
 
             var parameters = constructorInfo.GetParameters();
-            if (parameters.Length == 0) return;
+            if (parameters.Length == 0)
+                return;
 
             var publicPropertiesAndFields = GetPublicPropertiesAndFields(constructorInfo.DeclaringType).ToArray();
 
@@ -265,23 +266,10 @@ namespace AutoFixture.Idioms
             ConstructorInfo ci, MemberInfo propertyOrField)
         {
             var parametersAndValues = ci.GetParameters()
-                .Select(pi =>
+                .Select(pi => new
                 {
-                    var value = this.Builder.CreateAnonymous(pi);
-
-                    // Ensure enum isn't getting the default value, otherwise
-                    // we won't be able to determine whether initialization
-                    // occurred.
-                    if (pi.ParameterType.IsEnum && value.Equals(Activator.CreateInstance(pi.ParameterType)))
-                    {
-                        value = this.Builder.CreateAnonymous(pi);
-                    }
-
-                    return new
-                    {
-                        Parameter = pi,
-                        Value = value
-                    };
+                    Parameter = pi,
+                    Value = this.GetParameterValue(pi)
                 })
                 .ToArray();
 
@@ -302,6 +290,29 @@ namespace AutoFixture.Idioms
             };
 
             return new ExpectedAndActual(expectedValueForMember, actual);
+        }
+
+        private object GetParameterValue(ParameterInfo parameterInfo)
+            => parameterInfo.ParameterType switch
+            {
+                { } t when t == typeof(bool) => true,
+                { IsEnum: true } => this.GetEnumParameterValue(parameterInfo),
+                _ => this.Builder.CreateAnonymous(parameterInfo)
+            };
+
+        private object GetEnumParameterValue(ParameterInfo parameterInfo)
+        {
+            var value = this.Builder.CreateAnonymous(parameterInfo);
+
+            // Ensure enum isn't getting the default value, otherwise
+            // we won't be able to determine whether initialization
+            // occurred.
+            object defaultValue = parameterInfo.ParameterType.GetDefaultValue();
+            if (!value.Equals(defaultValue)) return value;
+
+            // If the second consecutive attempt does not yield a non-default result,
+            // then the value must have been frozen, so no point trying again.
+            return this.Builder.CreateAnonymous(parameterInfo);
         }
 
         private class ExpectedAndActual
