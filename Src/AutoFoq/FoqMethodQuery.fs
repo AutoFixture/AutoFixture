@@ -28,15 +28,15 @@ type FoqMethodQuery(builder : ISpecimenBuilder) =
     /// <summary>
     /// Selects methods for the supplied type.
     /// </summary>
-    /// <param name="type">The type.</param>
+    /// <param name="targetType">The type.</param>
     /// <returns>
-    /// Constructors for <paramref name="type"/>.
+    /// Constructors for <paramref name="targetType"/>.
     /// </returns>
     /// <remarks>
     /// <para>
     /// This method returns a sequence of <see cref="IMethod"/> according to
     /// the public and protected constructors available on 
-    /// <paramref name="type"/>.
+    /// <paramref name="targetType"/>.
     /// </para>
     /// </remarks>
     member this.SelectMethods targetType = 

@@ -35,7 +35,6 @@ type ReturnValueMustNotBeNullAssertion (builder) =
     /// <summary>
     /// Verifies that the return value for a method is not null.
     /// </summary>
-    /// <remarks>
     /// <param name="methodInfo">The method to verify.</param>
     override this.Verify (methodInfo : MethodInfo) =
         if methodInfo = null then 
