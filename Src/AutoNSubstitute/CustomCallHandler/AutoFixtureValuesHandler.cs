@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NSubstitute.Core;
 
 namespace AutoFixture.AutoNSubstitute.CustomCallHandler
@@ -77,7 +76,7 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 
         private static bool ArgValueWasModified(object current, object original)
         {
-            return !EqualityComparer<object>.Default.Equals(current, original);
+            return !ReferenceEquals(current, original);
         }
     }
 }
