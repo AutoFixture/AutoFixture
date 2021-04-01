@@ -205,6 +205,34 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
         }
 
         [Fact]
+        public void ShouldNotUpdateModifiedRefArgumentIfUpdatedToSame()
+        {
+            // Arrange
+            AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
+
+            var target = Substitute.For<IInterfaceWithRefVoidMethod>();
+
+            int origValue = 10;
+            var call = CallHelper.CreateCallMock(() => target.Method(ref origValue));
+            call.GetArguments()[0] = 10;
+
+            var callArgs = call.GetArguments();
+
+            sut.ResultResolver
+                .ResolveResult(call)
+                .Returns(
+                    new CallResultData(
+                        Maybe.Nothing<object>(),
+                        new[] { new CallResultData.ArgumentValue(0, 84) }));
+
+            // Act
+            sut.Handle(call);
+
+            // Assert
+            Assert.Equal(10, callArgs[0]);
+        }
+
+        [Fact]
         public void ShouldNotUpdateModifiedOutArgument()
         {
             // Arrange
@@ -228,6 +256,32 @@ namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 
             // Assert
             Assert.Equal(42, call.GetArguments()[0]);
+        }
+
+        [Fact]
+        public void ShouldNotUpdateModifiedOutArgumentIfUpdatedToDefault()
+        {
+            // Arrange
+            AutoFixtureValuesHandler sut = CreateSutWithMockedDependencies();
+
+            var target = Substitute.For<IInterfaceWithOutVoidMethod>();
+
+            int origValue;
+            var call = CallHelper.CreateCallMock(() => target.Method(out origValue));
+            call.GetArguments()[0] = 0;
+
+            sut.ResultResolver
+                .ResolveResult(call)
+                .Returns(
+                    new CallResultData(
+                        Maybe.Nothing<object>(),
+                        new[] { new CallResultData.ArgumentValue(0, 84) }));
+
+            // Act
+            sut.Handle(call);
+
+            // Assert
+            Assert.Equal(0, call.GetArguments()[0]);
         }
 
         [Fact]
