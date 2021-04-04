@@ -5,14 +5,14 @@ namespace AutoFixture
 {
     /// <summary>
     /// Decorates <see cref="ISpecimenBuilder"/> with a <see cref="Postprocessor"/> which invokes
-    /// <see cref="FillReadonlyCollectionPropertiesCommand"/> if the specimen meets the
+    /// <see cref="ReadonlyCollectionPropertiesCommand"/> if the specimen meets the
     /// <see cref="ReadonlyCollectionPropertiesSpecification"/>.
     /// </summary>
-    public class FillReadonlyCollectionPropertiesBehavior : ISpecimenBuilderTransformation
+    public class ReadonlyCollectionPropertiesBehavior : ISpecimenBuilderTransformation
     {
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a <see cref="Postprocessor"/> which invokes
-        /// <see cref="FillReadonlyCollectionPropertiesCommand"/> if the specimen meets the
+        /// <see cref="ReadonlyCollectionPropertiesCommand"/> if the specimen meets the
         /// <see cref="ReadonlyCollectionPropertiesSpecification"/>.
         /// </summary>
         /// <param name="builder">
@@ -30,7 +30,7 @@ namespace AutoFixture
 
             return new Postprocessor(
                 builder,
-                new FillReadonlyCollectionPropertiesCommand(),
+                new ReadonlyCollectionPropertiesCommand(),
                 new ReadonlyCollectionPropertiesSpecification());
         }
     }

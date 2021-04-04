@@ -6,14 +6,14 @@ using Xunit;
 
 namespace AutoFixtureUnitTest.Kernel
 {
-    public class FillReadonlyCollectionPropertiesCommandTest
+    public class ReadonlyCollectionPropertiesCommandTest
     {
         [Fact]
         public void SutIsCommand()
         {
             // Arrange
             // Act
-            var sut = new FillReadonlyCollectionPropertiesCommand();
+            var sut = new ReadonlyCollectionPropertiesCommand();
 
             // Assert
             Assert.IsAssignableFrom<ISpecimenCommand>(sut);
@@ -23,7 +23,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ExecuteNullSpecimenThrows()
         {
             // Arrange
-            var sut = new FillReadonlyCollectionPropertiesCommand();
+            var sut = new ReadonlyCollectionPropertiesCommand();
             var dummyContainer = new DelegatingSpecimenContext();
 
             // Act
@@ -35,7 +35,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ExecuteNullContextThrows()
         {
             // Arrange
-            var sut = new FillReadonlyCollectionPropertiesCommand();
+            var sut = new ReadonlyCollectionPropertiesCommand();
             var dummySpecimen = new object();
 
             // Act
@@ -47,7 +47,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ExecuteFillsReadonlyCollectionProperty()
         {
             // Arrange
-            var sut = new FillReadonlyCollectionPropertiesCommand();
+            var sut = new ReadonlyCollectionPropertiesCommand();
             var specimen = new CollectionHolder<string>();
             var container = new DelegatingSpecimenContext
             {
@@ -65,7 +65,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void ExecuteDoesNotFillNonCompliantCollectionProperty()
         {
             // Arrange
-            var sut = new FillReadonlyCollectionPropertiesCommand();
+            var sut = new ReadonlyCollectionPropertiesCommand();
             var specimen = new NonCompliantCollectionHolder<string>();
             var container = new DelegatingSpecimenContext
             {

@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel
     /// A command which invokes <see cref="ICollection{T}.Add"/> to fill all readonly properties in a specimen that
     /// implement <see cref="ICollection{T}"/>.
     /// </summary>
-    public class FillReadonlyCollectionPropertiesCommand : ISpecimenCommand
+    public class ReadonlyCollectionPropertiesCommand : ISpecimenCommand
     {
         /// <summary>
         /// Invokes <see cref="ICollection{T}.Add"/> to fill all readonly properties in a specimen that implement

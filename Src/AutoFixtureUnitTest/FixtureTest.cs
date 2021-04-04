@@ -205,14 +205,14 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
-        public void BehaviorsContainsFillReadonlyCollectionPropertiesBehavior()
+        public void BehaviorsContainsReadonlyCollectionPropertiesBehavior()
         {
             // Arrange
             var sut = new Fixture();
             // Act
             var result = sut.Behaviors;
             // Assert
-            Assert.True(result.OfType<FillReadonlyCollectionPropertiesBehavior>().Any());
+            Assert.True(result.OfType<ReadonlyCollectionPropertiesBehavior>().Any());
         }
 
         [Fact]
