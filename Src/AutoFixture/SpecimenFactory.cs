@@ -292,7 +292,7 @@ namespace AutoFixture
                         new SeededRequest(
                             type,
                             type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null))))
-                .Select(v => Convert.ChangeType(v, type, CultureInfo.CurrentCulture));
+                .ConvertObjectType(type);
         }
 
         private static ISpecimenContext CreateContext(this ISpecimenBuilder builder)
