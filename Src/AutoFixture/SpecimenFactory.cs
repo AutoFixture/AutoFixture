@@ -287,11 +287,8 @@ namespace AutoFixture
         
         internal static IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
         {
-            return ((IEnumerable<object>)context.Resolve(
-                    new MultipleRequest(
-                        new SeededRequest(
-                            type,
-                            type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null))))
+            return ((IEnumerable<object>)
+                    context.Resolve(new MultipleRequest(new SeededRequest(type, type.GetDefaultValue()))))
                 .ConvertObjectType(type);
         }
 
