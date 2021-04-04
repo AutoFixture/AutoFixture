@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
+  <Import Project="..\Common.FSharp.props" />
   <Import Project="..\Common.Test.props" />
   <Import Project="..\Common.Test.xUnit.props" />
 
@@ -10,6 +11,7 @@
     <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects -->
     <NoWarn>FS2003</NoWarn>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Unquote" Version="4.0.0" />
+    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

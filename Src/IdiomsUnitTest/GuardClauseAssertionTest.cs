@@ -13,8 +13,8 @@ using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
-    [SuppressMessage("ReSharper", "UnusedMember.Local", Justification="Used via reflection.")]
-    [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification="Required for testing.")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local", Justification = "Used via reflection.")]
+    [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Required for testing.")]
     public partial class GuardClauseAssertionTest
     {
         [Fact]
@@ -747,6 +747,7 @@ namespace AutoFixture.IdiomsUnitTest
         private class TypeWithPropertyOfTypeWithoutImplementers
         {
             private IHaveNoImplementers propertyOfTypeWithoutImplementers;
+
             public IHaveNoImplementers PropertyOfTypeWithoutImplementers
             {
                 get => this.propertyOfTypeWithoutImplementers;
@@ -1044,6 +1045,190 @@ namespace AutoFixture.IdiomsUnitTest
         private abstract class AbstractTypeWithAbstractMethod
         {
             public abstract void Method(object arg);
+        }
+
+        [Fact]
+        public void VerifyClassWithEmptyStringGuardDoesNotThrow()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new EmptyStringBehaviorExpectation());
+            var constructors = typeof(ClassWithEmptyStringGuard)
+                .GetConstructors();
+
+            var exception = Record.Exception(() => sut.Verify(constructors));
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        public void VerifyClassWithoutEmptyStringGuardThrows()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new EmptyStringBehaviorExpectation());
+            var constructors = typeof(ClassWithoutEmptyStringGuard)
+                .GetConstructors();
+
+            Assert.Throws<GuardClauseException>(() => sut.Verify(constructors));
+        }
+
+        [Fact]
+        public void VerifyClassWithoutEmptyStringGuardThrowsWithMessage()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new EmptyStringBehaviorExpectation());
+            var constructors = typeof(ClassWithoutEmptyStringGuard)
+                .GetConstructors();
+
+            var actual = Record.Exception(() => sut.Verify(constructors));
+
+            Assert.StartsWith(
+                "An attempt was made to assign the value <empty string>",
+                actual.Message);
+        }
+
+        [Fact]
+        public void VerifyClassWithImproperEmptyStringGuardThrows()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new EmptyStringBehaviorExpectation());
+            var constructors = typeof(ClassWithImproperEmptyStringGuard)
+                .GetConstructors();
+
+            Assert.Throws<GuardClauseException>(() => sut.Verify(constructors));
+        }
+
+        [Fact]
+        public void VerifyClassWithImproperEmptyStringGuardThrowsWithExpectedMessage()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new EmptyStringBehaviorExpectation());
+            var constructors = typeof(ClassWithImproperEmptyStringGuard)
+                .GetConstructors();
+
+            var actual = Record.Exception(() => sut.Verify(constructors));
+
+            Assert.Contains(
+                $"Expected parameter name: arg{Environment.NewLine}Actual parameter name: invalid parameter name",
+                actual.Message);
+        }
+
+        private class ClassWithEmptyStringGuard
+        {
+            public ClassWithEmptyStringGuard(string arg)
+            {
+                if (arg is null)
+                    throw new ArgumentNullException(nameof(arg));
+
+                if (arg == string.Empty)
+                    throw new ArgumentException("Value cannot be empty.", nameof(arg));
+            }
+        }
+
+        private class ClassWithoutEmptyStringGuard
+        {
+            public ClassWithoutEmptyStringGuard(string arg)
+            {
+                if (arg is null)
+                    throw new ArgumentNullException(nameof(arg));
+            }
+        }
+
+        private class ClassWithImproperEmptyStringGuard
+        {
+            public ClassWithImproperEmptyStringGuard(string arg)
+            {
+                if (arg == string.Empty)
+                    throw new ArgumentException("Value cannot be empty.", "invalid parameter name");
+            }
+        }
+
+        [Fact]
+        public void VerifyClassWithWhiteSpaceStringGuardDoesNotThrow()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new WhiteSpaceStringBehaviorExpectation());
+            var constructors = typeof(ClassWithWhiteSpaceStringGuard)
+                .GetConstructors();
+
+            var exception = Record.Exception(() => sut.Verify(constructors));
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        public void VerifyClassWithoutWhiteSpaceStringGuardThrows()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new WhiteSpaceStringBehaviorExpectation());
+            var constructors = typeof(ClassWithoutWhiteSpaceStringGuard)
+                .GetConstructors();
+
+            Assert.Throws<GuardClauseException>(() => sut.Verify(constructors));
+        }
+
+        [Fact]
+        public void VerifyClassWithoutWhiteSpaceStringGuardThrowsWithExpectedMessage()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new WhiteSpaceStringBehaviorExpectation());
+            var constructors = typeof(ClassWithoutWhiteSpaceStringGuard)
+                .GetConstructors();
+
+            var actual = Record.Exception(() => sut.Verify(constructors));
+
+            Assert.StartsWith("An attempt was made to assign the value <white space>", actual.Message);
+        }
+
+        [Fact]
+        public void VerifyClassWithImproperWhiteSpaceStringGuardThrowsWithExpectedMessage()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new WhiteSpaceStringBehaviorExpectation());
+            var constructors = typeof(ClassWithImproperWhiteSpaceStringGuard)
+                .GetConstructors();
+
+            var actual = Record.Exception(() => sut.Verify(constructors));
+
+            Assert.Contains(
+                $"Expected parameter name: arg{Environment.NewLine}Actual parameter name: invalid parameter name",
+                actual.Message);
+        }
+
+        [Fact]
+        public void VerifyClassWithImproperWhiteSpaceStringGuardThrows()
+        {
+            var sut = new GuardClauseAssertion(new Fixture(), new WhiteSpaceStringBehaviorExpectation());
+            var constructors = typeof(ClassWithImproperWhiteSpaceStringGuard)
+                .GetConstructors();
+
+            Assert.Throws<GuardClauseException>(() => sut.Verify(constructors));
+        }
+
+        private class ClassWithWhiteSpaceStringGuard
+        {
+            public ClassWithWhiteSpaceStringGuard(string arg)
+            {
+                if (arg is null)
+                    throw new ArgumentNullException(nameof(arg));
+
+                if (arg == string.Empty)
+                    throw new ArgumentException("Value cannot be empty.", nameof(arg));
+
+                if (arg.All(x => x == ' '))
+                    throw new ArgumentException("Value cannot be whitespace.", nameof(arg));
+            }
+        }
+
+        private class ClassWithoutWhiteSpaceStringGuard
+        {
+            public ClassWithoutWhiteSpaceStringGuard(string arg)
+            {
+                if (arg is null)
+                    throw new ArgumentNullException(nameof(arg));
+
+                if (arg == string.Empty)
+                    throw new ArgumentException("Value cannot be empty.", nameof(arg));
+            }
+        }
+
+        private class ClassWithImproperWhiteSpaceStringGuard
+        {
+            public ClassWithImproperWhiteSpaceStringGuard(string arg)
+            {
+                if (arg.All(x => x == ' '))
+                    throw new ArgumentException("Value cannot be whitespace.", "invalid parameter name");
+            }
         }
     }
 }

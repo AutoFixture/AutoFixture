@@ -1,0 +1,16 @@
+{
+  "solution": {
+    "path": "All.sln",
+    "projects": [
+      "AutoFixtureUnitTest\\AutoFixtureUnitTest.csproj",
+      "AutoFixture\\AutoFixture.csproj",
+      "Idioms.FsCheck.FsCheck1UnitTest\\Idioms.FsCheck.FsCheck1UnitTest.fsproj",
+      "Idioms.FsCheck.FsCheck2UnitTest\\Idioms.FsCheck.FsCheck2UnitTest.fsproj",
+      "Idioms.FsCheckUnitTest\\Idioms.FsCheckUnitTest.fsproj",
+      "Idioms.FsCheck\\Idioms.FsCheck.fsproj",
+      "IdiomsUnitTest\\IdiomsUnitTest.csproj",
+      "Idioms\\Idioms.csproj",
+      "TestTypeFoundation\\TestTypeFoundation.csproj"
+    ]
+  }
+}

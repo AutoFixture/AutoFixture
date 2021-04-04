@@ -18,6 +18,7 @@ namespace AutoFixture.AutoFakeItEasy
         private const string SetReturnValueMethodName = "SetReturnValue";
         private const string SetArgumentValueMethodName = "SetArgumentValue";
         private const string ArgumentsPropertyName = "Arguments";
+        private const string ReturnValuePropertyName = "ReturnValue";
 
         private readonly IFakeObjectCall wrappedCall;
 
@@ -32,11 +33,17 @@ namespace AutoFixture.AutoFakeItEasy
 
         public void SetReturnValue(object value)
         {
-            this.InvokeWrappedMethod(SetReturnValueMethodName, value);
+            // This invocation is valid for FakeItEasy prior to v6.
+            if (this.TryInvokeWrappedMethod(SetReturnValueMethodName, value)) return;
+
+            // This invocation will be used for FakeItEasy v6 and later.
+            if (this.TryInvokeWrappedPropertySetter(ReturnValuePropertyName, value)) return;
+
+            throw new MissingMethodException("Unable to find a supported return value setter member");
         }
 
         public void SetArgumentValue(int index, object value) =>
-            this.InvokeWrappedMethod(SetArgumentValueMethodName, index, value);
+            this.TryInvokeWrappedMethod(SetArgumentValueMethodName, index, value);
 
         private object InvokeWrappedPropertyGetter(string propertyName)
         {
@@ -51,17 +58,24 @@ namespace AutoFixture.AutoFakeItEasy
             return propertyInfo.GetValue(this.wrappedCall);
         }
 
-        private void InvokeWrappedMethod(string methodName, params object[] parameters)
+        private bool TryInvokeWrappedPropertySetter(string propertyName, object value)
+        {
+            var callType = this.wrappedCall.GetType();
+            var propertyInfo = callType.GetProperty(propertyName);
+            if (propertyInfo == null) return false;
+
+            propertyInfo.SetValue(this.wrappedCall, value);
+            return true;
+        }
+
+        private bool TryInvokeWrappedMethod(string methodName, params object[] parameters)
         {
             var callType = this.wrappedCall.GetType();
             var methodInfo = callType.GetMethod(methodName);
-            if (methodInfo == null)
-            {
-                throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture,
-                    "Method {0} cannot be found on {1}", methodName, callType.FullName));
-            }
+            if (methodInfo == null) return false;
 
             methodInfo.Invoke(this.wrappedCall, parameters);
+            return true;
         }
     }
 }

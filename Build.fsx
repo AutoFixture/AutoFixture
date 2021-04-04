@@ -1,25 +1,53 @@
-﻿#r @"build/tools/FAKE.Core/tools/FakeLib.dll"
-#r @"build/tools/FAKE.Core/tools/ICSharpCode.SharpZipLib.dll"
+﻿#r "paket:
+nuget Fake.BuildServer.AppVeyor
+nuget Fake.Core.Environment
+nuget Fake.Core.Target
+nuget Fake.Core.Xml
+nuget Fake.DotNet
+nuget Fake.DotNet.Cli
+nuget Fake.DotNet.MsBuild
+nuget Fake.DotNet.NuGet
+nuget Fake.DotNet.Testing.NUnit
+nuget Fake.IO.FileSystem
+nuget Fake.IO.Zip
+nuget Fake.Tools.Git
+nuget Fake.Testing.Common
+"
 
-open Fake
-open Fake.AppVeyor
-open Fake.DotNetCli
-open Fake.Testing
+#load ".fake/build.fsx/intellisense.fsx"
+
 open System
 open System.Text.RegularExpressions
 
-let buildDir = getBuildParamOrDefault "BuildDir" "build"
+open Fake.BuildServer;
+open Fake.Core;
+open Fake.Core.String.Operators
+open Fake.Core.TargetOperators
+open Fake.DotNet;
+open Fake.IO
+open Fake.IO.Globbing.Operators
+open Fake.IO.FileSystemOperators
+open Fake.Tools;
+
+let buildDir = Environment.environVarOrDefault "BUILD_DIR" "build" |> Path.getFullName
 let buildToolsDir = buildDir </> "tools"
-let testResultsFolder = buildDir </> "TestResults" |> FullName
+let testResultsFolder = buildDir </> "TestResults" |> Path.getFullName
 let nuGetOutputFolder = buildDir </> "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg")
-let solutionToBuild = "Src/All.sln"
-let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
-let repositoryUrlsOnGitHub = [ "git@github.com:AutoFixture/AutoFixture.git"
-                               "https://github.com/AutoFixture/AutoFixture.git" ]
+let sourcesDirPath = "src"
+let solutionPath = sourcesDirPath </> "All.sln" |> Path.getFullName
+let buildConfiguration = DotNet.BuildConfiguration.fromEnvironVarOrDefault "BUILD_CONFIGURATION" DotNet.BuildConfiguration.Release
+let buildVerbosity = match Environment.environVarOrDefault "BUILD_VERBOSITY" ""  |> String.toLower with
+                     | "quiet" | "q"         -> Quiet
+                     | "minimal" | "m"       -> Minimal
+                     | "normal" | "n"        -> Normal
+                     | "detailed" | "d"      -> Detailed
+                     | "diagnostic" | "diag" -> Diagnostic
+                     | _ -> Minimal
 
-type BuildVersionCalculationSource = { major: int; minor: int; revision: int; preSuffix: string; 
-                                       commitsNum: int; sha: string; buildNumber: int }
+
+type BuildVersionCalculationSource = { Major: int; Minor: int; Revision: int; PreSuffix: string; 
+                                       CommitsNum: int; Sha: string; BuildNumber: int }
 let getVersionSourceFromGit buildNumber =
     // The --fist-parent flag is required to correctly work for vNext branch.
     // Example of output for a release tag: v3.50.2-288-g64fd5c5b, for a prerelease tag: v3.50.2-alpha1-288-g64fd5c5b.
@@ -34,21 +62,21 @@ let getVersionSourceFromGit buildNumber =
 
     let getMatch (name:string) = result.[name].Value
 
-    { major = getMatch "maj" |> int
-      minor = getMatch "min" |> int
-      revision = getMatch "rev" |> int
-      preSuffix = getMatch "pre"
-      commitsNum = getMatch "num" |> int
-      sha = getMatch "sha"
-      buildNumber = buildNumber
+    { Major = getMatch "maj" |> int
+      Minor = getMatch "min" |> int
+      Revision = getMatch "rev" |> int
+      PreSuffix = getMatch "pre"
+      CommitsNum = getMatch "num" |> int
+      Sha = getMatch "sha"
+      BuildNumber = buildNumber
     }
 
-type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string; commitHash: string;
-                          source: Option<BuildVersionCalculationSource> }
+type BuildVersionInfo = { AssemblyVersion:string; FileVersion:string; InfoVersion:string; NugetVersion:string; CommitHash: string;
+                          Source: Option<BuildVersionCalculationSource> }
 let calculateVersion source =
     let s = source
     let (major, minor, revision, preReleaseSuffix, commitsNum, sha, buildNumber) =
-        (s.major, s.minor, s.revision, s.preSuffix, s.commitsNum, s.sha, s.buildNumber)
+        (s.Major, s.Minor, s.Revision, s.PreSuffix, s.CommitsNum, s.Sha, s.BuildNumber)
 
     let assemblyVersion = sprintf "%d.%d.0.0" major minor
     let fileVersion = sprintf "%d.%d.%d.%d" major minor revision buildNumber
@@ -65,251 +93,193 @@ let calculateVersion source =
                       | 0 -> nugetVersion
                       | _ -> sprintf "%s-%s" nugetVersion sha
 
-    { assemblyVersion=assemblyVersion; fileVersion=fileVersion; infoVersion=infoVersion; nugetVersion=nugetVersion; commitHash=s.sha;
-      source = Some source }
+    { AssemblyVersion=assemblyVersion; FileVersion=fileVersion; InfoVersion=infoVersion; NugetVersion=nugetVersion; CommitHash=s.Sha;
+      Source = Some source }
 
 // Calculate version that should be used for the build. Define globally as data might be required by multiple targets.
 // Please never name the build parameter with version as "Version" - it might be consumed by the MSBuild, override 
 // the defined properties and break some tasks (e.g. NuGet restore).
-let mutable buildVersion = match getBuildParamOrDefault "BuildVersion" "git" with
-                           | "git"       -> getBuildParamOrDefault "BuildNumber" "0"
+let mutable buildVersion = match Environment.environVarOrDefault "BUILD_VERSION" "git" with
+                           | "git"       -> Environment.environVarOrDefault "BUILD_NUMBER" "0"
                                             |> int
                                             |> getVersionSourceFromGit
                                             |> calculateVersion
 
-                           | assemblyVer -> { assemblyVersion = assemblyVer
-                                              fileVersion = getBuildParamOrDefault "BuildFileVersion" assemblyVer
-                                              infoVersion = getBuildParamOrDefault "BuildInfoVersion" assemblyVer
-                                              nugetVersion = getBuildParamOrDefault "BuildNugetVersion" assemblyVer
-                                              commitHash = getBuildParamOrDefault "BuildComitHash" ""
-                                              source = None }
+                           | assemblyVer -> { AssemblyVersion = assemblyVer
+                                              FileVersion = Environment.environVarOrDefault "BUILD_FILE_VERSION" assemblyVer
+                                              InfoVersion = Environment.environVarOrDefault "BUILD_INFO_VERSION" assemblyVer
+                                              NugetVersion = Environment.environVarOrDefault "BUILD_NUGET_VERSION" assemblyVer
+                                              CommitHash = Environment.environVarOrDefault "BUILD_COMMIT_HASH" ""
+                                              Source = None }
 
 let setVNextBranchVersion vNextVersion =
     buildVersion <-
-        match buildVersion.source with
+        match buildVersion.Source with
         // Don't update version if it was explicitly specified.
         | None                                -> buildVersion
         // Don't update version if tag with current major version is already present (e.g. rc is released).
-        | Some s when s.major >= vNextVersion -> buildVersion
+        | Some s when s.Major >= vNextVersion -> buildVersion
         | Some source                         -> 
             // The trick is the "git describe" command contains the --first-parent flag.
             // Because of that git matched the last release tag before the fork was created and calculated number
             // of commits since that release. We are perfectly fine, as this number will constantly increase only.
             // Set version to X.0.0-alpha.NUM, where X - major version, NUM - commits since last release before fork.
-            { source with major = vNextVersion
-                          minor = 0
-                          revision = 0
-                          preSuffix = "-alpha" }
+            { source with Major = vNextVersion
+                          Minor = 0
+                          Revision = 0
+                          PreSuffix = "-alpha" }
             |> calculateVersion
 
-let mutable enableSourceLink = false
+let configureMsBuildParams (parameters: MSBuild.CliArguments) = 
+    let isCiBuild = BuildServer.buildServer <> LocalBuild
 
-let runMsBuild target configuration properties =
-    let verbosity = match getBuildParam "BuildVerbosity" |> toLower with
-                    | "quiet" | "q"         -> Quiet
-                    | "minimal" | "m"       -> Minimal
-                    | "normal" | "n"        -> Normal
-                    | "detailed" | "d"      -> Detailed
-                    | "diagnostic" | "diag" -> Diagnostic
-                    | _ -> Minimal
+    let properties = [ "AssemblyVersion", buildVersion.AssemblyVersion
+                       "FileVersion", buildVersion.FileVersion
+                       "InformationalVersion", buildVersion.InfoVersion
+                       "PackageVersion", buildVersion.NugetVersion
+                       "CommitHash", buildVersion.CommitHash
+                       "EnableSourceLink", isCiBuild.ToString()
+                       "ContinuousIntegrationBuild", isCiBuild.ToString() ]
 
-    let configProperty = match configuration with
-                         | Some c -> [ "Configuration", c ]
-                         | _ -> []
+    { parameters with Verbosity = Some buildVerbosity
+                      Properties = properties }
 
-    let sourceLinkCreatePropertyValue = match enableSourceLink with
-                                        | true  -> "true"
-                                        | false -> "false"
-
-    let properties = configProperty @ properties
-                     @ [ "AssemblyVersion", buildVersion.assemblyVersion
-                         "FileVersion", buildVersion.fileVersion
-                         "InformationalVersion", buildVersion.infoVersion
-                         "PackageVersion", buildVersion.nugetVersion
-                         "CommitHash", buildVersion.commitHash
-                         "SourceLinkCreateOverride", sourceLinkCreatePropertyValue ]
-
-    solutionToBuild
-    |> build (fun p -> { p with MaxCpuCount = Some None
-                                Verbosity = Some verbosity
-                                Targets = [ target ]
-                                Properties = properties })
-
-let rebuild configuration = runMsBuild "Rebuild" (Some configuration) []
-
-Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
-
-Target "RestoreNuGetPackages" (fun _ -> runMsBuild "Restore" None [])
-
-Target "EnableSourceLinkGeneration" (fun _ ->
-    let areEqual s1 s2 = String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase)
-
-    // A set of sanity checks to fail with meaningful errors.
-    let originUrl = Git.CommandHelper.runSimpleGitCommand "" "config --get remote.origin.url"
-    if (repositoryUrlsOnGitHub |> Seq.exists (areEqual originUrl) |> not) then
-        failwithf 
-            "Current repository has invalid git origin URL and will produce incorrect SourceLink info. Current: '%s'. Expected any of: '[%s]'."
-            originUrl
-            (separated ", " repositoryUrlsOnGitHub)
- 
-    let lineEndingConversion = Git.CommandHelper.runSimpleGitCommand "" "config --get core.autocrlf"
-    if(areEqual lineEndingConversion "input" |> not) then
-        failwithf "For correct SourceLink work git line conversion should be set to 'input'. Current: '%s'." lineEndingConversion
-
-    enableSourceLink <- true
-)
-
-Target "VerifyOnly" (fun _ ->
+Target.create "Verify" (fun _ ->
     try
-        rebuild "Verify"
+        DotNet.build (fun p -> { p with Configuration = DotNet.BuildConfiguration.Custom "Verify"
+                                        MSBuildParams = configureMsBuildParams p.MSBuildParams })
+                     solutionPath
     with
-    | BuildException (msg, errors) -> 
+    | MSBuildException (msg, errors) -> 
         let msg = sprintf
                     "%s\r\nHINT: To simplify the fix process it's recommended to switch to the 'Verify' configuration \
                     in the IDE. This way you might get Roslyn quick fixes for the violated rules."
                     msg
-        raise (BuildException(msg, errors))
+        raise (MSBuildException(msg, errors))
 )
 
-Target "BuildOnly" (fun _ -> rebuild configuration)
-Target "TestOnly" (fun _ ->
+Target.create "Build" (fun _ ->
+    DotNet.build (fun p -> { p with Configuration = buildConfiguration
+                                    MSBuildParams = configureMsBuildParams p.MSBuildParams })
+                 solutionPath
+)
+
+Target.create "CleanTestResultsFolder" (fun _ -> Shell.cleanDir testResultsFolder)
+
+Target.create "Test" (fun _ ->
     let findProjects pattern = System.IO.Directory.GetDirectories("Src", pattern)
     let getTestAssemblies framework projDirs =
         projDirs
-        |> Seq.map (fun proj -> !! (sprintf "bin/%s/%s/*Test.dll" configuration framework)
-                                |> SetBaseDir proj)
+        |> Seq.map (fun proj -> !! (sprintf "bin/%s/%s/*Test.dll" (buildConfiguration.ToString()) framework)
+                                |> GlobbingPattern.setBaseDir proj)
         |> Seq.collect id
 
-    let nUnit2TestProjects = findProjects "AutoFixture.NUnit2.*Test"
-    let dotnetTestProjects = findProjects "*Test" 
-                             |> Seq.except nUnit2TestProjects
 
-    // Save test results in MSTest format in the test results folder.
-    // Later results are uploaded to AppVeyor manually.
-    // It allows to fix NUnit not supporting AppVeyor directly (http://help.appveyor.com/discussions/questions/7805-nunit-test-results-on-net-core).
-    // Also it's faster as results are uploaded in batches.
-    dotnetTestProjects
-    |> Seq.iter (fun projDir ->
-        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
-                             (sprintf 
-                                 "test --no-build --configuration %s --logger:trx --results-directory \"%s\" -- RunConfiguration.NoAutoReporters=true"
-                                 configuration
-                                 testResultsFolder)
-    )
+    // DotNet.test does not support -- parameters for now.
+    let result = DotNet.exec id
+                    "test"
+                    (sprintf 
+                        "%s --no-build --configuration %s --logger:trx --results-directory \"%s\" -- RunConfiguration.NoAutoReporters=true"
+                        solutionPath
+                        (buildConfiguration.ToString())
+                        testResultsFolder)
 
-    nUnit2TestProjects
+    if not result.OK then failwith "test failed"
+
+    findProjects "AutoFixture.NUnit2.*Test"
     |> getTestAssemblies "*"
-    |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
-                                                ShowLabels = false
-                                                OutputFile  = testResultsFolder </> "NUnit2TestResult.xml"
-                                                ToolPath = buildToolsDir </> "NUnit.Runners.2.6.2" </> "tools" })
+    |> Testing.NUnit.Sequential.run (fun p -> { p with StopOnError = false
+                                                       ShowLabels = false
+                                                       OutputFile  = testResultsFolder </> "NUnit2TestResult.xml"
+                                                       ToolPath = buildToolsDir </> "NUnit.Runners.2.6.2" </> "tools" })
 )
 
-Target "Verify" DoNothing
-Target "Build"  DoNothing
-Target "Test"   DoNothing
-
-Target "CleanNuGetPackages" (fun _ ->
-    CleanDir nuGetOutputFolder
+Target.create "CleanNuGetPackages" (fun _ ->
+    Shell.cleanDir nuGetOutputFolder
 )
 
-Target "NuGetPack" (fun _ ->
-    // Pack projects using MSBuild.
-    runMsBuild "Pack" (Some configuration) [ "PackageOutputPath", FullName nuGetOutputFolder
-                                             "NoBuild", "true" ]
+Target.create "NuGetPack" (fun _ ->
+    DotNet.pack (fun p -> { p with Configuration = buildConfiguration
+                                   OutputPath = Some (Path.getFullName nuGetOutputFolder)
+                                   MSBuildParams = configureMsBuildParams p.MSBuildParams })
+                solutionPath
 
     let findDependencyNode name (doc:Xml.XmlDocument) =
             doc.SelectSingleNode(sprintf "//*[local-name()='dependency' and @id='%s']" name)
 
     // Verify that AutoFixture reference is valid.
     let dependencyVersion = !! "AutoFixture.AutoNSubstitute*"
-                            |> SetBaseDir nuGetOutputFolder
+                            |> GlobbingPattern.setBaseDir nuGetOutputFolder
                             |> Seq.head
-                            |> ZipHelper.UnzipFirstMatchingFileInMemory (fun ze -> ze.Name.EndsWith ".nuspec")
-                            |> XMLDoc
+                            |> Zip.unzipFirstMatchingFileInMemory (fun ze -> ze.Name.EndsWith ".nuspec")
+                            |> Xml.createDoc
                             |> findDependencyNode "AutoFixture"
-                            |> getAttribute "version"
+                            |> Xml.getAttribute "version"
 
-    if(buildVersion.nugetVersion <> dependencyVersion) 
+    if(buildVersion.NugetVersion <> dependencyVersion) 
         then failwithf "Invalid dependency version in the produced package. Actual: '%s' Expected: '%s'"
                        dependencyVersion
-                       buildVersion.nugetVersion 
-        else logfn "Verified the dependency version. Actual: '%s' Expected: '%s'"
+                       buildVersion.NugetVersion 
+        else Trace.logfn "Verified the dependency version. Actual: '%s' Expected: '%s'"
                    dependencyVersion
-                   buildVersion.nugetVersion
+                   buildVersion.NugetVersion
 )
 
 let publishPackages packageFeed accessKey =
-    nuGetPackages
-    |> Seq.map (fun pkg ->
-        let meta = GetMetaDataFromPackageFile pkg
-        meta.Id, meta.Version
-    )
-    |> Seq.iter (fun (id, version) -> NuGetPublish (fun p -> { p with Project = id
-                                                                      Version = version
-                                                                      OutputPath = nuGetOutputFolder
-                                                                      PublishUrl = packageFeed
-                                                                      AccessKey = accessKey
-                                                                      WorkingDir = nuGetOutputFolder
-                                                                      ToolPath = buildToolsDir </> "nuget.exe" }))
+    // Protect the secret explicitly, even though FAKE should do it.
+    // See the discussion: https://github.com/fsharp/FAKE/issues/2526#issuecomment-650567241
+    TraceSecrets.register "<api key>" accessKey 
 
-Target "PublishNuGetPublic" (fun _ ->
+    nuGetPackages
+    |> Seq.iter (fun pkg -> DotNet.nugetPush (fun p -> { p with PushParams = { p.PushParams with ApiKey = Some accessKey
+                                                                                                 Source = Some packageFeed }})
+                                             pkg
+    )
+
+Target.create "PublishNuGet" (fun _ ->
     let feed = "https://www.nuget.org/api/v2/package"
-    let key = getBuildParam "NuGetPublicKey"
+    let key = Environment.environVarOrFail "NUGET_API_KEY"
 
     publishPackages feed key
 )
 
-Target "PublishNuGetPrivate" (fun _ ->
+Target.create "PublishMyGet" (fun _ ->
     let packageFeed = "https://www.myget.org/F/autofixture/api/v2/package"
-    let key = getBuildParam "NuGetPrivateKey"
+    let key = Environment.environVarOrFail "MYGET_API_KEY"
 
     publishPackages packageFeed key
 )
 
-Target "CompleteBuild"   DoNothing
-Target "PublishNuGetAll" DoNothing
+Target.create "CompleteBuild"   ignore
 
-"RestoreNuGetPackages"       ==> "Verify"
-"EnableSourceLinkGeneration" ?=> "Verify"
-"VerifyOnly"                 ==> "Verify"
+"Verify" ==> "Build"
 
-"Verify"    ==> "Build"
-"BuildOnly" ==> "Build"
 
-"BuildOnly"              ==> "TestOnly"
-"CleanTestResultsFolder" ==> "TestOnly"
-
-"Build"    ==> "Test"
-"TestOnly" ==> "Test"
+"CleanTestResultsFolder" ==> "Test"
+"Build"                  ==> "Test"
 
 "CleanNuGetPackages" ==> "NuGetPack"
 "Test"               ==> "NuGetPack"
 
 "NuGetPack" ==> "CompleteBuild"
 
-"NuGetPack"                  ==> "PublishNuGetPublic"
-"EnableSourceLinkGeneration" ==> "PublishNuGetPublic"
+"NuGetPack" ==> "PublishNuGet"
 
-"NuGetPack"                  ==> "PublishNuGetPrivate"
-"EnableSourceLinkGeneration" ==> "PublishNuGetPrivate"
-
-"PublishNuGetPublic"  ==> "PublishNuGetAll"
-"PublishNuGetPrivate" ==> "PublishNuGetAll"
+"NuGetPack" ==> "PublishMyGet"
 
 // ==============================================
 // ================== AppVeyor ==================
 // ==============================================
 
 // Add a helper to identify whether current trigger is PR.
-type AppVeyorEnvironment with
-    static member IsPullRequest = isNotNullOrEmpty AppVeyorEnvironment.PullRequestNumber
+type AppVeyor.Environment with
+    static member IsPullRequest = String.isNotNullOrEmpty AppVeyor.Environment.PullRequestNumber
 
 type AppVeyorTrigger = SemVerTag | CustomTag | PR | VNextBranch | Unknown
 let anAppVeyorTrigger =
-    let tag = if AppVeyorEnvironment.RepoTag then Some AppVeyorEnvironment.RepoTagName else None
-    let isPR = AppVeyorEnvironment.IsPullRequest
-    let branch = if isNotNullOrEmpty AppVeyorEnvironment.RepoBranch then Some AppVeyorEnvironment.RepoBranch else None
+    let tag = if AppVeyor.Environment.RepoTag then Some AppVeyor.Environment.RepoTagName else None
+    let isPR = AppVeyor.Environment.IsPullRequest
+    let branch = if String.isNotNullOrEmpty AppVeyor.Environment.RepoBranch then Some AppVeyor.Environment.RepoBranch else None
 
     match tag, isPR, branch with
     | Some t, _, _ when "v\d+.*" >** t -> SemVerTag
@@ -319,64 +289,64 @@ let anAppVeyorTrigger =
     | _, _, Some br when "v\d+" >** br -> VNextBranch
     | _                                -> Unknown
 
-Target "AppVeyor_SetVNextVersion" (fun _ ->
+Target.create "AppVeyor_SetVNextVersion" (fun _ ->
     // vNext branch has the following name: "vX", where X is the next version.
-    AppVeyorEnvironment.RepoBranch.Substring(1) 
+    AppVeyor.Environment.RepoBranch.Substring(1) 
     |> int
     |> setVNextBranchVersion
 )
 
-Target "AppVeyor_UploadTestReports" (fun _ ->
+Target.create "AppVeyor_UploadTestReports" (fun _ ->
     let shuffle xs = xs |> Seq.sortBy (fun _ -> Guid())
 
     !!"*.trx"
-    |> SetBaseDir testResultsFolder
-    |> Seq.map (fun file -> (file, MsTest))
-    |> Seq.append [(testResultsFolder </> "NUnit2TestResult.xml", NUnit)]
+    |> GlobbingPattern.setBaseDir testResultsFolder
+    |> Seq.map (fun file -> (file, ImportData.Mstest))
+    |> Seq.append [(testResultsFolder </> "NUnit2TestResult.xml", ImportData.Nunit NunitDataVersion.Nunit)]
     |> shuffle
-    |> Seq.map (fun (file, format) -> async { AppVeyor.UploadTestResultsFile format file })
+    |> Seq.map (fun (file, format) -> async { Trace.publish format file })
     |> Async.Parallel
     |> Async.RunSynchronously
     |> ignore
 )
 
-FinalTarget "AppVeyor_UpdateVersion" (fun _ ->
+Target.createFinal "AppVeyor_UpdateVersion" (fun _ ->
     // Artifacts might be deployable, so we update build version to find them later by file version.
-    let versionSuffix = if AppVeyorEnvironment.IsPullRequest then
-                            let appVeyorVersion = AppVeyorEnvironment.BuildVersion;
+    let versionSuffix = if AppVeyor.Environment.IsPullRequest then
+                            let appVeyorVersion = AppVeyor.Environment.BuildVersion;
                             appVeyorVersion.Substring(appVeyorVersion.IndexOf('-'))
                         else
                             ""
-
-    UpdateBuildVersion (buildVersion.fileVersion + versionSuffix)
+    Trace.setBuildNumber (buildVersion.FileVersion + versionSuffix)
 )
 
-Target "AppVeyor" DoNothing
+Target.create "AppVeyor" ignore
 
 "AppVeyor_SetVNextVersion" =?> ("PatchAssemblyVersions", anAppVeyorTrigger = VNextBranch)
 
-"TestOnly" ==> "AppVeyor_UploadTestReports"
-
-"AppVeyor_UploadTestReports" ?=> "Test"
+"Test" ==> "AppVeyor_UploadTestReports"
 
 // Add logic to resolve action based on current trigger info.
-dependency "AppVeyor" <| match anAppVeyorTrigger with
-                         | SemVerTag                -> "PublishNuGetPublic"
-                         | VNextBranch              -> "PublishNuGetPrivate"
-                         | PR | CustomTag | Unknown -> "CompleteBuild"
-"EnableSourceLinkGeneration" ==> "AppVeyor"
+(==>) <| match anAppVeyorTrigger with
+         | SemVerTag                -> "PublishNuGet"
+         | VNextBranch              -> "PublishMyGet"
+         | PR | CustomTag | Unknown -> "CompleteBuild"
+      <| "AppVeyor"
+
 "AppVeyor_UploadTestReports" ==> "AppVeyor"
 
 // Print state info at the very beginning.
-if buildServer = BuildServer.AppVeyor 
-   then logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A, build version: '%s'"
-              AppVeyorEnvironment.RepoTag 
-              AppVeyorEnvironment.RepoTagName 
-              AppVeyorEnvironment.IsPullRequest
-              AppVeyorEnvironment.RepoBranch
+if BuildServer.buildServer = AppVeyor 
+   then Trace.logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A, build version: '%s'"
+              AppVeyor.Environment.RepoTag 
+              AppVeyor.Environment.RepoTagName 
+              AppVeyor.Environment.IsPullRequest
+              AppVeyor.Environment.RepoBranch
               anAppVeyorTrigger
-              AppVeyorEnvironment.BuildVersion
-        ActivateFinalTarget "AppVeyor_UpdateVersion"
+              AppVeyor.Environment.BuildVersion
+        Target.activateFinal "AppVeyor_UpdateVersion"
+
+BuildServer.install [ AppVeyor.Installer ]
 
 // ========= ENTRY POINT =========
-RunTargetOrDefault "CompleteBuild"
+Target.runOrDefault "CompleteBuild"
