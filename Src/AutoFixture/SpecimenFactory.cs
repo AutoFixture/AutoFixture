@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 
@@ -281,6 +283,16 @@ namespace AutoFixture
         internal static object Create(this ISpecimenBuilder composer, Type type)
         {
             return composer.CreateContext().Resolve(type);
+        }
+        
+        internal static IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
+        {
+            return ((IEnumerable<object>)context.Resolve(
+                    new MultipleRequest(
+                        new SeededRequest(
+                            type,
+                            type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null))))
+                .Select(v => Convert.ChangeType(v, type, CultureInfo.CurrentCulture));
         }
 
         private static ISpecimenContext CreateContext(this ISpecimenBuilder builder)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -39,7 +38,7 @@ namespace AutoFixture.Kernel
                 var addMethod = propertyType.GetTypeInfo().GetMethod(nameof(ICollection<object>.Add));
                 if (addMethod == null) continue;
 
-                var valuesToAdd = CreateMany(context, collectionTypeGenericArgument);
+                var valuesToAdd = SpecimenFactory.CreateMany(context, collectionTypeGenericArgument);
 
                 foreach (var valueToAdd in valuesToAdd)
                 {
@@ -56,18 +55,6 @@ namespace AutoFixture.Kernel
                              && pi.PropertyType.GenericTypeArguments?.Length == 1
                              && (pi.PropertyType.Name == typeof(ICollection<>).Name
                                  || pi.PropertyType.GetTypeInfo().GetInterface(typeof(ICollection<>).Name) != null));
-        }
-
-        private static IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
-        {
-            return ((IEnumerable<object>)context.Resolve(
-                    new MultipleRequest(new SeededRequest(type, GetDefaultValue(type)))))
-                .Select(v => Convert.ChangeType(v, type, CultureInfo.CurrentCulture));
-        }
-
-        private static object GetDefaultValue(Type type)
-        {
-            return type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null;
         }
     }
 }
