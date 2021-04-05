@@ -12,6 +12,29 @@ namespace AutoFixture.Kernel
     public class ReadonlyCollectionPropertiesCommand : ISpecimenCommand
     {
         /// <summary>
+        /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesCommand"/>, used to fill all readonly
+        /// properties in a specimen that implement <see cref="ICollection{T}"/>.
+        /// </summary>
+        public ReadonlyCollectionPropertiesCommand() : this(ReadonlyCollectionPropertiesSpecification.DefaultPropertyQuery)
+        {
+        }
+        
+        /// <summary>
+        /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesCommand"/>, used to fill all readonly
+        /// properties in a specimen that implement <see cref="ICollection{T}"/>.
+        /// </summary>
+        /// <param name="propertyQuery">The query that will be applied to select readonly collection properties.</param>
+        public ReadonlyCollectionPropertiesCommand(IPropertyQuery propertyQuery)
+        {
+            this.PropertyQuery = propertyQuery;
+        }
+        
+        /// <summary>
+        /// Gets the query used to determine whether or not a specified type has readonly collection properties.
+        /// </summary>
+        public IPropertyQuery PropertyQuery { get; }
+        
+        /// <summary>
         /// Invokes <see cref="ICollection{T}.Add"/> to fill all readonly properties in a specimen that implement
         /// <see cref="ICollection{T}"/>.
         /// </summary>
@@ -30,31 +53,30 @@ namespace AutoFixture.Kernel
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             var specimenType = specimen.GetType();
-            foreach (var pi in GetReadonlyCollectionProperties(specimenType))
+            foreach (var pi in this.PropertyQuery.SelectProperties(specimenType))
             {
-                var propertyType = pi.PropertyType;
-                var collectionTypeGenericArgument = propertyType.GenericTypeArguments[0];
-
-                var addMethod = propertyType.GetTypeInfo().GetMethod(nameof(ICollection<object>.Add));
+                var addMethod = new InstanceMethodQuery(pi.GetValue(specimen), nameof(ICollection<object>.Add))
+                    .SelectMethods()
+                    .SingleOrDefault();
                 if (addMethod == null) continue;
 
-                var valuesToAdd = SpecimenFactory.CreateMany(context, collectionTypeGenericArgument);
+                var valuesToAdd = SpecimenFactory.CreateMany(
+                    context,
+                    addMethod.Parameters.Single().ParameterType);
 
                 foreach (var valueToAdd in valuesToAdd)
                 {
-                    addMethod.Invoke(pi.GetValue(specimen), new[] { valueToAdd });
+                    try
+                    {
+                        addMethod.Invoke(new[] { valueToAdd });
+                    }
+                    catch (TargetInvocationException e)
+                    {
+                        if (e.InnerException?.GetType() == typeof(NotSupportedException)) break;
+                        throw;
+                    }
                 }
             }
-        }
-
-        private static IEnumerable<PropertyInfo> GetReadonlyCollectionProperties(Type type)
-        {
-            return type.GetTypeInfo()
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
-                .Where(pi => pi.GetSetMethod() == null
-                             && pi.PropertyType.GenericTypeArguments?.Length == 1
-                             && (pi.PropertyType.Name == typeof(ICollection<>).Name
-                                 || pi.PropertyType.GetTypeInfo().GetInterface(typeof(ICollection<>).Name) != null));
         }
     }
 }

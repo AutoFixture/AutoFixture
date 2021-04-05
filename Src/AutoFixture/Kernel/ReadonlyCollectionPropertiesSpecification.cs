@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace AutoFixture.Kernel
 {
@@ -12,6 +10,37 @@ namespace AutoFixture.Kernel
     /// </summary>
     public class ReadonlyCollectionPropertiesSpecification : IRequestSpecification
     {
+        /// <summary>
+        /// The default query that will be applied to select readonly collection properties.
+        /// </summary>
+        public static readonly IPropertyQuery DefaultPropertyQuery = new AndPropertyQuery(
+            new ReadonlyPropertyQuery(),
+            new CollectionPropertyQuery());
+
+        /// <summary>
+        /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesSpecification"/> with a default
+        /// query applied for selection of readonly collection properties.
+        /// </summary>
+        public ReadonlyCollectionPropertiesSpecification() : this(DefaultPropertyQuery)
+        {
+        }
+        
+        /// <summary>
+        /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesSpecification"/>, which will use the query
+        /// supplied in <paramref name="propertyQuery"/> to determine whether or not a type contains readonly collection
+        /// properties.
+        /// </summary>
+        /// <param name="propertyQuery">The query that will be applied to select readonly collection properties.</param>
+        public ReadonlyCollectionPropertiesSpecification(IPropertyQuery propertyQuery)
+        {
+            this.PropertyQuery = propertyQuery;
+        }
+        
+        /// <summary>
+        /// Gets the query used to determine whether or not a specified type has readonly collection properties.
+        /// </summary>
+        public IPropertyQuery PropertyQuery { get; }
+        
         /// <summary>
         /// Evaluates whether or not the <paramref name="request"/> is for a type containing readonly properties that
         /// implement <see cref="ICollection{T}"/>.
@@ -25,15 +54,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            if (!(request is Type requestType)) return false;
-            if (typeof(Expression).GetTypeInfo().IsAssignableFrom(requestType)) return false;
-
-            return requestType.GetTypeInfo()
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Any(pi => pi.GetSetMethod() == null
-                           && pi.PropertyType.GenericTypeArguments?.Length == 1
-                           && (pi.PropertyType.Name == typeof(ICollection<>).Name
-                               || pi.PropertyType.GetTypeInfo().GetInterface(typeof(ICollection<>).Name) != null));
+            return request is Type requestType && this.PropertyQuery.SelectProperties(requestType).Any();
         }
     }
 }

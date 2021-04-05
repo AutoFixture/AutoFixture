@@ -38,26 +38,13 @@ namespace AutoFixtureDocumentationTest.Commerce
         }
 
         [Fact]
-        public void BuildOrderWithManyOrderLines()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            // Act
-            var order = fixture.Build<Order>()
-                .Do(o => fixture.AddManyTo(o.OrderLines))
-                .Create();
-            // Assert
-            Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
-        }
-
-        [Fact]
-        public void CreateAnonymousOrderAndThenAddOrderLines()
+        public void CreateOrderWithManyOrderLines()
         {
             // Arrange
             var fixture = new Fixture();
             // Act
             var order = fixture.Create<Order>();
-            fixture.AddManyTo(order.OrderLines);
+            // Assert
             Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
         }
     }

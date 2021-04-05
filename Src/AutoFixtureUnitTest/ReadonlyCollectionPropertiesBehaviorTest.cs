@@ -86,7 +86,7 @@ namespace AutoFixtureUnitTest
 
             // Assert
             var p = Assert.IsAssignableFrom<Postprocessor>(result);
-            Assert.IsAssignableFrom<ReadonlyCollectionPropertiesSpecification>(p.Specification);
+            Assert.IsAssignableFrom<AndRequestSpecification>(p.Specification);
         }
     }
 }
