@@ -15,7 +15,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             // Act
             var sut = new AndPropertyQuery();
-            
+
             // Assert
             Assert.IsAssignableFrom<IPropertyQuery>(sut);
         }
@@ -25,10 +25,10 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var sut = new AndPropertyQuery();
-            
+
             // Act
             var result = sut.Queries;
-            
+
             // Assert
             Assert.NotNull(result);
         }
@@ -43,10 +43,10 @@ namespace AutoFixtureUnitTest.Kernel
                 new CollectionPropertyQuery()
             };
             var sut = new AndPropertyQuery(parameters);
-            
+
             // Act
             var result = sut.Queries;
-            
+
             // Assert
             Assert.Equal(parameters, result);
         }
@@ -58,10 +58,10 @@ namespace AutoFixtureUnitTest.Kernel
             var sut = new AndPropertyQuery(
                 new ReadonlyPropertyQuery(),
                 new CollectionPropertyQuery());
-            
+
             // Act
             var result = sut.SelectProperties(typeof(CollectionHolder<string>));
-            
+
             // Assert
             Assert.Equal(result, typeof(CollectionHolder<string>).GetTypeInfo().GetProperties());
         }
@@ -75,10 +75,10 @@ namespace AutoFixtureUnitTest.Kernel
             var sut = new AndPropertyQuery(
                 new ReadonlyPropertyQuery(),
                 new CollectionPropertyQuery());
-            
+
             // Act
             var result = sut.SelectProperties(type);
-            
+
             // Assert
             Assert.NotEqual(result, type.GetTypeInfo().GetProperties());
         }

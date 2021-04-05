@@ -21,10 +21,11 @@ namespace AutoFixture.Kernel
         /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesSpecification"/> with a default
         /// query applied for selection of readonly collection properties.
         /// </summary>
-        public ReadonlyCollectionPropertiesSpecification() : this(DefaultPropertyQuery)
+        public ReadonlyCollectionPropertiesSpecification()
+            : this(DefaultPropertyQuery)
         {
         }
-        
+
         /// <summary>
         /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesSpecification"/>, which will use the query
         /// supplied in <paramref name="propertyQuery"/> to determine whether or not a type contains readonly collection
@@ -35,12 +36,12 @@ namespace AutoFixture.Kernel
         {
             this.PropertyQuery = propertyQuery;
         }
-        
+
         /// <summary>
         /// Gets the query used to determine whether or not a specified type has readonly collection properties.
         /// </summary>
         public IPropertyQuery PropertyQuery { get; }
-        
+
         /// <summary>
         /// Evaluates whether or not the <paramref name="request"/> is for a type containing readonly properties that
         /// implement <see cref="ICollection{T}"/>.

@@ -15,10 +15,11 @@ namespace AutoFixture.Kernel
         /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesCommand"/>, used to fill all readonly
         /// properties in a specimen that implement <see cref="ICollection{T}"/>.
         /// </summary>
-        public ReadonlyCollectionPropertiesCommand() : this(ReadonlyCollectionPropertiesSpecification.DefaultPropertyQuery)
+        public ReadonlyCollectionPropertiesCommand()
+            : this(ReadonlyCollectionPropertiesSpecification.DefaultPropertyQuery)
         {
         }
-        
+
         /// <summary>
         /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesCommand"/>, used to fill all readonly
         /// properties in a specimen that implement <see cref="ICollection{T}"/>.
@@ -28,12 +29,12 @@ namespace AutoFixture.Kernel
         {
             this.PropertyQuery = propertyQuery;
         }
-        
+
         /// <summary>
         /// Gets the query used to determine whether or not a specified type has readonly collection properties.
         /// </summary>
         public IPropertyQuery PropertyQuery { get; }
-        
+
         /// <summary>
         /// Invokes <see cref="ICollection{T}.Add"/> to fill all readonly properties in a specimen that implement
         /// <see cref="ICollection{T}"/>.

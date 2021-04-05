@@ -20,24 +20,24 @@ namespace AutoFixture.Kernel
             this.Owner = owner ?? throw new ArgumentNullException(nameof(owner));
             this.MethodName = methodName ?? throw new ArgumentNullException(nameof(methodName));
         }
-        
+
         /// <summary>
         /// Gets the instance that should be selected from.
         /// </summary>
         public object Owner { get; }
-        
+
         /// <summary>
         /// Gets the name of the method that should be selected.
         /// </summary>
         public string MethodName { get; }
-        
+
         /// <summary>
         /// Selects <see cref="MethodName"/> from <see cref="Owner"/>.
         /// </summary>
-        /// <param name="_">Discarded.</param>
+        /// <param name="type">Discarded.</param>
         /// <returns>Returns an empty enumerable if <see cref="MethodName"/> does not belong to <see cref="Owner"/>;
         /// returns an enumerable containing a single <see cref="InstanceMethod"/> otherwise.</returns>
-        public IEnumerable<IMethod> SelectMethods(Type _ = default)
+        public IEnumerable<IMethod> SelectMethods(Type type = default)
         {
             var method = this.Owner.GetType().GetTypeInfo().GetMethod(this.MethodName);
 

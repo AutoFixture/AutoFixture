@@ -14,9 +14,10 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var owner = new object();
             var methodName = string.Empty;
+
             // Act
             var sut = new InstanceMethodQuery(owner, methodName);
-            
+
             // Assert
             Assert.IsAssignableFrom<IMethodQuery>(sut);
         }
@@ -27,20 +28,20 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             object owner = null;
             var methodName = string.Empty;
-            
+
             // Act
             // Assert
             // ReSharper disable once ExpressionIsAlwaysNull
             Assert.Throws<ArgumentNullException>(() => new InstanceMethodQuery(owner, methodName));
         }
-        
+
         [Fact]
         public void ConstructionOfSutWithNullMethodNameThrows()
         {
             // Arrange
             var owner = new object();
             string methodName = null;
-            
+
             // Act
             // Assert
             // ReSharper disable once ExpressionIsAlwaysNull
@@ -60,7 +61,7 @@ namespace AutoFixtureUnitTest.Kernel
             var result = sut.SelectMethods();
             var enumerable = result.ToArray();
             enumerable.Single().Invoke(new[] { expectedContents });
-            
+
             // Assert
             Assert.Single(enumerable);
             Assert.Single(owner, expectedContents);
@@ -76,7 +77,7 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Act
             var result = sut.SelectMethods();
-            
+
             // Assert
             Assert.Empty(result);
         }

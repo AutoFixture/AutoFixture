@@ -16,10 +16,11 @@ namespace AutoFixture
         /// <see cref="ReadonlyCollectionPropertiesCommand"/> if the specimen meets the
         /// <see cref="ReadonlyCollectionPropertiesSpecification"/>.
         /// </summary>
-        public ReadonlyCollectionPropertiesBehavior() : this(ReadonlyCollectionPropertiesSpecification.DefaultPropertyQuery)
+        public ReadonlyCollectionPropertiesBehavior()
+            : this(ReadonlyCollectionPropertiesSpecification.DefaultPropertyQuery)
         {
         }
-        
+
         /// <summary>
         /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesBehavior"/>, used to decorate an
         /// <see cref="ISpecimenBuilder"/> with a <see cref="Postprocessor"/> which invokes
@@ -31,12 +32,12 @@ namespace AutoFixture
         {
             this.PropertyQuery = propertyQuery;
         }
-        
+
         /// <summary>
         /// Gets the query used to determine whether or not a specified type has readonly collection properties.
         /// </summary>
         public IPropertyQuery PropertyQuery { get; }
-        
+
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a <see cref="Postprocessor"/> which invokes
         /// <see cref="ReadonlyCollectionPropertiesCommand"/> if the specimen meets the
@@ -54,7 +55,7 @@ namespace AutoFixture
         public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
-            
+
             return new Postprocessor(
                 builder,
                 new ReadonlyCollectionPropertiesCommand(this.PropertyQuery),

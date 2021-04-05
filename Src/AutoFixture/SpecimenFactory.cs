@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 
@@ -284,11 +282,11 @@ namespace AutoFixture
         {
             return composer.CreateContext().Resolve(type);
         }
-        
+
         internal static IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
         {
-            return ((IEnumerable<object>)
-                    context.Resolve(new MultipleRequest(new SeededRequest(type, type.GetDefaultValue()))))
+            return ((IEnumerable<object>)context
+                    .Resolve(new MultipleRequest(new SeededRequest(type, type.GetDefaultValue()))))
                 .ConvertObjectType(type);
         }
 

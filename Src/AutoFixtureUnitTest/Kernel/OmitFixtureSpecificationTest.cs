@@ -31,7 +31,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Assert
             Assert.False(result);
         }
-        
+
         [Theory]
         [InlineData(null)]
         [InlineData("")]
