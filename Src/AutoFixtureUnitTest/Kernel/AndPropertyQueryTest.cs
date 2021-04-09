@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
@@ -37,50 +36,44 @@ namespace AutoFixtureUnitTest.Kernel
         public void QueriesWillMatchProvidedParameters()
         {
             // Arrange
-            var parameters = new IPropertyQuery[]
+            var expectedResult = new IPropertyQuery[]
             {
-                new ReadonlyPropertyQuery(),
-                new GenericCollectionPropertyQuery()
+                new DelegatingPropertyQuery(),
+                new DelegatingPropertyQuery()
             };
-            var sut = new AndPropertyQuery(parameters);
+            var sut = new AndPropertyQuery(expectedResult);
 
             // Act
             var result = sut.Queries;
 
             // Assert
-            Assert.Equal(parameters, result);
+            Assert.True(expectedResult.SequenceEqual(result));
         }
 
         [Fact]
-        public void SelectPropertiesWillSelectPropertiesMeetingProvidedQueryParameters()
+        public void SelectPropertiesWillOnlySelectPropertiesMeetingProvidedQueryParameters()
         {
             // Arrange
+            var stringProperty = typeof(PropertyHolder<string>).GetTypeInfo().GetProperties();
+            var intProperty = typeof(PropertyHolder<int>).GetTypeInfo().GetProperties();
+
             var sut = new AndPropertyQuery(
-                new ReadonlyPropertyQuery(),
-                new GenericCollectionPropertyQuery());
+                new DelegatingPropertyQuery
+                {
+                    OnSelectProperties = _ => stringProperty.Concat(intProperty)
+                },
+                new DelegatingPropertyQuery
+                {
+                    OnSelectProperties = _ => stringProperty
+                });
+
+            var expectedResult = stringProperty.AsEnumerable();
 
             // Act
-            var result = sut.SelectProperties(typeof(CollectionHolder<string>));
+            var result = sut.SelectProperties(typeof(string));
 
             // Assert
-            Assert.Equal(result, typeof(CollectionHolder<string>).GetTypeInfo().GetProperties());
-        }
-
-        [Theory]
-        [InlineData(typeof(StaticPropertyHolder<List<string>>))]
-        [InlineData(typeof(SingleParameterType<string>))]
-        public void SelectPropertiesWillNotSelectPropertiesNotMeetingProvidedQueryParameters(Type type)
-        {
-            // Arrange
-            var sut = new AndPropertyQuery(
-                new ReadonlyPropertyQuery(),
-                new GenericCollectionPropertyQuery());
-
-            // Act
-            var result = sut.SelectProperties(type);
-
-            // Assert
-            Assert.NotEqual(result, type.GetTypeInfo().GetProperties());
+            Assert.True(expectedResult.SequenceEqual(result));
         }
     }
 }
