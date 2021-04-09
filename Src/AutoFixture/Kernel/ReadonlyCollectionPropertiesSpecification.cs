@@ -15,7 +15,7 @@ namespace AutoFixture.Kernel
         /// </summary>
         public static readonly IPropertyQuery DefaultPropertyQuery = new AndPropertyQuery(
             new ReadonlyPropertyQuery(),
-            new CollectionPropertyQuery());
+            new GenericCollectionPropertyQuery());
 
         /// <summary>
         /// Constructs an instance of <see cref="ReadonlyCollectionPropertiesSpecification"/> with a default

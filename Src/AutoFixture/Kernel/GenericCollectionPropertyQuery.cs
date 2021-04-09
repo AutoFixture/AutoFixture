@@ -6,14 +6,14 @@ using System.Reflection;
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// A query which returns collection properties from specified types.
+    /// A query which returns generic collection properties from specified types.
     /// </summary>
-    public class CollectionPropertyQuery : IPropertyQuery
+    public class GenericCollectionPropertyQuery : IPropertyQuery
     {
         /// <summary>
-        /// Select those properties that are collections from <paramref name="type"/>.
+        /// Select those properties that are generic collections from <paramref name="type"/>.
         /// </summary>
-        /// <param name="type">The type which collection properties should be selected from.</param>
+        /// <param name="type">The type which generic collection properties should be selected from.</param>
         /// <returns>Properties belonging to <paramref name="type"/> that are collections.</returns>
         public IEnumerable<PropertyInfo> SelectProperties(Type type)
         {

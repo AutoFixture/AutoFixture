@@ -40,7 +40,7 @@ namespace AutoFixtureUnitTest.Kernel
             var parameters = new IPropertyQuery[]
             {
                 new ReadonlyPropertyQuery(),
-                new CollectionPropertyQuery()
+                new GenericCollectionPropertyQuery()
             };
             var sut = new AndPropertyQuery(parameters);
 
@@ -57,7 +57,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var sut = new AndPropertyQuery(
                 new ReadonlyPropertyQuery(),
-                new CollectionPropertyQuery());
+                new GenericCollectionPropertyQuery());
 
             // Act
             var result = sut.SelectProperties(typeof(CollectionHolder<string>));
@@ -74,7 +74,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var sut = new AndPropertyQuery(
                 new ReadonlyPropertyQuery(),
-                new CollectionPropertyQuery());
+                new GenericCollectionPropertyQuery());
 
             // Act
             var result = sut.SelectProperties(type);
