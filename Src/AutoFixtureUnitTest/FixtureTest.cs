@@ -205,17 +205,6 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
-        public void BehaviorsContainsReadonlyCollectionPropertiesBehavior()
-        {
-            // Arrange
-            var sut = new Fixture();
-            // Act
-            var result = sut.Behaviors;
-            // Assert
-            Assert.True(result.OfType<ReadonlyCollectionPropertiesBehavior>().Any());
-        }
-
-        [Fact]
         public void SutIsCustomizableComposer()
         {
             // Arrange
@@ -778,10 +767,11 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithReadonlyCollectionPropertiesFillsCollections()
+        public void CreateAnonymousWithReadonlyCollectionPropertiesBehaviorFillsCollections()
         {
             // Arrange
             var sut = new Fixture();
+            sut.Behaviors.Add(new ReadonlyCollectionPropertiesBehavior());
             // Act
             var result = sut.Create<CollectionHolder<string>>();
             // Assert
@@ -789,10 +779,11 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithReadonlyCollectionPropertiesFillsCollectionsWithRepeatCount()
+        public void CreateAnonymousWithReadonlyCollectionPropertiesBehaviorFillsCollectionsWithRepeatCount()
         {
             // Arrange
             var sut = new Fixture();
+            sut.Behaviors.Add(new ReadonlyCollectionPropertiesBehavior());
             var expectedCount = 6;
             sut.RepeatCount = expectedCount;
             // Act
