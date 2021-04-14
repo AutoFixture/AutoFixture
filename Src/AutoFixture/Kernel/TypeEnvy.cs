@@ -67,5 +67,10 @@ namespace AutoFixture.Kernel
                     return false;
             }
         }
+
+        public static object GetDefaultValue(this Type type)
+        {
+            return type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null;
+        }
     }
 }

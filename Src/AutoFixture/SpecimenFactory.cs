@@ -283,6 +283,13 @@ namespace AutoFixture
             return composer.CreateContext().Resolve(type);
         }
 
+        internal static IEnumerable<object> CreateMany(ISpecimenContext context, Type type)
+        {
+            return ((IEnumerable<object>)context
+                    .Resolve(new MultipleRequest(new SeededRequest(type, type.GetDefaultValue()))))
+                .ConvertObjectType(type);
+        }
+
         private static ISpecimenContext CreateContext(this ISpecimenBuilder builder)
         {
             return new SpecimenContext(builder);

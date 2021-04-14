@@ -767,6 +767,32 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithReadonlyCollectionPropertiesBehaviorFillsCollections()
+        {
+            // Arrange
+            var sut = new Fixture();
+            sut.Behaviors.Add(new ReadonlyCollectionPropertiesBehavior());
+            // Act
+            var result = sut.Create<CollectionHolder<string>>();
+            // Assert
+            Assert.NotEmpty(result.Collection);
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReadonlyCollectionPropertiesBehaviorFillsCollectionsWithRepeatCount()
+        {
+            // Arrange
+            var sut = new Fixture();
+            sut.Behaviors.Add(new ReadonlyCollectionPropertiesBehavior());
+            var expectedCount = 6;
+            sut.RepeatCount = expectedCount;
+            // Act
+            var result = sut.Create<CollectionHolder<string>>();
+            // Assert
+            Assert.Equal(expectedCount, result.Collection.Count);
+        }
+
+        [Fact]
         public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedWholeNumericPropertiesWillAssignSameValue()
         {
             // Arrange
