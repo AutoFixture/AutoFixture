@@ -67,16 +67,18 @@ namespace AutoFixture.NUnit3
         /// </summary>
         private static void EnsureOriginalArgumentsArrayIsNotShared(TestCaseParameters parameters)
         {
-            if (ReferenceEquals(parameters.Arguments, parameters.OriginalArguments))
-            {
-                var clonedArguments = new object[parameters.OriginalArguments.Length];
-                Array.Copy(parameters.OriginalArguments, clonedArguments, parameters.OriginalArguments.Length);
+            if (!ReferenceEquals(parameters.Arguments, parameters.OriginalArguments)) return;
 
-                // Unfortunately the property has a private setter, so can be updated via reflection only.
-                // Should use the type where the property is declared as otherwise the private setter is not available.
-                var property = typeof(TestParameters).GetTypeInfo().GetProperty(nameof(TestCaseParameters.OriginalArguments));
-                property.SetValue(parameters, clonedArguments, null);
-            }
+            var clonedArguments = new object[parameters.OriginalArguments.Length];
+            Array.Copy(parameters.OriginalArguments, clonedArguments, parameters.OriginalArguments.Length);
+
+            // Unfortunately the property has a private setter, so can be updated via reflection only.
+            // Should use the type where the property is declared as otherwise the private setter is not available.
+            var property = typeof(TestParameters)
+                .GetTypeInfo()
+                .GetProperty(nameof(TestCaseParameters.OriginalArguments));
+
+            property?.SetValue(parameters, clonedArguments, null);
         }
 
         private class TypeNameRenderer
@@ -90,7 +92,7 @@ namespace AutoFixture.NUnit3
 
             public override string ToString()
             {
-                return "auto<" + this.Type.Name + ">";
+                return $"auto<{this.Type.Name}>";
             }
         }
     }
