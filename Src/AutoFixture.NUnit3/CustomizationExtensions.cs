@@ -8,23 +8,17 @@ namespace AutoFixture.NUnit3
 {
     internal static class CustomizationExtensions
     {
-        private static ICustomization Aggregate(this IEnumerable<ICustomization> customizations)
+        public static ICustomization Aggregate(this IEnumerable<ICustomization> customizations)
         {
             return new CompositeCustomization(customizations);
         }
 
-        public static void Customize(this IEnumerable<IParameterInfo> source, IFixture fixture)
-        {
-            source
-                .Select(
-                    x => x.GetCustomAttributes<Attribute>(false)
-                        .OfType<IParameterCustomizationSource>()
-                        .OrderBy(y => y, new CustomizeAttributeComparer())
-                        .Select(y => y.GetCustomization(x.ParameterInfo))
-                        .Aggregate())
-                .Aggregate()
-                .Customize(fixture);
-        }
+        public static IEnumerable<ICustomization> GetCustomizations(this IParameterInfo source)
+            => source
+                .GetCustomAttributes<Attribute>(false)
+                .OfType<IParameterCustomizationSource>()
+                .OrderBy(x => x, new CustomizeAttributeComparer())
+                .Select(x => x.GetCustomization(source.ParameterInfo));
 
         public static object Resolve(this IFixture source, IParameterInfo parameterInfo)
         {

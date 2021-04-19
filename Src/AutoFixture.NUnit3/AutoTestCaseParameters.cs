@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -9,47 +9,61 @@ namespace AutoFixture.NUnit3
 {
     internal class AutoTestCaseParameters
     {
-        private readonly IReadOnlyList<object> arguments;
         private readonly Func<IFixture> fixtureFactory;
-        private readonly IReadOnlyList<IParameterInfo> methodParameters;
-        private readonly FixedNameArgumentsPatcher argumentsPatcher;
+        private readonly IReadOnlyList<object> arguments;
+        private readonly FixedNameArgumentsPatcher argumentsPatcher = new FixedNameArgumentsPatcher();
 
-        public AutoTestCaseParameters(
-            Func<IFixture> fixtureFactory,
-            IReadOnlyList<IParameterInfo> methodParameters,
-            IReadOnlyList<object> arguments)
+        public AutoTestCaseParameters(Func<IFixture> fixtureFactory, IReadOnlyList<object> arguments)
         {
-            this.fixtureFactory = fixtureFactory;
-            this.arguments = arguments;
-            this.methodParameters = methodParameters;
+            this.fixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+            this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+        }
 
-            var autoDataStartIndex = methodParameters.Count - arguments.Count;
-            this.argumentsPatcher = new FixedNameArgumentsPatcher(methodParameters, autoDataStartIndex);
+        public string Category { get; set; }
+
+        public TestCaseParameters GetParameters(IMethodInfo method)
+        {
+            var parameters = CreateParameters(method);
+
+            if (!string.IsNullOrWhiteSpace(this.Category))
+            {
+                parameters.Properties.Add("Category", this.Category);
+            }
+
+            return parameters;
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
-        private TestCaseParameters Convert()
+        private TestCaseParameters CreateParameters(IMethodInfo method)
         {
+            var methodParameters = method.GetParameters();
+
+            var missingParameters = methodParameters
+                .Skip(this.arguments.Count).ToList();
+
+            if (missingParameters.Count == 0)
+                return new TestCaseParameters(this.arguments.ToArray());
+
             try
             {
-                var fixture = this.fixtureFactory();
-                var missingParameters = this.methodParameters.Skip(this.arguments.Count).ToList();
-                missingParameters.Customize(fixture);
+                var fixture = this.fixtureFactory.Invoke();
+
+                missingParameters
+                    .SelectMany(x => x.GetCustomizations())
+                    .Aggregate().Customize(fixture);
+
                 var missingValues = missingParameters.Select(fixture.Resolve);
-                var parameters = new TestCaseParameters(this.arguments.Concat(missingValues).ToArray());
-                this.argumentsPatcher.Patch(parameters);
+                var arguments = this.arguments.Concat(missingValues).ToArray();
+
+                var parameters = new TestCaseParameters(arguments);
+                this.argumentsPatcher.Patch(parameters, method);
                 return parameters;
             }
             catch (Exception e)
             {
                 return new TestCaseParameters(e);
             }
-        }
-
-        public static implicit operator TestCaseParameters(AutoTestCaseParameters parameters)
-        {
-            return parameters.Convert();
         }
     }
 }

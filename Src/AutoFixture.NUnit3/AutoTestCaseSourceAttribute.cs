@@ -112,14 +112,16 @@ namespace AutoFixture.NUnit3
                 this.SourceName,
                 this.Parameters);
 
-            var builder = new AutoTestCaseBuilder(this.FixtureFactory)
-            {
-                Category = this.Category
-            };
+            var builder = new AutoTestCaseBuilder();
 
             foreach (var values in source.GetTestCases(method))
             {
-                yield return builder.BuildTestMethod(method, suite, values);
+                var parameters = new AutoTestCaseParameters(this.FixtureFactory, values)
+                {
+                    Category = this.Category
+                };
+
+                yield return builder.BuildTestMethod(method, suite, parameters);
             }
         }
     }
