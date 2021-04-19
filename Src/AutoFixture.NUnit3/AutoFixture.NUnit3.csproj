@@ -19,6 +19,7 @@
     <PackageReference Include="NUnit" Version="[3.0.1,4.0.0)" Condition=" '$(TargetFramework)'=='net452' " />
     <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" Condition=" '$(TargetFramework)'=='netstandard1.5' " />
     <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>

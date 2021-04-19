@@ -74,7 +74,7 @@ namespace AutoFixture.NUnit3.UnitTest
             // Arrange
             bool wasActivated = false;
 
-            var sut = new AutoDataAttributeStub(() =>
+            var sut = new InlineAutoDataAttributeStub(() =>
             {
                 wasActivated = true;
                 return null;
@@ -140,7 +140,7 @@ namespace AutoFixture.NUnit3.UnitTest
             };
             var sut = new InlineAutoDataAttributeStub(() => fixture);
             // Act
-            sut.BuildFrom(method, new TestSuite(this.GetType())).Single();
+            _ = sut.BuildFrom(method, new TestSuite(this.GetType())).Single();
             // Assert
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);

@@ -35,7 +35,9 @@ namespace AutoFixture.NUnit3.UnitTest
         {
             // Arrange
             var sut = new FavorListsAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
+            var parameter = typeof(TypeWithOverloadedMembers)
+                .GetMethod("DoSomething", new[] { typeof(object) })
+                ?.GetParameters().Single();
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert

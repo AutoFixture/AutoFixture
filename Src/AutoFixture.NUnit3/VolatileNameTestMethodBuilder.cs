@@ -8,11 +8,13 @@ using NUnit.Framework.Internal.Builders;
 
 namespace AutoFixture.NUnit3
 {
+    /// <summary>
     /// Creates <see cref="TestMethod"/> instances with name that includes actual argument values.
     /// <para>
     /// Notice, this strategy might break compatibility with some test runners that rely on stable test names
     /// (e.g. Visual Studio with NUnit3TestAdapter, NCrunch), therefore use this strategy with caution.
     /// </para>
+    /// </summary>
     public class VolatileNameTestMethodBuilder : ITestMethodBuilder
     {
         /// <inheritdoc />
