@@ -5,7 +5,7 @@ using NUnit.Framework.Internal;
 
 namespace AutoFixture.NUnit3
 {
-    internal class FixedNameArgumentsPatcher
+    internal class FixedNameArgumentsPatcher : IPatchParameters
     {
         public void Patch(TestCaseParameters parameters, IMethodInfo method)
         {

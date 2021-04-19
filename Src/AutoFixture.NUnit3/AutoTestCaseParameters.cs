@@ -11,7 +11,7 @@ namespace AutoFixture.NUnit3
     {
         private readonly Func<IFixture> fixtureFactory;
         private readonly IReadOnlyList<object> arguments;
-        private readonly FixedNameArgumentsPatcher argumentsPatcher = new FixedNameArgumentsPatcher();
+        private IPatchParameters patcher = new FixedNameArgumentsPatcher();
 
         public AutoTestCaseParameters(Func<IFixture> fixtureFactory, IReadOnlyList<object> arguments)
         {
@@ -21,9 +21,15 @@ namespace AutoFixture.NUnit3
 
         public string Category { get; set; }
 
+        public IPatchParameters Patcher
+        {
+            get => this.patcher;
+            set => this.patcher = value;
+        }
+
         public TestCaseParameters GetParameters(IMethodInfo method)
         {
-            var parameters = CreateParameters(method);
+            var parameters = this.CreateParameters(method);
 
             if (!string.IsNullOrWhiteSpace(this.Category))
             {
@@ -57,7 +63,7 @@ namespace AutoFixture.NUnit3
                 var arguments = this.arguments.Concat(missingValues).ToArray();
 
                 var parameters = new TestCaseParameters(arguments);
-                this.argumentsPatcher.Patch(parameters, method);
+                this.patcher.Patch(parameters, method);
                 return parameters;
             }
             catch (Exception e)
