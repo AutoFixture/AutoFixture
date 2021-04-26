@@ -98,12 +98,14 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.NotNull(s2);
         }
 
-        [Theory, MemberAutoData(nameof(StringData))]
+        [Theory]
+        [MemberAutoData(nameof(StringData))]
+        [MemberAutoData(nameof(ComplexData))]
         public void MemberAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
         {
             Assert.Equal("foo", s1);
             Assert.NotNull(s2);
-            Assert.NotNull(myClass);
+            Assert.NotNull(myClass?.Prop1);
         }
 
         [Theory, MemberAutoData(nameof(StringData))]
@@ -123,6 +125,15 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Equal(43, z);
         }
 
+        [Theory, MemberAutoData(nameof(TheoryIntData))]
+        public void MemberAutoDataShouldNotReuseNonFrozenObjectsBetweenTestCases(int x, MyCollection<int> sut)
+        {
+            sut.Add(x);
+
+            var itemsCount = sut.Items.Count();
+            Assert.Equal(1, itemsCount);
+        }
+
         [Theory, MyCustomMemberAutoData(nameof(IntData))]
         public void CustomMemberAutoDataSuppliesExtraValues(int x, int y, int z)
         {
@@ -139,12 +150,22 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.Equal(43, z);
         }
 
+        public static TheoryData<int> TheoryIntData => new TheoryData<int> { 1, 2, 4 };
+
         public static IEnumerable<object[]> StringData
         {
             get
             {
                 yield return new object[] { "foo", };
                 yield return new object[] { "foo", "bar" };
+            }
+        }
+
+        public static IEnumerable<object[]> ComplexData
+        {
+            get
+            {
+                yield return new object[] { "foo", string.Empty, new MyClass { Prop1 = "bar" } };
             }
         }
 
@@ -166,7 +187,7 @@ namespace AutoFixture.Xunit2.UnitTest
         private class MyCustomMemberAutoDataAttribute : MemberAutoDataAttribute
         {
             public MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
-                : base(new MyCustomAutoDataAttribute(), memberName, parameters)
+                : base(() => new MyCustomAutoDataAttribute(), memberName, parameters)
             {
             }
         }
