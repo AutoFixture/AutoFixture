@@ -29,7 +29,26 @@ namespace AutoFixture.AutoMoq
     /// </remarks>
     public class MockVirtualMethodsCommand : ISpecimenCommand
     {
+        private readonly bool cacheMethodCallResults;
+
         private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockVirtualMethodsCommand"/> class.
+        /// </summary>
+        public MockVirtualMethodsCommand()
+            : this(true)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockVirtualMethodsCommand"/> class.
+        /// </summary>
+        /// <param name="cacheMethodCallResults">Should return value be cached for later member invocations.</param>
+        public MockVirtualMethodsCommand(bool cacheMethodCallResults)
+        {
+            this.cacheMethodCallResults = cacheMethodCallResults;
+        }
 
         /// <summary>
         /// Sets up a mocked object's methods so that the return values will be retrieved from a fixture,
@@ -68,7 +87,10 @@ namespace AutoFixture.AutoMoq
                         this.GetType()
                             .GetMethod(nameof(SetupMethod), BindingFlags.NonPublic | BindingFlags.Static)
                             .MakeGenericMethod(mockedType, returnType)
-                            .Invoke(this, new object[] { mock, methodInvocationLambda, context });
+                            .Invoke(this, new object[]
+                            {
+                                mock, methodInvocationLambda, context, this.cacheMethodCallResults
+                            });
                     }
                 }
             }
@@ -96,14 +118,15 @@ namespace AutoFixture.AutoMoq
         /// <param name="mock">The mock being set up.</param>
         /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
         /// <param name="context">The context that will be used to resolve the method's return value.</param>
+        /// <param name="cacheMethodCallResults">Should return value be cached for later member invocations.</param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode",
             Justification = "This method is invoked through reflection.")]
-        private static void SetupMethod<TMock, TResult>(
-            Mock<TMock> mock, Expression<Func<TMock, TResult>> methodCallExpression, ISpecimenContext context)
+        private static void SetupMethod<TMock, TResult>(Mock<TMock> mock,
+            Expression<Func<TMock, TResult>> methodCallExpression, ISpecimenContext context, bool cacheMethodCallResults)
             where TMock : class
         {
             mock.Setup(methodCallExpression)
-                .ReturnsUsingContext(context);
+                .ReturnsUsingContext(context, cacheMethodCallResults);
         }
 
         /// <summary>
