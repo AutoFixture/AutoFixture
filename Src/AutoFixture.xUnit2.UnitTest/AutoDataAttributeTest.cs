@@ -175,7 +175,8 @@ namespace AutoFixture.Xunit2.UnitTest
         public void GetDataReturnsCorrectResult()
         {
             // Arrange
-            var method = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) });
+            var method = typeof(TypeWithOverloadedMembers)
+                .GetMethod("DoSomething", new[] { typeof(object) });
             var parameters = method.GetParameters();
 
             var expectedResult = new object();
@@ -249,6 +250,7 @@ namespace AutoFixture.Xunit2.UnitTest
             {
             }
 
+            [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
             public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
             {
                 public ICustomization GetCustomization(ParameterInfo parameter)

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
+
+#if NETCOREAPP1_1
+using System.Reflection;
+#endif
 
 namespace AutoFixture.Xunit2.UnitTest
 {
