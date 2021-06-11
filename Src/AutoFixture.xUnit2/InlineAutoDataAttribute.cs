@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
 
@@ -14,7 +15,7 @@ namespace AutoFixture.Xunit2
         assemblyName: "AutoFixture.Xunit2")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class InlineAutoDataAttribute : CompositeDataAttribute
     {
