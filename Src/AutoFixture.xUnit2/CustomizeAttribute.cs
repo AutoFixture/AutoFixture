@@ -14,7 +14,7 @@ namespace AutoFixture.Xunit2
         /// Gets a customization for a parameter.
         /// </summary>
         /// <param name="parameter">The parameter for which the customization is requested.</param>
-        /// <returns></returns>
+        /// <returns>A customization for the parameter.</returns>
         public abstract ICustomization GetCustomization(ParameterInfo parameter);
     }
 }

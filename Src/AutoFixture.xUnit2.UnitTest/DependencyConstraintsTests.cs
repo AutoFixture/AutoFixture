@@ -3,7 +3,7 @@ using Xunit;
 
 namespace AutoFixture.Xunit2.UnitTest
 {
-    public class DependencyConstraints
+    public class DependencyConstraintsTests
     {
         [Theory]
         [InlineData("FakeItEasy")]

@@ -1,4 +1,7 @@
-﻿namespace TestTypeFoundation
+﻿using System;
+using System.Reflection;
+
+namespace TestTypeFoundation
 {
     public class TypeWithOverloadedMembers
     {
@@ -19,5 +22,9 @@
         public void DoSomething(object x, object y, object z)
         {
         }
+
+        public static MethodInfo GetDoSomethingMethod(params Type[] parameterTypes) =>
+            typeof(TypeWithOverloadedMembers)
+                .GetMethod(nameof(DoSomething), parameterTypes);
     }
 }
