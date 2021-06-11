@@ -9,7 +9,7 @@ namespace AutoFixture.Xunit2
     /// Theory to indicate that the parameter value should be created using a constructor with one
     /// or more array arguments, if applicable.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class FavorArraysAttribute : CustomizeAttribute
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace AutoFixture.Xunit2
         /// </returns>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
+            if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
             return new ConstructorCustomization(parameter.ParameterType, new ArrayFavoringConstructorQuery());
         }

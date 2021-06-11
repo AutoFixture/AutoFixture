@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Xunit2.Internal;
 using Xunit.Sdk;
 
 namespace AutoFixture.Xunit2
@@ -10,7 +11,7 @@ namespace AutoFixture.Xunit2
     /// <summary>
     /// An implementation of DataAttribute that composes other DataAttribute instances.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
@@ -21,8 +22,8 @@ namespace AutoFixture.Xunit2
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a data theory.
         /// </param>
-        public CompositeDataAttribute(IReadOnlyCollection<DataAttribute> attributes)
-            : this(attributes.ToArray())
+        public CompositeDataAttribute(IEnumerable<DataAttribute> attributes)
+            : this(attributes as DataAttribute[] ?? attributes.ToArray())
         {
         }
 
@@ -55,7 +56,7 @@ namespace AutoFixture.Xunit2
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (testMethod == null) throw new ArgumentNullException(nameof(testMethod));
+            if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
 
             return this.Attributes
                 .Select(attr => attr.GetData(testMethod))

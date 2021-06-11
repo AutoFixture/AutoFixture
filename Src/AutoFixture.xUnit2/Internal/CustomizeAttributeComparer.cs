@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AutoFixture.Xunit2
+namespace AutoFixture.Xunit2.Internal
 {
     internal class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
     {

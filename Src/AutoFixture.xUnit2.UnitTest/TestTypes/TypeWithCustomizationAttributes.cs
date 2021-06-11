@@ -1,6 +1,6 @@
 ﻿using TestTypeFoundation;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     internal class TypeWithCustomizationAttributes
     {

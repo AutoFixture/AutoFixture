@@ -3,7 +3,7 @@ using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     public class FakeDataAttribute : DataAttribute
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     internal class ComposerWithoutADefaultConstructor : DelegatingFixture
     {
         public ComposerWithoutADefaultConstructor(Func<ISpecimenBuilder> onCompose)
         {
-            if (onCompose == null) throw new ArgumentNullException(nameof(onCompose));
+            if (onCompose is null) throw new ArgumentNullException(nameof(onCompose));
         }
     }
 }

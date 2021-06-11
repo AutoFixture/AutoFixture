@@ -1,6 +1,10 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
-using Xunit;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
+using AutoFixture.Xunit2.Internal;
 using Xunit.Sdk;
 
 namespace AutoFixture.Xunit2
@@ -14,49 +18,71 @@ namespace AutoFixture.Xunit2
     /// The member must return something compatible with IEnumerable&lt;object[]&gt; with the test data.
     /// </summary>
     [DataDiscoverer(
-        typeName: "AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer",
-        assemblyName: "AutoFixture.Xunit2")]
+        "AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer",
+        "AutoFixture.Xunit2")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    public class MemberAutoDataAttribute : CompositeDataAttribute
+    public class MemberAutoDataAttribute : DataAttribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MemberAutoDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
         /// </summary>
         /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
         /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
         public MemberAutoDataAttribute(string memberName, params object[] parameters)
-            : this(new AutoDataAttribute(), memberName, parameters)
+            : this(() => new Fixture(), default, memberName, parameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MemberAutoDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
         /// </summary>
-        /// <param name="autoDataAttribute">An <see cref="DataAttribute"/>.</param>
+        /// <param name="sourceType">The type declaring the source member.</param>
         /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
         /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-        /// <remarks>
-        /// <para>
-        /// This constructor overload exists to enable a derived attribute to
-        /// supply a custom <see cref="DataAttribute" /> that again may
-        /// contain custom behavior.
-        /// </para>
-        /// </remarks>
-        protected MemberAutoDataAttribute(DataAttribute autoDataAttribute, string memberName, params object[] parameters)
-            : base(new MemberDataAttribute(memberName, parameters), autoDataAttribute)
+        public MemberAutoDataAttribute(Type? sourceType, string memberName, params object[] parameters)
+            : this(() => new Fixture(), sourceType, memberName, parameters)
         {
-            this.AutoDataAttribute = autoDataAttribute ?? throw new ArgumentNullException(nameof(autoDataAttribute));
-            this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
-            this.Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
         /// <summary>
-        /// Gets the attribute used to automatically generate the remaining theory parameters, which are not fixed.
+        /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
         /// </summary>
-        public DataAttribute AutoDataAttribute { get; }
+        /// <param name="fixtureFactory">The fixture factory delegate.</param>
+        /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
+        /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
+        protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, string memberName, params object[] parameters)
+            : this(fixtureFactory, default, memberName, parameters)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
+        /// </summary>
+        /// <param name="fixtureFactory">The fixture factory delegate.</param>
+        /// <param name="memberType">The type declaring the source member.</param>
+        /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
+        /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
+        /// <exception cref="ArgumentNullException">Thrown when arguments are null.</exception>
+        protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, Type? memberType, string memberName, params object[] parameters)
+        {
+            this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+            this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
+            this.Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+            this.MemberType = memberType;
+        }
+
+        /// <summary>
+        /// Gets the fixture factory that provides the missing data from <see cref="MemberType" />.
+        /// </summary>
+        public Func<IFixture> FixtureFactory { get; }
+
+        /// <summary>
+        /// Gets the type of the class that provides the data.
+        /// </summary>
+        public Type? MemberType { get; set; }
 
         /// <summary>
         /// Gets the member name.
@@ -66,6 +92,21 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Gets the parameters passed to the member. Only supported for static methods.
         /// </summary>
-        public IEnumerable<object> Parameters { get; }
+        public object[] Parameters { get; }
+
+        /// <inheritdoc />
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        {
+            if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
+
+            var sourceType = this.MemberType ?? testMethod.ReflectedType
+                ?? throw new InvalidOperationException("Source type cannot be null.");
+
+            return new AutoTestCaseSource(
+                    this.FixtureFactory,
+                    new MemberTestCaseSource(sourceType, this.MemberName, this.Parameters))
+                .GetTestCases(testMethod)
+                .Select(x => x.ToArray());
+        }
     }
 }

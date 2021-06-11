@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Reflection;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using Xunit;
 using Xunit.Sdk;
 
@@ -10,7 +11,7 @@ namespace AutoFixture.Xunit2.UnitTest
     public class MemberAutoDataAttributeTest
     {
         [Fact]
-        public void SutIsCompositeDataAttribute()
+        public void SutIsDataAttribute()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
@@ -19,279 +20,256 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new MemberAutoDataAttribute(memberName);
 
             // Assert
-            Assert.IsAssignableFrom<CompositeDataAttribute>(sut);
+            Assert.IsAssignableFrom<DataAttribute>(sut);
         }
 
         [Fact]
-        public void AttributesContainsDefaultAttributeWhenConstructedWithDefaultConstructor()
+        public void InitializedWithMemberNameAndParameters()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
-            var sut = new MemberAutoDataAttribute(memberName);
+            var parameters = new object[] { "value-one", 3, 12.2f };
 
             // Act
-            var result = sut.Attributes;
-
-            // Assert
-            Assert.Contains(result, a => a is AutoDataAttribute);
-        }
-
-        [Fact]
-        public void AttributesAreInCorrectOrderWhenConstructedWithDefaultConstructor()
-        {
-            // Arrange
-            var expected = new[] { typeof(MemberDataAttribute), typeof(AutoDataAttribute) };
-            var memberName = Guid.NewGuid().ToString();
-            var sut = new MemberAutoDataAttribute(memberName);
-
-            // Act
-            IEnumerable<DataAttribute> result = sut.Attributes;
-
-            // Assert
-            Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
-        }
-
-        [Fact]
-        public void AttributesContainsAttributeWhenConstructedWithExplicitAutoDataAttribute()
-        {
-            // Arrange
-            var autoDataAttribute = new AutoDataAttribute();
-            var memberName = Guid.NewGuid().ToString();
-            var sut = new DerivedMemberAutoDataAttribute(autoDataAttribute, memberName);
-
-            // Act
-            var result = sut.Attributes;
-
-            // Assert
-            Assert.Contains(autoDataAttribute, result);
-        }
-
-        [Fact]
-        public void AttributesAreInCorrectOrderWhenConstructedWithExplicitDataAttribute()
-        {
-            // Arrange
-            var expected = new[] { typeof(MemberDataAttribute), typeof(AutoDataAttribute) };
-            var memberName = Guid.NewGuid().ToString();
-            var autoDataAttribute = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(autoDataAttribute, memberName);
-
-            // Act
-            IEnumerable<DataAttribute> result = sut.Attributes;
-
-            // Assert
-            Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
-        }
-
-        [Fact]
-        public void AttributesContainsMemberDataAttributeWithRightMemberNameWhenConstructedWithDefaultCtor()
-        {
-            // Arrange
-            var memberName = Guid.NewGuid().ToString();
-            var sut = new MemberAutoDataAttribute(memberName);
-
-            // Act
-            var result = sut.Attributes;
-
-            // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
-            Assert.NotNull(memberDataAttribute);
-            Assert.Equal(memberName, memberDataAttribute.MemberName);
-        }
-
-        [Fact]
-        public void AttributesContainsMemberDataAttributeWithRightMemberNameWhenConstructedWithDataAttribute()
-        {
-            // Arrange
-            var memberName = Guid.NewGuid().ToString();
-            var dataAttribute = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName);
-
-            // Act
-            var result = sut.Attributes;
-
-            // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
-            Assert.NotNull(memberDataAttribute);
-            Assert.Equal(memberName, memberDataAttribute.MemberName);
-        }
-
-        [Fact]
-        public void AttributesContainsMemberDataAttributeWithRightParametersWhenConstructedWithDefaultCtor()
-        {
-            // Act
-            var memberName = Guid.NewGuid().ToString();
-            var parameters = new object[] { 42, "42" };
-            var sut = new MemberAutoDataAttribute(memberName, parameters);
-            var result = sut.Attributes;
-
-            // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
-            Assert.NotNull(memberDataAttribute);
-            Assert.Equal(parameters, memberDataAttribute.Parameters);
-        }
-
-        [Fact]
-        public void AttributesContainsMemberDataAttributeWithRightParametersWhenConstructedWithDataAttribute()
-        {
-            // Act
-            var memberName = Guid.NewGuid().ToString();
-            var parameters = new object[] { 42, "42" };
-            var dataAttribute = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName, parameters);
-            var result = sut.Attributes;
-
-            // Assert
-            var memberDataAttribute = result.OfType<MemberDataAttribute>().SingleOrDefault();
-            Assert.NotNull(memberDataAttribute);
-            Assert.Equal(parameters, memberDataAttribute.Parameters);
-        }
-
-        [Fact]
-        public void MemberNameIsCorrectWhenConstructedWithDefaultConstructor()
-        {
-            // Arrange
-            var memberName = Guid.NewGuid().ToString();
-            var sut = new MemberAutoDataAttribute(memberName);
-
-            // Act
-            var result = sut.MemberName;
-
-            // Assert
-            Assert.Equal(memberName, result);
-        }
-
-        [Fact]
-        public void MemberNameIsCorrectWhenConstructedWithDataAttribute()
-        {
-            // Arrange
-            var memberName = Guid.NewGuid().ToString();
-            var dataAttribute = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName);
-
-            // Act
-            var result = sut.MemberName;
-
-            // Assert
-            Assert.Equal(memberName, result);
-        }
-
-        [Fact]
-        public void ParametersAreCorrectWhenConstructedWithDefaultCtor()
-        {
-            // Arrange
-            var memberName = Guid.NewGuid().ToString();
-            var parameters = new object[] { 42, "42" };
             var sut = new MemberAutoDataAttribute(memberName, parameters);
 
-            // Act
-            var result = sut.Parameters;
-
             // Assert
-            Assert.Equal(parameters, result);
+            Assert.Equal(memberName, sut.MemberName);
+            Assert.Equal(parameters, sut.Parameters);
+            Assert.Null(sut.MemberType);
+            Assert.NotNull(sut.FixtureFactory);
         }
 
         [Fact]
-        public void ParametersAreCorrectWhenConstructedWithDataAttribute()
+        public void InitializedWithTypeMemberNameAndParameters()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
-            var parameters = new object[] { 42, "42" };
-            var dataAttribute = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(dataAttribute, memberName, parameters);
+            var parameters = new object[] { "value-one", 3, 12.2f };
+            var testType = typeof(MemberAutoDataAttributeTest);
 
             // Act
-            var result = sut.Parameters;
+            var sut = new MemberAutoDataAttribute(testType, memberName, parameters);
 
             // Assert
-            Assert.Equal(parameters, result);
+            Assert.Equal(memberName, sut.MemberName);
+            Assert.Equal(parameters, sut.Parameters);
+            Assert.Equal(testType, sut.MemberType);
+            Assert.NotNull(sut.FixtureFactory);
         }
 
         [Fact]
-        public void AutoDataAttributeIsCorrectWhenConstructedWithDefaultConstructor()
+        public void ThrowsWhenInitializedWithNullMemberName()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(
+                () => new MemberAutoDataAttribute(null!));
+        }
+
+        [Fact]
+        public void ThrowsWhenInitializedWithNullParameters()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(
+                () => new MemberAutoDataAttribute(memberName, default(object[])!));
+        }
+
+        [Fact]
+        public void DoesNotThrowWhenInitializedWithNullType()
+        {
+            // Arrange
+            var memberName = Guid.NewGuid().ToString();
+
+            // Act & Assert
+            _ = new MemberAutoDataAttribute(default(Type)!, memberName);
+        }
+
+        [Fact]
+        public void ThrowsWhenTestMethodNull()
+        {
+            // Arrange
+            var sut = new MemberAutoDataAttribute("memberName");
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GetData(null!));
+        }
+
+        [Fact]
+        public void GeneratesTestsFromParameterlessMethod()
+        {
+            var memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestCases);
             var sut = new MemberAutoDataAttribute(memberName);
+            var testMethod = TestTypeWithMethodData.GetSingleStringValueTestMethodInfo();
 
-            // Act
-            var result = sut.AutoDataAttribute;
+            var testCases = sut.GetData(testMethod);
 
-            // Assert
-            Assert.IsType<AutoDataAttribute>(result);
+            Assert.Collection(testCases,
+                testCase => Assert.Equal("value-one", testCase.Single()),
+                testCase => Assert.Equal("value-two", testCase.Single()),
+                testCase => Assert.Equal("value-three", testCase.Single()));
         }
 
         [Fact]
-        public void AutoDataAttributeIsCorrectWhenConstructedWithExplicitDataAttribute()
+        public void GeneratesTestsFromMethodWithParameter()
         {
-            // Arrange
-            var memberName = Guid.NewGuid().ToString();
-            var expected = new AutoDataAttribute();
-            var sut = new DerivedMemberAutoDataAttribute(expected, memberName);
+            var memberName = nameof(TestTypeWithMethodData.GetStringTestsFromArgument);
+            var sut = new MemberAutoDataAttribute(memberName, "testcase");
+            var testMethod = TestTypeWithMethodData.GetStringTestsFromArgumentMethodInfo();
 
-            // Act
-            var result = sut.AutoDataAttribute;
+            var testCases = sut.GetData(testMethod);
 
-            // Assert
-            Assert.Equal(expected, result);
+            Assert.Collection(testCases,
+                testCase => Assert.Equal("testcase-one", testCase.Single()),
+                testCase => Assert.Equal("testcase-two", testCase.Single()),
+                testCase => Assert.Equal("testcase-three", testCase.Single()));
         }
 
         [Fact]
-        public void DoesNotActivateFixtureImmediately()
+        public void GeneratesTestCasesForTestsWithMultipleParameters()
         {
             // Arrange
-            var memberName = Guid.NewGuid().ToString();
-            bool wasInvoked = false;
-            var autoData = new DerivedAutoDataAttribute(() =>
-            {
-                wasInvoked = true;
-                return new Fixture();
-            });
+            var memberName = nameof(TestTypeWithMethodData.GetMultipleValueTestCases);
+            var sut = new MemberAutoDataAttribute(memberName);
+            var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
             // Act
-            var sut = new DerivedMemberAutoDataAttribute(autoData, memberName);
+            var testCases = sut.GetData(testMethod);
 
             // Assert
-            Assert.False(wasInvoked);
+            Assert.Collection(testCases,
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-one", testCase[0]);
+                    Assert.Equal(12, testCase[1]);
+                    Assert.Equal(23.3m, testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-two", testCase[0]);
+                    Assert.Equal(38, testCase[1]);
+                    Assert.Equal(12.7m, testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-three", testCase[0]);
+                    Assert.Equal(94, testCase[1]);
+                    Assert.Equal(52.21m, testCase[2]);
+                });
         }
 
         [Fact]
-        public void PreDiscoveryShouldBeDisabled()
+        public void GeneratesMissingDataForTestsWithMultipleParameters()
         {
             // Arrange
-            var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
-            var discovererAttr = typeof(MemberAutoDataAttribute).GetTypeInfo()
-                .CustomAttributes
-                .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
-
-            var expectedType = expectedDiscovererType.FullName;
-            var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
+            var memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestCases);
+            var sut = new MemberAutoDataAttribute(memberName);
+            var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
             // Act
-            var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
-            var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
+            var testCases = sut.GetData(testMethod);
 
             // Assert
-            Assert.Equal(expectedType, actualType);
-            Assert.Equal(expectedAssembly, actualAssembly);
+            Assert.Collection(testCases,
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-one", testCase[0]);
+                    Assert.NotEqual(0, testCase[1]);
+                    Assert.NotEqual(0, testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-two", testCase[0]);
+                    Assert.NotEqual(0, testCase[1]);
+                    Assert.NotEqual(0, testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-three", testCase[0]);
+                    Assert.NotEqual(0, testCase[1]);
+                    Assert.NotEqual(0, testCase[2]);
+                });
         }
 
-        private class DerivedMemberAutoDataAttribute : MemberAutoDataAttribute
+        [Fact]
+        public void GeneratesTestCasesWithInjectedParameters()
         {
-            public DerivedMemberAutoDataAttribute(
-                DataAttribute autoDataAttribute,
-                string memberName,
-                params object[] parameters)
-                : base(autoDataAttribute, memberName, parameters)
-            {
-            }
+            // Arrange
+            var memberName = nameof(TestTypeWithMethodData.GetTestWithFrozenParameterCases);
+            var sut = new MemberAutoDataAttribute(memberName);
+            var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
+
+            // Act
+            var testCases = sut.GetData(testMethod);
+
+            // Assert
+            Assert.Collection(testCases,
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-one", testCase[0]);
+                    Assert.Equal("value-two", testCase[1]);
+                    Assert.Equal("value-two", testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-two", testCase[0]);
+                    Assert.Equal("value-three", testCase[1]);
+                    Assert.Equal("value-three", testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-three", testCase[0]);
+                    Assert.Equal("value-one", testCase[1]);
+                    Assert.Equal("value-one", testCase[2]);
+                });
         }
 
-        private class DerivedAutoDataAttribute : AutoDataAttribute
+        [Fact]
+        public void AutoGeneratesValuesForFrozenParameters()
         {
-            public DerivedAutoDataAttribute(Func<IFixture> fixtureFactory)
-                : base(fixtureFactory)
-            {
-            }
+            // Arrange
+            var memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestCases);
+            var sut = new MemberAutoDataAttribute(memberName);
+            var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
+
+            // Act
+            var testCases = sut.GetData(testMethod);
+
+            // Assert
+            Assert.Collection(testCases,
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-one", testCase[0]);
+                    Assert.NotEmpty(testCase[1].ToString());
+                    Assert.Equal(testCase[1], testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-two", testCase[0]);
+                    Assert.NotEmpty(testCase[1].ToString());
+                    Assert.Equal(testCase[1], testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-three", testCase[0]);
+                    Assert.NotEmpty(testCase[1].ToString());
+                    Assert.Equal(testCase[1], testCase[2]);
+                });
         }
     }
 }

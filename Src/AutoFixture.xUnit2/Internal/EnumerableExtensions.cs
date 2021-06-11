@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AutoFixture.Xunit2
+namespace AutoFixture.Xunit2.Internal
 {
     internal static class EnumerableExtensions
     {
@@ -19,7 +19,9 @@ namespace AutoFixture.Xunit2
         {
             var enumerators = sequences.Select(s => s.GetEnumerator()).ToList();
             while (enumerators.All(e => e.MoveNext()))
+            {
                 yield return resultSelector(enumerators.Select(e => e.Current));
+            }
         }
 
         /// <summary>
