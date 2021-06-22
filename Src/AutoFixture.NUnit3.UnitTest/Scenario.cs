@@ -331,6 +331,29 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.AreNotEqual(p1, p2.Field);
         }
 
+        [Test, AutoData]
+        public void InjectFirstParameterShouldReturnAssignedValue(
+            [Injected(42)] int p1)
+        {
+            Assert.AreEqual(p1, 42);
+        }
+
+        [Test, AutoData]
+        public void InjectFirstParameterShouldAssignSameInstanceToSecondParameter(
+            [Injected(42)] int p1,
+            int p2)
+        {
+            Assert.AreEqual(p1, p2);
+        }
+
+        [Test, AutoData]
+        public void InjectParameterShouldAssignSameInstanceToPropertyHolder(
+            [Injected(42)] int value,
+            PropertyHolder<int> holder)
+        {
+            Assert.AreEqual(value, holder.Property);
+        }
+
         [Test]
         [InlineAutoData(1, 2, 3)]
         public void InlineAutoDataTakesParameterValues(int p1, int p2, int p3)
