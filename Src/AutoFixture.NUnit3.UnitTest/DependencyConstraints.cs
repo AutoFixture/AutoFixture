@@ -22,7 +22,7 @@ namespace AutoFixture.NUnit3.UnitTest
             // Act
             var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Assert
-            Assert.False(references.Any(an => an.Name == assemblyName));
+            Assert.False(references.Any(an => an.Name == assemblyName), "AutoFixture references {0}", assemblyName);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace AutoFixture.NUnit3.UnitTest
             // Act
             var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Assert
-            Assert.False(references.Any(an => an.Name == assemblyName));
+            Assert.False(references.Any(an => an.Name == assemblyName), "AutoFixture references {0}", assemblyName);
         }
     }
 }

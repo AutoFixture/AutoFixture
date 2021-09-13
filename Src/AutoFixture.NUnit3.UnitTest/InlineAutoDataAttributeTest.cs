@@ -156,7 +156,7 @@ namespace AutoFixture.NUnit3.UnitTest
         private class TestMethodBuilderWithoutParametersUsage : ITestMethodBuilder
         {
             public TestMethod Build(
-                IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)
+                IMethodInfo method, Test suite, IEnumerable<TestParameterInfo> parameterValues, int autoDataStartIndex)
             {
                 return new TestMethod(method);
             }

@@ -18,19 +18,19 @@ namespace AutoFixture.NUnit3
     {
         /// <inheritdoc />
         public virtual TestMethod Build(
-            IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)
+            IMethodInfo method, Test suite, IEnumerable<TestParameterInfo> parameters, int autoDataStartIndex)
         {
             if (method == null) throw new ArgumentNullException(nameof(method));
-            if (parameterValues == null) throw new ArgumentNullException(nameof(parameterValues));
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             return new NUnitTestCaseBuilder()
-                .BuildTestMethod(method, suite, GetParametersForMethod(method, parameterValues, autoDataStartIndex));
+                .BuildTestMethod(method, suite, GetParametersForMethod(method, parameters, autoDataStartIndex));
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
         private static TestCaseParameters GetParametersForMethod(
-            IMethodInfo method, IEnumerable<object> parameterValues, int autoDataStartIndex)
+            IMethodInfo method, IEnumerable<TestParameterInfo> parameterValues, int autoDataStartIndex)
         {
             try
             {
@@ -42,19 +42,25 @@ namespace AutoFixture.NUnit3
             }
         }
 
-        private static TestCaseParameters GetParametersForMethod(IMethodInfo method, object[] args, int autoDataStartIndex)
+        private static TestCaseParameters GetParametersForMethod(IMethodInfo method, TestParameterInfo[] args, int autoDataStartIndex)
         {
-            var result = new TestCaseParameters(args);
-
-            EnsureOriginalArgumentsArrayIsNotShared(result);
-
-            var methodParameters = method.GetParameters();
-            for (int i = autoDataStartIndex; i < result.OriginalArguments.Length; i++)
+            try
             {
-                result.OriginalArguments[i] = new TypeNameRenderer(methodParameters[i].ParameterType);
-            }
+                var result = new TestCaseParameters(args.Select(p => p.Value).ToArray());
 
-            return result;
+                EnsureOriginalArgumentsArrayIsNotShared(result);
+
+                for (int i = autoDataStartIndex; i < result.OriginalArguments.Length; i++)
+                {
+                    result.OriginalArguments[i] = new ParameterNameRenderer(args[i]);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new TestCaseParameters(ex);
+            }
         }
 
         /// <summary>
@@ -79,18 +85,26 @@ namespace AutoFixture.NUnit3
             }
         }
 
-        private class TypeNameRenderer
+        private class ParameterNameRenderer
         {
-            private Type Type { get; }
+            private TestParameterInfo ParameterInfo { get; set; }
 
-            public TypeNameRenderer(Type type)
+            public ParameterNameRenderer(TestParameterInfo parameter)
             {
-                this.Type = type ?? throw new ArgumentNullException(nameof(type));
+                this.ParameterInfo = parameter;
             }
 
             public override string ToString()
             {
-                return "auto<" + this.Type.Name + ">";
+                if (this.ParameterInfo.HasValue)
+                {
+                    return $"{this.ParameterInfo.Value}";
+
+                }
+                else
+                {
+                    return $"auto<{this.ParameterInfo.Parameter.ParameterType.Name}>";
+                }
             }
         }
     }
