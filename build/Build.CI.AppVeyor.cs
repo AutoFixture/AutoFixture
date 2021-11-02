@@ -25,7 +25,7 @@ partial class Build
 
     Target AppVeyorSetBuildVersion => _ => _
         .TriggeredBy(Restore)
-        .Before(Compile)
+        .After(Restore)
         .OnlyWhenDynamic(() => IsServerBuild && AppVeyor != null)
         .Executes(() =>
         {
