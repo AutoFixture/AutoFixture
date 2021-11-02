@@ -11,7 +11,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture.Idioms
 {
     /// <summary>
-    /// Encapsulates a unit test that verifies that a member (property or field) is correctly intialized
+    /// Encapsulates a unit test that verifies that a member (property or field) is correctly initialized
     /// by the constructor.
     /// </summary>
     public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
@@ -46,7 +46,7 @@ namespace AutoFixture.Idioms
             this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
             this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             this.ParameterMemberMatcher = parameterMemberMatcher ??
-                                          throw new ArgumentNullException(nameof(parameterMemberMatcher));
+                throw new ArgumentNullException(nameof(parameterMemberMatcher));
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace AutoFixture.Idioms
         /// Gets the comparer supplied to the constructor.
         /// </summary>
         /// <remarks>
-        /// This comparer instance is used to determine if all of the value retreived from
+        /// This comparer instance is used to determine if all of the value retrieved from
         /// the members are equal to their corresponding 'matched' constructor parameter.
         /// </remarks>
         public IEqualityComparer Comparer { get; }
@@ -136,7 +136,7 @@ namespace AutoFixture.Idioms
         /// <remarks>
         /// <para>
         /// This method verifies that the <paramref name="propertyInfo" /> is correctly initialized with
-        /// the value given to the same-named constructor paramter. It uses the <see cref="Builder" /> to
+        /// the value given to the same-named constructor parameter. It uses the <see cref="Builder" /> to
         /// supply values to the constructor(s) of the Type on which the field is implemented, and then
         /// reads from the field. The assertion passes if the value read from the property is the same as
         /// the value passed to the constructor. If more than one constructor has an argument with the
@@ -154,7 +154,7 @@ namespace AutoFixture.Idioms
 
             if (!matchingConstructors.Any())
             {
-                if (IsMemberThatRequiresConstructorInitialization(propertyInfo))
+                if (RequiresConstructorInitialization(propertyInfo))
                 {
                     throw new ConstructorInitializedMemberException(propertyInfo, string.Format(
                         CultureInfo.CurrentCulture,
@@ -172,11 +172,11 @@ namespace AutoFixture.Idioms
                 throw BuildExceptionDueToPotentialFalsePositive(propertyInfo);
             }
 
-            var expectedAndActuals = matchingConstructors
+            var expectedAndActual = matchingConstructors
                 .Select(ctor => this.BuildSpecimenFromConstructor(ctor, propertyInfo));
 
             // Compare the value passed into the constructor with the value returned from the property
-            if (expectedAndActuals.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
+            if (expectedAndActual.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(propertyInfo);
             }
@@ -189,7 +189,7 @@ namespace AutoFixture.Idioms
         /// <remarks>
         /// <para>
         /// This method verifies that <paramref name="fieldInfo" /> is correctly initialized with the
-        /// value given to the same-named constructor paramter. It uses the <see cref="Builder" /> to
+        /// value given to the same-named constructor parameter. It uses the <see cref="Builder" /> to
         /// supply values to the constructor(s) of the Type on which the field is implemented, and then
         /// reads from the field. The assertion passes if the value read from the field is the same as
         /// the value passed to the constructor. If more than one constructor has an argument with the
@@ -206,7 +206,7 @@ namespace AutoFixture.Idioms
             var matchingConstructors = this.GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
-                if (IsMemberThatRequiresConstructorInitialization(fieldInfo))
+                if (RequiresConstructorInitialization(fieldInfo))
                 {
                     throw new ConstructorInitializedMemberException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
                         "No constructors with an argument that matches the read-only field '{0}' were found",
@@ -223,11 +223,11 @@ namespace AutoFixture.Idioms
                 throw BuildExceptionDueToPotentialFalsePositive(fieldInfo);
             }
 
-            var expectedAndActuals = matchingConstructors
+            var expectedAndActual = matchingConstructors
                 .Select(ctor => this.BuildSpecimenFromConstructor(ctor, fieldInfo));
 
             // Compare the value passed into the constructor with the value returned from the property
-            if (expectedAndActuals.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
+            if (expectedAndActual.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(fieldInfo);
             }
@@ -235,14 +235,11 @@ namespace AutoFixture.Idioms
 
         private static bool CouldLeadToFalsePositive(Type type)
         {
-            if (type.IsEnum)
-            {
-                // Check for a default value only enum
-                var values = Enum.GetValues(type);
-                return values.Length == 1 && values.GetValue(0).Equals(Activator.CreateInstance(type));
-            }
+            if (!type.IsEnum) return false;
 
-            return false;
+            // Check for a default value only enum
+            var values = Enum.GetValues(type);
+            return values.Length == 1 && values.GetValue(0).Equals(Activator.CreateInstance(type));
         }
 
         private static ConstructorInitializedMemberException BuildExceptionDueToPotentialFalsePositive(
@@ -253,44 +250,26 @@ namespace AutoFixture.Idioms
                 "Unable to properly detect a successful initialization due to {0} being of type enum having " +
                 "a single default value.{3}Declaring type: {1}{3}Reflected type: {2}{3}",
                 propertyOrField.Name,
-                propertyOrField.DeclaringType.AssemblyQualifiedName,
-                propertyOrField.ReflectedType.AssemblyQualifiedName,
+                propertyOrField.DeclaringType?.AssemblyQualifiedName,
+                propertyOrField.ReflectedType?.AssemblyQualifiedName,
                 Environment.NewLine);
 
-            switch (propertyOrField)
+            return propertyOrField switch
             {
-                case FieldInfo fi:
-                    return new ConstructorInitializedMemberException(fi, message);
-
-                case PropertyInfo pi:
-                    return new ConstructorInitializedMemberException(pi, message);
-
-                default:
-                    throw new ArgumentException("Must be a property or field", nameof(propertyOrField));
-            }
+                FieldInfo fi => new ConstructorInitializedMemberException(fi, message),
+                PropertyInfo pi => new ConstructorInitializedMemberException(pi, message),
+                _ => throw new ArgumentException("Must be a property or field", nameof(propertyOrField))
+            };
         }
 
         private ExpectedAndActual BuildSpecimenFromConstructor(
             ConstructorInfo ci, MemberInfo propertyOrField)
         {
             var parametersAndValues = ci.GetParameters()
-                .Select(pi =>
+                .Select(pi => new
                 {
-                    var value = this.Builder.CreateAnonymous(pi);
-
-                    // Ensure enum isn't getting the default value, otherwise
-                    // we won't be able to determine whether initialization
-                    // occurred.
-                    if (pi.ParameterType.IsEnum && value.Equals(Activator.CreateInstance(pi.ParameterType)))
-                    {
-                        value = this.Builder.CreateAnonymous(pi);
-                    }
-
-                    return new
-                    {
-                        Parameter = pi,
-                        Value = value
-                    };
+                    Parameter = pi,
+                    Value = this.GetParameterValue(pi)
                 })
                 .ToArray();
 
@@ -303,24 +282,37 @@ namespace AutoFixture.Idioms
             var specimen = ci.Invoke(parametersAndValues.Select(pv => pv.Value).ToArray());
 
             // Get the value from the specimen field/property
-            object actual;
-            switch (propertyOrField)
+            object actual = propertyOrField switch
             {
-                case FieldInfo fi:
-                    actual = fi.GetValue(specimen);
-                    break;
-
-                case PropertyInfo pi:
-                    actual = pi.CanRead
-                        ? pi.GetValue(specimen, null)
-                        : expectedValueForMember;
-                    break;
-
-                default:
-                    throw new ArgumentException("Must be a property or field", nameof(propertyOrField));
-            }
+                FieldInfo fi => fi.GetValue(specimen),
+                PropertyInfo pi => pi.CanRead ? pi.GetValue(specimen, null) : expectedValueForMember,
+                _ => throw new ArgumentException("Must be a property or field", nameof(propertyOrField))
+            };
 
             return new ExpectedAndActual(expectedValueForMember, actual);
+        }
+
+        private object GetParameterValue(ParameterInfo parameterInfo)
+            => parameterInfo.ParameterType switch
+            {
+                { } t when t == typeof(bool) => true,
+                { IsEnum: true } => this.GetEnumParameterValue(parameterInfo),
+                _ => this.Builder.CreateAnonymous(parameterInfo)
+            };
+
+        private object GetEnumParameterValue(ParameterInfo parameterInfo)
+        {
+            var value = this.Builder.CreateAnonymous(parameterInfo);
+
+            // Ensure enum isn't getting the default value, otherwise
+            // we won't be able to determine whether initialization
+            // occurred.
+            object defaultValue = parameterInfo.ParameterType.GetDefaultValue();
+            if (!value.Equals(defaultValue)) return value;
+
+            // If the second consecutive attempt does not yield a non-default result,
+            // then the value must have been frozen, so no point trying again.
+            return this.Builder.CreateAnonymous(parameterInfo);
         }
 
         private class ExpectedAndActual
@@ -338,8 +330,7 @@ namespace AutoFixture.Idioms
 
         private IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
         {
-            return member.ReflectedType
-                .GetConstructors()
+            return member.ReflectedType?.GetConstructors()
                 .Where(ci => this.IsConstructorWithMatchingArgument(ci, member));
         }
 
@@ -358,35 +349,31 @@ namespace AutoFixture.Idioms
         private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
         {
             return t.GetMembers(BindingFlags.Instance | BindingFlags.Public)
-                .Where(m => m.MemberType.HasFlag(MemberTypes.Field) || m.MemberType.HasFlag(MemberTypes.Property));
+                .Where(m => m.MemberType.HasFlag(MemberTypes.Field)
+                            || m.MemberType.HasFlag(MemberTypes.Property));
         }
 
-        private static bool IsMemberThatRequiresConstructorInitialization(MemberInfo member)
+        private static bool RequiresConstructorInitialization(PropertyInfo propertyInfo)
         {
-            var memberAsPropertyInfo = member as PropertyInfo;
-            if (memberAsPropertyInfo != null)
-            {
-                MethodInfo setterMethod = memberAsPropertyInfo.GetSetMethod();
-                bool isReadOnly = memberAsPropertyInfo.CanRead &&
-                                  (setterMethod == null || setterMethod.IsPrivate || setterMethod.IsFamilyOrAssembly ||
-                                   setterMethod.IsFamilyAndAssembly);
+            MethodInfo setterMethod = propertyInfo.GetSetMethod();
+            bool isReadOnly = propertyInfo.CanRead
+                              && (setterMethod == null
+                                  || setterMethod.IsPrivate
+                                  || setterMethod.IsFamilyOrAssembly
+                                  || setterMethod.IsFamilyAndAssembly);
 
-                MethodInfo getterMethod = memberAsPropertyInfo.GetGetMethod();
-                bool isStatic = getterMethod.IsStatic;
+            MethodInfo getterMethod = propertyInfo.GetGetMethod();
+            bool isStatic = getterMethod.IsStatic;
 
-                return isReadOnly && !isStatic;
-            }
+            return isReadOnly && !isStatic;
+        }
 
-            var memberAsFieldInfo = member as FieldInfo;
-            if (memberAsFieldInfo != null)
-            {
-                bool isReadOnly = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.InitOnly);
-                bool isStatic = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.Static);
+        private static bool RequiresConstructorInitialization(FieldInfo fieldInfo)
+        {
+            bool isReadOnly = fieldInfo.Attributes.HasFlag(FieldAttributes.InitOnly);
+            bool isStatic = fieldInfo.Attributes.HasFlag(FieldAttributes.Static);
 
-                return isReadOnly && !isStatic;
-            }
-
-            return false;
+            return isReadOnly && !isStatic;
         }
 
         private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
@@ -404,7 +391,7 @@ namespace AutoFixture.Idioms
                 public int GetHashCode(NameAndType obj)
                 {
                     // Forces methods like Distinct() to use the Equals method, because
-                    // the hashcodes will all be equal.
+                    // the hash codes will all be equal.
                     return 0;
                 }
             }

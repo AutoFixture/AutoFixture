@@ -18,8 +18,8 @@ namespace AutoFixtureDocumentationTest.Commerce
             var order = fixture.Build<Order>()
                 .With(o => o.ShippingAddress,
                     fixture.Build<Address>()
-                    .With(a => a.Country, "Denmark")
-                    .Create())
+                        .With(a => a.Country, "Denmark")
+                        .Create())
                 .Create();
             // Assert
             Assert.Equal("Denmark", order.ShippingAddress.Country);

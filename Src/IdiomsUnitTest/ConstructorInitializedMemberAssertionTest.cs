@@ -556,7 +556,21 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
         }
 
-        private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
+        [Theory]
+        [InlineData(typeof(IllBehavedFieldMatchedByEvenPositionConstructorParameter<TestIntEnum, bool>))]
+        [InlineData(typeof(IllBehavedPropertyMatchedByEvenPositionConstructorParameter<TestIntEnum, bool>))]
+        public void FailForUninitializedBooleanMember(Type type)
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+            // Act & Assert
+            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
+        }
+
+        private static void AssertExceptionPropertiesEqual(
+            ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
         {
             Assert.Equal(param, ex.MissingParameter);
             Assert.Equal(ctor, ex.MemberInfo);
@@ -581,6 +595,30 @@ namespace AutoFixture.IdiomsUnitTest
             Assert.Equal(fi, ex.MemberInfo);
             Assert.Equal(fi, ex.FieldInfo);
             Assert.Null(ex.PropertyInfo);
+        }
+
+        private class IllBehavedPropertyMatchedByEvenPositionConstructorParameter<T1, T2>
+        {
+            public IllBehavedPropertyMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
+            {
+                this.Member1 = member1;
+            }
+
+            public T1 Member1 { get; }
+
+            public T2 Member2 { get; }
+        }
+
+        private class IllBehavedFieldMatchedByEvenPositionConstructorParameter<T1, T2>
+        {
+            public IllBehavedFieldMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
+            {
+                this.Member1 = member1;
+            }
+
+            public readonly T1 Member1;
+
+            public readonly T2 Member2 = default(T2);
         }
 
         private class PublicReadOnlyFieldNotInitializedByConstructor
