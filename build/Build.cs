@@ -130,11 +130,6 @@ partial class Build : NukeBuild
                     .When(InvokedTargets.Contains(Cover), _ => _
                         .SetCoverletOutput(CoverageDirectory / $"{v.Name}.xml"))));
 
-            var project = Solution.Projects.Single(p => p.Name == "AutoFixture.NUnit2.UnitTest");
-            var binary = project.Directory.GlobFiles($"**/bin/{Configuration}/**/*Test.dll").Single();
-            NUnit2Runner(
-                $"\"{binary}\" /result=\"{TestResultsDirectory / "NUnit2TestResult.xml"}\" /framework=4.5.2 /nologo");
-
             CompressZip(TestResultsDirectory, TestResultsDirectory / "TestResults.zip");
             CompressZip(CoverageDirectory, CoverageDirectory / "CoverageResults.zip");
 
