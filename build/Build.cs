@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Integration;
 using Nuke.Common;
 using Nuke.Common.CI;
@@ -27,7 +26,7 @@ partial class Build : NukeBuild
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-    
+
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
@@ -36,16 +35,16 @@ partial class Build : NukeBuild
     [PackageExecutable("NUnit.Runners", "nunit-console.exe")]
     readonly Tool NUnit2Runner;
 
-    [EnvironmentVariable("NUGET_API_KEY")] readonly string NuGetApiKey;
+    [EnvironmentVariable(AppVeyorSecrets.NuGetApiKeyName)] readonly string NuGetApiKey;
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
-    [EnvironmentVariable("MYGET_API_KEY")] readonly string MyGetApiKey;
-    readonly string MyGetSource = "https://api.nuget.org/v3/index.json";
+    [EnvironmentVariable(AppVeyorSecrets.MyGetApiKeyName)] readonly string MyGetApiKey;
+    readonly string MyGetSource = "https://www.myget.org/F/autofixture/api/v3/index.json";
 
     [Partition(2)] readonly Partition TestPartition;
 
-    IEnumerable<Project> TestProjects
-        => TestPartition.GetCurrent(Solution.GetProjects("*Test"));
+    IEnumerable<Project> TestProjects => TestPartition.GetCurrent(Solution.GetProjects("*Test"));
+    IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
@@ -192,6 +191,7 @@ partial class Build : NukeBuild
                     !GitRepository.IsOnMasterBranch(),
                     v => v
                         .SetApiKey(MyGetApiKey)
-                        .SetApiKey(MyGetSource)));
+                        .SetSource(MyGetSource))
+                .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
         });
 }

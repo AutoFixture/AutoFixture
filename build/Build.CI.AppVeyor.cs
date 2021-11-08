@@ -35,12 +35,12 @@ partial class Build
 
     public static class AppVeyorSecrets
     {
+        public const string NuGetApiKeyName = "NUGET_API_KEY";
+        public const string NuGetApiKeyValue = "b/B9mFX99as5WjjR9Xzr7zAUDKwvCOmPgEkttJxcP+OClOv59lrcIE4OrsAdQRW3";
         public const string NuGetApiKey = NuGetApiKeyName + ":" + NuGetApiKeyValue;
-        const string NuGetApiKeyName = "NUGET_API_KEY";
-        const string NuGetApiKeyValue = "b/B9mFX99as5WjjR9Xzr7zAUDKwvCOmPgEkttJxcP+OClOv59lrcIE4OrsAdQRW3";
 
+        public const string MyGetApiKeyName = "MYGET_API_KEY";
+        public const string MyGetApiKeyValue = "hA4Ut1N2lrrdEtAN24Bty/FNiU0d/Ur/dLYSqpr8jKHOvoO7MU4jD+KwzUvATh+E";
         public const string MyGetApiKey = MyGetApiKeyName + ":" + MyGetApiKeyValue;
-        const string MyGetApiKeyName = "MYGET_API_KEY";
-        const string MyGetApiKeyValue = "hA4Ut1N2lrrdEtAN24Bty/FNiU0d/Ur/dLYSqpr8jKHOvoO7MU4jD+KwzUvATh+E";
     }
 }
