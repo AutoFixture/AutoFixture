@@ -2,6 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
 [![NuGet version](https://img.shields.io/nuget/vpre/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
+[![MyGet (with prereleases)](https://img.shields.io/myget/autofixture/vpre/autofixture?color=blue&label=myget)](https://www.myget.org/gallery/autofixture)
 <a href="https://twitter.com/AutoFixture">
     <img src="https://img.shields.io/twitter/follow/AutoFixture?label=%40AutoFixture" alt="AutoFixture" align="right" />
 </a>
