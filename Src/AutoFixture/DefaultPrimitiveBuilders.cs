@@ -30,6 +30,9 @@ namespace AutoFixture
             yield return new UriSchemeGenerator();
             yield return new RandomRangedNumberGenerator();
             yield return new RegularExpressionGenerator();
+#if SYSTEM_DATEONLY
+            yield return new RandomDateOnlySequenceGenerator();
+#endif
             yield return new RandomDateTimeSequenceGenerator();
             yield return new BooleanSwitch();
             yield return new GuidGenerator();
