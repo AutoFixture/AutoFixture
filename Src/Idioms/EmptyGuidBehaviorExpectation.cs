@@ -51,8 +51,7 @@ namespace AutoFixture.Idioms
 
             throw command.CreateException(EmptyGuid);
         }
-        
-        
+
         private const string EmptyGuid = "\"Guid.Empty\"";
     }
 }

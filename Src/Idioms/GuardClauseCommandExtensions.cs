@@ -3,12 +3,15 @@ using System.Globalization;
 
 namespace AutoFixture.Idioms
 {
-    public static class GuardClauseCommandExtensions
+    internal static class GuardClauseCommandExtensions
     {
-
         public static Exception CreateInvalidParamNameException(this IGuardClauseCommand command, string value,
             ArgumentException innerException)
         {
+                if (command == null) throw new ArgumentNullException(nameof(command));
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                if (innerException == null) throw new ArgumentNullException(nameof(innerException));
+
                 return command.CreateException(
                     value,
                     string.Format(CultureInfo.InvariantCulture,
