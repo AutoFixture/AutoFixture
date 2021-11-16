@@ -48,7 +48,7 @@ namespace AutoFixture.Idioms
                 }
 
                 throw command.CreateException(
-                    "<empty string>",
+                    EmptyString,
                     string.Format(CultureInfo.InvariantCulture,
                         "a Guard Clause prevented it; however, the thrown exception contains an invalid parameter name. " +
                         "Ensure you pass the correct parameter name to the ArgumentException constructor.{0}" +
@@ -60,10 +60,12 @@ namespace AutoFixture.Idioms
             }
             catch (Exception e)
             {
-                throw command.CreateException("<empty string>", e);
+                throw command.CreateException(EmptyString, e);
             }
 
-            throw command.CreateException("<empty string>");
+            throw command.CreateException(EmptyString);
         }
+
+        private const string EmptyString = "<empty string>";
     }
 }

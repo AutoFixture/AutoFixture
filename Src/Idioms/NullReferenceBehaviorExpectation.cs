@@ -53,10 +53,12 @@ namespace AutoFixture.Idioms
             catch (ArgumentNullException e)
             {
                 if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
+                {
                     return;
+                }
 
                 throw command.CreateException(
-                    "<null>",
+                    Null,
                     string.Format(CultureInfo.InvariantCulture,
                         "a Guard Clause prevented it; however, the thrown exception contains an invalid parameter name. " +
                         "Ensure you pass the correct parameter name to the ArgumentException constructor.{0}" +
@@ -68,10 +70,12 @@ namespace AutoFixture.Idioms
             }
             catch (Exception e)
             {
-                throw command.CreateException("null", e);
+                throw command.CreateException(Null, e);
             }
 
-            throw command.CreateException("null");
+            throw command.CreateException(Null);
         }
+
+        private const string Null = "null";
     }
 }

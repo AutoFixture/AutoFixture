@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace AutoFixture.Idioms
 {
@@ -34,16 +35,33 @@ namespace AutoFixture.Idioms
             {
                 command.Execute(Guid.Empty);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                return;
+                if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                throw command.CreateException(
+                    EmptyGuid,
+                    string.Format(CultureInfo.InvariantCulture,
+                        "a Guard Clause prevented it; however, the thrown exception contains an invalid parameter name. " +
+                        "Ensure you pass the correct parameter name to the ArgumentException constructor.{0}" +
+                        "Expected parameter name: {1}{0}Actual parameter name: {2}",
+                        Environment.NewLine,
+                        command.RequestedParameterName,
+                        e.ParamName),
+                    e);
             }
             catch (Exception e)
             {
-                throw command.CreateException("\"Guid.Empty\"", e);
+                throw command.CreateException(EmptyGuid, e);
             }
 
-            throw command.CreateException("\"Guid.Empty\"");
+            throw command.CreateException(EmptyGuid);
         }
+        
+        
+        private const string EmptyGuid = "\"Guid.Empty\"";
     }
 }
