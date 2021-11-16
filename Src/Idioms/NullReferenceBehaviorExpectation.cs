@@ -58,7 +58,7 @@ namespace AutoFixture.Idioms
                 throw command.CreateException(
                     "<null>",
                     string.Format(CultureInfo.InvariantCulture,
-                        "Guard Clause prevented it, however the thrown exception contains invalid parameter name. " +
+                        "a Guard Clause prevented it, however the thrown exception contains invalid parameter name. " +
                         "Ensure you pass correct parameter name to the ArgumentNullException constructor.{0}" +
                         "Expected parameter name: {1}{0}Actual parameter name: {2}",
                         Environment.NewLine,
