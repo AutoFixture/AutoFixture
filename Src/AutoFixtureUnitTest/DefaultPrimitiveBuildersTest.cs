@@ -36,7 +36,7 @@ namespace AutoFixtureUnitTest
                     typeof(RandomRangedNumberGenerator),
                     typeof(RegularExpressionGenerator),
                     typeof(RandomDateTimeSequenceGenerator),
-#if SYSTEM_DATEONLY
+#if NET6_0_OR_GREATER
                     typeof(RandomDateOnlySequenceGenerator),
 #endif
                     typeof(BooleanSwitch),

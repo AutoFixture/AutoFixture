@@ -54,7 +54,7 @@
     <DefineConstants Condition=" '$(TargetFramework)'=='netstandard2.0' Or '$(TargetFramework)'=='netcoreapp2.1' Or '$(TargetFramework)'=='net6.0' ">$(DefineConstants);SYSTEM_NET_MAIL</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <DefineConstants Condition=" '$(TargetFramework)'=='net6.0' ">$(DefineConstants);SYSTEM_DATEONLY</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net6.0' ">$(DefineConstants);NET6_0_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
   <Choose>

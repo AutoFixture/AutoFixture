@@ -67,7 +67,7 @@ namespace AutoFixtureUnitTest
         public Guid? NullableGuid { get; set; }
         public DateTime? NullableDateTime { get; set; }
 
-#if SYSTEM_DATEONLY
+#if NET6_0_OR_GREATER
         public DateOnly? NullableDateOnly { get; set; }
 #endif
 
