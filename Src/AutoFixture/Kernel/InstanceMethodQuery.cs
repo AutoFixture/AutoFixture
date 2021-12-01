@@ -39,7 +39,8 @@ namespace AutoFixture.Kernel
         /// returns an enumerable containing a single <see cref="InstanceMethod"/> otherwise.</returns>
         public IEnumerable<IMethod> SelectMethods(Type type = default)
         {
-            var method = this.Owner.GetType().GetTypeInfo().GetMethod(this.MethodName);
+            var arguments = this.Owner.GetType().GenericTypeArguments;
+            var method = this.Owner.GetType().GetTypeInfo().GetMethod(this.MethodName, arguments);
 
             return method == null
                 ? new IMethod[0]

@@ -81,5 +81,20 @@ namespace AutoFixtureUnitTest.Kernel
             // Assert
             Assert.Empty(result);
         }
+
+        [Fact]
+        public void SelectMethodsDoesNotThrowWithDuplicateMethods()
+        {
+            // Arrange
+            var owner = new CollectionHolder<string>(new ExtendedList<string>()).Collection;
+            var methodName = nameof(CollectionHolder<string>.Collection.Add);
+            var sut = new InstanceMethodQuery(owner, methodName);
+
+            // Act
+            var result = Record.Exception(() => sut.SelectMethods());
+
+            // Assert
+            Assert.Null(result);
+        }
     }
 }
