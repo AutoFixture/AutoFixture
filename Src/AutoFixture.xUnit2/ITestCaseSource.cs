@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace AutoFixture.Xunit2
 {
-    internal interface ITestCaseSource
+    public interface ITestCaseSource
     {
         IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method);
     }

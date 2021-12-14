@@ -1,16 +1,13 @@
-﻿using System;
+﻿using AutoFixture.Kernel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using AutoFixture.Kernel;
+using System.Reflection;
 using TestTypeFoundation;
 using Xunit;
 using Xunit.Sdk;
-
-#if NETCOREAPP1_1
-using System.Reflection;
-#endif
 
 namespace AutoFixture.Xunit2.UnitTest
 {
@@ -25,7 +22,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void IsDataAttribute()
         {
-            var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+            ClassAutoDataAttribute sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
 
             Assert.IsAssignableFrom<DataAttribute>(sut);
         }
@@ -33,8 +30,8 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataDoesNotThrow()
         {
-            var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            ClassAutoDataAttribute sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
 
             _ = sut.GetData(testMethod);
         }
@@ -42,10 +39,10 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataReturnsEnumerable()
         {
-            var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            ClassAutoDataAttribute sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var actual = sut.GetData(testMethod);
+            IEnumerable<object[]> actual = sut.GetData(testMethod);
 
             Assert.NotNull(actual);
         }
@@ -53,10 +50,10 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataReturnsNonEmptyEnumerable()
         {
-            var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            ClassAutoDataAttribute sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var actual = sut.GetData(testMethod);
+            IEnumerable<object[]> actual = sut.GetData(testMethod);
 
             Assert.NotEmpty(actual);
         }
@@ -64,10 +61,10 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataReturnsExpectedTestCaseCount()
         {
-            var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            ClassAutoDataAttribute sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var actual = sut.GetData(testMethod);
+            IEnumerable<object[]> actual = sut.GetData(testMethod);
 
             Assert.Equal(5, actual.Count());
         }
@@ -75,8 +72,8 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataThrowsWhenDataSourceNotEnumerable()
         {
-            var sut = new ClassAutoDataAttribute(typeof(GuardedConstructorHost<object>));
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            ClassAutoDataAttribute sut = new ClassAutoDataAttribute(typeof(GuardedConstructorHost<object>));
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
 
             Action act = () => _ = sut.GetData(testMethod).ToList();
 
@@ -86,8 +83,10 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataThrowsForNonMatchingConstructorTypes()
         {
-            var sut = new ClassAutoDataAttribute(typeof(ParameterizedClassData), "myString", 33, null);
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            ClassAutoDataAttribute sut = new ClassAutoDataAttribute(
+                typeof(DelegatingTestData),
+                new object[] { "myString", 33, null });
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
 
             Action act = () => _ = sut.GetData(testMethod).ToList();
 
@@ -97,15 +96,15 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataReturnsExpectedTestCases()
         {
-            var builder = new CompositeSpecimenBuilder(
+            CompositeSpecimenBuilder builder = new CompositeSpecimenBuilder(
                 new FixedParameterBuilder<int>("a", 1),
                 new FixedParameterBuilder<string>("b", "value"),
                 new FixedParameterBuilder<EnumType>("c", EnumType.First),
                 new FixedParameterBuilder<Tuple<string, int>>("d", new Tuple<string, int>("value", 1)));
-            var sut = new DerivedClassAutoDataAttribute(
+            DerivedClassAutoDataAttribute sut = new DerivedClassAutoDataAttribute(
                 () => new DelegatingFixture { OnCreate = (r, c) => builder.Create(r, c) },
                 typeof(MixedTypeClassData));
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
             object[][] expected =
             {
                 new object[] { 1, "value", EnumType.First, new Tuple<string, int>("value", 1) },
@@ -115,7 +114,7 @@ namespace AutoFixture.Xunit2.UnitTest
                 new object[] { -95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5) }
             };
 
-            var actual = sut.GetData(testMethod).ToArray();
+            object[][] actual = sut.GetData(testMethod).ToArray();
 
             Assert.Equal(expected, actual);
         }
@@ -123,66 +122,75 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataReturnsExpectedTestCasesFromParameterizedSource()
         {
-            var builder = new CompositeSpecimenBuilder(
+            CompositeSpecimenBuilder builder = new CompositeSpecimenBuilder(
                 new FixedParameterBuilder<int>("a", 1),
                 new FixedParameterBuilder<string>("b", "value"),
                 new FixedParameterBuilder<Tuple<string, int>>("d", new Tuple<string, int>("value", 1)));
-            var sut = new DerivedClassAutoDataAttribute(
+            DerivedClassAutoDataAttribute sut = new DerivedClassAutoDataAttribute(
                 () => new DelegatingFixture { OnCreate = (r, c) => builder.Create(r, c) },
                 typeof(ParameterizedClassData),
                 29, "myValue", EnumType.Third);
-            var testMethod = this.GetType().GetMethod(nameof(this.TestMethod));
+            MethodInfo testMethod = this.GetType().GetMethod(nameof(ExampleTestClass.TestMethod));
             object[][] expected =
             {
                 new object[] { 29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1) },
                 new object[] { 29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1) },
             };
 
-            var actual = sut.GetData(testMethod).ToArray();
+            object[][] actual = sut.GetData(testMethod).ToArray();
 
             Assert.Equal(expected, actual);
         }
+    }
 
+    public class ExampleTestClass
+    {
         [SuppressMessage("Usage", "xUnit1013:Public method should be marked as test",
             Justification = "This test method is used through reflection.")]
         public void TestMethod(int a, string b, EnumType c, Tuple<string, int> d)
         {
         }
+    }
 
-        private class MixedTypeClassData : IEnumerable<object[]>
+    public class MixedTypeClassData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
         {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new object[0];
-                yield return new object[] { 9 };
-                yield return new object[] { 12, "test-12" };
-                yield return new object[] { 223, "test-17", EnumType.Third };
-                yield return new object[] { -95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5) };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+            yield return new object[0];
+            yield return new object[] { 9 };
+            yield return new object[] { 12, "test-12" };
+            yield return new object[] { 223, "test-17", EnumType.Third };
+            yield return new object[] { -95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5) };
         }
 
-        private class ParameterizedClassData : IEnumerable<object[]>
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            private readonly int p1;
-            private readonly string p2;
-            private readonly EnumType p3;
+            return this.GetEnumerator();
+        }
+    }
 
-            public ParameterizedClassData(int p1, string p2, EnumType p3)
-            {
-                this.p1 = p1;
-                this.p2 = p2;
-                this.p3 = p3;
-            }
+    public class ParameterizedClassData : IEnumerable<object[]>
+    {
+        private readonly int p1;
+        private readonly string p2;
+        private readonly EnumType p3;
 
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new object[] { this.p1, this.p2, this.p3 };
-                yield return new object[] { this.p1, this.p2, this.p3 };
-            }
+        public ParameterizedClassData(int p1, string p2, EnumType p3)
+        {
+            this.p1 = p1;
+            this.p2 = p2;
+            this.p3 = p3;
+        }
 
-            IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { this.p1, this.p2, this.p3 };
+            yield return new object[] { this.p1, this.p2, this.p3 };
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

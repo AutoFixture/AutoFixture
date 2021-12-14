@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace AutoFixture.Xunit2
 {
-    internal abstract class TestCaseSourceBase : ITestCaseSource, IEnumerable
+    public abstract class TestCaseSourceBase : ITestCaseSource, IEnumerable
     {
         public abstract IEnumerator GetEnumerator();
 

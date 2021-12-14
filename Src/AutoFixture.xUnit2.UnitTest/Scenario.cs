@@ -545,9 +545,10 @@ namespace AutoFixture.Xunit2.UnitTest
         [Theory, ClassAutoData(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
         public void ClassAutoDataCanBeParameterized(int p1, string p2, double p3, RecordType<double> p4)
         {
-            Assert.Equal(28, p1);
-            Assert.Equal("bar", p2);
-            Assert.Equal(93.102, p3);
+            var actual = new object[] { p1, p2, p3 };
+            var expected = new object[] { 28, "bar", 93.102 };
+
+            Assert.Equal(expected, actual);
             Assert.NotNull(p4);
         }
 
@@ -594,5 +595,17 @@ namespace AutoFixture.Xunit2.UnitTest
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
         }
+    }
+
+    public class DelegatingDataClass : IEnumerable<object[]>
+    {
+        public Func<IEnumerator<object[]>> OnGetEnumerator { get; set; }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            return this.OnGetEnumerator?.Invoke();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }
 }

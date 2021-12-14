@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AutoFixture.Kernel;
+using System;
 using System.Collections;
 
 namespace AutoFixture.Xunit2
 {
-    internal class ClassTestCaseSource : TestCaseSourceBase
+    public class ClassTestCaseSource : TestCaseSourceBase
     {
         private readonly Lazy<IEnumerable> lazyEnumerable;
 
