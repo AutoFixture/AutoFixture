@@ -5,6 +5,7 @@ using Nuke.Common.CI.GitHubActions;
 [GitHubActions(
     "continuous",
     GitHubActionsImage.WindowsLatest,
+    AutoGenerate = false,
     OnPullRequestBranches = new[] { ReleaseBranch },
     PublishArtifacts = false,
     InvokedTargets = new[] { nameof(Cover), nameof(Pack) },
@@ -12,6 +13,7 @@ using Nuke.Common.CI.GitHubActions;
 [GitHubActions(
     "vnext",
     GitHubActionsImage.WindowsLatest,
+    AutoGenerate = false,
     OnPushBranches = new[] { ReleaseBranch },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Cover), nameof(Publish) },
