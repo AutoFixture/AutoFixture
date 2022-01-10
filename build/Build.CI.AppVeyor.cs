@@ -6,7 +6,7 @@ using Nuke.Common.CI.AppVeyor;
 [AppVeyor(
     AppVeyorImage.VisualStudio2019,
     AutoGenerate = false,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack), nameof(Publish) },
+    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
     Secrets = new[] { AppVeyorSecrets.NuGetApiKey, AppVeyorSecrets.MyGetApiKey })]
 partial class Build
 {

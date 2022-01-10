@@ -18,6 +18,11 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "github-token": {
+          "type": "string",
+          "description": "GitHub auth token",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
+        },
         "Help": {
           "type": "boolean",
           "description": "Shows the help text for this build assembly"
