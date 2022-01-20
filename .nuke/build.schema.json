@@ -6,6 +6,9 @@
     "build": {
       "type": "object",
       "properties": {
+        "CI": {
+          "type": "boolean"
+        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
@@ -17,6 +20,9 @@
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "Deterministic": {
+          "type": "boolean"
         },
         "github-token": {
           "type": "string",
@@ -104,9 +110,6 @@
               "Verify"
             ]
           }
-        },
-        "TestPartition": {
-          "type": "string"
         },
         "Verbosity": {
           "type": "string",
