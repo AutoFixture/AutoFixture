@@ -14,7 +14,6 @@
     <PackageReference Include="Nuke.Common" Version="5.1.1" />
     <PackageReference Include="ReportGenerator" Version="4.8.8" />
     <PackageDownload Include="GitVersion.Tool" Version="[5.1.1]" />
-    <PackageDownload Include="NUnit.Runners" Version="[2.6.2]" />
   </ItemGroup>
 
 </Project>

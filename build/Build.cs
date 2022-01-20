@@ -35,9 +35,6 @@ partial class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [BuildTrigger] readonly BuildTrigger Trigger;
 
-    [PackageExecutable("NUnit.Runners", "nunit-console.exe")]
-    readonly Tool NUnit2Runner;
-
     [EnvironmentVariable(AppVeyorSecrets.NuGetApiKeyName)] readonly string NuGetApiKey;
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
