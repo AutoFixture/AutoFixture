@@ -6,7 +6,7 @@ using Nuke.Common.CI.AppVeyor;
 [AppVeyor(
     AppVeyorImage.VisualStudio2019,
     AutoGenerate = false,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack), nameof(Publish) },
+    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack), nameof(AppVeyorPublish) },
     Secrets = new[] { AppVeyorSecrets.NuGetApiKey, AppVeyorSecrets.MyGetApiKey })]
 partial class Build
 {
@@ -33,14 +33,16 @@ partial class Build
                 $"{GitVersion.MajorMinorPatch}.{AppVeyor.BuildNumber}{GitVersion.PreReleaseTagWithDash}");
         });
 
+    Target AppVeyorPublish => _ => _
+        .OnlyWhenStatic(() => Trigger == BuildTrigger.SemVerTag)
+        .Executes(PublishPackages);
+
     public static class AppVeyorSecrets
     {
-        public const string NuGetApiKeyName = "NUGET_API_KEY";
         public const string NuGetApiKeyValue = "b/B9mFX99as5WjjR9Xzr7zAUDKwvCOmPgEkttJxcP+OClOv59lrcIE4OrsAdQRW3";
-        public const string NuGetApiKey = NuGetApiKeyName + ":" + NuGetApiKeyValue;
+        public const string NuGetApiKey = Secrets.NuGetApiKey + ":" + NuGetApiKeyValue;
 
-        public const string MyGetApiKeyName = "MYGET_API_KEY";
         public const string MyGetApiKeyValue = "hA4Ut1N2lrrdEtAN24Bty/FNiU0d/Ur/dLYSqpr8jKHOvoO7MU4jD+KwzUvATh+E";
-        public const string MyGetApiKey = MyGetApiKeyName + ":" + MyGetApiKeyValue;
+        public const string MyGetApiKey = Secrets.MyGetApiKey + ":" + MyGetApiKeyValue;
     }
 }

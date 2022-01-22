@@ -25,6 +25,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/79c882c3f4af3cf52ad43e5c95851f25d217ac17/AutoFixtureLogo200x200.png</PackageIconUrl>
     <PackageIcon>icon.png</PackageIcon>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>

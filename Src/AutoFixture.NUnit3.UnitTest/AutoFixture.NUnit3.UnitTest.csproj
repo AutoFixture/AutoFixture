@@ -13,10 +13,32 @@
     <PackageReference Include="NUnit" Version="[3.0.1]" Condition=" '$(TargetFramework)'=='net452' " />
     <PackageReference Include="NUnit" Version="[3.7.0]" Condition=" '$(TargetFramework)'=='netcoreapp1.1' " />
     <PackageReference Include="NUnit" Version="[3.10.1]" Condition=" '$(TargetFramework)'=='netcoreapp2.1' " />
-    
-    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0"/>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.0"/>
   </ItemGroup>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+
+        <PackageReference Include="coverlet.collector" Version="1.3.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+
+        <PackageReference Include="coverlet.collector" Version="3.1.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />

@@ -22,12 +22,11 @@ test: off
 deploy: off
 
 build_script:
-  - cmd: .\build.cmd Verify Cover Pack Publish --no-logo
-  - sh: ./build.cmd Verify Cover Pack Publish --no-logo
+  - cmd: .\build.cmd Verify Cover Pack AppVeyorPublish --no-logo
+  - sh: ./build.cmd Verify Cover Pack AppVeyorPublish --no-logo
 
 artifacts:
   - path: artifacts/testresults/*.zip
-  - path: artifacts/coverage/*.zip
   - path: artifacts/reports/*.zip
   - path: artifacts/packages/*.nupkg
 

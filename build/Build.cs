@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Integration;
 using Nuke.Common;
 using Nuke.Common.CI;
@@ -7,7 +8,6 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
-using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
@@ -24,6 +24,9 @@ partial class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
 
+    const string MasterBranch = "master";
+    const string ReleaseBranch = "release/*";
+
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
@@ -32,24 +35,38 @@ partial class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [BuildTrigger] readonly BuildTrigger Trigger;
 
-    [PackageExecutable("NUnit.Runners", "nunit-console.exe")]
-    readonly Tool NUnit2Runner;
+    [Parameter("Makes the build deterministic when packaging assemblies")] readonly bool Deterministic;
+    [Parameter("Sets the continuous integration build flag")] readonly bool CI;
 
-    [EnvironmentVariable(AppVeyorSecrets.NuGetApiKeyName)] readonly string NuGetApiKey;
+    [Secret]
+    [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)]
+    readonly string NuGetApiKey;
+
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
-    [EnvironmentVariable(AppVeyorSecrets.MyGetApiKeyName)] readonly string MyGetApiKey;
+    [Secret]
+    [Parameter("MyGet API Key (secret)", Name = Secrets.MyGetApiKey)]
+    readonly string MyGetApiKey;
+
     readonly string MyGetSource = "https://www.myget.org/F/autofixture/api/v3/index.json";
 
-    [Partition(2)] readonly Partition TestPartition;
-
-    IEnumerable<Project> TestProjects => TestPartition.GetCurrent(Solution.GetProjects("*Test"));
+    IEnumerable<Project> Excluded => new []
+    {
+        Solution.GetProject("_build"),
+        Solution.GetProject("TestTypeFoundation")
+    };
+    IEnumerable<Project> TestProjects => Solution.GetProjects("*Test");
+    IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
+    IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.Is(ProjectType.CSharpProject));
+    IEnumerable<Project> FSharpLibraries => Libraries.Where(x => x.Path.ToString().EndsWith(".fsproj"));
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
+
+    bool IsDeterministic => IsServerBuild || Deterministic;
+    bool IsContinuousIntegration => IsServerBuild || CI;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     AbsolutePath TestResultsDirectory => ArtifactsDirectory / "testresults";
-    AbsolutePath CoverageDirectory => ArtifactsDirectory / "coverage";
     AbsolutePath ReportsDirectory => ArtifactsDirectory / "reports";
     AbsolutePath PackagesDirectory => ArtifactsDirectory / "packages";
 
@@ -82,6 +99,7 @@ partial class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .SetConfiguration("Verify")
                 .SetNoRestore(FinishedTargets.Contains(Restore))
+                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetProcessArgumentConfigurator(a => a
                     .Add("/p:CheckEolTargetFramework=false")));
         });
@@ -98,6 +116,7 @@ partial class Build : NukeBuild
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetNoRestore(FinishedTargets.Contains(Restore))
+                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetProcessArgumentConfigurator(a => a
                     .Add("/p:CheckEolTargetFramework=false")));
         });
@@ -105,35 +124,22 @@ partial class Build : NukeBuild
     Target Test => _ => _
         .DependsOn(Compile)
         .Produces(TestResultsDirectory / "*.zip")
-        .Produces(CoverageDirectory / "*.zip")
-        .Partition(() => TestPartition)
         .Executes(() =>
         {
             DotNetTest(s => s
                 .SetConfiguration(Configuration)
-                .SetNoBuild(FinishedTargets.Contains(Compile))
-                .ResetVerbosity()
                 .SetResultsDirectory(TestResultsDirectory)
+                .SetNoBuild(FinishedTargets.Contains(Compile))
+                .SetLogger("trx")
                 .SetProcessArgumentConfigurator(a => a
                     .Add("/p:CheckEolTargetFramework=false")
                     .Add("-- RunConfiguration.DisableAppDomain=true")
                     .Add("-- RunConfiguration.NoAutoReporters=true"))
                 .When(InvokedTargets.Contains(Cover), _ => _
-                    .EnableCollectCoverage()
-                    .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
-                    .SetExcludeByFile("**/TestTypeFoundation/**")
-                    .When(IsServerBuild, _ => _.EnableUseSourceLink()))
-                .CombineWith(TestProjects, (_, v) => _
-                    .SetProjectFile(v)
-                    .SetLogger("trx")
-                    .When(InvokedTargets.Contains(Cover), _ => _
-                        .SetCoverletOutput(CoverageDirectory / $"{v.Name}.xml"))));
+                    .SetDataCollector("XPlat Code Coverage"))
+                .CombineWith(TestProjects, (s, p) => s.SetProjectFile(p)));
 
             CompressZip(TestResultsDirectory, TestResultsDirectory / "TestResults.zip");
-            CompressZip(CoverageDirectory, CoverageDirectory / "CoverageResults.zip");
-
-            AppVeyor?.PushArtifact(TestResultsDirectory / "TestResults.zip");
-            AppVeyor?.PushArtifact(CoverageDirectory / "CoverageResults.zip");
         });
 
     Target Cover => _ => _
@@ -145,7 +151,8 @@ partial class Build : NukeBuild
         {
             ReportGenerator(_ => _
                 .SetFramework("netcoreapp2.1")
-                .SetReports(CoverageDirectory / "*.xml")
+                .SetAssemblyFilters("-TestTypeFoundation*")
+                .SetReports(TestResultsDirectory / "**" / "coverage.cobertura.xml")
                 .SetTargetDirectory(ReportsDirectory)
                 .SetReportTypes("lcov", ReportTypes.HtmlInline));
 
@@ -160,7 +167,20 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             DotNetPack(s => s
-                .SetProject(Solution)
+                .SetOutputDirectory(PackagesDirectory)
+                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
+                .EnableIncludeSymbols()
+                .SetVersion(GitVersion.NuGetVersionV2)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetDeterministic(IsDeterministic)
+                .SetContinuousIntegrationBuild(IsContinuousIntegration)
+                .SetProcessArgumentConfigurator(a => a
+                    .Add("/p:CheckEolTargetFramework=false"))
+                .CombineWith(CSharpLibraries, (s, p) => s.SetProject(p)));
+
+            DotNetPack(s => s
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(PackagesDirectory)
                 .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
@@ -169,29 +189,37 @@ partial class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetProcessArgumentConfigurator(a => a
-                    .Add("/p:CheckEolTargetFramework=false")));
+                    .Add("/p:CheckEolTargetFramework=false"))
+                .CombineWith(FSharpLibraries, (s, p) => s.SetProject(p)));
         });
 
     Target Publish => _ => _
         .DependsOn(Pack)
-        .OnlyWhenDynamic(() => IsServerBuild)
-        .OnlyWhenDynamic(() => AppVeyor != null && Trigger == BuildTrigger.SemVerTag)
         .Consumes(Pack)
-        .Executes(() =>
-        {
-            DotNetNuGetPush(s => s
-                .EnableSkipDuplicate()
-                .When(
-                    GitRepository.IsOnMasterBranch(),
-                    v => v
-                        .SetApiKey(NuGetApiKey)
-                        .SetSource(NuGetSource))
-                .When(
-                    !GitRepository.IsOnMasterBranch(),
-                    v => v
-                        .SetApiKey(MyGetApiKey)
-                        .SetSource(MyGetSource))
-                .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
-        });
+        .Executes(PublishPackages);
+
+    void PublishPackages()
+    {
+        DotNetNuGetPush(s => s
+            .EnableSkipDuplicate()
+            .When(
+                GitRepository.IsOnMasterBranch(),
+                v => v
+                    .SetApiKey(NuGetApiKey)
+                    .SetSource(NuGetSource))
+            .When(
+                !GitRepository.IsOnMasterBranch(),
+                v => v
+                    .SetApiKey(MyGetApiKey)
+                    .SetSource(MyGetSource))
+            .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
+    }
+
+    public static class Secrets
+    {
+        public const string MyGetApiKey = "MYGET_API_KEY";
+        public const string NuGetApiKey = "NUGET_API_KEY";
+    }
 }

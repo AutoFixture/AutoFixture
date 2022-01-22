@@ -6,6 +6,10 @@
     "build": {
       "type": "object",
       "properties": {
+        "CI": {
+          "type": "boolean",
+          "description": "Sets the continuous integration build flag"
+        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
@@ -17,6 +21,15 @@
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "Deterministic": {
+          "type": "boolean",
+          "description": "Makes the build deterministic when packaging assemblies"
+        },
+        "github-token": {
+          "type": "string",
+          "description": "GitHub auth token",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
         },
         "Help": {
           "type": "boolean",
@@ -39,9 +52,19 @@
             "TravisCI"
           ]
         },
+        "MYGET_API_KEY": {
+          "type": "string",
+          "description": "MyGet API Key (secret)",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
+        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
+        },
+        "NUGET_API_KEY": {
+          "type": "string",
+          "description": "NuGet API Key (secret)",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
         },
         "Plan": {
           "type": "boolean",
@@ -64,6 +87,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "AppVeyorPublish",
               "AppVeyorSetBuildVersion",
               "AppVeyorUploadTestResults",
               "Clean",
@@ -87,6 +111,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "AppVeyorPublish",
               "AppVeyorSetBuildVersion",
               "AppVeyorUploadTestResults",
               "Clean",
@@ -99,9 +124,6 @@
               "Verify"
             ]
           }
-        },
-        "TestPartition": {
-          "type": "string"
         },
         "Verbosity": {
           "type": "string",
