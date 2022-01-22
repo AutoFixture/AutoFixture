@@ -45,7 +45,7 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Run './build.cmd Verify Cover Publish'
-        run: ./build.cmd Verify Cover Publish
+        run: ./build.cmd Verify Cover Publish --no-logo
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
           MyGetApiKey: ${{ secrets.MY_GET_API_KEY }}
