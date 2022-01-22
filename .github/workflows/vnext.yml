@@ -44,8 +44,8 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './build.cmd Cover Publish'
-        run: ./build.cmd Cover Publish
+      - name: Run './build.cmd Verify Cover Publish'
+        run: ./build.cmd Verify Cover Publish
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
           MyGetApiKey: ${{ secrets.MY_GET_API_KEY }}
@@ -53,10 +53,6 @@ jobs:
         with:
           name: testresults
           path: artifacts/testresults
-      - uses: actions/upload-artifact@v1
-        with:
-          name: coverage
-          path: artifacts/coverage
       - uses: actions/upload-artifact@v1
         with:
           name: reports

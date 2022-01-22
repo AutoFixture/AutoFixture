@@ -44,7 +44,7 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './build.cmd Cover Pack'
-        run: ./build.cmd Cover Pack
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Verify Cover Pack
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
