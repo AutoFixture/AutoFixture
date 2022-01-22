@@ -8,7 +8,7 @@ using Nuke.Common.CI.GitHubActions;
     AutoGenerate = false,
     OnPullRequestBranches = new[] { ReleaseBranch },
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Cover), nameof(Pack) },
+    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) },
     ImportGitHubTokenAs = nameof(GitHubToken))]
 [GitHubActions(
     "vnext",
@@ -16,7 +16,7 @@ using Nuke.Common.CI.GitHubActions;
     AutoGenerate = false,
     OnPushBranches = new[] { ReleaseBranch },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Cover), nameof(Publish) },
+    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
     ImportGitHubTokenAs = nameof(GitHubToken),
     ImportSecrets = new[] { nameof(MyGetApiKey) })]
 partial class Build
