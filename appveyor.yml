@@ -22,8 +22,8 @@ test: off
 deploy: off
 
 build_script:
-  - cmd: .\build.cmd Verify Cover Publish --no-logo
-  - sh: ./build.cmd Verify Cover Publish --no-logo
+  - cmd: .\build.cmd Verify Cover Pack AppVeyorPublish --no-logo
+  - sh: ./build.cmd Verify Cover Pack AppVeyorPublish --no-logo
 
 artifacts:
   - path: artifacts/testresults/*.zip

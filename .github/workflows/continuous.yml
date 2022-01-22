@@ -19,6 +19,7 @@ name: continuous
 on:
   pull_request:
     branches:
+      - master
       - 'release/*'
 
 jobs:

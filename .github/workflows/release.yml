@@ -9,17 +9,17 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_vnext --host GitHubActions
+#         nuke --generate-configuration GitHubActions_release --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: vnext
+name: release
 
 on:
   push:
-    branches:
-      - 'release/*'
+    tags:
+      - 'v*'
 
 jobs:
   windows-latest:
@@ -48,7 +48,8 @@ jobs:
         run: ./build.cmd Verify Cover Publish --no-logo
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          MyGetApiKey: ${{ secrets.MY_GET_API_KEY }}
+          MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       - uses: actions/upload-artifact@v1
         with:
           name: testresults

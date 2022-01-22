@@ -9,6 +9,6 @@ namespace Integration
     public class BuildTriggerAttribute : ValueInjectionAttributeBase
     {
         public override object GetValue(MemberInfo member, object instance)
-            => AppVeyor.Instance?.GetTrigger();
+            => AppVeyor.Instance.GetTrigger();
     }
 }

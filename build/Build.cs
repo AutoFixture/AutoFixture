@@ -35,18 +35,28 @@ partial class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [BuildTrigger] readonly BuildTrigger Trigger;
 
-    [Parameter] readonly bool Deterministic;
-    [Parameter] readonly bool CI;
+    [Parameter("Makes the build deterministic when packaging assemblies")] readonly bool Deterministic;
+    [Parameter("Sets the continuous integration build flag")] readonly bool CI;
 
-    [EnvironmentVariable(AppVeyorSecrets.NuGetApiKeyName)] readonly string NuGetApiKey;
+    [Secret]
+    [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)]
+    readonly string NuGetApiKey;
+
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
-    [EnvironmentVariable(AppVeyorSecrets.MyGetApiKeyName)] readonly string MyGetApiKey;
+    [Secret]
+    [Parameter("MyGet API Key (secret)", Name = Secrets.MyGetApiKey)]
+    readonly string MyGetApiKey;
+
     readonly string MyGetSource = "https://www.myget.org/F/autofixture/api/v3/index.json";
 
-    string[] Excluded = { "_build", "TestTypeFoundation" };
+    IEnumerable<Project> Excluded => new []
+    {
+        Solution.GetProject("_build"),
+        Solution.GetProject("TestTypeFoundation")
+    };
     IEnumerable<Project> TestProjects => Solution.GetProjects("*Test");
-    IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Where(x => !Excluded.Contains(x.Name));
+    IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
     IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.Is(ProjectType.CSharpProject));
     IEnumerable<Project> FSharpLibraries => Libraries.Where(x => x.Path.ToString().EndsWith(".fsproj"));
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
@@ -130,7 +140,6 @@ partial class Build : NukeBuild
                 .CombineWith(TestProjects, (s, p) => s.SetProjectFile(p)));
 
             CompressZip(TestResultsDirectory, TestResultsDirectory / "TestResults.zip");
-            AppVeyor?.PushArtifact(TestResultsDirectory / "TestResults.zip");
         });
 
     Target Cover => _ => _
@@ -188,23 +197,29 @@ partial class Build : NukeBuild
 
     Target Publish => _ => _
         .DependsOn(Pack)
-        .OnlyWhenDynamic(() => IsServerBuild)
-        .OnlyWhenDynamic(() => AppVeyor != null && Trigger == BuildTrigger.SemVerTag)
         .Consumes(Pack)
-        .Executes(() =>
-        {
-            DotNetNuGetPush(s => s
-                .EnableSkipDuplicate()
-                .When(
-                    GitRepository.IsOnMasterBranch(),
-                    v => v
-                        .SetApiKey(NuGetApiKey)
-                        .SetSource(NuGetSource))
-                .When(
-                    !GitRepository.IsOnMasterBranch(),
-                    v => v
-                        .SetApiKey(MyGetApiKey)
-                        .SetSource(MyGetSource))
-                .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
-        });
+        .Executes(PublishPackages);
+
+    void PublishPackages()
+    {
+        DotNetNuGetPush(s => s
+            .EnableSkipDuplicate()
+            .When(
+                GitRepository.IsOnMasterBranch(),
+                v => v
+                    .SetApiKey(NuGetApiKey)
+                    .SetSource(NuGetSource))
+            .When(
+                !GitRepository.IsOnMasterBranch(),
+                v => v
+                    .SetApiKey(MyGetApiKey)
+                    .SetSource(MyGetSource))
+            .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
+    }
+
+    public static class Secrets
+    {
+        public const string MyGetApiKey = "MYGET_API_KEY";
+        public const string NuGetApiKey = "NUGET_API_KEY";
+    }
 }

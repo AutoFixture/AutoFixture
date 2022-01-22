@@ -6,19 +6,19 @@ using Nuke.Common.CI.GitHubActions;
     "continuous",
     GitHubActionsImage.WindowsLatest,
     AutoGenerate = false,
-    OnPullRequestBranches = new[] { ReleaseBranch },
+    OnPullRequestBranches = new[] { MasterBranch, ReleaseBranch },
     PublishArtifacts = false,
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) },
     ImportGitHubTokenAs = nameof(GitHubToken))]
 [GitHubActions(
-    "vnext",
+    "release",
     GitHubActionsImage.WindowsLatest,
     AutoGenerate = false,
-    OnPushBranches = new[] { ReleaseBranch },
+    OnPushTags = new[] { "v*" },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
     ImportGitHubTokenAs = nameof(GitHubToken),
-    ImportSecrets = new[] { nameof(MyGetApiKey) })]
+    ImportSecrets = new[] { Secrets.MyGetApiKey, Secrets.NuGetApiKey })]
 partial class Build
 {
     [CI] readonly GitHubActions GitHubActions;

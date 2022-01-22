@@ -7,7 +7,8 @@
       "type": "object",
       "properties": {
         "CI": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Sets the continuous integration build flag"
         },
         "Configuration": {
           "type": "string",
@@ -22,7 +23,8 @@
           "description": "Indicates to continue a previously failed build attempt"
         },
         "Deterministic": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Makes the build deterministic when packaging assemblies"
         },
         "github-token": {
           "type": "string",
@@ -50,9 +52,19 @@
             "TravisCI"
           ]
         },
+        "MYGET_API_KEY": {
+          "type": "string",
+          "description": "MyGet API Key (secret)",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
+        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
+        },
+        "NUGET_API_KEY": {
+          "type": "string",
+          "description": "NuGet API Key (secret)",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
         },
         "Plan": {
           "type": "boolean",
@@ -75,6 +87,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "AppVeyorPublish",
               "AppVeyorSetBuildVersion",
               "AppVeyorUploadTestResults",
               "Clean",
@@ -98,6 +111,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "AppVeyorPublish",
               "AppVeyorSetBuildVersion",
               "AppVeyorUploadTestResults",
               "Clean",
