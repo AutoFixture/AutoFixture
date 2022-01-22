@@ -19,7 +19,6 @@ partial class Build
         .OnlyWhenDynamic(() => IsServerBuild && AppVeyor != null)
         .Executes(() =>
         {
-            AppVeyor?.PushArtifact(TestResultsDirectory / "TestResults.zip");
             AppVeyor.UploadTestResults(TestType.MsTest, TestResultsDirectory, "*.trx");
             AppVeyor.UploadTestResults(TestType.NUnit, TestResultsDirectory, "*.xml");
         });
