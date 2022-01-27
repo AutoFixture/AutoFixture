@@ -160,6 +160,9 @@ namespace AutoFixture
                                     typeof(ISet<>),
                                     typeof(HashSet<>)),
                                 new EnumerableRelay(),
+#if NETSTANDARD2_1_OR_GREATER
+                                new AsyncEnumerableRelay(),
+#endif
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(
                             new MutableValueTypeWarningThrower(),
