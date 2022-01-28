@@ -49,7 +49,11 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override int GetHashCode()
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return this.Pattern.GetHashCode(StringComparison.InvariantCulture);
+#else
             return this.Pattern.GetHashCode();
+#endif
         }
 
         /// <summary>
@@ -61,7 +65,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool Equals(RegularExpressionRequest other)
         {
-            if (other == null)
+            if (other is null)
             {
                 return false;
             }

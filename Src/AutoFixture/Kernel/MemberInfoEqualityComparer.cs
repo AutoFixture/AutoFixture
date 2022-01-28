@@ -29,16 +29,16 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public bool Equals(MemberInfo x, MemberInfo y)
         {
-            if (x == null && y == null)
+            if (x is null && y is null)
             {
                 return true;
             }
 
-            if (x == null)
+            if (x is null)
             {
                 return false;
             }
-            if (y == null)
+            if (y is null)
             {
                 return false;
             }
@@ -48,11 +48,11 @@ namespace AutoFixture.Kernel
                 return true;
             }
 
-            if (x.DeclaringType == null)
+            if (x.DeclaringType is null)
             {
                 return false;
             }
-            if (y.DeclaringType == null)
+            if (y.DeclaringType is null)
             {
                 return false;
             }
@@ -75,30 +75,37 @@ namespace AutoFixture.Kernel
         /// </exception>
         public int GetHashCode(MemberInfo obj)
         {
-            if (obj == null) return 0;
+            if (obj is null) return 0;
 
-            if (obj.DeclaringType == null)
+            if (obj.DeclaringType is null)
             {
+#if NETSTANDARD2_1_OR_GREATER
+                return obj.Name.GetHashCode(StringComparison.InvariantCulture);
+#else
                 return obj.Name.GetHashCode();
+#endif
             }
+
+#if NETSTANDARD2_1_OR_GREATER
+            return obj.DeclaringType.GetHashCode() ^ obj.Name.GetHashCode(StringComparison.InvariantCulture);
+#else
             return obj.DeclaringType.GetHashCode() ^ obj.Name.GetHashCode();
+#endif
         }
 
         bool IEqualityComparer.Equals(object x, object y)
         {
-            if ((x == null) && (y == null))
+            if ((x is null) && (y is null))
             {
                 return true;
             }
 
-            var miX = x as MemberInfo;
-            if (miX == null)
+            if (x is not MemberInfo miX)
             {
                 return false;
             }
 
-            var miY = y as MemberInfo;
-            if (miY == null)
+            if (y is not MemberInfo miY)
             {
                 return false;
             }
@@ -108,18 +115,12 @@ namespace AutoFixture.Kernel
 
         int IEqualityComparer.GetHashCode(object obj)
         {
-            if (obj == null)
+            return obj switch
             {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
-            var mi = obj as MemberInfo;
-            if (mi != null)
-            {
-                return this.GetHashCode(mi);
-            }
-
-            return obj.GetHashCode();
+                null => throw new ArgumentNullException(nameof(obj)),
+                MemberInfo mi => this.GetHashCode(mi),
+                _ => obj.GetHashCode()
+            };
         }
 
         private static bool AreTypesRelated(Type x, Type y)

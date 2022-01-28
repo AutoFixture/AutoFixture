@@ -80,7 +80,11 @@ namespace AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return this.Scheme.GetHashCode(StringComparison.InvariantCulture);
+#else
             return this.Scheme.GetHashCode();
+#endif
         }
 
         /// <summary>
@@ -97,7 +101,7 @@ namespace AutoFixture
         /// </returns>
         public bool Equals(UriScheme other)
         {
-            if (other == null)
+            if (other is null)
             {
                 return false;
             }

@@ -66,7 +66,11 @@ namespace AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return this.LocalPart.GetHashCode(StringComparison.InvariantCulture);
+#else
             return this.LocalPart.GetHashCode();
+#endif
         }
 
         /// <summary>
