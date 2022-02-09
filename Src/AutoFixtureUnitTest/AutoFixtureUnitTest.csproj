@@ -4,18 +4,15 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixtureUnitTest</AssemblyName>
-
-    <DefineConstants Condition=" '$(TargetFramework)'=='netcoreapp1.1' ">$(DefineConstants);VALIDATE_VALIDATEOBJECT_IS_FLACKY</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
     <Reference Condition=" '$(TargetFramework)'=='net461' " Include="System.ComponentModel.DataAnnotations" />
-    <PackageReference Condition=" '$(TargetFramework)'=='netcoreapp1.1' " Include="System.Linq.Parallel" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
