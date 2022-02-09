@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixtureUnitTest</AssemblyName>
 
@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
-    <Reference Condition=" '$(TargetFramework)'=='net452' " Include="System.ComponentModel.DataAnnotations" />
+    <Reference Condition=" '$(TargetFramework)'=='net461' " Include="System.ComponentModel.DataAnnotations" />
     <PackageReference Condition=" '$(TargetFramework)'=='netcoreapp1.1' " Include="System.Linq.Parallel" Version="4.3.0" />
   </ItemGroup>
 

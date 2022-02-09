@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <AssemblyTitle>AutoFakeItEasyUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFakeItEasy.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
