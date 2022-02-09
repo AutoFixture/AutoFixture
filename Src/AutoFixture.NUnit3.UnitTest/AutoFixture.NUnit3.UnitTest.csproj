@@ -3,7 +3,7 @@
   <Import Project="..\Common.Test.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit3.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit3.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.NUnit3.UnitTest</RootNamespace>
@@ -11,34 +11,16 @@
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="[3.0.1]" Condition=" '$(TargetFramework)'=='net461' " />
-    <PackageReference Include="NUnit" Version="[3.7.0]" Condition=" '$(TargetFramework)'=='netcoreapp1.1' " />
     <PackageReference Include="NUnit" Version="[3.10.1]" Condition=" '$(TargetFramework)'=='netcoreapp2.1' " />
 
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
-
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
-      <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-
-        <PackageReference Include="coverlet.collector" Version="1.3.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-
-        <PackageReference Include="coverlet.collector" Version="3.1.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />

@@ -3,7 +3,7 @@
   <Import Project="..\Common.Test.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard1.2</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>TestTypeFoundation</AssemblyTitle>
     <AssemblyName>TestTypeFoundation</AssemblyName>
   </PropertyGroup>

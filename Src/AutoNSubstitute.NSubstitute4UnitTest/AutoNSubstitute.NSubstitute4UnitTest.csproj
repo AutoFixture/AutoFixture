@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoNSubstitute.NSubstitute4.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoNSubstitute.NSubstitute4UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoNSubstitute.UnitTest</RootNamespace>
