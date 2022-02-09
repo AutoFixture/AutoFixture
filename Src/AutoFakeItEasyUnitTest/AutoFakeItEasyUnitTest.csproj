@@ -4,14 +4,16 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFakeItEasyUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFakeItEasy.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
+
+    <DefineConstants>$(DefineConstants);CAN_FAKE_DELEGATES;HAS_A_CALL_TO_SET_SPECIFIER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="1.7.4109.1" />
+    <PackageReference Include="FakeItEasy" Version="[6.2.1]" />
   </ItemGroup>
 
   <ItemGroup>
