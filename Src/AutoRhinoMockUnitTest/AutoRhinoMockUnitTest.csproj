@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <AssemblyTitle>AutoRhinoMockUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoRhinoMock.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoRhinoMock.UnitTest</RootNamespace>

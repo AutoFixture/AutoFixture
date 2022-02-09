@@ -3,14 +3,14 @@
   <Import Project="..\Common.Test.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit3.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit3.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.NUnit3.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="[3.0.1]" Condition=" '$(TargetFramework)'=='net452' " />
+    <PackageReference Include="NUnit" Version="[3.0.1]" Condition=" '$(TargetFramework)'=='net461' " />
     <PackageReference Include="NUnit" Version="[3.7.0]" Condition=" '$(TargetFramework)'=='netcoreapp1.1' " />
     <PackageReference Include="NUnit" Version="[3.10.1]" Condition=" '$(TargetFramework)'=='netcoreapp2.1' " />
 
@@ -46,7 +46,7 @@
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='net461' ">
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 

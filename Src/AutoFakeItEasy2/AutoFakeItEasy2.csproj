@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <AssemblyTitle>AutoFakeItEasy</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFakeItEasy2</AssemblyName>
     <RootNamespace>AutoFixture.AutoFakeItEasy2</RootNamespace>

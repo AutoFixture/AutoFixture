@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard1.5;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard1.5;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit3</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit3</AssemblyName>
     <RootNamespace>AutoFixture.NUnit3</RootNamespace>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="[3.0.1,4.0.0)" Condition=" '$(TargetFramework)'=='net452' " />
+    <PackageReference Include="NUnit" Version="[3.0.1,4.0.0)" Condition=" '$(TargetFramework)'=='net461' " />
     <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" Condition=" '$(TargetFramework)'=='netstandard1.5' " />
     <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
   </ItemGroup>

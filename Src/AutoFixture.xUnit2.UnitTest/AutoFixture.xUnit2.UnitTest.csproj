@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFixture.xUnit.net2.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit2.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Xunit2.UnitTest</RootNamespace>
@@ -16,7 +16,7 @@
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='net461' ">
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 

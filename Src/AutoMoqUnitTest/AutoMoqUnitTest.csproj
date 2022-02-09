@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoMoqUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoMoq.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoMoq.UnitTest</RootNamespace>
