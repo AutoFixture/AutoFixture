@@ -62,7 +62,7 @@ namespace AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Domain.GetHashCode();
+            return HashCode.Combine(this.Domain);
         }
     }
 }

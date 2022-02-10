@@ -80,7 +80,7 @@ namespace AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Scheme.GetHashCode();
+            return HashCode.Combine(this.Scheme);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace AutoFixture
         /// </returns>
         public bool Equals(UriScheme other)
         {
-            if (other == null)
+            if (other is null)
             {
                 return false;
             }

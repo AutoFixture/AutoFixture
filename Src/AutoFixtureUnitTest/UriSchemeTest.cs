@@ -200,7 +200,7 @@ namespace AutoFixtureUnitTest
             // Act
             int result = sut.GetHashCode();
             // Assert
-            int expectedHashCode = "http".GetHashCode();
+            int expectedHashCode = HashCode.Combine("http");
             Assert.Equal(expectedHashCode, result);
         }
 
@@ -213,7 +213,7 @@ namespace AutoFixtureUnitTest
             // Act
             int result = sut.GetHashCode();
             // Assert
-            int expectedHashCode = scheme.GetHashCode();
+            int expectedHashCode = HashCode.Combine(scheme);
             Assert.Equal(expectedHashCode, result);
         }
     }

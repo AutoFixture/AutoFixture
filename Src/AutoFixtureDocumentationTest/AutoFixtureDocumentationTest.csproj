@@ -13,6 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
+
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.0.0" Condition=" '$(TargetFramework)'=='net461' Or '$(TargetFramework)'=='netcoreapp2.1' " />
   </ItemGroup>
 
   <ItemGroup>

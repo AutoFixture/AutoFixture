@@ -95,7 +95,7 @@ namespace AutoFixtureUnitTest
             // Act
             int result = sut.GetHashCode();
             // Assert
-            int expectedHashCode = localPart.GetHashCode();
+            int expectedHashCode = HashCode.Combine(localPart);
             Assert.Equal(expectedHashCode, result);
         }
     }
