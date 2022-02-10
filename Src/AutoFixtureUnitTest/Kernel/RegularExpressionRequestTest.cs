@@ -130,7 +130,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             string pattern = "[0-9]";
             var sut = new RegularExpressionRequest(pattern);
-            var expectedHashCode = pattern.GetHashCode();
+            var expectedHashCode = HashCode.Combine(pattern);
             // Act
             var result = sut.GetHashCode();
             // Assert

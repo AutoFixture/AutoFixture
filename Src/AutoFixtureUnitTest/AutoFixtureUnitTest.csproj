@@ -12,7 +12,9 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
-    <Reference Condition=" '$(TargetFramework)'=='net461' " Include="System.ComponentModel.DataAnnotations" />
+
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.0.0" Condition=" '$(TargetFramework)'=='net461' Or '$(TargetFramework)'=='netcoreapp2.1' " />
+    <Reference Include="System.ComponentModel.DataAnnotations"  Condition=" '$(TargetFramework)'=='net461' "/>
   </ItemGroup>
 
   <ItemGroup>

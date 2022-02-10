@@ -66,7 +66,7 @@ namespace AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
-            return this.LocalPart.GetHashCode();
+            return HashCode.Combine(this.LocalPart);
         }
 
         /// <summary>

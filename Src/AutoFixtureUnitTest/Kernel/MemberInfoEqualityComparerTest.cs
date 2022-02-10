@@ -172,7 +172,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Act
             var result = sut.GetHashCode(t);
             // Assert
-            var expectedHashCode = t.Name.GetHashCode();
+            var expectedHashCode = HashCode.Combine(t.Name);
             Assert.Equal(expectedHashCode, result);
         }
 
@@ -185,7 +185,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Act
             var result = sut.GetHashCode(propertyInfo);
             // Assert
-            var expectedHashCode = propertyInfo.DeclaringType.GetHashCode() ^ propertyInfo.Name.GetHashCode();
+            var expectedHashCode = HashCode.Combine(propertyInfo.DeclaringType, propertyInfo.Name);
             Assert.Equal(expectedHashCode, result);
         }
 
@@ -195,8 +195,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var sut = new MemberInfoEqualityComparer();
             // Act & assert
-            Assert.Null(Record.Exception(() =>
-                sut.GetHashCode(null)));
+            Assert.Null(Record.Exception(() => sut.GetHashCode(null!)));
         }
     }
 }

@@ -49,7 +49,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Pattern.GetHashCode();
+            return HashCode.Combine(this.Pattern);
         }
 
         /// <summary>
