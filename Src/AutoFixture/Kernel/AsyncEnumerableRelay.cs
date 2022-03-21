@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-#if NETSTANDARD2_1_OR_GREATER
 
 namespace AutoFixture.Kernel
 {
     /// <summary>
-    /// Satisfies a request for <see cref="IAsyncEnumerable{T}"/> by wrapping a <see cref="IEnumerable{T}"/> with an implementation of <see cref="IAsyncEnumerable{T}"/>.
+    /// Satisfies a request for <see cref="IAsyncEnumerable{T}"/> by wrapping a <see cref="IEnumerable{T}"/>
+    /// with an implementation of <see cref="IAsyncEnumerable{T}"/>.
     /// </summary>
     public class AsyncEnumerableRelay : ISpecimenBuilder
     {
@@ -24,54 +24,65 @@ namespace AutoFixture.Kernel
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context is null)
+            if (context is null) throw new ArgumentNullException(nameof(context));
+            if (request is not Type type) return new NoSpecimen();
+
+            if (!type.TryGetSingleGenericTypeArgument(typeof(IAsyncEnumerable<>), out Type enumerableType))
             {
-                throw new ArgumentNullException(nameof(context));
+                return new NoSpecimen();
             }
 
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            var specimen = context.Resolve(new MultipleRequest(enumerableType));
+            if (specimen is OmitSpecimen) return specimen;
 
-            if (request is Type { IsGenericType: true } type && type.GetGenericTypeDefinition() == typeof(IAsyncEnumerable<>))
-            {
-                var typeArgument = type.GenericTypeArguments[0];
+            if (specimen is not IEnumerable<object> enumerable)
+                return new NoSpecimen();
 
-                var arrayType = typeArgument.MakeArrayType();
-
-                var items = context.Resolve(arrayType);
-
-                return Activator.CreateInstance(typeof(SynchronousAsyncEnumerable<>).MakeGenericType(typeArgument), args: new[] { items });
-            }
-
-            return new NoSpecimen();
+            var typedAdapterType = typeof(SynchronousAsyncEnumerable<>).MakeGenericType(enumerableType);
+            return Activator.CreateInstance(typedAdapterType, enumerable);
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "It's activated via reflection.")]
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class SynchronousAsyncEnumerable<T> : IAsyncEnumerable<T>
         {
             private readonly IEnumerable<T> enumerable;
 
-            public SynchronousAsyncEnumerable(IEnumerable<T> enumerable) => this.enumerable = enumerable;
+            public SynchronousAsyncEnumerable(IEnumerable<object> enumerable)
+            {
+                if (enumerable is null) throw new ArgumentNullException(nameof(enumerable));
 
-            public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default) => new SynchronousAsyncEnumerator<T>(this.enumerable.GetEnumerator());
+                this.enumerable = enumerable.OfType<T>().ToList();
+            }
+
+            public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+            {
+                return new SynchronousAsyncEnumerator<T>(this.enumerable.GetEnumerator());
+            }
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "It's activated via reflection.")]
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class SynchronousAsyncEnumerator<T> : IAsyncEnumerator<T>
         {
             private readonly IEnumerator<T> enumerator;
 
             public T Current => this.enumerator.Current;
 
-            public SynchronousAsyncEnumerator(IEnumerator<T> enumerator) => this.enumerator = enumerator;
+            public SynchronousAsyncEnumerator(IEnumerator<T> enumerator)
+            {
+                this.enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
+            }
 
-            public ValueTask DisposeAsync() => new ValueTask(Task.CompletedTask);
+            public ValueTask DisposeAsync()
+            {
+                return new ValueTask(Task.CompletedTask);
+            }
 
-            public ValueTask<bool> MoveNextAsync() => new ValueTask<bool>(Task.FromResult(this.enumerator.MoveNext()));
+            public ValueTask<bool> MoveNextAsync()
+            {
+                return new ValueTask<bool>(Task.FromResult(this.enumerator.MoveNext()));
+            }
         }
     }
 }
-
-#endif

@@ -160,9 +160,7 @@ namespace AutoFixture
                                     typeof(ISet<>),
                                     typeof(HashSet<>)),
                                 new EnumerableRelay(),
-#if NETSTANDARD2_1_OR_GREATER
                                 new AsyncEnumerableRelay(),
-#endif
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(
                             new MutableValueTypeWarningThrower(),
@@ -203,7 +201,7 @@ namespace AutoFixture
             set
             {
                 IRequestSpecification newSpecification = value
-                    ? (IRequestSpecification)new FalseRequestSpecification()
+                    ? new FalseRequestSpecification()
                     : new AnyTypeSpecification();
 
                 var existingPostProcessor = this.FindAutoPropertiesPostProcessor();
