@@ -9,12 +9,41 @@
     <AssemblyName>AutoFixtureUnitTest</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
-    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+  <Choose>
+    <When Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+      <ItemGroup>
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+          <SetTargetFramework>TargetFramework=netstandard2.1</SetTargetFramework>
+          <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+        </ProjectReference>
+      </ItemGroup>
+    </When>
+    <When Condition="'$(TargetFramework)'=='net461'">
+      <ItemGroup>
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+          <SetTargetFramework>TargetFramework=net461</SetTargetFramework>
+          <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+        </ProjectReference>
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+          <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
+          <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+        </ProjectReference>
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
-    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.0.0" Condition=" '$(TargetFramework)'=='net461' Or '$(TargetFramework)'=='netcoreapp2.1' " />
-    <Reference Include="System.ComponentModel.DataAnnotations"  Condition=" '$(TargetFramework)'=='net461' "/>
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Async" Version="4.0.0" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>
