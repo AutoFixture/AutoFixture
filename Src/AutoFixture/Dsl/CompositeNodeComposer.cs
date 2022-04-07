@@ -194,17 +194,17 @@ namespace AutoFixture.Dsl
         /// <inheritdoc />
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            var isSingle = builders.Take(2).Count() == 1;
-            if (isSingle)
+            var buildersArray = builders as ISpecimenBuilder[] ?? builders.ToArray();
+
+            if (buildersArray.Length == 1)
             {
-                var single = builders.Single() as ISpecimenBuilderNode;
-                if (single != null)
+                if (buildersArray[0] is ISpecimenBuilderNode single)
                     return new CompositeNodeComposer<T>(single);
             }
 
             return new CompositeNodeComposer<T>(
                 new CompositeSpecimenBuilder(
-                    builders));
+                    buildersArray));
         }
 
         /// <inheritdoc />
