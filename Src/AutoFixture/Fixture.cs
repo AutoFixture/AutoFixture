@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoFixture.DataAnnotations;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -6,9 +9,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
-using AutoFixture.DataAnnotations;
-using AutoFixture.Dsl;
-using AutoFixture.Kernel;
 
 namespace AutoFixture
 {
@@ -107,6 +107,9 @@ namespace AutoFixture
                                 MakeQueryBasedBuilderForMatchingType(
                                     typeof(ObservableCollection<>),
                                     new EnumerableFavoringConstructorQuery()),
+                                new ImmutableArrayRelay(),
+                                new ImmutableListRelay(),
+                                new ImmutableDictionaryRelay(),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),

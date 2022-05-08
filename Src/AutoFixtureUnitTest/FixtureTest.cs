@@ -1,5 +1,12 @@
-﻿using System;
+﻿using AutoFixture;
+using AutoFixture.DataAnnotations;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.DataAnnotations;
+using AutoFixtureUnitTest.Kernel;
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -10,12 +17,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoFixture;
-using AutoFixture.DataAnnotations;
-using AutoFixture.Dsl;
-using AutoFixture.Kernel;
-using AutoFixtureUnitTest.DataAnnotations;
-using AutoFixtureUnitTest.Kernel;
 using TestTypeFoundation;
 using Xunit;
 
@@ -5995,6 +5996,45 @@ namespace AutoFixtureUnitTest
 
             // Assert
             Assert.IsAssignableFrom<IReadOnlyDictionary<int, string>>(result);
+        }
+
+        [Fact]
+        public void ShouldResolveImmutableListByDefault()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<ImmutableList<int>>();
+
+            // Assert
+            Assert.IsAssignableFrom<ImmutableList<int>>(result);
+        }
+
+        [Fact]
+        public void ShouldResolveImmutableArrayByDefault()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<ImmutableArray<int>>();
+
+            // Assert
+            Assert.IsAssignableFrom<ImmutableArray<int>>(result);
+        }
+
+        [Fact]
+        public void ShouldResolveImmutableDictionaryByDefault()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result = sut.Create<ImmutableDictionary<int, string>>();
+
+            // Assert
+            Assert.IsAssignableFrom<ImmutableDictionary<int, string>>(result);
         }
 
         [Fact]
