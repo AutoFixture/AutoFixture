@@ -156,6 +156,11 @@ namespace AutoFixture
                                 new TypeRelay(
                                     typeof(IReadOnlyList<>),
                                     typeof(ReadOnlyCollection<>)),
+#if NET5_0_OR_GREATER
+                                new TypeRelay(
+                                    typeof(IReadOnlySet<>),
+                                    typeof(HashSet<>)),
+#endif
                                 new TypeRelay(
                                     typeof(ISet<>),
                                     typeof(HashSet<>)),
