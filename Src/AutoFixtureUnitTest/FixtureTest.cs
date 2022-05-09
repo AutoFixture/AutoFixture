@@ -4920,7 +4920,7 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(ICollection<>), typeof(List<>))]
         [InlineData(typeof(IReadOnlyCollection<>), typeof(ReadOnlyCollection<>))]
         [InlineData(typeof(IDictionary<,>), typeof(Dictionary<,>))]
-#if NET5_0_OR_GREATER 
+#if NET5_0_OR_GREATER
         [InlineData(typeof(IReadOnlySet<>), typeof(HashSet<>))]
 #endif
         public void ResidueCollectorsContainForwardsByDefault(Type from, Type to)
