@@ -4934,6 +4934,28 @@ namespace AutoFixtureUnitTest
         }
 
         [Theory]
+        [InlineData(typeof(IList<object>), typeof(List<object>))]
+        [InlineData(typeof(IReadOnlyList<object>), typeof(ReadOnlyCollection<object>))]
+        [InlineData(typeof(ICollection<object>), typeof(List<object>))]
+        [InlineData(typeof(IReadOnlyCollection<object>), typeof(ReadOnlyCollection<object>))]
+        [InlineData(typeof(IDictionary<string,object>), typeof(Dictionary<string,object>))]
+#if NET5_0_OR_GREATER
+        [InlineData(typeof(IReadOnlySet<object>), typeof(HashSet<object>))]
+#endif
+        public void DefaultForwardsAreUsedWhenTypeIsRequested(Type request, Type expected)
+        {
+            // Arrange
+            var sut = new Fixture();
+            var context = new SpecimenContext(sut);
+
+            // Act
+            var actual = context.Resolve(request);
+
+            // Assert
+            Assert.IsType(expected, actual);
+        }
+
+        [Theory]
         [InlineData(typeof(List<>), typeof(EnumerableFavoringConstructorQuery))]
         [InlineData(typeof(HashSet<>), typeof(EnumerableFavoringConstructorQuery))]
         [InlineData(typeof(Collection<>), typeof(ListFavoringConstructorQuery))]
