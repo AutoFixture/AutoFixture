@@ -4939,8 +4939,8 @@ namespace AutoFixtureUnitTest
         [InlineData(typeof(IReadOnlyList<object>), typeof(ReadOnlyCollection<object>))]
         [InlineData(typeof(ICollection<object>), typeof(List<object>))]
         [InlineData(typeof(IReadOnlyCollection<object>), typeof(ReadOnlyCollection<object>))]
-        [InlineData(typeof(IDictionary<string,object>), typeof(Dictionary<string,object>))]
-        [InlineData(typeof(IReadOnlyDictionary<string,object>), typeof(ReadOnlyDictionary<string,object>))]
+        [InlineData(typeof(IDictionary<string, object>), typeof(Dictionary<string, object>))]
+        [InlineData(typeof(IReadOnlyDictionary<string, object>), typeof(ReadOnlyDictionary<string, object>))]
 #if NET5_0_OR_GREATER
         [InlineData(typeof(IReadOnlySet<object>), typeof(HashSet<object>))]
 #endif
