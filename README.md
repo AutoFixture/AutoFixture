@@ -134,7 +134,7 @@ AutoFixture follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.ht
 
 ## Build
 
-AutoFixture uses [FAKE](http://fsharp.github.io/FAKE/) as a build engine. If you would like to build the AutoFixture locally, run the `build.cmd` file and wait for the result.
+AutoFixture uses [FAKE](https://github.com/fsprojects/FAKE) as a build engine. If you would like to build the AutoFixture locally, run the `build.cmd` file and wait for the result.
 
 The repository state (the last tag name and number of commits since the last tag) is used to determine the build version. If you would like to override the auto-generated AutoFixture version, set the `BUILD_VERSION` environment variable before calling the `build.cmd` file. Example for PowerShell:
 
