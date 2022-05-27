@@ -181,4 +181,5 @@ If you want to add your own testimonial to this list, we (the AutoFixture mainta
 * [Nikos Baxevanis' blog](http://blog.nikosbaxevanis.com/tags/#autofixture)
 * [Enrico Campidoglio's blog](http://megakemp.com/tag/autofixture)
 * [Gert Jansen van Rensburg's blog](http://gertjvr.wordpress.com/category/autofixture)
+* [Rahul Nath's YouTube](https://youtube.com/playlist?list=PL59L9XrzUa-mItWClbGuMEK5oQpU2onCq)
 * [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
