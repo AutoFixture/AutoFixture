@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fare" Version="[2.1.1,3.0.0)" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" Condition=" '$(TargetFramework)'=='netstandard1.5' Or '$(TargetFramework)'=='netstandard2.0' " />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" Condition=" '$(TargetFramework)'=='netstandard1.5' Or '$(TargetFramework)'=='netstandard2.0' " />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" Condition=" '$(TargetFramework)'=='netstandard1.5' " />
     <Reference Include="System.ComponentModel.DataAnnotations" Condition=" '$(TargetFramework)'=='net452' " />
   </ItemGroup>
