@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 using AutoFixture.Kernel;
 
 namespace AutoFixture.DataAnnotations
@@ -33,21 +32,20 @@ namespace AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
             var rangeAttribute = TypeEnvy.GetAttribute<RangeAttribute>(request);
-            if (rangeAttribute == null)
+            if (rangeAttribute is null)
             {
                 return new NoSpecimen();
             }
 
             var memberType = this.GetMemberType(rangeAttribute, request);
-            var rangedRequest =
-                new RangedRequest(
-                    memberType,
-                    rangeAttribute.OperandType,
-                    rangeAttribute.Minimum,
-                    rangeAttribute.Maximum);
+            var rangedRequest = new RangedRequest(
+                memberType,
+                rangeAttribute.OperandType,
+                rangeAttribute.Minimum,
+                rangeAttribute.Maximum);
 
             return context.Resolve(rangedRequest);
         }

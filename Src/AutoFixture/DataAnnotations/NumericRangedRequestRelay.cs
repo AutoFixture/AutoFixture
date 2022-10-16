@@ -12,10 +12,9 @@ namespace AutoFixture.DataAnnotations
         /// <inheritdoc />
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
-            var rangedRequest = request as RangedRequest;
-            if (rangedRequest == null)
+            if (request is not RangedRequest rangedRequest)
                 return new NoSpecimen();
 
             if (!rangedRequest.MemberType.IsNumberType())
