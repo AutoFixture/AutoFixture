@@ -20,7 +20,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSubstitute" Version="[2.0.3,5.0.0)" />
+    <PackageReference Include="NSubstitute" Version="[2.0.3,5.0.0)" Condition="'$(TargetFramework)'=='netstandard1.5'" />
+
+    <PackageReference Include="NSubstitute" Version="[2.0.3,6.0.0)" Condition="'$(TargetFramework)'=='net452'" />
+    <PackageReference Include="NSubstitute" Version="[2.0.3,6.0.0)" Condition="'$(TargetFramework)'=='netstandard2.0'" />
   </ItemGroup>
 
   <ItemGroup>
