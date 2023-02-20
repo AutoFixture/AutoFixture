@@ -11,11 +11,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
         {
             // Arrange
             var fixture = new Fixture();
+
             // Act
             var actual = fixture.Create<ClassWithShortStringLengthConstrainedConstructorArgument>();
+
             // Assert
             Assert.True(
-                actual.ShortText.Length <= ClassWithShortStringLengthConstrainedConstructorArgument.ShortTextMaximumLength,
+                actual.ShortText.Length <=
+                ClassWithShortStringLengthConstrainedConstructorArgument.ShortTextMaximumLength,
                 "AutoFixture should respect [StringLength] attribute on constructor arguments.");
         }
 
@@ -24,8 +27,10 @@ namespace AutoFixtureUnitTest.DataAnnotations
         {
             // Arrange
             var fixture = new Fixture();
+
             // Act
             var actual = fixture.Create<ClassWithLongStringLengthConstrainedConstructorArgument>();
+
             // Assert
             Assert.Equal(
                 ClassWithLongStringLengthConstrainedConstructorArgument.LongTextLength,
@@ -38,7 +43,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             public readonly string ShortText;
 
             public ClassWithShortStringLengthConstrainedConstructorArgument(
-                [StringLength(ShortTextMaximumLength)]string shortText)
+                [StringLength(ShortTextMaximumLength)] string shortText)
             {
                 this.ShortText = shortText;
             }
@@ -50,7 +55,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             public readonly string LongText;
 
             public ClassWithLongStringLengthConstrainedConstructorArgument(
-                [StringLength(LongTextLength, MinimumLength = LongTextLength)]string longText)
+                [StringLength(LongTextLength, MinimumLength = LongTextLength)] string longText)
             {
                 this.LongText = longText;
             }

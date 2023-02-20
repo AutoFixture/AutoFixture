@@ -9,6 +9,17 @@ namespace AutoFixture.DataAnnotations
     /// </summary>
     public class StringLengthAttributeRelay : ISpecimenBuilder
     {
+        private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
+
+        /// <summary>
+        /// Gets or sets the current IRequestMemberTypeResolver.
+        /// </summary>
+        public IRequestMemberTypeResolver RequestMemberTypeResolver
+        {
+            get => this.requestMemberTypeResolver;
+            set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
         /// <summary>
         /// Creates a new specimen based on a specified length of characters that are allowed.
         /// </summary>
@@ -21,23 +32,34 @@ namespace AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
+            if (context is null) throw new ArgumentNullException(nameof(context));
+
+            if (request is null)
             {
                 return new NoSpecimen();
             }
 
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var stringLengthAttribute = TypeEnvy.GetAttribute<StringLengthAttribute>(request);
-            if (stringLengthAttribute == null)
+            var attribute = TypeEnvy.GetAttribute<StringLengthAttribute>(request);
+            if (attribute is null)
             {
                 return new NoSpecimen();
             }
 
-            return context.Resolve(new ConstrainedStringRequest(stringLengthAttribute.MinimumLength, stringLengthAttribute.MaximumLength));
+            if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
+            {
+                return new NoSpecimen();
+            }
+
+            if (memberType != typeof(string))
+            {
+                return new NoSpecimen();
+            }
+
+            var stringRequest = new ConstrainedStringRequest(
+                attribute.MinimumLength,
+                attribute.MaximumLength);
+
+            return context.Resolve(stringRequest);
         }
     }
 }
