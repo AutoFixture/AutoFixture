@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using AutoFixture.Kernel;
 
 namespace AutoFixture.DataAnnotations
@@ -35,86 +33,81 @@ namespace AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
-            if (!Range.TryGetFromAttributes(request, out var range))
-            {
-                return new NoSpecimen();
-            }
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
             if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
             {
                 return new NoSpecimen();
             }
 
+            var range = Range.From(request);
+            if (!range.IsConstrained)
+            {
+                return new NoSpecimen();
+            }
+
             if (memberType == typeof(string))
             {
-                return ResolveString(context, range);
+                return context.Resolve(range.ToStringRequest());
             }
 
-            if (memberType.IsArray)
+            if (!memberType.IsArray)
             {
-                return ResolveArray(context, memberType, range);
+                return new NoSpecimen();
             }
 
-            return new NoSpecimen();
-        }
+            var elementType = memberType.GetElementType();
+            var result = context.Resolve(range.ToSequenceRequest(elementType));
+            if (result is not IEnumerable seqResult)
+            {
+                return new NoSpecimen();
+            }
 
-        private static object ResolveString(ISpecimenContext context, Range range)
-        {
-            return context.Resolve(new ConstrainedStringRequest(range.Min, range.Max));
-        }
-
-        private static object ResolveArray(ISpecimenContext context, Type arrayType, Range range)
-        {
-            var elementType = arrayType.GetElementType();
-
-            var result = context.Resolve(new RangedSequenceRequest(elementType, range.Min, range.Max));
-            if (result is IEnumerable seqResult)
-                return seqResult.ToTypedArray(elementType);
-
-            return new NoSpecimen();
+            return seqResult.ToTypedArray(elementType);
         }
 
         private class Range
         {
-            public int Min { get; }
+            private const int FallbackMin = 1;
 
-            public int Max { get; }
-
-            private Range(int min, int max)
+            public Range(int? min, int? max)
             {
                 this.Min = min;
                 this.Max = max;
+                this.IsConstrained = min.HasValue || max.HasValue;
             }
 
-            public static bool TryGetFromAttributes(object request, out Range range)
+            public int? Min { get; }
+
+            public int? Max { get; }
+
+            public bool IsConstrained { get; }
+
+            public ConstrainedStringRequest ToStringRequest()
+            {
+                var min = this.Min ?? 0;
+                var max = this.Max ?? min * 2;
+                min = min == 0 && max != 0 ? FallbackMin : min;
+                max = max < 0 ? int.MaxValue : max;
+                return new ConstrainedStringRequest(min, max);
+            }
+
+            public RangedSequenceRequest ToSequenceRequest(Type elementType)
+            {
+                var min = this.Min ?? 0;
+                var max = this.Max ?? min * 2;
+                min = min == 0 && max != 0 ? FallbackMin : min;
+                const int fallbackMax = 3;
+                max = max < 0 ? fallbackMax : max;
+                return new RangedSequenceRequest(elementType, min, max);
+            }
+
+            public static Range From(object request)
             {
                 var minLengthAttribute = TypeEnvy.GetAttribute<MinLengthAttribute>(request);
                 var maxLengthAttribute = TypeEnvy.GetAttribute<MaxLengthAttribute>(request);
 
-                if (minLengthAttribute == null && maxLengthAttribute == null)
-                {
-                    range = null;
-                    return false;
-                }
-
-                range = GetRange(minLengthAttribute, maxLengthAttribute);
-                return true;
-            }
-
-            private static Range GetRange(MinLengthAttribute minLengthAttribute, MaxLengthAttribute maxLengthAttribute)
-            {
-                var min = minLengthAttribute?.Length ?? 0;
-                var max = maxLengthAttribute?.Length ?? min * 2;
-
-                // To avoid creation of empty strings/arrays.
-                if (max > 0 && min == 0)
-                {
-                    min = 1;
-                }
-
-                return new Range(min, max);
+                return new Range(minLengthAttribute?.Length, maxLengthAttribute?.Length);
             }
         }
     }

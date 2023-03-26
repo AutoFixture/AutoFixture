@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Common.props" />
+  <Import Project="..\Common.props"/>
 
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
@@ -15,12 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Albedo" Version="[2.0.0,3.0.0)" />
+    <PackageReference Include="Albedo" Version="[2.0.0,3.0.0)"/>
 
-    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" Condition=" '$(TargetFramework)'=='netstandard2.0' "/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj"/>
   </ItemGroup>
 </Project>

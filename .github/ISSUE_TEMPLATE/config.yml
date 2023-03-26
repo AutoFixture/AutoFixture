@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💡 New Idea
+    url: https://github.com/AutoFixture/AutoFixture/discussions/categories/ideas
+    about: Propose and discuss ideas and proposals
+  - name: 🤔 Question
+    url: https://github.com/AutoFixture/AutoFixture/discussions/categories/q-a
+    about: Ask a questions or seek help
+  - name: 📖 Documentation
+    url: https://github.com/AutoFixture/AutoFixture.github.io
+    about: Update the documentation (see documentation repo)
+  - name: 📈 Show and Tell
+    url: https://github.com/AutoFixture/AutoFixture/discussions/categories/show-and-tell
+    about: Share something cool (e.g. community packages, snippets, success stories)
