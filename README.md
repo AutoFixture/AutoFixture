@@ -82,20 +82,57 @@ Using AutoFixture is as easy as referencing the library and creating a new insta
 
 ## Downloads
 
-AutoFixture is available via NuGet:
+AutoFixture packages are distributed via NuGet.<br />
+To install the packages you can use the integrated package manager of your IDE, the .NET CLI, or reference the package directly in your project file.
 
-* [AutoFixture](http://nuget.org/packages/AutoFixture)
-* [AutoFixture.SeedExtensions](http://nuget.org/packages/AutoFixture.SeedExtensions)
-* [AutoFixture.AutoMoq](http://nuget.org/packages/AutoFixture.AutoMoq)
-* [AutoFixture.AutoRhinoMocks](http://nuget.org/packages/AutoFixture.AutoRhinoMocks)
-* [AutoFixture.AutoFakeItEasy](http://nuget.org/packages/AutoFixture.AutoFakeItEasy)
-* [AutoFixture.AutoNSubstitute](http://nuget.org/packages/AutoFixture.AutoNSubstitute)
-* [AutoFixture.AutoFoq](http://www.nuget.org/packages/AutoFixture.AutoFoq)
-* [AutoFixture.Xunit](http://nuget.org/packages/AutoFixture.Xunit)
-* [AutoFixture.Xunit2](http://nuget.org/packages/AutoFixture.Xunit2)
-* [AutoFixture.NUnit2](http://nuget.org/packages/AutoFixture.NUnit2)
-* [AutoFixture.NUnit3](http://nuget.org/packages/AutoFixture.NUnit3)
-* [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
+```cmd
+dotnet add package AutoFixture --version 4.18.0
+```
+
+```xml
+<PackageReference Include="AutoFixture" Version="4.18.0" />
+```
+
+AutoFixture offers a variety of utility packages and integrations with most of the major mocking libraries and testing frameworks.
+
+### Core packages
+
+The core packages offer the full set of AutoFixture's features without requring any testing framework or third party integration.
+
+| Product | Package | Latest stable | Latest preview |
+|---------|---------|---------------|----------------|
+| The core package | [AutoFixture](http://nuget.org/packages/AutoFixture) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/autofixture?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture)|
+| Assertion idioms | [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.Idioms.svg)](https://www.nuget.org/packages/AutoFixture.Idioms) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.Idioms?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.Idioms)|
+| Seed extensions  | [AutoFixture.SeedExtensions](http://nuget.org/packages/AutoFixture.SeedExtensions) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.SeedExtensions.svg)](https://www.nuget.org/packages/AutoFixture.SeedExtensions) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.SeedExtensions?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.SeedExtensions)|
+
+### Mocking libraries
+
+AutoFixture offers integations with most major .NET mocking libraries.<br/>
+These integrations enable such features as configuring mocks, auto-injecting mocks, etc.
+
+| Product | Package | Latest stable | Latest preview |
+|---------|---------|---------------|----------------|
+| Moq | [AutoFixture.AutoMoq](http://nuget.org/packages/AutoFixture.AutoMoq) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoMoq.svg)](https://www.nuget.org/packages/AutoFixture.AutoMoq) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.AutoMoq?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.AutoMoq)|
+| NSubstitute | [AutoFixture.AutoNSubstitute](http://nuget.org/packages/AutoFixture.AutoNSubstitute) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoNSubstitute.svg)](https://www.nuget.org/packages/AutoFixture.AutoNSubstitute) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.AutoNSubstitute?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.AutoNSubstitute)|
+| FakeItEasy | [AutoFixture.AutoFakeItEasy](http://nuget.org/packages/AutoFixture.AutoFakeItEasy) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoFakeItEasy.svg)](https://www.nuget.org/packages/AutoFixture.AutoFakeItEasy) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.AutoFakeItEasy?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.AutoFakeItEasy)|
+| Rhino Mocks | [AutoFixture.AutoRhinoMocks](http://nuget.org/packages/AutoFixture.AutoRhinoMocks) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoRhinoMocks.svg)](https://www.nuget.org/packages/AutoFixture.AutoRhinoMocks) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.AutoRhinoMocks?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.AutoRhinoMocks)|
+
+> **NOTE:** 
+> Since AutoFixture tries maintain compatibility with a large number of package versions, the packages bundled with AutoFixture might not contain the latest features of your mocking library.<br />
+> Make sure to install the latest version of the mocking library package, alongside the AutoFixture package.
+
+### Testing frameworks
+
+AutoFixture offers integrations with most major .NET testing frameworks.<br />
+These integrations enable auto-generation of test cases, combining auto-generated data with inline arguments, etc.
+
+| Product  | Package | Latest stable | Latest preview |
+|----------|---------|---------------|----------------|
+| Foq      | [AutoFixture.AutoFoq](http://www.nuget.org/packages/AutoFixture.AutoFoq) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoFoq.svg)](https://www.nuget.org/packages/AutoFixture.AutoFoq) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.AutoFoq?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.AutoFoq) |
+| xUnit v1 | [AutoFixture.Xunit](http://nuget.org/packages/AutoFixture.Xunit) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.Xunit.svg)](https://www.nuget.org/packages/AutoFixture.Xunit) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.Xunit?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.Xunit) |
+| xUnit v2 | [AutoFixture.Xunit2](http://nuget.org/packages/AutoFixture.Xunit2) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.Xunit2.svg)](https://www.nuget.org/packages/AutoFixture.Xunit2) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.Xunit2?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.Xunit2) |
+| NUnit v2 | [AutoFixture.NUnit2](http://nuget.org/packages/AutoFixture.NUnit2) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.NUnit2.svg)](https://www.nuget.org/packages/AutoFixture.NUnit2) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.NUnit2?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.NUnit2) |
+| NUnit v3 | [AutoFixture.NUnit3](http://nuget.org/packages/AutoFixture.NUnit3) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.NUnit3.svg)](https://www.nuget.org/packages/AutoFixture.NUnit3) | [![MyGet](https://img.shields.io/myget/autofixture/vpre/AutoFixture.NUnit3?label=myget)](https://www.myget.org/feed/autofixture/package/nuget/AutoFixture.NUnit3) |
 
 You can check the compatibility with your target framework version on the [wiki](https://github.com/AutoFixture/AutoFixture/wiki#net-platforms-compatibility-table) or on the [NuGet](https://www.nuget.org/profiles/AutoFixture) website.
 
