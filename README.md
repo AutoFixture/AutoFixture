@@ -7,15 +7,11 @@
     <img src="https://img.shields.io/twitter/follow/AutoFixture?label=%40AutoFixture" alt="AutoFixture" align="right" />
 </a>
 
-## Project Description
-
 Write maintainable unit tests, faster.
 
 AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.
 
-> ["saved us quite some time"](#who-uses-autofixture)
->
-> -[Florian Hötzinger, GAB Enterprise IT Solutions GmbH](#who-uses-autofixture)
+Check the [testimonials](https://github.com/AutoFixture/AutoFixture/wiki/Who-uses-AutoFixture) to see what other people have to say about AutoFixture.
 
 ## Overview
 
