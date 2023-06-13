@@ -1,5 +1,6 @@
 # AutoFixture
 
+[![License](https://img.shields.io/badge/license-MIT-green)](https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/LICENCE.txt)
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
 [![NuGet version](https://img.shields.io/nuget/vpre/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
 [![MyGet (with prereleases)](https://img.shields.io/myget/autofixture/vpre/autofixture?label=myget)](https://www.myget.org/gallery/autofixture)
