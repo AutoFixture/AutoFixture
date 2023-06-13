@@ -182,3 +182,12 @@ If you want to add your own testimonial to this list, we (the AutoFixture mainta
 * [Enrico Campidoglio's blog](http://megakemp.com/tag/autofixture)
 * [Gert Jansen van Rensburg's blog](http://gertjvr.wordpress.com/category/autofixture)
 * [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
+
+## License
+
+AutoFixture is Open Source software and is released under the [MIT license](https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/LICENCE.txt).<br />
+The licenses allows the use of AutoFixture libraries in free and commercial applications and libraries without restrictions.
+
+### .NET Foundation
+
+This project is supported by the [.NET Foundation](https://dotnetfoundation.org).
