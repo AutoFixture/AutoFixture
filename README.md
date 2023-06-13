@@ -92,6 +92,7 @@ AutoFixture is available via NuGet:
 * [AutoFixture.NUnit3](http://nuget.org/packages/AutoFixture.NUnit3)
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 
+You can check the compatibility with your target framework version on the [wiki](https://github.com/AutoFixture/AutoFixture/wiki#net-platforms-compatibility-table) or on the [NuGet](https://www.nuget.org/profiles/AutoFixture) website.
 ### vNext feed
 
 The artifacts of the next major version are published to [the MyGet feed](https://www.myget.org/gallery/autofixture):
