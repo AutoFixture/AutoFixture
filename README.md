@@ -135,9 +135,9 @@ __Notice__, this feed exists for the _preview purpose_ only, so use it with caut
 
 ### Additional resources
 
-* [Pluralsight course](https://www.pluralsight.com/courses/autofixture-dotnet-unit-test-get-started)
+* [Pluralsight course](https://www.pluralsight.com/courses/unit-testing-autofixture-dot-net)
 * [ploeh blog](http://blog.ploeh.dk/tags/#AutoFixture-ref)
-* [Nikos Baxevanis' blog](http://blog.nikosbaxevanis.com/tags/#autofixture)
+* [Nikos Baxevanis' blog](http://blog.nikosbaxevanis.com)
 * [Enrico Campidoglio's blog](http://megakemp.com/tag/autofixture)
 * [Gert Jansen van Rensburg's blog](http://gertjvr.wordpress.com/category/autofixture)
 * [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
