@@ -13,6 +13,14 @@ AutoFixture makes it easier for developers to do Test-Driven Development by auto
 
 Check the [testimonials](https://github.com/AutoFixture/AutoFixture/wiki/Who-uses-AutoFixture) to see what other people have to say about AutoFixture.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Downloads](#downloads)
+- [Documentation](#documentation)
+- [Feedback & Questions](#feedback--questions)
+- [License](#license)
+
 ## Overview
 
 (Jump straight to the [CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet) if you just want to see some code samples right away.)
@@ -89,6 +97,7 @@ AutoFixture is available via NuGet:
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 
 You can check the compatibility with your target framework version on the [wiki](https://github.com/AutoFixture/AutoFixture/wiki#net-platforms-compatibility-table) or on the [NuGet](https://www.nuget.org/profiles/AutoFixture) website.
+
 ### vNext feed
 
 The artifacts of the next major version are published to [the MyGet feed](https://www.myget.org/gallery/autofixture):
