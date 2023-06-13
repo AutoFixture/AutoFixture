@@ -128,28 +128,21 @@ __Notice__, this feed exists for the _preview purpose_ only, so use it with caut
 * new versions of packages might contain breaking changes and API could change drastically from package to package. By other words, we don't follow the SemVer policy for the packages in this feed;
 * packages might be cleaned up over time (MyGet has storage limits), so don't consider this feed for the permanent usage (or at least ensure to make a copy of the used packages somewhere else).
 
-## Versioning
-
-AutoFixture follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) for the public releases (published to the [nuget.org](https://www.nuget.org/)).
-
-## Build
-
-AutoFixture uses [FAKE](https://github.com/fsprojects/FAKE) as a build engine. If you would like to build the AutoFixture locally, run the `build.cmd` file and wait for the result.
-
-The repository state (the last tag name and number of commits since the last tag) is used to determine the build version. If you would like to override the auto-generated AutoFixture version, set the `BUILD_VERSION` environment variable before calling the `build.cmd` file. Example for PowerShell:
-
-```cmd
-$env:BUILD_VERSION='3.52.0'; .\build.cmd
-```
-
-Refer to the [Build.fsx](Build.fsx) file to get information about all the supported build keys.
-
 ## Documentation
 
 * [CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet)
 * [FAQ](https://github.com/AutoFixture/AutoFixture/wiki/FAQ)
 
-## Questions
+### Additional resources
+
+* [Pluralsight course](https://www.pluralsight.com/courses/autofixture-dotnet-unit-test-get-started)
+* [ploeh blog](http://blog.ploeh.dk/tags/#AutoFixture-ref)
+* [Nikos Baxevanis' blog](http://blog.nikosbaxevanis.com/tags/#autofixture)
+* [Enrico Campidoglio's blog](http://megakemp.com/tag/autofixture)
+* [Gert Jansen van Rensburg's blog](http://gertjvr.wordpress.com/category/autofixture)
+* [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
+
+## Feedback & Questions
 
 If you have questions, feel free to ask. The best places to ask are:
 
@@ -173,15 +166,6 @@ AutoFixture is used around the world, as the following quotes testify:
 > -[Hendrik Lösch](http://www.just-about.net), [Saxonia Systems AG](http://www.saxsys.de)
 
 If you want to add your own testimonial to this list, we (the AutoFixture maintainers) would be very grateful. Send us a pull request to this README.md file.
-
-## Additional resources
-
-* [Pluralsight course](https://www.pluralsight.com/courses/autofixture-dotnet-unit-test-get-started)
-* [ploeh blog](http://blog.ploeh.dk/tags/#AutoFixture-ref)
-* [Nikos Baxevanis' blog](http://blog.nikosbaxevanis.com/tags/#autofixture)
-* [Enrico Campidoglio's blog](http://megakemp.com/tag/autofixture)
-* [Gert Jansen van Rensburg's blog](http://gertjvr.wordpress.com/category/autofixture)
-* [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
 
 ## License
 
