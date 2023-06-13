@@ -53,22 +53,18 @@ Given the right combination of unit testing framework and extensions for AutoFix
 
 ```c#
 [Theory, AutoData]
-public void IntroductoryTest(
-    int expectedNumber, MyClass sut)
+public void IntroductoryTest(int expectedNumber, MyClass sut)
 {
     int result = sut.Echo(expectedNumber);
     Assert.Equal(expectedNumber, result);
 }
 ```
 
-and
-
 ### [NUnit](http://gertjvr.wordpress.com/2013/09/25/howto-autofixture-nunit2)
 
 ```c#
 [Test, AutoData]
-public void IntroductoryTest(
-    int expectedNumber, MyClass sut)
+public void IntroductoryTest(int expectedNumber, MyClass sut)
 {
     int result = sut.Echo(expectedNumber);
     Assert.Equal(expectedNumber, result);
