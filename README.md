@@ -149,24 +149,6 @@ If you have questions, feel free to ask. The best places to ask are:
 * [Stack Overflow - use the *autofixture* tag](http://stackoverflow.com/questions/tagged/autofixture)
 * [GitHub Q&A Discussions](https://github.com/AutoFixture/AutoFixture/discussions/categories/q-a)
 
-## Who uses AutoFixture
-
-AutoFixture is used around the world, as the following quotes testify:
-
-> "I’ve introduced AutoFixture to my developers (at www.gab.de ) some time ago. We’ve been using it successfully with xUnit in multiple projects all across the .NET technology stack. We also use it for feeding dummy data to the UI when developing prototypes. That saved us quite some time.
->
-> -[Florian Hötzinger](https://twitter.com/hoetz), [GAB Enterprise IT Solutions GmbH](http://www.gab.de)
-
-> "I have used AutoFixture for 3 years, it's a vital tool in my TDD toolbox, a real time-saver. Setting up maintainable and robust unit tests with AutoFixture is easy and straightforward - highly recommendable"
->
-> -[Mads Tjørnelund Toustrup](http://madstt.dk), Senior .Net Developer, [d60 a/s](http://d60.dk)
-
-> "Autofixture is more than just another test data generator. It helps me to write tests faster, which are robust against changes in my production code. Moreover, with Autofixture I can focus the tests on the behavior I want to check which why they are easier to read and understand."
->
-> -[Hendrik Lösch](http://www.just-about.net), [Saxonia Systems AG](http://www.saxsys.de)
-
-If you want to add your own testimonial to this list, we (the AutoFixture maintainers) would be very grateful. Send us a pull request to this README.md file.
-
 ## License
 
 AutoFixture is Open Source software and is released under the [MIT license](https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/LICENCE.txt).<br />
