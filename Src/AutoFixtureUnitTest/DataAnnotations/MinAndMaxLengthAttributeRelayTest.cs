@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 using AutoFixture;
 using AutoFixture.DataAnnotations;
 using AutoFixture.Kernel;
@@ -350,6 +349,74 @@ namespace AutoFixtureUnitTest.DataAnnotations
             // Assert
             var expectedRequest = new ConstrainedStringRequest(expectedMin, max);
             Assert.Equal(expectedRequest, actualRequest);
+        }
+
+        private class UnboundedMaxLengthPropertyHolder<T>
+        {
+            [MaxLength]
+            public T Property { get; set; }
+        }
+
+        [Fact]
+        public void CreateWithRangedSequenceRequestConstrainedByMaxLengthWithoutValueReturns()
+        {
+            // Arrange
+            var memberType = typeof(string[]);
+
+            var maxLengthAttribute = new MaxLengthAttribute();
+            var request = new FakeMemberInfo(
+                new ProvidedAttribute(maxLengthAttribute, true));
+
+            var expectedRangedSequenceRequest = new RangedSequenceRequest(typeof(string), 1, 3);
+            var expectedResult = new List<string>();
+
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRangedSequenceRequest.Equals(r)
+                    ? expectedResult
+                    : new NoSpecimen()
+            };
+
+            var sut = new MinAndMaxLengthAttributeRelay
+            {
+                RequestMemberTypeResolver = new DelegatingRequestMemberTypeResolver
+                {
+                    OnTryGetMemberType = r => memberType
+                }
+            };
+
+            // Act
+            var result = sut.Create(request, context);
+
+            // Assert
+            Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public void CreatesInstanceForStringPropertyWithUnboundedMaxLengthAttribute()
+        {
+            // Arrange
+            var fixture = new Fixture();
+
+            // Act
+            var result = fixture.Create<UnboundedMaxLengthPropertyHolder<string>>();
+
+            // Assert
+            Assert.False(string.IsNullOrWhiteSpace(result.Property));
+        }
+
+        [Fact]
+        public void CreatesInstanceForArrayPropertyWithUnboundedMaxLengthAttribute()
+        {
+            // Arrange
+            var fixture = new Fixture();
+
+            // Act
+            var result = fixture.Create<UnboundedMaxLengthPropertyHolder<string[]>>();
+            var length = result.Property.Length;
+
+            // Assert
+            Assert.True(length > 0 && length < int.MaxValue);
         }
     }
 }
