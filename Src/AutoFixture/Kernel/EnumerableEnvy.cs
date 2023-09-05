@@ -9,7 +9,7 @@ namespace AutoFixture.Kernel
     {
         public static IEnumerable<object> ConvertObjectType(this IEnumerable<object> enumerable, Type type)
         {
-            return enumerable.Select(v => Convert.ChangeType(v, type, CultureInfo.CurrentCulture));
+            return enumerable.Select(v => v == null || type.IsAssignableFrom(v.GetType()) ? v : Convert.ChangeType(v, type, CultureInfo.CurrentCulture));
         }
     }
 }
