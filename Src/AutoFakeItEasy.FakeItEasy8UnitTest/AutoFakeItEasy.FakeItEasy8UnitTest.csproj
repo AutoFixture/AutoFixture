@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+  <Import Project="..\Common.Test.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
+    <AssemblyTitle>AutoFakeItEasy.FakeItEasy8.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.AutoFakeItEasy.FakeItEasy8UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
+
+    <DefineConstants>$(DefineConstants);CAN_FAKE_DELEGATES;HAS_A_CALL_TO_SET_SPECIFIER</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="FakeItEasy" Version="[8.0.0]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AutoFakeItEasyUnitTest\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Remove="..\AutoFakeItEasyUnitTest\obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFakeItEasy\AutoFakeItEasy.csproj" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+</Project>
