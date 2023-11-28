@@ -12,8 +12,6 @@ pull_requests:
 skip_commits:
   files:
     - '**/*.md'
-    - '**/*.yml'
-    - '**/*.yaml'
     - '**/*.txt'
 
 build_script:
