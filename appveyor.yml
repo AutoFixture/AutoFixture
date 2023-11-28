@@ -2,7 +2,7 @@ image: Visual Studio 2019
 
 environment:
   NUGET_API_KEY:
-    secure: Ck6rzl3EqVCEyzC37VgcRGkYU0MPim9jWALa6XdSvaPFZfzzwJZIDLjsRGkFvjoe
+    secure: jn0ZfEwCAw9ixglHnFE+qqo51cP1/aqYLjNHD64RlyEmAKbUoQrph/tyRSbrWqPo
   MYGET_API_KEY:
     secure: hA4Ut1N2lrrdEtAN24Bty/FNiU0d/Ur/dLYSqpr8jKHOvoO7MU4jD+KwzUvATh+E
 
