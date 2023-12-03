@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
   <Import Project="..\Common.Test.props" />
+  <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
     <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
@@ -12,13 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="FakeItEasy" Version="[8.0.0]" />
   </ItemGroup>
 

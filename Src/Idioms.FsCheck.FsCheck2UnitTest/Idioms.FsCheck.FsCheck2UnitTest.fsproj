@@ -10,7 +10,7 @@
     <AssemblyName>Idioms.FsCheck.FsCheck2UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects -->
-    <NoWarn>FS2003</NoWarn>
+    <NoWarn>$(NoWarn);FS2003</NoWarn>
     <Deterministic>false</Deterministic>
   </PropertyGroup>
 
