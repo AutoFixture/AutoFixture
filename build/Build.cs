@@ -198,24 +198,22 @@ partial class Build : NukeBuild
     Target Publish => _ => _
         .DependsOn(Pack)
         .Consumes(Pack)
-        .Executes(PublishPackages);
-
-    void PublishPackages()
-    {
-        DotNetNuGetPush(s => s
-            .EnableSkipDuplicate()
-            .When(
-                GitRepository.IsOnMasterBranch(),
-                v => v
-                    .SetApiKey(NuGetApiKey)
-                    .SetSource(NuGetSource))
-            .When(
-                !GitRepository.IsOnMasterBranch(),
-                v => v
-                    .SetApiKey(MyGetApiKey)
-                    .SetSource(MyGetSource))
-            .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
-    }
+        .Executes(() =>
+        {
+            DotNetNuGetPush(s => s
+                .EnableSkipDuplicate()
+                .When(
+                    GitRepository.IsOnMasterBranch(),
+                    v => v
+                        .SetApiKey(NuGetApiKey)
+                        .SetSource(NuGetSource))
+                .When(
+                    !GitRepository.IsOnMasterBranch(),
+                    v => v
+                        .SetApiKey(MyGetApiKey)
+                        .SetSource(MyGetSource))
+                .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
+        });
 
     public static class Secrets
     {
