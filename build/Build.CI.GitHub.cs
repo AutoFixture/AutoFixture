@@ -18,7 +18,7 @@ using Nuke.Common.CI.GitHubActions;
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
     ImportGitHubTokenAs = nameof(GitHubToken),
-    ImportSecrets = new[] { Secrets.MyGetApiKey, Secrets.NuGetApiKey })]
+    ImportSecrets = new[] { Secrets.NuGetApiKey })]
 partial class Build
 {
     [CI] readonly GitHubActions GitHubActions;

@@ -42,12 +42,6 @@ partial class Build : NukeBuild
 
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
-    [Secret]
-    [Parameter("MyGet API Key (secret)", Name = Secrets.MyGetApiKey)]
-    readonly string MyGetApiKey;
-
-    readonly string MyGetSource = "https://www.myget.org/F/autofixture/api/v3/index.json";
-
     IEnumerable<Project> Excluded => new []
     {
         Solution.GetProject("_build"),
@@ -201,21 +195,15 @@ partial class Build : NukeBuild
             DotNetNuGetPush(s => s
                 .EnableSkipDuplicate()
                 .When(
-                    GitRepository.IsOnMasterBranch(),
+                    GitRepository.IsOnMasterBranch() || GitRepository.IsOnReleaseBranch(),
                     v => v
                         .SetApiKey(NuGetApiKey)
                         .SetSource(NuGetSource))
-                .When(
-                    !GitRepository.IsOnMasterBranch(),
-                    v => v
-                        .SetApiKey(MyGetApiKey)
-                        .SetSource(MyGetSource))
                 .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
         });
 
     public static class Secrets
     {
-        public const string MyGetApiKey = "MYGET_API_KEY";
         public const string NuGetApiKey = "NUGET_API_KEY";
     }
 }
