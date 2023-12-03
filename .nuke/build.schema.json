@@ -52,11 +52,6 @@
             "TravisCI"
           ]
         },
-        "MYGET_API_KEY": {
-          "type": "string",
-          "description": "MyGet API Key (secret)",
-          "default": "Secrets must be entered via 'nuke :secret [profile]'"
-        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"

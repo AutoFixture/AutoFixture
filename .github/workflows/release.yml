@@ -48,7 +48,6 @@ jobs:
         run: ./build.cmd Verify Cover Publish --no-logo
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       - uses: actions/upload-artifact@v1
         with:
