@@ -87,9 +87,6 @@
           "items": {
             "type": "string",
             "enum": [
-              "AppVeyorPublish",
-              "AppVeyorSetBuildVersion",
-              "AppVeyorUploadTestResults",
               "Clean",
               "Compile",
               "Cover",
@@ -111,9 +108,6 @@
           "items": {
             "type": "string",
             "enum": [
-              "AppVeyorPublish",
-              "AppVeyorSetBuildVersion",
-              "AppVeyorUploadTestResults",
               "Clean",
               "Compile",
               "Cover",

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Integration;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
@@ -33,7 +32,6 @@ partial class Build : NukeBuild
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
-    [BuildTrigger] readonly BuildTrigger Trigger;
 
     [Parameter("Makes the build deterministic when packaging assemblies")] readonly bool Deterministic;
     [Parameter("Sets the continuous integration build flag")] readonly bool CI;
