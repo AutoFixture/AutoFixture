@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Integration;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
@@ -33,7 +32,6 @@ partial class Build : NukeBuild
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
-    [BuildTrigger] readonly BuildTrigger Trigger;
 
     [Parameter("Makes the build deterministic when packaging assemblies")] readonly bool Deterministic;
     [Parameter("Sets the continuous integration build flag")] readonly bool CI;
@@ -43,12 +41,6 @@ partial class Build : NukeBuild
     readonly string NuGetApiKey;
 
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
-
-    [Secret]
-    [Parameter("MyGet API Key (secret)", Name = Secrets.MyGetApiKey)]
-    readonly string MyGetApiKey;
-
-    readonly string MyGetSource = "https://www.myget.org/F/autofixture/api/v3/index.json";
 
     IEnumerable<Project> Excluded => new []
     {
@@ -198,28 +190,20 @@ partial class Build : NukeBuild
     Target Publish => _ => _
         .DependsOn(Pack)
         .Consumes(Pack)
-        .Executes(PublishPackages);
-
-    void PublishPackages()
-    {
-        DotNetNuGetPush(s => s
-            .EnableSkipDuplicate()
-            .When(
-                GitRepository.IsOnMasterBranch(),
-                v => v
-                    .SetApiKey(NuGetApiKey)
-                    .SetSource(NuGetSource))
-            .When(
-                !GitRepository.IsOnMasterBranch(),
-                v => v
-                    .SetApiKey(MyGetApiKey)
-                    .SetSource(MyGetSource))
-            .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
-    }
+        .Executes(() =>
+        {
+            DotNetNuGetPush(s => s
+                .EnableSkipDuplicate()
+                .When(
+                    GitRepository.IsOnMasterBranch() || GitRepository.IsOnReleaseBranch(),
+                    v => v
+                        .SetApiKey(NuGetApiKey)
+                        .SetSource(NuGetSource))
+                .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
+        });
 
     public static class Secrets
     {
-        public const string MyGetApiKey = "MYGET_API_KEY";
         public const string NuGetApiKey = "NUGET_API_KEY";
     }
 }

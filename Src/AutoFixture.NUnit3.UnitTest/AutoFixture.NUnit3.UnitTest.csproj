@@ -13,13 +13,7 @@
     <PackageReference Include="NUnit" Version="[3.0.1]" Condition=" '$(TargetFramework)'=='net461' " />
     <PackageReference Include="NUnit" Version="[3.10.1]" Condition=" '$(TargetFramework)'=='netcoreapp2.1' " />
 
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.0"/>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.0"/>
   </ItemGroup>
 
   <ItemGroup>

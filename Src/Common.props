@@ -17,6 +17,9 @@
 
     <Deterministic>true</Deterministic>
 
+    <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
+    <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
+
     <!-- NuGet options -->
     <Authors>Mark Seemann,AutoFixture</Authors>
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>

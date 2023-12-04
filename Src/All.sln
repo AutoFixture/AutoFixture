@@ -84,6 +84,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNSubstitute.NSubstitute
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{16506C81-BE25-498B-AEE8-E14D0E6F0108}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy8UnitTest", "AutoFakeItEasy.FakeItEasy8UnitTest\AutoFakeItEasy.FakeItEasy8UnitTest.csproj", "{1C952BA6-B44F-4C05-B856-7AE1CFCB3452}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -298,6 +300,12 @@ Global
 		{16506C81-BE25-498B-AEE8-E14D0E6F0108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16506C81-BE25-498B-AEE8-E14D0E6F0108}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16506C81-BE25-498B-AEE8-E14D0E6F0108}.Verify|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C952BA6-B44F-4C05-B856-7AE1CFCB3452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C952BA6-B44F-4C05-B856-7AE1CFCB3452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C952BA6-B44F-4C05-B856-7AE1CFCB3452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C952BA6-B44F-4C05-B856-7AE1CFCB3452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C952BA6-B44F-4C05-B856-7AE1CFCB3452}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{1C952BA6-B44F-4C05-B856-7AE1CFCB3452}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

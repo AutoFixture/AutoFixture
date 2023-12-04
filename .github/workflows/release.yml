@@ -32,11 +32,9 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: |
-            1.1.x
             2.1.x
             3.1.x
             5.0.x
-            6.0.x
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
@@ -48,7 +46,6 @@ jobs:
         run: ./build.cmd Verify Cover Publish --no-logo
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       - uses: actions/upload-artifact@v1
         with:
