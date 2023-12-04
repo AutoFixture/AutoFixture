@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -19,6 +20,23 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
 [DotNetVerbosityMapping]
+[GitHubActions(
+    "continuous",
+    GitHubActionsImage.WindowsLatest,
+    AutoGenerate = false,
+    OnPullRequestBranches = new[] { MasterBranch, ReleaseBranch },
+    PublishArtifacts = false,
+    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) },
+    ImportGitHubTokenAs = nameof(GitHubToken))]
+[GitHubActions(
+    "release",
+    GitHubActionsImage.WindowsLatest,
+    AutoGenerate = false,
+    OnPushTags = new[] { "v*" },
+    PublishArtifacts = true,
+    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
+    ImportGitHubTokenAs = nameof(GitHubToken),
+    ImportSecrets = new[] { Secrets.NuGetApiKey })]
 partial class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
@@ -41,6 +59,10 @@ partial class Build : NukeBuild
     readonly string NuGetApiKey;
 
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
+
+    [CI] readonly GitHubActions GitHubActions;
+
+    [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
 
     IEnumerable<Project> Excluded => new []
     {
@@ -195,7 +217,7 @@ partial class Build : NukeBuild
             DotNetNuGetPush(s => s
                 .EnableSkipDuplicate()
                 .When(
-                    GitRepository.IsOnMasterBranch() || GitRepository.IsOnReleaseBranch(),
+                    GitHubActions.IsOnSemVerTag(),
                     v => v
                         .SetApiKey(NuGetApiKey)
                         .SetSource(NuGetSource))
