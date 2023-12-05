@@ -8,23 +8,20 @@
       "properties": {
         "CI": {
           "type": "boolean",
-          "description": "Sets the continuous integration build flag"
+          "description": "Forces the continuous integration build flag"
         },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
           "enum": [
             "Debug",
-            "Release"
+            "Release",
+            "Verify"
           ]
         },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
-        },
-        "Deterministic": {
-          "type": "boolean",
-          "description": "Makes the build deterministic when packaging assemblies"
         },
         "github-token": {
           "type": "string",
