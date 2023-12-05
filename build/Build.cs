@@ -50,32 +50,26 @@ partial class Build : NukeBuild
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
-
-    [Parameter("Makes the build deterministic when packaging assemblies")] readonly bool Deterministic;
-    [Parameter("Sets the continuous integration build flag")] readonly bool CI;
-
-    [Secret]
-    [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)]
-    readonly string NuGetApiKey;
-
-    readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
-
     [CI] readonly GitHubActions GitHubActions;
 
     [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
+    [Parameter("Forces the continuous integration build flag")] readonly bool CI;
 
-    IEnumerable<Project> Excluded => new []
+    [Secret] [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
+    readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
+
+    IEnumerable<Project> Excluded => new[]
     {
         Solution.GetProject("_build"),
         Solution.GetProject("TestTypeFoundation")
     };
+
     IEnumerable<Project> TestProjects => Solution.GetProjects("*Test");
     IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
     IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.Is(ProjectType.CSharpProject));
     IEnumerable<Project> FSharpLibraries => Libraries.Where(x => x.Path.ToString().EndsWith(".fsproj"));
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
 
-    bool IsDeterministic => IsServerBuild || Deterministic;
     bool IsContinuousIntegration => IsServerBuild || CI;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
@@ -111,7 +105,7 @@ partial class Build : NukeBuild
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration("Verify")
+                .SetConfiguration(Configuration.Verify)
                 .SetNoRestore(FinishedTargets.Contains(Restore))
                 .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetProcessArgumentConfigurator(a => a
@@ -125,12 +119,14 @@ partial class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
+                .SetDeterministic(IsContinuousIntegration)
+                .SetContinuousIntegrationBuild(IsContinuousIntegration)
+                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
                 .SetVersion(GitVersion.NuGetVersionV2)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetNoRestore(FinishedTargets.Contains(Restore))
-                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetProcessArgumentConfigurator(a => a
                     .Add("/p:CheckEolTargetFramework=false")));
         });
@@ -181,15 +177,17 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             DotNetPack(s => s
+                .SetConfiguration(Configuration)
+                .SetNoBuild(FinishedTargets.Contains(Compile))
                 .SetOutputDirectory(PackagesDirectory)
                 .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
                 .EnableIncludeSymbols()
+                .SetDeterministic(IsContinuousIntegration)
+                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetVersion(GitVersion.NuGetVersionV2)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetDeterministic(IsDeterministic)
-                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetProcessArgumentConfigurator(a => a
                     .Add("/p:CheckEolTargetFramework=false"))
                 .CombineWith(CSharpLibraries, (s, p) => s.SetProject(p)));
@@ -199,11 +197,11 @@ partial class Build : NukeBuild
                 .SetOutputDirectory(PackagesDirectory)
                 .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
                 .EnableIncludeSymbols()
+                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetVersion(GitVersion.NuGetVersionV2)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetContinuousIntegrationBuild(IsContinuousIntegration)
                 .SetProcessArgumentConfigurator(a => a
                     .Add("/p:CheckEolTargetFramework=false"))
                 .CombineWith(FSharpLibraries, (s, p) => s.SetProject(p)));
