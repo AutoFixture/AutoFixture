@@ -7,6 +7,7 @@
       "AutoFakeItEasy\\AutoFakeItEasy.csproj",
       "AutoFakeItEasyUnitTest\\AutoFakeItEasyUnitTest.csproj",
       "AutoFakeItEasy.FakeItEasy7UnitTest\\AutoFakeItEasy.FakeItEasy7UnitTest.csproj",
+      "AutoFakeItEasy.FakeItEasy8UnitTest\\AutoFakeItEasy.FakeItEasy8UnitTest.csproj",
       "TestTypeFoundation\\TestTypeFoundation.csproj"
     ]
   }
