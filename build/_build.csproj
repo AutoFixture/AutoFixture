@@ -8,6 +8,9 @@
     <NukeRootDirectory>..</NukeRootDirectory>
     <NukeScriptDirectory>..</NukeScriptDirectory>
     <LangVersion>9</LangVersion>
+
+    <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
+    <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
