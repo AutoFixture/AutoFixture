@@ -4,8 +4,8 @@
     "projects": [
       "AutoFixtureUnitTest\\AutoFixtureUnitTest.csproj",
       "AutoFixture\\AutoFixture.csproj",
-      "AutoNSubstitute.NSubstitute3UnitTest\\AutoNSubstitute.NSubstitute3UnitTest.csproj",
       "AutoNSubstitute.NSubstitute4UnitTest\\AutoNSubstitute.NSubstitute4UnitTest.csproj",
+      "AutoNSubstitute.NSubstitute5UnitTest\\AutoNSubstitute.NSubstitute5UnitTest.csproj",
       "AutoNSubstituteUnitTest\\AutoNSubstituteUnitTest.csproj",
       "AutoNSubstitute\\AutoNSubstitute.csproj",
       "TestTypeFoundation\\TestTypeFoundation.csproj"
