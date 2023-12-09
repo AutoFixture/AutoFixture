@@ -22,15 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Foq" Version="1.8.0" />
     <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    <PackageReference Include="Unquote" Version="3.1.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <PackageReference Include="Unquote" Version="4.0.0" />
+    <PackageReference Include="Unquote" Version="3.2.0" Condition="'$(TargetFramework)' == 'net461'" />
+    <PackageReference Include="Unquote" Version="4.0.0" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
   </ItemGroup>
 
   <ItemGroup>

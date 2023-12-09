@@ -31,15 +31,16 @@
     <Compile Include="AutoFoqCustomization.fs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <ItemGroup>
     <PackageReference Include="Foq" Version="[1.8.0,2.0.0)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="FSharp.Core" Version="4.2.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    <PackageReference Include="Foq" Version="[1.5.1,2.0.0)" />
     <PackageReference Include="FSharp.Core" Version="[4.2.3,5.0.0)" />
   </ItemGroup>
 
