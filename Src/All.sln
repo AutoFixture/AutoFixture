@@ -70,8 +70,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Idioms.FsCheck.FsCheck1Unit
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Idioms.FsCheck.FsCheck2UnitTest", "Idioms.FsCheck.FsCheck2UnitTest\Idioms.FsCheck.FsCheck2UnitTest.fsproj", "{3C9C7C3E-452D-4ECE-9124-854406758A6D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNSubstitute.NSubstitute3UnitTest", "AutoNSubstitute.NSubstitute3UnitTest\AutoNSubstitute.NSubstitute3UnitTest.csproj", "{C25EA45A-358C-43F7-9A61-8F68632730F3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.SeedExtensions", "AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj", "{F1FE2173-62BD-4D3A-92C1-A3ECB2117252}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.SeedExtensions.UnitTest", "AutoFixture.SeedExtensions.UnitTest\AutoFixture.SeedExtensions.UnitTest.csproj", "{0F3C467A-ED89-4348-9210-FC2D358E20C5}"
