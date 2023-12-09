@@ -4,7 +4,6 @@
     "projects": [
       "AutoFixtureUnitTest\\AutoFixtureUnitTest.csproj",
       "AutoFixture\\AutoFixture.csproj",
-      "Idioms.FsCheck.FsCheck2UnitTest\\Idioms.FsCheck.FsCheck2UnitTest.fsproj",
       "Idioms.FsCheckUnitTest\\Idioms.FsCheckUnitTest.fsproj",
       "Idioms.FsCheck\\Idioms.FsCheck.fsproj",
       "IdiomsUnitTest\\IdiomsUnitTest.csproj",
