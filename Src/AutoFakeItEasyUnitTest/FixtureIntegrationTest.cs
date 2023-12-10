@@ -43,7 +43,6 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             Assert.NotEqual(0, result.Property);
         }
 
-#if CAN_FAKE_DELEGATES
         [Fact]
         public void FixtureCanCreateFakeOfDelegate()
         {
@@ -78,7 +77,6 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Assert
             Assert.Same(frozen.FakedObject, result);
         }
-#endif
 
         [Fact]
         public void FixtureWithDefaultCustomizationCanCreateNonFakedDelegate()
@@ -638,7 +636,6 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             Assert.Equal(expectedValue, virtualMethodReturnValue);
         }
 
-#if CAN_FAKE_DELEGATES
         [Fact]
         public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForRegularMethod()
         {
@@ -745,7 +742,6 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Assert
             Assert.Equal(frozenString, callResult);
         }
-#endif
 
         public delegate string RegularDelegate(short s, byte b);
         public delegate string DelegateWithRef(ref int arg);
