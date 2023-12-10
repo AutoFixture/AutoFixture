@@ -121,7 +121,6 @@ partial class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetDeterministic(IsContinuousIntegration)
                 .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
                 .SetVersion(GitVersion.NuGetVersionV2)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
