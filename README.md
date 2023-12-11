@@ -100,8 +100,8 @@ AutoFixture offers a variety of utility packages and integrations with most of t
 
 The core packages offer the full set of AutoFixture's features without requring any testing framework or third party integration.
 
-| Product | Package | Latest stable | Latest preview | Downloads |
-|---------|---------|---------------|----------------|-----------|
+| Product | Package | Stable | Preview | Downloads |
+|---------|---------|--------|---------|-----------|
 | The core package | [AutoFixture](http://www.nuget.org/packages/AutoFixture) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture)](https://www.nuget.org/packages/AutoFixture) | [![NuGet](https://img.shields.io/nuget/vpre/autofixture)](https://www.nuget.org/packages/AutoFixture)| ![NuGet](https://img.shields.io/nuget/dt/autofixture) |
 | Assertion idioms | [AutoFixture.Idioms](http://www.nuget.org/packages/AutoFixture.Idioms) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.Idioms)](https://www.nuget.org/packages/AutoFixture.Idioms) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.Idioms)](https://www.nuget.org/packages/AutoFixture.Idioms)| ![NuGet](https://img.shields.io/nuget/dt/autofixture.idioms) |
 | Seed extensions  | [AutoFixture.SeedExtensions](http://www.nuget.org/packages/AutoFixture.SeedExtensions) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.SeedExtensions)](https://www.nuget.org/packages/AutoFixture.SeedExtensions) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.SeedExtensions)](https://www.nuget.org/packages/AutoFixture.SeedExtensions)| ![NuGet](https://img.shields.io/nuget/dt/autofixture.seedextensions) |
@@ -111,8 +111,8 @@ The core packages offer the full set of AutoFixture's features without requring 
 AutoFixture offers integations with most major .NET mocking libraries.<br/>
 These integrations enable such features as configuring mocks, auto-injecting mocks, etc.
 
-| Product | Package | Latest stable | Latest preview | Downloads |
-|---------|---------|---------------|----------------|-----------|
+| Product | Package | Stable | Preview | Downloads |
+|---------|---------|--------|---------|-----------|
 | Moq | [AutoFixture.AutoMoq](http://www.nuget.org/packages/AutoFixture.AutoMoq) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.AutoMoq)](https://www.nuget.org/packages/AutoFixture.AutoMoq) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoMoq)](https://www.nuget.org/packages/AutoFixture.AutoMoq)| ![NuGet](https://img.shields.io/nuget/dt/autofixture.automoq) |
 | NSubstitute | [AutoFixture.AutoNSubstitute](http://www.nuget.org/packages/AutoFixture.AutoNSubstitute) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.AutoNSubstitute)](https://www.nuget.org/packages/AutoFixture.AutoNSubstitute) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoNSubstitute)](https://www.nuget.org/packages/AutoFixture.AutoNSubstitute)| ![NuGet](https://img.shields.io/nuget/dt/autofixture.AutoNSubstitute) |
 | FakeItEasy | [AutoFixture.AutoFakeItEasy](http://www.nuget.org/packages/AutoFixture.AutoFakeItEasy) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.AutoFakeItEasy)](https://www.nuget.org/packages/AutoFixture.AutoFakeItEasy) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoFakeItEasy)](https://www.nuget.org/packages/AutoFixture.AutoFakeItEasy)| ![NuGet](https://img.shields.io/nuget/dt/autofixture.AutoFakeItEasy) |
@@ -127,8 +127,8 @@ These integrations enable such features as configuring mocks, auto-injecting moc
 AutoFixture offers integrations with most major .NET testing frameworks.<br />
 These integrations enable auto-generation of test cases, combining auto-generated data with inline arguments, etc.
 
-| Product  | Package | Latest stable | Latest preview | Downloads |
-|----------|---------|---------------|----------------|-----------|
+| Product  | Package | Stable | Preview | Downloads |
+|----------|---------|--------|---------|-----------|
 | Foq      | [AutoFixture.AutoFoq](http://www.nuget.org/packages/AutoFixture.AutoFoq) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.AutoFoq)](https://www.nuget.org/packages/AutoFixture.AutoFoq) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoFoq)](https://www.nuget.org/packages/AutoFixture.AutoFoq) | ![NuGet](https://img.shields.io/nuget/dt/autofixture.AutoFoq) |
 | xUnit v1 | [AutoFixture.Xunit](http://www.nuget.org/packages/AutoFixture.Xunit) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.Xunit)](https://www.nuget.org/packages/AutoFixture.Xunit) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.Xunit)](https://www.nuget.org/packages/AutoFixture.Xunit) | ![NuGet](https://img.shields.io/nuget/dt/autofixture.XUnit) |
 | xUnit v2 | [AutoFixture.Xunit2](http://www.nuget.org/packages/AutoFixture.Xunit2) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.Xunit2)](https://www.nuget.org/packages/AutoFixture.Xunit2) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.Xunit2)](https://www.nuget.org/packages/AutoFixture.Xunit2) | ![NuGet](https://img.shields.io/nuget/dt/autofixture.xUnit2) |
