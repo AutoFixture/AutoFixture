@@ -935,7 +935,7 @@ namespace AutoFixture.IdiomsUnitTest
             var constructorInfo = typeof(NonProperlyGuardedClass).GetConstructors().Single();
 
             var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(constructorInfo));
-            Assert.Contains("Guard Clause prevented it, however", exception.Message);
+            Assert.Contains("Guard Clause prevented it; however", exception.Message);
         }
 
         [Fact]
@@ -945,11 +945,11 @@ namespace AutoFixture.IdiomsUnitTest
             var propertyInfo = typeof(NonProperlyGuardedClass).GetProperty(nameof(NonProperlyGuardedClass.Property));
 
             var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(propertyInfo));
-            Assert.Contains("Guard Clause prevented it, however", exception.Message);
+            Assert.Contains("Guard Clause prevented it; however", exception.Message);
         }
 
         [Theory]
-        [InlineData(nameof(NonProperlyGuardedClass.Method), "Guard Clause prevented it, however")]
+        [InlineData(nameof(NonProperlyGuardedClass.Method), "Guard Clause prevented it; however")]
         [InlineData(nameof(NonProperlyGuardedClass.DeferredMethodReturningGenericEnumerable), "deferred")]
         [InlineData(nameof(NonProperlyGuardedClass.DeferredMethodReturningGenericEnumerator), "deferred")]
         [InlineData(nameof(NonProperlyGuardedClass.DeferredMethodReturningNonGenericEnumerable), "deferred")]
