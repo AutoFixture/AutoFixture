@@ -417,5 +417,47 @@ namespace AutoFixture.NUnit3.UnitTest
             Assert.That(p1, Is.Null);
             Assert.That(p3, Is.EqualTo(p4));
         }
+
+        [Test]
+        [AutoData]
+        public void AutoDataSupportsFrozenValues([Frozen, Values] bool value, PropertyHolder<bool> propertyHolder)
+        {
+            Assert.AreEqual(value, propertyHolder.Property);
+        }
+
+        [Test]
+        [AutoData]
+        public void AutoDataSupportsFrozenValues([Frozen, Values] DayOfWeek value, PropertyHolder<DayOfWeek> propertyHolder)
+        {
+            Assert.AreEqual(value, propertyHolder.Property);
+        }
+
+        [Test]
+        [AutoData]
+        public void AutoDataSupportsFrozenValues([Frozen, Values(1, 5, 10)] int value, PropertyHolder<int> propertyHolder)
+        {
+            Assert.AreEqual(value, propertyHolder.Property);
+        }
+
+        [Test]
+        [InlineAutoData]
+        public void InlineAutoDataSupportsFrozenValues([Frozen, Values] bool value, PropertyHolder<bool> propertyHolder)
+        {
+            Assert.AreEqual(value, propertyHolder.Property);
+        }
+
+        [Test]
+        [InlineAutoData]
+        public void InlineAutoDataSupportsFrozenValues([Frozen, Values] DayOfWeek value, PropertyHolder<DayOfWeek> propertyHolder)
+        {
+            Assert.AreEqual(value, propertyHolder.Property);
+        }
+
+        [Test]
+        [InlineAutoData]
+        public void InlineAutoDataSupportsFrozenValues([Frozen, Values(2,4,8)] int value, PropertyHolder<int> propertyHolder)
+        {
+            Assert.AreEqual(value, propertyHolder.Property);
+        }
     }
 }

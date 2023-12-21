@@ -16,7 +16,7 @@ namespace AutoFixture.NUnit3
     public class VolatileNameTestMethodBuilder : ITestMethodBuilder
     {
         /// <inheritdoc />
-        public TestMethod Build(IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)
+        public TestMethod Build(IMethodInfo method, Test suite, IEnumerable<TestParameterInfo> parameterValues, int autoDataStartIndex)
         {
             if (method == null)
             {
@@ -33,11 +33,11 @@ namespace AutoFixture.NUnit3
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
-        private static TestCaseParameters GetParametersForMethod(IEnumerable<object> parameterValues)
+        private static TestCaseParameters GetParametersForMethod(IEnumerable<TestParameterInfo> parameterValues)
         {
             try
             {
-                return GetParametersForMethod(parameterValues.ToArray());
+                return GetParametersForMethod(parameterValues.Select(p => p.Value).ToArray());
             }
             catch (Exception ex)
             {
