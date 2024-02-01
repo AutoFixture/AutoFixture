@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FakeItEasy.Core;
 
 namespace AutoFixture.AutoFakeItEasy
 {
@@ -12,10 +13,10 @@ namespace AutoFixture.AutoFakeItEasy
             this.returnValue = returnValue;
         }
 
-        public void ApplyToCall(FakeObjectCall fakeObjectCall)
+        public void ApplyToCall(IInterceptedFakeObjectCall fakeObjectCall)
         {
             fakeObjectCall.SetReturnValue(this.returnValue);
-            if (this.outAndRefValues == null) return;
+            if (this.outAndRefValues is null) return;
 
             foreach (var positionedValue in this.outAndRefValues)
             {
@@ -23,27 +24,23 @@ namespace AutoFixture.AutoFakeItEasy
             }
         }
 
-        public void AddOutOrRefValue(int i, object value)
+        public void AddOutOrRefValue(int position, object value)
         {
-            if (this.outAndRefValues == null)
-            {
-                this.outAndRefValues = new List<PositionedValue>();
-            }
-
-            this.outAndRefValues.Add(new PositionedValue(i, value));
+            this.outAndRefValues ??= new List<PositionedValue>();
+            this.outAndRefValues.Add(new PositionedValue(position, value));
         }
 
         private class PositionedValue
         {
-            public int Position { get; }
-
-            public object Value { get; }
-
             public PositionedValue(int position, object value)
             {
                 this.Position = position;
                 this.Value = value;
             }
+
+            public int Position { get; }
+
+            public object Value { get; }
         }
     }
 }

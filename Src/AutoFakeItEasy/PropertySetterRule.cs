@@ -39,12 +39,11 @@ namespace AutoFixture.AutoFakeItEasy
         /// Stores the value provided in the property setter to be returned from later
         /// calls to the corresponding getter.
         /// </summary>
-        /// <param name="interceptedFakeObjectCall">The call to apply the rule to.</param>
-        public void Apply(IInterceptedFakeObjectCall interceptedFakeObjectCall)
+        /// <param name="fakeObjectCall">The call to apply the rule to.</param>
+        public void Apply(IInterceptedFakeObjectCall fakeObjectCall)
         {
-            if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
+            if (fakeObjectCall is null) throw new ArgumentNullException(nameof(fakeObjectCall));
 
-            var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
             var methodCall = CreateMethodCallForGetter(fakeObjectCall);
             this.resultCache.Put(methodCall, new MethodCallResult(fakeObjectCall.Arguments.Last()));
         }
@@ -53,14 +52,14 @@ namespace AutoFixture.AutoFakeItEasy
             method.IsSpecialName &&
             method.Name.StartsWith("set_", StringComparison.Ordinal);
 
-        private static MethodCall CreateMethodCallForGetter(FakeObjectCall fakeCall)
+        private static MethodCall CreateMethodCallForGetter(IFakeObjectCall fakeObjectCall)
         {
-            var methodName = "get_" + fakeCall.Method.Name.Substring(4);
-            var numberOfArguments = fakeCall.Arguments.Count() - 1;
+            var methodName = "get_" + fakeObjectCall.Method.Name.Substring(4);
+            var numberOfArguments = fakeObjectCall.Arguments.Count - 1;
 
-            var arguments = fakeCall.Arguments.Take(numberOfArguments);
-            var parameters = fakeCall.Method.GetParameters().Take(numberOfArguments);
-            return new MethodCall(fakeCall.Method.DeclaringType, methodName, parameters, arguments);
+            var arguments = fakeObjectCall.Arguments.Take(numberOfArguments);
+            var parameters = fakeObjectCall.Method.GetParameters().Take(numberOfArguments);
+            return new MethodCall(fakeObjectCall.Method.DeclaringType, methodName, parameters, arguments);
         }
     }
 }

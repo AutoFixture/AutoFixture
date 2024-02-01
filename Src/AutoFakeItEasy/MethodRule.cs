@@ -39,36 +39,37 @@ namespace AutoFixture.AutoFakeItEasy
         /// for the call. If there are any ref or out parameters, obtains values for them and sets them
         /// for the call.
         /// </summary>
-        /// <param name="interceptedFakeObjectCall">The call to apply the rule to.</param>
-        public void Apply(IInterceptedFakeObjectCall interceptedFakeObjectCall)
+        /// <param name="fakeObjectCall">The call to apply the rule to.</param>
+        public void Apply(IInterceptedFakeObjectCall fakeObjectCall)
         {
-            if (interceptedFakeObjectCall == null) throw new ArgumentNullException(nameof(interceptedFakeObjectCall));
+            if (fakeObjectCall == null) throw new ArgumentNullException(nameof(fakeObjectCall));
 
-            var fakeObjectCall = new FakeObjectCall(interceptedFakeObjectCall);
-            var callResult = this.resultSource.GetOrAdd(CreateMethodCall(fakeObjectCall), () => this.CreateMethodCallResult(fakeObjectCall));
-            callResult.ApplyToCall(fakeObjectCall);
+            this.resultSource.GetOrAdd(
+                    CreateMethodCall(fakeObjectCall),
+                    () => this.CreateMethodCallResult(fakeObjectCall))
+                .ApplyToCall(fakeObjectCall);
         }
 
-        private static MethodCall CreateMethodCall(FakeObjectCall fakeCall)
+        private static MethodCall CreateMethodCall(IFakeObjectCall fakeObjectCall)
         {
-            var parameters = fakeCall.Method.GetParameters();
-            return new MethodCall(fakeCall.Method.DeclaringType, fakeCall.Method.Name, parameters, fakeCall.Arguments);
+            var parameters = fakeObjectCall.Method.GetParameters();
+            return new MethodCall(fakeObjectCall.Method.DeclaringType, fakeObjectCall.Method.Name, parameters, fakeObjectCall.Arguments);
         }
 
-        private MethodCallResult CreateMethodCallResult(FakeObjectCall fakeObjectCall)
+        private MethodCallResult CreateMethodCallResult(IFakeObjectCall fakeObjectCall)
         {
             var result = new MethodCallResult(this.ResolveReturnValue(fakeObjectCall));
             this.AddOutAndRefValues(result, fakeObjectCall);
             return result;
         }
 
-        private object ResolveReturnValue(FakeObjectCall fakeObjectCall)
+        private object ResolveReturnValue(IFakeObjectCall fakeObjectCall)
         {
             var methodReturnType = fakeObjectCall.Method.ReturnType;
             return methodReturnType == typeof(void) ? null : this.context.Resolve(methodReturnType);
         }
 
-        private void AddOutAndRefValues(MethodCallResult result, FakeObjectCall fakeObjectCall)
+        private void AddOutAndRefValues(MethodCallResult result, IFakeObjectCall fakeObjectCall)
         {
             var parameters = fakeObjectCall.Method.GetParameters();
             for (int i = 0; i < parameters.Length; i++)

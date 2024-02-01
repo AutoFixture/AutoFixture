@@ -60,7 +60,8 @@ namespace AutoFixture.AutoFakeItEasy
 
         [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
             Justification = "It's activated via reflection.")]
-        private class FakeMethod<T> : IMethod where T : class
+        private class FakeMethod<T> : IMethod
+            where T : class
         {
             public FakeMethod(IEnumerable<ParameterInfo> parameters)
             {
