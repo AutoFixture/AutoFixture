@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using AutoFixture.Kernel;
 
 namespace AutoFixture.AutoFakeItEasy
@@ -56,19 +55,14 @@ namespace AutoFixture.AutoFakeItEasy
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            var type = request as Type;
-            if (type == null || !type.IsFake())
+            if (request is not Type type || !type.IsFake())
             {
                 return new NoSpecimen();
             }
 
             var fake = this.Builder.Create(request, context);
-            if (!type.IsInstanceOfType(fake))
-            {
-                return new NoSpecimen();
-            }
 
-            return fake;
+            return type.IsInstanceOfType(fake) ? fake : new NoSpecimen();
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-
 using AutoFixture.Kernel;
 using FakeItEasy;
 using FakeItEasy.Core;
@@ -29,10 +27,10 @@ namespace AutoFixture.AutoFakeItEasy
         /// <param name="context">The context of the Fake.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
             var fakeManager = GetFakeManager(specimen);
-            if (fakeManager == null) return;
+            if (fakeManager is null) return;
 
             var resultCache = new CallResultCache();
             fakeManager.AddRuleLast(new PropertySetterRule(resultCache));
@@ -42,10 +40,10 @@ namespace AutoFixture.AutoFakeItEasy
         private static FakeManager GetFakeManager(object specimen)
         {
             var specimenType = specimen?.GetType();
-            if (specimenType == null || !specimenType.IsFake()) return null;
+            if (specimenType is null || !specimenType.IsFake()) return null;
 
             var fakedObject = specimenType.GetProperty("FakedObject")?.GetValue(specimen, null);
-            return fakedObject == null ? null : Fake.GetFakeManager(fakedObject);
+            return fakedObject is null ? null : Fake.GetFakeManager(fakedObject);
         }
     }
 }

@@ -48,21 +48,6 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             Assert.False(sut.GenerateDelegates);
         }
 
-#if !CAN_FAKE_DELEGATES
-        [Fact]
-        public void InitializeWithGenerateDelegatesOptionThrowsIfNotSupported()
-        {
-            // Arrange
-            // Act
-            var ex = Assert.Throws<ArgumentException>(() =>
-                new Fixture().Customize(new AutoFakeItEasyCustomization { GenerateDelegates = true }));
-            // Assert
-            Assert.Contains(
-                "Option GenerateDelegates was specified, but this requires FakeItEasy version 1.7.4257.42 or higher",
-                ex.Message);
-        }
-#endif
-
         [Fact]
         public void ConfigureMembersIsDisabledByDefault()
         {

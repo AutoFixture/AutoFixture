@@ -9,7 +9,7 @@ using FakeItEasy;
 namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
-    /// Selects appropriate methods to create <see cref="FakeItEasy.Fake{T}"/> instances.
+    /// Selects appropriate methods to create <see cref="Fake{T}"/> instances.
     /// </summary>
     public class FakeItEasyMethodQuery : IMethodQuery
     {
@@ -30,7 +30,7 @@ namespace AutoFixture.AutoFakeItEasy
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (type is null) throw new ArgumentNullException(nameof(type));
 
             if (!type.IsFake())
             {
@@ -51,71 +51,28 @@ namespace AutoFixture.AutoFakeItEasy
 
         private static class FakeMethod
         {
-            public static IMethod Create(
-                Type type,
-                IEnumerable<ParameterInfo> parameterInfos)
+            public static IMethod Create(Type type, IEnumerable<ParameterInfo> parameters)
             {
-                var constructedType =
-                    typeof(FakeMethod<>).MakeGenericType(type);
-                return (IMethod)Activator.CreateInstance(
-                    constructedType,
-                    parameterInfos);
+                var constructedType = typeof(FakeMethod<>).MakeGenericType(type);
+                return (IMethod)Activator.CreateInstance(constructedType, parameters);
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
             Justification = "It's activated via reflection.")]
         private class FakeMethod<T> : IMethod
+            where T : class
         {
-            public FakeMethod(IEnumerable<ParameterInfo> parameterInfos)
+            public FakeMethod(IEnumerable<ParameterInfo> parameters)
             {
-                this.Parameters = parameterInfos;
+                this.Parameters = parameters;
             }
 
             public IEnumerable<ParameterInfo> Parameters { get; }
 
             public object Invoke(IEnumerable<object> parameters)
             {
-                var genericFakeType = typeof(Fake<>).MakeGenericType(typeof(T));
-
-                foreach (var constructor in genericFakeType.GetConstructors())
-                {
-                    var constructorParameterInfos = constructor.GetParameters();
-                    if (constructorParameterInfos.Length != 1)
-                    {
-                        continue;
-                    }
-
-                    var parameterType = constructorParameterInfos[0].ParameterType;
-                    if (!parameterType.GetTypeInfo().IsGenericType ||
-                        parameterType.GetGenericTypeDefinition() != typeof(Action<>))
-                    {
-                        continue;
-                    }
-
-                    // The parameter is an action of type
-                    // Action<IFakeOptionsBuilder<T>> (FakeItEasy 1.x) or
-                    // Action<IFakeOptions<T>> (FakeItEasy 2.0+).
-                    // Each of the options-type interfaces contains a WithArgumentsForConstructor method
-                    // that we'll use to pass arguments to the fake object's constructor.
-                    var fakeOptionsType = parameterType.GetGenericArguments()[0];
-
-                    var withArgumentsForConstructorMethod = fakeOptionsType.GetMethod(
-                        "WithArgumentsForConstructor",
-                        new[] { typeof(object[]) });
-
-                    if (withArgumentsForConstructorMethod == null)
-                    {
-                        continue;
-                    }
-
-                    Action<object> addConstructorArgumentsToOptionsAction =
-                        options => withArgumentsForConstructorMethod.Invoke(options, new object[] { parameters });
-
-                    return constructor.Invoke(new object[] { addConstructorArgumentsToOptionsAction });
-                }
-
-                return null;
+                return new Fake<T>(x => x.WithArgumentsForConstructor(parameters));
             }
         }
     }

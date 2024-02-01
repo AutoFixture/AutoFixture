@@ -59,13 +59,12 @@ namespace AutoFixture.AutoFakeItEasy
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
             if (!this.FakeableSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen();
 
-            var type = request as Type;
-            if (type == null)
+            if (request is not Type type)
                 return new NoSpecimen();
 
             var fakeType = typeof(Fake<>).MakeGenericType(type);
@@ -83,13 +82,13 @@ namespace AutoFixture.AutoFakeItEasy
         {
             public bool IsSatisfiedBy(object request)
             {
-                var type = request as Type;
-                if (type == null)
+                if (request is not Type type)
                 {
                     return false;
                 }
 
-                return type.GetTypeInfo().IsAbstract || type.GetTypeInfo().IsInterface;
+                var typeInfo = type.GetTypeInfo();
+                return typeInfo.IsAbstract || typeInfo.IsInterface;
             }
         }
     }
