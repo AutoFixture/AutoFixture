@@ -24,11 +24,11 @@ namespace AutoFixture.AutoFakeItEasy
 
         public override bool Equals(object obj)
         {
-            return obj is MethodCall call &&
-                   this.declaringType == call.declaringType &&
-                   this.methodName.Equals(call.methodName, StringComparison.Ordinal) &&
-                   this.parameterTypes.SequenceEqual(call.parameterTypes) &&
-                   this.arguments.SequenceEqual(call.arguments);
+            return obj is MethodCall call
+                && this.declaringType == call.declaringType
+                && this.methodName.Equals(call.methodName, StringComparison.Ordinal)
+                && this.parameterTypes.SequenceEqual(call.parameterTypes)
+                && this.arguments.SequenceEqual(call.arguments);
         }
 
         public override int GetHashCode()

@@ -9,7 +9,7 @@ using FakeItEasy;
 namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
-    /// Selects appropriate methods to create <see cref="FakeItEasy.Fake{T}"/> instances.
+    /// Selects appropriate methods to create <see cref="Fake{T}"/> instances.
     /// </summary>
     public class FakeItEasyMethodQuery : IMethodQuery
     {
@@ -30,7 +30,7 @@ namespace AutoFixture.AutoFakeItEasy
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (type is null) throw new ArgumentNullException(nameof(type));
 
             if (!type.IsFake())
             {

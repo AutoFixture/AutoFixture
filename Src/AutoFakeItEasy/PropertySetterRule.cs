@@ -32,7 +32,8 @@ namespace AutoFixture.AutoFakeItEasy
         /// <returns><c>true</c> if the call is a property setter.</returns>
         public bool IsApplicableTo(IFakeObjectCall fakeObjectCall)
         {
-            return fakeObjectCall != null && IsSetter(fakeObjectCall.Method);
+            return fakeObjectCall is not null
+                && IsSetter(fakeObjectCall.Method);
         }
 
         /// <summary>

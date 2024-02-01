@@ -68,7 +68,7 @@ namespace AutoFixture.AutoFakeItEasy
         /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)
         {
-            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (fixture is null) throw new ArgumentNullException(nameof(fixture));
 
             if (this.GenerateDelegates)
             {

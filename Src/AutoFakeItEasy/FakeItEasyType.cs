@@ -10,7 +10,7 @@ namespace AutoFixture.AutoFakeItEasy
     {
         internal static bool IsFake(this Type type)
         {
-            return type != null
+            return type is not null
                    && type.GetTypeInfo().IsGenericType
                    && typeof(Fake<>).IsAssignableFrom(type.GetGenericTypeDefinition())
                    && !type.GetFakedType().IsGenericParameter;

@@ -5,7 +5,7 @@ namespace AutoFixture.AutoFakeItEasy
 {
     internal class MethodCallResult
     {
-        private IList<PositionedValue> outAndRefValues;
+        private List<PositionedValue> outAndRefValues;
         private readonly object returnValue;
 
         public MethodCallResult(object returnValue)

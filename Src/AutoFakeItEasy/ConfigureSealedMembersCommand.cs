@@ -19,11 +19,11 @@ namespace AutoFixture.AutoFakeItEasy
         /// <param name="context">The context that is used to create anonymous values.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (specimen == null) return;
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (specimen is null) return;
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
             var fake = specimen.GetType().GetProperty("FakedObject")?.GetValue(specimen, null);
-            if (fake == null) return;
+            if (fake is null) return;
 
             this.autoPropertiesCommand.Execute(fake, context);
         }
@@ -37,21 +37,18 @@ namespace AutoFixture.AutoFakeItEasy
         {
             public bool IsSatisfiedBy(object request)
             {
-                switch (request)
+                return request switch
                 {
-                    case FieldInfo fi:
-                        return !IsProxyMember(fi);
-                    case PropertyInfo pi:
-                        return IsSealed(pi);
-                    default:
-                        return false;
-                }
+                    FieldInfo fi => !IsProxyMember(fi),
+                    PropertyInfo pi => IsSealed(pi),
+                    _ => false,
+                };
             }
 
             private static bool IsSealed(PropertyInfo pi)
             {
-                var setMethod = pi.GetSetMethod();
-                return setMethod != null && (setMethod.IsFinal || !setMethod.IsVirtual);
+                return pi.SetMethod is MethodInfo setMethod
+                    && (setMethod.IsFinal || !setMethod.IsVirtual);
             }
 
             private static bool IsProxyMember(FieldInfo fi)

@@ -42,7 +42,7 @@ namespace AutoFixture.AutoFakeItEasy
         /// <param name="fakeObjectCall">The call to apply the rule to.</param>
         public void Apply(IInterceptedFakeObjectCall fakeObjectCall)
         {
-            if (fakeObjectCall == null) throw new ArgumentNullException(nameof(fakeObjectCall));
+            if (fakeObjectCall is null) throw new ArgumentNullException(nameof(fakeObjectCall));
 
             this.resultSource.GetOrAdd(
                     CreateMethodCall(fakeObjectCall),
@@ -72,13 +72,13 @@ namespace AutoFixture.AutoFakeItEasy
         private void AddOutAndRefValues(MethodCallResult result, IFakeObjectCall fakeObjectCall)
         {
             var parameters = fakeObjectCall.Method.GetParameters();
-            for (int i = 0; i < parameters.Length; i++)
+            for (int index = 0; index < parameters.Length; index++)
             {
-                var parameterParameterType = parameters[i].ParameterType;
+                var parameterParameterType = parameters[index].ParameterType;
                 if (parameterParameterType.IsByRef)
                 {
                     var value = this.context.Resolve(parameterParameterType.GetElementType());
-                    result.AddOutOrRefValue(i, value);
+                    result.AddOutOrRefValue(index, value);
                 }
             }
         }
