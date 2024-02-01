@@ -8,8 +8,6 @@
     <AssemblyTitle>AutoFakeItEasyUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFakeItEasy.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
-
-    <DefineConstants>$(DefineConstants);HAS_A_CALL_TO_SET_SPECIFIER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

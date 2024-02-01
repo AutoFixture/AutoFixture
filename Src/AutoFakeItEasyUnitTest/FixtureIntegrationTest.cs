@@ -462,7 +462,6 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             Assert.Equal(frozenString, result.Property);
         }
 
-#if HAS_A_CALL_TO_SET_SPECIFIER
         [Fact]
         public void WithConfigureMembers_VirtualPropertyShouldNotBeMarkedAsCalled()
         {
@@ -473,7 +472,6 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Assert
             A.CallToSet(() => result.Property).MustNotHaveHappened();
         }
-#endif
 
         [Fact]
         public void WithConfigureMembers_OverridablePropertiesAreStubbed()
