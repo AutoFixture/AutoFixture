@@ -5,7 +5,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net462;net5.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.AutoFoq.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFoq.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFoq.UnitTest</RootNamespace>
@@ -25,7 +25,7 @@
     <PackageReference Include="Foq" Version="1.8.0" />
     <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
     <PackageReference Include="Unquote" Version="3.2.0" Condition="'$(TargetFramework)' == 'net462'" />
-    <PackageReference Include="Unquote" Version="4.0.0" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
+    <PackageReference Include="Unquote" Version="4.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
   </ItemGroup>
 
   <ItemGroup>
