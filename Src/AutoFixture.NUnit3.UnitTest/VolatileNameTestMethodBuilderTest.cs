@@ -11,14 +11,17 @@ namespace AutoFixture.NUnit3.UnitTest
         public void VolatileNameTestMethodBuilderIsResilientToParameterEnumerationException()
         {
             // Arrange
-            var anyMethod = new MethodWrapper(typeof(TestNameStrategiesFixture), nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod));
+            const string methodName = nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod);
+            var anyMethod = new MethodWrapper(typeof(TestNameStrategiesFixture), methodName);
             var sut = new VolatileNameTestMethodBuilder();
             var throwingParameters = Enumerable.Range(0, 1).Select<int, object>(_ => throw new Exception());
+            const string expected = methodName + "()";
 
             // Act
             var testMethod = sut.Build(anyMethod, null, throwingParameters, 0);
+
             // Assert
-            Assert.That(testMethod.Name, Is.EqualTo(nameof(TestNameStrategiesFixture.VolatileNameDecoratedMethod)));
+            Assert.AreEqual(expected, testMethod.Name);
         }
     }
 }
