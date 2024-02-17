@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoFixture.AutoMoq.UnitTest.TestTypes;
 using AutoFixture.Kernel;
 using Moq;
@@ -46,7 +48,7 @@ namespace AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void DoesNotHangIfMockedTypeHasPropertiesWithCircularDependencies()
+        public async Task DoesNotHangIfMockedTypeHasPropertiesWithCircularDependencies()
         {
             // Arrange
             var request = new Mock<IInterfaceWithPropertyWithCircularDependency>()
@@ -55,11 +57,12 @@ namespace AutoFixture.AutoMoq.UnitTest
             };
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
+            var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             // Act
-            var task = Task.Run(() => sut.Execute(request, context));
-            bool ranToCompletion = task.Wait(5000) && task.Status == TaskStatus.RanToCompletion;
-            // Assert
-            Assert.True(ranToCompletion);
+            var task = Task.Run(() => sut.Execute(request, context), tokenSource.Token);
+
+            await task.ContinueWith(t => Assert.Equal(TaskStatus.RanToCompletion, t.Status), TaskScheduler.Default)
+                .ConfigureAwait(true);
         }
 
         [Theory]

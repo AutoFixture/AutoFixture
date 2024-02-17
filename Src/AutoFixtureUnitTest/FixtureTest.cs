@@ -5556,10 +5556,15 @@ namespace AutoFixtureUnitTest
             // Arrange
             Fixture sut = new Fixture();
             int frozenInt = sut.Freeze<int>();
+
             // Act
             Task<int> result = sut.Create<Task<int>>();
+
             // Assert
+            Assert.Equal(TaskStatus.RanToCompletion, result.Status);
+#pragma warning disable xUnit1031 // Test asserts the task is completed and the result is accessible synchronously
             Assert.Equal(frozenInt, result.Result);
+#pragma warning restore xUnit1031
         }
 
         [Fact]
