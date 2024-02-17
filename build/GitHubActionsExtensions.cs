@@ -8,12 +8,12 @@ namespace Nuke.Common.CI.GitHubActions
 
         public static bool IsOnSemVerTag(this GitHubActions source)
         {
-            if (string.IsNullOrWhiteSpace(source?.GitHubRef))
+            if (string.IsNullOrWhiteSpace(source?.Ref))
             {
                 return false;
             }
 
-            return SemVerRef.IsMatch(source.GitHubRef);
+            return SemVerRef.IsMatch(source.Ref);
         }
     }
 }

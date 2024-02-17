@@ -26,7 +26,7 @@
         "github-token": {
           "type": "string",
           "description": "GitHub auth token",
-          "default": "Secrets must be entered via 'nuke :secret [profile]'"
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Help": {
           "type": "boolean",
@@ -39,14 +39,18 @@
             "AppVeyor",
             "AzurePipelines",
             "Bamboo",
+            "Bitbucket",
             "Bitrise",
             "GitHubActions",
             "GitLab",
             "Jenkins",
+            "Rider",
             "SpaceAutomation",
             "TeamCity",
             "Terminal",
-            "TravisCI"
+            "TravisCI",
+            "VisualStudio",
+            "VSCode"
           ]
         },
         "NoLogo": {
@@ -56,7 +60,11 @@
         "NUGET_API_KEY": {
           "type": "string",
           "description": "NuGet API Key (secret)",
-          "default": "Secrets must be entered via 'nuke :secret [profile]'"
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "Partition": {
+          "type": "string",
+          "description": "Partition to use on CI"
         },
         "Plan": {
           "type": "boolean",
