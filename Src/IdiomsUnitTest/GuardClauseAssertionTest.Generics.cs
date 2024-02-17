@@ -143,9 +143,12 @@ namespace AutoFixture.IdiomsUnitTest
             // Arrange
             var propertyInfo = propertyRef.Member;
             var sut = new GuardClauseAssertion(new Fixture());
+
             // Act
+            Exception actual = Record.Exception(() => sut.Verify(propertyInfo));
+
             // Assert
-            Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
+            Assert.Null(actual);
         }
 
         [Fact]

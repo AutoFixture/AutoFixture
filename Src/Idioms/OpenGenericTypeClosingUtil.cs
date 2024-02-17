@@ -385,7 +385,7 @@ namespace AutoFixture.Idioms
                 this.specimenBuilderFieldBuilder = this.typeBuilder.DefineField(
                     SpecimenBuilderFieldName,
                     typeof(IFixture),
-                    FieldAttributes.Private | FieldAttributes.Static | FieldAttributes.InitOnly);
+                    FieldAttributes.Private | FieldAttributes.Static);
             }
 
             private void EmitCallBaseTypeConstructor(ILGenerator generator)
