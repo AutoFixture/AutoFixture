@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net462;net5.0</TargetFrameworks>
     <AssemblyTitle>AutoNSubstituteUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoNSubstitute.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoNSubstitute.UnitTest</RootNamespace>
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" Condition="'$(TargetFramework)'=='net462'" />
   </ItemGroup>
 
   <ItemGroup>
