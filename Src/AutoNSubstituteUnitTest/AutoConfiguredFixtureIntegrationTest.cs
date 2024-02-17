@@ -926,14 +926,14 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                 .Select(_ => Task.Run(
                     async () =>
                     {
-                        await start.WaitAsync(cts.Token).ConfigureAwait(false);
+                        await start.WaitAsync(cts.Token).ConfigureAwait(true);
                         substitute.Method();
                     },
                     cts.Token));
 
             // Act
             start.Release(degreeOfParallelism);
-            await Task.WhenAll(tasks).ConfigureAwait(false);
+            await Task.WhenAll(tasks).ConfigureAwait(true);
 
             // Assert
             substitute.Received(degreeOfParallelism).Method();
