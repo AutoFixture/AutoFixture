@@ -201,7 +201,9 @@ namespace AutoFixture.AutoMoq.UnitTest
             var sut = new MockSealedPropertiesCommand();
             // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+#pragma warning disable xUnit2000 // This test asserts a literal value
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+#pragma warning restore xUnit2000
         }
 
         [Fact]

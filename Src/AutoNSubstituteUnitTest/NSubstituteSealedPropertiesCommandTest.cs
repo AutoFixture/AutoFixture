@@ -199,7 +199,9 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act & Assert
             Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
+#pragma warning disable xUnit2000 // This test asserts a literal value
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+#pragma warning restore xUnit2000
         }
 
         [Fact]

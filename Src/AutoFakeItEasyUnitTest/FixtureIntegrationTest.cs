@@ -594,7 +594,9 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Act
             fixture.Create<Fake<TypeWithConstField>>();
             // Assert
+#pragma warning disable xUnit2000 // This test asserts the value of a literal or constant
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+#pragma warning restore xUnit2000
         }
 
         [Fact]
