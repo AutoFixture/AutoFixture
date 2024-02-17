@@ -33,21 +33,18 @@ namespace AutoFixture.AutoFakeItEasy
 
         public override int GetHashCode()
         {
-            unchecked
+            var hashCode = default(HashCode);
+            hashCode.Add(this.declaringType);
+            hashCode.Add(this.methodName);
+            foreach (var argument in this.arguments)
             {
-                var hashCode = -712421553;
-                hashCode = (hashCode * -1521134295) + this.declaringType.GetHashCode();
-                hashCode = (hashCode * -1521134295) + this.methodName.GetHashCode();
-                foreach (var argument in this.arguments)
-                {
-                    hashCode = (hashCode * -1521134295) + EqualityComparer<object>.Default.GetHashCode(argument);
-                }
-                foreach (var argumentType in this.parameterTypes)
-                {
-                    hashCode = (hashCode * -1521134295) + argumentType.GetHashCode();
-                }
-                return hashCode;
+                hashCode.Add(argument);
             }
+            foreach (var argumentType in this.parameterTypes)
+            {
+                hashCode.Add(argumentType);
+            }
+            return hashCode.ToHashCode();
         }
 
         private static IEnumerable<object> ExpandParamsArgument(IList<ParameterInfo> parameters, IEnumerable<object> arguments)
