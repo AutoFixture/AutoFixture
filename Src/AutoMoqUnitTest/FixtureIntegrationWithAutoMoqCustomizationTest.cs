@@ -489,7 +489,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             Assert.Equal(frozenValue, callResult);
         }
 
-#if FIXED_DELEGATE_OUT
         [Fact]
         public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForMethodWithOut()
         {
@@ -508,7 +507,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             Assert.Equal(frozenString, callResult);
             Assert.Equal(frozenInt, outResult);
         }
-#endif
 
         [Fact]
         public void WithGenerateDelegateAndConfigureMembers_DelegatesWithRefMethodsAreNotConfigured()
