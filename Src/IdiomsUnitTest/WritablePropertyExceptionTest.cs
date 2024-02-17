@@ -113,6 +113,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void MessageSerializesCorrectly()
         {
             // Arrange
@@ -135,6 +136,7 @@ namespace AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void InnerExceptionSerializesCorrectly()
         {
             // Arrange
@@ -159,6 +161,7 @@ namespace AutoFixture.IdiomsUnitTest
 
 #if SERIALIZABLE_MEMBERINFO
         [Fact]
+        [Obsolete]
         public void PropertyInfosSerializesCorrectly()
         {
             // Arrange
