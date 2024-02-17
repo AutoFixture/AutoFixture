@@ -252,7 +252,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [MemberData(nameof(MinLimitToMaxLimitRequests))]
-        public void CreationOnFullRangeShouldNotFail(Type type, object minimum, object maximum)
+        public void CreationOnFullRangeShouldNotFail(Type type, IConvertible minimum, IConvertible maximum)
         {
             // Arrange
             var request = new RangedNumberRequest(type, minimum, maximum);
@@ -265,7 +265,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [MemberData(nameof(MinLimitToMaxLimitRequests))]
-        public void CreationOnFullRangeShouldReturnValue(Type type, object minimum, object maximum)
+        public void CreationOnFullRangeShouldReturnValue(Type type, IConvertible minimum, IConvertible maximum)
         {
             // Arrange
             var request = new RangedNumberRequest(type, minimum, maximum);
@@ -281,7 +281,7 @@ namespace AutoFixtureUnitTest
 
         [Theory]
         [MemberData(nameof(RequestsWithLimitsToZeroRange))]
-        public void CreationWithLimitsInBoundariesShouldReturnValueInRange(Type type, object minimum, object maximum)
+        public void CreationWithLimitsInBoundariesShouldReturnValueInRange(Type type, IConvertible minimum, IConvertible maximum)
         {
             // Arrange
             var request = new RangedNumberRequest(type, minimum, maximum);
