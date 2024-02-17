@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <AssemblyTitle>AutoFixture.AutoRhinoMock</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoRhinoMock</AssemblyName>
     <RootNamespace>AutoFixture.AutoRhinoMock</RootNamespace>

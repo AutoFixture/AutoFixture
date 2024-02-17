@@ -5,7 +5,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms.FsCheckUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Idioms.FsCheckUnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>

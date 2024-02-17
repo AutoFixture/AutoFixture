@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.xUnit.net2</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit2</AssemblyName>
     <RootNamespace>AutoFixture.Xunit2</RootNamespace>
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit.extensibility.core" Version="[2.0.0,3.0.0)" Condition=" '$(TargetFramework)'=='net461' " />
+    <PackageReference Include="xunit.extensibility.core" Version="[2.0.0,3.0.0)" Condition=" '$(TargetFramework)'=='net462' " />
     <PackageReference Include="xunit.extensibility.core" Version="[2.2.0,3.0.0)" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
   </ItemGroup>
 

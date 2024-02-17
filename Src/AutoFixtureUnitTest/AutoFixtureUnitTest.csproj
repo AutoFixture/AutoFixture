@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net462;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixtureUnitTest</AssemblyName>
   </PropertyGroup>
@@ -18,10 +18,10 @@
         </ProjectReference>
       </ItemGroup>
     </When>
-    <When Condition="'$(TargetFramework)'=='net461'">
+    <When Condition="'$(TargetFramework)'=='net462'">
       <ItemGroup>
         <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-          <SetTargetFramework>TargetFramework=net461</SetTargetFramework>
+          <SetTargetFramework>TargetFramework=net462</SetTargetFramework>
           <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
         </ProjectReference>
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
