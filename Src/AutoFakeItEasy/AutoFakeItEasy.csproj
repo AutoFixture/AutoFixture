@@ -21,7 +21,16 @@
 
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="[6.0.0,9.0.0)" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
+  </ItemGroup>
+
+  <!-- Dependencies added due to transitive vulnerabilities in FakeItEasy -->
+  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard2.0' ">
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
