@@ -319,7 +319,11 @@ namespace AutoFixture.Idioms
 
             private string GetBaseTypeName()
             {
+#if NET5_0_OR_GREATER
+                return this.baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty, StringComparison.OrdinalIgnoreCase);
+#else
                 return this.baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty);
+#endif
             }
 
             private void ImplementDefaultConstructor()
@@ -385,7 +389,7 @@ namespace AutoFixture.Idioms
                 this.specimenBuilderFieldBuilder = this.typeBuilder.DefineField(
                     SpecimenBuilderFieldName,
                     typeof(IFixture),
-                    FieldAttributes.Private | FieldAttributes.Static | FieldAttributes.InitOnly);
+                    FieldAttributes.Private | FieldAttributes.Static);
             }
 
             private void EmitCallBaseTypeConstructor(ILGenerator generator)

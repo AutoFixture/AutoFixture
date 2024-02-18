@@ -5,7 +5,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net462;net48;net5.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms.FsCheckUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Idioms.FsCheckUnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>
@@ -20,16 +20,40 @@
     <Compile Include="ReturnValueMustNotBeNullAssertionTest.fs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FsCheck" Version="2.16.6" />
-    <PackageReference Include="FSharp.Core" Version="[4.2.3]" PrivateAssets="All" />
-    <PackageReference Include="Unquote" Version="4.0.0" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'net462'">
+      <ItemGroup>
+        <PackageReference Include="FsCheck" Version="2.16.6" />
+        <PackageReference Include="Unquote" Version="5.0.0" />
+        <PackageReference Include="FSharp.Core" Version="[4.7.2]" PrivateAssets="All" />
 
-  <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
-    <ProjectReference Include="..\Idioms\Idioms.csproj" />
-    <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj" />
-  </ItemGroup>
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\Idioms\Idioms.csproj" />
+        <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj" />
+      </ItemGroup>
+    </When>
+    <When Condition="'$(TargetFramework)' == 'net48'">
+      <ItemGroup>
+        <PackageReference Include="FsCheck" Version="2.16.6" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard1.0" />
+        <PackageReference Include="Unquote" Version="5.0.0" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <PackageReference Include="FSharp.Core" Version="[5.0.2]" PrivateAssets="All" />
+
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\Idioms\Idioms.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="FsCheck" Version="2.16.6" />
+        <PackageReference Include="Unquote" Version="5.0.0" />
+        <PackageReference Include="FSharp.Core" Version="[5.0.2]" PrivateAssets="All" />
+
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\Idioms\Idioms.csproj" />
+        <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>

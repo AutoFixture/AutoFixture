@@ -331,7 +331,9 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<TypeWithConstField>()));
+#pragma warning disable xUnit2000 // This test asserts a literal value
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+#pragma warning restore xUnit2000
         }
 
         [Fact]
@@ -999,7 +1001,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
+        public async Task Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
             var fixture = new Fixture().Customize(new AutoNSubstituteCustomization { ConfigureMembers = true });
             var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
@@ -1017,7 +1019,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var task = new Task<IInterfaceWithMethod>(() => interfaceSource.Method());
             task.Start(scheduler);
 
-            var instance = task.Result;
+            var instance = await task.ConfigureAwait(true);
 
             // This test should not fail. Assertion is dummy and to specify that we use instance.
             Assert.NotNull(instance);
@@ -1039,7 +1041,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void WithConfigureMembers_DontFailIfAllTasksInlinedOnQueueByCurrentScheduler()
+        public async Task WithConfigureMembers_DontFailIfAllTasksInlinedOnQueueByCurrentScheduler()
         {
             var task = new Task(() =>
             {
@@ -1052,7 +1054,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             });
             task.Start(new InlineOnQueueTaskScheduler());
 
-            task.Wait();
+            await task.ConfigureAwait(true);
         }
 
         [Fact]
@@ -1121,7 +1123,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             // Act
             start.Release(degreeOfParallelism);
-            await Task.WhenAll(tasks).ConfigureAwait(false);
+            await Task.WhenAll(tasks).ConfigureAwait(true);
 
             // Assert
             substitute.Received(degreeOfParallelism).Method();

@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <Choose>
-    <When Condition="$(TargetFramework.StartsWith('netstandard')) Or $(TargetFramework.StartsWith('netcoreapp'))">
+    <When Condition="$(TargetFramework.StartsWith('net4')) == 'false'">
       <PropertyGroup>
         <DefineConstants>$(DefineConstants);SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS</DefineConstants>
       </PropertyGroup>
@@ -55,7 +55,7 @@
     </Otherwise>
   </Choose>
   <PropertyGroup>
-    <DefineConstants Condition=" '$(TargetFramework)'=='netstandard2.0' Or '$(TargetFramework)'=='netcoreapp2.1' ">$(DefineConstants);SYSTEM_NET_MAIL</DefineConstants>
+    <DefineConstants Condition=" $(TargetFramework.StartsWith('net4')) == 'false' ">$(DefineConstants);SYSTEM_NET_MAIL</DefineConstants>
   </PropertyGroup>
 
   <Choose>

@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;net5.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit3</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit3</AssemblyName>
     <RootNamespace>AutoFixture.NUnit3</RootNamespace>
@@ -16,8 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="[3.0.1,4.0.0)" Condition=" '$(TargetFramework)'=='net461' " />
-    <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
+    <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" />
+  </ItemGroup>
+
+  <!-- Dependencies added due to transitive vulnerabilities in NUnit -->
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,24 +4,26 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net462;net48;net5.0</TargetFrameworks>
     <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixtureUnitTest</AssemblyName>
   </PropertyGroup>
 
   <Choose>
-    <When Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+    <When Condition="'$(TargetFramework)'=='net462'">
       <ItemGroup>
         <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-          <SetTargetFramework>TargetFramework=netstandard2.1</SetTargetFramework>
+          <SetTargetFramework>TargetFramework=net462</SetTargetFramework>
           <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
         </ProjectReference>
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
       </ItemGroup>
     </When>
-    <When Condition="'$(TargetFramework)'=='net461'">
+    <When Condition="'$(TargetFramework)'=='net48'">
       <ItemGroup>
         <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-          <SetTargetFramework>TargetFramework=net461</SetTargetFramework>
+          <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
           <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
         </ProjectReference>
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
@@ -30,12 +32,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-          <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-          <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
-        </ProjectReference>
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>

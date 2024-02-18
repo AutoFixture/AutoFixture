@@ -278,7 +278,9 @@ namespace AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithConstField>>()));
+#pragma warning disable xUnit2000 // This test asserts the value of a literal or constant
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+#pragma warning restore xUnit2000
         }
 
         [Fact]

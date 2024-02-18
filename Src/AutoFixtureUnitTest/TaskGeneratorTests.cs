@@ -72,8 +72,12 @@ namespace AutoFixtureUnitTest
             var frozenInt = fixture.Freeze<int>();
             // Act
             var task = (Task<int>)sut.Create(request, context);
+
             // Assert
+            Assert.Equal(TaskStatus.RanToCompletion, task.Status);
+#pragma warning disable xUnit1031 // Test asserts the task is completed and the result is accessible synchronously
             Assert.Equal(frozenInt, task.Result);
+#pragma warning restore xUnit1031
         }
 
         [Fact]

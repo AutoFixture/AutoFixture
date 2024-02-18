@@ -430,7 +430,9 @@ namespace AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             // Act & Assert
             Assert.Null(Record.Exception(() => fixture.Create<Mock<TypeWithConstField>>()));
+#pragma warning disable xUnit2000 // This test asserts a literal value
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+#pragma warning restore xUnit2000
         }
 
         [Fact]
@@ -489,7 +491,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             Assert.Equal(frozenValue, callResult);
         }
 
-#if FIXED_DELEGATE_OUT
         [Fact]
         public void WithGenerateDelegatesAndConfigureMembers_ShouldReturnValueForMethodWithOut()
         {
@@ -508,7 +509,6 @@ namespace AutoFixture.AutoMoq.UnitTest
             Assert.Equal(frozenString, callResult);
             Assert.Equal(frozenInt, outResult);
         }
-#endif
 
         [Fact]
         public void WithGenerateDelegateAndConfigureMembers_DelegatesWithRefMethodsAreNotConfigured()

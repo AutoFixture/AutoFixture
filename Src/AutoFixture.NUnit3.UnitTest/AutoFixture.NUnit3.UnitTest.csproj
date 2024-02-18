@@ -3,23 +3,36 @@
   <Import Project="..\Common.Test.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net462;net48;net5.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit3.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit3.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.NUnit3.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="[3.0.1]" Condition=" '$(TargetFramework)'=='net461' " />
-    <PackageReference Include="NUnit" Version="[3.10.1]" Condition=" '$(TargetFramework)'=='netcoreapp2.1' " />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.3.0"/>
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
-    <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj" />
-    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(TargetFramework)'=='net48'">
+      <ItemGroup>
+        <PackageReference Include="NUnit" Version="[3.14.0]" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="NUnit" Version="[3.14.0]" />
+
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />

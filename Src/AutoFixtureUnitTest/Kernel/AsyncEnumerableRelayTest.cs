@@ -109,7 +109,7 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Assert
             var actual = await Assert.IsAssignableFrom<IAsyncEnumerable<int>>(result)
-                .ToListAsync().ConfigureAwait(false);
+                .ToListAsync().ConfigureAwait(true);
             Assert.Equal(enumerable, actual);
         }
 
@@ -157,7 +157,7 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Assert
             var actual = await Assert.IsAssignableFrom<IAsyncEnumerable<int>>(result)
-                .ToListAsync().ConfigureAwait(false);
+                .ToListAsync().ConfigureAwait(true);
             Assert.Equal(enumerable.OfType<int>(), actual);
         }
     }

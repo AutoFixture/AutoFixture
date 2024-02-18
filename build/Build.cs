@@ -3,7 +3,6 @@ using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -17,7 +16,6 @@ using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
-[CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
 [DotNetVerbosityMapping]
 [GitHubActions(
@@ -27,7 +25,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     OnPullRequestBranches = new[] { MasterBranch, ReleaseBranch },
     PublishArtifacts = false,
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) },
-    ImportGitHubTokenAs = nameof(GitHubToken))]
+    EnableGitHubToken = true)]
 [GitHubActions(
     "release",
     GitHubActionsImage.WindowsLatest,
@@ -35,7 +33,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     OnPushTags = new[] { "v*" },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
-    ImportGitHubTokenAs = nameof(GitHubToken),
+    EnableGitHubToken = true,
     ImportSecrets = new[] { Secrets.NuGetApiKey })]
 partial class Build : NukeBuild
 {
@@ -139,7 +137,7 @@ partial class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetResultsDirectory(TestResultsDirectory)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
-                .SetLogger("trx")
+                .SetLoggers("trx")
                 .SetProcessArgumentConfigurator(a => a
                     .Add("/p:CheckEolTargetFramework=false")
                     .Add("-- RunConfiguration.DisableAppDomain=true")
@@ -159,7 +157,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(_ => _
-                .SetFramework("netcoreapp2.1")
+                .SetFramework("net5.0")
                 .SetAssemblyFilters("-TestTypeFoundation*")
                 .SetReports(TestResultsDirectory / "**" / "coverage.cobertura.xml")
                 .SetTargetDirectory(ReportsDirectory)

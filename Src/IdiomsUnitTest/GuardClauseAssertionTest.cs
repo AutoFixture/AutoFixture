@@ -15,7 +15,9 @@ namespace AutoFixture.IdiomsUnitTest
 {
     [SuppressMessage("ReSharper", "UnusedMember.Local", Justification = "Used via reflection.")]
     [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Required for testing.")]
+#pragma warning disable SA1601 // This is a test class, so it's OK to have unannotated public members
     public partial class GuardClauseAssertionTest
+#pragma warning restore SA1601
     {
         [Fact]
         public void SutIsIdiomaticAssertion()
@@ -440,7 +442,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public IEnumerable<Guid> GetValues(Guid someGuid)
             {
-                if (someGuid == null)
+                if (someGuid == default)
                 {
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
@@ -457,7 +459,7 @@ namespace AutoFixture.IdiomsUnitTest
         {
             public IEnumerator<Guid> GetValues(Guid someGuid)
             {
-                if (someGuid == null)
+                if (someGuid == default)
                 {
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
