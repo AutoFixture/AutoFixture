@@ -34,8 +34,10 @@ namespace AutoFixture.Idioms
 
         public override int GetHashCode()
         {
-            return this.Name.ToUpperInvariant().GetHashCode() ^
-                this.Type.GetHashCode();
+            HashCode hashCode = default;
+            hashCode.Add(this.Type);
+            hashCode.Add(this.Name.ToUpperInvariant());
+            return hashCode.ToHashCode();
         }
     }
 }

@@ -319,7 +319,11 @@ namespace AutoFixture.Idioms
 
             private string GetBaseTypeName()
             {
+#if NET5_0_OR_GREATER
+                return this.baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty, StringComparison.OrdinalIgnoreCase);
+#else
                 return this.baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty);
+#endif
             }
 
             private void ImplementDefaultConstructor()
