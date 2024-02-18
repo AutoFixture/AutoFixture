@@ -57,7 +57,4 @@
     </Otherwise>
   </Choose>
 
-  <ItemGroup>
-  </ItemGroup>
-
 </Project>

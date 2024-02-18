@@ -3,7 +3,7 @@
   <Import Project="..\Common.FSharp.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;net5.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms.FsCheck</AssemblyTitle>
     <AssemblyName>AutoFixture.Idioms.FsCheck</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheck</RootNamespace>
@@ -32,7 +32,7 @@
   <ItemGroup>
     <PackageReference Include="FsCheck" Version="[2.14.0,3.0.0)" />
     <PackageReference Include="FSharp.Core" Version="4.2.3" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" Condition="'$(TargetFramework)'=='net462' Or '$(TargetFramework)'=='netstandard2.0'" />
   </ItemGroup>
 
   <ItemGroup>
