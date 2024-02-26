@@ -193,6 +193,12 @@ namespace AutoFixture.Dsl
                 }));
         }
 
+        /// <inheritdoc />
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
+        {
+            return this.With(propertyPicker, (IFixture f) => f.Build<TProperty>().FromFactory(builder).Create());
+        }
+
         private IPostprocessComposer<T> WithCommand<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenCommand command)
         {
             ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);

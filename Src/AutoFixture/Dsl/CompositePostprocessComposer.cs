@@ -82,6 +82,13 @@ namespace AutoFixture.Dsl
         }
 
         /// <inheritdoc />
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
+        {
+            return new CompositePostprocessComposer<T>(from c in this.Composers
+                                                       select c.With(propertyPicker, builder));
+        }
+
+        /// <inheritdoc />
         public IPostprocessComposer<T> WithAutoProperties()
         {
             return new CompositePostprocessComposer<T>(from c in this.Composers

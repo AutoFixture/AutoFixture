@@ -218,6 +218,18 @@ namespace AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void WithSpecimenBuilderReturnsCorrectResult()
+        {
+            // Arrange
+            var sut = new NullComposer<PropertyHolder<object>>();
+            var dummyFactory = new DelegatingSpecimenBuilder();
+            // Act
+            var result = sut.With(x => x.Property, dummyFactory);
+            // Assert
+            Assert.Same(sut, result);
+        }
+
+        [Fact]
         public void WithAutoPropertiesReturnsCorrectResult()
         {
             // Arrange

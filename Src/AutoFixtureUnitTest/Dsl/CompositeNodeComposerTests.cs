@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
@@ -527,6 +528,35 @@ namespace AutoFixtureUnitTest.Dsl
                     (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, valueFactory),
                     SpecimenBuilderNodeFactory.CreateComposer<Version>(),
                     (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, valueFactory),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithSpecimenBuilderReturnsCorrectResult(string value)
+        {
+            // Arrange
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<PropertyHolder<string>>(node);
+            var builder = new ElementsBuilder<string>(value);
+            // Act
+            var actual = sut.With(x => x.Property, builder);
+            // Assert
+            var expected = new CompositeNodeComposer<PropertyHolder<string>>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, builder),
+                    SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, builder),
                     new DelegatingSpecimenBuilder()));
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
