@@ -612,7 +612,7 @@ namespace AutoFixtureUnitTest.Dsl
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
         }
-        
+
         [Fact]
         public void WithSpecimenBuilderReturnsCorrectResult()
         {

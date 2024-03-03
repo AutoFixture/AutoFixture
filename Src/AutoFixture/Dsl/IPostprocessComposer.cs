@@ -105,6 +105,7 @@ namespace AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
         /// post-processing of created specimens.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "With", Justification = "It's a part of the public API we currently have.")]
         IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder);
 
         /// <summary>
