@@ -73,7 +73,6 @@ namespace AutoFixture.Kernel
             this.ValueCreator = valueCreator;
         }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
         /// the supplied property picker expression and a specimen builder.
