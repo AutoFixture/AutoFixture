@@ -642,7 +642,7 @@ namespace AutoFixtureUnitTest.Dsl
                                             pi,
                                             new MemberInfoEqualityComparer()))),
                                 new FalseRequestSpecification()),
-                            new BindingCommand<PropertyHolder<string>, string>(x => x.Property, ctx => valueFactory((string)ctx.Resolve(typeof(string)))),
+                            new BindingCommand<PropertyHolder<string>, string>(x => x.Property, builder),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<string>)),
                                 new ExactTypeSpecification(typeof(PropertyHolder<string>)))),

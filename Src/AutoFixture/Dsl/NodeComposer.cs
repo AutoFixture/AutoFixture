@@ -196,7 +196,9 @@ namespace AutoFixture.Dsl
         /// <inheritdoc />
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
         {
-            return this.With(propertyPicker, (IFixture f) => f.Build<TProperty>().FromFactory(builder).Create());
+            return this.WithCommand(
+                propertyPicker,
+                new BindingCommand<T, TProperty>(propertyPicker, builder));
         }
 
         private IPostprocessComposer<T> WithCommand<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenCommand command)

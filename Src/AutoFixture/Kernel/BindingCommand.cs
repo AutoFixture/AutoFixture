@@ -73,6 +73,25 @@ namespace AutoFixture.Kernel
             this.ValueCreator = valueCreator;
         }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
+        /// the supplied property picker expression and a specimen builder.
+        /// </summary>
+        /// <param name="propertyPicker">An expression that identifies a property or field.</param>
+        /// <param name="builder">
+        /// A specimen builder that creates a value that will be assigned to the property or field
+        /// identified by <paramref name="propertyPicker"/>.
+        /// </param>
+        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
+        {
+            if (propertyPicker is null) throw new ArgumentNullException(nameof(propertyPicker));
+            if (builder is null) throw new ArgumentNullException(nameof(builder));
+
+            this.Member = propertyPicker.GetWritableMember().Member;
+            this.ValueCreator = c => (TProperty)builder.Create(typeof(TProperty), c);
+        }
+
         /// <summary>
         /// Gets the member identified by the expression supplied through the constructor.
         /// </summary>
