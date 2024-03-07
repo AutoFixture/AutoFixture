@@ -178,7 +178,7 @@ namespace AutoFixture.Dsl
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
-                    (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, (IFixture f) => f.Build<TProperty>().FromFactory(builder).Create()),
+                    (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, builder),
                 when: n => n is NodeComposer<T>);
         }
 
