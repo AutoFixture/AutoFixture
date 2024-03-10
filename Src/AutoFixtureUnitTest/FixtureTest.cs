@@ -1947,6 +1947,24 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void RegisterTypeWithBuilderCanResolveValuesFromUnderlyingContext()
+        {
+            // Arrange
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => c.Resolve(r)
+            };
+            var sut = new Fixture();
+            var frozenValue = sut.Freeze<string>();
+            // Act
+            sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, builder));
+            var result = sut.Create<PropertyHolder<string>>();
+
+            // Assert
+            Assert.Equal(frozenValue, result.Property);
+        }
+
+        [Fact]
         public void RegisterTypeWithDefaultPrimitiveBuilderSetsPropertyValueCorrectly()
         {
             // Arrange
