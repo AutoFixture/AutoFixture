@@ -198,7 +198,8 @@ namespace AutoFixture.Dsl
         {
             return this.WithCommand(
                 propertyPicker,
-                new BindingCommand<T, TProperty>(propertyPicker, builder));
+                new BindingCommand<T, TProperty>(propertyPicker,
+                    c => (TProperty)builder.Create(typeof(TProperty), c)));
         }
 
         private IPostprocessComposer<T> WithCommand<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenCommand command)

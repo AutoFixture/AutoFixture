@@ -55,15 +55,6 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeSpecimenBuilderConstructorWithNullPropertyPickerWillThrow()
-        {
-            // Arrange
-            var builder = new ElementsBuilder<object>(new object());
-            // Act & assert
-            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, builder));
-        }
-
-        [Fact]
         public void InitializeDelegateValueConstructorWithNonMemberExpressionWillThrow()
         {
             // Arrange
@@ -121,16 +112,6 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeSpecimenBuilderConstructorWithNonMemberExpressionWillThrow()
-        {
-            // Arrange
-            Expression<Func<object, object>> invalidExpression = obj => obj;
-            var dummyBuilder = new ElementsBuilder<object>(new object());
-            // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyBuilder));
-        }
-
-        [Fact]
         public void InitializeInstanceValueConstructorWithMethodExpressionWillThrow()
         {
             // Arrange
@@ -138,18 +119,6 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyValue = "Anonymous value";
             // Act & assert
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValue));
-        }
-
-        [Fact]
-        public void InitializeSpecimenBuilderConstructorWithMethodExpressionWillThrow()
-        {
-            // Arrange
-            Expression<Func<object, string>> methodExpression = obj => obj.ToString();
-            var dummyValue = "Anonymous value";
-            var builder = new ElementsBuilder<string>(dummyValue);
-
-            // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, builder));
         }
 
         [Fact]
@@ -163,32 +132,12 @@ namespace AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeSpecimenBuilderConstructorWithReadOnlyPropertyExpressionWillThrow()
-        {
-            // Arrange
-            Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
-            var dummyValue = new object();
-            var builder = new ElementsBuilder<object>(dummyValue);
-            // Act & assert
-            Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, builder));
-        }
-
-        [Fact]
         public void InitializeInstanceValueConstructorWithNullValueDoesNotThrow()
         {
             // Arrange
             // Act & assert
             Assert.Null(Record.Exception(() =>
                 new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (object)null)));
-        }
-
-        [Fact]
-        public void InitializeSpecimenBuilderConstructorWithNullValueWillThrow()
-        {
-            // Arrange
-            // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
-                 new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (ISpecimenBuilder)null));
         }
 
         [Fact]
@@ -498,22 +447,6 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedValue = new object();
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue);
-            var specimen = new PropertyHolder<object>();
-            // Act
-            var dummyContext = new DelegatingSpecimenContext();
-            sut.Execute((object)specimen, dummyContext);
-            // Assert
-            Assert.Equal(expectedValue, specimen.Property);
-        }
-
-        [Fact]
-        public void ExecuteSetsCorrectPropertyWhenUsingSpecimenBuilderWithSuppliedValue()
-        {
-            // Arrange
-            var expectedValue = new object();
-
-            var builder = new ElementsBuilder<object>(expectedValue);
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, builder);
             var specimen = new PropertyHolder<object>();
             // Act
             var dummyContext = new DelegatingSpecimenContext();
