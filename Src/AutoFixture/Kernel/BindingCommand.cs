@@ -106,14 +106,12 @@ namespace AutoFixture.Kernel
 
             var bindingValue = this.ValueCreator(context);
 
-            var pi = this.Member as PropertyInfo;
-            if (pi != null)
+            if (this.Member is PropertyInfo pi)
             {
                 pi.SetValue(specimen, bindingValue, null);
             }
 
-            var fi = this.Member as FieldInfo;
-            if (fi != null)
+            if (this.Member is FieldInfo fi)
             {
                 fi.SetValue(specimen, bindingValue);
             }
@@ -140,7 +138,7 @@ namespace AutoFixture.Kernel
         private TProperty CreateAnonymousValue(ISpecimenContext container)
         {
             var bindingValue = container.Resolve(this.Member);
-            if ((bindingValue != null) && !(bindingValue is TProperty))
+            if (bindingValue is not null and not TProperty)
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     "The specimen created for assignment is not compatible with {0}.", typeof(TProperty)));
@@ -167,8 +165,7 @@ namespace AutoFixture.Kernel
 
             var bindingValue = this.ValueCreator(context);
 
-            var pi = this.Member as PropertyInfo;
-            if (pi != null)
+            if (this.Member is PropertyInfo pi)
             {
                 TrySetValue(
                     specimen,
@@ -177,8 +174,7 @@ namespace AutoFixture.Kernel
                     (s, v) => pi.SetValue(s, v, null));
             }
 
-            var fi = this.Member as FieldInfo;
-            if (fi != null)
+            if (this.Member is FieldInfo fi)
             {
                 TrySetValue(
                     specimen,
