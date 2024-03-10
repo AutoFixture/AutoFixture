@@ -1915,6 +1915,102 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
+        public void RegisterTypeWithElementsBuilderSetsPropertyValueCorrectly()
+        {
+            // Arrange
+            var values = new[] { "one", "two", "three" };
+            var builder = new ElementsBuilder<string>(values);
+            var sut = new Fixture();
+            // Act
+            sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, builder));
+            var result = sut.CreateMany<PropertyHolder<string>>();
+
+            // Assert
+            Assert.All(result, result =>
+            {
+                Assert.Contains(result.Property, values);
+            });
+        }
+
+        [Fact]
+        public void RegisterTypeWithFixedPropertyBuilderSetsPropertyValueCorrectly()
+        {
+            // Arrange
+            var builder = new FixedBuilder("hello-world");
+            var sut = new Fixture();
+            // Act
+            sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, builder));
+            var result = sut.Create<PropertyHolder<string>>();
+
+            // Assert
+            Assert.Equal("hello-world", result.Property);
+        }
+
+        [Fact]
+        public void RegisterTypeWithBuilderCanResolveValuesFromUnderlyingContext()
+        {
+            // Arrange
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => c.Resolve(r)
+            };
+            var sut = new Fixture();
+            var frozenValue = sut.Freeze<string>();
+            // Act
+            sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, builder));
+            var result = sut.Create<PropertyHolder<string>>();
+
+            // Assert
+            Assert.Equal(frozenValue, result.Property);
+        }
+
+        [Fact]
+        public void RegisterTypeWithDefaultPrimitiveBuilderSetsPropertyValueCorrectly()
+        {
+            // Arrange
+            var builder = new CompositeSpecimenBuilder(new DefaultPrimitiveBuilders());
+            var sut = new Fixture();
+            // Act
+            sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, builder));
+            var result = sut.Create<PropertyHolder<string>>();
+
+            // Assert
+            Assert.True(Guid.TryParse(result.Property, out var _));
+        }
+
+        [Fact]
+        public void RegisterTypeWithBuilderReturningIncorrectTypeThrowsCastException()
+        {
+            // Arrange
+            var builder = new FixedBuilder(42);
+            var sut = new Fixture();
+
+            // Act
+            sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, builder));
+
+            // Assert
+            var exception = Record.Exception(() => sut.Create<PropertyHolder<string>>());
+            Assert.IsAssignableFrom<ObjectCreationException>(exception);
+            Assert.IsType<InvalidCastException>(exception.InnerException);
+        }
+
+        [Fact]
+        public void RegisteringTypeWithPropertyBuilderRespectsOmittingAutoProperties()
+        {
+            // Arrange
+            var builder = new FixedBuilder("some-string");
+            var sut = new Fixture();
+
+            // Act
+            sut.Customize<DoublePropertyHolder<string, string>>(f => f.With(ph => ph.Property1, builder).OmitAutoProperties());
+            var actual = sut.Create<DoublePropertyHolder<string, string>>();
+
+            // Assert
+            Assert.Equal("some-string", actual.Property1);
+            Assert.Null(actual.Property2);
+        }
+
+        [Fact]
         public void CreateNestedTypeWillPopulateNestedProperty()
         {
             // Arrange

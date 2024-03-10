@@ -93,6 +93,22 @@ namespace AutoFixture.Dsl
         IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory);
 
         /// <summary>
+        /// Registers that a writable property or field should be assigned generated value as a part of specimen post-processing.
+        /// </summary>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will have <paramref name="builder"/> result assigned.
+        /// </param>
+        /// <param name="builder">
+        /// The specimen builder to assign to the property or field identified by <paramref name="propertyPicker"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
+        /// post-processing of created specimens.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "With", Justification = "It's a part of the public API we currently have.")]
+        IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder);
+
+        /// <summary>
         /// Enables auto-properties for a type of specimen.
         /// </summary>
         /// <returns>

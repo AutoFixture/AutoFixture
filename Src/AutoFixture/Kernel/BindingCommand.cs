@@ -30,7 +30,7 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker)
         {
-            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
+            if (propertyPicker is null) throw new ArgumentNullException(nameof(propertyPicker));
 
             this.Member = propertyPicker.GetWritableMember().Member;
             this.ValueCreator = this.CreateAnonymousValue;
@@ -43,15 +43,11 @@ namespace AutoFixture.Kernel
         /// </summary>
         /// <param name="propertyPicker">An expression that identifies a property or field.</param>
         /// <param name="propertyValue">
-        /// The value to assign to the property or field identified by
-        /// <paramref name="propertyPicker"/>.
+        /// The value to assign to the property or field identified by <paramref name="propertyPicker"/>.
         /// </param>
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, TProperty propertyValue)
+            : this(propertyPicker, _ => propertyValue)
         {
-            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
-
-            this.Member = propertyPicker.GetWritableMember().Member;
-            this.ValueCreator = c => propertyValue;
         }
 
         /// <summary>
@@ -66,8 +62,8 @@ namespace AutoFixture.Kernel
         /// </param>
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContext, TProperty> valueCreator)
         {
-            if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
-            if (valueCreator == null) throw new ArgumentNullException(nameof(valueCreator));
+            if (propertyPicker is null) throw new ArgumentNullException(nameof(propertyPicker));
+            if (valueCreator is null) throw new ArgumentNullException(nameof(valueCreator));
 
             this.Member = propertyPicker.GetWritableMember().Member;
             this.ValueCreator = valueCreator;
@@ -105,19 +101,17 @@ namespace AutoFixture.Kernel
         [Obsolete("This method is no longer used and will be removed in future versions. Please use the Execute(object, ISpecimenContext) overload instead.")]
         public void Execute(T specimen, ISpecimenContext context)
         {
-            if (specimen == null) throw new ArgumentNullException(nameof(specimen));
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (specimen is null) throw new ArgumentNullException(nameof(specimen));
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
             var bindingValue = this.ValueCreator(context);
 
-            var pi = this.Member as PropertyInfo;
-            if (pi != null)
+            if (this.Member is PropertyInfo pi)
             {
                 pi.SetValue(specimen, bindingValue, null);
             }
 
-            var fi = this.Member as FieldInfo;
-            if (fi != null)
+            if (this.Member is FieldInfo fi)
             {
                 fi.SetValue(specimen, bindingValue);
             }
@@ -135,7 +129,7 @@ namespace AutoFixture.Kernel
         [Obsolete("This method is no longer used and will be removed in future versions. Please use this.Member property for specification instead.")]
         public bool IsSatisfiedBy(object request)
         {
-            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (request is null) throw new ArgumentNullException(nameof(request));
 
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
             return comparer.Equals(this.Member, request);
@@ -144,11 +138,12 @@ namespace AutoFixture.Kernel
         private TProperty CreateAnonymousValue(ISpecimenContext container)
         {
             var bindingValue = container.Resolve(this.Member);
-            if ((bindingValue != null) && !(bindingValue is TProperty))
+            if (bindingValue is not null and not TProperty)
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     "The specimen created for assignment is not compatible with {0}.", typeof(TProperty)));
             }
+
             return (TProperty)bindingValue;
         }
 
@@ -165,13 +160,12 @@ namespace AutoFixture.Kernel
         /// </remarks>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (specimen == null) throw new ArgumentNullException(nameof(specimen));
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (specimen is null) throw new ArgumentNullException(nameof(specimen));
+            if (context is null) throw new ArgumentNullException(nameof(context));
 
             var bindingValue = this.ValueCreator(context);
 
-            var pi = this.Member as PropertyInfo;
-            if (pi != null)
+            if (this.Member is PropertyInfo pi)
             {
                 TrySetValue(
                     specimen,
@@ -180,8 +174,7 @@ namespace AutoFixture.Kernel
                     (s, v) => pi.SetValue(s, v, null));
             }
 
-            var fi = this.Member as FieldInfo;
-            if (fi != null)
+            if (this.Member is FieldInfo fi)
             {
                 TrySetValue(
                     specimen,
@@ -201,11 +194,8 @@ namespace AutoFixture.Kernel
             {
                 setValue(specimen, value);
             }
-            catch (ArgumentException)
+            catch (ArgumentException) when (value is IConvertible)
             {
-                if (!(value is IConvertible))
-                    throw;
-
                 setValue(
                     specimen,
                     Convert.ChangeType(

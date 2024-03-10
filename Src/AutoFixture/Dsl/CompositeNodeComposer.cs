@@ -174,6 +174,15 @@ namespace AutoFixture.Dsl
         }
 
         /// <inheritdoc />
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
+        {
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, builder),
+                when: n => n is NodeComposer<T>);
+        }
+
+        /// <inheritdoc />
         public IPostprocessComposer<T> WithAutoProperties()
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(

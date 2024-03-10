@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Text;
+using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
@@ -600,6 +600,48 @@ namespace AutoFixtureUnitTest.Dsl
                                             new MemberInfoEqualityComparer()))),
                                 new FalseRequestSpecification()),
                             new BindingCommand<PropertyHolder<string>, string>(x => x.Property, ctx => valueFactory((string)ctx.Resolve(typeof(string)))),
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                                new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                        new ExactTypeSpecification(typeof(PropertyHolder<string>)))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+        }
+
+        [Fact]
+        public void WithSpecimenBuilderReturnsCorrectResult()
+        {
+            // Arrange
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>();
+            var pi = typeof(PropertyHolder<string>).GetProperty("Property");
+            Func<string, string> valueFactory = v => v;
+            var builder = new ElementsBuilder<string>(Guid.NewGuid().ToString());
+            // Act
+            var actual = sut.With(x => x.Property, builder);
+            // Assert
+            var expected = new NodeComposer<PropertyHolder<string>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor(
+                            new Postprocessor(
+                                new NoSpecimenOutputGuard(
+                                    new MethodInvoker(
+                                        new ModestConstructorQuery()),
+                                    new InverseRequestSpecification(
+                                        new SeedRequestSpecification(
+                                            typeof(PropertyHolder<string>)))),
+                                new AutoPropertiesCommand(
+                                    typeof(PropertyHolder<string>),
+                                    new InverseRequestSpecification(
+                                        new EqualRequestSpecification(
+                                            pi,
+                                            new MemberInfoEqualityComparer()))),
+                                new FalseRequestSpecification()),
+                            new BindingCommand<PropertyHolder<string>, string>(x => x.Property, c => (string)builder.Create(typeof(string), c)),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<string>)),
                                 new ExactTypeSpecification(typeof(PropertyHolder<string>)))),

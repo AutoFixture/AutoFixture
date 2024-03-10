@@ -61,6 +61,9 @@ namespace AutoFixtureUnitTest.Dsl
         public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory) =>
             this.OnWithOverloadFactory(propertyPicker, valueFactory);
 
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder) =>
+            this.OnWithOverloadFactory(propertyPicker, builder);
+
         public IPostprocessComposer<T> WithAutoProperties() => this.OnWithAutoProperties();
 
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker) =>

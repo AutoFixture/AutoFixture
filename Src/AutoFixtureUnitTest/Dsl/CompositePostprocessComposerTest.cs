@@ -182,6 +182,28 @@ namespace AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void WithSpecimenBuilderReturnsCorrectResult()
+        {
+            // Arrange
+            Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
+            var builder = new AutoFixture.ElementsBuilder<object>(new object());
+
+            var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<PropertyHolder<object>>()).ToArray();
+            var initialComposers = (from c in expectedComposers
+                                    select new DelegatingComposer<PropertyHolder<object>>
+                                    {
+                                        OnWithOverloadFactory = (f, vf) =>
+                                            f == expectedExpression && object.Equals(vf, builder) ? c : new DelegatingComposer<PropertyHolder<object>>()
+                                    }).ToArray();
+            var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
+            // Act
+            var result = sut.With(expectedExpression, builder);
+            // Assert
+            var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
+            Assert.True(expectedComposers.SequenceEqual(composite.Composers));
+        }
+
+        [Fact]
         public void WithAutoPropertiesReturnsCorrectResult()
         {
             // Arrange
