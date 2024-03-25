@@ -3,7 +3,7 @@
   <Import Project="..\Common.FSharp.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;net5.0;net6.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms.FsCheck</AssemblyTitle>
     <AssemblyName>AutoFixture.Idioms.FsCheck</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheck</RootNamespace>
@@ -37,7 +37,7 @@
   <!-- Dependencies added due to transitive vulnerabilities in FsCheck -->
   <ItemGroup>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" Condition="'$(TargetFramework)'=='net5.0'" />
+    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" Condition="'$(TargetFramework)'=='net5.0' Or '$(TargetFramework)'=='net6.0'" />
   </ItemGroup>
 
   <ItemGroup>
