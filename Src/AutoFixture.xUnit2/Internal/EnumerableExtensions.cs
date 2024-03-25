@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AutoFixture.Xunit2
+namespace AutoFixture.Xunit2.Internal
 {
     internal static class EnumerableExtensions
     {
@@ -18,8 +18,10 @@ namespace AutoFixture.Xunit2
             Func<IEnumerable<T>, TResult> resultSelector)
         {
             var enumerators = sequences.Select(s => s.GetEnumerator()).ToList();
-            while (enumerators.All(e => e.MoveNext()))
+            while (enumerators.TrueForAll(e => e.MoveNext()))
+            {
                 yield return resultSelector(enumerators.Select(e => e.Current));
+            }
         }
 
         /// <summary>
@@ -35,8 +37,7 @@ namespace AutoFixture.Xunit2
             var position = 0;
             foreach (var sequence in sequences)
             {
-                var skipped = sequence.Skip(position);
-                foreach (var item in skipped)
+                foreach (var item in sequence.Skip(position))
                 {
                     position++;
                     yield return item;

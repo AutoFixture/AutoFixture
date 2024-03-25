@@ -12,15 +12,14 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void SutIsAttribute()
         {
-            // Arrange
-            // Act
+            // Arrange & Act
             var sut = new ModestAttribute();
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
 
         [Fact]
-        public void GetCustomizationFromNullParamterThrows()
+        public void GetCustomizationFromNullParameterThrows()
         {
             // Arrange
             var sut = new ModestAttribute();
@@ -34,9 +33,14 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var sut = new ModestAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
+            var parameter = typeof(TypeWithOverloadedMembers)
+            .GetMethod("DoSomething", new[] { typeof(object) })
+            ?.GetParameters()
+            .Single();
+
             // Act
             var result = sut.GetCustomization(parameter);
+
             // Assert
             var invoker = Assert.IsAssignableFrom<ConstructorCustomization>(result);
             Assert.Equal(parameter.ParameterType, invoker.TargetType);

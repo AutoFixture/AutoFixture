@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     internal class DelegatingFixture : IFixture
     {
@@ -58,7 +58,7 @@ namespace AutoFixture.Xunit2.UnitTest
 
         public IFixture Customize(ICustomization customization)
         {
-            return this.OnCustomize(customization);
+            return this.OnCustomize?.Invoke(customization);
         }
 
         public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)

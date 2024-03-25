@@ -8,7 +8,7 @@ namespace AutoFixture.Xunit2
     /// Theory to indicate that the parameter value should not have properties auto populated
     /// when the <see cref="IFixture"/> creates an instance of that type.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class NoAutoPropertiesAttribute : CustomizeAttribute
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace AutoFixture.Xunit2
         /// </exception>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
+            if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
             var targetType = parameter.ParameterType;
             return new NoAutoPropertiesCustomization(targetType);

@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using Xunit;
 
 namespace AutoFixture.Xunit2.UnitTest

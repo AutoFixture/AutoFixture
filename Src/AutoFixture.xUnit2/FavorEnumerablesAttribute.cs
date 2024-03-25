@@ -10,7 +10,7 @@ namespace AutoFixture.Xunit2
     /// Theory to indicate that the parameter value should be created using a constructor with one
     /// or more <see cref="IEnumerable{T}" /> arguments, if applicable.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class FavorEnumerablesAttribute : CustomizeAttribute
     {
         /// <summary>

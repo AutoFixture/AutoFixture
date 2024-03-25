@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace AutoFixture.Xunit2
@@ -8,7 +9,8 @@ namespace AutoFixture.Xunit2
     /// by the frozen specimen created for a parameter
     /// decorated with the <see cref="FrozenAttribute"/> attribute.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1714:FlagsEnumsShouldHavePluralNames", Justification = "This enumeration is designed to be used together with an attribute and is named to improve readability.")]
+    [SuppressMessage("Microsoft.Naming", "CA1714:FlagsEnumsShouldHavePluralNames",
+        Justification = "This enumeration is designed to be used together with an attribute and is named to improve readability.")]
     [Flags]
     public enum Matching
     {

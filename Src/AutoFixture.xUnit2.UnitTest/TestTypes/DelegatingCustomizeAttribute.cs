@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     internal class DelegatingCustomizeAttribute : CustomizeAttribute
     {

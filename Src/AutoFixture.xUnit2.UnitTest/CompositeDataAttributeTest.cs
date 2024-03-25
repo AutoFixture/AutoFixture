@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using Xunit;
 using Xunit.Sdk;
 

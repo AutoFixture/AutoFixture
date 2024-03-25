@@ -1,13 +1,13 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     internal class DelegatingSpecimenBuilder : ISpecimenBuilder
     {
         public DelegatingSpecimenBuilder()
         {
-            this.OnCreate = (r, c) => new object();
+            this.OnCreate = (_, _) => new object();
         }
 
         public object Create(object request, ISpecimenContext context)

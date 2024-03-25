@@ -33,10 +33,9 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var sut = new NoAutoPropertiesAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers)
-                .GetMethod("DoSomething", new[] { typeof(object) })
-                .GetParameters()
-                .Single();
+            var parameter = TypeWithOverloadedMembers
+                .GetDoSomethingMethod(typeof(object))
+                .GetParameters().Single();
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert
