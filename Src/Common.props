@@ -20,6 +20,9 @@
     <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
     <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
 
+    <!-- Setup static code analysis mode. -->
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+
     <!-- NuGet options -->
     <Authors>Mark Seemann,AutoFixture</Authors>
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
@@ -76,8 +79,7 @@
   </Choose>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>
 </Project>
