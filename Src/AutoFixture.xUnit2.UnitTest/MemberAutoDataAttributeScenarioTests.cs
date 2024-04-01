@@ -11,13 +11,13 @@ namespace AutoFixture.Xunit2.UnitTest
         [Theory]
         [MemberAutoData(nameof(GetSingleStringValueTestCases))]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetEmptyTestCases))]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestCases))]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringTestsFromArgument),
             parameters: "argument")]
         public void SingleStringValueTest(string value)
@@ -30,7 +30,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [Theory]
         [MemberAutoData(nameof(GetMultipleValueTestCases))]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetMultipleValueTestCases))]
         public void MultipleValueTest(string a, int b, decimal c)
         {
@@ -45,7 +45,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [Theory]
         [MemberAutoData(nameof(GetSingleStringValueTestCases))]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestCases))]
         public void FreezesUninjectedValues(
             string a, [Frozen] string b, string c,
@@ -94,7 +94,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [Theory]
         [MemberAutoData(nameof(GetStringValuesTestCases))]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringValuesTestCases))]
         public void DoesNotAlterTestCaseValuesWhenFrozen(
             [Frozen] string a, string b, string c)
@@ -111,7 +111,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [Theory]
         [MemberAutoData(nameof(GetStringValuesTestCases))]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringValuesTestCases))]
         public void LastInjectedValueIsFrozen(
             [Frozen] string a, [Frozen] string b, string c)
@@ -127,7 +127,7 @@ namespace AutoFixture.Xunit2.UnitTest
 
         [Theory]
         [MemberAutoData(
-            sourceType: typeof(TestTypeWithMethodData),
+            memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetTestWithComplexTypesCases))]
         public void InjectsComplexTypes(
             [Frozen] PropertyHolder<string> a,

@@ -18,7 +18,7 @@ namespace AutoFixture.Xunit.UnitTest
         [Theory, AutoData]
         public void AutoDataProvidesCorrectString(string text)
         {
-            Assert.True(text.StartsWith("text"));
+            Assert.True(text.StartsWith("text", StringComparison.Ordinal));
         }
 
         [Theory, AutoData]

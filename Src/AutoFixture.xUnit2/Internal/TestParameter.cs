@@ -52,6 +52,6 @@ namespace AutoFixture.Xunit2.Internal
             };
         }
 
-        public static TestParameter From(ParameterInfo parameterInfo) => new (parameterInfo);
+        public static TestParameter From(ParameterInfo parameterInfo) => new(parameterInfo);
     }
 }

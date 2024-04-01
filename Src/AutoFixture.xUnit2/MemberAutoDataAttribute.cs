@@ -39,11 +39,11 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
         /// </summary>
-        /// <param name="sourceType">The type declaring the source member.</param>
+        /// <param name="memberType">The type declaring the source member.</param>
         /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
         /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-        public MemberAutoDataAttribute(Type? sourceType, string memberName, params object[] parameters)
-            : this(() => new Fixture(), sourceType, memberName, parameters)
+        public MemberAutoDataAttribute(Type? memberType, string memberName, params object[] parameters)
+            : this(() => new Fixture(), memberType, memberName, parameters)
         {
         }
 
@@ -82,7 +82,7 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Gets the type of the class that provides the data.
         /// </summary>
-        public Type? MemberType { get; set; }
+        public Type? MemberType { get; }
 
         /// <summary>
         /// Gets the member name.

@@ -8,4 +8,7 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "AutoFixture.DataAnnotations", Justification="Eventually the number of types on this namespace will increase.")]
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "AutoFixture.DataAnnotations", Justification = "Eventually the number of types on this namespace will increase.")]
+[assembly: SuppressMessage("Security", "CA5394:Do not use insecure randomness", Justification = "AutoFixture is not supposed to be used for generating security sensitive data.")]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using AutoFixture.Kernel;
@@ -40,6 +41,8 @@ namespace AutoFixture.Idioms
         /// method is an override of the <see cref="object.Equals(object)"/>.
         /// </summary>
         /// <param name="methodInfo">The Equals method to verify.</param>
+        [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code",
+            Justification = "This code asserts the result of the Equals method implementation.")]
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));

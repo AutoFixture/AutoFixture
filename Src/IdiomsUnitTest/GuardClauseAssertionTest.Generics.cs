@@ -51,7 +51,7 @@ namespace AutoFixture.IdiomsUnitTest
                     .SelectMany(t =>
                         t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
                     // Skip getters and setters
-                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
+                    .Where(m => !m.Name.StartsWith("get_", StringComparison.Ordinal) && !m.Name.StartsWith("set_", StringComparison.Ordinal))
                     .Select(m => new MemberRef<MethodInfo>(m)));
 
         [Theory, MemberData(nameof(MethodsOnUnguardedOpenGenericTypes))]
@@ -117,7 +117,7 @@ namespace AutoFixture.IdiomsUnitTest
                     .SelectMany(t =>
                         t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
                     // Skip getters and setters
-                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
+                    .Where(m => !m.Name.StartsWith("get_", StringComparison.Ordinal) && !m.Name.StartsWith("set_", StringComparison.Ordinal))
                     .Select(m => new MemberRef<MethodInfo>(m)));
 
         [Theory, MemberData(nameof(MethodsOnGuardedOpenGenericTypes))]
@@ -443,7 +443,9 @@ namespace AutoFixture.IdiomsUnitTest
         public class ParameterizedConstructorTestType
         {
             // to test duplicating with the SpecimenBuilder field of a dummy type.
+#pragma warning disable CA1805
             public static ISpecimenBuilder SpecimenBuilder = null;
+#pragma warning restore CA1805
 
             public ParameterizedConstructorTestType(object argument1, string argument2)
             {

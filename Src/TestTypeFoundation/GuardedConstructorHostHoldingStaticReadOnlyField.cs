@@ -5,11 +5,11 @@ namespace TestTypeFoundation
     public class GuardedConstructorHostHoldingStaticReadOnlyField<TItem, TStaticField>
         where TItem : class
     {
-        public static readonly TStaticField Field = default(TStaticField);
+        public static readonly TStaticField Field;
 
         public GuardedConstructorHostHoldingStaticReadOnlyField(TItem item)
         {
-            if (item == null)
+            if (item is null)
             {
                 throw new ArgumentNullException(nameof(item));
             }
