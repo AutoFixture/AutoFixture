@@ -7,7 +7,6 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)CodeAnalysis.Empty.ruleset</CodeAnalysisRuleSet>
 
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AutoFixture.snk</AssemblyOriginatorKeyFile>
@@ -21,6 +20,7 @@
     <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
 
     <!-- Setup static code analysis mode. -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
 
     <!-- NuGet options -->
@@ -33,6 +33,11 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
+
+  <ItemGroup>
+    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/AutoFixture.globalconfig" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
   </ItemGroup>
@@ -73,7 +78,6 @@
         <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.AutoFixture.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
   </Choose>
