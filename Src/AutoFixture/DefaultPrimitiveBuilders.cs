@@ -31,6 +31,9 @@ namespace AutoFixture
             yield return new RandomRangedNumberGenerator();
             yield return new RegularExpressionGenerator();
             yield return new RandomDateTimeSequenceGenerator();
+#if NET6_0_OR_GREATER
+            yield return new RandomDateOnlySequenceGenerator();
+#endif
             yield return new BooleanSwitch();
             yield return new GuidGenerator();
             yield return new TypeGenerator();
