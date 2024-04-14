@@ -68,6 +68,7 @@ namespace AutoFixtureUnitTest
         public DateTime? NullableDateTime { get; set; }
 #if NET6_0_OR_GREATER
         public DateOnly? NullableDateOnly { get; set; }
+        public TimeOnly? NullableTimeOnly { get; set; }
 #endif
         public decimal? NullableDecimal { get; set; }
         public double? NullableDouble { get; set; }

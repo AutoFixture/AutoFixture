@@ -38,6 +38,7 @@ namespace AutoFixtureUnitTest
                     typeof(RandomDateTimeSequenceGenerator),
 #if NET6_0_OR_GREATER
                     typeof(RandomDateOnlySequenceGenerator),
+                    typeof(RandomTimeOnlySequenceGenerator),
 #endif
                     typeof(BooleanSwitch),
                     typeof(GuidGenerator),
