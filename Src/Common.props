@@ -21,7 +21,7 @@
 
     <!-- Setup static code analysis mode. -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
 
     <!-- NuGet options -->
     <Authors>Mark Seemann,AutoFixture</Authors>
@@ -78,6 +78,7 @@
         <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
       </PropertyGroup>
     </When>
   </Choose>

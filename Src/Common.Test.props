@@ -11,7 +11,7 @@
     <!-- Configure static code analysis -->
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisMode>None</AnalysisMode>
+    <AnalysisLevel>latest-Default</AnalysisLevel>
 
     <IsPackable>false</IsPackable>
     <!-- Disable source link support for test projects as they are not publishable. -->
