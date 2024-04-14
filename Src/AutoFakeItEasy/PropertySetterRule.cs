@@ -55,7 +55,11 @@ namespace AutoFixture.AutoFakeItEasy
 
         private static MethodCall CreateMethodCallForGetter(IFakeObjectCall fakeObjectCall)
         {
+#if NETFRAMEWORK || NETSTANDARD2_0
             var methodName = "get_" + fakeObjectCall.Method.Name.Substring(4);
+#else
+            var methodName = string.Concat("get_", fakeObjectCall.Method.Name.AsSpan(4));
+#endif
             var numberOfArguments = fakeObjectCall.Arguments.Count - 1;
 
             var arguments = fakeObjectCall.Arguments.Take(numberOfArguments);

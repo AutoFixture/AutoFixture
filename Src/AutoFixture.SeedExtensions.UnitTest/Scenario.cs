@@ -50,11 +50,13 @@ namespace AutoFixture.SeedExtensions.UnitTest
             string anonymousPrefix = "AnonymousPrefix";
             var sut = new Fixture();
             int expectedItemCount = sut.RepeatCount;
+
             // Act
             IEnumerable<string> result = sut.CreateMany(anonymousPrefix);
+
             // Assert
             int actualCount = (from s in result
-                where s.StartsWith(anonymousPrefix)
+                where s.StartsWith(anonymousPrefix, StringComparison.Ordinal)
                 select s).Count();
             Assert.Equal<int>(expectedItemCount, actualCount);
         }
@@ -72,7 +74,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
                 .CreateMany(anonymousPrefix);
             // Assert
             int actualCount = (from s in result
-                where s.StartsWith(anonymousPrefix)
+                where s.StartsWith(anonymousPrefix, StringComparison.Ordinal)
                 select s).Count();
             Assert.Equal<int>(expectedItemCount, actualCount);
         }
@@ -100,7 +102,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
             IEnumerable<string> result = sut.CreateMany(anonymousPrefix, expectedItemCount);
             // Assert
             int actualCount = (from s in result
-                where s.StartsWith(anonymousPrefix)
+                where s.StartsWith(anonymousPrefix, StringComparison.Ordinal)
                 select s).Count();
             Assert.Equal<int>(expectedItemCount, actualCount);
         }
@@ -119,7 +121,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
                 .CreateMany(anonymousPrefix, expectedItemCount);
             // Assert
             int actualCount = (from s in result
-                where s.StartsWith(anonymousPrefix)
+                where s.StartsWith(anonymousPrefix, StringComparison.Ordinal)
                 select s).Count();
             Assert.Equal<int>(expectedItemCount, actualCount);
         }

@@ -9,7 +9,7 @@ namespace AutoFixture
     /// </summary>
     public class NumericSequenceGenerator : ISpecimenBuilder
     {
-        private long value = 0;
+        private long value;
 
         /// <summary>
         /// Creates an anonymous number.

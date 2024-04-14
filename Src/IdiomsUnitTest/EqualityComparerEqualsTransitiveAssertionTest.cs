@@ -114,7 +114,9 @@ namespace AutoFixture.IdiomsUnitTest
 
         private class IllBehavedEqualityComparer : IEqualityComparer<PropertyHolder<int>>
         {
+#pragma warning disable CA1805 // This explicitly initializes the flag to false.
             private static bool flag = false;
+#pragma warning restore CA1805
 
             public bool Equals(PropertyHolder<int> x, PropertyHolder<int> y)
             {

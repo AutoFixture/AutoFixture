@@ -5957,18 +5957,18 @@ namespace AutoFixtureUnitTest
         }
 
 #if SYSTEM_NET_MAIL
-
         [Fact]
         public void CreateAnonymousWithMailAddressReturnsValidResult()
         {
             // Arrange
             var fixture = new Fixture();
+
             // Act
             var mailAddress = fixture.Create<System.Net.Mail.MailAddress>();
-            // Assert
-            Assert.True(mailAddress != null);
-        }
 
+            // Assert
+            Assert.NotNull(mailAddress);
+        }
 #endif
 
         [Fact]
@@ -6203,7 +6203,7 @@ namespace AutoFixtureUnitTest
             var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create(request, context));
 
-            var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:"));
+            var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:", StringComparison.Ordinal));
 
             Assert.Contains("RangedRequest", requestPath);
         }
@@ -6220,7 +6220,7 @@ namespace AutoFixtureUnitTest
             var ex = Assert.ThrowsAny<ObjectCreationException>(() =>
                 sut.Create(request, context));
 
-            var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:"));
+            var requestPath = ex.Message.Substring(ex.Message.IndexOf("Request path:", StringComparison.Ordinal));
 
             Assert.Contains("RangedNumberRequest", requestPath);
         }

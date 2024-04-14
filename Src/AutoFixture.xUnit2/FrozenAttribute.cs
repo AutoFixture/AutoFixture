@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AutoFixture.Xunit2.Internal;
 
@@ -10,6 +11,8 @@ namespace AutoFixture.Xunit2
     /// returned every time the <see cref="IFixture" /> creates an instance of that type.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
+        Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class FrozenAttribute : CustomizeAttribute
     {
         /// <summary>

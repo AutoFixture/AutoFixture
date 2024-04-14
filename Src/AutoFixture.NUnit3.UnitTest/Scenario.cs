@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using TestTypeFoundation;
 
 namespace AutoFixture.NUnit3.UnitTest
@@ -18,7 +19,7 @@ namespace AutoFixture.NUnit3.UnitTest
         [Test, AutoData]
         public void AutoTestCaseProvidesCorrectString(string text)
         {
-            Assert.True(text.StartsWith("text"));
+            Assert.That(text, Does.StartWith("text"));
         }
 
         [Test, AutoData]

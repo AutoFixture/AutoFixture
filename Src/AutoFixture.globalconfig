@@ -1,0 +1,56 @@
+is_global = true
+global_level = 100
+
+# NOTE: No section headers for configuration entries
+
+#### .NET Coding Conventions ####
+
+## Naming conventions ##
+
+#### Diagnostic configuration ####
+
+## Managed code analysis ##
+
+dotnet_diagnostic.CA1006.severity = none	# CA1006: Do not nest generic types in member signatures
+dotnet_diagnostic.CA1020.severity = none	# CA1020: Avoid namespaces with few types
+dotnet_diagnostic.CA1303.severity = none	# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA2243.severity = none	# CA2243: Attribute string literals should parse correctly
+
+## Runtime analysis ##
+
+dotnet_diagnostic.CA1825.severity = none	# CA1825: Avoid zero-length array allocations
+
+## Security ##
+
+dotnet_diagnostic.CA5394.severity = none	# CA5394: Do not use insecure randomness
+
+## StyleCop Analyzers ##
+
+dotnet_diagnostic.SA1116.severity = none # SA1116: The parameters should begin on the line after the declaration, whenever the parameter span across multiple line
+dotnet_diagnostic.SA1117.severity = none # SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line.
+dotnet_diagnostic.SA1118.severity = none # SA1118: The parameter spans multiple lines
+dotnet_diagnostic.SA1200.severity = none # SA1200: Using directive should appear within a namespace declaration
+dotnet_diagnostic.SA1201.severity = none # SA1201: A property should not follow a method
+dotnet_diagnostic.SA1202.severity = none # SA1202: 'public' members should come before 'private' members
+dotnet_diagnostic.SA1203.severity = none # SA1203: Constant fields should appear before non-constant fields
+dotnet_diagnostic.SA1204.severity = none # SA1204: Static members should appear before non-static members
+dotnet_diagnostic.SA1214.severity = none # SA1214: Readonly fields should appear before non-readonly fields
+dotnet_diagnostic.SA1413.severity = none # SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1501.severity = none # SA1501: Statement should not be on a single line
+dotnet_diagnostic.SA1503.severity = none # SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1513.severity = none # SA1513: Closing brace should be followed by blank line
+dotnet_diagnostic.SA1600.severity = none # SA1600: Elements should be documented
+dotnet_diagnostic.SA1604.severity = none # SA1604: Element documentation should have summary
+dotnet_diagnostic.SA1610.severity = none # SA1610: Property documentation should have value text
+dotnet_diagnostic.SA1611.severity = none # SA1611: The documentation for parameter 'predicate' is missing
+dotnet_diagnostic.SA1612.severity = none # SA1612: The parameter documentation for 'context' should be at position 1.
+dotnet_diagnostic.SA1614.severity = none # SA1614: Element parameter documentation should have text
+dotnet_diagnostic.SA1615.severity = none # SA1615: Element return value should be documented
+dotnet_diagnostic.SA1616.severity = none # SA1616: Element return value documentation should have text
+dotnet_diagnostic.SA1618.severity = none # SA1618: The documentation for type parameter 'TProperty' is missing
+dotnet_diagnostic.SA1622.severity = none # SA1622: Generic type parameter documentation should have text.
+dotnet_diagnostic.SA1623.severity = none # SA1623: The property's documentation summary text should begin with: 'Gets'
+dotnet_diagnostic.SA1625.severity = none # SA1625: Element documentation should not be copied and pasted
+dotnet_diagnostic.SA1627.severity = none # SA1627: The documentation text within the \'exception\' tag should not be empty.
+dotnet_diagnostic.SA1633.severity = none # SA1633: The file header is missing or not located at the top of the file.
+dotnet_diagnostic.SA1642.severity = none # SA1642: Constructor summary documentation should begin with standard text

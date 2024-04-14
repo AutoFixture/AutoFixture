@@ -6,8 +6,12 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <!-- Configure static code analysis -->
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet Condition=" $(Configuration)=='Verify' ">$(MSBuildThisFileDirectory)\CodeAnalysis.Test.ruleset</CodeAnalysisRuleSet>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-Default</AnalysisLevel>
 
     <IsPackable>false</IsPackable>
     <!-- Disable source link support for test projects as they are not publishable. -->
@@ -24,5 +28,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/AutoFixture.Tests.globalconfig" />
   </ItemGroup>
 </Project>

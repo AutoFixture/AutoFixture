@@ -18,7 +18,7 @@ namespace AutoFixture.NUnit2.UnitTest
         [Test, AutoData]
         public void AutoTestCaseProvidesCorrectString(string text)
         {
-            Assert.True(text.StartsWith("text"));
+            Assert.That(text, Does.StartWith("text"));
         }
 
         [Test, AutoData]

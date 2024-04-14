@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture.DataAnnotations;
 using TestTypeFoundation;
 using Xunit;
@@ -49,6 +50,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Fact]
+        [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "This test asserts the result of the custom Equals method")]
         public void SutIsNotEqualNullObject()
         {
             // Arrange
@@ -63,6 +65,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
         }
 
         [Fact]
+        [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "This test asserts the result of the custom Equals method")]
         public void SutIsNotEqualNullSut()
         {
             // Arrange

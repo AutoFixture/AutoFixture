@@ -618,7 +618,9 @@ namespace AutoFixture.IdiomsUnitTest
 
             public readonly T1 Member1;
 
-            public readonly T2 Member2 = default(T2);
+#pragma warning disable CA1805 // This demonstrates the field is initialized with a default value
+            public readonly T2 Member2 = default;
+#pragma warning restore CA1805
         }
 
         private class PublicReadOnlyFieldNotInitializedByConstructor
