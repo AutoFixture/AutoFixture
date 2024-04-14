@@ -245,6 +245,10 @@ dotnet_diagnostic.CA2242.severity = none
 dotnet_diagnostic.CA2243.severity = none
 dotnet_diagnostic.CA5122.severity = none
 
+## Security analysis ##
+
+dotnet_diagnostic.CA2300.severity = none
+
 ## Native code analysis ##
 
 dotnet_diagnostic.C26100.severity = none

@@ -12,12 +12,17 @@ global_level = 100
 ## Managed code analysis ##
 
 dotnet_diagnostic.CA1006.severity = none	# CA1006: Do not nest generic types in member signatures
+dotnet_diagnostic.CA1020.severity = none	# CA1020: Avoid namespaces with few types
 dotnet_diagnostic.CA1303.severity = none	# CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA2243.severity = none	# CA2243: Attribute string literals should parse correctly
 
 ## Runtime analysis ##
 
 dotnet_diagnostic.CA1825.severity = none	# CA1825: Avoid zero-length array allocations
+
+## Security ##
+
+dotnet_diagnostic.CA5394.severity = none	# CA5394: Do not use insecure randomness
 
 ## StyleCop Analyzers ##
 

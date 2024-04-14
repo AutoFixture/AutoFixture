@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
-    <Compile Include="GlobalSuppressions.fs" />
     <Compile Include="FoqType.fs" />
     <Compile Include="FoqMethod.fs" />
     <Compile Include="FoqMethodQuery.fs" />
