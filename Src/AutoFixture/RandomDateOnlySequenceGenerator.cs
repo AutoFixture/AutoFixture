@@ -59,24 +59,13 @@ public class RandomDateOnlySequenceGenerator : ISpecimenBuilder
     {
         if (context is null) throw new ArgumentNullException(nameof(context));
 
-        return IsNotDateOnlyRequest(request)
-            ? new NoSpecimen()
-            : this.CreateRandomDate(context);
-    }
+        if (!typeof(DateOnly).GetTypeInfo().IsAssignableFrom(request as Type))
+        {
+            return new NoSpecimen();
+        }
 
-    private static bool IsNotDateOnlyRequest(object request)
-    {
-        return !typeof(DateOnly).GetTypeInfo().IsAssignableFrom(request as Type);
-    }
-
-    private object CreateRandomDate(ISpecimenContext context)
-    {
-        return DateOnly.FromDayNumber(this.GetRandomNumberOfDays(context));
-    }
-
-    private int GetRandomNumberOfDays(ISpecimenContext context)
-    {
-        return (int)this.randomizer.Create(typeof(int), context);
+        var dayNumber = (int)this.randomizer.Create(typeof(int), context);
+        return DateOnly.FromDayNumber(dayNumber);
     }
 }
 #endif
