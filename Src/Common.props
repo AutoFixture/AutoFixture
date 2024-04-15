@@ -5,6 +5,7 @@
     <Copyright>Copyright © AutoFixture 2011</Copyright>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
 
@@ -69,14 +70,12 @@
   <Choose>
     <When Condition=" '$(Configuration)'=='Release' ">
       <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DebugType>portable</DebugType>
       </PropertyGroup>
     </When>
     <When Condition=" '$(Configuration)'=='Verify' ">
       <PropertyGroup>
         <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
       </PropertyGroup>
