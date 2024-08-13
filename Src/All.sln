@@ -69,7 +69,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
 		..\LICENCE.txt = ..\LICENCE.txt
 		..\README.md = ..\README.md
-		Common.Test.xUnit3.props = Common.Test.xUnit3.props
+		Common.Test.xUnit.v3.props = Common.Test.xUnit.v3.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.SeedExtensions", "AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj", "{F1FE2173-62BD-4D3A-92C1-A3ECB2117252}"
@@ -88,9 +88,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit4", "AutoF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit4.UnitTest", "AutoFixture.NUnit4.UnitTest\AutoFixture.NUnit4.UnitTest.csproj", "{E783AAF8-6725-4FB0-B0DE-26C9433E4E35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.xUnit3", "AutoFixture.xUnit3\AutoFixture.xUnit3.csproj", "{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.xUnit.v3", "AutoFixture.xUnit.v3\AutoFixture.xUnit.v3.csproj", "{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.xUnit3.UnitTest", "AutoFixture.xUnit3.UnitTest\AutoFixture.xUnit3.UnitTest.csproj", "{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.xUnit.v3.UnitTest", "AutoFixture.xUnit.v3.UnitTest\AutoFixture.xUnit.v3.UnitTest.csproj", "{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
