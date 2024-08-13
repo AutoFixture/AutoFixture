@@ -1,9 +1,14 @@
-﻿namespace AutoFixture.Xunit3
+﻿using System;
+using System.Collections;
+using System.Reflection;
+using AutoFixture.Kernel;
+
+namespace AutoFixture.Xunit3
 {
     /// <summary>
     ///     An attribute that can be applied to parameters in an <see cref="AutoDataAttribute" />-driven
     ///     Theory to indicate that the parameter value should be created using a constructor with one
-    ///     or more <see cref="IEnumerable{T}" /> arguments, if applicable.
+    ///     or more <see cref="IEnumerable" /> arguments, if applicable.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class FavorEnumerablesAttribute : CustomizeAttribute

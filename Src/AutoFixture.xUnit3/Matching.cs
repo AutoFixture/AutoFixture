@@ -1,4 +1,8 @@
-﻿namespace AutoFixture.Xunit3
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+
+namespace AutoFixture.Xunit3
 {
     /// <summary>
     ///     The criteria used to determine which requests will be satisfied

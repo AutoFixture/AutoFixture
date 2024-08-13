@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using AutoFixture.Kernel;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class AutoDataAttributeTest
     {
@@ -58,7 +58,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
-                new DerivedAutoDataAttribute(null));
+                                                     new DerivedAutoDataAttribute(null));
         }
 
         [Fact]
@@ -66,6 +66,7 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var wasInvoked = false;
+
             IFixture FixtureFactory()
             {
                 wasInvoked = true;
@@ -86,7 +87,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new AutoDataAttribute();
 
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => sut.GetData(null).ToArray());
+            Assert.Throws<ArgumentNullException>(() => sut.GetData(null, null));
         }
 
         [Fact]
@@ -101,25 +102,26 @@ namespace AutoFixture.Xunit2.UnitTest
             object actualParameter = null;
             ISpecimenContext actualContext = null;
             var builder = new DelegatingSpecimenBuilder
-            {
-                OnCreate = (r, c) =>
-                {
-                    actualParameter = r;
-                    actualContext = c;
-                    return expectedResult;
-                }
-            };
+                          {
+                              OnCreate = (r, c) =>
+                                         {
+                                             actualParameter = r;
+                                             actualContext = c;
+                                             return expectedResult;
+                                         }
+                          };
             var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
+            var disposalTracker = new DisposalTracker();
             var sut = new DerivedAutoDataAttribute(() => composer);
 
             // Act
-            var result = sut.GetData(method).ToArray();
+            var result = sut.GetData(method, disposalTracker);
 
             // Assert
             Assert.NotNull(actualContext);
             Assert.Single(parameters);
             Assert.Equal(parameters[0], actualParameter);
-            Assert.Equal(new[] { expectedResult }, result.Single());
+            Assert.Equal(new[] { expectedResult }, result.Result);
         }
 
         [Theory]
@@ -143,14 +145,15 @@ namespace AutoFixture.Xunit2.UnitTest
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
             fixture.OnCustomize = c =>
-            {
-                customizationLog.Add(c);
-                return fixture;
-            };
+                                  {
+                                      customizationLog.Add(c);
+                                      return fixture;
+                                  };
+            var disposalTracker = new DisposalTracker();
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            var data = sut.GetData(method).ToArray();
+            var data = sut.GetData(method, disposalTracker);
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -168,38 +171,39 @@ namespace AutoFixture.Xunit2.UnitTest
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
             fixture.OnCustomize = c =>
-            {
-                customizationLog.Add(c);
-                return fixture;
-            };
+                                  {
+                                      customizationLog.Add(c);
+                                      return fixture;
+                                  };
+            var disposalTracker = new DisposalTracker();
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            sut.GetData(method).ToArray();
+            sut.GetData(method, disposalTracker);
 
             // Assert
             Assert.IsType<TypeWithIParameterCustomizationSourceUsage.Customization>(customizationLog[0]);
         }
 
-        [Fact]
-        public void PreDiscoveryShouldBeDisabled()
-        {
-            // Arrange
-            var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
-            var discovererAttr = typeof(AutoDataAttribute).GetTypeInfo()
-                .CustomAttributes
-                .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
+        //[Fact]
+        //public void PreDiscoveryShouldBeDisabled()
+        //{
+        //    // Arrange
+        //    var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
+        //    var discovererAttr = typeof(AutoDataAttribute).GetTypeInfo()
+        //                                                  .CustomAttributes
+        //                                                  .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
 
-            var expectedType = expectedDiscovererType.FullName;
-            var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
+        //    var expectedType = expectedDiscovererType.FullName;
+        //    var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
 
-            // Act
-            var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
-            var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
+        //    // Act
+        //    var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
+        //    var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
 
-            // Assert
-            Assert.Equal(expectedType, actualType);
-            Assert.Equal(expectedAssembly, actualAssembly);
-        }
+        //    // Assert
+        //    Assert.Equal(expectedType, actualType);
+        //    Assert.Equal(expectedAssembly, actualAssembly);
+        //}
     }
 }

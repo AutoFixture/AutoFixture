@@ -4,15 +4,15 @@ using System.Reflection;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class TestTypeWithMethodData
     {
         public IEnumerable<object[]> NonStaticSource()
         {
-            yield return new object[] { new object() };
-            yield return new object[] { new object() };
-            yield return new object[] { new object() };
+            yield return new[] { new object() };
+            yield return new[] { new object() };
+            yield return new[] { new object() };
         }
 
         public static MethodInfo GetNonStaticSourceMethodInfo()
@@ -140,20 +140,20 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
         public static IEnumerable<object[]> GetTestWithComplexTypesCases()
         {
             yield return new object[]
-            {
-                new PropertyHolder<string> { Property = "1647400C-9011-4158-BA5A-F841185AF6EF" },
-                new PropertyHolder<string>()
-            };
+                         {
+                             new PropertyHolder<string> { Property = "1647400C-9011-4158-BA5A-F841185AF6EF" },
+                             new PropertyHolder<string>()
+                         };
             yield return new object[]
-            {
-                new PropertyHolder<string> { Property = "E0F5F4F1-4B6B-4B6B-8F4A-7C0F6F4F4F4F" },
-                new PropertyHolder<string> { Property = "00000000-0000-0000-0000-000000000000" }
-            };
+                         {
+                             new PropertyHolder<string> { Property = "E0F5F4F1-4B6B-4B6B-8F4A-7C0F6F4F4F4F" },
+                             new PropertyHolder<string> { Property = "00000000-0000-0000-0000-000000000000" }
+                         };
             yield return new object[]
-            {
-                new PropertyHolder<string> { Property = "B0B0B0B0-B0B0-B0B0-B0B0-B0B0B0B0B0B0" },
-                new PropertyHolder<string> { Property = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" }
-            };
+                         {
+                             new PropertyHolder<string> { Property = "B0B0B0B0-B0B0-B0B0-B0B0-B0B0B0B0B0B0" },
+                             new PropertyHolder<string> { Property = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" }
+                         };
         }
 
         public static MethodInfo GetTestWithComplexTypes()

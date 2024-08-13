@@ -5,13 +5,12 @@ using System.Linq;
 using System.Reflection;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     internal abstract class InlineAttributeTestData : IEnumerable<object[]>
     {
-        protected static DerivedInlineAutoDataAttribute CreateAttributeWithFakeFixture(
-            object[] inlineValues,
-            params (string ParameterName, object Value)[] parameters)
+        protected static DerivedInlineAutoDataAttribute CreateAttributeWithFakeFixture(object[] inlineValues,
+                                                                                       params (string ParameterName, object Value)[] parameters)
         {
             return new DerivedInlineAutoDataAttribute(
                 fixtureFactory: () => new DelegatingFixture { OnCreate = OnCreateParameter },
@@ -20,17 +19,18 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             object OnCreateParameter(object request, ISpecimenContext context)
             {
                 if (request is not ParameterInfo parameterInfo)
+                {
                     throw new InvalidOperationException();
+                }
 
                 return parameters
-                    .Where(x => x.ParameterName == parameterInfo.Name)
-                    .Select(x => x.Value).FirstOrDefault();
+                       .Where(x => x.ParameterName == parameterInfo.Name)
+                       .Select(x => x.Value).FirstOrDefault();
             }
         }
 
-        protected static DerivedInlineAutoDataAttribute CreateAttribute(
-            object[] inlineValues,
-            params (string ParameterName, object Value)[] parameters)
+        protected static DerivedInlineAutoDataAttribute CreateAttribute(object[] inlineValues,
+                                                                        params (string ParameterName, object Value)[] parameters)
         {
             return new DerivedInlineAutoDataAttribute(
                 () => new Fixture().Customize(CreateCustomization()),
@@ -39,17 +39,17 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             ICustomization CreateCustomization()
             {
                 var builders = parameters
-                    .Select(x => new FilteringSpecimenBuilder(
-                        builder: new FixedBuilder(x.Value),
-                        specification: new ParameterSpecification(
-                            new ParameterNameCriterion(x.ParameterName))))
-                    .ToList();
+                               .Select(x => new FilteringSpecimenBuilder(
+                                           builder: new FixedBuilder(x.Value),
+                                           specification: new ParameterSpecification(
+                                               new ParameterNameCriterion(x.ParameterName))))
+                               .ToList();
 
                 return new DelegatingCustomization
-                {
-                    OnCustomize = f => f.Customizations
-                        .Insert(0, new CompositeSpecimenBuilder(builders))
-                };
+                       {
+                           OnCustomize = f => f.Customizations
+                                               .Insert(0, new CompositeSpecimenBuilder(builders))
+                       };
             }
         }
 

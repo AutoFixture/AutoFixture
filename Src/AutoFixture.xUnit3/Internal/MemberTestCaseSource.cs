@@ -1,4 +1,12 @@
 #nullable enable
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using Xunit.Sdk;
+
 namespace AutoFixture.Xunit3.Internal
 {
     /// <summary>
@@ -38,7 +46,7 @@ namespace AutoFixture.Xunit3.Internal
         public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
 
         /// <inheritdoc />
-        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method)
+        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method, DisposalTracker disposalTracker)
         {
             var sourceMember = this.Type.GetMember(this.Name,
                                        MemberTypes.Method | MemberTypes.Field | MemberTypes.Property,
@@ -72,7 +80,7 @@ namespace AutoFixture.Xunit3.Internal
                 _ => throw new InvalidOperationException("Unsupported member type.")
             };
 
-            return source.GetTestCases(method);
+            return source.GetTestCases(method, disposalTracker);
         }
     }
 }

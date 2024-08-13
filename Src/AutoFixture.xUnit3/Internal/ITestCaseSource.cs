@@ -1,4 +1,8 @@
-﻿namespace AutoFixture.Xunit3.Internal
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Xunit.Sdk;
+
+namespace AutoFixture.Xunit3.Internal
 {
     /// <summary>
     ///     Exposes the factory method for a sequence of test cases.
@@ -9,7 +13,8 @@
         ///     Returns the test cases provided by the source.
         /// </summary>
         /// <param name="method">The target method for which to provide the arguments.</param>
+        /// <param name="disposalTracker"></param>
         /// <returns>Returns a sequence of argument collections.</returns>
-        IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method);
+        IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method, DisposalTracker disposalTracker);
     }
 }

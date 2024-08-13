@@ -1,3 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Xunit.Sdk;
+
 namespace AutoFixture.Xunit3.Internal
 {
     /// <summary>
@@ -25,7 +31,7 @@ namespace AutoFixture.Xunit3.Internal
         public IReadOnlyCollection<object> Values => Array.AsReadOnly(this.values);
 
         /// <inheritdoc />
-        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method)
+        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method, DisposalTracker disposalTracker)
         {
             if (method is null)
             {

@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     internal class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute
     {

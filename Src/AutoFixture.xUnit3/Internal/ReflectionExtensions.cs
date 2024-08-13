@@ -1,4 +1,7 @@
-﻿namespace AutoFixture.Xunit3.Internal
+﻿using System;
+using System.Reflection;
+
+namespace AutoFixture.Xunit3.Internal
 {
     internal static class ReflectionExtensions
     {

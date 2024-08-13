@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class ModestAttributeTest
     {
@@ -14,6 +13,7 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange & Act
             var sut = new ModestAttribute();
+
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
@@ -23,9 +23,10 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var sut = new ModestAttribute();
+
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetCustomization(null));
+                                                     sut.GetCustomization(null));
         }
 
         [Fact]
@@ -34,9 +35,9 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             var sut = new ModestAttribute();
             var parameter = typeof(TypeWithOverloadedMembers)
-            .GetMethod("DoSomething", new[] { typeof(object) })
-            ?.GetParameters()
-            .Single();
+                            .GetMethod("DoSomething", new[] { typeof(object) })
+                            ?.GetParameters()
+                            .Single();
 
             // Act
             var result = sut.GetCustomization(parameter);

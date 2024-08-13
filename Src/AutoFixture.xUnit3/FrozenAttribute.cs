@@ -1,4 +1,7 @@
-﻿using AutoFixture.Xunit3.Internal;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using AutoFixture.Xunit3.Internal;
 
 namespace AutoFixture.Xunit3
 {

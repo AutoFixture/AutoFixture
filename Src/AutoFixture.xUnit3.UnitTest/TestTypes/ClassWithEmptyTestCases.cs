@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class ClassWithEmptyTestCases : IEnumerable<object[]>
     {

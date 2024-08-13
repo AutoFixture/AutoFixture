@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using AutoFixture.Kernel;
+
 namespace AutoFixture.Xunit3.Internal
 {
     internal class ParameterMatcherBuilder

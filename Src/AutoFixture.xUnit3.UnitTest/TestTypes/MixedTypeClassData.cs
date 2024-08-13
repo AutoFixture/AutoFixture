@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TestTypeFoundation;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class MixedTypeClassData : IEnumerable<object[]>
     {

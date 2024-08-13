@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class ClassAutoDataScenarioTests
     {
@@ -31,8 +31,7 @@ namespace AutoFixture.Xunit2.UnitTest
 
         [Theory]
         [ClassAutoData(typeof(ParameterizedClassData), 42, "test-13", EnumType.Third)]
-        public void TestWithParameterizedClassDataReceivesExpectedData(
-            int a, string b, EnumType c, PropertyHolder<string> d)
+        public void TestWithParameterizedClassDataReceivesExpectedData(int a, string b, EnumType c, PropertyHolder<string> d)
         {
             Assert.Equal(42, a);
             Assert.Equal("test-13", b);
@@ -42,9 +41,8 @@ namespace AutoFixture.Xunit2.UnitTest
 
         [Theory]
         [ClassAutoData(typeof(ParameterizedClassData), 13, "test-46", EnumType.Second)]
-        public void TestWithFrozenParametersReceivesExpectedData(
-            [Frozen] int a, [Frozen] string b, [Frozen] EnumType c,
-            PropertyHolder<int> a1, PropertyHolder<string> b1, PropertyHolder<EnumType> c1)
+        public void TestWithFrozenParametersReceivesExpectedData([Frozen] int a, [Frozen] string b, [Frozen] EnumType c,
+                                                                 PropertyHolder<int> a1, PropertyHolder<string> b1, PropertyHolder<EnumType> c1)
         {
             Assert.Equal(13, a);
             Assert.Equal("test-46", b);
@@ -57,11 +55,10 @@ namespace AutoFixture.Xunit2.UnitTest
 
         [Theory]
         [ClassAutoData(typeof(ParameterizedClassData), 59, "hello-world", EnumType.Second)]
-        public void TestWithInjectedValuesRespectsOtherParameterCustomizations(
-            [Frozen] int a, [Frozen] string b, [Frozen] EnumType c,
-            [FavorEnumerables] CompositeTypeWithOverloadedConstructors<int> numbers,
-            [FavorArrays] CompositeTypeWithOverloadedConstructors<string> strings,
-            [FavorLists] CompositeTypeWithOverloadedConstructors<EnumType> enums)
+        public void TestWithInjectedValuesRespectsOtherParameterCustomizations([Frozen] int a, [Frozen] string b, [Frozen] EnumType c,
+                                                                               [FavorEnumerables] CompositeTypeWithOverloadedConstructors<int> numbers,
+                                                                               [FavorArrays] CompositeTypeWithOverloadedConstructors<string> strings,
+                                                                               [FavorLists] CompositeTypeWithOverloadedConstructors<EnumType> enums)
         {
             Assert.IsAssignableFrom<IEnumerable<int>>(numbers.Items);
             Assert.IsNotType<List<int>>(numbers.Items);

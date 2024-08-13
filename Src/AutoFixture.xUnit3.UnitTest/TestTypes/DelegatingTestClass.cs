@@ -2,7 +2,7 @@
 using System.Reflection;
 using TestTypeFoundation;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class DelegatingTestClass
     {
@@ -19,9 +19,9 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
         }
 
         public static MethodInfo GetTestMethod1()
-            => typeof(DelegatingTestClass).GetMethod(nameof(DelegatingTestClass.TestMethod1));
+            => typeof(DelegatingTestClass).GetMethod(nameof(TestMethod1));
 
         public static MethodInfo GetTestMethod2()
-            => typeof(DelegatingTestClass).GetMethod(nameof(DelegatingTestClass.TestMethod2));
+            => typeof(DelegatingTestClass).GetMethod(nameof(TestMethod2));
     }
 }

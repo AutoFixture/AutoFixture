@@ -1,5 +1,14 @@
 ﻿#nullable enable
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using AutoFixture.Xunit3.Internal;
+using Xunit;
+using Xunit.Sdk;
+using Xunit.v3;
 
 namespace AutoFixture.Xunit3
 {
@@ -11,9 +20,6 @@ namespace AutoFixture.Xunit3
     ///     3. A static method (with parameters)
     ///     The member must return something compatible with IEnumerable&lt;object[]&gt; with the test data.
     /// </summary>
-    [DataDiscoverer(
-        "AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer",
-        "AutoFixture.Xunit2")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
@@ -89,20 +95,22 @@ namespace AutoFixture.Xunit3
         public object[] Parameters { get; }
 
         /// <inheritdoc />
-        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
         {
-            if (testMethod is null)
-            {
-                throw new ArgumentNullException(nameof(testMethod));
-            }
-
             var sourceType = this.MemberType ?? testMethod.DeclaringType
                 ?? throw new InvalidOperationException("Source type cannot be null.");
+            var source = new AutoTestCaseSource(
+                this.FixtureFactory,
+                new MemberTestCaseSource(sourceType, this.MemberName, this.Parameters));
+            var theoryDataRows = source.GetTestCases(testMethod, disposalTracker)
+                                       .Select(x => new TheoryDataRow(x.ToArray()));
 
-            return new AutoTestCaseSource(
-                       this.FixtureFactory,
-                       new MemberTestCaseSource(sourceType, this.MemberName, this.Parameters))
-                   .GetTestCases(testMethod).Select(x => x.ToArray());
+            return new ValueTask<IReadOnlyCollection<ITheoryDataRow>>(theoryDataRows.ToArray());
+        }
+
+        public override bool SupportsDiscoveryEnumeration()
+        {
+            return true;
         }
     }
 }

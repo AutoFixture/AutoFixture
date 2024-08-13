@@ -1,4 +1,10 @@
 #nullable enable
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Xunit.Sdk;
+
 namespace AutoFixture.Xunit3.Internal
 {
     internal class AutoTestCaseSource : ITestCaseSource
@@ -13,11 +19,11 @@ namespace AutoFixture.Xunit3.Internal
 
         public ITestCaseSource? Source { get; }
 
-        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method)
+        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method, DisposalTracker disposalTracker)
         {
             return this.Source is null
                 ? this.GenerateValues(method)
-                : this.CombineValues(method, this.Source);
+                : this.CombineValues(method, this.Source, disposalTracker);
         }
 
         private IEnumerable<IEnumerable<object>> GenerateValues(MethodBase methodInfo)
@@ -27,10 +33,10 @@ namespace AutoFixture.Xunit3.Internal
             yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
         }
 
-        private IEnumerable<IEnumerable<object>> CombineValues(MethodInfo methodInfo, ITestCaseSource source)
+        private IEnumerable<IEnumerable<object>> CombineValues(MethodInfo methodInfo, ITestCaseSource source, DisposalTracker disposalTracker)
         {
             var parameters = Array.ConvertAll(methodInfo.GetParameters(), TestParameter.From);
-            var testCases = source.GetTestCases(methodInfo);
+            var testCases = source.GetTestCases(methodInfo, disposalTracker);
 
             foreach (var testCase in testCases)
             {

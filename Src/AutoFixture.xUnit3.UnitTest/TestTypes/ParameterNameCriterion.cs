@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     internal class ParameterNameCriterion : IEquatable<ParameterInfo>
     {
@@ -17,7 +17,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
         }
 
         /// <summary>
-        /// The name criterion originally passed in via the class' constructor.
+        ///     The name criterion originally passed in via the class' constructor.
         /// </summary>
         public IEquatable<string> NameCriterion { get; }
 

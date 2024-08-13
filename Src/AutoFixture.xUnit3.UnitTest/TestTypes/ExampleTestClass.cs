@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using TestTypeFoundation;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class ExampleTestClass
     {

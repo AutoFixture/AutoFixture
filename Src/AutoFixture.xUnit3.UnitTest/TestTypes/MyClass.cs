@@ -1,4 +1,4 @@
-﻿namespace AutoFixture.Xunit2.UnitTest.TestTypes
+﻿namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class MyClass
     {

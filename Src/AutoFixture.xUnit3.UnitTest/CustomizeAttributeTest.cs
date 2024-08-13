@@ -1,8 +1,8 @@
 ﻿using System;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class CustomizeAttributeTest
     {
@@ -12,6 +12,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act
             var sut = new DelegatingCustomizeAttribute();
+
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
@@ -22,6 +23,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act
             var sut = new DelegatingCustomizeAttribute();
+
             // Assert
             Assert.IsAssignableFrom<Attribute>(sut);
         }
@@ -32,6 +34,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act
             var sut = new DelegatingCustomizeAttribute();
+
             // Assert
             Assert.IsAssignableFrom<IParameterCustomizationSource>(sut);
         }

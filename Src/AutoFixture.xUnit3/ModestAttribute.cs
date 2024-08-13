@@ -1,4 +1,8 @@
-﻿namespace AutoFixture.Xunit3
+﻿using System;
+using System.Reflection;
+using AutoFixture.Kernel;
+
+namespace AutoFixture.Xunit3
 {
     /// <summary>
     ///     An attribute that can be applied to parameters in an <see cref="AutoDataAttribute" />-driven

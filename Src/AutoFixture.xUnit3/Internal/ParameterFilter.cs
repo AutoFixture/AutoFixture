@@ -1,3 +1,7 @@
+using System;
+using System.Reflection;
+using AutoFixture.Kernel;
+
 namespace AutoFixture.Xunit3.Internal
 {
     /// <summary>

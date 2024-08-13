@@ -1,3 +1,5 @@
+using System;
+
 namespace AutoFixture.Xunit3.Internal
 {
     internal class Argument

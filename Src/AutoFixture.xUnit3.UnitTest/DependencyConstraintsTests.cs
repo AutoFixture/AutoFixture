@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class DependencyConstraintsTests
     {
@@ -21,6 +21,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act
             var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
+
             // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
         }
@@ -41,6 +42,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act
             var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
+
             // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
         }

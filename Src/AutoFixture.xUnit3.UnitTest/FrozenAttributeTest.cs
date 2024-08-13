@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class FrozenAttributeTest
     {
@@ -11,6 +11,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act
             var sut = new FrozenAttribute();
+
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
@@ -20,9 +21,10 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var sut = new FrozenAttribute();
+
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetCustomization(null));
+                                                     sut.GetCustomization(null));
         }
     }
 }

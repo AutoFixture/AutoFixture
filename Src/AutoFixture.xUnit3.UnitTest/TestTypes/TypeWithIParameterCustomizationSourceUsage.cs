@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class TypeWithIParameterCustomizationSourceUsage
     {
@@ -9,7 +9,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
         {
         }
 
-        [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+        [AttributeUsage(AttributeTargets.All)]
         public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
         {
             public ICustomization GetCustomization(ParameterInfo parameter)

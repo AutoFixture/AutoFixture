@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
     {
@@ -26,7 +27,8 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             // Act
-            var result = new CompositeDataAttribute(attributes.ToArray()).GetData(this.method).ToList();
+            var result = new CompositeDataAttribute(attributes.ToArray()).GetData(this.method, new DisposalTracker()).Result.Select(x => x.GetData()).ToList();
+
             // Assert
             Assert.True(expectedResult.SequenceEqual(result, new TheoryComparer()));
         }
@@ -36,160 +38,160 @@ namespace AutoFixture.Xunit2.UnitTest
 #pragma warning disable SA1025 // Code should not contain multiple whitespace in a row
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 3 }
-                    });
+                          {
+                              new object[] { 1, 2, 3 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
-                        new FakeDataAttribute(this.method, new[] { new object[] { 4, 5, 6 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 4, 5, 6 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 3 }
-                    });
+                          {
+                              new object[] { 1, 2, 3 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1       } }),
-                        new FakeDataAttribute(this.method, new[] { new object[] { 2, 3, 4 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 2, 3, 4 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 3, 4 }
-                    });
+                          {
+                              new object[] { 1, 3, 4 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2    } }),
-                        new FakeDataAttribute(this.method, new[] { new object[] { 3, 4, 5 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 3, 4, 5 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 5 }
-                    });
+                          {
+                              new object[] { 1, 2, 5 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    });
+                          {
+                              new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
-                        new FakeDataAttribute(this.method, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 7, 8 }, new object[] { 9, 10 }, new object[] { 11, 12 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    });
+                          {
+                              new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
-                        new FakeDataAttribute(this.method, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2 }, new object[] { 3, 4 }, new object[] { 5, 6 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
-                    });
+                          {
+                              new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
+                          });
 
             // Second attribute restricts
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
-                        new FakeDataAttribute(this.method, new[] { new object[] { 7, 8, 9 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 7, 8, 9 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 3 }
-                    });
+                          {
+                              new object[] { 1, 2, 3 }
+                          });
 
             // Shortest data provider is limiting factor
             yield return CreateTestCase(
                 data: new[]
-                    {
-                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
-                        new FakeDataAttribute(this.method, new[] { new object[] { 4, 5, 6 }, new object[] { 7, 8, 9 } })
-                    },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 4, 5, 6 }, new object[] { 7, 8, 9 } })
+                      },
                 expected: new[]
-                    {
-                        new object[] { 1, 2, 3 }
-                    });
+                          {
+                              new object[] { 1, 2, 3 }
+                          });
 
             // Test incorrect number of parameters - should just return what it's given
             // and let xUnit deal with counting parameters
             yield return CreateTestCase(
                 data: new[]
-                {
-                    new FakeDataAttribute(this.method, new[] { new object[] { 1, 2 } }),
-                    new FakeDataAttribute(this.method, new[] { new object[] { 3, 4 } })
-                },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 3, 4 } })
+                      },
                 expected: new[]
-                {
-                    new object[] { 1, 2 }
-                });
+                          {
+                              new object[] { 1, 2 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                {
-                    new FakeDataAttribute(this.method, new[] { new object[] { 1    } }),
-                    new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
-                },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
+                      },
                 expected: new[]
-                {
-                    new object[] { 1, 3 },
-                });
+                          {
+                              new object[] { 1, 3 },
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                {
-                    new FakeDataAttribute(this.method, new[] { new object[] { 1    } }),
-                    new FakeDataAttribute(this.method, new[] { new object[] {      } }),
-                    new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
-                },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
+                      },
                 expected: new[]
-                {
-                    new object[] { 1, 3 },
-                });
+                          {
+                              new object[] { 1, 3 },
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                {
-                    new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
-                    new FakeDataAttribute(this.method, new[] { new object[] { 2 } }),
-                    new FakeDataAttribute(this.method, new[] { new object[] { 3 } })
-                },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 2 } }),
+                          new FakeDataAttribute(this.method, new[] { new object[] { 3 } })
+                      },
                 expected: new[]
-                {
-                    new object[] { 1 }
-                });
+                          {
+                              new object[] { 1 }
+                          });
 
             yield return CreateTestCase(
                 data: new[]
-                {
-                    new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3, 4 } }),
-                },
+                      {
+                          new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3, 4 } }),
+                      },
                 expected: new[]
-                {
-                    new object[] { 1, 2, 3, 4 }
-                });
+                          {
+                              new object[] { 1, 2, 3, 4 }
+                          });
 #pragma warning restore SA1025 // Code should not contain multiple whitespace in a row
         }
 

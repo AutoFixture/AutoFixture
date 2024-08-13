@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoFixture.Kernel;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class ClassAutoDataAttributeTests
     {
@@ -29,21 +30,21 @@ namespace AutoFixture.Xunit2.UnitTest
         public void ThrowsWhenSourceTypeIsNull()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new ClassAutoDataAttribute(null));
+                                                     new ClassAutoDataAttribute(null));
         }
 
         [Fact]
         public void ThrowsWhenParametersIsNull()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new ClassAutoDataAttribute(typeof(MixedTypeClassData), null));
+                                                     new ClassAutoDataAttribute(typeof(MixedTypeClassData), null));
         }
 
         [Fact]
         public void ThrowsWhenFixtureFactoryIsNull()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new DerivedClassAutoDataAttribute(null, typeof(MixedTypeClassData)));
+                                                     new DerivedClassAutoDataAttribute(null, typeof(MixedTypeClassData)));
         }
 
         [Fact]
@@ -52,7 +53,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(NullClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
+            Action act = () => _ = sut.GetData(testMethod, new DisposalTracker()).Result;
 
             Assert.Throws<InvalidOperationException>(act);
         }
@@ -63,7 +64,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(MyClass));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
+            Action act = () => _ = sut.GetData(testMethod, new DisposalTracker()).Result;
 
             Assert.Throws<InvalidOperationException>(act);
         }
@@ -74,7 +75,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(MyClass), "myString", 33, null);
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
+            Action act = () => _ = sut.GetData(testMethod, new DisposalTracker()).Result;
 
             Assert.Throws<MissingMethodException>(act);
         }
@@ -85,9 +86,9 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(EmptyClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var data = sut.GetData(testMethod).ToArray();
+            var data = sut.GetData(testMethod, new DisposalTracker());
 
-            Assert.Empty(data);
+            Assert.Empty(data.Result);
         }
 
         [Fact]
@@ -96,9 +97,9 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(ClassWithNullTestCases));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var data = sut.GetData(testMethod).ToArray();
+            var data = sut.GetData(testMethod, new DisposalTracker());
 
-            Assert.Equal(3, data.Length);
+            Assert.Equal(3, data.Result.Count);
         }
 
         [Fact]
@@ -107,7 +108,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            _ = sut.GetData(testMethod);
+            _ = sut.GetData(testMethod, new DisposalTracker());
         }
 
         [Fact]
@@ -116,9 +117,9 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var actual = sut.GetData(testMethod);
+            var actual = sut.GetData(testMethod, new DisposalTracker());
 
-            Assert.NotNull(actual);
+            Assert.NotNull(actual.Result);
         }
 
         [Fact]
@@ -127,9 +128,9 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var actual = sut.GetData(testMethod);
+            var actual = sut.GetData(testMethod, new DisposalTracker());
 
-            Assert.NotEmpty(actual);
+            Assert.NotEmpty(actual.Result);
         }
 
         [Fact]
@@ -138,9 +139,9 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var actual = sut.GetData(testMethod);
+            var actual = sut.GetData(testMethod, new DisposalTracker());
 
-            Assert.Equal(5, actual.Count());
+            Assert.Equal(5, actual.Result.Count());
         }
 
         [Fact]
@@ -149,7 +150,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(GuardedConstructorHost<object>));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
+            Action act = () => _ = sut.GetData(testMethod, new DisposalTracker()).Result;
 
             Assert.Throws<MissingMethodException>(act);
         }
@@ -161,7 +162,7 @@ namespace AutoFixture.Xunit2.UnitTest
                 typeof(DelegatingTestData), "myString", 33, null);
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
+            Action act = () => _ = sut.GetData(testMethod, new DisposalTracker()).Result;
 
             Assert.Throws<MissingMethodException>(act);
         }
@@ -187,15 +188,15 @@ namespace AutoFixture.Xunit2.UnitTest
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
             fixture.OnCustomize = c =>
-            {
-                customizationLog.Add(c);
-                return fixture;
-            };
+                                  {
+                                      customizationLog.Add(c);
+                                      return fixture;
+                                  };
 
             var sut = new DerivedClassAutoDataAttribute(() => fixture, typeof(ClassWithEmptyTestCases));
 
             // Act
-            var data = sut.GetData(method).ToArray();
+            var data = sut.GetData(method, new DisposalTracker()).Result;
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -224,9 +225,10 @@ namespace AutoFixture.Xunit2.UnitTest
                 new object[] { -95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5) }
             };
 
-            var actual = sut.GetData(testMethod).ToArray();
+            var actual = sut.GetData(testMethod, new DisposalTracker()).Result;
+            var x = expected.Select(x => new TheoryDataRow(x.ToArray()));
 
-            Assert.Equal(expected, actual);
+            Assert.Equal(x, actual);
         }
 
         [Fact]
@@ -241,15 +243,18 @@ namespace AutoFixture.Xunit2.UnitTest
                 typeof(ParameterizedClassData),
                 29, "myValue", EnumType.Third);
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
+
             object[][] expected =
             {
                 new object[] { 29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1) },
                 new object[] { 29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1) }
             };
 
-            var actual = sut.GetData(testMethod).ToArray();
+            var x = expected.Select(x => new TheoryDataRow(x.ToArray()));
 
-            Assert.Equal(expected, actual);
+            var actual = sut.GetData(testMethod, new DisposalTracker()).Result;
+
+            Assert.Equal(x, actual);
         }
     }
 }

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class CompositeDataAttributeTest
     {
@@ -16,6 +17,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act
             var sut = new CompositeDataAttribute();
+
             // Assert
             Assert.IsAssignableFrom<DataAttribute>(sut);
         }
@@ -26,7 +28,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeDataAttribute(null));
+                                                     new CompositeDataAttribute(null));
         }
 
         [Fact]
@@ -37,15 +39,17 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = a.GetMethodInfo();
 
             var attributes = new[]
-            {
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
-            };
+                             {
+                                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                                 new FakeDataAttribute(method, Enumerable.Empty<object[]>())
+                             };
 
             var sut = new CompositeDataAttribute(attributes);
+
             // Act
             IEnumerable<DataAttribute> result = sut.Attributes;
+
             // Assert
             Assert.True(attributes.SequenceEqual(result));
         }
@@ -56,7 +60,7 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeDataAttribute((IReadOnlyCollection<DataAttribute>)null));
+                                                     new CompositeDataAttribute((IReadOnlyCollection<DataAttribute>)null));
         }
 
         [Fact]
@@ -67,17 +71,19 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = a.GetMethodInfo();
 
             var attributes = new[]
-            {
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
-            };
+                             {
+                                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                                 new FakeDataAttribute(method, Enumerable.Empty<object[]>())
+                             };
 
             var sut = new CompositeDataAttribute(attributes);
+
             // Act
             var result = sut.Attributes;
+
             // Assert
-            Assert.True(attributes.SequenceEqual(result));
+            Assert.True(attributes.SequenceEqual((IEnumerable<FakeDataAttribute>)result));
         }
 
         [Fact]
@@ -85,9 +91,10 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var sut = new CompositeDataAttribute();
+
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(null).ToList());
+                                                     sut.GetData(null, new DisposalTracker()).Result.ToList());
         }
 
         [Fact]
@@ -101,13 +108,13 @@ namespace AutoFixture.Xunit2.UnitTest
                                   select pi.ParameterType).ToArray();
 
             var sut = new CompositeDataAttribute(
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>()));
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()));
 
             // Act & assert
-            var result = sut.GetData(a.GetMethodInfo());
-            result.ToList().ForEach(Assert.Empty);
+            var result = sut.GetData(a.GetMethodInfo(), new DisposalTracker());
+            result.Result.Select(x => x.GetData()).ToList().ForEach(Assert.Empty);
         }
     }
 }

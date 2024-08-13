@@ -1,4 +1,9 @@
-﻿namespace AutoFixture.Xunit3.Internal
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+namespace AutoFixture.Xunit3.Internal
 {
     /// <summary>
     ///     Encapsulates the access to a test case source type.

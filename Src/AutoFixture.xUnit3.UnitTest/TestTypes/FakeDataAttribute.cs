@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     public class FakeDataAttribute : DataAttribute
     {
@@ -16,11 +19,16 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             this.output = output;
         }
 
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
+        public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo methodUnderTest, DisposalTracker disposalTracker)
         {
             Assert.Equal(this.expectedMethod, methodUnderTest);
 
-            return this.output;
+            return new(this.output.Select(o => new TheoryDataRow(o)).ToArray());
+        }
+
+        public override bool SupportsDiscoveryEnumeration()
+        {
+            return true;
         }
     }
 }

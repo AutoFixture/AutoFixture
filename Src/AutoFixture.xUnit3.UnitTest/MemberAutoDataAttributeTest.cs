@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class MemberAutoDataAttributeTest
     {
@@ -95,7 +95,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new MemberAutoDataAttribute("memberName");
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => sut.GetData(null!).ToArray());
+            Assert.Throws<ArgumentNullException>(() => sut.GetData(null!, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray());
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = TestTypeWithMethodData.GetNonEnumerableMethodInfo();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => sut.GetData(method).ToArray());
+            var ex = Assert.Throws<ArgumentException>(() => sut.GetData(method, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray());
             Assert.Contains(memberName, ex.Message);
         }
 
@@ -120,7 +120,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = TestTypeWithMethodData.GetNonStaticSourceMethodInfo();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => sut.GetData(method).ToArray());
+            var ex = Assert.Throws<ArgumentException>(() => sut.GetData(method, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray());
             Assert.Contains(memberName, ex.Message);
         }
 
@@ -133,7 +133,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => sut.GetData(method).ToArray());
+            var ex = Assert.Throws<ArgumentException>(() => sut.GetData(method, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray());
             Assert.Contains(memberName, ex.Message);
         }
 
@@ -144,10 +144,10 @@ namespace AutoFixture.Xunit2.UnitTest
             var memberName = Guid.NewGuid().ToString();
             var wasInvoked = false;
             Func<IFixture> autoData = () =>
-            {
-                wasInvoked = true;
-                return new DelegatingFixture();
-            };
+                                      {
+                                          wasInvoked = true;
+                                          return new DelegatingFixture();
+                                      };
 
             // Act
             _ = new DerivedMemberAutoDataAttribute(autoData, memberName);
@@ -156,26 +156,26 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.False(wasInvoked);
         }
 
-        [Fact]
-        public void PreDiscoveryShouldBeDisabled()
-        {
-            // Arrange
-            var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
-            var discovererAttr = typeof(MemberAutoDataAttribute).GetTypeInfo()
-                .CustomAttributes
-                .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
+        //[Fact]
+        //public void PreDiscoveryShouldBeDisabled()
+        //{
+        //    // Arrange
+        //    var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
+        //    var discovererAttr = typeof(MemberAutoDataAttribute).GetTypeInfo()
+        //                                                        .CustomAttributes
+        //                                                        .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
 
-            var expectedType = expectedDiscovererType.FullName;
-            var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
+        //    var expectedType = expectedDiscovererType.FullName;
+        //    var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
 
-            // Act
-            var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
-            var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
+        //    // Act
+        //    var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
+        //    var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
 
-            // Assert
-            Assert.Equal(expectedType, actualType);
-            Assert.Equal(expectedAssembly, actualAssembly);
-        }
+        //    // Assert
+        //    Assert.Equal(expectedType, actualType);
+        //    Assert.Equal(expectedAssembly, actualAssembly);
+        //}
 
         [Theory]
         [InlineData("CreateWithFrozenAndFavorArrays")]
@@ -198,10 +198,10 @@ namespace AutoFixture.Xunit2.UnitTest
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture();
             fixture.OnCustomize = c =>
-            {
-                customizationLog.Add(c);
-                return fixture;
-            };
+                                  {
+                                      customizationLog.Add(c);
+                                      return fixture;
+                                  };
 
             var sut = new DerivedMemberAutoDataAttribute(
                 () => fixture,
@@ -209,7 +209,7 @@ namespace AutoFixture.Xunit2.UnitTest
                 nameof(TestTypeWithMethodData.TestCasesWithNoValues));
 
             // Act
-            var data = sut.GetData(method).ToArray();
+            var data = sut.GetData(method, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -224,7 +224,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new MemberAutoDataAttribute(memberName);
             var testMethod = TestTypeWithMethodData.GetSingleStringValueTestMethodInfo();
 
-            var testCases = sut.GetData(testMethod).ToArray();
+            var testCases = sut.GetData(testMethod, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
 
             Assert.Collection(testCases,
                 testCase => Assert.Equal("value-one", testCase.Single()),
@@ -239,7 +239,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new MemberAutoDataAttribute(memberName, "testcase");
             var testMethod = TestTypeWithMethodData.GetStringTestsFromArgumentMethodInfo();
 
-            var testCases = sut.GetData(testMethod).ToArray();
+            var testCases = sut.GetData(testMethod, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
 
             Assert.Collection(testCases,
                 testCase => Assert.Equal("testcase-one", testCase.Single()),
@@ -256,7 +256,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
             // Act
-            var testCases = sut.GetData(testMethod).ToArray();
+            var testCases = sut.GetData(testMethod, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
 
             // Assert
             Assert.Collection(testCases,
@@ -292,7 +292,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
             // Act
-            var testCases = sut.GetData(testMethod).ToArray();
+            var testCases = sut.GetData(testMethod, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
 
             // Assert
             Assert.Collection(testCases,
@@ -328,7 +328,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
 
             // Act
-            var testCases = sut.GetData(testMethod).ToArray();
+            var testCases = sut.GetData(testMethod, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
 
             // Assert
             Assert.Collection(testCases,
@@ -364,7 +364,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
 
             // Act
-            var testCases = sut.GetData(testMethod).ToArray();
+            var testCases = sut.GetData(testMethod, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
 
             // Assert
             Assert.Collection(testCases,

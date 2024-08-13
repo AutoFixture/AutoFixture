@@ -1,3 +1,5 @@
+using AutoFixture.Kernel;
+
 namespace AutoFixture.Xunit3.Internal
 {
     internal static class CustomizationExtensions

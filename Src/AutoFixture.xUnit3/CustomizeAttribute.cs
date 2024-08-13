@@ -1,4 +1,7 @@
-﻿namespace AutoFixture.Xunit3
+﻿using System;
+using System.Reflection;
+
+namespace AutoFixture.Xunit3
 {
     /// <summary>
     ///     Base class for customizing parameters in methods decorated with

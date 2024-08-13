@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
   <Import Project="..\Common.Test.props" />
-  <Import Project="..\Common.Test.xUnit.props" />
+  <Import Project="..\Common.Test.xUnit3.props" />
 
   <PropertyGroup>
     <TargetFrameworks>net472;net48;net6.0</TargetFrameworks>

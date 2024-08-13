@@ -1,4 +1,15 @@
-﻿namespace AutoFixture.Xunit3
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using AutoFixture.Xunit3.Internal;
+using Xunit;
+using Xunit.Sdk;
+using Xunit.v3;
+
+namespace AutoFixture.Xunit3
 {
     /// <summary>
     ///     An implementation of DataAttribute that composes other DataAttribute instances.
@@ -48,16 +59,18 @@
         /// <remarks>
         ///     The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets.
         /// </remarks>
-        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
         {
-            if (testMethod is null)
-            {
-                throw new ArgumentNullException(nameof(testMethod));
-            }
+            var attributes = this.Attributes;
+            var theoryDataRowsEnumerable = attributes.Select(attr => attr.GetData(testMethod, disposalTracker).Result);
+            var zip = theoryDataRowsEnumerable.Zip(dataSets => new TheoryDataRow(dataSets.Collapse().ToArray()));
 
-            return this.Attributes
-                       .Select(attr => attr.GetData(testMethod))
-                       .Zip(dataSets => dataSets.Collapse().ToArray());
+            return new ValueTask<IReadOnlyCollection<ITheoryDataRow>>(zip.ToArray());
+        }
+
+        public override bool SupportsDiscoveryEnumeration()
+        {
+            return true;
         }
     }
 }

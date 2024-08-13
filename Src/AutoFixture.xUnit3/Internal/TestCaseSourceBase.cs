@@ -1,4 +1,12 @@
-﻿namespace AutoFixture.Xunit3.Internal
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
+using Xunit.Sdk;
+
+namespace AutoFixture.Xunit3.Internal
 {
     /// <summary>
     ///     The base class for test case sources.
@@ -21,7 +29,7 @@
         /// </summary>
         /// <param name="method">The target method for which to provide the arguments.</param>
         /// <returns>Returns a sequence of argument collections.</returns>
-        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method)
+        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method, DisposalTracker disposalTracker)
         {
             if (method is null)
             {

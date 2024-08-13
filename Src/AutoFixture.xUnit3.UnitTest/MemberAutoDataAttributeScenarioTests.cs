@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using AutoFixture.Xunit2.UnitTest.TestTypes;
+using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit3.UnitTest
 {
     public class MemberAutoDataAttributeScenarioTests
     {
@@ -47,9 +47,8 @@ namespace AutoFixture.Xunit2.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestCases))]
-        public void FreezesUninjectedValues(
-            string a, [Frozen] string b, string c,
-            PropertyHolder<string> d)
+        public void FreezesUninjectedValues(string a, [Frozen] string b, string c,
+                                            PropertyHolder<string> d)
         {
             // Assert "a" ends with any possible ending from the test cases
             var aSuffix = a.Split('-').Last();
@@ -68,11 +67,11 @@ namespace AutoFixture.Xunit2.UnitTest
         [Theory]
         [MemberAutoData(nameof(GetMultipleValueTestCases))]
         public void InjectsValues([Frozen] string a,
-            [Frozen] int b,
-            [Frozen] decimal c,
-            PropertyHolder<string> a1,
-            PropertyHolder<int> b1,
-            PropertyHolder<decimal> c1)
+                                  [Frozen] int b,
+                                  [Frozen] decimal c,
+                                  PropertyHolder<string> a1,
+                                  PropertyHolder<int> b1,
+                                  PropertyHolder<decimal> c1)
         {
             // Assert "a" ends with any possible ending from the test cases
             var aSuffix = a.Split('-').Last();
@@ -96,8 +95,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringValuesTestCases))]
-        public void DoesNotAlterTestCaseValuesWhenFrozen(
-            [Frozen] string a, string b, string c)
+        public void DoesNotAlterTestCaseValuesWhenFrozen([Frozen] string a, string b, string c)
         {
             var aSuffix = a.Split('-').Last();
             var bSuffix = b.Split('-').Last();
@@ -113,8 +111,7 @@ namespace AutoFixture.Xunit2.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringValuesTestCases))]
-        public void LastInjectedValueIsFrozen(
-            [Frozen] string a, [Frozen] string b, string c)
+        public void LastInjectedValueIsFrozen([Frozen] string a, [Frozen] string b, string c)
         {
             var aSuffix = a.Split('-').Last();
             var bSuffix = b.Split('-').Last();
@@ -129,10 +126,9 @@ namespace AutoFixture.Xunit2.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetTestWithComplexTypesCases))]
-        public void InjectsComplexTypes(
-            [Frozen] PropertyHolder<string> a,
-            PropertyHolder<string> b,
-            PropertyHolder<string> c)
+        public void InjectsComplexTypes([Frozen] PropertyHolder<string> a,
+                                        PropertyHolder<string> b,
+                                        PropertyHolder<string> c)
         {
             Assert.NotNull(a);
             Assert.NotNull(b);

@@ -1,4 +1,7 @@
 #nullable enable
+using System;
+using AutoFixture.Kernel;
+
 namespace AutoFixture.Xunit3.Internal
 {
     internal class FrozenValueCustomization : ICustomization
