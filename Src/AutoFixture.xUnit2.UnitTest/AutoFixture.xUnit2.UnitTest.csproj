@@ -4,7 +4,7 @@
   <Import Project="..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net48;net6.0</TargetFrameworks>
+    <TargetFrameworks>net462;net48;net5.0;net6.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.xUnit.net2.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit2.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Xunit2.UnitTest</RootNamespace>
