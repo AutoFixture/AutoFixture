@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;netstandard2.0;net6.0</TargetFrameworks>
+    <AssemblyTitle>AutoFixture.xUnit.net3</AssemblyTitle>
+    <AssemblyName>AutoFixture.Xunit3</AssemblyName>
+    <RootNamespace>AutoFixture.Xunit3</RootNamespace>
+    <Copyright>Copyright © Ploeh 2011</Copyright>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.Xunit3</PackageId>
+    <Title>AutoFixture with xUnit.net v3 data theories</Title>
+    <Description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <PackageReference Include="xunit.v3.extensibility.core" Version="0.2.0-pre.83" />
+  </ItemGroup>
+
+  <!-- Dependencies added due to transitive vulnerabilities in xUnit -->
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0' Or '$(TargetFramework)'=='net6.0'">
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+  </ItemGroup>
+</Project>
