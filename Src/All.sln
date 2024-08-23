@@ -94,6 +94,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy7U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNSubstitute.NSubstitute5UnitTest", "AutoNSubstitute.NSubstitute5UnitTest\AutoNSubstitute.NSubstitute5UnitTest.csproj", "{7F18BAB2-6296-4248-9833-C65A1ED00C8D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit4", "AutoFixture.NUnit4\AutoFixture.NUnit4.csproj", "{0AAA65BF-CF2D-436D-A010-148017AAFAAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit4.UnitTest", "AutoFixture.NUnit4.UnitTest\AutoFixture.NUnit4.UnitTest.csproj", "{06C5994E-F91E-485C-B6B1-4993FC6493BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -341,6 +345,18 @@ Global
 		{7F18BAB2-6296-4248-9833-C65A1ED00C8D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F18BAB2-6296-4248-9833-C65A1ED00C8D}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{7F18BAB2-6296-4248-9833-C65A1ED00C8D}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{0AAA65BF-CF2D-436D-A010-148017AAFAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AAA65BF-CF2D-436D-A010-148017AAFAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AAA65BF-CF2D-436D-A010-148017AAFAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AAA65BF-CF2D-436D-A010-148017AAFAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AAA65BF-CF2D-436D-A010-148017AAFAAF}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{0AAA65BF-CF2D-436D-A010-148017AAFAAF}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{06C5994E-F91E-485C-B6B1-4993FC6493BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06C5994E-F91E-485C-B6B1-4993FC6493BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06C5994E-F91E-485C-B6B1-4993FC6493BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06C5994E-F91E-485C-B6B1-4993FC6493BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06C5994E-F91E-485C-B6B1-4993FC6493BA}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{06C5994E-F91E-485C-B6B1-4993FC6493BA}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
