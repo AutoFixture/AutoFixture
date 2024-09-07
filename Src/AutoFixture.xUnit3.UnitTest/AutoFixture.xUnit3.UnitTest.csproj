@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <Import Project="..\Common.props" />
   <Import Project="..\Common.Test.props" />
   <Import Project="..\Common.Test.xUnit3.props" />
@@ -11,7 +12,7 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'net48'">
+    <When Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48'">
       <ItemGroup>
         <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
         <ProjectReference Include="..\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
@@ -31,8 +32,4 @@
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="xunit.v3" Version="0.3.0-pre.11" />
-  </ItemGroup>
 </Project>
-
