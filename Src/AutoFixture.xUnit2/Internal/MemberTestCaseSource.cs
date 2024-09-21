@@ -49,7 +49,7 @@ namespace AutoFixture.Xunit2.Internal
         {
             var sourceMember = this.Type.GetMember(this.Name,
                     MemberTypes.Method | MemberTypes.Field | MemberTypes.Property,
-                    BindingFlags.Static | BindingFlags.Public)
+                    BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy)
                 .FirstOrDefault();
 
             if (sourceMember is null)

@@ -390,5 +390,41 @@ namespace AutoFixture.Xunit2.UnitTest
                     Assert.Equal(testCase[1], testCase[2]);
                 });
         }
+
+        [Fact]
+        public void SupportsInheritedTestDataMembers()
+        {
+            // Arrange
+            const string memberName = nameof(TestTypeWithMethodData.GetMultipleValueTestCases);
+            var sut = new MemberAutoDataAttribute(memberName);
+            var testMethod = ChildTestTypeMethodData.GetMultipleValueTestMethodInfo();
+
+            // Act
+            var testCases = sut.GetData(testMethod).ToArray();
+
+            // Assert
+            Assert.Collection(testCases,
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-one", testCase[0]);
+                    Assert.Equal(12, testCase[1]);
+                    Assert.Equal(23.3m, testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-two", testCase[0]);
+                    Assert.Equal(38, testCase[1]);
+                    Assert.Equal(12.7m, testCase[2]);
+                },
+                testCase =>
+                {
+                    Assert.Equal(3, testCase.Length);
+                    Assert.Equal("value-three", testCase[0]);
+                    Assert.Equal(94, testCase[1]);
+                    Assert.Equal(52.21m, testCase[2]);
+                });
+        }
     }
 }
