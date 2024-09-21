@@ -13,7 +13,7 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AutoFixture.snk</AssemblyOriginatorKeyFile>
 
     <Configurations>Debug;Release;Verify</Configurations>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>10</LangVersion>
 
     <Deterministic>true</Deterministic>
 
