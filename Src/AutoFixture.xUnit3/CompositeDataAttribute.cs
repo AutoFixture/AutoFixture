@@ -53,6 +53,7 @@ namespace AutoFixture.Xunit3
         ///     DataAttribute returned data.
         /// </summary>
         /// <param name="testMethod">The method that is being tested.</param>
+        /// <param name="disposalTracker"></param>
         /// <returns>
         ///     Returns the composition of the theory data.
         /// </returns>
@@ -68,6 +69,7 @@ namespace AutoFixture.Xunit3
             return new ValueTask<IReadOnlyCollection<ITheoryDataRow>>(zip.ToArray());
         }
 
+        /// <inheritdoc />
         public override bool SupportsDiscoveryEnumeration()
         {
             return true;

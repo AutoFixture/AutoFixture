@@ -28,6 +28,7 @@ namespace AutoFixture.Xunit3.Internal
         ///     Returns the test cases provided by the source.
         /// </summary>
         /// <param name="method">The target method for which to provide the arguments.</param>
+        /// <param name="disposalTracker"></param>
         /// <returns>Returns a sequence of argument collections.</returns>
         public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method, DisposalTracker disposalTracker)
         {

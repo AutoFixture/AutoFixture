@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
-    <PackageReference Include="xunit.v3" Version="0.4.0-pre.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0-pre.31">
+    <PackageReference Include="xunit.v3" Version="0.5.0-pre.27" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0-pre.42">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

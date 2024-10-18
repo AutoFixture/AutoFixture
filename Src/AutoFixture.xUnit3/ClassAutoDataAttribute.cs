@@ -52,11 +52,9 @@ namespace AutoFixture.Xunit3
         /// public void ClassDataSuppliesExtraValues(int sum, int[] numbers, Person client)
         /// {
         ///     var actual = numbers.Sum(x => x);
-        /// 
         ///     Assert.Equal(sum, actual);
         ///     Assert.NotNull(client);
         /// }
-        /// 
         /// private class CustomAutoClassData : ClassAutoDataAttribute
         /// {
         ///     public CustomAutoClassData(Type sourceType) :
@@ -64,7 +62,6 @@ namespace AutoFixture.Xunit3
         ///     {
         ///     }
         /// }
-        /// 
         /// private class MyTestData : IEnumerable&lt;object[]&gt;
         /// {
         ///     public IEnumerator&lt;object[]&gt; GetEnumerator()
@@ -73,7 +70,6 @@ namespace AutoFixture.Xunit3
         ///         yield return new object[] { 4, new int[] { 1, 2, 1} };
         ///         yield return new object[] { 23, new int [] { 0, 13, 15, -5 } };
         ///     }
-        /// 
         ///     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
         /// }
         /// </code>
@@ -113,6 +109,7 @@ namespace AutoFixture.Xunit3
             return new ValueTask<IReadOnlyCollection<ITheoryDataRow>>(theoryDataRows.ToArray());
         }
 
+        /// <inheritdoc />
         public override bool SupportsDiscoveryEnumeration()
         {
             return true;

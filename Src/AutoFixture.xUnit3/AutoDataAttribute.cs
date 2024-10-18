@@ -71,6 +71,7 @@ namespace AutoFixture.Xunit3
             return new ValueTask<IReadOnlyCollection<ITheoryDataRow>>(theoryDataRows.ToArray());
         }
 
+        /// <inheritdoc />
         public override bool SupportsDiscoveryEnumeration()
         {
             return true;
