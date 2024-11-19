@@ -1,26 +1,27 @@
 ﻿using System.Reflection;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes;
-
-/// <summary>
-/// Created to test whether MemberAutoDataAttribute can discover static test data members from parent classes.
-/// </summary>
-public class ChildTestTypeMethodData : TestTypeWithMethodData
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
-    public new void MultipleValueTest(string a, int b, decimal c)
+    /// <summary>
+    /// Created to test whether MemberAutoDataAttribute can discover static test data members from parent classes.
+    /// </summary>
+    public class ChildTestTypeMethodData : TestTypeWithMethodData
     {
-        Assert.NotNull(a);
-        Assert.NotEmpty(a);
-        Assert.False(string.IsNullOrWhiteSpace(a));
+        public new void MultipleValueTest(string a, int b, decimal c)
+        {
+            Assert.NotNull(a);
+            Assert.NotEmpty(a);
+            Assert.False(string.IsNullOrWhiteSpace(a));
 
-        Assert.True(b != default, "Value should not be default");
-        Assert.True(c != default, "Value should not be default");
-    }
+            Assert.True(b != default, "Value should not be default");
+            Assert.True(c != default, "Value should not be default");
+        }
 
-    public static new MethodInfo GetMultipleValueTestMethodInfo()
-    {
-        return typeof(ChildTestTypeMethodData)
-            .GetMethod(nameof(MultipleValueTest));
+        public static new MethodInfo GetMultipleValueTestMethodInfo()
+        {
+            return typeof(ChildTestTypeMethodData)
+                .GetMethod(nameof(MultipleValueTest));
+        }
     }
 }

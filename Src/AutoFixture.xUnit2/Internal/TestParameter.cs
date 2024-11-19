@@ -29,7 +29,7 @@ namespace AutoFixture.Xunit2.Internal
             var frozenAttribute = this.lazyFrozenAttribute.Value;
 
             if (frozenAttribute is null)
-                return new NullCustomization();
+                return NullCustomization.Instance;
 
             return new FrozenValueCustomization(
                 new ParameterFilter(this.ParameterInfo, frozenAttribute.By),
@@ -46,7 +46,7 @@ namespace AutoFixture.Xunit2.Internal
 
             return customizations switch
             {
-                { Length: 0 } => new NullCustomization(),
+                { Length: 0 } => NullCustomization.Instance,
                 { Length: 1 } => customizations[0],
                 _ => new CompositeCustomization(customizations),
             };

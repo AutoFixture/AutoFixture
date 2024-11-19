@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -10,9 +9,8 @@ namespace AutoFixture.Xunit2.Internal
     /// </summary>
     [SuppressMessage("Design", "CA1010:Generic interface should also be implemented",
         Justification = "Type is not a collection.")]
-    internal class ClassTestCaseSource : TestCaseSourceBase
+    public class ClassTestCaseSource : TestCaseSource
     {
-        private readonly Lazy<IEnumerable> lazyEnumerable;
         private readonly object[] parameters;
 
         /// <summary>
@@ -25,7 +23,6 @@ namespace AutoFixture.Xunit2.Internal
         {
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
             this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
-            this.lazyEnumerable = new Lazy<IEnumerable>(() => CreateInstance(this.Type, this.parameters), true);
         }
 
         /// <summary>
@@ -36,20 +33,14 @@ namespace AutoFixture.Xunit2.Internal
         /// <summary>
         /// Gets the constructor parameters for test case source type.
         /// </summary>
-        public IReadOnlyList<object> Parameters => this.parameters;
+        public IReadOnlyList<object> Parameters => Array.AsReadOnly(this.parameters);
 
-        /// <inheritdoc />
-        public override IEnumerator GetEnumerator()
+         /// <inheritdoc />
+        protected override IEnumerable<object[]> GetTestData()
         {
-            return this.lazyEnumerable.Value.GetEnumerator();
-        }
-
-        private static IEnumerable CreateInstance(Type type, object[] parameters)
-        {
-            var instance = Activator.CreateInstance(type: type, args: parameters);
-
-            if (instance is not IEnumerable enumerable)
-                throw new InvalidOperationException($"Data source type \"{type}\" should implement the \"{typeof(IEnumerable)}\" interface.");
+            var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
+            if (instance is not IEnumerable<object[]> enumerable)
+                throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
 
             return enumerable;
         }

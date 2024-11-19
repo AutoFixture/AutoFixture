@@ -47,17 +47,6 @@ namespace AutoFixture.Xunit2.UnitTest
         }
 
         [Fact]
-        public void GetDataThrowsWhenSourceTypeReturnsNull()
-        {
-            var sut = new ClassAutoDataAttribute(typeof(NullClassData));
-            var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
-
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
-
-            Assert.Throws<InvalidOperationException>(act);
-        }
-
-        [Fact]
         public void GetDataThrowsWhenSourceTypeNotEnumerable()
         {
             var sut = new ClassAutoDataAttribute(typeof(MyClass));
@@ -93,12 +82,12 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void GetDataThrowsWhenSourceYieldsNullResults()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(ClassWithNullTestCases));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var data = sut.GetData(testMethod).ToArray();
-
-            Assert.Equal(3, data.Length);
+            // Act & assert
+            Assert.Throws<InvalidOperationException>(() => sut.GetData(testMethod).ToArray());
         }
 
         [Fact]
@@ -185,17 +174,15 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = typeof(TypeWithCustomizationAttributes)
                 .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
+            var fixture = new DelegatingFixture
             {
-                customizationLog.Add(c);
-                return fixture;
+                OnCustomize = c => customizationLog.Add(c)
             };
 
             var sut = new DerivedClassAutoDataAttribute(() => fixture, typeof(ClassWithEmptyTestCases));
 
             // Act
-            var data = sut.GetData(method).ToArray();
+            _ = sut.GetData(method).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);

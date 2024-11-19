@@ -20,8 +20,7 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
-        /// </param>
+        /// <param name="attributes">The attributes representing a data source for a data theory.</param>
         public CompositeDataAttribute(IEnumerable<DataAttribute> attributes)
             : this(attributes as DataAttribute[] ?? attributes.ToArray())
         {
@@ -30,8 +29,7 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
-        /// </param>
+        /// <param name="attributes">The attributes representing a data source for a data theory.</param>
         public CompositeDataAttribute(params DataAttribute[] attributes)
         {
             this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
@@ -40,7 +38,7 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<DataAttribute> Attributes { get; }
+        public IReadOnlyList<DataAttribute> Attributes { get; }
 
         /// <summary>
         /// Returns the composition of data to be used to test the theory. Favors the data returned
@@ -48,11 +46,10 @@ namespace AutoFixture.Xunit2
         /// DataAttribute returned data.
         /// </summary>
         /// <param name="testMethod">The method that is being tested.</param>
-        /// <returns>
-        /// Returns the composition of the theory data.
-        /// </returns>
+        /// <returns>Returns the composition of the theory data.</returns>
         /// <remarks>
-        /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets.
+        /// The number of combined data sets is restricted to the length of the attribute
+        /// which provides the fewest data sets.
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {

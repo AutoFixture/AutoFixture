@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -11,10 +10,8 @@ namespace AutoFixture.Xunit2.Internal
     /// </summary>
     [SuppressMessage("Design", "CA1010:Generic interface should also be implemented",
         Justification = "Type is not a collection.")]
-    internal class MethodTestCaseSource : TestCaseSourceBase
+    public class MethodTestCaseSource : TestCaseSource
     {
-        private readonly object[] arguments;
-
         /// <summary>
         /// Creates an instance of type <see cref="MethodTestCaseSource" />.
         /// </summary>
@@ -23,7 +20,7 @@ namespace AutoFixture.Xunit2.Internal
         public MethodTestCaseSource(MethodInfo methodInfo, params object[] arguments)
         {
             this.MethodInfo = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
-            this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
         /// <summary>
@@ -34,17 +31,16 @@ namespace AutoFixture.Xunit2.Internal
         /// <summary>
         /// Gets the source method arguments.
         /// </summary>
-        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
+        public object[] Arguments { get; }
 
         /// <inheritdoc />
-        public override IEnumerator GetEnumerator()
+        protected override IEnumerable<object[]> GetTestData()
         {
-            var value = this.MethodInfo.Invoke(null, this.arguments);
-
-            if (value is not IEnumerable enumerable)
+            var value = this.MethodInfo.Invoke(null, this.Arguments);
+            if (value is not IEnumerable<object[]> enumerable)
                 throw new InvalidCastException("Member does not return an enumerable value.");
 
-            return enumerable.GetEnumerator();
+            return enumerable;
         }
     }
 }

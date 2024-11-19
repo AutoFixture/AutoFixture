@@ -484,10 +484,11 @@ namespace AutoFixture.Xunit2.UnitTest
         }
 
         [Theory, ClassAutoData(typeof(StringDataClass))]
-        public void ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2)
+        public void ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2, string s3)
         {
             Assert.Contains(s1, new[] { "foo", "dim" });
             Assert.NotEmpty(s2);
+            Assert.NotEmpty(s3);
         }
 
         [Theory, ClassAutoData(typeof(StringDataClass))]

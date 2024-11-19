@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -10,7 +10,7 @@ namespace AutoFixture.Xunit2.Internal
     /// </summary>
     [SuppressMessage("Design", "CA1010:Generic interface should also be implemented",
         Justification = "Type is not a collection.")]
-    internal class PropertyTestCaseSource : TestCaseSourceBase
+    public class PropertyTestCaseSource : TestCaseSource
     {
         /// <summary>
         /// Creates an instance of type <see cref="PropertyTestCaseSource"/>.
@@ -28,15 +28,13 @@ namespace AutoFixture.Xunit2.Internal
         public PropertyInfo PropertyInfo { get; }
 
         /// <inheritdoc />
-        public override IEnumerator GetEnumerator()
+        protected override IEnumerable<object[]> GetTestData()
         {
             var value = this.PropertyInfo.GetValue(null);
-            if (value is not IEnumerable enumerable)
-            {
+            if (value is not IEnumerable<object[]> enumerable)
                 throw new InvalidCastException("Member does not return an enumerable value.");
-            }
 
-            return enumerable.GetEnumerator();
+            return enumerable;
         }
     }
 }

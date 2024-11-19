@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using AutoFixture.Xunit2.Internal;
 using Xunit.Sdk;
@@ -55,8 +54,9 @@ namespace AutoFixture.Xunit2
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            return new AutoTestCaseSource(this.FixtureFactory, new InlineTestCaseSource(this.Values))
-                .GetTestCases(testMethod).Select(x => x.ToArray());
+            var source = new AutoTestCaseSource(this.FixtureFactory, new InlineTestCaseSource(this.Values));
+
+            return source.GetTestCases(testMethod);
         }
     }
 }

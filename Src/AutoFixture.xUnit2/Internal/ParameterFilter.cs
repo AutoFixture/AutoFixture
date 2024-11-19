@@ -9,7 +9,7 @@ namespace AutoFixture.Xunit2.Internal
     /// </summary>
     internal class ParameterFilter : IRequestSpecification
     {
-        private readonly Lazy<IRequestSpecification> lazySpecification;
+        private readonly IRequestSpecification matcherSpecification;
 
         /// <summary>
         /// Creates an instance of type <see cref="ParameterFilter"/>.
@@ -21,9 +21,8 @@ namespace AutoFixture.Xunit2.Internal
         {
             this.ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
             this.Flags = flags;
-            this.lazySpecification = new Lazy<IRequestSpecification>(() =>
-                new ParameterMatcherBuilder(this.ParameterInfo)
-                    .SetFlags(this.Flags).Build());
+            this.matcherSpecification = new ParameterMatcherBuilder(this.ParameterInfo)
+                    .SetFlags(this.Flags).Build();
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace AutoFixture.Xunit2.Internal
         /// <inheritdoc />
         public bool IsSatisfiedBy(object request)
         {
-            return this.lazySpecification.Value.IsSatisfiedBy(request);
+            return this.matcherSpecification.IsSatisfiedBy(request);
         }
     }
 }

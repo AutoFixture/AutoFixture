@@ -58,7 +58,8 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
 
         public IFixture Customize(ICustomization customization)
         {
-            return this.OnCustomize?.Invoke(customization);
+            this.OnCustomize?.Invoke(customization);
+            return this;
         }
 
         public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
@@ -103,6 +104,6 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
 
         internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
 
-        internal Func<ICustomization, IFixture> OnCustomize { get; set; }
+        internal Action<ICustomization> OnCustomize { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 #nullable enable
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,10 +10,8 @@ namespace AutoFixture.Xunit2.Internal
     /// <summary>
     /// Encapsulates access to a member that provides test cases.
     /// </summary>
-    internal class MemberTestCaseSource : ITestCaseSource
+    public class MemberTestCaseSource : ITestCaseSource
     {
-        private readonly object[] arguments;
-
         /// <summary>
         /// Creates an instance of type <see cref="MemberTestCaseSource" />.
         /// </summary>
@@ -26,7 +23,7 @@ namespace AutoFixture.Xunit2.Internal
         {
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
         /// <summary>
@@ -42,10 +39,10 @@ namespace AutoFixture.Xunit2.Internal
         /// <summary>
         /// Gets the arguments provided to the member.
         /// </summary>
-        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
+        public object[] Arguments { get; }
 
         /// <inheritdoc />
-        public IEnumerable<IEnumerable<object>> GetTestCases(MethodInfo method)
+        public IEnumerable<object[]> GetTestCases(MethodInfo method)
         {
             var sourceMember = this.Type.GetMember(this.Name,
                     MemberTypes.Method | MemberTypes.Field | MemberTypes.Property,
@@ -54,7 +51,7 @@ namespace AutoFixture.Xunit2.Internal
 
             if (sourceMember is null)
             {
-                string message = string.Format(
+                var message = string.Format(
                     CultureInfo.CurrentCulture,
                     "Could not find public static member (property, field, or method) named '{0}' on {1}",
                     this.Name, this.Type.FullName);
@@ -62,20 +59,20 @@ namespace AutoFixture.Xunit2.Internal
             }
 
             var returnType = sourceMember.GetReturnType();
-            if (!typeof(IEnumerable).IsAssignableFrom(returnType))
+            if (!typeof(IEnumerable<object[]>).IsAssignableFrom(returnType))
             {
-                string message = string.Format(
+                var message = string.Format(
                     CultureInfo.CurrentCulture,
-                    "Member {0} on {1} does not return IEnumerable",
+                    "Member {0} on {1} does not return IEnumerable<object[]>",
                     this.Name, this.Type.FullName);
                 throw new ArgumentException(message);
             }
 
-            TestCaseSourceBase source = sourceMember switch
+            TestCaseSource source = sourceMember switch
             {
                 FieldInfo fieldInfo => new FieldTestCaseSource(fieldInfo),
                 PropertyInfo propertyInfo => new PropertyTestCaseSource(propertyInfo),
-                MethodInfo methodInfo => new MethodTestCaseSource(methodInfo, this.arguments),
+                MethodInfo methodInfo => new MethodTestCaseSource(methodInfo, this.Arguments),
                 _ => throw new InvalidOperationException("Unsupported member type.")
             };
 

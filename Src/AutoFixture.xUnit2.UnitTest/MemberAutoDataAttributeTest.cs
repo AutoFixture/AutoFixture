@@ -196,11 +196,9 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = typeof(TypeWithCustomizationAttributes)
                 .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
+            var fixture = new DelegatingFixture
             {
-                customizationLog.Add(c);
-                return fixture;
+                OnCustomize = c => customizationLog.Add(c)
             };
 
             var sut = new DerivedMemberAutoDataAttribute(
@@ -209,7 +207,7 @@ namespace AutoFixture.Xunit2.UnitTest
                 nameof(TestTypeWithMethodData.TestCasesWithNoValues));
 
             // Act
-            var data = sut.GetData(method).ToArray();
+            _ = sut.GetData(method).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);

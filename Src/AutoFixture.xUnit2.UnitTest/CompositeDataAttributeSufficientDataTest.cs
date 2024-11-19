@@ -17,7 +17,6 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             this.method = typeof(TypeWithOverloadedMembers)
                 .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-            var parameters = this.method.GetParameters();
         }
 
         [Theory]
