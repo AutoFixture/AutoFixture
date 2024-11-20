@@ -110,5 +110,35 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
             new object[] { "foo", 2, new RecordType<string>("bar") },
             new object[] { "Han", 3, new RecordType<string>("Solo") }
         };
+
+        [Fact]
+        public void ReturnsNullArguments()
+        {
+            // Arrange
+            var expected = new[]
+            {
+                new object[] { null, 1, null },
+                new object[] { null, 2, null },
+                new object[] { null, 3, null }
+            };
+            var sourceProperty = typeof(PropertyTestCaseSourceTests)
+                .GetProperty(nameof(TestDataPropertyWithNullValues));
+            var sut = new PropertyTestCaseSource(sourceProperty);
+            var testMethod = typeof(SampleTestType)
+                .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
+
+            // Act
+            var result = sut.GetTestCases(testMethod).ToArray();
+
+            // Assert
+            Assert.Equal(expected, result);
+        }
+
+        public static IEnumerable<object[]> TestDataPropertyWithNullValues => new[]
+        {
+            new object[] { null, 1, null },
+            new object[] { null, 2, null },
+            new object[] { null, 3, null }
+        };
     }
 }

@@ -424,5 +424,24 @@ namespace AutoFixture.Xunit2.UnitTest
                     Assert.Equal(52.21m, testCase[2]);
                 });
         }
+
+        public static IEnumerable<object[]> TestDataWithNullValues
+        {
+            get
+            {
+                yield return new object[] { null, null };
+                yield return new object[] { string.Empty, null };
+                yield return new object[] { " ", null };
+            }
+        }
+
+        [Theory]
+        [MemberAutoData(nameof(TestDataWithNullValues))]
+        public void NullTestDataReturned(string a, string b, PropertyHolder<string> c)
+        {
+            Assert.True(string.IsNullOrWhiteSpace(a));
+            Assert.Null(b);
+            Assert.NotNull(c);
+        }
     }
 }
