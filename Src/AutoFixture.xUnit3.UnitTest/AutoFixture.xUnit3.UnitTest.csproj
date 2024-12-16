@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="xunit.v3" Version="0.7.0-pre.12" />
+    <PackageReference Update="xunit.v3" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
