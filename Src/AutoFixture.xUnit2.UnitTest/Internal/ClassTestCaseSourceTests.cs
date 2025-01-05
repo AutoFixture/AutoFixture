@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AutoFixture.Xunit2.Internal;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 
@@ -126,7 +127,7 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         public void AppliesExpectedConstructorParameters()
         {
             // Arrange
-            var parameters = new[] { new object[] { "y", 25 } };
+            object[] parameters = { new object[] { "y", 25 } };
             var sut = new ClassTestCaseSource(typeof(DelegatingTestData), parameters);
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));

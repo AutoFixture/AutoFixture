@@ -12,6 +12,8 @@ namespace AutoFixture.Xunit2.Internal
         Justification = "Type is not a collection.")]
     public class MethodTestCaseSource : TestCaseSource
     {
+        private readonly object[] arguments;
+
         /// <summary>
         /// Creates an instance of type <see cref="MethodTestCaseSource" />.
         /// </summary>
@@ -20,7 +22,7 @@ namespace AutoFixture.Xunit2.Internal
         public MethodTestCaseSource(MethodInfo methodInfo, params object[] arguments)
         {
             this.MethodInfo = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
-            this.Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
         /// <summary>
@@ -31,12 +33,12 @@ namespace AutoFixture.Xunit2.Internal
         /// <summary>
         /// Gets the source method arguments.
         /// </summary>
-        public object[] Arguments { get; }
+        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
 
         /// <inheritdoc />
         protected override IEnumerable<object[]> GetTestData()
         {
-            var value = this.MethodInfo.Invoke(null, this.Arguments);
+            var value = this.MethodInfo.Invoke(null, this.arguments);
             if (value is not IEnumerable<object[]> enumerable)
                 throw new InvalidCastException("Member does not return an enumerable value.");
 

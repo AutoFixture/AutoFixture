@@ -12,6 +12,8 @@ namespace AutoFixture.Xunit2.Internal
     /// </summary>
     public class MemberTestCaseSource : ITestCaseSource
     {
+        private readonly object[] arguments;
+
         /// <summary>
         /// Creates an instance of type <see cref="MemberTestCaseSource" />.
         /// </summary>
@@ -23,7 +25,8 @@ namespace AutoFixture.Xunit2.Internal
         {
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.Source = this.GetTestCaseSource();
         }
 
         /// <summary>
@@ -39,10 +42,20 @@ namespace AutoFixture.Xunit2.Internal
         /// <summary>
         /// Gets the arguments provided to the member.
         /// </summary>
-        public object[] Arguments { get; }
+        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
+
+        /// <summary>
+        /// Gets the test case source.
+        /// </summary>
+        protected TestCaseSource Source { get; }
 
         /// <inheritdoc />
         public IEnumerable<object[]> GetTestCases(MethodInfo method)
+        {
+            return this.Source.GetTestCases(method);
+        }
+
+        private TestCaseSource GetTestCaseSource()
         {
             var sourceMember = this.Type.GetMember(this.Name,
                     MemberTypes.Method | MemberTypes.Field | MemberTypes.Property,
@@ -68,15 +81,13 @@ namespace AutoFixture.Xunit2.Internal
                 throw new ArgumentException(message);
             }
 
-            TestCaseSource source = sourceMember switch
+            return sourceMember switch
             {
                 FieldInfo fieldInfo => new FieldTestCaseSource(fieldInfo),
                 PropertyInfo propertyInfo => new PropertyTestCaseSource(propertyInfo),
-                MethodInfo methodInfo => new MethodTestCaseSource(methodInfo, this.Arguments),
+                MethodInfo methodInfo => new MethodTestCaseSource(methodInfo, this.arguments),
                 _ => throw new InvalidOperationException("Unsupported member type.")
             };
-
-            return source.GetTestCases(method);
         }
     }
 }

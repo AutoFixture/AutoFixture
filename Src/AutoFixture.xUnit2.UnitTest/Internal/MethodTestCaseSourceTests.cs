@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoFixture.Xunit2.Internal;
 using TestTypeFoundation;
 using Xunit;
@@ -87,5 +88,21 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
             // Assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void ThrowsWhenMemberDoesNotReturnAnEnumerableValue()
+        {
+            // Arrange
+            var dataSource = typeof(MethodTestCaseSourceTests)
+                .GetMethod(nameof(NonEnumerableTestData));
+            var testData = typeof(SampleTestType)
+                .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
+            var sut = new MethodTestCaseSource(dataSource);
+
+            // Act & Assert
+            Assert.Throws<InvalidCastException>(() => sut.GetTestCases(testData).ToArray());
+        }
+
+        public static object NonEnumerableTestData() => new();
     }
 }

@@ -17,6 +17,8 @@ namespace AutoFixture.Xunit2
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
+        private readonly DataAttribute[] attributes;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
@@ -32,13 +34,13 @@ namespace AutoFixture.Xunit2
         /// <param name="attributes">The attributes representing a data source for a data theory.</param>
         public CompositeDataAttribute(params DataAttribute[] attributes)
         {
-            this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
+            this.attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
         }
 
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IReadOnlyList<DataAttribute> Attributes { get; }
+        public IReadOnlyList<DataAttribute> Attributes => Array.AsReadOnly(this.attributes);
 
         /// <summary>
         /// Returns the composition of data to be used to test the theory. Favors the data returned
@@ -55,7 +57,7 @@ namespace AutoFixture.Xunit2
         {
             if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
 
-            return this.Attributes
+            return this.attributes
                 .Select(attr => attr.GetData(testMethod))
                 .Zip(dataSets => dataSets.Collapse().ToArray());
         }

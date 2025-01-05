@@ -12,6 +12,8 @@ namespace AutoFixture.Xunit2.Internal
         Justification = "Type is not a collection.")]
     public sealed class InlineTestCaseSource : ITestCaseSource
     {
+        private readonly object[] values;
+
         /// <summary>
         /// Creates an instance of type <see cref="InlineTestCaseSource" />.
         /// </summary>
@@ -21,13 +23,13 @@ namespace AutoFixture.Xunit2.Internal
         /// </exception>
         public InlineTestCaseSource(object[] values)
         {
-            this.Values = values ?? throw new ArgumentNullException(nameof(values));
+            this.values = values ?? throw new ArgumentNullException(nameof(values));
         }
 
         /// <summary>
         /// The collection of inline values.
         /// </summary>
-        public object[] Values { get; }
+        public IReadOnlyList<object> Values => Array.AsReadOnly(this.values);
 
         /// <inheritdoc />
         public IEnumerable<object[]> GetTestCases(MethodInfo method)
@@ -35,13 +37,13 @@ namespace AutoFixture.Xunit2.Internal
             if (method is null) throw new ArgumentNullException(nameof(method));
 
             var parameters = method.GetParameters();
-            if (this.Values.Length > parameters.Length)
+            if (this.values.Length > parameters.Length)
             {
                 throw new InvalidOperationException(
                     "The number of arguments provided exceeds the number of parameters.");
             }
 
-            return new[] { this.Values };
+            return new[] { this.values };
         }
     }
 }
