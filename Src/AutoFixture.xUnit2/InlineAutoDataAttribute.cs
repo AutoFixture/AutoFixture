@@ -54,9 +54,9 @@ namespace AutoFixture.Xunit2
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            var source = new AutoTestCaseSource(this.FixtureFactory, new InlineTestCaseSource(this.Values));
+            var source = new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values));
 
-            return source.GetTestCases(testMethod);
+            return source.GetData(testMethod);
         }
     }
 }

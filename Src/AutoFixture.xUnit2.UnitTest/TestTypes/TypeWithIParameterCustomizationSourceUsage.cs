@@ -9,7 +9,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
         {
         }
 
-        [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+        [AttributeUsage(AttributeTargets.All)]
         public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
         {
             public ICustomization GetCustomization(ParameterInfo parameter)

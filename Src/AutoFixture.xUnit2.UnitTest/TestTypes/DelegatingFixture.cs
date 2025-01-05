@@ -7,34 +7,18 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     internal class DelegatingFixture : IFixture
     {
-        private readonly List<ISpecimenBuilder> customizations;
-        private readonly List<ISpecimenBuilder> residueCollectors;
+        private readonly List<ISpecimenBuilder> customizations = new();
+        private readonly List<ISpecimenBuilder> residueCollectors = new();
 
-        public DelegatingFixture()
-        {
-            this.customizations = new List<ISpecimenBuilder>();
-            this.residueCollectors = new List<ISpecimenBuilder>();
-            this.OnCreate = (r, s) => new object();
-        }
+        public IList<ISpecimenBuilderTransformation> Behaviors => throw new NotImplementedException();
 
-        public IList<ISpecimenBuilderTransformation> Behaviors
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IList<ISpecimenBuilder> Customizations
-        {
-            get { return this.customizations; }
-        }
+        public IList<ISpecimenBuilder> Customizations => this.customizations;
 
         public bool OmitAutoProperties { get; set; }
 
         public int RepeatCount { get; set; }
 
-        public IList<ISpecimenBuilder> ResidueCollectors
-        {
-            get { return this.residueCollectors; }
-        }
+        public IList<ISpecimenBuilder> ResidueCollectors => this.residueCollectors;
 
         public void AddManyTo<T>(ICollection<T> collection, Func<T> creator)
         {
@@ -102,7 +86,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             return this.OnCreate(request, context);
         }
 
-        internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
+        internal Func<object, ISpecimenContext, object> OnCreate { get; set; } = (_, _) => new object();
 
         internal Action<ICustomization> OnCustomize { get; set; }
     }

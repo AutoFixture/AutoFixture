@@ -128,7 +128,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new DerivedInlineAutoDataAttribute(() => fixture);
 
             // Act
-            sut.GetData(method).ToArray();
+            _ = sut.GetData(method).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -154,10 +154,10 @@ namespace AutoFixture.Xunit2.UnitTest
         [InlineAutoData]
         public void GeneratesRandomData(int a, float b, string c, decimal d)
         {
-            Assert.NotEqual(default, a);
-            Assert.NotEqual(default, b);
-            Assert.NotEqual(default, c);
-            Assert.NotEqual(default, d);
+            Assert.NotEqual(0, a);
+            Assert.NotEqual(0, b);
+            Assert.NotNull(c);
+            Assert.NotEqual(0, d);
         }
 
         [Theory]

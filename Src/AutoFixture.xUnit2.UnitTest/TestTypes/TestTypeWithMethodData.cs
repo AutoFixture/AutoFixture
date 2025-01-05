@@ -10,9 +10,9 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
     {
         public IEnumerable<object[]> NonStaticSource()
         {
-            yield return new object[] { new object() };
-            yield return new object[] { new object() };
-            yield return new object[] { new object() };
+            yield return new[] { new object() };
+            yield return new[] { new object() };
+            yield return new[] { new object() };
         }
 
         public static MethodInfo GetNonStaticSourceMethodInfo()
@@ -32,23 +32,12 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
                 .GetMethod(nameof(NonEnumerableMethod));
         }
 
-        public static IEnumerable<object[]> EmptyTestCases()
-            => Enumerable.Empty<object[]>();
-
-        public static MethodInfo GetEmptyTestCasesMethodInfo()
-            => typeof(TestTypeWithMethodData)
-                .GetMethod(nameof(EmptyTestCases));
-
-        public static IEnumerable<object[]> TestCasesWithNoValues()
+        public static IEnumerable<object[]> TestDataWithNoValues()
         {
             yield return new object[] { };
             yield return new object[] { };
             yield return new object[] { };
         }
-
-        public static MethodInfo GetTestCasesWithNoValues()
-            => typeof(TestTypeWithMethodData)
-                .GetMethod(nameof(TestCasesWithNoValues));
 
         public void SingleStringValueTest(string value)
         {
@@ -63,7 +52,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
                 .GetMethod(nameof(SingleStringValueTest));
         }
 
-        public static IEnumerable<object[]> GetSingleStringValueTestCases()
+        public static IEnumerable<object[]> GetSingleStringValueTestData()
         {
             yield return new object[] { "value-one" };
             yield return new object[] { "value-two" };
@@ -89,8 +78,8 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             Assert.NotEmpty(a);
             Assert.False(string.IsNullOrWhiteSpace(a));
 
-            Assert.True(b != default, "Value should not be default");
-            Assert.True(c != default, "Value should not be default");
+            Assert.True(b != 0, "Value should not be default");
+            Assert.True(c != 0, "Value should not be default");
         }
 
         public static MethodInfo GetMultipleValueTestMethodInfo()
@@ -99,7 +88,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
                 .GetMethod(nameof(MultipleValueTest));
         }
 
-        public static IEnumerable<object[]> GetMultipleValueTestCases()
+        public static IEnumerable<object[]> GetMultipleValueTestData()
         {
             yield return new object[] { "value-one", 12, 23.3m };
             yield return new object[] { "value-two", 38, 12.7m };
@@ -116,7 +105,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             Assert.Equal(b, c);
         }
 
-        public static IEnumerable<object[]> GetTestWithFrozenParameterCases()
+        public static IEnumerable<object[]> GetDataForTestWithFrozenParameter()
         {
             yield return new object[] { "value-one", "value-two" };
             yield return new object[] { "value-two", "value-three" };
@@ -137,7 +126,7 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             Assert.Same(a, b);
         }
 
-        public static IEnumerable<object[]> GetTestWithComplexTypesCases()
+        public static IEnumerable<object[]> GetTestWithComplexTypesData()
         {
             yield return new object[]
             {
@@ -162,13 +151,13 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
                 .GetMethod(nameof(TestWithComplexTypes));
         }
 
-        public static IEnumerable<object[]> GetStringValuesTestCases()
+        public static IEnumerable<object[]> GetStringValuesTestData()
         {
             yield return new object[] { "test-one", "test-uno" };
             yield return new object[] { "test-two", "test-dos" };
             yield return new object[] { "test-three", "test-tres" };
         }
 
-        public static IEnumerable<object[]> GetEmptyTestCases() => Enumerable.Empty<object[]>();
+        public static IEnumerable<object[]> GetEmptyTestData() => Enumerable.Empty<object[]>();
     }
 }

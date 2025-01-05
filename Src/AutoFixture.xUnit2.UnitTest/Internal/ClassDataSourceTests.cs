@@ -9,32 +9,30 @@ using Xunit;
 
 namespace AutoFixture.Xunit2.UnitTest.Internal
 {
-    public class ClassTestCaseSourceTests
+    public class ClassDataSourceTests
     {
         [Fact]
-        public void SutIsTestCaseSource()
+        public void SutIsTestDataSource()
         {
             // Arrange & Act
-            var sut = new ClassTestCaseSource(typeof(object), Array.Empty<object>());
+            var sut = new ClassDataSource(typeof(object), Array.Empty<object>());
 
             // Assert
-            Assert.IsAssignableFrom<ITestCaseSource>(sut);
+            Assert.IsAssignableFrom<IDataSource>(sut);
         }
 
         [Fact]
         public void ConstructorWithNullTypeThrows()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => _ = new ClassTestCaseSource(null!, Array.Empty<object>()));
+            Assert.Throws<ArgumentNullException>(() => _ = new ClassDataSource(null!, Array.Empty<object>()));
         }
 
         [Fact]
         public void ConstructorWithNullParametersThrows()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => _ = new ClassTestCaseSource(typeof(object), null!));
+            Assert.Throws<ArgumentNullException>(() => _ = new ClassDataSource(typeof(object), null!));
         }
 
         [Fact]
@@ -42,7 +40,7 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         {
             // Arrange
             var expected = typeof(object);
-            var sut = new ClassTestCaseSource(expected, Array.Empty<object>());
+            var sut = new ClassDataSource(expected, Array.Empty<object>());
 
             // Act
             var result = sut.Type;
@@ -56,7 +54,7 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         {
             // Arrange
             var expected = new[] { new object() };
-            var sut = new ClassTestCaseSource(typeof(object), expected);
+            var sut = new ClassDataSource(typeof(object), expected);
 
             // Act
             var result = sut.Parameters;
@@ -69,12 +67,12 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         public void ThrowsWhenSourceIsNotEnumerable()
         {
             // Arrange
-            var sut = new ClassTestCaseSource(typeof(object), Array.Empty<object>());
+            var sut = new ClassDataSource(typeof(object), Array.Empty<object>());
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => sut.GetTestCases(method).ToArray());
+            Assert.Throws<InvalidOperationException>(() => sut.GetData(method).ToArray());
         }
 
         [Fact]
@@ -87,12 +85,12 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
                 new object[] { "foo", 2, new RecordType<string>("bar") },
                 new object[] { "Han", 3, new RecordType<string>("Solo") }
             };
-            var sut = new ClassTestCaseSource(typeof(TestSourceWithMixedValues), Array.Empty<object>());
+            var sut = new ClassDataSource(typeof(TestSourceWithMixedValues), Array.Empty<object>());
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act
-            var actual = sut.GetTestCases(method).ToArray();
+            var actual = sut.GetData(method).ToArray();
 
             // Assert
             Assert.Equal(expected, actual);
@@ -115,12 +113,12 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         {
             // Arrange
             var parameters = new object[] { "a", 1 };
-            var sut = new ClassTestCaseSource(typeof(TestSourceWithMixedValues), parameters);
+            var sut = new ClassDataSource(typeof(TestSourceWithMixedValues), parameters);
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            Assert.Throws<MissingMethodException>(() => sut.GetTestCases(method).ToArray());
+            Assert.Throws<MissingMethodException>(() => sut.GetData(method).ToArray());
         }
 
         [Fact]
@@ -128,12 +126,12 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         {
             // Arrange
             object[] parameters = { new object[] { "y", 25 } };
-            var sut = new ClassTestCaseSource(typeof(DelegatingTestData), parameters);
+            var sut = new ClassDataSource(typeof(DelegatingTestData), parameters);
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act
-            var result = sut.GetTestCases(method).ToArray();
+            var result = sut.GetData(method).ToArray();
 
             // Assert
             Assert.Equal(new object[] { "y", 25 }, result.Single());

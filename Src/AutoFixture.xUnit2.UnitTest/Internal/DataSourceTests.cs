@@ -1,42 +1,44 @@
 ﻿using System;
 using System.Linq;
 using AutoFixture.Xunit2.Internal;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using Xunit;
 
 namespace AutoFixture.Xunit2.UnitTest.Internal
 {
-    public class TestCaseSourceTests
+    public class DataSourceTests
     {
         [Fact]
-        public void SutIsTestCaseSource()
+        public void SutIsTestDataSource()
         {
             // Arrange
-            var sut = new DelegatingTestCaseSource();
+            var sut = new DelegatingDataSource();
 
             // Assert
-            Assert.IsAssignableFrom<ITestCaseSource>(sut);
+            Assert.IsAssignableFrom<IDataSource>(sut);
         }
 
         [Fact]
         public void ThrowsWhenInvokedWithNullMethodInfo()
         {
             // Arrange
-            var sut = new DelegatingTestCaseSource();
+            var sut = new DelegatingDataSource();
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => sut.GetTestCases(null));
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GetData(null));
         }
 
         [Fact]
         public void ReturnSingleEmptyArrayWhenMethodHasNoParameters()
         {
             // Arrange
-            var sut = new DelegatingTestCaseSource();
+            var sut = new DelegatingDataSource();
             var testMethod = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithoutParameters));
 
             // Act
-            var result = sut.GetTestCases(testMethod).ToArray();
+            var result = sut.GetData(testMethod).ToArray();
 
             // Assert
             var item = Assert.Single(result);
@@ -47,31 +49,32 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         public void ThrowsWhenNoDataFoundForMethod()
         {
             // Arrange
-            var sut = new DelegatingTestCaseSource { TestCases = null };
+            var sut = new DelegatingDataSource { TestData = null };
             var testMethod = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => sut.GetTestCases(testMethod).ToArray());
+            Assert.Throws<InvalidOperationException>(
+                () => sut.GetData(testMethod).ToArray());
         }
 
         [Fact]
         public void ReturnSingleArrayWithSingleItemWhenMethodHasSingleParameter()
         {
             // Arrange
-            var sut = new DelegatingTestCaseSource
+            var sut = new DelegatingDataSource
             {
-                TestCases = new[] { new object[] { "hello" } }
+                TestData = new[] { new object[] { "hello" } }
             };
             var testMethod = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
             // Act
-            var result = sut.GetTestCases(testMethod).ToArray();
+            var result = sut.GetData(testMethod).ToArray();
 
             // Assert
-            var testCase = Assert.Single(result);
-            var argument = Assert.Single(testCase);
+            var testData = Assert.Single(result);
+            var argument = Assert.Single(testData);
             Assert.Equal("hello", argument);
         }
 
@@ -79,7 +82,7 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         public void ReturnsArgumentsFittingTestParameters()
         {
             // Arrange
-            var testCases = new[]
+            var testData = new[]
             {
                 new object[] { "hello", 16, 32.86d },
                 new object[] { null, -1, -20.22 },
@@ -87,15 +90,15 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
                 new object[] { null },
                 new object[] { },
             };
-            var sut = new DelegatingTestCaseSource { TestCases = testCases };
+            var sut = new DelegatingDataSource { TestData = testData };
             var testMethod = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            var actual = sut.GetTestCases(testMethod).ToArray();
+            var actual = sut.GetData(testMethod).ToArray();
 
             // Assert
-            Assert.Equal(testCases.Length, actual.Length);
+            Assert.Equal(testData.Length, actual.Length);
             Assert.All(actual, x => Assert.InRange(x.Length, 0, 3));
         }
 
@@ -103,16 +106,14 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         public void ThrowsWhenTestDataContainsMoreArgumentsThanParameters()
         {
             // Arrange
-            var testCases = new[]
-            {
-                new object[] { "hello", 16, 32.86d, "extra" },
-            };
-            var sut = new DelegatingTestCaseSource { TestCases = testCases };
+            var testData = new[] { new object[] { "hello", 16, 32.86d, "extra" } };
+            var sut = new DelegatingDataSource { TestData = testData };
             var testMethod = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => sut.GetTestCases(testMethod).ToArray());
+            Assert.Throws<InvalidOperationException>(
+                () => sut.GetData(testMethod).ToArray());
         }
     }
 }

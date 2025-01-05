@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoFixture.Xunit2.Internal;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using Xunit;
 
 namespace AutoFixture.Xunit2.UnitTest.Internal;
 
-public class MemberTestCaseSourceTests
+public class MemberDataSourceTests
 {
     public static object NonTestDataField = new();
     public static object NonTestDataProperty => new();
@@ -15,15 +16,15 @@ public class MemberTestCaseSourceTests
     public static IEnumerable<object[]> GetEmptyTestData() => Array.Empty<object[]>();
 
     [Fact]
-    public void SutIsTestCaseSource()
+    public void SutIsTestDataSource()
     {
         // Arrange & Act
-        var sut = new MemberTestCaseSource(
-            typeof(MemberTestCaseSourceTests),
+        var sut = new MemberDataSource(
+            typeof(MemberDataSourceTests),
             nameof(GetEmptyTestData));
 
         // Assert
-        Assert.IsAssignableFrom<ITestCaseSource>(sut);
+        Assert.IsAssignableFrom<IDataSource>(sut);
     }
 
     [Fact]
@@ -34,41 +35,41 @@ public class MemberTestCaseSourceTests
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(
-            () => new MemberTestCaseSource(null!, method));
+            () => new MemberDataSource(null!, method));
     }
 
     [Fact]
     public void ThrowsWhenNameIsNull()
     {
         // Arrange
-        var type = typeof(MemberTestCaseSourceTests);
+        var type = typeof(MemberDataSourceTests);
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(
-            () => new MemberTestCaseSource(type, null!));
+            () => new MemberDataSource(type, null!));
     }
 
     [Fact]
     public void ThrowsWhenArgumentsIsNull()
     {
         // Arrange
-        var type = typeof(MemberTestCaseSourceTests);
+        var type = typeof(MemberDataSourceTests);
         var method = nameof(GetEmptyTestData);
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(
-            () => new MemberTestCaseSource(type, method, null!));
+            () => new MemberDataSource(type, method, null!));
     }
 
     [Fact]
     public void InitializesTypeProperty()
     {
         // Arrange
-        var type = typeof(MemberTestCaseSourceTests);
+        var type = typeof(MemberDataSourceTests);
         var method = nameof(GetEmptyTestData);
 
         // Act
-        var sut = new MemberTestCaseSource(type, method);
+        var sut = new MemberDataSource(type, method);
 
         // Assert
         Assert.Equal(type, sut.Type);
@@ -77,16 +78,16 @@ public class MemberTestCaseSourceTests
     }
 
     [Theory]
-    [InlineData(nameof(EmptyTestDataField), typeof(FieldTestCaseSource))]
-    [InlineData(nameof(EmptyTestData), typeof(PropertyTestCaseSource))]
-    [InlineData(nameof(GetEmptyTestData), typeof(MethodTestCaseSource))]
+    [InlineData(nameof(EmptyTestDataField), typeof(FieldDataSource))]
+    [InlineData(nameof(EmptyTestData), typeof(PropertyDataSource))]
+    [InlineData(nameof(GetEmptyTestData), typeof(MethodDataSource))]
     public void InitializesSourceProperty(string memberName, Type expectedInnerSourceType)
     {
         // Arrange
-        var type = typeof(MemberTestCaseSourceTests);
+        var type = typeof(MemberDataSourceTests);
 
         // Act
-        var sut = new DelegatingMemberTestCaseSource(type, memberName);
+        var sut = new DelegatingMemberDataSource(type, memberName);
 
         // Assert
         Assert.IsType(expectedInnerSourceType, sut.GetSource());
@@ -96,11 +97,11 @@ public class MemberTestCaseSourceTests
     public void ThrowsWhenSourceDoesNotExist()
     {
         // Arrange
-        var type = typeof(MemberTestCaseSourceTests);
+        var type = typeof(MemberDataSourceTests);
 
         // Act & Assert
         Assert.Throws<ArgumentException>(
-            () => _ = new DelegatingMemberTestCaseSource(type, "NonExistentMember"));
+            () => _ = new DelegatingMemberDataSource(type, "NonExistentMember"));
     }
 
     [Theory]
@@ -110,10 +111,10 @@ public class MemberTestCaseSourceTests
     public void ThrowsWhenSourceDoesNotReturnTestData(string memberName)
     {
         // Arrange
-        var type = typeof(MemberTestCaseSourceTests);
+        var type = typeof(MemberDataSourceTests);
 
         // Act & Assert
         Assert.Throws<ArgumentException>(
-            () => _ = new DelegatingMemberTestCaseSource(type, memberName));
+            () => _ = new DelegatingMemberDataSource(type, memberName));
     }
 }

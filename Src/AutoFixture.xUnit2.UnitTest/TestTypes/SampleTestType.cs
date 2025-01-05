@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TestTypeFoundation;
 
-namespace AutoFixture.Xunit2.UnitTest.Internal
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     public class SampleTestType
     {

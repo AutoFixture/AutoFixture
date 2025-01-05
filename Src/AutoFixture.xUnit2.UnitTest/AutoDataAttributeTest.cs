@@ -29,9 +29,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new AutoDataAttribute();
 
             // Act
-#pragma warning disable 618
             var result = sut.FixtureFactory();
-#pragma warning restore 618
 
             // Assert
             Assert.IsAssignableFrom<Fixture>(result);
@@ -47,9 +45,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Assert
-#pragma warning disable 618
             Assert.Same(fixture, sut.FixtureFactory());
-#pragma warning restore 618
         }
 
         [Fact]
@@ -66,14 +62,13 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var wasInvoked = false;
-            IFixture FixtureFactory()
+
+            // Act
+            _ = new DerivedAutoDataAttribute(() =>
             {
                 wasInvoked = true;
                 return null;
-            }
-
-            // Act
-            _ = new DerivedAutoDataAttribute(FixtureFactory);
+            });
 
             // Assert
             Assert.False(wasInvoked);

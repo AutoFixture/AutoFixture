@@ -8,25 +8,25 @@ using System.Reflection;
 namespace AutoFixture.Xunit2.Internal
 {
     /// <summary>
-    /// Encapsulates access to a member that provides test cases.
+    /// Encapsulates access to a member that provides test data.
     /// </summary>
-    public class MemberTestCaseSource : ITestCaseSource
+    public class MemberDataSource : IDataSource
     {
         private readonly object[] arguments;
 
         /// <summary>
-        /// Creates an instance of type <see cref="MemberTestCaseSource" />.
+        /// Creates an instance of type <see cref="MemberDataSource" />.
         /// </summary>
         /// <param name="type">The containing type of the member.</param>
         /// <param name="name">The name of the member.</param>
         /// <param name="arguments">The arguments provided to the member.</param>
         /// <exception cref="ArgumentNullException">Thrown when arguments are <see langref="null" />.</exception>
-        public MemberTestCaseSource(Type type, string name, params object[] arguments)
+        public MemberDataSource(Type type, string name, params object[] arguments)
         {
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
-            this.Source = this.GetTestCaseSource();
+            this.Source = this.GetTestDataSource();
         }
 
         /// <summary>
@@ -45,17 +45,17 @@ namespace AutoFixture.Xunit2.Internal
         public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
 
         /// <summary>
-        /// Gets the test case source.
+        /// Gets the test data source.
         /// </summary>
-        protected TestCaseSource Source { get; }
+        protected DataSource Source { get; }
 
         /// <inheritdoc />
-        public IEnumerable<object[]> GetTestCases(MethodInfo method)
+        public IEnumerable<object[]> GetData(MethodInfo method)
         {
-            return this.Source.GetTestCases(method);
+            return this.Source.GetData(method);
         }
 
-        private TestCaseSource GetTestCaseSource()
+        private DataSource GetTestDataSource()
         {
             var sourceMember = this.Type.GetMember(this.Name,
                     MemberTypes.Method | MemberTypes.Field | MemberTypes.Property,
@@ -83,9 +83,9 @@ namespace AutoFixture.Xunit2.Internal
 
             return sourceMember switch
             {
-                FieldInfo fieldInfo => new FieldTestCaseSource(fieldInfo),
-                PropertyInfo propertyInfo => new PropertyTestCaseSource(propertyInfo),
-                MethodInfo methodInfo => new MethodTestCaseSource(methodInfo, this.arguments),
+                FieldInfo fieldInfo => new FieldDataSource(fieldInfo),
+                PropertyInfo propertyInfo => new PropertyDataSource(propertyInfo),
+                MethodInfo methodInfo => new MethodDataSource(methodInfo, this.arguments),
                 _ => throw new InvalidOperationException("Unsupported member type.")
             };
         }

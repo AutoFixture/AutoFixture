@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoFixture.Xunit2.Internal;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
 
 namespace AutoFixture.Xunit2.UnitTest.Internal
 {
-    public class FieldTestCaseSourceTests
+    public class FieldDataSourceTests
     {
         public static IEnumerable<object[]> TestDataFieldWithMixedValues = new[]
         {
@@ -19,31 +20,32 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         public static object NonEnumerableField = new object();
 
         [Fact]
-        public void SutIsTestCaseSource()
+        public void SutIsTestDataSource()
         {
             // Arrange
-            var sourceField = typeof(FieldTestCaseSourceTests)
+            var sourceField = typeof(FieldDataSourceTests)
                 .GetField(nameof(TestDataFieldWithMixedValues));
-            var sut = new FieldTestCaseSource(sourceField);
+            var sut = new FieldDataSource(sourceField);
 
             // Assert
-            Assert.IsAssignableFrom<ITestCaseSource>(sut);
+            Assert.IsAssignableFrom<IDataSource>(sut);
         }
 
         [Fact]
         public void ThrowsWhenConstructedWithNullField()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new FieldTestCaseSource(null!));
+            Assert.Throws<ArgumentNullException>(
+                () => new FieldDataSource(null!));
         }
 
         [Fact]
         public void FieldIsCorrect()
         {
             // Arrange
-            var expected = typeof(FieldTestCaseSourceTests)
+            var expected = typeof(FieldDataSourceTests)
                 .GetField(nameof(TestDataFieldWithMixedValues));
-            var sut = new FieldTestCaseSource(expected);
+            var sut = new FieldDataSource(expected);
 
             // Act
             var result = sut.FieldInfo;
@@ -56,26 +58,27 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
         public void ThrowsWhenInvokedWithNullTestMethod()
         {
             // Arrange
-            var sourceField = typeof(FieldTestCaseSourceTests)
+            var sourceField = typeof(FieldDataSourceTests)
                 .GetField(nameof(TestDataFieldWithMixedValues));
-            var sut = new FieldTestCaseSource(sourceField);
+            var sut = new FieldDataSource(sourceField);
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => sut.GetTestCases(null!));
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GetData(null!));
         }
 
         [Fact]
         public void ThrowsWhenSourceIsNotEnumerable()
         {
             // Arrange
-            var sourceField = typeof(FieldTestCaseSourceTests)
+            var sourceField = typeof(FieldDataSourceTests)
                 .GetField(nameof(NonEnumerableField));
-            var sut = new FieldTestCaseSource(sourceField);
+            var sut = new FieldDataSource(sourceField);
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            Assert.Throws<InvalidCastException>(() => sut.GetTestCases(method).ToArray());
+            Assert.Throws<InvalidCastException>(() => sut.GetData(method).ToArray());
         }
 
         [Fact]
@@ -88,14 +91,14 @@ namespace AutoFixture.Xunit2.UnitTest.Internal
                 new object[] { "foo", 2, new RecordType<string>("bar") },
                 new object[] { "Han", 3, new RecordType<string>("Solo") }
             };
-            var sourceField = typeof(FieldTestCaseSourceTests)
+            var sourceField = typeof(FieldDataSourceTests)
                 .GetField(nameof(TestDataFieldWithRecordValues));
-            var sut = new FieldTestCaseSource(sourceField);
+            var sut = new FieldDataSource(sourceField);
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
             // Act
-            var result = sut.GetTestCases(method).ToArray();
+            var result = sut.GetData(method).ToArray();
 
             // Assert
             Assert.Equal(expected, result);

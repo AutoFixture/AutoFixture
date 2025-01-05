@@ -1,19 +1,20 @@
 ﻿using System;
 using AutoFixture.Xunit2.Internal;
+using AutoFixture.Xunit2.UnitTest.TestTypes;
 using Xunit;
 
 namespace AutoFixture.Xunit2.UnitTest.Internal;
 
-public class InlineTestCaseSourceTests
+public class InlineDataSourceTests
 {
     [Fact]
-    public void SutIsTestCaseSource()
+    public void SutIsTestDataSource()
     {
         // Arrange
         // Act
-        var sut = new InlineTestCaseSource(Array.Empty<object>());
+        var sut = new InlineDataSource(Array.Empty<object>());
         // Assert
-        Assert.IsAssignableFrom<ITestCaseSource>(sut);
+        Assert.IsAssignableFrom<IDataSource>(sut);
     }
 
     [Fact]
@@ -22,7 +23,7 @@ public class InlineTestCaseSourceTests
         // Arrange
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() =>
-            new InlineTestCaseSource(null));
+            new InlineDataSource(null));
     }
 
     [Fact]
@@ -30,7 +31,7 @@ public class InlineTestCaseSourceTests
     {
         // Arrange
         var expectedValues = Array.Empty<object>();
-        var sut = new InlineTestCaseSource(expectedValues);
+        var sut = new InlineDataSource(expectedValues);
         // Act
         var result = sut.Values;
         // Assert
@@ -38,13 +39,13 @@ public class InlineTestCaseSourceTests
     }
 
     [Fact]
-    public void GetTestCasesWithNullMethodThrows()
+    public void GetTestDataWithNullMethodThrows()
     {
         // Arrange
-        var sut = new InlineTestCaseSource(Array.Empty<object>());
+        var sut = new InlineDataSource(Array.Empty<object>());
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() =>
-            sut.GetTestCases(null));
+            sut.GetData(null));
     }
 
     [Fact]
@@ -52,30 +53,30 @@ public class InlineTestCaseSourceTests
     {
         // Arrange
         var values = new object[] { "aloha", 42, 12.3d, "extra" };
-        var sut = new InlineTestCaseSource(values);
+        var sut = new InlineDataSource(values);
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() =>
-            sut.GetTestCases(testMethod));
+            sut.GetData(testMethod));
     }
 
     [Fact]
-    public void ReturnsTestCaseWhenArgumentCountMatchesParameterCount()
+    public void ReturnsTestDataWhenArgumentCountMatchesParameterCount()
     {
         // Arrange
         var values = new object[] { "aloha", 42, 12.3d };
-        var sut = new InlineTestCaseSource(values);
+        var sut = new InlineDataSource(values);
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetTestCases(testMethod);
+        var result = sut.GetData(testMethod);
 
         // Assert
-        var testCase = Assert.Single(result);
-        Assert.Equal(values, testCase);
+        var testData = Assert.Single(result);
+        Assert.Equal(values, testData);
     }
 
     [Fact]
@@ -83,15 +84,15 @@ public class InlineTestCaseSourceTests
     {
         // Arrange
         var values = new object[] { "aloha", 42 };
-        var sut = new InlineTestCaseSource(values);
+        var sut = new InlineDataSource(values);
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetTestCases(testMethod);
+        var result = sut.GetData(testMethod);
 
         // Assert
-        var testCase = Assert.Single(result);
-        Assert.Equal(values, testCase);
+        var testData = Assert.Single(result);
+        Assert.Equal(values, testData);
     }
 }

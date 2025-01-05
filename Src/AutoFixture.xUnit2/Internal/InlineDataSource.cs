@@ -6,22 +6,22 @@ using System.Reflection;
 namespace AutoFixture.Xunit2.Internal
 {
     /// <summary>
-    /// Provides test cases from a predefined collection of values.
+    /// Provides test data from a predefined collection of values.
     /// </summary>
     [SuppressMessage("Design", "CA1010:Generic interface should also be implemented",
         Justification = "Type is not a collection.")]
-    public sealed class InlineTestCaseSource : ITestCaseSource
+    public sealed class InlineDataSource : IDataSource
     {
         private readonly object[] values;
 
         /// <summary>
-        /// Creates an instance of type <see cref="InlineTestCaseSource" />.
+        /// Creates an instance of type <see cref="InlineDataSource" />.
         /// </summary>
         /// <param name="values">The collection of inline values.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown when the values collection is <see langword="null" />.
         /// </exception>
-        public InlineTestCaseSource(object[] values)
+        public InlineDataSource(object[] values)
         {
             this.values = values ?? throw new ArgumentNullException(nameof(values));
         }
@@ -32,7 +32,7 @@ namespace AutoFixture.Xunit2.Internal
         public IReadOnlyList<object> Values => Array.AsReadOnly(this.values);
 
         /// <inheritdoc />
-        public IEnumerable<object[]> GetTestCases(MethodInfo method)
+        public IEnumerable<object[]> GetData(MethodInfo method)
         {
             if (method is null) throw new ArgumentNullException(nameof(method));
 

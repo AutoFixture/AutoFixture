@@ -564,16 +564,4 @@ namespace AutoFixture.Xunit2.UnitTest
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
         }
     }
-
-    public class DelegatingDataClass : IEnumerable<object[]>
-    {
-        public Func<IEnumerator<object[]>> OnGetEnumerator { get; set; }
-
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            return this.OnGetEnumerator?.Invoke();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-    }
 }

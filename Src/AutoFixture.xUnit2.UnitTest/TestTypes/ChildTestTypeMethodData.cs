@@ -14,8 +14,8 @@ namespace AutoFixture.Xunit2.UnitTest.TestTypes
             Assert.NotEmpty(a);
             Assert.False(string.IsNullOrWhiteSpace(a));
 
-            Assert.True(b != default, "Value should not be default");
-            Assert.True(c != default, "Value should not be default");
+            Assert.True(b != 0, "Value should not be default");
+            Assert.True(c != 0, "Value should not be default");
         }
 
         public static new MethodInfo GetMultipleValueTestMethodInfo()

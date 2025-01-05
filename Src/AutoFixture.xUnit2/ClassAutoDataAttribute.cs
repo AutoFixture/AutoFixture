@@ -42,7 +42,7 @@ namespace AutoFixture.Xunit2
         /// supply a custom fixture factory that again may contain custom behavior.
         /// </para>
         /// <example>
-        /// In the following example MyTestData is a class that provides test cases,
+        /// In the following example MyTestData is a class that provides test data,
         /// that would be complicated or probably impossible to provide using other options.
         /// The missing arguments for the test are being supplied from the Fixture instance.
         /// <code>
@@ -102,11 +102,11 @@ namespace AutoFixture.Xunit2
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            var source = new AutoTestCaseSource(
+            var source = new AutoDataSource(
                 this.FixtureFactory,
-                new ClassTestCaseSource(this.SourceType, this.Parameters));
+                new ClassDataSource(this.SourceType, this.Parameters));
 
-            return source.GetTestCases(testMethod);
+            return source.GetData(testMethod);
         }
     }
 }

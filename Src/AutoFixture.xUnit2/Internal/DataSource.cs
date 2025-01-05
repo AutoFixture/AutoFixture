@@ -12,26 +12,26 @@ namespace AutoFixture.Xunit2.Internal
         Justification = "The type is not a collection.")]
     [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix",
         Justification = "The type is not a collection.")]
-    public abstract class TestCaseSource : ITestCaseSource
+    public abstract class DataSource : IDataSource
     {
         /// <summary>
-        /// Gets the test cases provided by the source.
+        /// Gets the test data provided by the source.
         /// </summary>
         /// <returns>Returns a sequence of argument collections.</returns>
-        protected abstract IEnumerable<object[]> GetTestData();
+        protected abstract IEnumerable<object[]> GetData();
 
         /// <summary>
-        /// Returns the test cases provided by the source.
+        /// Returns the test data provided by the source.
         /// </summary>
         /// <param name="method">The target method for which to provide the arguments.</param>
         /// <returns>Returns a sequence of argument collections.</returns>
-        public IEnumerable<object[]> GetTestCases(MethodInfo method)
+        public IEnumerable<object[]> GetData(MethodInfo method)
         {
             if (method is null) throw new ArgumentNullException(nameof(method));
 
-            return GetTestCasesEnumerable();
+            return GetTestDataEnumerable();
 
-            IEnumerable<object[]> GetTestCasesEnumerable()
+            IEnumerable<object[]> GetTestDataEnumerable()
             {
                 var parameters = method.GetParameters();
                 if (parameters.Length == 0)
@@ -41,18 +41,18 @@ namespace AutoFixture.Xunit2.Internal
                     yield break;
                 }
 
-                var enumerable = this.GetTestData()
+                var enumerable = this.GetData()
                     ?? throw new InvalidOperationException("The source member yielded no test data.");
 
-                foreach (var testCase in enumerable)
+                foreach (var testData in enumerable)
                 {
-                    if (testCase is null)
-                        throw new InvalidOperationException("The source member yielded a null test case.");
+                    if (testData is null)
+                        throw new InvalidOperationException("The source member yielded a null test data.");
 
-                    if (testCase.Length > parameters.Length)
+                    if (testData.Length > parameters.Length)
                         throw new InvalidOperationException("The number of arguments provided exceeds the number of parameters.");
 
-                    yield return testCase;
+                    yield return testData;
                 }
             }
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
@@ -34,7 +33,9 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var sut = new FavorEnumerablesAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
+            var parameter = typeof(TypeWithOverloadedMembers)
+                .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), new[] { typeof(object) })!
+                .GetParameters().Single();
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert

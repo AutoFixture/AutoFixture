@@ -11,7 +11,7 @@ namespace AutoFixture.Xunit2.UnitTest
     {
         [Theory]
         [ClassAutoData(typeof(EmptyClassData))]
-        [ClassAutoData(typeof(ClassWithEmptyTestCases))]
+        [ClassAutoData(typeof(ClassWithEmptyTestData))]
         [SuppressMessage("Usage", "xUnit1006:Theory methods should have parameters",
             Justification = "This tests a scenario supported by xUnit 2.")]
         public void TestWithNoParametersPasses()

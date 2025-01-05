@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
-    public class ClassWithEmptyTestCases : IEnumerable<object[]>
+    public class ClassWithNullTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { };
-            yield return new object[] { };
-            yield return new object[] { };
+            yield return null;
+            yield return null;
+            yield return null;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

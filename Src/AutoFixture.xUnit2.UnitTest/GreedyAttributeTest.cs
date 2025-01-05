@@ -23,7 +23,7 @@ namespace AutoFixture.Xunit2.UnitTest
         }
 
         [Fact]
-        public void GetCustomizationFromNullParamterThrows()
+        public void GetCustomizationFromNullParameterThrows()
         {
             // Arrange
             var sut = new GreedyAttribute();
@@ -37,7 +37,9 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var sut = new GreedyAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
+            var parameter = typeof(TypeWithOverloadedMembers)
+                .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), new[] { typeof(object) })!
+                .GetParameters().Single();
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert

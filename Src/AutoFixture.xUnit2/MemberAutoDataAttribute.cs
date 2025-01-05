@@ -101,14 +101,14 @@ namespace AutoFixture.Xunit2
             var sourceType = this.MemberType ?? testMethod.DeclaringType
                 ?? throw new InvalidOperationException("Source type cannot be null.");
 
-            var source = new AutoTestCaseSource(
+            var source = new AutoDataSource(
                 createFixture: this.FixtureFactory,
-                source: new MemberTestCaseSource(
+                source: new MemberDataSource(
                     type: sourceType,
                     name: this.MemberName,
                     arguments: this.Parameters));
 
-            return source.GetTestCases(testMethod);
+            return source.GetData(testMethod);
         }
     }
 }
