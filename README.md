@@ -3,8 +3,9 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/LICENCE.txt)
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
 [![release](https://github.com/AutoFixture/AutoFixture/actions/workflows/release.yml/badge.svg)](https://github.com/AutoFixture/AutoFixture/actions/workflows/release.yml)
-[![NuGet version](https://buildstats.info/nuget/autofixture)](https://www.nuget.org/packages/AutoFixture)
+[![NuGet version](https://img.shields.io/nuget/v/AutoFixture?logo=nuget)](https://www.nuget.org/packages/AutoFixture)
 [![NuGet preview version](https://img.shields.io/nuget/vpre/AutoFixture?logo=nuget)](https://www.nuget.org/packages/AutoFixture)
+[![NuGet downloads](https://img.shields.io/nuget/dt/AutoFixture)](https://www.nuget.org/packages/AutoFixture)
 <a href="https://twitter.com/AutoFixture">
     <img src="https://img.shields.io/twitter/follow/AutoFixture?label=%40AutoFixture" alt="AutoFixture" align="right" />
 </a>
