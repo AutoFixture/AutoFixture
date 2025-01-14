@@ -255,5 +255,41 @@ namespace AutoFixture.Xunit2.UnitTest
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void TestWithNullParametersPasses()
+        {
+            // Arrange
+            var sut = new ClassAutoDataAttribute(typeof(TestDataWithNullValues));
+            var testMethod = typeof(ExampleTestClass<string, string, string[], RecordType<string>>)
+                .GetMethod(nameof(ExampleTestClass<string, string, string[], RecordType<string>>.TestMethod));
+            var expected = new[]
+            {
+                new object[] { null, null, null, null },
+                new object[] { string.Empty, null, null, null },
+                new object[] { null, "  ", null, null },
+            };
+
+            // Act
+            var data = sut.GetData(testMethod).ToArray();
+
+            // Assert
+            Assert.Equal(expected, data);
+        }
+
+        public class TestDataWithNullValues : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { null, null, null, null };
+                yield return new object[] { string.Empty, null, null, null };
+                yield return new object[] { null, "  ", null, null };
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
     }
 }
