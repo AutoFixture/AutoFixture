@@ -33,10 +33,10 @@ namespace AutoFixture.Xunit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Arrange
-            Action a = () => { };
+            var a = () => { };
             var method = a.GetMethodInfo();
 
-            var attributes = new[]
+            var attributes = new DataAttribute[]
             {
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
@@ -63,10 +63,10 @@ namespace AutoFixture.Xunit2.UnitTest
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Arrange
-            Action a = () => { };
+            var a = () => { };
             var method = a.GetMethodInfo();
 
-            var attributes = new[]
+            var attributes = new DataAttribute[]
             {
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
                 new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
@@ -96,9 +96,6 @@ namespace AutoFixture.Xunit2.UnitTest
             // Arrange
             Action a = () => { };
             var method = a.GetMethodInfo();
-            var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
 
             var sut = new CompositeDataAttribute(
                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),

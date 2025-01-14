@@ -29,9 +29,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new AutoDataAttribute();
 
             // Act
-#pragma warning disable 618
             var result = sut.FixtureFactory();
-#pragma warning restore 618
 
             // Assert
             Assert.IsAssignableFrom<Fixture>(result);
@@ -47,9 +45,7 @@ namespace AutoFixture.Xunit2.UnitTest
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Assert
-#pragma warning disable 618
             Assert.Same(fixture, sut.FixtureFactory());
-#pragma warning restore 618
         }
 
         [Fact]
@@ -66,14 +62,13 @@ namespace AutoFixture.Xunit2.UnitTest
         {
             // Arrange
             var wasInvoked = false;
-            IFixture FixtureFactory()
+
+            // Act
+            _ = new DerivedAutoDataAttribute(() =>
             {
                 wasInvoked = true;
                 return null;
-            }
-
-            // Act
-            _ = new DerivedAutoDataAttribute(FixtureFactory);
+            });
 
             // Assert
             Assert.False(wasInvoked);
@@ -141,16 +136,14 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = typeof(TypeWithCustomizationAttributes)
                 .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
+            var fixture = new DelegatingFixture
             {
-                customizationLog.Add(c);
-                return fixture;
+                OnCustomize = c => customizationLog.Add(c)
             };
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            var data = sut.GetData(method).ToArray();
+            _ = sut.GetData(method).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -166,16 +159,14 @@ namespace AutoFixture.Xunit2.UnitTest
                 .GetMethod(nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
 
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
+            var fixture = new DelegatingFixture
             {
-                customizationLog.Add(c);
-                return fixture;
+                OnCustomize = c => customizationLog.Add(c)
             };
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            sut.GetData(method).ToArray();
+            _ = sut.GetData(method).ToArray();
 
             // Assert
             Assert.IsType<TypeWithIParameterCustomizationSourceUsage.Customization>(customizationLog[0]);

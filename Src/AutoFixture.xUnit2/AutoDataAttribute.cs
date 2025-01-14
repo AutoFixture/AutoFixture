@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using AutoFixture.Xunit2.Internal;
 using Xunit.Sdk;
@@ -60,8 +59,8 @@ namespace AutoFixture.Xunit2
         {
             if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
 
-            return new AutoTestCaseSource(this.FixtureFactory)
-                .GetTestCases(testMethod).Select(x => x.ToArray());
+            return new AutoDataSource(this.FixtureFactory)
+                .GetData(testMethod);
         }
     }
 }

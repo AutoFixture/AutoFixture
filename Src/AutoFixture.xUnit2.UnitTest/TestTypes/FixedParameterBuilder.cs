@@ -1,6 +1,6 @@
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest.TestTypes
 {
     internal class FixedParameterBuilder<T> : FilteringSpecimenBuilder
     {

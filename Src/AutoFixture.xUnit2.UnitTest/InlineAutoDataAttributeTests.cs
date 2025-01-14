@@ -121,16 +121,14 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = typeof(TypeWithCustomizationAttributes)
                 .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
+            var fixture = new DelegatingFixture
             {
-                customizationLog.Add(c);
-                return fixture;
+                OnCustomize = c => customizationLog.Add(c)
             };
             var sut = new DerivedInlineAutoDataAttribute(() => fixture);
 
             // Act
-            sut.GetData(method).ToArray();
+            _ = sut.GetData(method).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -156,10 +154,10 @@ namespace AutoFixture.Xunit2.UnitTest
         [InlineAutoData]
         public void GeneratesRandomData(int a, float b, string c, decimal d)
         {
-            Assert.NotEqual(default, a);
-            Assert.NotEqual(default, b);
-            Assert.NotEqual(default, c);
-            Assert.NotEqual(default, d);
+            Assert.NotEqual(0, a);
+            Assert.NotEqual(0, b);
+            Assert.NotNull(c);
+            Assert.NotEqual(0, d);
         }
 
         [Theory]

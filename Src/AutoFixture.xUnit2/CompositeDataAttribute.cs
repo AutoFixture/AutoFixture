@@ -17,11 +17,12 @@ namespace AutoFixture.Xunit2
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
+        private readonly DataAttribute[] attributes;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
-        /// </param>
+        /// <param name="attributes">The attributes representing a data source for a data theory.</param>
         public CompositeDataAttribute(IEnumerable<DataAttribute> attributes)
             : this(attributes as DataAttribute[] ?? attributes.ToArray())
         {
@@ -30,17 +31,16 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
-        /// </param>
+        /// <param name="attributes">The attributes representing a data source for a data theory.</param>
         public CompositeDataAttribute(params DataAttribute[] attributes)
         {
-            this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
+            this.attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
         }
 
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<DataAttribute> Attributes { get; }
+        public IReadOnlyList<DataAttribute> Attributes => Array.AsReadOnly(this.attributes);
 
         /// <summary>
         /// Returns the composition of data to be used to test the theory. Favors the data returned
@@ -48,17 +48,16 @@ namespace AutoFixture.Xunit2
         /// DataAttribute returned data.
         /// </summary>
         /// <param name="testMethod">The method that is being tested.</param>
-        /// <returns>
-        /// Returns the composition of the theory data.
-        /// </returns>
+        /// <returns>Returns the composition of the theory data.</returns>
         /// <remarks>
-        /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets.
+        /// The number of combined data sets is restricted to the length of the attribute
+        /// which provides the fewest data sets.
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
 
-            return this.Attributes
+            return this.attributes
                 .Select(attr => attr.GetData(testMethod))
                 .Zip(dataSets => dataSets.Collapse().ToArray());
         }

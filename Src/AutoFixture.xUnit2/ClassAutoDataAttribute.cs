@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using AutoFixture.Xunit2.Internal;
 using Xunit.Sdk;
@@ -44,7 +42,7 @@ namespace AutoFixture.Xunit2
         /// supply a custom fixture factory that again may contain custom behavior.
         /// </para>
         /// <example>
-        /// In the following example MyTestData is a class that provides test cases,
+        /// In the following example MyTestData is a class that provides test data,
         /// that would be complicated or probably impossible to provide using other options.
         /// The missing arguments for the test are being supplied from the Fixture instance.
         /// <code>
@@ -89,26 +87,26 @@ namespace AutoFixture.Xunit2
         /// <summary>
         /// Gets the fixture factory that provides the missing data from <see cref="SourceType"/>.
         /// </summary>
-        public Func<IFixture> FixtureFactory { get; private set; }
+        public Func<IFixture> FixtureFactory { get; }
 
         /// <summary>
         /// Gets the type of the class that provides the data.
         /// </summary>
-        public Type SourceType { get; private set; }
+        public Type SourceType { get; }
 
         /// <summary>
         /// Gets the constructor parameters for <see cref="SourceType"/>.
         /// </summary>
-        public object[] Parameters { get; private set; }
+        public object[] Parameters { get; }
 
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            var source = new AutoTestCaseSource(
-                    this.FixtureFactory,
-                    new ClassTestCaseSource(this.SourceType, this.Parameters));
+            var source = new AutoDataSource(
+                this.FixtureFactory,
+                new ClassDataSource(this.SourceType, this.Parameters));
 
-            return source.GetTestCases(testMethod).Select(x => x.ToArray());
+            return source.GetData(testMethod);
         }
     }
 }

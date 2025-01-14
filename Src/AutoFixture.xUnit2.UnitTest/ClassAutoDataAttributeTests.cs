@@ -14,156 +14,162 @@ namespace AutoFixture.Xunit2.UnitTest
         [Fact]
         public void CanCreateInstance()
         {
+            // Act & Assert
             _ = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
         }
 
         [Fact]
         public void IsDataAttribute()
         {
+            // Arrange & Act
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
 
+            // Assert
             Assert.IsAssignableFrom<DataAttribute>(sut);
         }
 
         [Fact]
         public void ThrowsWhenSourceTypeIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-                new ClassAutoDataAttribute(null));
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => new ClassAutoDataAttribute(null));
         }
 
         [Fact]
         public void ThrowsWhenParametersIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-                new ClassAutoDataAttribute(typeof(MixedTypeClassData), null));
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => new ClassAutoDataAttribute(typeof(MixedTypeClassData), null));
         }
 
         [Fact]
         public void ThrowsWhenFixtureFactoryIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-                new DerivedClassAutoDataAttribute(null, typeof(MixedTypeClassData)));
-        }
-
-        [Fact]
-        public void GetDataThrowsWhenSourceTypeReturnsNull()
-        {
-            var sut = new ClassAutoDataAttribute(typeof(NullClassData));
-            var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
-
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
-
-            Assert.Throws<InvalidOperationException>(act);
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(
+                () => new DerivedClassAutoDataAttribute(null, typeof(MixedTypeClassData)));
         }
 
         [Fact]
         public void GetDataThrowsWhenSourceTypeNotEnumerable()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MyClass));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
-
-            Assert.Throws<InvalidOperationException>(act);
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => _ = sut.GetData(testMethod).ToArray());
         }
 
         [Fact]
         public void GetDataThrowsWhenParametersDoNotMatchConstructor()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MyClass), "myString", 33, null);
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
-
-            Assert.Throws<MissingMethodException>(act);
+            // Act & Assert
+            Assert.Throws<MissingMethodException>(() => _ = sut.GetData(testMethod).ToArray());
         }
 
         [Fact]
         public void GetDataDoesNotThrowWhenSourceYieldsNoResults()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(EmptyClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
+            // Act
             var data = sut.GetData(testMethod).ToArray();
 
+            // Assert
             Assert.Empty(data);
         }
 
         [Fact]
         public void GetDataThrowsWhenSourceYieldsNullResults()
         {
-            var sut = new ClassAutoDataAttribute(typeof(ClassWithNullTestCases));
+            // Arrange
+            var sut = new ClassAutoDataAttribute(typeof(ClassWithNullTestData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            var data = sut.GetData(testMethod).ToArray();
-
-            Assert.Equal(3, data.Length);
+            // Act & assert
+            Assert.Throws<InvalidOperationException>(() => sut.GetData(testMethod).ToArray());
         }
 
         [Fact]
         public void GetDataDoesNotThrow()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
+            // Act & Assert
             _ = sut.GetData(testMethod);
         }
 
         [Fact]
         public void GetDataReturnsEnumerable()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
+            // Act
             var actual = sut.GetData(testMethod);
 
+            // Assert
             Assert.NotNull(actual);
         }
 
         [Fact]
         public void GetDataReturnsNonEmptyEnumerable()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
+            // Act
             var actual = sut.GetData(testMethod);
 
+            // Assert
             Assert.NotEmpty(actual);
         }
 
         [Fact]
-        public void GetDataReturnsExpectedTestCaseCount()
+        public void GetDataReturnsExpectedTestDataCount()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
+            // Act
             var actual = sut.GetData(testMethod);
 
+            // Assert
             Assert.Equal(5, actual.Count());
         }
 
         [Fact]
         public void GetDataThrowsWhenDataSourceNotEnumerable()
         {
+            // Arrange
             var sut = new ClassAutoDataAttribute(typeof(GuardedConstructorHost<object>));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
-
-            Assert.Throws<MissingMethodException>(act);
+            // Act & Assert
+            Assert.Throws<MissingMethodException>(() => _ = sut.GetData(testMethod).ToArray());
         }
 
         [Fact]
         public void GetDataThrowsForNonMatchingConstructorTypes()
         {
-            var sut = new ClassAutoDataAttribute(
-                typeof(DelegatingTestData), "myString", 33, null);
+            // Arrange
+            var sut = new ClassAutoDataAttribute(typeof(DelegatingTestData), "myString", 33, null);
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
-            Action act = () => _ = sut.GetData(testMethod).ToArray();
-
-            Assert.Throws<MissingMethodException>(act);
+            // Act & Assert
+            Assert.Throws<MissingMethodException>(() => _ = sut.GetData(testMethod).ToArray());
         }
 
         [Theory]
@@ -185,17 +191,15 @@ namespace AutoFixture.Xunit2.UnitTest
             var method = typeof(TypeWithCustomizationAttributes)
                 .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
+            var fixture = new DelegatingFixture
             {
-                customizationLog.Add(c);
-                return fixture;
+                OnCustomize = c => customizationLog.Add(c)
             };
 
-            var sut = new DerivedClassAutoDataAttribute(() => fixture, typeof(ClassWithEmptyTestCases));
+            var sut = new DerivedClassAutoDataAttribute(() => fixture, typeof(ClassWithEmptyTestData));
 
             // Act
-            var data = sut.GetData(method).ToArray();
+            _ = sut.GetData(method).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -204,7 +208,7 @@ namespace AutoFixture.Xunit2.UnitTest
         }
 
         [Fact]
-        public void GetDataReturnsExpectedTestCases()
+        public void GetDataReturnsExpectedTestData()
         {
             var builder = new CompositeSpecimenBuilder(
                 new FixedParameterBuilder<int>("a", 1),
@@ -230,7 +234,7 @@ namespace AutoFixture.Xunit2.UnitTest
         }
 
         [Fact]
-        public void GetDataReturnsExpectedTestCasesFromParameterizedSource()
+        public void GetDataReturnsExpectedTestDataFromParameterizedSource()
         {
             var builder = new CompositeSpecimenBuilder(
                 new FixedParameterBuilder<int>("a", 1),
@@ -250,6 +254,42 @@ namespace AutoFixture.Xunit2.UnitTest
             var actual = sut.GetData(testMethod).ToArray();
 
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void TestWithNullParametersPasses()
+        {
+            // Arrange
+            var sut = new ClassAutoDataAttribute(typeof(TestDataWithNullValues));
+            var testMethod = typeof(ExampleTestClass<string, string, string[], RecordType<string>>)
+                .GetMethod(nameof(ExampleTestClass<string, string, string[], RecordType<string>>.TestMethod));
+            var expected = new[]
+            {
+                new object[] { null, null, null, null },
+                new object[] { string.Empty, null, null, null },
+                new object[] { null, "  ", null, null },
+            };
+
+            // Act
+            var data = sut.GetData(testMethod).ToArray();
+
+            // Assert
+            Assert.Equal(expected, data);
+        }
+
+        public class TestDataWithNullValues : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { null, null, null, null };
+                yield return new object[] { string.Empty, null, null, null };
+                yield return new object[] { null, "  ", null, null };
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
         }
     }
 }
