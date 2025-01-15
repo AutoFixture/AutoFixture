@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using AutoFixture.Kernel;
 using NUnit.Framework.Interfaces;
@@ -18,9 +19,7 @@ namespace AutoFixture.NUnit3
     [AttributeUsage(AttributeTargets.Method)]
     public class AutoDataAttribute : Attribute, ITestBuilder
     {
-        private readonly Lazy<IFixture> fixtureLazy;
-
-        private IFixture Fixture => this.fixtureLazy.Value;
+        private readonly Func<IFixture> fixtureFactory;
 
         private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
 
@@ -53,7 +52,7 @@ namespace AutoFixture.NUnit3
                 throw new ArgumentNullException(nameof(fixture));
             }
 
-            this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
+            this.fixtureFactory = () => fixture;
         }
 
         /// <summary>
@@ -64,9 +63,7 @@ namespace AutoFixture.NUnit3
         /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
         protected AutoDataAttribute(Func<IFixture> fixtureFactory)
         {
-            if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
-
-            this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
+            this.fixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
         }
 
         /// <summary>
@@ -80,35 +77,186 @@ namespace AutoFixture.NUnit3
         {
             if (method == null) throw new ArgumentNullException(nameof(method));
 
-            var test = this.TestMethodBuilder.Build(method, suite, this.GetParameterValues(method), 0);
-
-            yield return test;
-        }
-
-        private IEnumerable<object> GetParameterValues(IMethodInfo method)
-        {
-            return method.GetParameters().Select(this.Resolve);
-        }
-
-        private object Resolve(IParameterInfo parameterInfo)
-        {
-            this.CustomizeFixtureByParameter(parameterInfo);
-
-            return new SpecimenContext(this.Fixture)
-                .Resolve(parameterInfo.ParameterInfo);
-        }
-
-        private void CustomizeFixtureByParameter(IParameterInfo parameter)
-        {
-            var customizeAttributes = parameter.GetCustomAttributes<Attribute>(false)
-                .OfType<IParameterCustomizationSource>()
-                .OrderBy(x => x, new CustomizeAttributeComparer());
-
-            foreach (var ca in customizeAttributes)
+            foreach (var parameters in this.GetTestParameters(method).ToArray())
             {
-                var customization = ca.GetCustomization(parameter.ParameterInfo);
-                this.Fixture.Customize(customization);
+                var test = this.TestMethodBuilder.Build(method, suite, parameters, 0);
+
+                yield return test;
             }
+        }
+
+        private IEnumerable<IReadOnlyList<TestParameterInfo>> GetTestParameters(IMethodInfo method)
+        {
+            var combinations = GetCombinations(method.GetParameters());
+
+            foreach (var set in combinations)
+            {
+                var result = new List<TestParameterInfo>(set.Count);
+
+                var fixture = this.fixtureFactory.Invoke();
+
+                foreach (var item in set)
+                {
+                    ApplyCustomizations(fixture, item);
+
+                    if (item.HasValue)
+                    {
+                        if (item.CustomizationSources.Any(cs => cs is FrozenAttribute))
+                        {
+                            fixture.Inject(item.Value);
+                        }
+
+                        result.Add(item);
+                    }
+                    else
+                    {
+                        result.Add(new TestParameterInfo
+                        {
+                            Parameter = item.Parameter,
+                            HasValue = item.HasValue,
+                            Value = Resolve(fixture, item),
+                            CustomizationSources = item.CustomizationSources
+                        });
+                    }
+                }
+
+                yield return result;
+            }
+        }
+
+        private static void ApplyCustomizations(IFixture fixture, TestParameterInfo parameterInfo)
+        {
+            foreach (var ca in parameterInfo.CustomizationSources)
+                fixture.Customize(ca.GetCustomization(parameterInfo.Parameter.ParameterInfo));
+
+            if (parameterInfo.HasValue && parameterInfo.Parameter.GetCustomAttributes<FrozenAttribute>(false).Any())
+            {
+                var frozenAttribute = parameterInfo.CustomizationSources.OfType<FrozenAttribute>().First();
+                var customization = frozenAttribute.GetCustomization(parameterInfo.Parameter.ParameterInfo) as FreezeOnMatchCustomization;
+
+                fixture.Customizations.Insert(0, new FilteringSpecimenBuilder(new FixedBuilder(parameterInfo.Value), customization.Matcher));
+            }
+        }
+
+        private static object Resolve(IFixture fixture, TestParameterInfo parameterInfo)
+        {
+            return new SpecimenContext(fixture).Resolve(parameterInfo.Parameter.ParameterInfo);
+        }
+
+        private static IReadOnlyList<IReadOnlyList<TestParameterInfo>> GetCombinations(IParameterInfo[] parameters)
+        {
+            var parametersWithValue = parameters.Select(RenderAllConstantValues).Select(UnwrapValues).ToArray();
+
+            return Combine(parametersWithValue);
+
+            static ParameterWithAllValues RenderAllConstantValues(IParameterInfo parameter)
+            {
+                var customizationSources = parameter.GetCustomAttributes<IParameterCustomizationSource>(false).OrderBy(x => x, new CustomizeAttributeComparer()).ToArray();
+
+                if (parameter.GetCustomAttributes<IParameterDataSource>(false).Any())
+                {
+                    var data = new List<object>();
+
+                    foreach (var source in parameter.GetCustomAttributes<IParameterDataSource>(false))
+                    {
+                        foreach (var item in source.GetData(parameter))
+                            data.Add(item);
+                    }
+
+                    return new ParameterWithAllValues
+                    {
+                        ParameterInfo = parameter,
+                        CustomizationSources = customizationSources,
+                        Values = data,
+                        HasValue = true
+                    };
+                }
+                else
+                {
+                    return new ParameterWithAllValues
+                    {
+                        ParameterInfo = parameter,
+                        CustomizationSources = customizationSources,
+                        Values = new object[0],
+                        HasValue = false
+                    };
+                }
+            }
+
+            static IEnumerable<TestParameterInfo> UnwrapValues(ParameterWithAllValues parameter)
+            {
+                if (parameter.HasValue)
+                {
+                    foreach (var value in parameter.Values)
+                    {
+                        yield return new TestParameterInfo
+                        {
+                            Parameter = parameter.ParameterInfo,
+                            HasValue = parameter.HasValue,
+                            CustomizationSources = parameter.CustomizationSources,
+                            Value = value
+                        };
+                    }
+                }
+                else
+                {
+                    yield return new TestParameterInfo
+                    {
+                        Parameter = parameter.ParameterInfo,
+                        HasValue = parameter.HasValue,
+                        CustomizationSources = parameter.CustomizationSources,
+                        Value = null
+                    };
+                }
+            }
+
+            static IReadOnlyList<IReadOnlyList<TestParameterInfo>> Combine(IReadOnlyList<IEnumerable<TestParameterInfo>> sources)
+            {
+                var result = new List<IReadOnlyList<TestParameterInfo>>();
+                var enumerators = new IEnumerator<TestParameterInfo>[sources.Count];
+                var index = -1;
+
+                for (;;)
+                {
+                    while (++index < sources.Count)
+                    {
+                        enumerators[index] = sources[index].GetEnumerator();
+
+                        if (!enumerators[index].MoveNext())
+                        {
+                            return result;
+                        }
+                    }
+
+                    var testData = new TestParameterInfo[sources.Count];
+
+                    for (int i = 0; i < sources.Count; i++)
+                    {
+                        testData[i] = enumerators[i].Current;
+                    }
+
+                    result.Add(testData);
+
+                    index = sources.Count;
+
+                    while (--index >= 0 && !enumerators[index].MoveNext()) ;
+
+                    if (index < 0) break;
+                }
+
+                return result;
+            }
+        }
+
+        private struct ParameterWithAllValues
+        {
+            public IParameterInfo ParameterInfo { get; set; }
+
+            public IEnumerable<object?> Values { get; set; }
+
+            public IEnumerable<IParameterCustomizationSource> CustomizationSources { get; set; }
+
+            public bool HasValue { get; set; }
         }
     }
 }
