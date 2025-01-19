@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
@@ -67,6 +66,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Common.props = Common.props
 		Common.Test.props = Common.Test.props
 		Common.Test.xUnit.props = Common.Test.xUnit.props
+		Common.Test.xUnit3.props = Common.Test.xUnit3.props
 		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
 		..\LICENCE.txt = ..\LICENCE.txt
 		..\README.md = ..\README.md
@@ -87,6 +87,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit4", "AutoFixture.NUnit4\AutoFixture.NUnit4.csproj", "{81A67B0F-DD4F-4A6A-8E88-C842051DD7C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.NUnit4.UnitTest", "AutoFixture.NUnit4.UnitTest\AutoFixture.NUnit4.UnitTest.csproj", "{E783AAF8-6725-4FB0-B0DE-26C9433E4E35}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.xUnit3", "AutoFixture.xUnit3\AutoFixture.xUnit3.csproj", "{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.xUnit3.UnitTest", "AutoFixture.xUnit3.UnitTest\AutoFixture.xUnit3.UnitTest.csproj", "{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -296,6 +300,18 @@ Global
 		{E783AAF8-6725-4FB0-B0DE-26C9433E4E35}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E783AAF8-6725-4FB0-B0DE-26C9433E4E35}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{E783AAF8-6725-4FB0-B0DE-26C9433E4E35}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{28B9B9C3-1B0E-4FB5-8FEF-34B13003BC29}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{4ECEA54E-DBB7-4221-A388-AD6BDA8A2101}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
