@@ -110,9 +110,6 @@ namespace AutoFixture.Xunit3
         }
 
         /// <inheritdoc />
-        public override bool SupportsDiscoveryEnumeration()
-        {
-            return true;
-        }
+        public override bool SupportsDiscoveryEnumeration() => false;
     }
 }
