@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AutoFixture.Xunit3.Internal;
 using Xunit;
@@ -60,13 +61,13 @@ namespace AutoFixture.Xunit3
         /// <remarks>
         ///     The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets.
         /// </remarks>
-        public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
+        public override async ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
         {
             var attributes = this.Attributes;
-            var theoryDataRowsEnumerable = attributes.Select(attr => attr.GetData(testMethod, disposalTracker).Result);
-            var zip = theoryDataRowsEnumerable.Zip(dataSets => new TheoryDataRow(dataSets.Collapse().ToArray()));
-
-            return new ValueTask<IReadOnlyCollection<ITheoryDataRow>>(zip.ToArray());
+            var theoryDataRowsEnumerable = attributes.Select(attr => attr.GetData(testMethod, disposalTracker).AsTask()).ToArray();
+            var results = await Task.WhenAll(theoryDataRowsEnumerable);
+            var zip = results.Zip(dataSets => new TheoryDataRow(dataSets.Collapse().ToArray()));
+            return zip.ToArray();
         }
 
         /// <inheritdoc />
