@@ -16,7 +16,7 @@ namespace AutoFixture.Xunit3.UnitTest
         [InlineData("Unquote")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
-        public void AutoFixtureXunit2DoesNotReference(string assemblyName)
+        public void AutoFixtureXunit3DoesNotReference(string assemblyName)
         {
             // Arrange
             // Act
@@ -36,7 +36,7 @@ namespace AutoFixture.Xunit3.UnitTest
         [InlineData("Unquote")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
-        public void AutoFixtureXunit2UnitTestsDoNotReference(string assemblyName)
+        public void AutoFixtureXunit3UnitTestsDoNotReference(string assemblyName)
         {
             // Arrange
             // Act
