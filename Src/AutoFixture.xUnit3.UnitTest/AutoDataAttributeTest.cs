@@ -184,26 +184,5 @@ namespace AutoFixture.Xunit3.UnitTest
             // Assert
             Assert.IsType<TypeWithIParameterCustomizationSourceUsage.Customization>(customizationLog[0]);
         }
-
-        //[Fact]
-        //public void PreDiscoveryShouldBeDisabled()
-        //{
-        //    // Arrange
-        //    var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
-        //    var discovererAttr = typeof(AutoDataAttribute).GetTypeInfo()
-        //                                                  .CustomAttributes
-        //                                                  .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
-
-        //    var expectedType = expectedDiscovererType.FullName;
-        //    var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
-
-        //    // Act
-        //    var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
-        //    var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
-
-        //    // Assert
-        //    Assert.Equal(expectedType, actualType);
-        //    Assert.Equal(expectedAssembly, actualAssembly);
-        //}
     }
 }
