@@ -2,7 +2,7 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net472;netstandard2.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.xUnit.net3</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit3</AssemblyName>
     <RootNamespace>AutoFixture.Xunit3</RootNamespace>
