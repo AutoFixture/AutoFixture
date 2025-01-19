@@ -13,6 +13,9 @@
 
   <Choose>
     <When Condition="'$(TargetFramework)' == 'net48'">
+      <PropertyGroup>
+        <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
+      </PropertyGroup>
       <ItemGroup>
         <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
         <ProjectReference Include="..\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
@@ -30,10 +33,6 @@
 
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="xunit.v3" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
