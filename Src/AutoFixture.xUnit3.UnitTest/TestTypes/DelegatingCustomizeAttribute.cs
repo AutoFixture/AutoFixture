@@ -5,7 +5,7 @@ namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
     internal class DelegatingCustomizeAttribute : CustomizeAttribute
     {
-        internal DelegatingCustomizeAttribute()
+        public DelegatingCustomizeAttribute()
         {
             this.OnGetCustomization = p => new DelegatingCustomization();
         }
@@ -15,6 +15,6 @@ namespace AutoFixture.Xunit3.UnitTest.TestTypes
             return this.OnGetCustomization(parameter);
         }
 
-        internal Func<ParameterInfo, ICustomization> OnGetCustomization { get; set; }
+        public Func<ParameterInfo, ICustomization> OnGetCustomization { get; set; }
     }
 }

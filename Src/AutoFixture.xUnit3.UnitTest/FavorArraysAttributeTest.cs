@@ -14,7 +14,6 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             // Act
             var sut = new FavorArraysAttribute();
-
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
@@ -24,10 +23,9 @@ namespace AutoFixture.Xunit3.UnitTest
         {
             // Arrange
             var sut = new FavorArraysAttribute();
-
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                                                     sut.GetCustomization(null));
+                sut.GetCustomization(null));
         }
 
         [Fact]
@@ -35,11 +33,11 @@ namespace AutoFixture.Xunit3.UnitTest
         {
             // Arrange
             var sut = new FavorArraysAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
-
+            var parameter = typeof(TypeWithOverloadedMembers)
+                .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), new[] { typeof(object) })!
+                .GetParameters().Single();
             // Act
             var result = sut.GetCustomization(parameter);
-
             // Assert
             var invoker = Assert.IsAssignableFrom<ConstructorCustomization>(result);
             Assert.Equal(parameter.ParameterType, invoker.TargetType);

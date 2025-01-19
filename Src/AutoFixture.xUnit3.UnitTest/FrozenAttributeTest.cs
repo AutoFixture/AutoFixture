@@ -11,7 +11,6 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             // Act
             var sut = new FrozenAttribute();
-
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
@@ -21,10 +20,9 @@ namespace AutoFixture.Xunit3.UnitTest
         {
             // Arrange
             var sut = new FrozenAttribute();
-
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                                                     sut.GetCustomization(null));
+                sut.GetCustomization(null));
         }
     }
 }

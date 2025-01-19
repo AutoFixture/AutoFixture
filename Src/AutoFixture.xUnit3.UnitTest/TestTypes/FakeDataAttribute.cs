@@ -19,16 +19,14 @@ namespace AutoFixture.Xunit3.UnitTest.TestTypes
             this.output = output;
         }
 
-        public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo methodUnderTest, DisposalTracker disposalTracker)
+        public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
         {
-            Assert.Equal(this.expectedMethod, methodUnderTest);
-
-            return new(this.output.Select(o => new TheoryDataRow(o)).ToArray());
+            Assert.Same(this.expectedMethod, testMethod);
+            return this.output.Select(row => new TheoryDataRow(row))
+                .Cast<ITheoryDataRow>().AsReadOnlyCollection()
+                .ToValueTask();
         }
 
-        public override bool SupportsDiscoveryEnumeration()
-        {
-            return true;
-        }
+        public override bool SupportsDiscoveryEnumeration() => false;
     }
 }

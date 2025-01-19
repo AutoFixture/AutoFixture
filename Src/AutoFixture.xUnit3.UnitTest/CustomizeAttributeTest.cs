@@ -12,7 +12,6 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             // Act
             var sut = new DelegatingCustomizeAttribute();
-
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
@@ -23,7 +22,6 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             // Act
             var sut = new DelegatingCustomizeAttribute();
-
             // Assert
             Assert.IsAssignableFrom<Attribute>(sut);
         }
@@ -34,7 +32,6 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             // Act
             var sut = new DelegatingCustomizeAttribute();
-
             // Assert
             Assert.IsAssignableFrom<IParameterCustomizationSource>(sut);
         }

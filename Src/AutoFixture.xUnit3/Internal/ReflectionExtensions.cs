@@ -7,10 +7,7 @@ namespace AutoFixture.Xunit3.Internal
     {
         public static Type GetReturnType(this MemberInfo member)
         {
-            if (member is null)
-            {
-                throw new ArgumentNullException(nameof(member));
-            }
+            if (member is null) throw new ArgumentNullException(nameof(member));
 
             return member switch
             {

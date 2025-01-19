@@ -12,4 +12,13 @@ namespace AutoFixture.Xunit3.UnitTest.TestTypes
         {
         }
     }
+
+    public class ExampleTestClass<T1, T2, T3, T4>
+    {
+        [SuppressMessage("Usage", "xUnit1013:Public method should be marked as test",
+            Justification = "This test method is used through reflection.")]
+        public void TestMethod(T1 a, T2 b, T3 c, T4 d)
+        {
+        }
+    }
 }

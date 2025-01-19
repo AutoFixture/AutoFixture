@@ -18,14 +18,8 @@ namespace AutoFixture.Xunit3.UnitTest.TestTypes
             this.data = data as List<object[]> ?? data.ToList();
         }
 
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            return this.data.GetEnumerator();
-        }
+        public IEnumerator<object[]> GetEnumerator() => this.data.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }
 }

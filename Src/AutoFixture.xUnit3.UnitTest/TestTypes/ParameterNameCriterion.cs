@@ -17,7 +17,7 @@ namespace AutoFixture.Xunit3.UnitTest.TestTypes
         }
 
         /// <summary>
-        ///     The name criterion originally passed in via the class' constructor.
+        /// The name criterion originally passed in via the class' constructor.
         /// </summary>
         public IEquatable<string> NameCriterion { get; }
 

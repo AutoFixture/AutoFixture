@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AutoFixture.Xunit3.UnitTest.TestTypes
 {
-    public class ClassWithNullTestCases : IEnumerable<object[]>
+    public class ClassWithNullTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {

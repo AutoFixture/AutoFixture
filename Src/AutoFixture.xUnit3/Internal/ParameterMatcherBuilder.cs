@@ -5,29 +5,72 @@ using AutoFixture.Kernel;
 
 namespace AutoFixture.Xunit3.Internal
 {
-    internal class ParameterMatcherBuilder
+    /// <summary>
+    /// A builder type that creates a <see cref="IRequestSpecification"/> instance,
+    /// for a <see cref="ParameterInfo"/> instance, based on the builder's matching configuration.
+    /// </summary>
+    public class ParameterMatcherBuilder
     {
         private readonly ParameterInfo parameterInfo;
 
+        /// <summary>
+        /// Creates an instance of type <see cref="ParameterMatcherBuilder"/>.
+        /// </summary>
+        /// <param name="parameterInfo">The parameter info.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="parameterInfo"/> is <see langword="null"/>.
+        /// </exception>
         public ParameterMatcherBuilder(ParameterInfo parameterInfo)
         {
-            this.parameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
+            this.parameterInfo = parameterInfo
+                ?? throw new ArgumentNullException(nameof(parameterInfo));
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the exact parameter request should be matched.
+        /// Default is <see langword="true"/>.
+        /// </summary>
         public bool MatchExactRequest { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the exact parameter type should be matched.
+        /// </summary>
         public bool MatchExactType { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the direct base type should be matched.
+        /// </summary>
         public bool MatchDirectBaseType { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the interfaces implemented
+        /// by the parameter type should be matched.
+        /// </summary>
         public bool MatchImplementedInterfaces { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the parameter type and name should be matched.
+        /// The name comparison is case-insensitive.
+        /// </summary>
         public bool MatchParameter { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the property type and name should be matched.
+        /// The name comparison is case-insensitive.
+        /// </summary>
         public bool MatchProperty { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the field type and name should be matched.
+        /// The name comparison is case-insensitive.
+        /// </summary>
         public bool MatchField { get; set; }
 
+        /// <summary>
+        /// Sets the matching flags.
+        /// </summary>
+        /// <param name="flags">The matching flags.</param>
+        /// <returns>The current <see cref="ParameterMatcherBuilder"/> instance.</returns>
         public ParameterMatcherBuilder SetFlags(Matching flags)
         {
             this.MatchExactType = flags.HasFlag(Matching.ExactType);
@@ -39,43 +82,35 @@ namespace AutoFixture.Xunit3.Internal
             return this;
         }
 
+        /// <summary>
+        /// Builds the <see cref="IRequestSpecification"/> instance.
+        /// </summary>
+        /// <returns>
+        /// A new instance of <see cref="IRequestSpecification"/>, matching the configuration.
+        /// </returns>
         public IRequestSpecification Build()
         {
             var specifications = new List<IRequestSpecification>(7);
             if (this.MatchExactRequest)
-            {
                 specifications.Add(this.AsExactRequest());
-            }
 
             if (this.MatchExactType)
-            {
                 specifications.Add(this.AsExactType());
-            }
 
             if (this.MatchDirectBaseType)
-            {
                 specifications.Add(this.AsDirectBaseType());
-            }
 
             if (this.MatchImplementedInterfaces)
-            {
                 specifications.Add(this.AsImplementedInterfaces());
-            }
 
             if (this.MatchProperty)
-            {
                 specifications.Add(this.AsProperty());
-            }
 
             if (this.MatchParameter)
-            {
                 specifications.Add(this.AsParameter());
-            }
 
             if (this.MatchField)
-            {
                 specifications.Add(this.AsField());
-            }
 
             return specifications.Count == 1
                 ? specifications[0]

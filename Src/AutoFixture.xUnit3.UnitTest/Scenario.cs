@@ -223,7 +223,8 @@ namespace AutoFixture.Xunit3.UnitTest
         }
 
         [Theory, AutoData]
-        public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen] [Greedy] MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
+        public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter(
+            [Frozen] [Greedy] MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {
             Assert.NotNull(p1);
             Assert.False(string.IsNullOrEmpty(p2.Text));
@@ -232,230 +233,262 @@ namespace AutoFixture.Xunit3.UnitTest
 
         [Theory, AutoData]
         public void FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems([Frozen] int[] numbers,
-                                                                                 [FavorArrays] ItemContainer<int> container)
+            [FavorArrays] ItemContainer<int> container)
         {
             Assert.True(numbers.SequenceEqual(container.Items));
         }
 
         [Theory, AutoData]
         public void FreezeFirstParameterShouldAssignSameInstanceToSecondParameter([Frozen] string p1,
-                                                                                  string p2)
+            string p2)
         {
             Assert.Equal(p1, p2);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByExactTypeShouldAssignSameInstanceToSecondParameter([Frozen(Matching.ExactType)] ConcreteType p1,
-                                                                                             ConcreteType p2)
-        {
-            Assert.Equal(p1, p2);
-        }
-
-        [Theory, AutoData]
-        public void FreezeFirstParameterByExactTypeShouldNotAssignSameInstanceToSecondParameterOfDifferentType([Frozen(Matching.ExactType)] ConcreteType p1,
-                                                                                                               object p2)
-        {
-            Assert.NotEqual(p1, p2);
-        }
-
-        [Theory, AutoData]
-        public void FreezeFirstParameterByDirectBaseTypeShouldAssignSameInstanceToSecondParameter([Frozen(Matching.DirectBaseType)] ConcreteType p1,
-                                                                                                  AbstractType p2)
-        {
-            Assert.Equal(p1, p2);
-        }
-
-        [Theory, AutoData]
-        public void FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfIndirectBaseType([Frozen(Matching.DirectBaseType)] ConcreteType p1,
-                                                                                                                       object p2)
-        {
-            Assert.NotEqual(p1, p2);
-        }
-
-        [Theory, AutoData]
-        public void FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfSameType([Frozen(Matching.DirectBaseType)] ConcreteType p1,
-                                                                                                               ConcreteType p2)
-        {
-            Assert.NotEqual(p1, p2);
-        }
-
-        [Theory, AutoData]
-        public void FreezeFirstParameterByExactOrDirectBaseTypeShouldAssignSameInstanceToSecondParameterOfSameType(
-            [Frozen(Matching.ExactType | Matching.DirectBaseType)] ConcreteType p1,
+        public void FreezeFirstParameterByExactTypeShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ExactType)] ConcreteType p1,
             ConcreteType p2)
         {
             Assert.Equal(p1, p2);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByInterfaceShouldAssignSameInstanceToSecondParameter([Frozen(Matching.ImplementedInterfaces)] NoopInterfaceImplementer p1,
-                                                                                             IInterface p2)
-        {
-            Assert.Equal(p1, p2);
-        }
-
-        [Theory, AutoData]
-        public void FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfNonInterfaceType(
-            [Frozen(Matching.ImplementedInterfaces)] NoopInterfaceImplementer p1,
+        public void FreezeFirstParameterByExactTypeShouldNotAssignSameInstanceToSecondParameterOfDifferentType(
+            [Frozen(Matching.ExactType)] ConcreteType p1,
             object p2)
         {
             Assert.NotEqual(p1, p2);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfSameType([Frozen(Matching.ImplementedInterfaces)] NoopInterfaceImplementer p1,
-                                                                                                          NoopInterfaceImplementer p2)
+        public void FreezeFirstParameterByDirectBaseTypeShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.DirectBaseType)] ConcreteType p1,
+            AbstractType p2)
+        {
+            Assert.Equal(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfIndirectBaseType(
+            [Frozen(Matching.DirectBaseType)] ConcreteType p1,
+            object p2)
+        {
+            Assert.NotEqual(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.DirectBaseType)] ConcreteType p1,
+            ConcreteType p2)
+        {
+            Assert.NotEqual(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByExactOrDirectBaseTypeShouldAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.ExactType | Matching.DirectBaseType)]
+            ConcreteType p1,
+            ConcreteType p2)
+        {
+            Assert.Equal(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByInterfaceShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ImplementedInterfaces)]
+            NoopInterfaceImplementer p1,
+            IInterface p2)
+        {
+            Assert.Equal(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfNonInterfaceType(
+            [Frozen(Matching.ImplementedInterfaces)]
+            NoopInterfaceImplementer p1,
+            object p2)
+        {
+            Assert.NotEqual(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.ImplementedInterfaces)]
+            NoopInterfaceImplementer p1,
+            NoopInterfaceImplementer p2)
         {
             Assert.NotEqual(p1, p2);
         }
 
         [Theory, AutoData]
         public void FreezeFirstParameterByDirectOrInterfaceShouldAssignSameInstanceToSecondParameterOfSameType(
-            [Frozen(Matching.ExactType | Matching.ImplementedInterfaces)] NoopInterfaceImplementer p1,
+            [Frozen(Matching.ExactType | Matching.ImplementedInterfaces)]
+            NoopInterfaceImplementer p1,
             NoopInterfaceImplementer p2)
         {
             Assert.Equal(p1, p2);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByParameterWithSameNameShouldAssignSameInstanceToSecondParameter([Frozen(Matching.ParameterName)] string parameter,
-                                                                                                         SingleParameterType<object> p2)
+        public void FreezeFirstParameterByParameterWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ParameterName)] string parameter,
+            SingleParameterType<object> p2)
         {
             Assert.Equal(parameter, p2.Parameter);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameter([Frozen(Matching.ParameterName)] string p1,
-                                                                                                                 SingleParameterType<object> p2)
+        public void FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ParameterName)] string p1,
+            SingleParameterType<object> p2)
         {
             Assert.NotEqual(p1, p2.Parameter);
         }
 
         [Theory, AutoData]
         public void
-            FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType([Frozen(Matching.ParameterName)] string p1,
-                                                                                                                   SingleParameterType<string> p2)
+            FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
+                [Frozen(Matching.ParameterName)] string p1,
+                SingleParameterType<string> p2)
         {
             Assert.NotEqual(p1, p2.Parameter);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByPropertyWithSameNameShouldAssignSameInstanceToSecondParameter([Frozen(Matching.PropertyName)] string property,
-                                                                                                        PropertyHolder<object> p2)
+        public void FreezeFirstParameterByPropertyWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.PropertyName)] string property,
+            PropertyHolder<object> p2)
         {
             Assert.Equal(property, p2.Property);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameter([Frozen(Matching.PropertyName)] string p1,
-                                                                                                                PropertyHolder<object> p2)
+        public void FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.PropertyName)] string p1,
+            PropertyHolder<object> p2)
         {
             Assert.NotEqual(p1, p2.Property);
         }
 
         [Theory, AutoData]
         public void
-            FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType([Frozen(Matching.PropertyName)] string p1,
-                                                                                                                  PropertyHolder<string> p2)
+            FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
+                [Frozen(Matching.PropertyName)] string p1,
+                PropertyHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Property);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByFieldWithSameNameShouldAssignSameInstanceToSecondParameter([Frozen(Matching.FieldName)] string field,
-                                                                                                     FieldHolder<object> p2)
+        public void FreezeFirstParameterByFieldWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.FieldName)] string field,
+            FieldHolder<object> p2)
         {
             Assert.Equal(field, p2.Field);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameter([Frozen(Matching.FieldName)] string p1,
-                                                                                                             FieldHolder<object> p2)
+        public void FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.FieldName)] string p1,
+            FieldHolder<object> p2)
         {
             Assert.NotEqual(p1, p2.Field);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType([Frozen(Matching.FieldName)] string p1,
-                                                                                                                       FieldHolder<string> p2)
+        public void FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.FieldName)] string p1,
+            FieldHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Field);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingParameter([Frozen(Matching.MemberName)] string parameter,
-                                                                                                        SingleParameterType<object> p2)
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingParameter(
+            [Frozen(Matching.MemberName)] string parameter,
+            SingleParameterType<object> p2)
         {
             Assert.Equal(parameter, p2.Parameter);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameter([Frozen(Matching.MemberName)] string p1,
-                                                                                                        SingleParameterType<object> p2)
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameter(
+            [Frozen(Matching.MemberName)] string p1,
+            SingleParameterType<object> p2)
         {
             Assert.NotEqual(p1, p2.Parameter);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameterOfSameType([Frozen(Matching.MemberName)] string p1,
-                                                                                                                  SingleParameterType<string> p2)
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameterOfSameType(
+            [Frozen(Matching.MemberName)] string p1,
+            SingleParameterType<string> p2)
         {
             Assert.NotEqual(p1, p2.Parameter);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingProperty([Frozen(Matching.MemberName)] string property,
-                                                                                                       PropertyHolder<object> p2)
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingProperty(
+            [Frozen(Matching.MemberName)] string property,
+            PropertyHolder<object> p2)
         {
             Assert.Equal(property, p2.Property);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToProperty([Frozen(Matching.MemberName)] string p1,
-                                                                                                       PropertyHolder<object> p2)
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToProperty(
+            [Frozen(Matching.MemberName)] string p1,
+            PropertyHolder<object> p2)
         {
             Assert.NotEqual(p1, p2.Property);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToPropertyOfSameType([Frozen(Matching.MemberName)] string p1,
-                                                                                                                 PropertyHolder<string> p2)
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToPropertyOfSameType(
+            [Frozen(Matching.MemberName)] string p1,
+            PropertyHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Property);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingField([Frozen(Matching.MemberName)] string field,
-                                                                                                    FieldHolder<object> p2)
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingField(
+            [Frozen(Matching.MemberName)] string field,
+            FieldHolder<object> p2)
         {
             Assert.Equal(field, p2.Field);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToField([Frozen(Matching.MemberName)] string p1,
-                                                                                                    FieldHolder<object> p2)
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToField(
+            [Frozen(Matching.MemberName)] string p1,
+            FieldHolder<object> p2)
         {
             Assert.NotEqual(p1, p2.Field);
         }
 
         [Theory, AutoData]
-        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToFieldOfSameType([Frozen(Matching.MemberName)] string p1,
-                                                                                                              FieldHolder<string> p2)
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToFieldOfSameType(
+            [Frozen(Matching.MemberName)] string p1,
+            FieldHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Field);
         }
 
         [Theory, AutoData]
-        public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen([Frozen, StringLength(3)] string p)
+        public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
+            [Frozen, StringLength(3)] string p)
         {
             Assert.True(p.Length == 3);
         }
 
         [Theory, ClassAutoData(typeof(StringDataClass))]
-        public void ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2)
+        public void ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2, string s3)
         {
             Assert.Contains(s1, new[] { "foo", "dim" });
             Assert.NotEmpty(s2);
+            Assert.NotEmpty(s3);
         }
 
         [Theory, ClassAutoData(typeof(StringDataClass))]
@@ -530,17 +563,5 @@ namespace AutoFixture.Xunit3.UnitTest
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
         }
-    }
-
-    public class DelegatingDataClass : IEnumerable<object[]>
-    {
-        public Func<IEnumerator<object[]>> OnGetEnumerator { get; set; }
-
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            return this.OnGetEnumerator?.Invoke();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }
 }

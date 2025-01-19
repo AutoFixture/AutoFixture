@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
 using Xunit;
@@ -69,39 +69,30 @@ namespace AutoFixture.Xunit3.UnitTest
         {
             // Arrange
             var wasInvoked = false;
-            Func<IFixture> autoData = () =>
-                                      {
-                                          wasInvoked = true;
-                                          return new DelegatingFixture();
-                                      };
 
             // Act
-            _ = new DerivedInlineAutoDataAttribute(autoData);
+            _ = new DerivedInlineAutoDataAttribute(() =>
+            {
+                wasInvoked = true;
+                return new DelegatingFixture();
+            });
 
             // Assert
             Assert.False(wasInvoked);
         }
 
-        //[Fact]
-        //public void PreDiscoveryShouldBeDisabled()
-        //{
-        //    // Arrange
-        //    var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
-        //    var discovererAttr = typeof(InlineAutoDataAttribute).GetTypeInfo()
-        //                                                        .CustomAttributes
-        //                                                        .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
+        [Fact]
+        public void PreDiscoveryShouldBeDisabled()
+        {
+            // Arrange
+            var sut = new InlineAutoDataAttribute();
 
-        //    var expectedType = expectedDiscovererType.FullName;
-        //    var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
+            // Act
+            var result = sut.SupportsDiscoveryEnumeration();
 
-        //    // Act
-        //    var actualType = (string)discovererAttr.ConstructorArguments[0].Value;
-        //    var actualAssembly = (string)discovererAttr.ConstructorArguments[1].Value;
-
-        //    // Assert
-        //    Assert.Equal(expectedType, actualType);
-        //    Assert.Equal(expectedAssembly, actualAssembly);
-        //}
+            // Assert
+            Assert.False(result);
+        }
 
         [Theory]
         [InlineData("CreateWithFrozenAndFavorArrays")]
@@ -116,22 +107,20 @@ namespace AutoFixture.Xunit3.UnitTest
         [InlineData("CreateWithModestAndFrozen")]
         [InlineData("CreateWithFrozenAndNoAutoProperties")]
         [InlineData("CreateWithNoAutoPropertiesAndFrozen")]
-        public void GetDataOrdersCustomizationAttributes(string methodName)
+        public async Task GetDataOrdersCustomizationAttributes(string methodName)
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)
                 .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
-                                  {
-                                      customizationLog.Add(c);
-                                      return fixture;
-                                  };
+            var fixture = new DelegatingFixture
+            {
+                OnCustomize = c => customizationLog.Add(c)
+            };
             var sut = new DerivedInlineAutoDataAttribute(() => fixture);
 
             // Act
-            sut.GetData(method, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
+            _ = await sut.GetData(method!, new DisposalTracker());
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -142,10 +131,12 @@ namespace AutoFixture.Xunit3.UnitTest
         [Theory]
         [ClassData(typeof(InlinePrimitiveValuesTestData))]
         [ClassData(typeof(InlineFrozenValuesTestData))]
-        public void ReturnsSingleTestDataWithExpectedValues(DataAttribute attribute, MethodInfo testMethod, object[] expected)
+        public async Task ReturnsSingleTestDataWithExpectedValues(DataAttribute attribute, MethodInfo testMethod,
+            object[] expected)
         {
             // Act
-            var actual = attribute.GetData(testMethod, new DisposalTracker()).Result.Select(x => x.GetData()).ToArray();
+            var actual = (await attribute.GetData(testMethod!, new DisposalTracker()))
+                    .Select(x => x.GetData()).ToArray();
 
             // Assert
             Assert.Single(actual);
@@ -156,10 +147,10 @@ namespace AutoFixture.Xunit3.UnitTest
         [InlineAutoData]
         public void GeneratesRandomData(int a, float b, string c, decimal d)
         {
-            Assert.NotEqual(default, a);
-            Assert.NotEqual(default, b);
-            Assert.NotEqual(default, c);
-            Assert.NotEqual(default, d);
+            Assert.NotEqual(0, a);
+            Assert.NotEqual(0, b);
+            Assert.NotNull(c);
+            Assert.NotEqual(0, d);
         }
 
         [Theory]
@@ -183,10 +174,10 @@ namespace AutoFixture.Xunit3.UnitTest
         [InlineAutoData("\t\r\n")]
         [InlineAutoData(" ")]
         [InlineAutoData("")]
-        [InlineAutoData(null)]
+        [InlineAutoData(new object[] { null })]
         public void InjectsInlineValues([Frozen] object a,
-                                        [Frozen] PropertyHolder<object> value,
-                                        PropertyHolder<object> frozen)
+            [Frozen] PropertyHolder<object> value,
+            PropertyHolder<object> frozen)
         {
             Assert.Equal(a, value.Property);
             Assert.Same(frozen, value);

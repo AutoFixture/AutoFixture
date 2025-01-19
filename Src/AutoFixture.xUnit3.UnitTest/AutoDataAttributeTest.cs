@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using AutoFixture.Xunit3.UnitTest.TestTypes;
 using TestTypeFoundation;
@@ -29,9 +30,7 @@ namespace AutoFixture.Xunit3.UnitTest
             var sut = new AutoDataAttribute();
 
             // Act
-#pragma warning disable 618
             var result = sut.FixtureFactory();
-#pragma warning restore 618
 
             // Assert
             Assert.IsAssignableFrom<Fixture>(result);
@@ -47,9 +46,7 @@ namespace AutoFixture.Xunit3.UnitTest
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Assert
-#pragma warning disable 618
             Assert.Same(fixture, sut.FixtureFactory());
-#pragma warning restore 618
         }
 
         [Fact]
@@ -58,7 +55,7 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
-                                                     new DerivedAutoDataAttribute(null));
+                new DerivedAutoDataAttribute(null));
         }
 
         [Fact]
@@ -67,31 +64,30 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             var wasInvoked = false;
 
-            IFixture FixtureFactory()
+            // Act
+            _ = new DerivedAutoDataAttribute(() =>
             {
                 wasInvoked = true;
                 return null;
-            }
-
-            // Act
-            _ = new DerivedAutoDataAttribute(FixtureFactory);
+            });
 
             // Assert
             Assert.False(wasInvoked);
         }
 
         [Fact]
-        public void GetDataWithNullMethodThrows()
+        public async Task GetDataWithNullMethodThrows()
         {
             // Arrange
             var sut = new AutoDataAttribute();
 
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => sut.GetData(null, null));
+            await Assert.ThrowsAsync<ArgumentNullException>(
+                () => sut.GetData(null!, new DisposalTracker()).AsTask());
         }
 
         [Fact]
-        public void GetDataReturnsCorrectResult()
+        public async Task GetDataReturnsCorrectResult()
         {
             // Arrange
             var method = typeof(TypeWithOverloadedMembers)
@@ -102,26 +98,26 @@ namespace AutoFixture.Xunit3.UnitTest
             object actualParameter = null;
             ISpecimenContext actualContext = null;
             var builder = new DelegatingSpecimenBuilder
-                          {
-                              OnCreate = (r, c) =>
-                                         {
-                                             actualParameter = r;
-                                             actualContext = c;
-                                             return expectedResult;
-                                         }
-                          };
+            {
+                OnCreate = (r, c) =>
+                {
+                    actualParameter = r;
+                    actualContext = c;
+                    return expectedResult;
+                }
+            };
             var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
-            var disposalTracker = new DisposalTracker();
             var sut = new DerivedAutoDataAttribute(() => composer);
 
             // Act
-            var result = sut.GetData(method, disposalTracker);
+            var result = (await sut.GetData(method, new DisposalTracker()))
+                .Select(x => x.GetData()).ToArray();
 
             // Assert
             Assert.NotNull(actualContext);
             Assert.Single(parameters);
             Assert.Equal(parameters[0], actualParameter);
-            Assert.Equal(new[] { expectedResult }, result.Result);
+            Assert.Equal(new[] { expectedResult }, result.Single());
         }
 
         [Theory]
@@ -137,23 +133,21 @@ namespace AutoFixture.Xunit3.UnitTest
         [InlineData("CreateWithModestAndFrozen")]
         [InlineData("CreateWithFrozenAndNoAutoProperties")]
         [InlineData("CreateWithNoAutoPropertiesAndFrozen")]
-        public void GetDataOrdersCustomizationAttributes(string methodName)
+        public async Task GetDataOrdersCustomizationAttributes(string methodName)
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)
                 .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
-                                  {
-                                      customizationLog.Add(c);
-                                      return fixture;
-                                  };
-            var disposalTracker = new DisposalTracker();
+            var fixture = new DelegatingFixture
+            {
+                OnCustomize = c => customizationLog.Add(c)
+            };
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            var data = sut.GetData(method, disposalTracker);
+            _ = (await sut.GetData(method!, new DisposalTracker()))
+                .Select(x => x.GetData()).ToArray();
 
             // Assert
             var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
@@ -162,27 +156,38 @@ namespace AutoFixture.Xunit3.UnitTest
         }
 
         [Fact]
-        public void ShouldRecognizeAttributesImplementingIParameterCustomizationSource()
+        public async Task ShouldRecognizeAttributesImplementingIParameterCustomizationSource()
         {
             // Arrange
             var method = typeof(TypeWithIParameterCustomizationSourceUsage)
                 .GetMethod(nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
 
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture();
-            fixture.OnCustomize = c =>
-                                  {
-                                      customizationLog.Add(c);
-                                      return fixture;
-                                  };
-            var disposalTracker = new DisposalTracker();
+            var fixture = new DelegatingFixture
+            {
+                OnCustomize = c => customizationLog.Add(c)
+            };
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            sut.GetData(method, disposalTracker);
+            _ = (await sut.GetData(method!, new DisposalTracker()))
+                .Select(x => x.GetData()).ToArray();
 
             // Assert
             Assert.IsType<TypeWithIParameterCustomizationSourceUsage.Customization>(customizationLog[0]);
+        }
+
+        [Fact]
+        public void PreDiscoveryShouldBeDisabled()
+        {
+            // Arrange
+            var sut = new AutoDataAttribute();
+
+            // Act
+            var actual = sut.SupportsDiscoveryEnumeration();
+
+            // Assert
+            Assert.False(actual);
         }
     }
 }

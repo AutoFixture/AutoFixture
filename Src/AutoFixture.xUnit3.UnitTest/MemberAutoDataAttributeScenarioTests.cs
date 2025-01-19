@@ -9,13 +9,13 @@ namespace AutoFixture.Xunit3.UnitTest
     public class MemberAutoDataAttributeScenarioTests
     {
         [Theory]
-        [MemberAutoData(nameof(GetSingleStringValueTestCases))]
+        [MemberAutoData(nameof(GetSingleStringValueTestData))]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
-            memberName: nameof(TestTypeWithMethodData.GetEmptyTestCases))]
+            memberName: nameof(TestTypeWithMethodData.GetEmptyTestData))]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
-            memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestCases))]
+            memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestData))]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringTestsFromArgument),
@@ -28,10 +28,10 @@ namespace AutoFixture.Xunit3.UnitTest
         }
 
         [Theory]
-        [MemberAutoData(nameof(GetMultipleValueTestCases))]
+        [MemberAutoData(nameof(GetMultipleValueTestData))]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
-            memberName: nameof(TestTypeWithMethodData.GetMultipleValueTestCases))]
+            memberName: nameof(TestTypeWithMethodData.GetMultipleValueTestData))]
         public void MultipleValueTest(string a, int b, decimal c)
         {
             Assert.NotNull(a);
@@ -43,14 +43,15 @@ namespace AutoFixture.Xunit3.UnitTest
         }
 
         [Theory]
-        [MemberAutoData(nameof(GetSingleStringValueTestCases))]
+        [MemberAutoData(nameof(GetSingleStringValueTestData))]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
-            memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestCases))]
-        public void FreezesUninjectedValues(string a, [Frozen] string b, string c,
-                                            PropertyHolder<string> d)
+            memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestData))]
+        public void FreezesUninjectedValues(
+            string a, [Frozen] string b, string c,
+            PropertyHolder<string> d)
         {
-            // Assert "a" ends with any possible ending from the test cases
+            // Assert "a" ends with any possible ending from the test data
             var aSuffix = a.Split('-').Last();
             Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
 
@@ -65,15 +66,15 @@ namespace AutoFixture.Xunit3.UnitTest
         }
 
         [Theory]
-        [MemberAutoData(nameof(GetMultipleValueTestCases))]
+        [MemberAutoData(nameof(GetMultipleValueTestData))]
         public void InjectsValues([Frozen] string a,
-                                  [Frozen] int b,
-                                  [Frozen] decimal c,
-                                  PropertyHolder<string> a1,
-                                  PropertyHolder<int> b1,
-                                  PropertyHolder<decimal> c1)
+            [Frozen] int b,
+            [Frozen] decimal c,
+            PropertyHolder<string> a1,
+            PropertyHolder<int> b1,
+            PropertyHolder<decimal> c1)
         {
-            // Assert "a" ends with any possible ending from the test cases
+            // Assert "a" ends with any possible ending from the test data
             var aSuffix = a.Split('-').Last();
             Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
 
@@ -91,11 +92,12 @@ namespace AutoFixture.Xunit3.UnitTest
         }
 
         [Theory]
-        [MemberAutoData(nameof(GetStringValuesTestCases))]
+        [MemberAutoData(nameof(GetStringValuesTestData))]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
-            memberName: nameof(TestTypeWithMethodData.GetStringValuesTestCases))]
-        public void DoesNotAlterTestCaseValuesWhenFrozen([Frozen] string a, string b, string c)
+            memberName: nameof(TestTypeWithMethodData.GetStringValuesTestData))]
+        public void DoesNotAlterTestDataValuesWhenFrozen(
+            [Frozen] string a, string b, string c)
         {
             var aSuffix = a.Split('-').Last();
             var bSuffix = b.Split('-').Last();
@@ -107,11 +109,12 @@ namespace AutoFixture.Xunit3.UnitTest
         }
 
         [Theory]
-        [MemberAutoData(nameof(GetStringValuesTestCases))]
+        [MemberAutoData(nameof(GetStringValuesTestData))]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
-            memberName: nameof(TestTypeWithMethodData.GetStringValuesTestCases))]
-        public void LastInjectedValueIsFrozen([Frozen] string a, [Frozen] string b, string c)
+            memberName: nameof(TestTypeWithMethodData.GetStringValuesTestData))]
+        public void LastInjectedValueIsFrozen(
+            [Frozen] string a, [Frozen] string b, string c)
         {
             var aSuffix = a.Split('-').Last();
             var bSuffix = b.Split('-').Last();
@@ -125,10 +128,11 @@ namespace AutoFixture.Xunit3.UnitTest
         [Theory]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
-            memberName: nameof(TestTypeWithMethodData.GetTestWithComplexTypesCases))]
-        public void InjectsComplexTypes([Frozen] PropertyHolder<string> a,
-                                        PropertyHolder<string> b,
-                                        PropertyHolder<string> c)
+            memberName: nameof(TestTypeWithMethodData.GetTestWithComplexTypesData))]
+        public void InjectsComplexTypes(
+            [Frozen] PropertyHolder<string> a,
+            PropertyHolder<string> b,
+            PropertyHolder<string> c)
         {
             Assert.NotNull(a);
             Assert.NotNull(b);
@@ -137,21 +141,21 @@ namespace AutoFixture.Xunit3.UnitTest
             Assert.Same(a, c);
         }
 
-        public static IEnumerable<object[]> GetSingleStringValueTestCases()
+        public static IEnumerable<object[]> GetSingleStringValueTestData()
         {
             yield return new object[] { "test-one" };
             yield return new object[] { "test-two" };
             yield return new object[] { "test-three" };
         }
 
-        public static IEnumerable<object[]> GetMultipleValueTestCases()
+        public static IEnumerable<object[]> GetMultipleValueTestData()
         {
             yield return new object[] { "test-one", 22, 25.7m };
             yield return new object[] { "test-two", 75, 228.1m };
             yield return new object[] { "test-three", 19, 137.09m };
         }
 
-        public static IEnumerable<object[]> GetStringValuesTestCases()
+        public static IEnumerable<object[]> GetStringValuesTestData()
         {
             yield return new object[] { "test-one", "test-uno" };
             yield return new object[] { "test-two", "test-dos" };

@@ -13,7 +13,6 @@ namespace AutoFixture.Xunit3.UnitTest
         {
             // Arrange & Act
             var sut = new ModestAttribute();
-
             // Assert
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
@@ -23,10 +22,9 @@ namespace AutoFixture.Xunit3.UnitTest
         {
             // Arrange
             var sut = new ModestAttribute();
-
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                                                     sut.GetCustomization(null));
+                sut.GetCustomization(null));
         }
 
         [Fact]
@@ -35,9 +33,8 @@ namespace AutoFixture.Xunit3.UnitTest
             // Arrange
             var sut = new ModestAttribute();
             var parameter = typeof(TypeWithOverloadedMembers)
-                            .GetMethod("DoSomething", new[] { typeof(object) })
-                            ?.GetParameters()
-                            .Single();
+            .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), new[] { typeof(object) })!
+            .GetParameters().Single();
 
             // Act
             var result = sut.GetCustomization(parameter);
