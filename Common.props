@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)..\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
+    <None Include="$(MSBuildThisFileDirectory)\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
   </ItemGroup>
 
   <ItemGroup>
