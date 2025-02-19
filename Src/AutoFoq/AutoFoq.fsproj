@@ -7,10 +7,11 @@
     <AssemblyTitle>AutoFixture.AutoFoq</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFoq</AssemblyName>
     <RootNamespace>AutoFixture.AutoFoq</RootNamespace>
-    <Copyright>Copyright © Ploeh 2013</Copyright>
     <SignAssembly>False</SignAssembly>
+
     <!-- Disable source link support for F# projects as they don't support this feature. -->
     <SourceLinkCreate>false</SourceLinkCreate>
+
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects. And about wrong FSharp version during restore. -->
     <NoWarn>$(NoWarn);FS2003;NU1601</NoWarn>
     <Deterministic>false</Deterministic>
@@ -19,7 +20,6 @@
     <PackageId>AutoFixture.AutoFoq</PackageId>
     <Title>AutoFixture with Auto Mocking using Foq</Title>
     <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Foq. To use it, add the AutoFoqCustomization to your Fixture instance.</Description>
-    <Authors>Nikos Baxevanis,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>

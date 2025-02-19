@@ -6,7 +6,6 @@
     <AssemblyTitle>AutoFixture.xUnit.net3</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit3</AssemblyName>
     <RootNamespace>AutoFixture.Xunit3</RootNamespace>
-    <Copyright>Copyright © AutoFixture 2025</Copyright>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.Xunit3</PackageId>

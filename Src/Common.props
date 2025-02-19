@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Product>AutoFixture</Product>
     <Company>AutoFixture</Company>
-    <Copyright>Copyright © AutoFixture 2011</Copyright>
+    <Copyright>Copyright © AutoFixture</Copyright>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -25,7 +25,7 @@
     <AnalysisLevel>latest-Recommended</AnalysisLevel>
 
     <!-- NuGet options -->
-    <Authors>Mark Seemann,AutoFixture</Authors>
+    <Authors>AutoFixture Contributors</Authors>
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

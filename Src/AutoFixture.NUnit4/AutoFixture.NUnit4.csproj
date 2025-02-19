@@ -6,13 +6,11 @@
     <AssemblyTitle>AutoFixture.NUnit4</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit4</AssemblyName>
     <RootNamespace>AutoFixture.NUnit4</RootNamespace>
-    <Copyright>Copyright © AutoFixture Contributors</Copyright>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.NUnit4</PackageId>
     <Title>AutoFixture with NUnit4</Title>
     <Description>By leveraging some features of NUnit4, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
-    <Authors>AutoFixture Contributors</Authors>
   </PropertyGroup>
 
   <ItemGroup>

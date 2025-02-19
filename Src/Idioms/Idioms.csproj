@@ -6,7 +6,6 @@
     <AssemblyTitle>AutoFixture.Idioms</AssemblyTitle>
     <AssemblyName>AutoFixture.Idioms</AssemblyName>
     <RootNamespace>AutoFixture.Idioms</RootNamespace>
-    <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.Idioms</PackageId>

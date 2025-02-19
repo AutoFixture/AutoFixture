@@ -6,8 +6,7 @@
     <AssemblyTitle>AutoFixture.AutoRhinoMock</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoRhinoMock</AssemblyName>
     <RootNamespace>AutoFixture.AutoRhinoMock</RootNamespace>
-    <Copyright>Copyright © Ploeh 2011</Copyright>
-    
+
     <!-- NuGet options -->
     <PackageId>AutoFixture.AutoRhinoMocks</PackageId>
     <Title>AutoFixture with Auto Mocking using Rhino Mocks</Title>

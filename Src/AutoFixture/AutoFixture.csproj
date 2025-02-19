@@ -6,8 +6,7 @@
     <AssemblyTitle>AutoFixture</AssemblyTitle>
     <AssemblyName>AutoFixture</AssemblyName>
     <RootNamespace>AutoFixture</RootNamespace>
-    <Copyright>Copyright © Ploeh 2011</Copyright>
-    
+
     <!-- NuGet options -->
     <PackageId>AutoFixture</PackageId>
     <Title>AutoFixture</Title>

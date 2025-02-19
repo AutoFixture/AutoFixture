@@ -6,17 +6,15 @@
     <AssemblyTitle>AutoFixture.NUnit3</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit3</AssemblyName>
     <RootNamespace>AutoFixture.NUnit3</RootNamespace>
-    <Copyright>Copyright © Ploeh 2016</Copyright>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.NUnit3</PackageId>
     <Title>AutoFixture with NUnit3</Title>
     <Description>By leveraging some features of NUnit3, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
-    <Authors>Hackle Wayne,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" />
+    <PackageReference Include="NUnit" Version="[3.7.0,4.0.0)" />
   </ItemGroup>
 
   <!-- Dependencies added due to transitive vulnerabilities in NUnit -->

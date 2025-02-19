@@ -6,7 +6,6 @@
     <AssemblyTitle>AutoMoq</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoMoq</AssemblyName>
     <RootNamespace>AutoFixture.AutoMoq</RootNamespace>
-    <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.AutoMoq</PackageId>
