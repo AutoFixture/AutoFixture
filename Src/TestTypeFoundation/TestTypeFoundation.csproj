@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Common.props" />
-  <Import Project="..\Common.Test.props" />
+  <Import Project="..\..\Common.props" />
+  <Import Project="..\..\Common.Test.props" />
 
   <PropertyGroup>
     <TargetFrameworks>net462;netstandard2.0;net5.0;net6.0</TargetFrameworks>

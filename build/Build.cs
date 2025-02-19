@@ -146,7 +146,11 @@ partial class Build : NukeBuild
                     .SetDataCollector("XPlat Code Coverage"))
                 .CombineWith(TestProjects, (s, p) => s.SetProjectFile(p)));
 
-            CompressZip(TestResultsDirectory, TestResultsDirectory / "TestResults.zip");
+            var testArchive = TestResultsDirectory / "TestResults.zip";
+            if(testArchive.Exists())
+                DeleteFile(testArchive);
+
+            CompressZip(TestResultsDirectory, testArchive);
         });
 
     Target Cover => _ => _
@@ -163,7 +167,11 @@ partial class Build : NukeBuild
                 .SetTargetDirectory(ReportsDirectory)
                 .SetReportTypes("lcov", ReportTypes.HtmlInline));
 
-            CompressZip(ReportsDirectory, ReportsDirectory / "CoverageReport.zip");
+            var coverageArchive = ReportsDirectory / "CoverageReport.zip";
+            if(coverageArchive.Exists())
+                DeleteFile(coverageArchive);
+
+            CompressZip(ReportsDirectory, coverageArchive);
         });
 
     Target Pack => _ => _

@@ -1,4 +1,4 @@
 {
   "$schema": "./build.schema.json",
-  "Solution": "Src/All.sln"
+  "Solution": "AutoFixture.sln"
 }

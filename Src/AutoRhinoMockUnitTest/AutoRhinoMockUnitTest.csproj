@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Common.props" />
-  <Import Project="..\Common.Test.props" />
-  <Import Project="..\Common.Test.xUnit.props" />
+  <Import Project="..\..\Common.props" />
+  <Import Project="..\..\Common.Test.props" />
+  <Import Project="..\..\Common.Test.xUnit.props" />
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
