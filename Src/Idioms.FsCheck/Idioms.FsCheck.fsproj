@@ -7,10 +7,11 @@
     <AssemblyTitle>AutoFixture.Idioms.FsCheck</AssemblyTitle>
     <AssemblyName>AutoFixture.Idioms.FsCheck</AssemblyName>
     <RootNamespace>AutoFixture.Idioms.FsCheck</RootNamespace>
-    <Copyright>Copyright © Ploeh 2014</Copyright>
     <SignAssembly>False</SignAssembly>
+
     <!-- Disable source link support for F# projects as they don't support this feature. -->
     <SourceLinkCreate>false</SourceLinkCreate>
+
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects. And about wrong FSharp version during restore. -->
     <NoWarn>$(NoWarn);FS2003;NU1601</NoWarn>
     <Deterministic>false</Deterministic>
@@ -19,7 +20,6 @@
     <PackageId>AutoFixture.Idioms.FsCheck</PackageId>
     <Title>AutoFixture Idioms.FsCheck</Title>
     <Description>Ubiquitous use of AutoFixture for unit testing has given rise to a number of idiomatic unit tests - unit tests that tend to follow common templates. The AutoFixture Idioms.FsCheck library encapsulates these idioms into reusable classes and methods.</Description>
-    <Authors>Nikos Baxevanis,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,7 +6,6 @@
     <AssemblyTitle>AutoFixture.xUnit.net2</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit2</AssemblyName>
     <RootNamespace>AutoFixture.Xunit2</RootNamespace>
-    <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.Xunit2</PackageId>
