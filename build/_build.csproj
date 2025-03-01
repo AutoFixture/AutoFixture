@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace></RootNamespace>
     <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..</NukeRootDirectory>
     <NukeScriptDirectory>..</NukeScriptDirectory>
-    <LangVersion>9</LangVersion>
+    <LangVersion>12</LangVersion>
 
     <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
     <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
