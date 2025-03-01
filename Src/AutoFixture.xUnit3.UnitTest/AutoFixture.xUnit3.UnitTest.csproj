@@ -9,6 +9,7 @@
     <AssemblyTitle>AutoFixture.xUnit.net3.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit3.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Xunit3.UnitTest</RootNamespace>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <Choose>
