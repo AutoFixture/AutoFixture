@@ -26,8 +26,8 @@ namespace AutoFixture.TUnit.UnitTest
             var result = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(this.method.DeclaringType, this.method.Name)).ToArray();
 
             // Assert
-            
-            Assert.That(result).IsEquivalentTo(expectedResult);
+
+            await Assert.That(result).IsEquivalentTo(expectedResult);
         }
 
         public IEnumerator<object[]> GetEnumerator()

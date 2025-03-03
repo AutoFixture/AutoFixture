@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
 
@@ -8,7 +11,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
     public class PropertyDataSourceTests
     {
         [Test]
-        public void SutIsTestDataSource()
+        public async Task SutIsTestDataSource()
         {
             // Arrange
             var sourceProperty = typeof(PropertyDataSourceTests)
@@ -16,7 +19,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new PropertyDataSource(sourceProperty);
 
             // Assert
-            Assert.IsAssignableFrom<IDataSource>(sut);
+            await Assert.That(sut).IsAssignableFrom<IDataSource>();
         }
 
         public static IEnumerable<object[]> TestDataPropertyWithMixedValues =>
@@ -37,7 +40,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void PropertyIsCorrect()
+        public async Task PropertyIsCorrect()
         {
             // Arrange
             var expected = typeof(PropertyDataSourceTests)
@@ -48,7 +51,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.PropertyInfo;
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         [Test]
@@ -80,7 +83,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void GeneratesTestDataMatchingTestParameters()
+        public async Task GeneratesTestDataMatchingTestParameters()
         {
             // Arrange
             var expected = new[]
@@ -99,7 +102,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(method).ToArray();
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         public static IEnumerable<object[]> TestDataPropertyWithRecordValues =>
@@ -110,7 +113,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         ];
 
         [Test]
-        public void ReturnsNullArguments()
+        public async Task ReturnsNullArguments()
         {
             // Arrange
             var expected = new[]
@@ -129,7 +132,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(testMethod).ToArray();
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         public static IEnumerable<object[]> TestDataPropertyWithNullValues =>

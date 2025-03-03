@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
 
@@ -37,7 +40,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void FieldIsCorrect()
+        public async Task FieldIsCorrect()
         {
             // Arrange
             var expected = typeof(FieldDataSourceTests)
@@ -48,7 +51,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.FieldInfo;
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         [Test]
@@ -79,7 +82,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void GeneratesTestDataMatchingTestParameters()
+        public async Task GeneratesTestDataMatchingTestParameters()
         {
             // Arrange
             var expected = new[]
@@ -98,7 +101,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(method).ToArray();
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         public static IEnumerable<object[]> TestDataFieldWithRecordValues =

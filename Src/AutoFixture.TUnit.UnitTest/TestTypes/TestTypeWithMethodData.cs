@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.UnitTest.TestTypes
@@ -38,11 +39,11 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
             yield return [];
         }
 
-        public void SingleStringValueTest(string value)
+        public async Task SingleStringValueTest(string value)
         {
-            Assert.NotNull(value);
-            Assert.NotEmpty(value);
-            Assert.False(string.IsNullOrWhiteSpace(value));
+            await Assert.That(value).IsNotNull();
+            await Assert.That(value).IsNotEmpty();
+            await Assert.That(string.IsNullOrWhiteSpace(value)).IsFalse();
         }
 
         public static MethodInfo GetSingleStringValueTestMethodInfo()
@@ -71,14 +72,14 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
                 .GetMethod(nameof(GetStringTestsFromArgument));
         }
 
-        public void MultipleValueTest(string a, int b, decimal c)
+        public async Task MultipleValueTest(string a, int b, decimal c)
         {
-            Assert.NotNull(a);
-            Assert.NotEmpty(a);
-            Assert.False(string.IsNullOrWhiteSpace(a));
+            await Assert.That(a).IsNotNull();
+            await Assert.That(a).IsNotEmpty();
+            await Assert.That(string.IsNullOrWhiteSpace(a)).IsFalse();
 
-            Assert.True(b != 0, "Value should not be default");
-            Assert.True(c != 0, "Value should not be default");
+            await Assert.That(b != 0, "Value should not be default").IsTrue();
+            await Assert.That(c != 0, "Value should not be default").IsTrue();
         }
 
         public static MethodInfo GetMultipleValueTestMethodInfo()
@@ -94,14 +95,14 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
             yield return ["value-three", 94, 52.21m];
         }
 
-        public void TestWithFrozenParameter(string a, [Frozen] string b, string c)
+        public async Task TestWithFrozenParameter(string a, [Frozen] string b, string c)
         {
-            Assert.NotNull(a);
-            Assert.NotNull(b);
-            Assert.NotNull(c);
+            await Assert.That(a).IsNotNull();
+            await Assert.That(b).IsNotNull();
+            await Assert.That(c).IsNotNull();
 
-            Assert.NotEqual(a, b);
-            Assert.Equal(b, c);
+            await Assert.That(b).IsNotEqualTo(a);
+            await Assert.That(c).IsEqualTo(b);
         }
 
         public static IEnumerable<object[]> GetDataForTestWithFrozenParameter()
@@ -117,10 +118,10 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
                 .GetMethod(nameof(TestWithFrozenParameter));
         }
 
-        public void TestWithComplexTypes([Frozen] PropertyHolder<string> a, PropertyHolder<string> b)
+        public async Task TestWithComplexTypes([Frozen] PropertyHolder<string> a, PropertyHolder<string> b)
         {
-            Assert.NotNull(a);
-            Assert.NotNull(b);
+            await Assert.That(a).IsNotNull();
+            await Assert.That(b).IsNotNull();
 
             Assert.Same(a, b);
         }

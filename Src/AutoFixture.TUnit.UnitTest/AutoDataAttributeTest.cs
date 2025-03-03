@@ -11,17 +11,17 @@ namespace AutoFixture.TUnit.UnitTest
     public class AutoDataAttributeTest
     {
         [Test]
-        public void SutIsDataAttribute()
+        public async Task SutIsDataAttribute()
         {
             // Arrange & Act
             var sut = new AutoDataAttribute();
 
             // Assert
-            Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
-        public void InitializedWithDefaultConstructorHasCorrectFixture()
+        public async Task InitializedWithDefaultConstructorHasCorrectFixture()
         {
             // Arrange
             var sut = new AutoDataAttribute();
@@ -30,11 +30,11 @@ namespace AutoFixture.TUnit.UnitTest
             var result = sut.FixtureFactory();
 
             // Assert
-            Assert.That(result).IsAssignableFrom<Fixture>();
+            await Assert.That(result).IsAssignableFrom<Fixture>();
         }
 
         [Test]
-        public void InitializedWithFixtureFactoryConstructorHasCorrectFixture()
+        public async Task InitializedWithFixtureFactoryConstructorHasCorrectFixture()
         {
             // Arrange
             var fixture = new Fixture();
@@ -43,7 +43,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Assert
-            Assert.That(sut.FixtureFactory()).IsSameReferenceAs(fixture);
+            await Assert.That(sut.FixtureFactory()).IsSameReferenceAs(fixture);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void DoesntActivateFixtureImmediately()
+        public async Task DoesntActivateFixtureImmediately()
         {
             // Arrange
             var wasInvoked = false;
@@ -69,7 +69,7 @@ namespace AutoFixture.TUnit.UnitTest
             });
 
             // Assert
-            Assert.That(wasInvoked).IsFalse();
+            await Assert.That(wasInvoked).IsFalse();
         }
 
         [Test]
@@ -111,10 +111,10 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            Assert.That(actualContext).IsNotNull();
-            Assert.That(parameters).HasSingleItem();
-            Assert.That(actualParameter).IsEqualTo(parameters[0]);
-            Assert.That(result.Single()).IsEquivalentTo(new[] { expectedResult });
+            await Assert.That(actualContext).IsNotNull();
+            await Assert.That(parameters).HasSingleItem();
+            await Assert.That(actualParameter).IsEqualTo(parameters[0]);
+            await Assert.That(result.Single()).IsEquivalentTo(new[] { expectedResult });
         }
 
         [Test]
@@ -147,12 +147,12 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
-            
-            var composite = (CompositeCustomization) customizationLog[0];
-            
-            Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
-            Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+
+            var composite = (CompositeCustomization)customizationLog[0];
+
+            await Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            Assert.That(customizationLog[0]).IsTypeOf<TypeWithIParameterCustomizationSourceUsage.Customization>();
+            await Assert.That(customizationLog[0]).IsTypeOf<TypeWithIParameterCustomizationSourceUsage.Customization>();
         }
     }
 }

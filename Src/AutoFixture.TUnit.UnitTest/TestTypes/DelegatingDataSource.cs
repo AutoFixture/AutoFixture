@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit.UnitTest.TestTypes
 {

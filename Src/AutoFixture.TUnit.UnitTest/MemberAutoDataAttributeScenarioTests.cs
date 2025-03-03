@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
 
@@ -19,11 +20,11 @@ namespace AutoFixture.TUnit.UnitTest
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringTestsFromArgument),
             parameters: "argument")]
-        public void SingleStringValueTest(string value)
+        public async Task SingleStringValueTest(string value)
         {
-            Assert.NotNull(value);
-            Assert.NotEmpty(value);
-            Assert.False(string.IsNullOrWhiteSpace(value));
+            await Assert.That(value).IsNotNull();
+            await Assert.That(value).IsNotEmpty();
+            await Assert.That(string.IsNullOrWhiteSpace(value)).IsFalse();
         }
 
         [Test]
@@ -31,14 +32,14 @@ namespace AutoFixture.TUnit.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetMultipleValueTestData))]
-        public void MultipleValueTest(string a, int b, decimal c)
+        public async Task MultipleValueTest(string a, int b, decimal c)
         {
-            Assert.NotNull(a);
-            Assert.NotEmpty(a);
-            Assert.False(string.IsNullOrWhiteSpace(a));
+            await Assert.That(a).IsNotNull();
+            await Assert.That(a).IsNotEmpty();
+            await Assert.That(string.IsNullOrWhiteSpace(a)).IsFalse();
 
-            Assert.True(b != default, "Value should not be default");
-            Assert.True(c != default, "Value should not be default");
+            await Assert.That(b != default, "Value should not be default").IsTrue();
+            await Assert.That(c != default, "Value should not be default").IsTrue();
         }
 
         [Test]
@@ -46,7 +47,7 @@ namespace AutoFixture.TUnit.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestData))]
-        public void FreezesUninjectedValues(
+        public async Task FreezesUninjectedValues(
             string a, [Frozen] string b, string c,
             PropertyHolder<string> d)
         {
@@ -54,19 +55,19 @@ namespace AutoFixture.TUnit.UnitTest
             var aSuffix = a.Split('-').Last();
             Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
 
-            Assert.NotNull(b);
-            Assert.NotEmpty(b);
-            Assert.False(string.IsNullOrWhiteSpace(b));
+            await Assert.That(b).IsNotNull();
+            await Assert.That(b).IsNotEmpty();
+            await Assert.That(string.IsNullOrWhiteSpace(b)).IsFalse();
 
-            Assert.Equal(b, c);
+            await Assert.That(c).IsEqualTo(b);
 
-            Assert.NotNull(d);
-            Assert.Equal(b, d.Property);
+            await Assert.That(d).IsNotNull();
+            await Assert.That(d.Property).IsEqualTo(b);
         }
 
         [Test]
         [MemberAutoData(nameof(GetMultipleValueTestData))]
-        public void InjectsValues([Frozen] string a,
+        public async Task InjectsValues([Frozen] string a,
             [Frozen] int b,
             [Frozen] decimal c,
             PropertyHolder<string> a1,
@@ -80,14 +81,14 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Contains(new[] { 22, 75, 19 }, x => x == b);
             Assert.Contains(new[] { 25.7m, 228.1m, 137.09m }, x => x == c);
 
-            Assert.NotNull(a1);
-            Assert.Equal(a, a1.Property);
+            await Assert.That(a1).IsNotNull();
+            await Assert.That(a1.Property).IsEqualTo(a);
 
-            Assert.NotNull(b1);
-            Assert.Equal(b, b1.Property);
+            await Assert.That(b1).IsNotNull();
+            await Assert.That(b1.Property).IsEqualTo(b);
 
-            Assert.NotNull(c1);
-            Assert.Equal(c, c1.Property);
+            await Assert.That(c1).IsNotNull();
+            await Assert.That(c1.Property).IsEqualTo(c);
         }
 
         [Test]
@@ -95,7 +96,7 @@ namespace AutoFixture.TUnit.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringValuesTestData))]
-        public void DoesNotAlterTestDataValuesWhenFrozen(
+        public async Task DoesNotAlterTestDataValuesWhenFrozen(
             [Frozen] string a, string b, string c)
         {
             var aSuffix = a.Split('-').Last();
@@ -103,8 +104,8 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
             Assert.Contains(new[] { "uno", "dos", "tres" }, x => bSuffix == x);
 
-            Assert.NotEqual(a, b);
-            Assert.Equal(a, c);
+            await Assert.That(b).IsNotEqualTo(a);
+            await Assert.That(c).IsEqualTo(a);
         }
 
         [Test]
@@ -112,7 +113,7 @@ namespace AutoFixture.TUnit.UnitTest
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetStringValuesTestData))]
-        public void LastInjectedValueIsFrozen(
+        public async Task LastInjectedValueIsFrozen(
             [Frozen] string a, [Frozen] string b, string c)
         {
             var aSuffix = a.Split('-').Last();
@@ -120,21 +121,21 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
             Assert.Contains(new[] { "uno", "dos", "tres" }, x => bSuffix == x);
 
-            Assert.NotEqual(a, c);
-            Assert.Equal(b, c);
+            await Assert.That(c).IsNotEqualTo(a);
+            await Assert.That(c).IsEqualTo(b);
         }
 
         [Test]
         [MemberAutoData(
             memberType: typeof(TestTypeWithMethodData),
             memberName: nameof(TestTypeWithMethodData.GetTestWithComplexTypesData))]
-        public void InjectsComplexTypes(
+        public async Task InjectsComplexTypes(
             [Frozen] PropertyHolder<string> a,
             PropertyHolder<string> b,
             PropertyHolder<string> c)
         {
-            Assert.NotNull(a);
-            Assert.NotNull(b);
+            await Assert.That(a).IsNotNull();
+            await Assert.That(b).IsNotNull();
 
             Assert.NotSame(a, b);
             Assert.Same(a, c);

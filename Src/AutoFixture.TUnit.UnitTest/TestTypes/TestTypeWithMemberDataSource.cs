@@ -7,24 +7,24 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
     {
         [SuppressMessage("Usage", "xUnit1013:Public method should be marked as test",
             Justification = "Test is invoked through reflection.")]
-        public void MultipleValueTest(string a, int b, decimal c)
+        public async Task MultipleValueTest(string a, int b, decimal c)
         {
-            Assert.NotNull(a);
-            Assert.NotEmpty(a);
-            Assert.False(string.IsNullOrWhiteSpace(a));
+            await Assert.That(a).IsNotNull();
+            await Assert.That(a).IsNotEmpty();
+            await Assert.That(string.IsNullOrWhiteSpace(a)).IsFalse();
 
-            Assert.True(b != 0, "Value should not be default");
-            Assert.True(c != 0, "Value should not be default");
+            await Assert.That(b != 0, "Value should not be default").IsTrue();
+            await Assert.That(c != 0, "Value should not be default").IsTrue();
         }
 
-        public void TestWithFrozenParameter(string a, [Frozen] string b, string c)
+        public async Task TestWithFrozenParameter(string a, [Frozen] string b, string c)
         {
-            Assert.NotNull(a);
-            Assert.NotNull(b);
-            Assert.NotNull(c);
+            await Assert.That(a).IsNotNull();
+            await Assert.That(b).IsNotNull();
+            await Assert.That(c).IsNotNull();
 
-            Assert.NotEqual(a, b);
-            Assert.Equal(b, c);
+            await Assert.That(b).IsNotEqualTo(a);
+            await Assert.That(c).IsEqualTo(b);
         }
 
         public static MethodInfo GetMultipleValueTestMethodInfo() =>

@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TUnit.Core" Version="0.16.4" />
+    <PackageReference Include="TUnit.Core" Version="0.16.8" />
   </ItemGroup>
 
   <ItemGroup>

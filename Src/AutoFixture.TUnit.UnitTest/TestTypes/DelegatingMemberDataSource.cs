@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit.UnitTest.TestTypes;
 

@@ -61,7 +61,7 @@ public class MemberDataSourceTests
     }
 
     [Test]
-    public void InitializesTypeProperty()
+    public async Task InitializesTypeProperty()
     {
         // Arrange
         var type = typeof(MemberDataSourceTests);
@@ -71,8 +71,8 @@ public class MemberDataSourceTests
         var sut = new MemberDataSource(type, method);
 
         // Assert
-        Assert.Equal(type, sut.Type);
-        Assert.Equal(method, sut.Name);
+        await Assert.That(sut.Type).IsEqualTo(type);
+        await Assert.That(sut.Name).IsEqualTo(method);
         Assert.Empty(sut.Arguments);
     }
 

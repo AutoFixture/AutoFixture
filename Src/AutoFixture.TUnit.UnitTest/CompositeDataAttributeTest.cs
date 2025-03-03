@@ -10,13 +10,13 @@ namespace AutoFixture.TUnit.UnitTest
     public class CompositeDataAttributeTest
     {
         [Test]
-        public void SutIsDataAttribute()
+        public async Task SutIsDataAttribute()
         {
             // Arrange & Act
             var sut = new CompositeDataAttribute();
 
             // Assert
-            Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void AttributesIsCorrectWhenInitializedWithArray()
+        public async Task AttributesIsCorrectWhenInitializedWithArray()
         {
             // Arrange
             var a = () => { };
@@ -46,7 +46,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             IEnumerable<NonTypedDataSourceGeneratorAttribute> result = sut.Attributes;
             // Assert
-            Assert.That(result).IsEquivalentTo(attributes);
+            await Assert.That(result).IsEquivalentTo(attributes);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void AttributesIsCorrectWhenInitializedWithEnumerable()
+        public async Task AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Arrange
             var a = () => { };
@@ -76,7 +76,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var result = sut.Attributes;
             // Assert
-            Assert.That(result).IsEquivalentTo(attributes);
+            await Assert.That(result).IsEquivalentTo(attributes);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x());
 
             // Assert
-            Assert.That(result).All().Satisfy(row => row.IsEmpty());
+            await Assert.That(result).All().Satisfy(row => row.IsEmpty());
         }
     }
 }

@@ -7,14 +7,14 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
     /// </summary>
     public class ChildTestTypeMethodData : TestTypeWithMethodData
     {
-        public new void MultipleValueTest(string a, int b, decimal c)
+        public new async Task MultipleValueTest(string a, int b, decimal c)
         {
-            Assert.NotNull(a);
-            Assert.NotEmpty(a);
-            Assert.False(string.IsNullOrWhiteSpace(a));
+            await Assert.That(a).IsNotNull();
+            await Assert.That(a).IsNotEmpty();
+            await Assert.That(string.IsNullOrWhiteSpace(a)).IsFalse();
 
-            Assert.True(b != 0, "Value should not be default");
-            Assert.True(c != 0, "Value should not be default");
+            await Assert.That(b != 0, "Value should not be default").IsTrue();
+            await Assert.That(c != 0, "Value should not be default").IsTrue();
         }
 
         public static new MethodInfo GetMultipleValueTestMethodInfo()

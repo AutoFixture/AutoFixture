@@ -7,7 +7,7 @@ using AutoFixture.Kernel;
 
 namespace AutoFixture.TUnit.UnitTest.TestTypes
 {
-    internal abstract class InlineAttributeTestData : IEnumerable<object[]>
+    internal abstract class InlineAttributeTestData<T>
     {
         protected static DerivedArgumentsAutoDataAttribute CreateAttributeWithFakeFixture(
             object[] inlineValues,
@@ -53,7 +53,6 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
             }
         }
 
-        public abstract IEnumerator<object[]> GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        public abstract IEnumerable<T> GetData();
     }
 }

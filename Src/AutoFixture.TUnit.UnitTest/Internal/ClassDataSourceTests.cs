@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
 
@@ -9,13 +12,13 @@ namespace AutoFixture.TUnit.UnitTest.Internal
     public class ClassDataSourceTests
     {
         [Test]
-        public void SutIsTestDataSource()
+        public async Task SutIsTestDataSource()
         {
             // Arrange & Act
             var sut = new ClassDataSource(typeof(object), Array.Empty<object>());
 
             // Assert
-            Assert.IsAssignableFrom<IDataSource>(sut);
+            await Assert.That(sut).IsAssignableFrom<IDataSource>();
         }
 
         [Test]
@@ -33,7 +36,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void TypeIsCorrect()
+        public async Task TypeIsCorrect()
         {
             // Arrange
             var expected = typeof(object);
@@ -43,11 +46,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.Type;
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         [Test]
-        public void ParametersIsCorrect()
+        public async Task ParametersIsCorrect()
         {
             // Arrange
             var expected = new[] { new object() };
@@ -57,7 +60,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.Parameters;
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         [Test]
@@ -73,7 +76,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void GeneratesTestDatWithPrimitiveValues()
+        public async Task GeneratesTestDatWithPrimitiveValues()
         {
             // Arrange
             var expected = new[]
@@ -90,7 +93,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var actual = sut.GetData(method).ToArray();
 
             // Assert
-            Assert.Equal(expected, actual);
+            await Assert.That(actual).IsEqualTo(expected);
         }
 
         private class TestSourceWithMixedValues : IEnumerable<object[]>
@@ -119,7 +122,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void AppliesExpectedConstructorParameters()
+        public async Task AppliesExpectedConstructorParameters()
         {
             // Arrange
             object[] parameters = [new object[] { "y", 25 }];
@@ -131,7 +134,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(method).ToArray();
 
             // Assert
-            Assert.Equal(new object[] { "y", 25 }, result.Single());
+            await Assert.That(result.Single()).IsEqualTo(new object[] { "y", 25 });
         }
     }
 }

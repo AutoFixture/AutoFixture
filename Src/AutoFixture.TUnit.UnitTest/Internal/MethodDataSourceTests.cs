@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
 
@@ -49,7 +52,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ConstructorSetsProperties()
+        public async Task ConstructorSetsProperties()
         {
             // Arrange
             var methodInfo = typeof(MethodDataSourceTests)
@@ -60,12 +63,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new MethodDataSource(methodInfo, arguments);
 
             // Assert
-            Assert.Equal(methodInfo, sut.MethodInfo);
-            Assert.Equal(arguments, sut.Arguments);
+            await Assert.That(sut.MethodInfo).IsEqualTo(methodInfo);
+            await Assert.That(sut.Arguments).IsEqualTo(arguments);
         }
 
         [Test]
-        public void GetTestDataInvokesMethodInfo()
+        public async Task GetTestDataInvokesMethodInfo()
         {
             // Arrange
             var expected = new[]
@@ -84,7 +87,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(testData);
 
             // Assert
-            Assert.That(result).IsEqualTo(expected);
+            await Assert.That(result).IsEqualTo(expected);
         }
 
         [Test]

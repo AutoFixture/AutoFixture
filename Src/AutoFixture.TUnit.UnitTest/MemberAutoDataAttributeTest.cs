@@ -12,7 +12,7 @@ namespace AutoFixture.TUnit.UnitTest
     public class MemberAutoDataAttributeTest
     {
         [Test]
-        public void SutIsDataAttribute()
+        public async Task SutIsDataAttribute()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
@@ -21,11 +21,11 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new MemberAutoDataAttribute(memberName);
 
             // Assert
-            Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
-        public void InitializedWithMemberNameAndParameters()
+        public async Task InitializedWithMemberNameAndParameters()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
@@ -35,14 +35,14 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new MemberAutoDataAttribute(memberName, parameters);
 
             // Assert
-            Assert.Equal(memberName, sut.MemberName);
-            Assert.Equal(parameters, sut.Parameters);
+            await Assert.That(sut.MemberName).IsEqualTo(memberName);
+            await Assert.That(sut.Parameters).IsEqualTo(parameters);
             Assert.Null(sut.MemberType);
-            Assert.NotNull(sut.FixtureFactory);
+            await Assert.That(sut.FixtureFactory).IsNotNull();
         }
 
         [Test]
-        public void InitializedWithTypeMemberNameAndParameters()
+        public async Task InitializedWithTypeMemberNameAndParameters()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
@@ -53,10 +53,10 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new MemberAutoDataAttribute(testType, memberName, parameters);
 
             // Assert
-            Assert.Equal(memberName, sut.MemberName);
-            Assert.Equal(parameters, sut.Parameters);
-            Assert.Equal(testType, sut.MemberType);
-            Assert.NotNull(sut.FixtureFactory);
+            await Assert.That(sut.MemberName).IsEqualTo(memberName);
+            await Assert.That(sut.Parameters).IsEqualTo(parameters);
+            await Assert.That(sut.MemberType).IsEqualTo(testType);
+            await Assert.That(sut.FixtureFactory).IsNotNull();
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void DoesntActivateFixtureImmediately()
+        public async Task DoesntActivateFixtureImmediately()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
@@ -159,7 +159,7 @@ namespace AutoFixture.TUnit.UnitTest
             }, memberName);
 
             // Assert
-            Assert.False(wasInvoked);
+            await Assert.That(wasInvoked).IsFalse();
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace AutoFixture.TUnit.UnitTest
             var preDiscoverer = sut.SupportsDiscoveryEnumeration();
 
             // Assert
-            Assert.False(preDiscoverer);
+            Assert.That(preDiscoverer).IsFalse();
         }
 
         [Test]
@@ -232,7 +232,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x.GetData()).ToArray();
 
             // Assert
-            Assert.Equal(expected, testData);
+            Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace AutoFixture.TUnit.UnitTest
             var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
                 .Select(x => x.GetData()).ToArray();
 
-            Assert.Equal(expected, testData);
+            Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -275,7 +275,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x.GetData()).ToArray();
 
             // Assert
-            Assert.Equal(expected, testData);
+            Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -294,24 +294,24 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Collection(testData,
                 arguments =>
                 {
-                    Assert.Equal(3, arguments.Length);
-                    Assert.Equal("value-one", arguments[0]);
-                    Assert.NotEqual(0, arguments[1]);
-                    Assert.NotEqual(0, arguments[2]);
+                    Assert.That(arguments.Length).IsEqualTo(3);
+                    Assert.That(arguments[0]).IsEqualTo("value-one");
+                    Assert.That(arguments[1]).IsNotEqualTo(0);
+                    Assert.That(arguments[2]).IsNotEqualTo(0);
                 },
                 arguments =>
                 {
-                    Assert.Equal(3, arguments.Length);
-                    Assert.Equal("value-two", arguments[0]);
-                    Assert.NotEqual(0, arguments[1]);
-                    Assert.NotEqual(0, arguments[2]);
+                    Assert.That(arguments.Length).IsEqualTo(3);
+                    Assert.That(arguments[0]).IsEqualTo("value-two");
+                    Assert.That(arguments[1]).IsNotEqualTo(0);
+                    Assert.That(arguments[2]).IsNotEqualTo(0);
                 },
                 arguments =>
                 {
-                    Assert.Equal(3, arguments.Length);
-                    Assert.Equal("value-three", arguments[0]);
-                    Assert.NotEqual(0, arguments[1]);
-                    Assert.NotEqual(0, arguments[2]);
+                    Assert.That(arguments.Length).IsEqualTo(3);
+                    Assert.That(arguments[0]).IsEqualTo("value-three");
+                    Assert.That(arguments[1]).IsNotEqualTo(0);
+                    Assert.That(arguments[2]).IsNotEqualTo(0);
                 });
         }
 
@@ -334,7 +334,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x.GetData()).ToArray();
 
             // Assert
-            Assert.Equal(expected, testData);
+            Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -353,24 +353,24 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Collection(testData,
                 arguments =>
                 {
-                    Assert.Equal(3, arguments.Length);
-                    Assert.Equal("value-one", arguments[0]);
-                    Assert.NotEmpty(arguments[1].ToString()!);
-                    Assert.Equal(arguments[1], arguments[2]);
+                    Assert.That(arguments.Length).IsEqualTo(3);
+                    Assert.That(arguments[0]).IsEqualTo("value-one");
+                    Assert.That(arguments[1].ToString()!).IsNotEmpty();
+                    Assert.That(arguments[2]).IsEqualTo(arguments[1]);
                 },
                 arguments =>
                 {
-                    Assert.Equal(3, arguments.Length);
-                    Assert.Equal("value-two", arguments[0]);
-                    Assert.NotEmpty(arguments[1].ToString()!);
-                    Assert.Equal(arguments[1], arguments[2]);
+                    Assert.That(arguments.Length).IsEqualTo(3);
+                    Assert.That(arguments[0]).IsEqualTo("value-two");
+                    Assert.That(arguments[1].ToString()!).IsNotEmpty();
+                    Assert.That(arguments[2]).IsEqualTo(arguments[1]);
                 },
                 arguments =>
                 {
-                    Assert.Equal(3, arguments.Length);
-                    Assert.Equal("value-three", arguments[0]);
-                    Assert.NotEmpty(arguments[1].ToString()!);
-                    Assert.Equal(arguments[1], arguments[2]);
+                    Assert.That(arguments.Length).IsEqualTo(3);
+                    Assert.That(arguments[0]).IsEqualTo("value-three");
+                    Assert.That(arguments[1].ToString()!).IsNotEmpty();
+                    Assert.That(arguments[2]).IsEqualTo(arguments[1]);
                 });
         }
 
@@ -393,7 +393,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x.GetData()).ToArray();
 
             // Assert
-            Assert.Equal(expected, testData);
+            Assert.That(testData).IsEqualTo(expected);
         }
 
         public static IEnumerable<object[]> TestDataWithNullValues
@@ -408,11 +408,11 @@ namespace AutoFixture.TUnit.UnitTest
 
         [Test]
         [MemberAutoData(nameof(TestDataWithNullValues))]
-        public void NullTestDataReturned(string a, string b, PropertyHolder<string> c)
+        public async Task NullTestDataReturned(string a, string b, PropertyHolder<string> c)
         {
-            Assert.True(string.IsNullOrWhiteSpace(a));
+            await Assert.That(string.IsNullOrWhiteSpace(a)).IsTrue();
             Assert.Null(b);
-            Assert.NotNull(c);
+            await Assert.That(c).IsNotNull();
         }
     }
 }

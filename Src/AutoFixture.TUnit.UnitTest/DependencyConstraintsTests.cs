@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Threading.Tasks;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -15,13 +16,13 @@ namespace AutoFixture.TUnit.UnitTest
         [Arguments("Unquote")]
         [Arguments("xunit")]
         [Arguments("xunit.extensions")]
-        public void AutoFixtureXunit3DoesNotReference(string assemblyName)
+        public async Task AutoFixtureXunit3DoesNotReference(string assemblyName)
         {
             // Arrange
             // Act
             var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Assert
-            Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
+            await Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
         }
 
         [Test]
@@ -35,13 +36,13 @@ namespace AutoFixture.TUnit.UnitTest
         [Arguments("Unquote")]
         [Arguments("xunit")]
         [Arguments("xunit.extensions")]
-        public void AutoFixtureXunit3UnitTestsDoNotReference(string assemblyName)
+        public async Task AutoFixtureXunit3UnitTestsDoNotReference(string assemblyName)
         {
             // Arrange
             // Act
             var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Assert
-            Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
+            await Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
         }
     }
 }

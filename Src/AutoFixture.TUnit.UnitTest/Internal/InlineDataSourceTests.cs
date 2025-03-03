@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 
 namespace AutoFixture.TUnit.UnitTest.Internal;
@@ -25,7 +27,7 @@ public class InlineDataSourceTests
     }
 
     [Test]
-    public void ValuesIsCorrect()
+    public async Task ValuesIsCorrect()
     {
         // Arrange
         var expectedValues = Array.Empty<object>();
@@ -33,7 +35,7 @@ public class InlineDataSourceTests
         // Act
         var result = sut.Values;
         // Assert
-        Assert.That(result).IsEqualTo(expectedValues);
+        await Assert.That(result).IsEqualTo(expectedValues);
     }
 
     [Test]
@@ -74,7 +76,7 @@ public class InlineDataSourceTests
 
         // Assert
         var testData = Assert.Single(result);
-        Assert.Equal(values, testData);
+        Assert.That(testData).IsEqualTo(values);
     }
 
     [Test]
@@ -91,6 +93,6 @@ public class InlineDataSourceTests
 
         // Assert
         var testData = Assert.Single(result);
-        Assert.Equal(values, testData);
+        Assert.That(testData).IsEqualTo(values);
     }
 }

@@ -18,13 +18,13 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void IsDataAttribute()
+        public async Task IsDataAttribute()
         {
             // Arrange & Act
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
 
             // Assert
-            Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
@@ -36,13 +36,13 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void TreatsNullParameterValueAsArrayWithNull()
+        public async Task TreatsNullParameterValueAsArrayWithNull()
         {
             // Arrange & Act
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData), null);
 
             // Assert
-            Assert.That(sut.Parameters).HasSingleItem()
+            await Assert.That(sut.Parameters).HasSingleItem()
                 .And
                 .IsNotNull();
         }
@@ -93,7 +93,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x());
 
             // Assert
-            Assert.That(data).IsEmpty();
+            await Assert.That(data).IsEmpty();
         }
 
         [Test]
@@ -128,9 +128,9 @@ namespace AutoFixture.TUnit.UnitTest
 
             // Act
             var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
-            
+
             // Assert
-            Assert.That(actual).IsNotNull();
+            await Assert.That(actual).IsNotNull();
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace AutoFixture.TUnit.UnitTest
             var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
 
             // Assert
-            Assert.That(actual).IsNotEmpty();
+            await Assert.That(actual).IsNotEmpty();
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace AutoFixture.TUnit.UnitTest
             var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
 
             // Assert
-            Assert.That(actual).HasCount().EqualTo(5);
+            await Assert.That(actual).HasCount().EqualTo(5);
         }
 
         [Test]
@@ -215,12 +215,12 @@ namespace AutoFixture.TUnit.UnitTest
             _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!));
 
             // Assert
-            Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
-            
-            var composite = (CompositeCustomization) customizationLog[0];
-            
-            Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
-            Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+
+            var composite = (CompositeCustomization)customizationLog[0];
+
+            await Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
         }
 
         [Test]
@@ -248,7 +248,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x())
                 .ToArray();
 
-            Assert.That(actual).IsEquivalentTo(expected);
+            await Assert.That(actual).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -274,7 +274,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .ToArray();
 
 
-            Assert.That(actual).IsEquivalentTo(expected);
+            await Assert.That(actual).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -298,7 +298,7 @@ namespace AutoFixture.TUnit.UnitTest
 
 
             // Assert
-            Assert.That(actual).IsEquivalentTo(expected);
+            await Assert.That(actual).IsEquivalentTo(expected);
         }
 
         public class TestDataWithNullValues : IEnumerable<object[]>

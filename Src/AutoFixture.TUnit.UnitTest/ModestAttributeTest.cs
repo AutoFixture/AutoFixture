@@ -40,7 +40,7 @@ namespace AutoFixture.TUnit.UnitTest
 
             // Assert
             var invoker = Assert.IsAssignableFrom<ConstructorCustomization>(result);
-            Assert.Equal(parameter.ParameterType, invoker.TargetType);
+            Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
             Assert.IsAssignableFrom<ModestConstructorQuery>(invoker.Query);
         }
     }

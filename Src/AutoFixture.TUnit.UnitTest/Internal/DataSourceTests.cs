@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 
 namespace AutoFixture.TUnit.UnitTest.Internal
@@ -73,11 +74,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Assert
             var testData = Assert.Single(result);
             var argument = Assert.Single(testData);
-            Assert.Equal("hello", argument);
+            Assert.That(argument).IsEqualTo("hello");
         }
 
         [Test]
-        public void ReturnsArgumentsFittingTestParameters()
+        public async Task ReturnsArgumentsFittingTestParameters()
         {
             // Arrange
             var testData = new[]
@@ -96,7 +97,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var actual = sut.GetData(testMethod).ToArray();
 
             // Assert
-            Assert.Equal(testData.Length, actual.Length);
+            await Assert.That(actual.Length).IsEqualTo(testData.Length);
             Assert.All(actual, x => Assert.InRange(x.Length, 0, 3));
         }
 
