@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 
@@ -73,7 +74,7 @@ public class MemberDataSourceTests
         // Assert
         await Assert.That(sut.Type).IsEqualTo(type);
         await Assert.That(sut.Name).IsEqualTo(method);
-        Assert.Empty(sut.Arguments);
+        Assert.That(sut.Arguments).IsEmpty();
     }
 
     [Test]

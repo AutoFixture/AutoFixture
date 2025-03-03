@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 
@@ -41,7 +42,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
 
             // Assert
             var item = Assert.Single(result);
-            Assert.Empty(item);
+            Assert.That(item).IsEmpty();
         }
 
         [Test]

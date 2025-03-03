@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
@@ -10,17 +11,17 @@ namespace AutoFixture.TUnit.UnitTest.Internal
     public class AutoDataSourceTests
     {
         [Test]
-        public void SutIsTestDataSource()
+        public async Task SutIsTestDataSource()
         {
             // Arrange & Act
             var sut = new AutoDataSource(() => new DelegatingFixture());
 
             // Assert
-            Assert.IsAssignableFrom<IDataSource>(sut);
+            await Assert.That(sut).IsAssignableFrom<IDataSource>();
         }
 
         [Test]
-        public void SetsPropertiesToExpectedValues()
+        public async Task SetsPropertiesToExpectedValues()
         {
             // Arrange
             var fixtureFactory = () => new DelegatingFixture();
@@ -30,8 +31,8 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new AutoDataSource(fixtureFactory, source);
 
             // Assert
-            Assert.Same(fixtureFactory, sut.CreateFixture);
-            Assert.Same(source, sut.Source);
+            await Assert.That(sut.CreateFixture).IsSameReferenceAs(fixtureFactory);
+            await Assert.That(sut.Source).IsSameReferenceAs(source);
         }
 
         [Test]
@@ -54,12 +55,15 @@ namespace AutoFixture.TUnit.UnitTest.Internal
 
             // Assert
             await Assert.That(result).IsNotNull();
-            var item = Assert.Single(result);
-            Assert.That(item).IsNotNull();
-            Assert.That(item.Length).IsEqualTo(3);
-            Assert.That(item[0]).IsEqualTo("value");
-            Assert.That(item[1]).IsEqualTo(1);
-            Assert.That(item[2]).IsEqualTo(12.2);
+            await Assert.That(result).HasSingleItem();
+            
+            var item = result.Single();
+            
+            await Assert.That(item).IsNotNull();
+            await Assert.That(item.Length).IsEqualTo(3);
+            await Assert.That(item[0]).IsEqualTo("value");
+            await Assert.That(item[1]).IsEqualTo(1);
+            await Assert.That(item[2]).IsEqualTo(12.2);
         }
 
         [Test]
@@ -128,7 +132,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ReturnsNoTestDataWhenSourceReturnsNoTestData()
+        public async Task ReturnsNoTestDataWhenSourceReturnsNoTestData()
         {
             // Arrange
             var source = new DelegatingDataSource
@@ -144,7 +148,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(method!).ToArray();
 
             // Assert
-            Assert.Empty(result);
+            await Assert.That(result).IsEmpty();
         }
 
         [Test]
@@ -163,7 +167,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void DoesNotCustomizeFixtureWhenParametersNotCustomized()
+        public async Task DoesNotCustomizeFixtureWhenParametersNotCustomized()
         {
             // Arrange
             var customizations = new List<ICustomization>();
@@ -179,7 +183,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             _ = sut.GetData(method!).ToArray();
 
             // Assert
-            Assert.Empty(customizations);
+            await Assert.That(customizations).IsEmpty();
         }
 
         [Test]
@@ -203,7 +207,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void CustomizationsAreAppliedInExpectedOrder()
+        public async Task CustomizationsAreAppliedInExpectedOrder()
         {
             // Arrange
             var customizations = new List<ICustomization>();
@@ -219,17 +223,16 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             _ = sut.GetData(method!).ToArray();
 
             // Assert
-            Assert.Collection(customizations,
-                c => Assert.IsType<FreezeOnMatchCustomization>(c),
-                c => Assert.IsType<FreezeOnMatchCustomization>(c),
-                c =>
-                {
-                    var composite = Assert.IsType<CompositeCustomization>(c);
-                    var compositeCustomizations = composite.Customizations.ToArray();
-                    Assert.That(compositeCustomizations.Length).IsEqualTo(2);
-                    Assert.IsType<ConstructorCustomization>(compositeCustomizations[0]);
-                    Assert.IsType<FreezeOnMatchCustomization>(compositeCustomizations[1]);
-                });
+            using var scope = Assert.Multiple();
+
+            await Assert.That(customizations[0]).IsTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(customizations[1]).IsTypeOf<FreezeOnMatchCustomization>();
+            var composite = await Assert.That(customizations[2]).IsTypeOf<CompositeCustomization>();
+
+            var compositeCustomizations = composite.Customizations.ToArray();
+            await Assert.That(compositeCustomizations.Length).IsEqualTo(2);
+            await Assert.That(compositeCustomizations[0]).IsTypeOf<ConstructorCustomization>();
+            await Assert.That(compositeCustomizations[1]).IsTypeOf<FreezeOnMatchCustomization>();
         }
     }
 }
