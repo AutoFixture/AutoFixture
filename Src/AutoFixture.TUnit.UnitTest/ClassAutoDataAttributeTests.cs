@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.UnitTest.TestTypes;
@@ -64,8 +65,8 @@ namespace AutoFixture.TUnit.UnitTest
                 .GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(
-                () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
+            Assert.Throws<InvalidOperationException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
         }
 
         [Test]
@@ -76,8 +77,8 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            await Assert.ThrowsAsync<MissingMethodException>(
-                () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
+            Assert.Throws<MissingMethodException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
         }
 
         [Test]
@@ -88,11 +89,11 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act
-            var data = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var data = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x());
 
             // Assert
-            Assert.Empty(data);
+            Assert.That(data).IsEmpty();
         }
 
         [Test]
@@ -103,8 +104,8 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & assert
-            await Assert.ThrowsAsync<InvalidOperationException>(
-                () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
+            Assert.Throws<InvalidOperationException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
         }
 
         [Test]
@@ -115,7 +116,7 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            _ = await sut.GetData(testMethod!, new DisposalTracker());
+            sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
         }
 
         [Test]
@@ -126,10 +127,10 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act
-            var actual = await sut.GetData(testMethod!, new DisposalTracker());
-
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
+            
             // Assert
-            Assert.NotNull(actual);
+            Assert.That(actual).IsNotNull();
         }
 
         [Test]
@@ -140,10 +141,10 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act
-            var actual = await sut.GetData(testMethod!, new DisposalTracker());
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
 
             // Assert
-            Assert.NotEmpty(actual);
+            Assert.That(actual).IsNotEmpty();
         }
 
         [Test]
@@ -154,10 +155,10 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act
-            var actual = await sut.GetData(testMethod!, new DisposalTracker());
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
 
             // Assert
-            Assert.Equal(5, actual.Count);
+            Assert.That(actual).HasCount().EqualTo(5);
         }
 
         [Test]
@@ -168,8 +169,8 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            await Assert.ThrowsAsync<MissingMethodException>(
-                () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
+            Assert.Throws<MissingMethodException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
         }
 
         [Test]
@@ -180,8 +181,8 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            await Assert.ThrowsAsync<MissingMethodException>(
-                () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
+            Assert.Throws<MissingMethodException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
         }
 
         [Test]
@@ -211,12 +212,15 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new DerivedClassAutoDataAttribute(() => fixture, typeof(ClassWithEmptyTestData));
 
             // Act
-            _ = await sut.GetData(method!, new DisposalTracker());
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!));
 
             // Assert
-            var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
-            Assert.IsNotType<FreezeOnMatchCustomization>(composite.Customizations.First());
-            Assert.IsType<FreezeOnMatchCustomization>(composite.Customizations.Last());
+            Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+            
+            var composite = (CompositeCustomization) customizationLog[0];
+            
+            Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
+            Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
         }
 
         [Test]
@@ -240,10 +244,11 @@ namespace AutoFixture.TUnit.UnitTest
                 [-95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5)]
             ];
 
-            var actual = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x())
+                .ToArray();
 
-            Assert.Equal(expected, actual);
+            Assert.That(actual).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -264,10 +269,12 @@ namespace AutoFixture.TUnit.UnitTest
                 [29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1)]
             ];
 
-            var actual = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x())
+                .ToArray();
 
-            Assert.Equal(expected, actual);
+
+            Assert.That(actual).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -285,11 +292,13 @@ namespace AutoFixture.TUnit.UnitTest
             };
 
             // Act
-            var data = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x())
+                .ToArray();
+
 
             // Assert
-            Assert.Equal(expected, data);
+            Assert.That(actual).IsEquivalentTo(expected);
         }
 
         public class TestDataWithNullValues : IEnumerable<object[]>

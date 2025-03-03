@@ -73,14 +73,14 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataWithNullMethodThrows()
+        public void GetDataWithNullMethodThrows()
         {
             // Arrange
             var sut = new AutoDataAttribute();
 
             // Act & assert
-            await Assert.ThrowsAsync<ArgumentNullException>(
-                () => sut.GetData(null!, new DisposalTracker()).AsTask());
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!)));
         }
 
         [Test]
@@ -107,8 +107,8 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new DerivedAutoDataAttribute(() => composer);
 
             // Act
-            var result = (await sut.GetData(method, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+                .Select(x => x()).ToArray();
 
             // Assert
             Assert.That(actualContext).IsNotNull();
@@ -143,8 +143,8 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            _ = (await sut.GetData(method!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+                .Select(x => x()).ToArray();
 
             // Assert
             Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
@@ -170,8 +170,8 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Act
-            _ = (await sut.GetData(method!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+                .Select(x => x()).ToArray();
 
             // Assert
             Assert.That(customizationLog[0]).IsTypeOf<TypeWithIParameterCustomizationSourceUsage.Customization>();
