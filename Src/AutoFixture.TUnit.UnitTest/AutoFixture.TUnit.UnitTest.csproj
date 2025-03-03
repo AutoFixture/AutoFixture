@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\Common.props" />
+  <Import Project="..\..\Common.Test.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net48;net8.0</TargetFrameworks>
+    <AssemblyTitle>AutoFixture.TUnit.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.TUnit.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.TUnit.UnitTest</RootNamespace>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'net48'">
+      <PropertyGroup>
+        <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
+      </PropertyGroup>
+      <ItemGroup>
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\AutoFixture.TUnit\AutoFixture.TUnit.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\AutoFixture.TUnit\AutoFixture.TUnit.csproj" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TUnit" Version="0.16.4" />
+  </ItemGroup>
+
+</Project>

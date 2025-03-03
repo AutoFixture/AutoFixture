@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Common.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <AssemblyTitle>AutoFixture.TUnit</AssemblyTitle>
+    <AssemblyName>AutoFixture.TUnit</AssemblyName>
+    <RootNamespace>AutoFixture.TUnit</RootNamespace>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.TUnit</PackageId>
+    <Title>AutoFixture with TUnit data generators</Title>
+    <Description>By leveraging the data generators feature of TUnit, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TUnit.Core" Version="0.16.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+  </ItemGroup>
+</Project>
