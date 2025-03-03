@@ -10,26 +10,26 @@ namespace AutoFixture.TUnit.UnitTest
 {
     public class Scenario
     {
-        [Theory, AutoData]
+        [Test, AutoData]
         public void AutoDataProvidesCorrectInteger(int primitiveValue)
         {
             Assert.NotEqual(0, primitiveValue);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void AutoDataProvidesCorrectString(string text)
         {
             Assert.StartsWith("text", text);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void AutoDataProvidesCorrectObject(PropertyHolder<Version> ph)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void AutoDataProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<ConcreteType> spt)
         {
             Assert.NotNull(ph);
@@ -75,9 +75,9 @@ namespace AutoFixture.TUnit.UnitTest
         [MyCustomArgumentsAutoData(1337)]
         [MyCustomArgumentsAutoData(1337, 7)]
         [MyCustomArgumentsAutoData(1337, 7, 42)]
-#pragma warning disable xUnit1026 // Theory methods should use all of their parameters - it's required by the test logic.
+#pragma warning disable xUnit1026 // Test methods should use all of their parameters - it's required by the test logic.
         public void CustomInlineDataSuppliesExtraValues(int x, int y, int z)
-#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
+#pragma warning restore xUnit1026 // Test methods should use all of their parameters
         {
             Assert.Equal(1337, x);
 
@@ -93,14 +93,14 @@ namespace AutoFixture.TUnit.UnitTest
             }
         }
 
-        [Theory, MemberAutoData(nameof(StringData))]
+        [Test, MemberAutoData(nameof(StringData))]
         public void MemberAutoDataUsesSuppliedDataValues(string s1, string s2)
         {
             Assert.Equal("foo", s1);
             Assert.NotNull(s2);
         }
 
-        [Theory, MemberAutoData(nameof(StringData))]
+        [Test, MemberAutoData(nameof(StringData))]
         public void MemberAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
         {
             Assert.Equal("foo", s1);
@@ -108,7 +108,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotNull(myClass);
         }
 
-        [Theory, MemberAutoData(nameof(StringData))]
+        [Test, MemberAutoData(nameof(StringData))]
         public void MemberAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
         {
             Assert.Equal("foo", s1);
@@ -117,7 +117,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual("bar", s3);
         }
 
-        [Theory, MemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+        [Test, MemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
         public void MemberAutoDataCanBeParametrized(int x, int y, int z)
         {
             Assert.Equal(21, x);
@@ -125,7 +125,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(43, z);
         }
 
-        [Theory, MyCustomMemberAutoData(nameof(IntData))]
+        [Test, MyCustomMemberAutoData(nameof(IntData))]
         public void CustomMemberAutoDataSuppliesExtraValues(int x, int y, int z)
         {
             Assert.Equal(1337, x);
@@ -133,7 +133,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(42, z);
         }
 
-        [Theory, MyCustomMemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+        [Test, MyCustomMemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
         public void CustomMemberAutoDataCanBeParametrized(int x, int y, int z)
         {
             Assert.Equal(21, x);
@@ -181,13 +181,13 @@ namespace AutoFixture.TUnit.UnitTest
             }
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameter([Frozen] Guid g1, Guid g2)
         {
             Assert.Equal(g1, g2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeSecondParameterOnlyFreezesSubsequentParameters(Guid g1, [Frozen] Guid g2, Guid g3)
         {
             Assert.NotEqual(g1, g2);
@@ -196,7 +196,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(g2, g3);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void IntroductoryTest(int expectedNumber, MyClass sut)
         {
             // Arrange
@@ -207,21 +207,21 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(expectedNumber, result);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void ModestCreatesParameterWithModestConstructor([Modest] MultiUnorderedConstructorType p)
         {
             Assert.True(string.IsNullOrEmpty(p.Text));
             Assert.Equal(0, p.Number);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void GreedyCreatesParameterWithGreedyConstructor([Greedy] MultiUnorderedConstructorType p)
         {
             Assert.False(string.IsNullOrEmpty(p.Text));
             Assert.NotEqual(0, p.Number);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter(
             [Frozen] [Greedy] MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {
@@ -230,21 +230,21 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(0, p2.Number);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems([Frozen] int[] numbers,
             [FavorArrays] ItemContainer<int> container)
         {
             Assert.True(numbers.SequenceEqual(container.Items));
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterShouldAssignSameInstanceToSecondParameter([Frozen] string p1,
             string p2)
         {
             Assert.Equal(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByExactTypeShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.ExactType)] ConcreteType p1,
             ConcreteType p2)
@@ -252,7 +252,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByExactTypeShouldNotAssignSameInstanceToSecondParameterOfDifferentType(
             [Frozen(Matching.ExactType)] ConcreteType p1,
             object p2)
@@ -260,7 +260,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByDirectBaseTypeShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.DirectBaseType)] ConcreteType p1,
             AbstractType p2)
@@ -268,7 +268,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfIndirectBaseType(
             [Frozen(Matching.DirectBaseType)] ConcreteType p1,
             object p2)
@@ -276,7 +276,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfSameType(
             [Frozen(Matching.DirectBaseType)] ConcreteType p1,
             ConcreteType p2)
@@ -284,7 +284,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByExactOrDirectBaseTypeShouldAssignSameInstanceToSecondParameterOfSameType(
             [Frozen(Matching.ExactType | Matching.DirectBaseType)]
             ConcreteType p1,
@@ -293,7 +293,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByInterfaceShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.ImplementedInterfaces)]
             NoopInterfaceImplementer p1,
@@ -302,7 +302,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfNonInterfaceType(
             [Frozen(Matching.ImplementedInterfaces)]
             NoopInterfaceImplementer p1,
@@ -311,7 +311,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfSameType(
             [Frozen(Matching.ImplementedInterfaces)]
             NoopInterfaceImplementer p1,
@@ -320,7 +320,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByDirectOrInterfaceShouldAssignSameInstanceToSecondParameterOfSameType(
             [Frozen(Matching.ExactType | Matching.ImplementedInterfaces)]
             NoopInterfaceImplementer p1,
@@ -329,7 +329,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(p1, p2);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByParameterWithSameNameShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.ParameterName)] string parameter,
             SingleParameterType<object> p2)
@@ -337,7 +337,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(parameter, p2.Parameter);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
             [Frozen(Matching.ParameterName)] string p1,
             SingleParameterType<object> p2)
@@ -345,7 +345,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Parameter);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void
             FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
                 [Frozen(Matching.ParameterName)] string p1,
@@ -354,7 +354,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Parameter);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByPropertyWithSameNameShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.PropertyName)] string property,
             PropertyHolder<object> p2)
@@ -362,7 +362,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(property, p2.Property);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
             [Frozen(Matching.PropertyName)] string p1,
             PropertyHolder<object> p2)
@@ -370,7 +370,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Property);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void
             FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
                 [Frozen(Matching.PropertyName)] string p1,
@@ -379,7 +379,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Property);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByFieldWithSameNameShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.FieldName)] string field,
             FieldHolder<object> p2)
@@ -387,7 +387,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(field, p2.Field);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
             [Frozen(Matching.FieldName)] string p1,
             FieldHolder<object> p2)
@@ -395,7 +395,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Field);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
             [Frozen(Matching.FieldName)] string p1,
             FieldHolder<string> p2)
@@ -403,7 +403,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Field);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingParameter(
             [Frozen(Matching.MemberName)] string parameter,
             SingleParameterType<object> p2)
@@ -411,7 +411,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(parameter, p2.Parameter);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameter(
             [Frozen(Matching.MemberName)] string p1,
             SingleParameterType<object> p2)
@@ -419,7 +419,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Parameter);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameterOfSameType(
             [Frozen(Matching.MemberName)] string p1,
             SingleParameterType<string> p2)
@@ -427,7 +427,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Parameter);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingProperty(
             [Frozen(Matching.MemberName)] string property,
             PropertyHolder<object> p2)
@@ -435,7 +435,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(property, p2.Property);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToProperty(
             [Frozen(Matching.MemberName)] string p1,
             PropertyHolder<object> p2)
@@ -443,7 +443,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Property);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToPropertyOfSameType(
             [Frozen(Matching.MemberName)] string p1,
             PropertyHolder<string> p2)
@@ -451,7 +451,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Property);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingField(
             [Frozen(Matching.MemberName)] string field,
             FieldHolder<object> p2)
@@ -459,7 +459,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(field, p2.Field);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToField(
             [Frozen(Matching.MemberName)] string p1,
             FieldHolder<object> p2)
@@ -467,7 +467,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Field);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToFieldOfSameType(
             [Frozen(Matching.MemberName)] string p1,
             FieldHolder<string> p2)
@@ -475,14 +475,14 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEqual(p1, p2.Field);
         }
 
-        [Theory, AutoData]
+        [Test, AutoData]
         public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
             [Frozen, StringLength(3)] string p)
         {
             Assert.True(p.Length == 3);
         }
 
-        [Theory, ClassAutoData(typeof(StringDataClass))]
+        [Test, ClassAutoData(typeof(StringDataClass))]
         public void ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2, string s3)
         {
             Assert.Contains(s1, new[] { "foo", "dim" });
@@ -490,7 +490,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEmpty(s3);
         }
 
-        [Theory, ClassAutoData(typeof(StringDataClass))]
+        [Test, ClassAutoData(typeof(StringDataClass))]
         public void ClassAutoDataSuppliesDataSpecimens(string s1, string s2, string s3, MyClass myClass)
         {
             Assert.NotEmpty(s1);
@@ -499,7 +499,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotNull(myClass);
         }
 
-        [Theory, ClassAutoData(typeof(MixedDataClass))]
+        [Test, ClassAutoData(typeof(MixedDataClass))]
         public void ClassAutoDataSuppliesDataOfMixedTypes(int p1, string p2, PropertyHolder<string> p3, MyClass myClass)
         {
             Assert.NotEqual(0, p1);
@@ -509,7 +509,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotNull(myClass);
         }
 
-        [Theory, ClassAutoData(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
+        [Test, ClassAutoData(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
         public void ClassAutoDataCanBeParameterized(int p1, string p2, double p3, RecordType<double> p4)
         {
             var actual = new object[] { p1, p2, p3 };

@@ -9,16 +9,6 @@ namespace AutoFixture.TUnit.UnitTest
     public class ClassAutoDataScenarioTests
     {
         [Test]
-        [ClassAutoData(typeof(EmptyClassData))]
-        [ClassAutoData(typeof(ClassWithEmptyTestData))]
-        [SuppressMessage("Usage", "xUnit1006:Theory methods should have parameters",
-            Justification = "This tests a scenario supported by xUnit 2.")]
-        public void TestWithNoParametersPasses()
-        {
-            Assert.That(true).IsTrue();
-        }
-
-        [Test]
         [ClassAutoData(typeof(MixedTypeClassData))]
         public void TestWithMixedTypesPasses(int? a, string b, EnumType? c, Tuple<string, int> d)
         {

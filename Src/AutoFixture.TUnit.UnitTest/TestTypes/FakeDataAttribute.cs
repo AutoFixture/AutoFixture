@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -16,14 +17,9 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
             this.output = output;
         }
 
-        public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
+        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            Assert.Same(this.expectedMethod, testMethod);
-            return this.output.Select(row => new TheoryDataRow(row))
-                .Cast<ITheoryDataRow>().AsReadOnlyCollection()
-                .ToValueTask();
+            return this.output.Select(x => new Func<object[]>(() => x));
         }
-
-        public override bool SupportsDiscoveryEnumeration() => false;
     }
 }
