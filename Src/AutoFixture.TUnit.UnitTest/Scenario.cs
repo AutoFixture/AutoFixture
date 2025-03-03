@@ -145,8 +145,8 @@ namespace AutoFixture.TUnit.UnitTest
         {
             get
             {
-                yield return new object[] { "foo", };
-                yield return new object[] { "foo", "bar" };
+                yield return ["foo"];
+                yield return ["foo", "bar"];
             }
         }
 
@@ -154,15 +154,15 @@ namespace AutoFixture.TUnit.UnitTest
         {
             get
             {
-                yield return new object[] { 1337, };
-                yield return new object[] { 1337, 7 };
-                yield return new object[] { 1337, 7, 42 };
+                yield return [1337];
+                yield return [1337, 7];
+                yield return [1337, 7, 42];
             }
         }
 
         public static IEnumerable<object[]> GetParametrizedData(int x, int y, int z)
         {
-            yield return new object[] { x, y, z };
+            yield return [x, y, z];
         }
 
         private class MyCustomMemberAutoDataAttribute : MemberAutoDataAttribute
@@ -523,8 +523,8 @@ namespace AutoFixture.TUnit.UnitTest
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { "foo", "bar", "foobar" };
-                yield return new object[] { "dim", "sum", "dimsum" };
+                yield return ["foo", "bar", "foobar"];
+                yield return ["dim", "sum", "dimsum"];
             }
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -534,9 +534,9 @@ namespace AutoFixture.TUnit.UnitTest
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { 1 };
-                yield return new object[] { 4, "testValue" };
-                yield return new object[] { 20, "otherValue", new PropertyHolder<string> { Property = "testValue1" } };
+                yield return [1];
+                yield return [4, "testValue"];
+                yield return [20, "otherValue", new PropertyHolder<string> { Property = "testValue1" }];
             }
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -557,7 +557,7 @@ namespace AutoFixture.TUnit.UnitTest
 
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { this.p1, this.p2, this.p3 };
+                yield return [this.p1, this.p2, this.p3];
             }
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

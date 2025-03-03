@@ -32,7 +32,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Arrange
             var sut = new ModestAttribute();
             var parameter = typeof(TypeWithOverloadedMembers)
-            .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), new[] { typeof(object) })!
+            .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), [typeof(object)])!
             .GetParameters().Single();
 
             // Act

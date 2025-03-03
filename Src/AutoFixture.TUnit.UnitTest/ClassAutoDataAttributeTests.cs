@@ -9,14 +9,14 @@ namespace AutoFixture.TUnit.UnitTest
 {
     public class ClassAutoDataAttributeTests
     {
-        [Fact]
+        [Test]
         public void CanCreateInstance()
         {
             // Act & Assert
             _ = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
         }
 
-        [Fact]
+        [Test]
         public void IsDataAttribute()
         {
             // Arrange & Act
@@ -26,7 +26,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
         }
 
-        [Fact]
+        [Test]
         public void ThrowsWhenSourceTypeIsNull()
         {
             // Act & Assert
@@ -34,18 +34,19 @@ namespace AutoFixture.TUnit.UnitTest
                 () => new ClassAutoDataAttribute(null));
         }
 
-        [Fact]
+        [Test]
         public void TreatsNullParameterValueAsArrayWithNull()
         {
             // Arrange & Act
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData), null);
 
             // Assert
-            var actual = Assert.Single(sut.Parameters);
-            Assert.Null(actual);
+            Assert.That(sut.Parameters).HasSingleItem()
+                .And
+                .IsNotNull();
         }
 
-        [Fact]
+        [Test]
         public void ThrowsWhenFixtureFactoryIsNull()
         {
             // Act & Assert
@@ -54,7 +55,7 @@ namespace AutoFixture.TUnit.UnitTest
                     fixtureFactory: null, typeof(MixedTypeClassData)));
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataThrowsWhenSourceTypeNotEnumerable()
         {
             // Arrange
@@ -67,7 +68,7 @@ namespace AutoFixture.TUnit.UnitTest
                 () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataThrowsWhenParametersDoNotMatchConstructor()
         {
             // Arrange
@@ -79,7 +80,7 @@ namespace AutoFixture.TUnit.UnitTest
                 () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataDoesNotThrowWhenSourceYieldsNoResults()
         {
             // Arrange
@@ -94,7 +95,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Empty(data);
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataThrowsWhenSourceYieldsNullResults()
         {
             // Arrange
@@ -106,7 +107,7 @@ namespace AutoFixture.TUnit.UnitTest
                 () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataDoesNotThrow()
         {
             // Arrange
@@ -117,7 +118,7 @@ namespace AutoFixture.TUnit.UnitTest
             _ = await sut.GetData(testMethod!, new DisposalTracker());
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataReturnsEnumerable()
         {
             // Arrange
@@ -131,7 +132,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotNull(actual);
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataReturnsNonEmptyEnumerable()
         {
             // Arrange
@@ -145,7 +146,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.NotEmpty(actual);
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataReturnsExpectedTestDataCount()
         {
             // Arrange
@@ -159,7 +160,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(5, actual.Count);
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataThrowsWhenDataSourceNotEnumerable()
         {
             // Arrange
@@ -171,7 +172,7 @@ namespace AutoFixture.TUnit.UnitTest
                 () => sut.GetData(testMethod!, new DisposalTracker()).AsTask());
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataThrowsForNonMatchingConstructorTypes()
         {
             // Arrange
@@ -200,7 +201,7 @@ namespace AutoFixture.TUnit.UnitTest
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)
-                .GetMethod(methodName, new[] { typeof(ConcreteType) });
+                .GetMethod(methodName, [typeof(ConcreteType)]);
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture
             {
@@ -218,7 +219,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.IsType<FreezeOnMatchCustomization>(composite.Customizations.Last());
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataReturnsExpectedTestData()
         {
             var builder = new CompositeSpecimenBuilder(
@@ -231,13 +232,13 @@ namespace AutoFixture.TUnit.UnitTest
                 typeof(MixedTypeClassData));
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
             object[][] expected =
-            {
-                new object[] { 1, "value", EnumType.First, new Tuple<string, int>("value", 1) },
-                new object[] { 9, "value", EnumType.First, new Tuple<string, int>("value", 1) },
-                new object[] { 12, "test-12", EnumType.First, new Tuple<string, int>("value", 1) },
-                new object[] { 223, "test-17", EnumType.Third, new Tuple<string, int>("value", 1) },
-                new object[] { -95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5) }
-            };
+            [
+                [1, "value", EnumType.First, new Tuple<string, int>("value", 1)],
+                [9, "value", EnumType.First, new Tuple<string, int>("value", 1)],
+                [12, "test-12", EnumType.First, new Tuple<string, int>("value", 1)],
+                [223, "test-17", EnumType.Third, new Tuple<string, int>("value", 1)],
+                [-95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5)]
+            ];
 
             var actual = (await sut.GetData(testMethod!, new DisposalTracker()))
                 .Select(x => x.GetData()).ToArray();
@@ -245,7 +246,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataReturnsExpectedTestDataFromParameterizedSource()
         {
             var builder = new CompositeSpecimenBuilder(
@@ -258,10 +259,10 @@ namespace AutoFixture.TUnit.UnitTest
                 29, "myValue", EnumType.Third);
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
             object[][] expected =
-            {
-                new object[] { 29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1) },
-                new object[] { 29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1) }
-            };
+            [
+                [29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1)],
+                [29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1)]
+            ];
 
             var actual = (await sut.GetData(testMethod!, new DisposalTracker()))
                 .Select(x => x.GetData()).ToArray();
@@ -269,7 +270,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
+        [Test]
         public async Task TestWithNullParametersPasses()
         {
             // Arrange
@@ -295,9 +296,9 @@ namespace AutoFixture.TUnit.UnitTest
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { null, null, null, null };
-                yield return new object[] { string.Empty, null, null, null };
-                yield return new object[] { null, "  ", null, null };
+                yield return [null, null, null, null];
+                yield return [string.Empty, null, null, null];
+                yield return [null, "  ", null, null];
             }
 
             System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

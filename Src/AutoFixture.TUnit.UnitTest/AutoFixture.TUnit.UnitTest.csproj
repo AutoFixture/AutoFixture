@@ -4,6 +4,7 @@
   <Import Project="..\..\Common.Test.props" />
 
   <PropertyGroup>
+    <LangVersion>12</LangVersion>
     <TargetFrameworks>net48;net8.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.TUnit.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.TUnit.UnitTest</AssemblyName>

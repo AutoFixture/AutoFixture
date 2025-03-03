@@ -6,7 +6,7 @@ namespace AutoFixture.TUnit.UnitTest
 {
     public class NoAutoPropertiesAttributeTest
     {
-        [Fact]
+        [Test]
         public void SutIsAttribute()
         {
             // Arrange
@@ -16,7 +16,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationFromNullParameterThrows()
         {
             // Arrange
@@ -26,7 +26,7 @@ namespace AutoFixture.TUnit.UnitTest
                 sut.GetCustomization(null));
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationReturnsTheCorrectResult()
         {
             // Arrange

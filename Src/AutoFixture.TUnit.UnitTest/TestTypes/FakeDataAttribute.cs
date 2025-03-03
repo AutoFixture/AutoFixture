@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AutoFixture.TUnit.UnitTest.TestTypes
 {
-    public class FakeDataAttribute : DataAttribute
+    public class FakeDataAttribute : NonTypedDataSourceGeneratorAttribute
     {
         private readonly MethodInfo expectedMethod;
         private readonly IEnumerable<object[]> output;

@@ -192,7 +192,7 @@ namespace AutoFixture.TUnit.UnitTest
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)
-                .GetMethod(methodName, new[] { typeof(ConcreteType) })!;
+                .GetMethod(methodName, [typeof(ConcreteType)])!;
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture
             {
@@ -400,9 +400,9 @@ namespace AutoFixture.TUnit.UnitTest
         {
             get
             {
-                yield return new object[] { null, null };
-                yield return new object[] { string.Empty, null };
-                yield return new object[] { " ", null };
+                yield return [null, null];
+                yield return [string.Empty, null];
+                yield return [" ", null];
             }
         }
 

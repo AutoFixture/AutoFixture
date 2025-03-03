@@ -62,7 +62,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Arrange
             var sut = new DelegatingDataSource
             {
-                TestData = new[] { new object[] { "hello" } }
+                TestData = [["hello"]]
             };
             var testMethod = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));

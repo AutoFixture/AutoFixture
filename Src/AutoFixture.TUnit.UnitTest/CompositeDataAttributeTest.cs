@@ -9,7 +9,7 @@ namespace AutoFixture.TUnit.UnitTest
 {
     public class CompositeDataAttributeTest
     {
-        [Fact]
+        [Test]
         public void SutIsDataAttribute()
         {
             // Arrange & Act
@@ -19,7 +19,7 @@ namespace AutoFixture.TUnit.UnitTest
             Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
         }
 
-        [Fact]
+        [Test]
         public void InitializeWithNullArrayThrows()
         {
             // Arrange
@@ -28,68 +28,68 @@ namespace AutoFixture.TUnit.UnitTest
                 () => new CompositeDataAttribute(null));
         }
 
-        [Fact]
+        [Test]
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Arrange
             var a = () => { };
             var method = a.GetMethodInfo();
 
-            var attributes = new DataAttribute[]
+            var attributes = new NonTypedDataSourceGeneratorAttribute[]
             {
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, []),
+                new FakeDataAttribute(method, []),
+                new FakeDataAttribute(method, [])
             };
 
             var sut = new CompositeDataAttribute(attributes);
             // Act
-            IEnumerable<DataAttribute> result = sut.Attributes;
+            IEnumerable<NonTypedDataSourceGeneratorAttribute> result = sut.Attributes;
             // Assert
-            Assert.True(attributes.SequenceEqual(result));
+            Assert.That(result).IsEquivalentTo(attributes);
         }
 
-        [Fact]
+        [Test]
         public void InitializeWithNullEnumerableThrows()
         {
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentNullException>(
-                () => new CompositeDataAttribute((IReadOnlyCollection<DataAttribute>)null));
+                () => new CompositeDataAttribute((IReadOnlyCollection<NonTypedDataSourceGeneratorAttribute>)null));
         }
 
-        [Fact]
+        [Test]
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Arrange
             var a = () => { };
             var method = a.GetMethodInfo();
 
-            var attributes = new DataAttribute[]
+            var attributes = new NonTypedDataSourceGeneratorAttribute[]
             {
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, []),
+                new FakeDataAttribute(method, []),
+                new FakeDataAttribute(method, [])
             };
 
             var sut = new CompositeDataAttribute(attributes);
             // Act
             var result = sut.Attributes;
             // Assert
-            Assert.True(attributes.SequenceEqual(result));
+            Assert.That(result).IsEquivalentTo(attributes);
         }
 
-        [Fact]
-        public async Task GetDataWithNullMethodThrows()
+        [Test]
+        public void GetDataWithNullMethodThrows()
         {
             // Arrange
             var sut = new CompositeDataAttribute();
             // Act & assert
-            await Assert.ThrowsAsync<ArgumentNullException>(
-                () => sut.GetData(null!, new DisposalTracker()).AsTask());
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null)));
         }
 
-        [Fact]
+        [Test]
         public async Task GetDataOnMethodWithNoParametersReturnsNoTheory()
         {
             // Arrange
@@ -97,15 +97,16 @@ namespace AutoFixture.TUnit.UnitTest
             var method = a.GetMethodInfo();
 
             var sut = new CompositeDataAttribute(
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, Enumerable.Empty<object[]>()));
+               new FakeDataAttribute(method, []),
+               new FakeDataAttribute(method, []),
+               new FakeDataAttribute(method, []));
 
             // Act
-            var result = await sut.GetData(a.GetMethodInfo()!, new DisposalTracker());
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+                .Select(x => x());
 
             // Assert
-            Assert.All(result, row => Assert.Empty(row.GetData()));
+            Assert.That(result).All().Satisfy(row => row.IsEmpty());
         }
     }
 }

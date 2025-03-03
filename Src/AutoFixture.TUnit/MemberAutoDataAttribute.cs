@@ -18,7 +18,6 @@ namespace AutoFixture.TUnit
     /// 3. A static method (with parameters)
     /// The member must return something compatible with IEnumerable&lt;object[]&gt; with the test data.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]

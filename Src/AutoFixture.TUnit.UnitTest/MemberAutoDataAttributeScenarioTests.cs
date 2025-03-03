@@ -142,23 +142,23 @@ namespace AutoFixture.TUnit.UnitTest
 
         public static IEnumerable<object[]> GetSingleStringValueTestData()
         {
-            yield return new object[] { "test-one" };
-            yield return new object[] { "test-two" };
-            yield return new object[] { "test-three" };
+            yield return ["test-one"];
+            yield return ["test-two"];
+            yield return ["test-three"];
         }
 
         public static IEnumerable<object[]> GetMultipleValueTestData()
         {
-            yield return new object[] { "test-one", 22, 25.7m };
-            yield return new object[] { "test-two", 75, 228.1m };
-            yield return new object[] { "test-three", 19, 137.09m };
+            yield return ["test-one", 22, 25.7m];
+            yield return ["test-two", 75, 228.1m];
+            yield return ["test-three", 19, 137.09m];
         }
 
         public static IEnumerable<object[]> GetStringValuesTestData()
         {
-            yield return new object[] { "test-one", "test-uno" };
-            yield return new object[] { "test-two", "test-dos" };
-            yield return new object[] { "test-three", "test-tres" };
+            yield return ["test-one", "test-uno"];
+            yield return ["test-two", "test-dos"];
+            yield return ["test-three", "test-tres"];
         }
     }
 }

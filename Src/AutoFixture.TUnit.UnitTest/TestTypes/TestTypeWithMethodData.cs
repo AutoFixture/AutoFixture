@@ -9,9 +9,9 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
     {
         public IEnumerable<object[]> NonStaticSource()
         {
-            yield return new[] { new object() };
-            yield return new[] { new object() };
-            yield return new[] { new object() };
+            yield return [new object()];
+            yield return [new object()];
+            yield return [new object()];
         }
 
         public static MethodInfo GetNonStaticSourceMethodInfo()
@@ -33,9 +33,9 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
 
         public static IEnumerable<object[]> TestDataWithNoValues()
         {
-            yield return new object[] { };
-            yield return new object[] { };
-            yield return new object[] { };
+            yield return [];
+            yield return [];
+            yield return [];
         }
 
         public void SingleStringValueTest(string value)
@@ -53,16 +53,16 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
 
         public static IEnumerable<object[]> GetSingleStringValueTestData()
         {
-            yield return new object[] { "value-one" };
-            yield return new object[] { "value-two" };
-            yield return new object[] { "value-three" };
+            yield return ["value-one"];
+            yield return ["value-two"];
+            yield return ["value-three"];
         }
 
         public static IEnumerable<object[]> GetStringTestsFromArgument(string argument)
         {
-            yield return new object[] { argument + "-one" };
-            yield return new object[] { argument + "-two" };
-            yield return new object[] { argument + "-three" };
+            yield return [argument + "-one"];
+            yield return [argument + "-two"];
+            yield return [argument + "-three"];
         }
 
         public static MethodInfo GetStringTestsFromArgumentMethodInfo()
@@ -89,9 +89,9 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
 
         public static IEnumerable<object[]> GetMultipleValueTestData()
         {
-            yield return new object[] { "value-one", 12, 23.3m };
-            yield return new object[] { "value-two", 38, 12.7m };
-            yield return new object[] { "value-three", 94, 52.21m };
+            yield return ["value-one", 12, 23.3m];
+            yield return ["value-two", 38, 12.7m];
+            yield return ["value-three", 94, 52.21m];
         }
 
         public void TestWithFrozenParameter(string a, [Frozen] string b, string c)
@@ -106,9 +106,9 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
 
         public static IEnumerable<object[]> GetDataForTestWithFrozenParameter()
         {
-            yield return new object[] { "value-one", "value-two" };
-            yield return new object[] { "value-two", "value-three" };
-            yield return new object[] { "value-three", "value-one" };
+            yield return ["value-one", "value-two"];
+            yield return ["value-two", "value-three"];
+            yield return ["value-three", "value-one"];
         }
 
         public static MethodInfo GetTestWithFrozenParameter()
@@ -127,21 +127,21 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
 
         public static IEnumerable<object[]> GetTestWithComplexTypesData()
         {
-            yield return new object[]
-            {
+            yield return
+            [
                 new PropertyHolder<string> { Property = "1647400C-9011-4158-BA5A-F841185AF6EF" },
                 new PropertyHolder<string>()
-            };
-            yield return new object[]
-            {
+            ];
+            yield return
+            [
                 new PropertyHolder<string> { Property = "E0F5F4F1-4B6B-4B6B-8F4A-7C0F6F4F4F4F" },
                 new PropertyHolder<string> { Property = "00000000-0000-0000-0000-000000000000" }
-            };
-            yield return new object[]
-            {
+            ];
+            yield return
+            [
                 new PropertyHolder<string> { Property = "B0B0B0B0-B0B0-B0B0-B0B0-B0B0B0B0B0B0" },
                 new PropertyHolder<string> { Property = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" }
-            };
+            ];
         }
 
         public static MethodInfo GetTestWithComplexTypes()
@@ -152,11 +152,11 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
 
         public static IEnumerable<object[]> GetStringValuesTestData()
         {
-            yield return new object[] { "test-one", "test-uno" };
-            yield return new object[] { "test-two", "test-dos" };
-            yield return new object[] { "test-three", "test-tres" };
+            yield return ["test-one", "test-uno"];
+            yield return ["test-two", "test-dos"];
+            yield return ["test-three", "test-tres"];
         }
 
-        public static IEnumerable<object[]> GetEmptyTestData() => Enumerable.Empty<object[]>();
+        public static IEnumerable<object[]> GetEmptyTestData() => [];
     }
 }

@@ -15,17 +15,17 @@ namespace AutoFixture.TUnit.UnitTest
             Justification = "This tests a scenario supported by xUnit 2.")]
         public void TestWithNoParametersPasses()
         {
-            Assert.True(true);
+            Assert.That(true).IsTrue();
         }
 
         [Test]
         [ClassAutoData(typeof(MixedTypeClassData))]
         public void TestWithMixedTypesPasses(int? a, string b, EnumType? c, Tuple<string, int> d)
         {
-            Assert.NotNull(a);
-            Assert.NotNull(b);
-            Assert.NotNull(c);
-            Assert.NotNull(d);
+            Assert.That(a).IsNotNull();
+            Assert.That(b).IsNotNull();
+            Assert.That(c).IsNotNull();
+            Assert.That(d).IsNotNull();
         }
 
         [Test]
@@ -33,10 +33,10 @@ namespace AutoFixture.TUnit.UnitTest
         public void TestWithParameterizedClassDataReceivesExpectedData(
             int a, string b, EnumType c, PropertyHolder<string> d)
         {
-            Assert.Equal(42, a);
-            Assert.Equal("test-13", b);
-            Assert.Equal(EnumType.Third, c);
-            Assert.NotNull(d?.Property);
+            Assert.That(a).IsEqualTo(42);
+            Assert.That(b).IsEqualTo("test-13");
+            Assert.That(c).IsEqualTo(EnumType.Third);
+            Assert.That(d?.Property).IsNotNull();
         }
 
         [Test]
@@ -45,13 +45,13 @@ namespace AutoFixture.TUnit.UnitTest
             [Frozen] int a, [Frozen] string b, [Frozen] EnumType c,
             PropertyHolder<int> a1, PropertyHolder<string> b1, PropertyHolder<EnumType> c1)
         {
-            Assert.Equal(13, a);
-            Assert.Equal("test-46", b);
-            Assert.Equal(EnumType.Second, c);
+            Assert.That(a).IsEqualTo(13);
+            Assert.That(b).IsEqualTo("test-46");
+            Assert.That(c).IsEqualTo(EnumType.Second);
 
-            Assert.Equal(a, a1.Property);
-            Assert.Equal(b, b1.Property);
-            Assert.Equal(c, c1.Property);
+            Assert.That(a1.Property).IsEqualTo(a);
+            Assert.That(b1.Property).IsEqualTo(b);
+            Assert.That(c1.Property).IsEqualTo(c);
         }
 
         [Test]
@@ -62,16 +62,16 @@ namespace AutoFixture.TUnit.UnitTest
             [FavorArrays] CompositeTypeWithOverloadedConstructors<string> strings,
             [FavorLists] CompositeTypeWithOverloadedConstructors<EnumType> enums)
         {
-            Assert.IsAssignableFrom<IEnumerable<int>>(numbers.Items);
-            Assert.IsNotType<List<int>>(numbers.Items);
-            Assert.IsNotType<int[]>(numbers.Items);
-            Assert.All(numbers.Items, item => Assert.Equal(a, item));
+            Assert.That(numbers.Items).IsAssignableFrom<IEnumerable<int>>();
+            Assert.That(numbers.Items).IsNotTypeOf<List<int>>();
+            Assert.That(numbers.Items).IsNotTypeOf<int[]>();
+            Assert.That(numbers.Items).All().Satisfy(item => item.IsEqualTo(a));
 
-            Assert.IsType<string[]>(strings.Items);
-            Assert.All(strings.Items, item => Assert.Equal(b, item));
-
-            Assert.IsType<List<EnumType>>(enums.Items);
-            Assert.All(enums.Items, item => Assert.Equal(c, item));
+            Assert.That(strings.Items).IsTypeOf<string[]>();
+            Assert.That(strings.Items).All().Satisfy(item => item.IsEqualTo(b));
+            
+            Assert.That(enums.Items).IsTypeOf<List<EnumType>>();
+            Assert.That(enums.Items).All().Satisfy(item => item.IsEqualTo(c));
         }
     }
 }

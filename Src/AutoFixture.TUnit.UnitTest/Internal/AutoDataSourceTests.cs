@@ -66,12 +66,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Arrange
             var source = new DelegatingDataSource
             {
-                TestData = new[]
-                {
-                    new object[] { "a", 15 },
-                    new object[] { "b", 123 },
-                    new object[] { "c", 999 },
-                },
+                TestData =
+                [
+                    ["a", 15],
+                    ["b", 123],
+                    ["c", 999]
+                ],
             };
             var builder = new FixedParameterBuilder<double>("c", 13.3);
             var fixture = new DelegatingFixture
@@ -99,12 +99,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Arrange
             var source = new DelegatingDataSource
             {
-                TestData = new[]
-                {
-                    new object[] { "a", 85, 913.12 },
-                    new object[] { "b", 519, 73.1 },
-                    new object[] { "c", 411, 529.6 },
-                },
+                TestData =
+                [
+                    ["a", 85, 913.12],
+                    ["b", 519, 73.1],
+                    ["c", 411, 529.6]
+                ],
             };
             var fixture = new DelegatingFixture
             {

@@ -7,9 +7,9 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { };
-            yield return new object[] { };
-            yield return new object[] { };
+            yield return [];
+            yield return [];
+            yield return [];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

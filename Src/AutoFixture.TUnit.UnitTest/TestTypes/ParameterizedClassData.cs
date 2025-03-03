@@ -19,8 +19,8 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
 
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { this.p1, this.p2, this.p3 };
-            yield return new object[] { this.p1, this.p2, this.p3 };
+            yield return [this.p1, this.p2, this.p3];
+            yield return [this.p1, this.p2, this.p3];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

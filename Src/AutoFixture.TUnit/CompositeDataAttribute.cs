@@ -11,7 +11,6 @@ namespace AutoFixture.TUnit
     /// <summary>
     /// An implementation of DataAttribute that composes other DataAttribute instances.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]

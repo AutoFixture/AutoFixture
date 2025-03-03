@@ -7,12 +7,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
 {
     public class FieldDataSourceTests
     {
-        public static IEnumerable<object[]> TestDataFieldWithMixedValues = new[]
-        {
-            new object[] { "hello", 1, new FieldHolder<string> { Field = "world" } },
-            new object[] { "foo", 2, new FieldHolder<string> { Field = "bar" } },
-            new object[] { "Han", 3, new FieldHolder<string> { Field = "Solo" } }
-        };
+        public static IEnumerable<object[]> TestDataFieldWithMixedValues =
+        [
+            ["hello", 1, new FieldHolder<string> { Field = "world" }],
+            ["foo", 2, new FieldHolder<string> { Field = "bar" }],
+            ["Han", 3, new FieldHolder<string> { Field = "Solo" }]
+        ];
 
         public static object NonEnumerableField = new object();
 
@@ -101,11 +101,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             Assert.That(result).IsEqualTo(expected);
         }
 
-        public static IEnumerable<object[]> TestDataFieldWithRecordValues = new[]
-        {
-            new object[] { "hello", 1, new RecordType<string>("world") },
-            new object[] { "foo", 2, new RecordType<string>("bar") },
-            new object[] { "Han", 3, new RecordType<string>("Solo") }
-        };
+        public static IEnumerable<object[]> TestDataFieldWithRecordValues =
+        [
+            ["hello", 1, new RecordType<string>("world")],
+            ["foo", 2, new RecordType<string>("bar")],
+            ["Han", 3, new RecordType<string>("Solo")]
+        ];
     }
 }

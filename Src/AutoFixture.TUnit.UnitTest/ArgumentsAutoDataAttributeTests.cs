@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
+using TUnit.Core.Enums;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -75,7 +77,7 @@ namespace AutoFixture.TUnit.UnitTest
             });
 
             // Assert
-            Assert.False(wasInvoked);
+            Assert.That(wasInvoked).IsFalse();
         }
 
         [Test]
@@ -94,8 +96,6 @@ namespace AutoFixture.TUnit.UnitTest
         public async Task GetDataOrdersCustomizationAttributes(string methodName)
         {
             // Arrange
-            var method = typeof(TypeWithCustomizationAttributes)
-                .GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture
             {
@@ -104,50 +104,49 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new DerivedArgumentsAutoDataAttribute(() => fixture);
 
             // Act
-            _ = await sut.GenerateDataSources(new DataGeneratorMetadata
-            {
-                
-            });
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(typeof(TypeWithCustomizationAttributes), methodName));
 
             // Assert
-            var composite = Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
-            Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>;
+            Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+            
+            var composite = (CompositeCustomization) customizationLog[0];
+            
+            Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
             Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
         }
 
         [Test]
-        [ClassData(typeof(InlinePrimitiveValuesTestData))]
-        [ClassData(typeof(InlineFrozenValuesTestData))]
-        public async Task ReturnsSingleTestDataWithExpectedValues(DataAttribute attribute, MethodInfo testMethod,
+        [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GetEnumerator))]
+        [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GetEnumerator))]
+        public async Task ReturnsSingleTestDataWithExpectedValues(NonTypedDataSourceGeneratorAttribute attribute, MethodInfo testMethod,
             object[] expected)
         {
             // Act
-            var actual = (await attribute.GetData(testMethod!, new DisposalTracker()))
-                    .Select(x => x.GetData()).ToArray();
+            var actual = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod.DeclaringType, testMethod.Name)).ToArray();
 
             // Assert
-            Assert.Single(actual);
-            Assert.Equal(expected, actual[0]);
+            Assert.That(actual).HasSingleItem();
+            Assert.That(actual[0]()).IsEqualTo(expected);
         }
 
         [Test]
         [ArgumentsAutoData]
         public void GeneratesRandomData(int a, float b, string c, decimal d)
         {
-            Assert.NotEqual(0, a);
-            Assert.NotEqual(0, b);
-            Assert.NotNull(c);
-            Assert.NotEqual(0, d);
+            Assert.That(a).IsNotEqualTo(0);
+            Assert.That(b).IsNotEqualTo(0);
+            Assert.That(c).IsNotNull();
+            Assert.That(d).IsNotEqualTo(0);
         }
 
         [Test]
         [ArgumentsAutoData(12, 32.1f, "hello", 71.231d)]
         public void InlinesAllData(int a, float b, string c, decimal d)
         {
-            Assert.Equal(12, a);
-            Assert.Equal(32.1f, b);
-            Assert.Equal("hello", c);
-            Assert.Equal(71.231m, d);
+            Assert.That(a).IsEqualTo(12);
+            Assert.That(b).IsEqualTo(32.1f);
+            Assert.That(c).IsEqualTo("hello");
+            Assert.That(d).IsEqualTo(71.231m);
         }
 
         [Test]
@@ -161,13 +160,13 @@ namespace AutoFixture.TUnit.UnitTest
         [ArgumentsAutoData("\t\r\n")]
         [ArgumentsAutoData(" ")]
         [ArgumentsAutoData("")]
-        [ArgumentsAutoData(new object[] { null })]
+        [ArgumentsAutoData([null])]
         public void InjectsInlineValues([Frozen] object a,
             [Frozen] PropertyHolder<object> value,
             PropertyHolder<object> frozen)
         {
-            Assert.Equal(a, value.Property);
-            Assert.Same(frozen, value);
+            Assert.That(value.Property).IsEqualTo(a);
+            Assert.That(value).IsSameReferenceAs(frozen);
         }
     }
 }

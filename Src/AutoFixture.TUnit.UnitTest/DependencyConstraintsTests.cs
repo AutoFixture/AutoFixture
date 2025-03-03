@@ -21,7 +21,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Assert
-            Assert.DoesNotContain(references, an => an.Name == assemblyName);
+            Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Assert
-            Assert.DoesNotContain(references, an => an.Name == assemblyName);
+            Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
         }
     }
 }

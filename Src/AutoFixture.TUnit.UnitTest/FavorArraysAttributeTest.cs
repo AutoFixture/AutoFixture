@@ -33,7 +33,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Arrange
             var sut = new FavorArraysAttribute();
             var parameter = typeof(TypeWithOverloadedMembers)
-                .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), new[] { typeof(object) })!
+                .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething), [typeof(object)])!
                 .GetParameters().Single();
             // Act
             var result = sut.GetCustomization(parameter);

@@ -19,12 +19,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             Assert.IsAssignableFrom<IDataSource>(sut);
         }
 
-        public static IEnumerable<object[]> TestDataPropertyWithMixedValues => new[]
-        {
-            new object[] { "hello", 1, new PropertyHolder<string> { Property = "world" } },
-            new object[] { "foo", 2, new PropertyHolder<string> { Property = "bar" } },
-            new object[] { "Han", 3, new PropertyHolder<string> { Property = "Solo" } }
-        };
+        public static IEnumerable<object[]> TestDataPropertyWithMixedValues =>
+        [
+            ["hello", 1, new PropertyHolder<string> { Property = "world" }],
+            ["foo", 2, new PropertyHolder<string> { Property = "bar" }],
+            ["Han", 3, new PropertyHolder<string> { Property = "Solo" }]
+        ];
 
         public static object NonEnumerableProperty => new object();
 
@@ -102,12 +102,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             Assert.That(result).IsEqualTo(expected);
         }
 
-        public static IEnumerable<object[]> TestDataPropertyWithRecordValues => new[]
-        {
-            new object[] { "hello", 1, new RecordType<string>("world") },
-            new object[] { "foo", 2, new RecordType<string>("bar") },
-            new object[] { "Han", 3, new RecordType<string>("Solo") }
-        };
+        public static IEnumerable<object[]> TestDataPropertyWithRecordValues =>
+        [
+            ["hello", 1, new RecordType<string>("world")],
+            ["foo", 2, new RecordType<string>("bar")],
+            ["Han", 3, new RecordType<string>("Solo")]
+        ];
 
         [Test]
         public void ReturnsNullArguments()
@@ -132,11 +132,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             Assert.That(result).IsEqualTo(expected);
         }
 
-        public static IEnumerable<object[]> TestDataPropertyWithNullValues => new[]
-        {
-            new object[] { null, 1, null },
-            new object[] { null, 2, null },
-            new object[] { null, 3, null }
-        };
+        public static IEnumerable<object[]> TestDataPropertyWithNullValues =>
+        [
+            [null, 1, null],
+            [null, 2, null],
+            [null, 3, null]
+        ];
     }
 }

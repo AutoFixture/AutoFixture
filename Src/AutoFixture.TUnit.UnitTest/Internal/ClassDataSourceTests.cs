@@ -97,9 +97,9 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { "hello", 1, new RecordType<string>("world") };
-                yield return new object[] { "foo", 2, new RecordType<string>("bar") };
-                yield return new object[] { "Han", 3, new RecordType<string>("Solo") };
+                yield return ["hello", 1, new RecordType<string>("world")];
+                yield return ["foo", 2, new RecordType<string>("bar")];
+                yield return ["Han", 3, new RecordType<string>("Solo")];
             }
 
             IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -122,7 +122,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         public void AppliesExpectedConstructorParameters()
         {
             // Arrange
-            object[] parameters = { new object[] { "y", 25 } };
+            object[] parameters = [new object[] { "y", 25 }];
             var sut = new ClassDataSource(typeof(DelegatingTestData), parameters);
             var method = typeof(SampleTestType)
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));

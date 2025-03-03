@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.UnitTest.TestTypes;
@@ -29,7 +30,7 @@ namespace AutoFixture.TUnit.UnitTest
             var result = sut.FixtureFactory();
 
             // Assert
-            Assert.IsAssignableFrom<Fixture>(result);
+            Assert.That(result).IsAssignableFrom<Fixture>();
         }
 
         [Test]
@@ -42,7 +43,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new DerivedAutoDataAttribute(() => fixture);
 
             // Assert
-            Assert.Same(fixture, sut.FixtureFactory());
+            Assert.That(sut.FixtureFactory()).IsSameReferenceAs(fixture);
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace AutoFixture.TUnit.UnitTest
             });
 
             // Assert
-            Assert.False(wasInvoked);
+            Assert.That(wasInvoked).IsFalse();
         }
 
         [Test]
@@ -87,7 +88,7 @@ namespace AutoFixture.TUnit.UnitTest
         {
             // Arrange
             var method = typeof(TypeWithOverloadedMembers)
-                .GetMethod("DoSomething", new[] { typeof(object) });
+                .GetMethod("DoSomething", [typeof(object)]);
             var parameters = method!.GetParameters();
             var expectedResult = new object();
 
@@ -110,10 +111,10 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x.GetData()).ToArray();
 
             // Assert
-            Assert.NotNull(actualContext);
-            Assert.Single(parameters);
-            Assert.Equal(parameters[0], actualParameter);
-            Assert.Equal(new[] { expectedResult }, result.Single());
+            Assert.That(actualContext).IsNotNull();
+            Assert.That(parameters).HasSingleItem();
+            Assert.That(actualParameter).IsEqualTo(parameters[0]);
+            Assert.That(result.Single()).IsEquivalentTo(new[] { expectedResult });
         }
 
         [Test]
@@ -133,7 +134,7 @@ namespace AutoFixture.TUnit.UnitTest
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)
-                .GetMethod(methodName, new[] { typeof(ConcreteType) });
+                .GetMethod(methodName, [typeof(ConcreteType)]);
             var customizationLog = new List<ICustomization>();
             var fixture = new DelegatingFixture
             {
@@ -146,9 +147,12 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x.GetData()).ToArray();
 
             // Assert
-            var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
-            Assert.IsNotType<FreezeOnMatchCustomization>(composite.Customizations.First());
-            Assert.IsType<FreezeOnMatchCustomization>(composite.Customizations.Last());
+            Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+            
+            var composite = (CompositeCustomization) customizationLog[0];
+            
+            Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
+            Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
         }
 
         [Test]
@@ -170,20 +174,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x.GetData()).ToArray();
 
             // Assert
-            Assert.IsType<TypeWithIParameterCustomizationSourceUsage.Customization>(customizationLog[0]);
-        }
-
-        [Test]
-        public void PreDiscoveryShouldBeDisabled()
-        {
-            // Arrange
-            var sut = new AutoDataAttribute();
-
-            // Act
-            var actual = sut.SupportsDiscoveryEnumeration();
-
-            // Assert
-            Assert.False(actual);
+            Assert.That(customizationLog[0]).IsTypeOf<TypeWithIParameterCustomizationSourceUsage.Customization>();
         }
     }
 }

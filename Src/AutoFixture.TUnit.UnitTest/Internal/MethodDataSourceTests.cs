@@ -9,9 +9,9 @@ namespace AutoFixture.TUnit.UnitTest.Internal
     {
         public static IEnumerable<object[]> GetTestDataFieldWithMixedValues()
         {
-            yield return new object[] { "hello", 1, new RecordType<string>("world") };
-            yield return new object[] { "foo", 2, new RecordType<string>("bar") };
-            yield return new object[] { "Han", 3, new RecordType<string>("Solo") };
+            yield return ["hello", 1, new RecordType<string>("world")];
+            yield return ["foo", 2, new RecordType<string>("bar")];
+            yield return ["Han", 3, new RecordType<string>("Solo")];
         }
 
         [Test]
