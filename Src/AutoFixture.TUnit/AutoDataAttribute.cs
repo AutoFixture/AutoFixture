@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using AutoFixture.TUnit.Extensions;
 using AutoFixture.TUnit.Internal;
-using TUnit.Core.Enums;
 
 namespace AutoFixture.TUnit
 {

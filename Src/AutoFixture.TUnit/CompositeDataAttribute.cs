@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using AutoFixture.TUnit.Extensions;
 
 namespace AutoFixture.TUnit
