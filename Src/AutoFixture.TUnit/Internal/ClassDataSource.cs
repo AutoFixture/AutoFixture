@@ -36,7 +36,7 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         public IReadOnlyList<object> Parameters => Array.AsReadOnly(this.parameters);
 
-
+        /// <inheritdoc/>
         public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);

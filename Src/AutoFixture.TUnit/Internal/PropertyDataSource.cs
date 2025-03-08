@@ -28,6 +28,7 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         public PropertyInfo PropertyInfo { get; }
 
+        /// <inheritdoc/>
         public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var value = this.PropertyInfo.GetValue(null);

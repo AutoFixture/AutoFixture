@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
-using System.Threading.Tasks;
 using TUnit.Assertions.AssertConditions.Throws;
 #if NETCOREAPP1_1
 using System.Reflection;

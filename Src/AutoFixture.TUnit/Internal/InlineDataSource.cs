@@ -31,6 +31,7 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         public IReadOnlyList<object> Values => Array.AsReadOnly(this.values);
 
+        /// <inheritdoc/>
         public IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             if (dataGeneratorMetadata is null)

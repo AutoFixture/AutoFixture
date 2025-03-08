@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using TestTypeFoundation;
 using System.Threading.Tasks;
+using TestTypeFoundation;
 using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest

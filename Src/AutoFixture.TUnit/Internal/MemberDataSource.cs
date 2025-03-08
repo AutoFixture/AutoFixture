@@ -84,6 +84,7 @@ namespace AutoFixture.TUnit.Internal
             };
         }
 
+        /// <inheritdoc/>
         public IEnumerable<Func<object?[]?>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             return this.Source.GenerateDataSources(dataGeneratorMetadata);

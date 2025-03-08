@@ -23,7 +23,6 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new DelegatingCustomizeAttribute();
             // Assert
-
             await Assert.That(sut).IsTypeOf<Attribute>();
         }
 

@@ -267,7 +267,6 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x())
                 .ToArray();
 
-
             await Assert.That(actual).IsEquivalentTo(expected);
         }
 
@@ -289,7 +288,6 @@ namespace AutoFixture.TUnit.UnitTest
             var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
                 .Select(x => x())
                 .ToArray();
-
 
             // Assert
             await Assert.That(actual).IsEquivalentTo(expected);
