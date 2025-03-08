@@ -67,6 +67,7 @@ namespace AutoFixture.TUnit
             }
 
             var matcher = new ParameterMatcherBuilder(parameter).SetFlags(this.By).Build();
+
             return new FreezeOnMatchCustomization(parameter, matcher);
         }
     }

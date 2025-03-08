@@ -95,9 +95,9 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Assert
             await Assert.That(result).IsNotNull();
             await Assert.That(result.Length).IsEqualTo(3);
-            await Assert.That(result[0]).IsEqualTo(new object[] { "a", 15, 13.3 });
-            await Assert.That(result[1]).IsEqualTo(new object[] { "b", 123, 13.3 });
-            await Assert.That(result[2]).IsEqualTo(new object[] { "c", 999, 13.3 });
+            await Assert.That(result[0]).IsEquivalentTo(new object[] { "a", 15, 13.3 });
+            await Assert.That(result[1]).IsEquivalentTo(new object[] { "b", 123, 13.3 });
+            await Assert.That(result[2]).IsEquivalentTo(new object[] { "c", 999, 13.3 });
         }
 
         [Test]
@@ -127,9 +127,9 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Assert
             await Assert.That(result).IsNotNull();
             await Assert.That(result.Length).IsEqualTo(3);
-            await Assert.That(result[0]).IsEqualTo(new object[] { "a", 85, 913.12 });
-            await Assert.That(result[1]).IsEqualTo(new object[] { "b", 519, 73.1 });
-            await Assert.That(result[2]).IsEqualTo(new object[] { "c", 411, 529.6 });
+            await Assert.That(result[0]).IsEquivalentTo(new object[] { "a", 85, 913.12 });
+            await Assert.That(result[1]).IsEquivalentTo(new object[] { "b", 519, 73.1 });
+            await Assert.That(result[2]).IsEquivalentTo(new object[] { "c", 411, 529.6 });
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var customizations = new List<ICustomization>();
             var fixture = new DelegatingFixture
             {
-                OnCustomize = (c) => customizations.Add(c)
+                OnCustomize = c => customizations.Add(c)
             };
             var sut = new AutoDataSource(() => fixture);
             var method = typeof(SampleTestType)
@@ -193,7 +193,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var customizations = new List<ICustomization>();
             var fixture = new DelegatingFixture
             {
-                OnCustomize = (c) => customizations.Add(c)
+                OnCustomize = c => customizations.Add(c)
             };
             var sut = new AutoDataSource(() => fixture);
             var method = typeof(SampleTestType)
@@ -213,7 +213,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var customizations = new List<ICustomization>();
             var fixture = new DelegatingFixture
             {
-                OnCustomize = (c) => customizations.Add(c)
+                OnCustomize = c => customizations.Add(c)
             };
             var sut = new AutoDataSource(() => fixture);
             var method = typeof(SampleTestType)

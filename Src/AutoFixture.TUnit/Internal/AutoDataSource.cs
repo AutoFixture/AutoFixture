@@ -87,6 +87,7 @@ namespace AutoFixture.TUnit.Internal
         private static object GenerateAutoValue(TestParameter parameter, IFixture fixture)
         {
             var customization = parameter.GetCustomization();
+            
             if (customization is not NullCustomization)
             {
                 fixture.Customize(customization);

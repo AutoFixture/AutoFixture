@@ -9,36 +9,37 @@ public class DataGeneratorMetadataHelper
 {
     public static DataGeneratorMetadata CreateDataGeneratorMetadata(MethodInfo methodInfo)
     {
-        var parameters = methodInfo.GetParameters();
-        return CreateDataGeneratorMetadata(methodInfo.ReflectedType ?? methodInfo.DeclaringType!, methodInfo.Name, parameters);
+        return CreateDataGeneratorMetadata(methodInfo.ReflectedType ?? methodInfo.DeclaringType!, methodInfo.Name, methodInfo.GetParameters(), methodInfo.GetCustomAttributes().ToArray());
     }
 
     public static DataGeneratorMetadata CreateDataGeneratorMetadata(Type type, string methodName,
-        ParameterInfo[] parameters = null)
+        ParameterInfo[] parameters = null, Attribute[] attributes = null)
     {
+        var sourceGeneratedParameterInformations = parameters?.Select(CreateParameter).ToArray() ?? [];
+
         return new DataGeneratorMetadata
         {
             Type = DataGeneratorType.TestParameters,
             TestBuilderContext = null!,
             TestSessionId = null!,
-            MembersToGenerate = null!,
+            MembersToGenerate = sourceGeneratedParameterInformations.Cast<SourceGeneratedMemberInformation>().ToArray(),
             TestInformation = new SourceGeneratedMethodInformation
             {
                 Type = type,
                 Name = methodName,
-                Attributes = [],
+                Attributes = attributes ?? [],
                 GenericTypeCount = 0,
                 Class = new SourceGeneratedClassInformation
                 {
                     Type = type,
                     Assembly = null!,
-                    Attributes = [],
+                    Attributes = type.GetCustomAttributes().ToArray(),
                     Name = type.Name,
                     Namespace = null,
                     Parameters = [],
                     Properties = []
                 },
-                Parameters = parameters?.Select(CreateParameter).ToArray() ?? [],
+                Parameters = sourceGeneratedParameterInformations,
                 ReturnType = typeof(void),
             }
         };
@@ -48,10 +49,8 @@ public class DataGeneratorMetadataHelper
     {
         return new SourceGeneratedParameterInformation(parameterInfo.ParameterType)
         {
-            Name = parameterInfo.Name,
-            Attributes =
-            [
-            ]
+            Name = parameterInfo.Name!,
+            Attributes = parameterInfo.GetCustomAttributes().ToArray()
         };
     }
 }

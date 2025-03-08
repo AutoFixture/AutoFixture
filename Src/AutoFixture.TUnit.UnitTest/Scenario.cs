@@ -514,7 +514,7 @@ namespace AutoFixture.TUnit.UnitTest
             var actual = new object[] { p1, p2, p3 };
             var expected = new object[] { 28, "bar", 93.102 };
 
-            await Assert.That(actual).IsEqualTo(expected);
+            await Assert.That(actual).IsEquivalentTo(expected);
             await Assert.That(p4).IsNotNull();
         }
 

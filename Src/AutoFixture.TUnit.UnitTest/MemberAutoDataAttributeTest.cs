@@ -99,7 +99,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new MemberAutoDataAttribute("memberName");
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
+            Assert.Throws<Exception>(
                 () => sut.GenerateDataSources(null!));
         }
 

@@ -137,7 +137,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
 
             // Assert
-            await Assert.That(result.Single()).IsEqualTo(new object[] { "y", 25 });
+            await Assert.That(result.Single()).IsEquivalentTo(new object[] { "y", 25 });
         }
     }
 }
