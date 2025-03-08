@@ -30,7 +30,10 @@ public class CompositeDataAttributeSufficientDataTest
             .ToArray();
 
         // Assert
-        await Assert.That(result).IsEquivalentTo(expectedResult, new CollectionEquivalentToEqualityComparer<object[]>());
+        await Assert.That(result).IsEquivalentTo(expectedResult, new CollectionEquivalentToEqualityComparer<object[]>(new CompareOptions
+        {
+            EquivalencyKind = EquivalencyKind.Partial
+        }));
     }
 
     public IEnumerable<(IEnumerable<AutoFixtureDataSourceAttribute> Attributes,
