@@ -82,7 +82,8 @@ namespace AutoFixture.TUnit.UnitTest
                 ],
                 expected:
                 [
-                    [1, 2, 3], [4, 5, 6]
+                    [1, 2, 3],
+                    [4, 5, 6]
                 ]);
 
             yield return CreateTestData(
@@ -94,7 +95,8 @@ namespace AutoFixture.TUnit.UnitTest
                 ],
                 expected:
                 [
-                    [1, 2, 3], [4, 5, 6]
+                    [1, 2, 3],
+                    [4, 5, 6]
                 ]);
 
             yield return CreateTestData(
@@ -107,7 +109,9 @@ namespace AutoFixture.TUnit.UnitTest
                 ],
                 expected:
                 [
-                    [1, 2, 9], [3, 4, 12], [5, 6, 15]
+                    [1, 2, 9],
+                    [3, 4, 12],
+                    [5, 6, 15]
                 ]);
 
             // Second attribute restricts

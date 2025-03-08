@@ -58,20 +58,20 @@ namespace AutoFixture.TUnit.Internal
         private IEnumerable<Func<object[]>> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
         {
             var method = metadata.GetMethod();
-            
+
             var parameters = Array.ConvertAll(method.GetParameters(), TestParameter.From);
 
             foreach (var testDataFunc in source.GenerateDataSources(metadata))
             {
                 var testData = testDataFunc();
-                
+
                 var customizations = parameters.Take(testData.Length)
                     .Zip(testData, (parameter, value) => new Argument(parameter, value))
                     .Select(argument => argument.GetCustomization())
                     .Where(x => x is not NullCustomization);
 
                 var fixture = this.CreateFixture();
-                
+
                 foreach (var customization in customizations)
                 {
                     fixture.Customize(customization);

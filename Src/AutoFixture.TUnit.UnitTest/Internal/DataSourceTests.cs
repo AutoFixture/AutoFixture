@@ -98,7 +98,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
 
             // Assert
             await Assert.That(actual.Length).IsEqualTo(testData.Length);
-            await Assert.That(actual).Satisfies(x => x.Select(y => y().Length), 
+            await Assert.That(actual).Satisfies(x => x.Select(y => y().Length),
                 assert => assert.All().Satisfy(y => y.IsBetween(0, 3)));
         }
 

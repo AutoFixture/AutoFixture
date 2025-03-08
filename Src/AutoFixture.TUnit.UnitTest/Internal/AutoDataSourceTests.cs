@@ -57,9 +57,9 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Assert
             await Assert.That(result).IsNotNull();
             await Assert.That(result).HasSingleItem();
-            
+
             var item = result.Single()();
-            
+
             await Assert.That(item).IsNotNull();
             await Assert.That(item.Length).IsEqualTo(3);
             await Assert.That(item[0]).IsEqualTo("value");

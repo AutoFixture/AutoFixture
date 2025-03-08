@@ -31,7 +31,7 @@ namespace AutoFixture.TUnit.Internal
         public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var value = this.PropertyInfo.GetValue(null);
-            
+
             if (value is not IEnumerable<object[]> enumerable)
             {
                 throw new InvalidCastException("Member does not return an enumerable value.");

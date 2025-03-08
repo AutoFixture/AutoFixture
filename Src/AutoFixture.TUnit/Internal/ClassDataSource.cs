@@ -35,12 +35,12 @@ namespace AutoFixture.TUnit.Internal
         /// Gets the constructor parameters for test data source type.
         /// </summary>
         public IReadOnlyList<object> Parameters => Array.AsReadOnly(this.parameters);
-        
+
 
         public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
-            
+
             if (instance is not IEnumerable<object[]> enumerable)
             {
                 throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");

@@ -10,7 +10,7 @@ public class DataGeneratorMetadataHelper
     {
         return CreateDataGeneratorMetadata(methodInfo.DeclaringType!, methodInfo.Name);
     }
-    
+
     public static DataGeneratorMetadata CreateDataGeneratorMetadata(Type type, string methodName)
     {
         return new DataGeneratorMetadata

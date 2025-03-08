@@ -35,7 +35,7 @@ namespace AutoFixture.TUnit.Internal
         /// Gets the source method arguments.
         /// </summary>
         public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
-        
+
         public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var value = this.MethodInfo.Invoke(null, this.arguments);
