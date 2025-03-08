@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -17,7 +18,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new AutoDataAttribute();
 
             // Assert
-            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsTypeOf<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
@@ -30,7 +31,7 @@ namespace AutoFixture.TUnit.UnitTest
             var result = sut.FixtureFactory();
 
             // Assert
-            await Assert.That(result).IsAssignableFrom<Fixture>();
+            await Assert.That(result).IsTypeOf<Fixture>();
         }
 
         [Test]
@@ -146,7 +147,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            await Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+            await Assert.That(customizationLog[0]).IsTypeOf<CompositeCustomization>();
 
             var composite = (CompositeCustomization)customizationLog[0];
 

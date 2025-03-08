@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest.Internal
 {
@@ -15,7 +16,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new DelegatingDataSource();
 
             // Assert
-            await Assert.That(sut).IsAssignableFrom<IDataSource>();
+            await Assert.That(sut).IsTypeOf<IDataSource>();
         }
 
         [Test]
@@ -41,7 +42,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
 
             // Assert
             var item = await Assert.That(result).HasSingleItem();
-            Assert.That(item).IsEmpty();
+            await Assert.That(item).IsEmpty();
         }
 
         [Test]
@@ -72,8 +73,8 @@ namespace AutoFixture.TUnit.UnitTest.Internal
 
             // Assert
             var testData = await Assert.That(result).HasSingleItem();
-            var argument = Assert.That(testData).HasSingleItem();
-            Assert.That(argument).IsEqualTo("hello");
+            var argument = await Assert.That(testData).HasSingleItem();
+            await Assert.That(argument).IsEqualTo("hello");
         }
 
         [Test]

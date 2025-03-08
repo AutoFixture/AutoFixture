@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -21,7 +22,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new MemberAutoDataAttribute(memberName);
 
             // Assert
-            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsTypeOf<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
@@ -77,7 +78,7 @@ namespace AutoFixture.TUnit.UnitTest
 
             // Act & Assert
             var value = await Assert.That(actual.Parameters).HasSingleItem();
-            Assert.That(value).IsNull();
+            await Assert.That(value).IsNull();
         }
 
         [Test]
@@ -207,7 +208,7 @@ namespace AutoFixture.TUnit.UnitTest
             _ = await sut.GetData(method!, new DisposalTracker());
 
             // Assert
-            var composite = await Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+            var composite = await Assert.That(customizationLog[0]).IsTypeOf<CompositeCustomization>();
             Assert.IsNotType<FreezeOnMatchCustomization>(composite.Customizations.First());
             Assert.IsType<FreezeOnMatchCustomization>(composite.Customizations.Last());
         }

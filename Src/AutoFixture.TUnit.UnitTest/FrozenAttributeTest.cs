@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -12,7 +13,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new FrozenAttribute();
             // Assert
-            await Assert.That(sut).IsAssignableFrom<CustomizeAttribute>();
+            await Assert.That(sut).IsTypeOf<CustomizeAttribute>();
         }
 
         [Test]

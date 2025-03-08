@@ -3,6 +3,7 @@ using System.Linq;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
 using System.Threading.Tasks;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -15,7 +16,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new FavorEnumerablesAttribute();
             // Assert
-            await Assert.That(sut).IsAssignableFrom<CustomizeAttribute>();
+            await Assert.That(sut).IsTypeOf<CustomizeAttribute>();
         }
 
         [Test]
@@ -29,7 +30,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void GetCustomizationReturnsCorrectResult()
+        public async Task GetCustomizationReturnsCorrectResult()
         {
             // Arrange
             var sut = new FavorEnumerablesAttribute();
@@ -39,9 +40,9 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert
-            var invoker = Assert.That(result).IsAssignableFrom<ConstructorCustomization>();
-            Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
-            Assert.That(invoker.Query).IsAssignableFrom<EnumerableFavoringConstructorQuery>();
+            var invoker = await Assert.That(result).IsTypeOf<ConstructorCustomization>();
+            await Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
+            await Assert.That(invoker.Query).IsTypeOf<EnumerableFavoringConstructorQuery>();
         }
     }
 }

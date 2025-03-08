@@ -2,6 +2,7 @@
 using System.Linq;
 using TestTypeFoundation;
 using System.Threading.Tasks;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -14,7 +15,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new NoAutoPropertiesAttribute();
             // Assert
-            await Assert.That(sut).IsAssignableFrom<CustomizeAttribute>();
+            await Assert.That(sut).IsTypeOf<CustomizeAttribute>();
         }
 
         [Test]
@@ -28,7 +29,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void GetCustomizationReturnsTheCorrectResult()
+        public async Task GetCustomizationReturnsTheCorrectResult()
         {
             // Arrange
             var sut = new NoAutoPropertiesAttribute();
@@ -38,7 +39,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert
-            Assert.That(result).IsAssignableFrom<NoAutoPropertiesCustomization>();
+            await Assert.That(result).IsTypeOf<NoAutoPropertiesCustomization>();
         }
     }
 }

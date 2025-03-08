@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest.Internal
 {
@@ -17,7 +18,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new AutoDataSource(() => new DelegatingFixture());
 
             // Assert
-            await Assert.That(sut).IsAssignableFrom<IDataSource>();
+            await Assert.That(sut).IsTypeOf<IDataSource>();
         }
 
         [Test]

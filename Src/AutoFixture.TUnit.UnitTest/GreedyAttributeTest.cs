@@ -3,6 +3,7 @@ using System.Linq;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
 using System.Threading.Tasks;
+using TUnit.Assertions.AssertConditions.Throws;
 #if NETCOREAPP1_1
 using System.Reflection;
 #endif
@@ -18,7 +19,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new GreedyAttribute();
             // Assert
-            await Assert.That(sut).IsAssignableFrom<CustomizeAttribute>();
+            await Assert.That(sut).IsTypeOf<CustomizeAttribute>();
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void GetCustomizationReturnsCorrectResult()
+        public async Task GetCustomizationReturnsCorrectResult()
         {
             // Arrange
             var sut = new GreedyAttribute();
@@ -42,9 +43,9 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert
-            var invoker = Assert.That(result).IsAssignableFrom<ConstructorCustomization>();
+            var invoker = await Assert.That(result).IsTypeOf<ConstructorCustomization>();
             Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
-            Assert.That(invoker.Query).IsAssignableFrom<GreedyConstructorQuery>();
+            Assert.That(invoker.Query).IsTypeOf<GreedyConstructorQuery>();
         }
     }
 }

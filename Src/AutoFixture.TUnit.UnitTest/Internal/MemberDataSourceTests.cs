@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest.Internal;
 
@@ -24,7 +25,7 @@ public class MemberDataSourceTests
             nameof(GetEmptyTestData));
 
         // Assert
-        await Assert.That(sut).IsAssignableFrom<IDataSource>();
+        await Assert.That(sut).IsTypeOf<IDataSource>();
     }
 
     [Test]

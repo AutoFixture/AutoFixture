@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -16,7 +17,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new CompositeDataAttribute();
 
             // Assert
-            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsTypeOf<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]

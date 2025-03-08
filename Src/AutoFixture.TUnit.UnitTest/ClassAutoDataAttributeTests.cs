@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.UnitTest
 {
@@ -24,7 +25,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
 
             // Assert
-            await Assert.That(sut).IsAssignableFrom<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsTypeOf<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
@@ -208,7 +209,7 @@ namespace AutoFixture.TUnit.UnitTest
             _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!));
 
             // Assert
-            await Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
+            await Assert.That(customizationLog[0]).IsTypeOf<CompositeCustomization>();
 
             var composite = (CompositeCustomization)customizationLog[0];
 
