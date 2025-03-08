@@ -7,14 +7,18 @@ namespace AutoFixture.TUnit.UnitTest;
 
 public class DataGeneratorMetadataHelper
 {
+    public static DataGeneratorMetadata CreateDataGeneratorMetadata(Type type, string methodName)
+    {
+        return CreateDataGeneratorMetadata(type.GetMethod(methodName));
+    }
+    
     public static DataGeneratorMetadata CreateDataGeneratorMetadata(MethodInfo methodInfo)
     {
-        return CreateDataGeneratorMetadata(methodInfo.ReflectedType ?? methodInfo.DeclaringType!, methodInfo.Name, methodInfo.GetParameters(), methodInfo.GetCustomAttributes().ToArray());
-    }
-
-    public static DataGeneratorMetadata CreateDataGeneratorMetadata(Type type, string methodName,
-        ParameterInfo[] parameters = null, Attribute[] attributes = null)
-    {
+        var parameters = methodInfo.GetParameters();
+        var type = methodInfo.ReflectedType ?? methodInfo.DeclaringType!;
+        var methodName = methodInfo.Name;
+        var attributes = methodInfo.GetCustomAttributes().ToArray();
+        
         var sourceGeneratedParameterInformations = parameters?.Select(CreateParameter).ToArray() ?? [];
 
         return new DataGeneratorMetadata

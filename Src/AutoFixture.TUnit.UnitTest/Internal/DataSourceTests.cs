@@ -28,7 +28,7 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithoutParameters));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
         // Assert
         var item = await Assert.That(result).HasSingleItem();
@@ -45,7 +45,7 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
@@ -60,7 +60,7 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();
@@ -85,7 +85,9 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var actual = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
+        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
+            .Select(x => x())
+            .ToArray();
 
         // Assert
         await Assert.That(actual.Length).IsEqualTo(testData.Length);
@@ -108,6 +110,6 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
     }
 }

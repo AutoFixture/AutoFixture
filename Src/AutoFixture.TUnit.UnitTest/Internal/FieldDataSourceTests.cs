@@ -63,7 +63,7 @@ public class FieldDataSourceTests
         var sut = new FieldDataSource(sourceField);
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -77,7 +77,7 @@ public class FieldDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidCastException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidCastException>();
     }
 
     [Test]
@@ -97,12 +97,12 @@ public class FieldDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
-            
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+            .Select(x => x())
             .ToArray();
 
         // Assert
-        await Assert.That(result).IsEqualTo(expected);
+        await Assert.That(result).IsEquivalentTo(expected);
     }
 
     public static IEnumerable<object[]> TestDataFieldWithRecordValues =

@@ -73,7 +73,7 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidOperationException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
@@ -91,8 +91,8 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act
-        var actual = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
-            
+        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+            .Select(x => x())
             .ToArray();
 
         // Assert
@@ -121,7 +121,7 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<MissingMethodException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsException();
     }
 
     [Test]
@@ -134,7 +134,7 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
 
         // Assert
         await Assert.That(result.Single()).IsEquivalentTo(new object[] { "y", 25 });

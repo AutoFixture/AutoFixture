@@ -32,7 +32,7 @@ public class ArgumentsAutoDataAttributeTests
         var result = sut.Values;
 
         // Assert
-        await Assert.That(result).IsEqualTo(expected);
+        await Assert.That(result).IsEquivalentTo(expected);
     }
 
     [Test]
@@ -104,7 +104,9 @@ public class ArgumentsAutoDataAttributeTests
         var sut = new DerivedArgumentsAutoDataAttribute(() => fixture);
 
         // Act
-        _ = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(typeof(TypeWithCustomizationAttributes), methodName));
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(typeof(TypeWithCustomizationAttributes), methodName))
+            .Select(x => x())
+            .ToArray();
 
         // Assert
         await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
@@ -122,11 +124,11 @@ public class ArgumentsAutoDataAttributeTests
         object[] expected)
     {
         // Act
-        var actual = attribute.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod.DeclaringType, testMethod.Name)).ToArray();
+        var actual = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod.DeclaringType, testMethod.Name)).ToArray();
 
         // Assert
         await Assert.That(actual).HasSingleItem();
-        await Assert.That(actual[0]).IsEqualTo(expected);
+        await Assert.That(actual[0]).IsEquivalentTo(expected);
     }
 
     [Test]

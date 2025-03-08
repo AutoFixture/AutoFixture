@@ -85,7 +85,7 @@ public class CompositeDataAttributeTest
         // Arrange
         var sut = new CompositeDataAttribute();
         // Act & assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null))).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null))).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -101,8 +101,8 @@ public class CompositeDataAttributeTest
             new FakeDataAttribute(method, []));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
-            ;
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+                .Select(x => x());
 
         // Assert
         await Assert.That(result).All().Satisfy(row => row.IsEmpty());

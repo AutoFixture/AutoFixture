@@ -63,7 +63,7 @@ public class PropertyDataSourceTests
         var sut = new PropertyDataSource(sourceProperty);
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -77,7 +77,7 @@ public class PropertyDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
             
             .ToArray()).ThrowsExactly<InvalidCastException>();
     }
@@ -99,12 +99,12 @@ public class PropertyDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
-            
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+            .Select(x => x())
             .ToArray();
 
         // Assert
-        await Assert.That(result).IsEqualTo(expected);
+        await Assert.That(result).IsEquivalentTo(expected);
     }
 
     public static IEnumerable<object[]> TestDataPropertyWithRecordValues =>
@@ -131,11 +131,12 @@ public class PropertyDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
+            .Select(x => x())
             .ToArray();
 
         // Assert
-        await Assert.That(result).IsEqualTo(expected);
+        await Assert.That(result).IsEquivalentTo(expected);
     }
 
     public static IEnumerable<object[]> TestDataPropertyWithNullValues =>

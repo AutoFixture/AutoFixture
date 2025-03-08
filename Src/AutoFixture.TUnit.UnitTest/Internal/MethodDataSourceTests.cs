@@ -65,7 +65,7 @@ public class MethodDataSourceTests
 
         // Assert
         await Assert.That(sut.MethodInfo).IsEqualTo(methodInfo);
-        await Assert.That(sut.Arguments).IsEqualTo(arguments);
+        await Assert.That(sut.Arguments).IsEquivalentTo(arguments);
     }
 
     [Test]
@@ -85,11 +85,11 @@ public class MethodDataSourceTests
         var sut = new MethodDataSource(testDataSource);
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData))
-            ;
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData))
+                .Select(x => x());
 
         // Assert
-        await Assert.That(result).IsEqualTo(expected);
+        await Assert.That(result).IsEquivalentTo(expected);
     }
 
     [Test]
@@ -103,7 +103,7 @@ public class MethodDataSourceTests
         var sut = new MethodDataSource(dataSource);
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData)).ToArray()).ThrowsExactly<InvalidCastException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData)).ToArray()).ThrowsExactly<InvalidCastException>();
     }
 
     public static object NonEnumerableTestData() => new();

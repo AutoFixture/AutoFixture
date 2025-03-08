@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.UnitTest.TestTypes;
@@ -36,7 +37,7 @@ public class InlineDataSourceTests
         // Act
         var result = sut.Values;
         // Assert
-        await Assert.That(result).IsEqualTo(expectedValues);
+        await Assert.That(result).IsEquivalentTo(expectedValues);
     }
 
     [Test]
@@ -46,7 +47,7 @@ public class InlineDataSourceTests
         var sut = new InlineDataSource(Array.Empty<object>());
         // Act & Assert
         await Assert.That(() =>
-            sut.GetData(null)).ThrowsExactly<ArgumentNullException>();
+            sut.GenerateDataSources(null)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -60,7 +61,9 @@ public class InlineDataSourceTests
 
         // Act & Assert
         await Assert.That(() =>
-            sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))).ThrowsExactly<InvalidOperationException>();
+            sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
+                .Select(x => x()).ToArray()
+        ).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
@@ -73,7 +76,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();
@@ -90,7 +93,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();

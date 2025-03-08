@@ -80,7 +80,7 @@ public class AutoDataAttributeTest
         var sut = new AutoDataAttribute();
 
         // Act & assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -107,7 +107,8 @@ public class AutoDataAttributeTest
         var sut = new DerivedAutoDataAttribute(() => composer);
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+            .Select(x => x())
             .ToArray();
 
         // Assert
@@ -143,7 +144,8 @@ public class AutoDataAttributeTest
         var sut = new DerivedAutoDataAttribute(() => fixture);
 
         // Act
-        _ = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+            .Select(x => x())
             .ToArray();
 
         // Assert
@@ -170,7 +172,8 @@ public class AutoDataAttributeTest
         var sut = new DerivedAutoDataAttribute(() => fixture);
 
         // Act
-        _ = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+            .Select(x => x())
             .ToArray();
 
         // Assert

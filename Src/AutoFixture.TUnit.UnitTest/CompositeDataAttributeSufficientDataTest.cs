@@ -23,7 +23,9 @@ public class CompositeDataAttributeSufficientDataTest
         var attribute = new CompositeDataAttribute(attributes.ToArray());
 
         // Act
-        var result = attribute.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(this.method.DeclaringType, this.method.Name)).ToArray();
+        var result = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(this.method))
+            .Select(x => x())
+            .ToArray();
 
         // Assert
         await Assert.That(result).IsEquivalentTo(expectedResult);

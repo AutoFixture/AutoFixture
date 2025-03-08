@@ -32,7 +32,7 @@ public class AutoDataSourceTests
         var sut = new AutoDataSource(fixtureFactory, source);
 
         // Assert
-        await Assert.That(sut.CreateFixture).IsSameReferenceAs(fixtureFactory);
+        await Assert.That<Func<IFixture>>(sut.CreateFixture).IsSameReferenceAs(fixtureFactory);
         await Assert.That(sut.Source).IsSameReferenceAs(source);
     }
 
@@ -52,7 +52,7 @@ public class AutoDataSourceTests
         var method = typeof(SampleTestType).GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(result).IsNotNull();
@@ -88,7 +88,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(result).IsNotNull();
@@ -120,7 +120,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(result).IsNotNull();
@@ -144,7 +144,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(result).IsEmpty();
@@ -161,7 +161,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act & Assert
-        await Assert.That(() => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
                 .ToArray())
             .ThrowsException();
     }
@@ -180,7 +180,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        _ = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(customizations).IsEmpty();
@@ -200,7 +200,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithCustomizedParameter));
 
         // Act
-        _ = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(customizations).IsNotEmpty();
@@ -220,7 +220,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleCustomizations));
 
         // Act
-        _ = sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         using var scope = Assert.Multiple();
