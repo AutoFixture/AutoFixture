@@ -221,7 +221,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            await Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -242,7 +242,7 @@ namespace AutoFixture.TUnit.UnitTest
             var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
                 .Select(x => x()).ToArray();
 
-            await Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -264,7 +264,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            await Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -319,7 +319,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            await Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEquivalentTo(expected);
         }
 
         [Test]
@@ -374,7 +374,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            await Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEquivalentTo(expected);
         }
 
         public static IEnumerable<object[]> TestDataWithNullValues

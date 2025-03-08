@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using TUnit.Core.Enums;
 
@@ -8,10 +9,12 @@ public class DataGeneratorMetadataHelper
 {
     public static DataGeneratorMetadata CreateDataGeneratorMetadata(MethodInfo methodInfo)
     {
-        return CreateDataGeneratorMetadata(methodInfo.DeclaringType!, methodInfo.Name);
+        var parameters = methodInfo.GetParameters();
+        return CreateDataGeneratorMetadata(methodInfo.ReflectedType ?? methodInfo.DeclaringType!, methodInfo.Name, parameters);
     }
 
-    public static DataGeneratorMetadata CreateDataGeneratorMetadata(Type type, string methodName)
+    public static DataGeneratorMetadata CreateDataGeneratorMetadata(Type type, string methodName,
+        ParameterInfo[] parameters = null)
     {
         return new DataGeneratorMetadata
         {
@@ -35,9 +38,20 @@ public class DataGeneratorMetadataHelper
                     Parameters = [],
                     Properties = []
                 },
-                Parameters = [],
+                Parameters = parameters?.Select(CreateParameter).ToArray() ?? [],
                 ReturnType = typeof(void),
             }
+        };
+    }
+
+    private static SourceGeneratedParameterInformation CreateParameter(ParameterInfo parameterInfo)
+    {
+        return new SourceGeneratedParameterInformation(parameterInfo.ParameterType)
+        {
+            Name = parameterInfo.Name,
+            Attributes =
+            [
+            ]
         };
     }
 }
