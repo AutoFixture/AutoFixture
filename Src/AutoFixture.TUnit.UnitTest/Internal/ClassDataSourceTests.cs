@@ -22,17 +22,17 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ConstructorWithNullTypeThrows()
+        public async Task ConstructorWithNullTypeThrows()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => _ = new ClassDataSource(null!, Array.Empty<object>()));
+            await Assert.That(() => _ = new ClassDataSource(null!, Array.Empty<object>())).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
-        public void ConstructorWithNullParametersThrows()
+        public async Task ConstructorWithNullParametersThrows()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => _ = new ClassDataSource(typeof(object), null!));
+            await Assert.That(() => _ = new ClassDataSource(typeof(object), null!)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ThrowsWhenSourceIsNotEnumerable()
+        public async Task ThrowsWhenSourceIsNotEnumerable()
         {
             // Arrange
             var sut = new ClassDataSource(typeof(object), Array.Empty<object>());
@@ -72,7 +72,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => sut.GetData(method).ToArray());
+            await Assert.That(() => sut.GetData(method).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ThrowsWhenConstructorParametersDontMatch()
+        public async Task ThrowsWhenConstructorParametersDontMatch()
         {
             // Arrange
             var parameters = new object[] { "a", 1 };
@@ -118,7 +118,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            Assert.Throws<MissingMethodException>(() => sut.GetData(method).ToArray());
+            await Assert.That(() => sut.GetData(method).ToArray()).ThrowsExactly<MissingMethodException>();
         }
 
         [Test]

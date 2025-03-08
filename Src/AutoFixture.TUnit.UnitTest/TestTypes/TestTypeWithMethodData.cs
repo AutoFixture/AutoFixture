@@ -123,7 +123,7 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
             await Assert.That(a).IsNotNull();
             await Assert.That(b).IsNotNull();
 
-            Assert.Same(a, b);
+            await Assert.That(b).IsSameReferenceAs(a);
         }
 
         public static IEnumerable<object[]> GetTestWithComplexTypesData()

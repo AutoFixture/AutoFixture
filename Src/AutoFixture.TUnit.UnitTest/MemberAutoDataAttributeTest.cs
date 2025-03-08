@@ -37,7 +37,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Assert
             await Assert.That(sut.MemberName).IsEqualTo(memberName);
             await Assert.That(sut.Parameters).IsEqualTo(parameters);
-            Assert.Null(sut.MemberType);
+            await Assert.That(sut.MemberType).IsNull();
             await Assert.That(sut.FixtureFactory).IsNotNull();
         }
 
@@ -60,15 +60,14 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void ThrowsWhenInitializedWithNullMemberName()
+        public async Task ThrowsWhenInitializedWithNullMemberName()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => new MemberAutoDataAttribute(null!));
+            await Assert.That(() => new MemberAutoDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
-        public void TreatsNullParametersAsArrayWithNullValue()
+        public async Task TreatsNullParametersAsArrayWithNullValue()
         {
             // Arrange
             var memberName = Guid.NewGuid().ToString();
@@ -77,8 +76,8 @@ namespace AutoFixture.TUnit.UnitTest
             var actual = new MemberAutoDataAttribute(memberName, null!);
 
             // Act & Assert
-            var value = Assert.Single(actual.Parameters);
-            Assert.Null(value);
+            var value = await Assert.That(actual.Parameters).HasSingleItem();
+            Assert.That(value).IsNull();
         }
 
         [Test]
@@ -208,7 +207,7 @@ namespace AutoFixture.TUnit.UnitTest
             _ = await sut.GetData(method!, new DisposalTracker());
 
             // Assert
-            var composite = Assert.IsAssignableFrom<CompositeCustomization>(customizationLog[0]);
+            var composite = await Assert.That(customizationLog[0]).IsAssignableFrom<CompositeCustomization>();
             Assert.IsNotType<FreezeOnMatchCustomization>(composite.Customizations.First());
             Assert.IsType<FreezeOnMatchCustomization>(composite.Customizations.Last());
         }
@@ -411,7 +410,7 @@ namespace AutoFixture.TUnit.UnitTest
         public async Task NullTestDataReturned(string a, string b, PropertyHolder<string> c)
         {
             await Assert.That(string.IsNullOrWhiteSpace(a)).IsTrue();
-            Assert.Null(b);
+            await Assert.That(b).IsNull();
             await Assert.That(c).IsNotNull();
         }
     }

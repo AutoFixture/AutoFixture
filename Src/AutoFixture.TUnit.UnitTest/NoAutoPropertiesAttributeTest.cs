@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Linq;
 using TestTypeFoundation;
+using System.Threading.Tasks;
 
 namespace AutoFixture.TUnit.UnitTest
 {
     public class NoAutoPropertiesAttributeTest
     {
         [Test]
-        public void SutIsAttribute()
+        public async Task SutIsAttribute()
         {
             // Arrange
             // Act
             var sut = new NoAutoPropertiesAttribute();
             // Assert
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            await Assert.That(sut).IsAssignableFrom<CustomizeAttribute>();
         }
 
         [Test]
-        public void GetCustomizationFromNullParameterThrows()
+        public async Task GetCustomizationFromNullParameterThrows()
         {
             // Arrange
             var sut = new NoAutoPropertiesAttribute();
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetCustomization(null));
+            await Assert.That(() =>
+                sut.GetCustomization(null)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -37,7 +38,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert
-            Assert.IsAssignableFrom<NoAutoPropertiesCustomization>(result);
+            Assert.That(result).IsAssignableFrom<NoAutoPropertiesCustomization>();
         }
     }
 }

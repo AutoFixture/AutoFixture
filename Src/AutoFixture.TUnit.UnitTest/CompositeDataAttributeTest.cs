@@ -20,12 +20,11 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void InitializeWithNullArrayThrows()
+        public async Task InitializeWithNullArrayThrows()
         {
             // Arrange
             // Act & assert
-            Assert.Throws<ArgumentNullException>(
-                () => new CompositeDataAttribute(null));
+            await Assert.That(() => new CompositeDataAttribute(null)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -80,13 +79,12 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void GetDataWithNullMethodThrows()
+        public async Task GetDataWithNullMethodThrows()
         {
             // Arrange
             var sut = new CompositeDataAttribute();
             // Act & assert
-            Assert.Throws<ArgumentNullException>(
-                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null)));
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null))).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]

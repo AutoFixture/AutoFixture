@@ -152,7 +152,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ThrowsWhenSourceReturnsNull()
+        public async Task ThrowsWhenSourceReturnsNull()
         {
             // Arrange
             var source = new DelegatingDataSource { TestData = null };
@@ -162,8 +162,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(
-                () => sut.GetData(method!).ToArray());
+            await Assert.That(() => sut.GetData(method!).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]

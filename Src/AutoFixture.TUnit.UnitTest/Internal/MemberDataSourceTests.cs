@@ -16,7 +16,7 @@ public class MemberDataSourceTests
     public static IEnumerable<object[]> GetEmptyTestData() => Array.Empty<object[]>();
 
     [Test]
-    public void SutIsTestDataSource()
+    public async Task SutIsTestDataSource()
     {
         // Arrange & Act
         var sut = new MemberDataSource(
@@ -24,41 +24,38 @@ public class MemberDataSourceTests
             nameof(GetEmptyTestData));
 
         // Assert
-        Assert.IsAssignableFrom<IDataSource>(sut);
+        await Assert.That(sut).IsAssignableFrom<IDataSource>();
     }
 
     [Test]
-    public void ThrowsWhenTypeIsNull()
+    public async Task ThrowsWhenTypeIsNull()
     {
         // Arrange
         var method = nameof(GetEmptyTestData);
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(
-            () => new MemberDataSource(null!, method));
+        await Assert.That(() => new MemberDataSource(null!, method)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
-    public void ThrowsWhenNameIsNull()
+    public async Task ThrowsWhenNameIsNull()
     {
         // Arrange
         var type = typeof(MemberDataSourceTests);
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(
-            () => new MemberDataSource(type, null!));
+        await Assert.That(() => new MemberDataSource(type, null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
-    public void ThrowsWhenArgumentsIsNull()
+    public async Task ThrowsWhenArgumentsIsNull()
     {
         // Arrange
         var type = typeof(MemberDataSourceTests);
         var method = nameof(GetEmptyTestData);
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(
-            () => new MemberDataSource(type, method, null!));
+        await Assert.That(() => new MemberDataSource(type, method, null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -74,14 +71,14 @@ public class MemberDataSourceTests
         // Assert
         await Assert.That(sut.Type).IsEqualTo(type);
         await Assert.That(sut.Name).IsEqualTo(method);
-        Assert.That(sut.Arguments).IsEmpty();
+        await Assert.That(sut.Arguments).IsEmpty();
     }
 
     [Test]
     [Arguments(nameof(EmptyTestDataField), typeof(FieldDataSource))]
     [Arguments(nameof(EmptyTestData), typeof(PropertyDataSource))]
     [Arguments(nameof(GetEmptyTestData), typeof(MethodDataSource))]
-    public void InitializesSourceProperty(string memberName, Type expectedInnerSourceType)
+    public async Task InitializesSourceProperty(string memberName, Type expectedInnerSourceType)
     {
         // Arrange
         var type = typeof(MemberDataSourceTests);
@@ -90,31 +87,29 @@ public class MemberDataSourceTests
         var sut = new DelegatingMemberDataSource(type, memberName);
 
         // Assert
-        Assert.IsType(expectedInnerSourceType, sut.GetSource());
+        await Assert.That(sut.GetSource()).IsTypeOf(expectedInnerSourceType);
     }
 
     [Test]
-    public void ThrowsWhenSourceDoesNotExist()
+    public async Task ThrowsWhenSourceDoesNotExist()
     {
         // Arrange
         var type = typeof(MemberDataSourceTests);
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(
-            () => _ = new DelegatingMemberDataSource(type, "NonExistentMember"));
+        await Assert.That(() => _ = new DelegatingMemberDataSource(type, "NonExistentMember")).ThrowsExactly<ArgumentException>();
     }
 
     [Test]
     [Arguments(nameof(NonTestDataField))]
     [Arguments(nameof(NonTestDataProperty))]
     [Arguments(nameof(NonTestDataMethod))]
-    public void ThrowsWhenSourceDoesNotReturnTestData(string memberName)
+    public async Task ThrowsWhenSourceDoesNotReturnTestData(string memberName)
     {
         // Arrange
         var type = typeof(MemberDataSourceTests);
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(
-            () => _ = new DelegatingMemberDataSource(type, memberName));
+        await Assert.That(() => _ = new DelegatingMemberDataSource(type, memberName)).ThrowsExactly<ArgumentException>();
     }
 }

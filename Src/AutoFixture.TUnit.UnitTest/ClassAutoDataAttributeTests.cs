@@ -28,11 +28,10 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void ThrowsWhenSourceTypeIsNull()
+        public async Task ThrowsWhenSourceTypeIsNull()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => new ClassAutoDataAttribute(null));
+            await Assert.That(() => new ClassAutoDataAttribute(null)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -48,12 +47,11 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void ThrowsWhenFixtureFactoryIsNull()
+        public async Task ThrowsWhenFixtureFactoryIsNull()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => new DerivedClassAutoDataAttribute(
-                    fixtureFactory: null, typeof(MixedTypeClassData)));
+            await Assert.That(() => new DerivedClassAutoDataAttribute(
+                    fixtureFactory: null, typeof(MixedTypeClassData))).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -65,8 +63,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(
-                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -77,8 +74,7 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            Assert.Throws<MissingMethodException>(
-                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))).ThrowsExactly<MissingMethodException>();
         }
 
         [Test]
@@ -104,8 +100,7 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & assert
-            Assert.Throws<InvalidOperationException>(
-                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -169,8 +164,7 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            Assert.Throws<MissingMethodException>(
-                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))).ThrowsExactly<MissingMethodException>();
         }
 
         [Test]
@@ -181,8 +175,7 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
             // Act & Assert
-            Assert.Throws<MissingMethodException>(
-                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!)));
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))).ThrowsExactly<MissingMethodException>();
         }
 
         [Test]

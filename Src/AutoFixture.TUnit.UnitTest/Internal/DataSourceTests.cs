@@ -9,28 +9,27 @@ namespace AutoFixture.TUnit.UnitTest.Internal
     public class DataSourceTests
     {
         [Test]
-        public void SutIsTestDataSource()
+        public async Task SutIsTestDataSource()
         {
             // Arrange
             var sut = new DelegatingDataSource();
 
             // Assert
-            Assert.IsAssignableFrom<IDataSource>(sut);
+            await Assert.That(sut).IsAssignableFrom<IDataSource>();
         }
 
         [Test]
-        public void ThrowsWhenInvokedWithNullMethodInfo()
+        public async Task ThrowsWhenInvokedWithNullMethodInfo()
         {
             // Arrange
             var sut = new DelegatingDataSource();
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => sut.GetData(null));
+            await Assert.That(() => sut.GetData(null)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
-        public void ReturnSingleEmptyArrayWhenMethodHasNoParameters()
+        public async Task ReturnSingleEmptyArrayWhenMethodHasNoParameters()
         {
             // Arrange
             var sut = new DelegatingDataSource();
@@ -41,12 +40,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(testMethod).ToArray();
 
             // Assert
-            var item = Assert.Single(result);
+            var item = await Assert.That(result).HasSingleItem();
             Assert.That(item).IsEmpty();
         }
 
         [Test]
-        public void ThrowsWhenNoDataFoundForMethod()
+        public async Task ThrowsWhenNoDataFoundForMethod()
         {
             // Arrange
             var sut = new DelegatingDataSource { TestData = null };
@@ -54,12 +53,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(
-                () => sut.GetData(testMethod).ToArray());
+            await Assert.That(() => sut.GetData(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
-        public void ReturnSingleArrayWithSingleItemWhenMethodHasSingleParameter()
+        public async Task ReturnSingleArrayWithSingleItemWhenMethodHasSingleParameter()
         {
             // Arrange
             var sut = new DelegatingDataSource
@@ -73,8 +71,8 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var result = sut.GetData(testMethod).ToArray();
 
             // Assert
-            var testData = Assert.Single(result);
-            var argument = Assert.Single(testData);
+            var testData = await Assert.That(result).HasSingleItem();
+            var argument = Assert.That(testData).HasSingleItem();
             Assert.That(argument).IsEqualTo("hello");
         }
 
@@ -99,11 +97,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
 
             // Assert
             await Assert.That(actual.Length).IsEqualTo(testData.Length);
-            Assert.All(actual, x => Assert.InRange(x.Length, 0, 3));
+            Assert.That(x => Assert.InRange(x.Length, 0, 3)).All().Satisfy(actual);
         }
 
         [Test]
-        public void ThrowsWhenTestDataContainsMoreArgumentsThanParameters()
+        public async Task ThrowsWhenTestDataContainsMoreArgumentsThanParameters()
         {
             // Arrange
             var testData = new[] { new object[] { "hello", 16, 32.86d, "extra" } };
@@ -112,8 +110,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(
-                () => sut.GetData(testMethod).ToArray());
+            await Assert.That(() => sut.GetData(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
     }
 }

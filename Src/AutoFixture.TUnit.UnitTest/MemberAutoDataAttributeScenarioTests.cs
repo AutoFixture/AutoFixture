@@ -53,7 +53,7 @@ namespace AutoFixture.TUnit.UnitTest
         {
             // Assert "a" ends with any possible ending from the test data
             var aSuffix = a.Split('-').Last();
-            Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
+            await Assert.That(new[] { "one", "two", "three" }).Contains(x => aSuffix == x);
 
             await Assert.That(b).IsNotNull();
             await Assert.That(b).IsNotEmpty();
@@ -76,10 +76,10 @@ namespace AutoFixture.TUnit.UnitTest
         {
             // Assert "a" ends with any possible ending from the test data
             var aSuffix = a.Split('-').Last();
-            Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
+            await Assert.That(new[] { "one", "two", "three" }).Contains(x => aSuffix == x);
 
-            Assert.Contains(new[] { 22, 75, 19 }, x => x == b);
-            Assert.Contains(new[] { 25.7m, 228.1m, 137.09m }, x => x == c);
+            await Assert.That(new[] { 22, 75, 19 }).Contains(x => x == b);
+            await Assert.That(new[] { 25.7m, 228.1m, 137.09m }).Contains(x => x == c);
 
             await Assert.That(a1).IsNotNull();
             await Assert.That(a1.Property).IsEqualTo(a);
@@ -101,8 +101,8 @@ namespace AutoFixture.TUnit.UnitTest
         {
             var aSuffix = a.Split('-').Last();
             var bSuffix = b.Split('-').Last();
-            Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
-            Assert.Contains(new[] { "uno", "dos", "tres" }, x => bSuffix == x);
+            await Assert.That(new[] { "one", "two", "three" }).Contains(x => aSuffix == x);
+            await Assert.That(new[] { "uno", "dos", "tres" }).Contains(x => bSuffix == x);
 
             await Assert.That(b).IsNotEqualTo(a);
             await Assert.That(c).IsEqualTo(a);
@@ -118,8 +118,8 @@ namespace AutoFixture.TUnit.UnitTest
         {
             var aSuffix = a.Split('-').Last();
             var bSuffix = b.Split('-').Last();
-            Assert.Contains(new[] { "one", "two", "three" }, x => aSuffix == x);
-            Assert.Contains(new[] { "uno", "dos", "tres" }, x => bSuffix == x);
+            await Assert.That(new[] { "one", "two", "three" }).Contains(x => aSuffix == x);
+            await Assert.That(new[] { "uno", "dos", "tres" }).Contains(x => bSuffix == x);
 
             await Assert.That(c).IsNotEqualTo(a);
             await Assert.That(c).IsEqualTo(b);
@@ -137,8 +137,8 @@ namespace AutoFixture.TUnit.UnitTest
             await Assert.That(a).IsNotNull();
             await Assert.That(b).IsNotNull();
 
-            Assert.NotSame(a, b);
-            Assert.Same(a, c);
+            await Assert.That(b).IsNotSameReferenceAs(a);
+            await Assert.That(c).IsSameReferenceAs(a);
         }
 
         public static IEnumerable<object[]> GetSingleStringValueTestData()

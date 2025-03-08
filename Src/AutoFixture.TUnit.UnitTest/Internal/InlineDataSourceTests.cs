@@ -8,22 +8,22 @@ namespace AutoFixture.TUnit.UnitTest.Internal;
 public class InlineDataSourceTests
 {
     [Test]
-    public void SutIsTestDataSource()
+    public async Task SutIsTestDataSource()
     {
         // Arrange
         // Act
         var sut = new InlineDataSource(Array.Empty<object>());
         // Assert
-        Assert.IsAssignableFrom<IDataSource>(sut);
+        await Assert.That(sut).IsAssignableFrom<IDataSource>();
     }
 
     [Test]
-    public void InitializeWithNullValuesThrows()
+    public async Task InitializeWithNullValuesThrows()
     {
         // Arrange
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            new InlineDataSource(null));
+        await Assert.That(() =>
+            new InlineDataSource(null)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -39,17 +39,17 @@ public class InlineDataSourceTests
     }
 
     [Test]
-    public void GetTestDataWithNullMethodThrows()
+    public async Task GetTestDataWithNullMethodThrows()
     {
         // Arrange
         var sut = new InlineDataSource(Array.Empty<object>());
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            sut.GetData(null));
+        await Assert.That(() =>
+            sut.GetData(null)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
-    public void SourceThrowsWhenArgumentCountExceedParameterCount()
+    public async Task SourceThrowsWhenArgumentCountExceedParameterCount()
     {
         // Arrange
         var values = new object[] { "aloha", 42, 12.3d, "extra" };
@@ -58,12 +58,12 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() =>
-            sut.GetData(testMethod));
+        await Assert.That(() =>
+            sut.GetData(testMethod)).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
-    public void ReturnsTestDataWhenArgumentCountMatchesParameterCount()
+    public async Task ReturnsTestDataWhenArgumentCountMatchesParameterCount()
     {
         // Arrange
         var values = new object[] { "aloha", 42, 12.3d };
@@ -75,12 +75,12 @@ public class InlineDataSourceTests
         var result = sut.GetData(testMethod);
 
         // Assert
-        var testData = Assert.Single(result);
-        Assert.That(testData).IsEqualTo(values);
+        var testData = await Assert.That(result).HasSingleItem();
+        await Assert.That(testData).IsEqualTo(values);
     }
 
     [Test]
-    public void ReturnsAllArgumentsWhenArgumentCountLessThanParameterCount()
+    public async Task ReturnsAllArgumentsWhenArgumentCountLessThanParameterCount()
     {
         // Arrange
         var values = new object[] { "aloha", 42 };
@@ -92,7 +92,7 @@ public class InlineDataSourceTests
         var result = sut.GetData(testMethod);
 
         // Assert
-        var testData = Assert.Single(result);
-        Assert.That(testData).IsEqualTo(values);
+        var testData = await Assert.That(result).HasSingleItem();
+        await Assert.That(testData).IsEqualTo(values);
     }
 }

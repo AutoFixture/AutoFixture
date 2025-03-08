@@ -18,9 +18,9 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test, AutoData]
-        public void AutoDataProvidesCorrectString(string text)
+        public async Task AutoDataProvidesCorrectString(string text)
         {
-            Assert.StartsWith("text", text);
+            await Assert.That(text).StartsWith("text");
         }
 
         [Test, AutoData]

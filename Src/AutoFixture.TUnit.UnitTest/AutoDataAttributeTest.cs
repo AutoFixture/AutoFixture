@@ -47,12 +47,12 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void InitializeWithNullFixtureFactoryThrows()
+        public async Task InitializeWithNullFixtureFactoryThrows()
         {
             // Arrange
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new DerivedAutoDataAttribute(null));
+            await Assert.That(() =>
+                new DerivedAutoDataAttribute(null)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -73,14 +73,13 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void GetDataWithNullMethodThrows()
+        public async Task GetDataWithNullMethodThrows()
         {
             // Arrange
             var sut = new AutoDataAttribute();
 
             // Act & assert
-            Assert.Throws<ArgumentNullException>(
-                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!)));
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]

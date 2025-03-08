@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace AutoFixture.TUnit.UnitTest
 {
     public class FrozenAttributeTest
     {
         [Test]
-        public void SutIsAttribute()
+        public async Task SutIsAttribute()
         {
             // Arrange
             // Act
             var sut = new FrozenAttribute();
             // Assert
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            await Assert.That(sut).IsAssignableFrom<CustomizeAttribute>();
         }
 
         [Test]
-        public void GetCustomizationFromNullParameterThrows()
+        public async Task GetCustomizationFromNullParameterThrows()
         {
             // Arrange
             var sut = new FrozenAttribute();
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetCustomization(null));
+            await Assert.That(() =>
+                sut.GetCustomization(null)).ThrowsExactly<ArgumentNullException>();
         }
     }
 }

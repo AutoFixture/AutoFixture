@@ -20,7 +20,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         public static object NonEnumerableField = new object();
 
         [Test]
-        public void SutIsTestDataSource()
+        public async Task SutIsTestDataSource()
         {
             // Arrange
             var sourceField = typeof(FieldDataSourceTests)
@@ -28,15 +28,14 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new FieldDataSource(sourceField);
 
             // Assert
-            Assert.IsAssignableFrom<IDataSource>(sut);
+            await Assert.That(sut).IsAssignableFrom<IDataSource>();
         }
 
         [Test]
-        public void ThrowsWhenConstructedWithNullField()
+        public async Task ThrowsWhenConstructedWithNullField()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => new FieldDataSource(null!));
+            await Assert.That(() => new FieldDataSource(null!)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -55,7 +54,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ThrowsWhenInvokedWithNullTestMethod()
+        public async Task ThrowsWhenInvokedWithNullTestMethod()
         {
             // Arrange
             var sourceField = typeof(FieldDataSourceTests)
@@ -63,12 +62,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new FieldDataSource(sourceField);
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => sut.GetData(null!));
+            await Assert.That(() => sut.GetData(null!)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
-        public void ThrowsWhenSourceIsNotEnumerable()
+        public async Task ThrowsWhenSourceIsNotEnumerable()
         {
             // Arrange
             var sourceField = typeof(FieldDataSourceTests)
@@ -78,7 +76,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            Assert.Throws<InvalidCastException>(() => sut.GetData(method).ToArray());
+            await Assert.That(() => sut.GetData(method).ToArray()).ThrowsExactly<InvalidCastException>();
         }
 
         [Test]

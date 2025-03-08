@@ -32,11 +32,10 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         public static object NonEnumerableProperty => new object();
 
         [Test]
-        public void ThrowsWhenConstructedWithNullProperty()
+        public async Task ThrowsWhenConstructedWithNullProperty()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => new PropertyDataSource(null!));
+            await Assert.That(() => new PropertyDataSource(null!)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -55,7 +54,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
         }
 
         [Test]
-        public void ThrowsWhenInvokedWithNullTestMethod()
+        public async Task ThrowsWhenInvokedWithNullTestMethod()
         {
             // Arrange
             var sourceProperty = typeof(PropertyDataSourceTests)
@@ -63,12 +62,11 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new PropertyDataSource(sourceProperty);
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => sut.GetData(null!));
+            await Assert.That(() => sut.GetData(null!)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
-        public void ThrowsWhenSourceIsNotEnumerable()
+        public async Task ThrowsWhenSourceIsNotEnumerable()
         {
             // Arrange
             var sourceProperty = typeof(PropertyDataSourceTests)
@@ -78,8 +76,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            Assert.Throws<InvalidCastException>(
-                () => sut.GetData(method).ToArray());
+            await Assert.That(() => sut.GetData(method).ToArray()).ThrowsExactly<InvalidCastException>();
         }
 
         [Test]
