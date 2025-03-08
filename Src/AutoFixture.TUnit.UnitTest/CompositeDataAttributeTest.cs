@@ -17,7 +17,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new CompositeDataAttribute();
 
             // Assert
-            await Assert.That(sut).IsTypeOf<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsAssignableTo<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]

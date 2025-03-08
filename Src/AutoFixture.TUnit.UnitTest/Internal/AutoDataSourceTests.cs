@@ -18,7 +18,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new AutoDataSource(() => new DelegatingFixture());
 
             // Assert
-            await Assert.That(sut).IsTypeOf<IDataSource>();
+            await Assert.That(sut).IsAssignableTo<IDataSource>();
         }
 
         [Test]
@@ -225,14 +225,14 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             // Assert
             using var scope = Assert.Multiple();
 
-            await Assert.That(customizations[0]).IsTypeOf<FreezeOnMatchCustomization>();
-            await Assert.That(customizations[1]).IsTypeOf<FreezeOnMatchCustomization>();
-            var composite = await Assert.That(customizations[2]).IsTypeOf<CompositeCustomization>();
+            await Assert.That(customizations[0]).IsAssignableTo<FreezeOnMatchCustomization>();
+            await Assert.That(customizations[1]).IsAssignableTo<FreezeOnMatchCustomization>();
+            var composite = await Assert.That(customizations[2]).IsAssignableTo<CompositeCustomization>();
 
             var compositeCustomizations = composite.Customizations.ToArray();
             await Assert.That(compositeCustomizations.Length).IsEqualTo(2);
-            await Assert.That(compositeCustomizations[0]).IsTypeOf<ConstructorCustomization>();
-            await Assert.That(compositeCustomizations[1]).IsTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(compositeCustomizations[0]).IsAssignableTo<ConstructorCustomization>();
+            await Assert.That(compositeCustomizations[1]).IsAssignableTo<FreezeOnMatchCustomization>();
         }
     }
 }

@@ -15,7 +15,7 @@ public class InlineDataSourceTests
         // Act
         var sut = new InlineDataSource(Array.Empty<object>());
         // Assert
-        await Assert.That(sut).IsTypeOf<IDataSource>();
+        await Assert.That(sut).IsAssignableTo<IDataSource>();
     }
 
     [Test]

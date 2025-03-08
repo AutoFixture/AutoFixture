@@ -19,7 +19,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new GreedyAttribute();
             // Assert
-            await Assert.That(sut).IsTypeOf<CustomizeAttribute>();
+            await Assert.That(sut).IsAssignableTo<CustomizeAttribute>();
         }
 
         [Test]
@@ -43,9 +43,9 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert
-            var invoker = await Assert.That(result).IsTypeOf<ConstructorCustomization>();
+            var invoker = await Assert.That(result).IsAssignableTo<ConstructorCustomization>();
             await Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
-            await Assert.That(invoker.Query).IsTypeOf<GreedyConstructorQuery>();
+            await Assert.That(invoker.Query).IsAssignableTo<GreedyConstructorQuery>();
         }
     }
 }

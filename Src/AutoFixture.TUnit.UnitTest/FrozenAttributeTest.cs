@@ -13,7 +13,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new FrozenAttribute();
             // Assert
-            await Assert.That(sut).IsTypeOf<CustomizeAttribute>();
+            await Assert.That(sut).IsAssignableTo<CustomizeAttribute>();
         }
 
         [Test]

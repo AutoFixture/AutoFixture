@@ -16,7 +16,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new DelegatingDataSource();
 
             // Assert
-            await Assert.That(sut).IsTypeOf<IDataSource>();
+            await Assert.That(sut).IsAssignableTo<IDataSource>();
         }
 
         [Test]

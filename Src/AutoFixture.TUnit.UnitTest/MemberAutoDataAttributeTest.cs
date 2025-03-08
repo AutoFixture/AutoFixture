@@ -23,7 +23,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new MemberAutoDataAttribute(memberName);
 
             // Assert
-            await Assert.That(sut).IsTypeOf<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsAssignableTo<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
@@ -197,9 +197,9 @@ namespace AutoFixture.TUnit.UnitTest
             _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!));
 
             // Assert
-            var composite = await Assert.That(customizationLog[0]).IsTypeOf<CompositeCustomization>();
+            var composite = await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
             await Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
-            await Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(composite.Customizations.Last()).IsAssignableTo<FreezeOnMatchCustomization>();
         }
 
         [Test]

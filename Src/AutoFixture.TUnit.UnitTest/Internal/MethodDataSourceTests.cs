@@ -29,7 +29,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new MethodDataSource(methodInfo);
 
             // Assert
-            await Assert.That(sut).IsTypeOf<DataSource>();
+            await Assert.That(sut).IsAssignableTo<DataSource>();
         }
 
         [Test]

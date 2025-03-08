@@ -18,7 +18,7 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new AutoDataAttribute();
 
             // Assert
-            await Assert.That(sut).IsTypeOf<NonTypedDataSourceGeneratorAttribute>();
+            await Assert.That(sut).IsAssignableTo<NonTypedDataSourceGeneratorAttribute>();
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace AutoFixture.TUnit.UnitTest
             var result = sut.FixtureFactory();
 
             // Assert
-            await Assert.That(result).IsTypeOf<Fixture>();
+            await Assert.That(result).IsAssignableTo<Fixture>();
         }
 
         [Test]
@@ -147,12 +147,12 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            await Assert.That(customizationLog[0]).IsTypeOf<CompositeCustomization>();
+            await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
 
             var composite = (CompositeCustomization)customizationLog[0];
 
             await Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
-            await Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(composite.Customizations.Last()).IsAssignableTo<FreezeOnMatchCustomization>();
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace AutoFixture.TUnit.UnitTest
                 .Select(x => x()).ToArray();
 
             // Assert
-            await Assert.That(customizationLog[0]).IsTypeOf<TypeWithIParameterCustomizationSourceUsage.Customization>();
+            await Assert.That(customizationLog[0]).IsAssignableTo<TypeWithIParameterCustomizationSourceUsage.Customization>();
         }
     }
 }

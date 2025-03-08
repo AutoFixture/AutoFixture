@@ -15,7 +15,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var sut = new NoAutoPropertiesAttribute();
             // Assert
-            await Assert.That(sut).IsTypeOf<CustomizeAttribute>();
+            await Assert.That(sut).IsAssignableTo<CustomizeAttribute>();
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act
             var result = sut.GetCustomization(parameter);
             // Assert
-            await Assert.That(result).IsTypeOf<NoAutoPropertiesCustomization>();
+            await Assert.That(result).IsAssignableTo<NoAutoPropertiesCustomization>();
         }
     }
 }

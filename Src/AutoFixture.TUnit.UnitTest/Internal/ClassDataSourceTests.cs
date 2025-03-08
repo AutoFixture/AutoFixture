@@ -19,7 +19,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new ClassDataSource(typeof(object), Array.Empty<object>());
 
             // Assert
-            await Assert.That(sut).IsTypeOf<IDataSource>();
+            await Assert.That(sut).IsAssignableTo<IDataSource>();
         }
 
         [Test]

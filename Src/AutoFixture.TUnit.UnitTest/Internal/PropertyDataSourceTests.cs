@@ -20,7 +20,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new PropertyDataSource(sourceProperty);
 
             // Assert
-            await Assert.That(sut).IsTypeOf<IDataSource>();
+            await Assert.That(sut).IsAssignableTo<IDataSource>();
         }
 
         public static IEnumerable<object[]> TestDataPropertyWithMixedValues =>

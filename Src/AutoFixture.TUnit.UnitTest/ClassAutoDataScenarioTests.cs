@@ -53,15 +53,15 @@ namespace AutoFixture.TUnit.UnitTest
             [FavorArrays] CompositeTypeWithOverloadedConstructors<string> strings,
             [FavorLists] CompositeTypeWithOverloadedConstructors<EnumType> enums)
         {
-            await Assert.That(numbers.Items).IsTypeOf<IEnumerable<int>>();
+            await Assert.That(numbers.Items).IsAssignableTo<IEnumerable<int>>();
             await Assert.That(numbers.Items).IsNotTypeOf<List<int>>();
             await Assert.That(numbers.Items).IsNotTypeOf<int[]>();
             await Assert.That(numbers.Items).All().Satisfy(item => item.IsEqualTo(a));
 
-            await Assert.That(strings.Items).IsTypeOf<string[]>();
+            await Assert.That(strings.Items).IsAssignableTo<string[]>();
             await Assert.That(strings.Items).All().Satisfy(item => item.IsEqualTo(b));
 
-            await Assert.That(enums.Items).IsTypeOf<List<EnumType>>();
+            await Assert.That(enums.Items).IsAssignableTo<List<EnumType>>();
             await Assert.That(enums.Items).All().Satisfy(item => item.IsEqualTo(c));
         }
     }

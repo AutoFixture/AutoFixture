@@ -25,7 +25,7 @@ public class MemberDataSourceTests
             nameof(GetEmptyTestData));
 
         // Assert
-        await Assert.That(sut).IsTypeOf<IDataSource>();
+        await Assert.That(sut).IsAssignableTo<IDataSource>();
     }
 
     [Test]
