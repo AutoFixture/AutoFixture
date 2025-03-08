@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.Enums;
 using TUnit.Assertions.Equality;
 
 namespace AutoFixture.TUnit.UnitTest;
@@ -30,10 +28,7 @@ public class CompositeDataAttributeSufficientDataTest
             .ToArray();
 
         // Assert
-        await Assert.That(result).IsEquivalentTo(expectedResult, new CollectionEquivalentToEqualityComparer<object[]>(new CompareOptions
-        {
-            EquivalencyKind = EquivalencyKind.Partial
-        }));
+        await Assert.That(result).IsEquivalentTo(expectedResult, new CollectionEquivalentToEqualityComparer<object[]>());
     }
 
     public IEnumerable<(IEnumerable<AutoFixtureDataSourceAttribute> Attributes,
@@ -191,16 +186,6 @@ public class CompositeDataAttributeSufficientDataTest
             expected:
             [
                 [1]
-            ]);
-
-        yield return CreateTestData(
-            data:
-            [
-                new FakeDataAttribute(this.method, [[1, 2, 3, 4]])
-            ],
-            expected:
-            [
-                [1, 2, 3, 4]
             ]);
     }
 

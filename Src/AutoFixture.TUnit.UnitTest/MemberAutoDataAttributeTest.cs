@@ -93,14 +93,14 @@ public class MemberAutoDataAttributeTest
     }
 
     [Test]
-    public async Task ThrowsWhenTestMethodNull()
+    public void ThrowsWhenTestMethodNull()
     {
         // Arrange
         var sut = new MemberAutoDataAttribute("memberName");
 
         // Act & Assert
         Assert.Throws<Exception>(
-            () => sut.GenerateDataSources(null!));
+            () => sut.GenerateDataSources(null!).Select(x => x()).ToArray());
     }
 
     [Test]
@@ -113,9 +113,8 @@ public class MemberAutoDataAttributeTest
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
-                .Select(x => x())
-                .ToArray());
+            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray()
+        );
 
         await Assert.That(ex.Message).Contains(memberName);
     }
@@ -130,9 +129,9 @@ public class MemberAutoDataAttributeTest
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
-                .Select(x => x())
-                .ToArray());
+            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray()
+        );
+
         await Assert.That(ex.Message).Contains(memberName);
     }
 

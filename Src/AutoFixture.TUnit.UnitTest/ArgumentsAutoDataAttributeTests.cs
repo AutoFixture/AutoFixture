@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
-using TUnit.Core.Enums;
 
 namespace AutoFixture.TUnit.UnitTest;
 

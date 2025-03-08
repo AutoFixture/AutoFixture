@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using AutoFixture.TUnit.Extensions;
+using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit
 {
@@ -40,23 +40,20 @@ namespace AutoFixture.TUnit
         public IReadOnlyList<AutoFixtureDataSourceAttribute> Attributes => Array.AsReadOnly(this.attributes);
 
         /// <inheritdoc />
-        public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata metadata)
         {
-            var testMethod = dataGeneratorMetadata.GetMethod();
+            if (metadata is null) throw new ArgumentNullException(nameof(metadata));
 
-            if (testMethod is null)
-            {
-                throw new ArgumentNullException(nameof(testMethod));
-            }
+            var results = this.attributes
+                .Select(attr => attr.GenerateDataSources(metadata))
+                .ToArray();
 
-            foreach (var dataSource in this.attributes
-                         .Select(attr => attr.GenerateDataSources(dataGeneratorMetadata)))
-            {
-                foreach (var func in dataSource)
-                {
-                    yield return func();
-                }
-            }
+            var theoryRows = results
+                .Select(x => x.Select(y => y()))
+                .Zip(dataSets => dataSets.Collapse().ToArray())
+                .ToArray();
+
+            return theoryRows;
         }
     }
 }

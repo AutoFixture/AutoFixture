@@ -102,7 +102,7 @@ public class CompositeDataAttributeTest
             new FakeDataAttribute(method, []));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
                 .Select(x => x())
                 .ToArray();
 
