@@ -99,8 +99,8 @@ namespace AutoFixture.TUnit.UnitTest
             var sut = new MemberAutoDataAttribute("memberName");
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(
-                () => sut.GenerateDataSources(null!).AsTask());
+            Assert.Throws<ArgumentNullException>(
+                () => sut.GenerateDataSources(null!));
         }
 
         [Test]
@@ -112,9 +112,10 @@ namespace AutoFixture.TUnit.UnitTest
             var method = TestTypeWithMethodData.GetNonEnumerableMethodInfo();
 
             // Act & Assert
-            var ex = await Assert.ThrowsAsync<ArgumentException>(
+            var ex = Assert.Throws<ArgumentException>(
                 () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)));
-            Assert.Contains(memberName, ex.Message);
+
+            await Assert.That(ex.Message).Contains(memberName);
         }
 
         [Test]
@@ -128,7 +129,7 @@ namespace AutoFixture.TUnit.UnitTest
             // Act & Assert
             var ex = Assert.Throws<ArgumentException>(
                 () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)));
-            Assert.Contains(memberName, ex.Message);
+            await Assert.That(ex.Message).Contains(memberName);
         }
 
         [Test]
@@ -140,9 +141,9 @@ namespace AutoFixture.TUnit.UnitTest
             var method = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
             // Act & Assert
-            var ex = await Assert.ThrowsAsync<ArgumentException>(
+            var ex = Assert.Throws<ArgumentException>(
                 () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)));
-            Assert.Contains(memberName, ex.Message);
+            await Assert.That(ex.Message).Contains(memberName);
         }
 
         [Test]
@@ -197,8 +198,8 @@ namespace AutoFixture.TUnit.UnitTest
 
             // Assert
             var composite = await Assert.That(customizationLog[0]).IsTypeOf<CompositeCustomization>();
-            Assert.IsNotType<FreezeOnMatchCustomization>(composite.Customizations.First());
-            Assert.IsType<FreezeOnMatchCustomization>(composite.Customizations.Last());
+            await Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
+            await Assert.That(composite.Customizations.Last()).IsTypeOf<FreezeOnMatchCustomization>();
         }
 
         [Test]
@@ -278,29 +279,25 @@ namespace AutoFixture.TUnit.UnitTest
             var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
                 .Select(x => x()).ToArray();
 
+            var arguments1 = testData[0];
+            var arguments2 = testData[1];
+            var arguments3 = testData[2];
+
             // Assert
-            Assert.Collection(testData,
-                arguments =>
-                {
-                    Assert.That(arguments.Length).IsEqualTo(3);
-                    Assert.That(arguments[0]).IsEqualTo("value-one");
-                    Assert.That(arguments[1]).IsNotEqualTo(0);
-                    Assert.That(arguments[2]).IsNotEqualTo(0);
-                },
-                arguments =>
-                {
-                    Assert.That(arguments.Length).IsEqualTo(3);
-                    Assert.That(arguments[0]).IsEqualTo("value-two");
-                    Assert.That(arguments[1]).IsNotEqualTo(0);
-                    Assert.That(arguments[2]).IsNotEqualTo(0);
-                },
-                arguments =>
-                {
-                    Assert.That(arguments.Length).IsEqualTo(3);
-                    Assert.That(arguments[0]).IsEqualTo("value-three");
-                    Assert.That(arguments[1]).IsNotEqualTo(0);
-                    Assert.That(arguments[2]).IsNotEqualTo(0);
-                });
+            await Assert.That(arguments1.Length).IsEqualTo(3);
+            await Assert.That(arguments1[0]).IsEqualTo("value-one");
+            await Assert.That(arguments1[1]).IsNotEqualTo(0);
+            await Assert.That(arguments1[2]).IsNotEqualTo(0);
+
+            await Assert.That(arguments2.Length).IsEqualTo(3);
+            await Assert.That(arguments2[0]).IsEqualTo("value-two");
+            await Assert.That(arguments2[1]).IsNotEqualTo(0);
+            await Assert.That(arguments2[2]).IsNotEqualTo(0);
+
+            await Assert.That(arguments3.Length).IsEqualTo(3);
+            await Assert.That(arguments3[0]).IsEqualTo("value-three");
+            await Assert.That(arguments3[1]).IsNotEqualTo(0);
+            await Assert.That(arguments3[2]).IsNotEqualTo(0);
         }
 
         [Test]
@@ -337,29 +334,25 @@ namespace AutoFixture.TUnit.UnitTest
             var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
                 .Select(x => x()).ToArray();
 
+            var arguments1 = testData[0];
+            var arguments2 = testData[1];
+            var arguments3 = testData[2];
+
             // Assert
-            Assert.Collection(testData,
-                arguments =>
-                {
-                    Assert.That(arguments.Length).IsEqualTo(3);
-                    Assert.That(arguments[0]).IsEqualTo("value-one");
-                    Assert.That(arguments[1].ToString()!).IsNotEmpty();
-                    Assert.That(arguments[2]).IsEqualTo(arguments[1]);
-                },
-                arguments =>
-                {
-                    Assert.That(arguments.Length).IsEqualTo(3);
-                    Assert.That(arguments[0]).IsEqualTo("value-two");
-                    Assert.That(arguments[1].ToString()!).IsNotEmpty();
-                    Assert.That(arguments[2]).IsEqualTo(arguments[1]);
-                },
-                arguments =>
-                {
-                    Assert.That(arguments.Length).IsEqualTo(3);
-                    Assert.That(arguments[0]).IsEqualTo("value-three");
-                    Assert.That(arguments[1].ToString()!).IsNotEmpty();
-                    Assert.That(arguments[2]).IsEqualTo(arguments[1]);
-                });
+            await Assert.That(arguments1.Length).IsEqualTo(3);
+            await Assert.That(arguments1[0]).IsEqualTo("value-one");
+            await Assert.That(arguments1[1].ToString()!).IsNotEmpty();
+            await Assert.That(arguments1[2]).IsEqualTo(arguments1[1]);
+
+            await Assert.That(arguments2.Length).IsEqualTo(3);
+            await Assert.That(arguments2[0]).IsEqualTo("value-two");
+            await Assert.That(arguments2[1].ToString()!).IsNotEmpty();
+            await Assert.That(arguments2[2]).IsEqualTo(arguments2[1]);
+
+            await Assert.That(arguments3.Length).IsEqualTo(3);
+            await Assert.That(arguments3[0]).IsEqualTo("value-three");
+            await Assert.That(arguments3[1].ToString()!).IsNotEmpty();
+            await Assert.That(arguments3[2]).IsEqualTo(arguments3[1]);
         }
 
         [Test]
