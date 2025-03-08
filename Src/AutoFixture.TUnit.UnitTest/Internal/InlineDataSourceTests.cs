@@ -46,7 +46,7 @@ public class InlineDataSourceTests
         var sut = new InlineDataSource(Array.Empty<object>());
         // Act & Assert
         await Assert.That(() =>
-            sut.GetData(null)).ThrowsExactly<ArgumentNullException>();
+            sut.GenerateDataSources(null)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -60,7 +60,7 @@ public class InlineDataSourceTests
 
         // Act & Assert
         await Assert.That(() =>
-            sut.GetData(testMethod)).ThrowsExactly<InvalidOperationException>();
+            sut.GenerateDataSources(testMethod)).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(testMethod);
+        var result = sut.GenerateDataSources(testMethod);
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();
@@ -90,7 +90,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GetData(testMethod);
+        var result = sut.GenerateDataSources(testMethod);
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();

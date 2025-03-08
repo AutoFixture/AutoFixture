@@ -52,7 +52,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var method = typeof(SampleTestType).GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            var result = sut.GetData(method!).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
             // Assert
             await Assert.That(result).IsNotNull();
@@ -90,7 +90,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            var result = sut.GetData(method!).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
             // Assert
             await Assert.That(result).IsNotNull();
@@ -122,7 +122,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            var result = sut.GetData(method!).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
             // Assert
             await Assert.That(result).IsNotNull();
@@ -146,7 +146,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            var result = sut.GetData(method!).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
             // Assert
             await Assert.That(result).IsEmpty();
@@ -163,7 +163,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(method!).ToArray()).ThrowsExactly<InvalidOperationException>();
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            _ = sut.GetData(method!).ToArray();
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
             // Assert
             await Assert.That(customizations).IsEmpty();
@@ -200,7 +200,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithCustomizedParameter));
 
             // Act
-            _ = sut.GetData(method!).ToArray();
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
             // Assert
             await Assert.That(customizations).IsNotEmpty();
@@ -220,7 +220,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleCustomizations));
 
             // Act
-            _ = sut.GetData(method!).ToArray();
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
             // Assert
             using var scope = Assert.Multiple();

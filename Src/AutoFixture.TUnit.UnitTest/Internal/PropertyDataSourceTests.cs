@@ -63,7 +63,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new PropertyDataSource(sourceProperty);
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(null!)).ThrowsExactly<ArgumentNullException>();
+            await Assert.That(() => sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(method).ToArray()).ThrowsExactly<InvalidCastException>();
+            await Assert.That(() => sut.GenerateDataSources(method).ToArray()).ThrowsExactly<InvalidCastException>();
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
             // Act
-            var result = sut.GetData(method).ToArray();
+            var result = sut.GenerateDataSources(method).ToArray();
 
             // Assert
             await Assert.That(result).IsEqualTo(expected);
@@ -127,7 +127,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
             // Act
-            var result = sut.GetData(testMethod).ToArray();
+            var result = sut.GenerateDataSources(testMethod).ToArray();
 
             // Assert
             await Assert.That(result).IsEqualTo(expected);

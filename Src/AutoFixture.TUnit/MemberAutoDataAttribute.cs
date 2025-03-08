@@ -95,7 +95,7 @@ namespace AutoFixture.TUnit
         public override IEnumerable<Func<object?[]?>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var testMethod = dataGeneratorMetadata.GetMethod();
-            
+
             if (testMethod is null)
             {
                 throw new ArgumentNullException(nameof(testMethod));

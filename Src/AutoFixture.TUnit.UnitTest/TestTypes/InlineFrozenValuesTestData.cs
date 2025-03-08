@@ -8,7 +8,7 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
         object[] expected)>
     {
         public override IEnumerable<(NonTypedDataSourceGeneratorAttribute attribute, MethodInfo testMethod,
-            object[] expected)> GetData()
+            object[] expected)> GenerateDataSources()
         {
             // All values provided by fixture
             yield return

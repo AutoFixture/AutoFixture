@@ -73,7 +73,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(method).ToArray()).ThrowsExactly<InvalidOperationException>();
+            await Assert.That(() => sut.GenerateDataSources(method).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act
-            var actual = sut.GetData(method).ToArray();
+            var actual = sut.GenerateDataSources(method).ToArray();
 
             // Assert
             await Assert.That(actual).IsEqualTo(expected);
@@ -119,7 +119,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(method).ToArray()).ThrowsExactly<MissingMethodException>();
+            await Assert.That(() => sut.GenerateDataSources(method).ToArray()).ThrowsExactly<MissingMethodException>();
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act
-            var result = sut.GetData(method).ToArray();
+            var result = sut.GenerateDataSources(method).ToArray();
 
             // Assert
             await Assert.That(result.Single()).IsEqualTo(new object[] { "y", 25 });

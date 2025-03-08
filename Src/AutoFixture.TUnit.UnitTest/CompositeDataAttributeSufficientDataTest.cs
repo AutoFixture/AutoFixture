@@ -16,7 +16,7 @@ namespace AutoFixture.TUnit.UnitTest
 
         [Test]
         [MethodDataSource(typeof(CompositeDataAttributeSufficientDataTest), nameof(GetEnumerator))]
-        public async Task GetDataReturnsCorrectResult(IEnumerable<NonTypedDataSourceGeneratorAttribute> attributes,
+        public async Task GenerateDataSourcesReturnsCorrectResult(IEnumerable<NonTypedDataSourceGeneratorAttribute> attributes,
             IEnumerable<object[]> expectedResult)
         {
             // Arrange

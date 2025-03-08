@@ -26,7 +26,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new DelegatingDataSource();
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(null)).ThrowsExactly<ArgumentNullException>();
+            await Assert.That(() => sut.GenerateDataSources(null)).ThrowsExactly<ArgumentNullException>();
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithoutParameters));
 
             // Act
-            var result = sut.GetData(testMethod).ToArray();
+            var result = sut.GenerateDataSources(testMethod).ToArray();
 
             // Assert
             var item = await Assert.That(result).HasSingleItem();
@@ -54,7 +54,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
+            await Assert.That(() => sut.GenerateDataSources(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
             // Act
-            var result = sut.GetData(testMethod).ToArray();
+            var result = sut.GenerateDataSources(testMethod).ToArray();
 
             // Assert
             var testData = await Assert.That(result).HasSingleItem();
@@ -94,7 +94,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            var actual = sut.GetData(testMethod).ToArray();
+            var actual = sut.GenerateDataSources(testMethod).ToArray();
 
             // Assert
             await Assert.That(actual.Length).IsEqualTo(testData.Length);
@@ -111,7 +111,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act & Assert
-            await Assert.That(() => sut.GetData(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
+            await Assert.That(() => sut.GenerateDataSources(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
     }
 }

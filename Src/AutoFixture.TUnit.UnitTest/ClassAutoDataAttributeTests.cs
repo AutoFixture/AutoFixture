@@ -56,7 +56,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataThrowsWhenSourceTypeNotEnumerable()
+        public async Task GenerateDataSourcesThrowsWhenSourceTypeNotEnumerable()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MyClass));
@@ -68,7 +68,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataThrowsWhenParametersDoNotMatchConstructor()
+        public async Task GenerateDataSourcesThrowsWhenParametersDoNotMatchConstructor()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MyClass), "myString", 33, null);
@@ -79,7 +79,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataDoesNotThrowWhenSourceYieldsNoResults()
+        public async Task GenerateDataSourcesDoesNotThrowWhenSourceYieldsNoResults()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(EmptyClassData));
@@ -94,7 +94,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataThrowsWhenSourceYieldsNullResults()
+        public async Task GenerateDataSourcesThrowsWhenSourceYieldsNullResults()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(ClassWithNullTestData));
@@ -105,7 +105,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataDoesNotThrow()
+        public async Task GenerateDataSourcesDoesNotThrow()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
@@ -116,7 +116,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataReturnsEnumerable()
+        public async Task GenerateDataSourcesReturnsEnumerable()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
@@ -130,7 +130,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataReturnsNonEmptyEnumerable()
+        public async Task GenerateDataSourcesReturnsNonEmptyEnumerable()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
@@ -144,7 +144,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataReturnsExpectedTestDataCount()
+        public async Task GenerateDataSourcesReturnsExpectedTestDataCount()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
@@ -158,7 +158,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataThrowsWhenDataSourceNotEnumerable()
+        public async Task GenerateDataSourcesThrowsWhenDataSourceNotEnumerable()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(GuardedConstructorHost<object>));
@@ -169,7 +169,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataThrowsForNonMatchingConstructorTypes()
+        public async Task GenerateDataSourcesThrowsForNonMatchingConstructorTypes()
         {
             // Arrange
             var sut = new ClassAutoDataAttribute(typeof(DelegatingTestData), "myString", 33, null);
@@ -192,7 +192,7 @@ namespace AutoFixture.TUnit.UnitTest
         [Arguments("CreateWithModestAndFrozen")]
         [Arguments("CreateWithFrozenAndNoAutoProperties")]
         [Arguments("CreateWithNoAutoPropertiesAndFrozen")]
-        public async Task GetDataOrdersCustomizationAttributes(string methodName)
+        public async Task GenerateDataSourcesOrdersCustomizationAttributes(string methodName)
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)
@@ -218,7 +218,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataReturnsExpectedTestData()
+        public async Task GenerateDataSourcesReturnsExpectedTestData()
         {
             var builder = new CompositeSpecimenBuilder(
                 new FixedParameterBuilder<int>("a", 1),
@@ -246,7 +246,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataReturnsExpectedTestDataFromParameterizedSource()
+        public async Task GenerateDataSourcesReturnsExpectedTestDataFromParameterizedSource()
         {
             var builder = new CompositeSpecimenBuilder(
                 new FixedParameterBuilder<int>("a", 1),

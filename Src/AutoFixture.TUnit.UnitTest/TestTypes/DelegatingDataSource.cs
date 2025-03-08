@@ -8,7 +8,7 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
     {
         public IEnumerable<object[]> TestData { get; set; } = Array.Empty<object[]>();
 
-        protected override IEnumerable<object[]> GetData()
+        protected override IEnumerable<object[]> GenerateDataSources()
         {
             return this.TestData;
         }

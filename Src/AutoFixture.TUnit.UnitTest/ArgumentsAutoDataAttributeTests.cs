@@ -93,7 +93,7 @@ namespace AutoFixture.TUnit.UnitTest
         [Arguments("CreateWithModestAndFrozen")]
         [Arguments("CreateWithFrozenAndNoAutoProperties")]
         [Arguments("CreateWithNoAutoPropertiesAndFrozen")]
-        public async Task GetDataOrdersCustomizationAttributes(string methodName)
+        public async Task GenerateDataSourcesOrdersCustomizationAttributes(string methodName)
         {
             // Arrange
             var customizationLog = new List<ICustomization>();
@@ -116,8 +116,8 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GetData))]
-        [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GetData))]
+        [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GenerateDataSources))]
+        [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GenerateDataSources))]
         public async Task ReturnsSingleTestDataWithExpectedValues(NonTypedDataSourceGeneratorAttribute attribute, MethodInfo testMethod,
             object[] expected)
         {

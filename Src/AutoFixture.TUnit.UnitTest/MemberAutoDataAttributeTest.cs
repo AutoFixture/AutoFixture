@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 using TestTypeFoundation;
@@ -99,7 +100,7 @@ namespace AutoFixture.TUnit.UnitTest
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(
-                () => sut.GetData(null!, new DisposalTracker()).AsTask());
+                () => sut.GenerateDataSources(null!).AsTask());
         }
 
         [Test]
@@ -112,7 +113,7 @@ namespace AutoFixture.TUnit.UnitTest
 
             // Act & Assert
             var ex = await Assert.ThrowsAsync<ArgumentException>(
-                () => sut.GetData(method!, new DisposalTracker()).AsTask());
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)));
             Assert.Contains(memberName, ex.Message);
         }
 
@@ -125,8 +126,8 @@ namespace AutoFixture.TUnit.UnitTest
             var method = TestTypeWithMethodData.GetNonStaticSourceMethodInfo();
 
             // Act & Assert
-            var ex = await Assert.ThrowsAsync<ArgumentException>(
-                () => sut.GetData(method!, new DisposalTracker()).AsTask());
+            var ex = Assert.Throws<ArgumentException>(
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)));
             Assert.Contains(memberName, ex.Message);
         }
 
@@ -140,7 +141,7 @@ namespace AutoFixture.TUnit.UnitTest
 
             // Act & Assert
             var ex = await Assert.ThrowsAsync<ArgumentException>(
-                () => sut.GetData(method!, new DisposalTracker()).AsTask());
+                () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)));
             Assert.Contains(memberName, ex.Message);
         }
 
@@ -163,19 +164,6 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public void PreDiscoveryShouldBeDisabled()
-        {
-            // Arrange
-            var sut = new MemberAutoDataAttribute("memberName");
-
-            // Act
-            var preDiscoverer = sut.SupportsDiscoveryEnumeration();
-
-            // Assert
-            Assert.That(preDiscoverer).IsFalse();
-        }
-
-        [Test]
         [Arguments("CreateWithFrozenAndFavorArrays")]
         [Arguments("CreateWithFavorArraysAndFrozen")]
         [Arguments("CreateWithFrozenAndFavorEnumerables")]
@@ -188,7 +176,7 @@ namespace AutoFixture.TUnit.UnitTest
         [Arguments("CreateWithModestAndFrozen")]
         [Arguments("CreateWithFrozenAndNoAutoProperties")]
         [Arguments("CreateWithNoAutoPropertiesAndFrozen")]
-        public async Task GetDataOrdersCustomizationAttributes(string methodName)
+        public async Task GenerateDataSourcesOrdersCustomizationAttributes(string methodName)
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)
@@ -205,7 +193,7 @@ namespace AutoFixture.TUnit.UnitTest
                 nameof(TestTypeWithMethodData.TestDataWithNoValues));
 
             // Act
-            _ = await sut.GetData(method!, new DisposalTracker());
+            _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!));
 
             // Assert
             var composite = await Assert.That(customizationLog[0]).IsTypeOf<CompositeCustomization>();
@@ -228,11 +216,11 @@ namespace AutoFixture.TUnit.UnitTest
             };
 
             // Act
-            var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x()).ToArray();
 
             // Assert
-            Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -250,10 +238,10 @@ namespace AutoFixture.TUnit.UnitTest
             };
 
             // Act
-            var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x()).ToArray();
 
-            Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -271,11 +259,11 @@ namespace AutoFixture.TUnit.UnitTest
             };
 
             // Act
-            var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x()).ToArray();
 
             // Assert
-            Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -287,8 +275,8 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
             // Act
-            var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x()).ToArray();
 
             // Assert
             Assert.Collection(testData,
@@ -319,7 +307,7 @@ namespace AutoFixture.TUnit.UnitTest
         public async Task GeneratesTestDataWithInjectedParameters()
         {
             // Arrange
-            const string memberName = nameof(TestTypeWithMethodData.GetDataForTestWithFrozenParameter);
+            const string memberName = nameof(TestTypeWithMethodData.GenerateDataSourcesForTestWithFrozenParameter);
             var sut = new MemberAutoDataAttribute(memberName);
             var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
             var expected = new[]
@@ -330,11 +318,11 @@ namespace AutoFixture.TUnit.UnitTest
             };
 
             // Act
-            var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x()).ToArray();
 
             // Assert
-            Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEqualTo(expected);
         }
 
         [Test]
@@ -346,8 +334,8 @@ namespace AutoFixture.TUnit.UnitTest
             var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
 
             // Act
-            var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x()).ToArray();
 
             // Assert
             Assert.Collection(testData,
@@ -389,11 +377,11 @@ namespace AutoFixture.TUnit.UnitTest
             };
 
             // Act
-            var testData = (await sut.GetData(testMethod!, new DisposalTracker()))
-                .Select(x => x.GetData()).ToArray();
+            var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+                .Select(x => x()).ToArray();
 
             // Assert
-            Assert.That(testData).IsEqualTo(expected);
+            await Assert.That(testData).IsEqualTo(expected);
         }
 
         public static IEnumerable<object[]> TestDataWithNullValues

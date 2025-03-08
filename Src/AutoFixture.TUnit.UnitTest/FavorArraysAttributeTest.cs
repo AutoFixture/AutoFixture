@@ -41,8 +41,8 @@ namespace AutoFixture.TUnit.UnitTest
             var result = sut.GetCustomization(parameter);
             // Assert
             var invoker = await Assert.That(result).IsTypeOf<ConstructorCustomization>();
-            Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
-            Assert.That(invoker.Query).IsTypeOf<ArrayFavoringConstructorQuery>();
+            await Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
+            await Assert.That(invoker.Query).IsTypeOf<ArrayFavoringConstructorQuery>();
         }
     }
 }

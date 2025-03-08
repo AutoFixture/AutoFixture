@@ -53,6 +53,6 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
             }
         }
 
-        public abstract IEnumerable<T> GetData();
+        public abstract IEnumerable<T> GenerateDataSources();
     }
 }

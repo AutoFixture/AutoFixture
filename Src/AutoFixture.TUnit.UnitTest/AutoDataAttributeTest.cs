@@ -74,7 +74,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataWithNullMethodThrows()
+        public async Task GenerateDataSourcesWithNullMethodThrows()
         {
             // Arrange
             var sut = new AutoDataAttribute();
@@ -84,7 +84,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataReturnsCorrectResult()
+        public async Task GenerateDataSourcesReturnsCorrectResult()
         {
             // Arrange
             var method = typeof(TypeWithOverloadedMembers)
@@ -130,7 +130,7 @@ namespace AutoFixture.TUnit.UnitTest
         [Arguments("CreateWithModestAndFrozen")]
         [Arguments("CreateWithFrozenAndNoAutoProperties")]
         [Arguments("CreateWithNoAutoPropertiesAndFrozen")]
-        public async Task GetDataOrdersCustomizationAttributes(string methodName)
+        public async Task GenerateDataSourcesOrdersCustomizationAttributes(string methodName)
         {
             // Arrange
             var method = typeof(TypeWithCustomizationAttributes)

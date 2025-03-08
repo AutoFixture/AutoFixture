@@ -80,7 +80,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataWithNullMethodThrows()
+        public async Task GenerateDataSourcesWithNullMethodThrows()
         {
             // Arrange
             var sut = new CompositeDataAttribute();
@@ -89,7 +89,7 @@ namespace AutoFixture.TUnit.UnitTest
         }
 
         [Test]
-        public async Task GetDataOnMethodWithNoParametersReturnsNoTheory()
+        public async Task GenerateDataSourcesOnMethodWithNoParametersReturnsNoTheory()
         {
             // Arrange
             Action a = () => { };

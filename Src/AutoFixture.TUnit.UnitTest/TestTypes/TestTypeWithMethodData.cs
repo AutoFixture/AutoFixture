@@ -105,7 +105,7 @@ namespace AutoFixture.TUnit.UnitTest.TestTypes
             await Assert.That(c).IsEqualTo(b);
         }
 
-        public static IEnumerable<object[]> GetDataForTestWithFrozenParameter()
+        public static IEnumerable<object[]> GenerateDataSourcesForTestWithFrozenParameter()
         {
             yield return ["value-one", "value-two"];
             yield return ["value-two", "value-three"];
