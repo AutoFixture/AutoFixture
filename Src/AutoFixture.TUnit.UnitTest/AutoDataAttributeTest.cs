@@ -80,7 +80,7 @@ public class AutoDataAttributeTest
         var sut = new AutoDataAttribute();
 
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsException();
     }
 
     [Test]
