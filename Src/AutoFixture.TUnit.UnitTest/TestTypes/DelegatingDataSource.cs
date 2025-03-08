@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit.UnitTest.TestTypes
 {
-    public class DelegatingDataSource : DataSource
+    public class DelegatingDataSource : NonTypedDataSourceGeneratorAttribute
     {
         public IEnumerable<object[]> TestData { get; set; } = Array.Empty<object[]>();
 
-        protected override IEnumerable<object[]> GenerateDataSources()
+        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            return this.TestData;
+            return this.TestData.Select(x => new Func<object[]>(() => x));
         }
     }
 }
