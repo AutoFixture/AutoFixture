@@ -9,7 +9,7 @@ namespace AutoFixture.TUnit.Internal
     /// </summary>
     [SuppressMessage("Design", "CA1010:Generic interface should also be implemented",
         Justification = "Type is not a collection.")]
-    public sealed class InlineDataSource : IDataSource
+    public sealed class InlineDataSource : AutoFixtureDataSourceAttribute
     {
         private readonly object[] values;
 
@@ -30,8 +30,7 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         public IReadOnlyList<object> Values => Array.AsReadOnly(this.values);
 
-        /// <inheritdoc/>
-        public IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             if (dataGeneratorMetadata is null)
             {
@@ -45,7 +44,7 @@ namespace AutoFixture.TUnit.Internal
                     "The number of arguments provided exceeds the number of parameters.");
             }
 
-            yield return () => this.values;
+            yield return this.values;
         }
     }
 }

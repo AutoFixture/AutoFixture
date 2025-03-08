@@ -12,16 +12,16 @@ namespace AutoFixture.TUnit
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    public class CompositeDataAttribute : NonTypedDataSourceGeneratorAttribute
+    public class CompositeDataAttribute : AutoFixtureDataSourceAttribute
     {
-        private readonly NonTypedDataSourceGeneratorAttribute[] attributes;
+        private readonly AutoFixtureDataSourceAttribute[] attributes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a data theory.</param>
-        public CompositeDataAttribute(IEnumerable<NonTypedDataSourceGeneratorAttribute> attributes)
-            : this(attributes as NonTypedDataSourceGeneratorAttribute[] ?? attributes.ToArray())
+        public CompositeDataAttribute(IEnumerable<AutoFixtureDataSourceAttribute> attributes)
+            : this(attributes as AutoFixtureDataSourceAttribute[] ?? attributes.ToArray())
         {
         }
 
@@ -29,7 +29,7 @@ namespace AutoFixture.TUnit
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a data theory.</param>
-        public CompositeDataAttribute(params NonTypedDataSourceGeneratorAttribute[] attributes)
+        public CompositeDataAttribute(params AutoFixtureDataSourceAttribute[] attributes)
         {
             this.attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
         }
@@ -37,10 +37,10 @@ namespace AutoFixture.TUnit
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IReadOnlyList<NonTypedDataSourceGeneratorAttribute> Attributes => Array.AsReadOnly(this.attributes);
+        public IReadOnlyList<AutoFixtureDataSourceAttribute> Attributes => Array.AsReadOnly(this.attributes);
 
         /// <inheritdoc />
-        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var testMethod = dataGeneratorMetadata.GetMethod();
 
@@ -54,7 +54,7 @@ namespace AutoFixture.TUnit
             {
                 foreach (var func in dataSource)
                 {
-                    yield return func;
+                    yield return func();
                 }
             }
         }

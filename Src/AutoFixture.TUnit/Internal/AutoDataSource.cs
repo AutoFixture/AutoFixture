@@ -40,30 +40,28 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         /// <param name="method">The target method for which to provide the arguments.</param>
         /// <returns>Returns a sequence of argument collections.</returns>
-        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata metadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata metadata)
         {
             return this.Source is null
                 ? this.GenerateValues(metadata)
                 : this.CombineValues(metadata, this.Source);
         }
 
-        private IEnumerable<Func<object[]>> GenerateValues(DataGeneratorMetadata metadata)
+        private IEnumerable<object[]> GenerateValues(DataGeneratorMetadata metadata)
         {
             var parameters = Array.ConvertAll(metadata.GetMethod().GetParameters(), TestParameter.From);
             var fixture = this.CreateFixture();
-            yield return () => Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
+            yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
         }
 
-        private IEnumerable<Func<object[]>> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
+        private IEnumerable<object[]> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
         {
             var method = metadata.GetMethod();
 
             var parameters = Array.ConvertAll(method.GetParameters(), TestParameter.From);
 
-            foreach (var testDataFunc in source.GenerateDataSources(metadata))
+            foreach (var testData in source.GetData(metadata))
             {
-                var testData = testDataFunc();
-
                 var customizations = parameters.Take(testData.Length)
                     .Zip(testData, (parameter, value) => new Argument(parameter, value))
                     .Select(argument => argument.GetCustomization())
@@ -80,14 +78,14 @@ namespace AutoFixture.TUnit.Internal
                     .Select(parameter => GenerateAutoValue(parameter, fixture))
                     .ToArray();
 
-                yield return () => testData.Concat(missingValues).ToArray();
+                yield return testData.Concat(missingValues).ToArray();
             }
         }
 
         private static object GenerateAutoValue(TestParameter parameter, IFixture fixture)
         {
             var customization = parameter.GetCustomization();
-            
+
             if (customization is not NullCustomization)
             {
                 fixture.Customize(customization);

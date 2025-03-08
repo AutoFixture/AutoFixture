@@ -37,7 +37,7 @@ namespace AutoFixture.TUnit.Internal
         public IReadOnlyList<object> Parameters => Array.AsReadOnly(this.parameters);
 
         /// <inheritdoc/>
-        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
 
@@ -46,7 +46,7 @@ namespace AutoFixture.TUnit.Internal
                 throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
             }
 
-            return enumerable.Select(x => new Func<object[]>(() => x));
+            return enumerable;
         }
     }
 }

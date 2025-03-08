@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit
@@ -12,7 +13,7 @@ namespace AutoFixture.TUnit
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    public class AutoDataAttribute : NonTypedDataSourceGeneratorAttribute
+    public class AutoDataAttribute : AutoFixtureDataSourceAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDataAttribute" /> class.
@@ -45,11 +46,11 @@ namespace AutoFixture.TUnit
         public Func<IFixture> FixtureFactory { get; }
 
         /// <inheritdoc />
-        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var source = new AutoDataSource(this.FixtureFactory);
 
-            return source.GenerateDataSources(dataGeneratorMetadata);
+            return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
         }
     }
 }

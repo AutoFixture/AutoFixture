@@ -29,7 +29,7 @@ namespace AutoFixture.TUnit.Internal
         public PropertyInfo PropertyInfo { get; }
 
         /// <inheritdoc/>
-        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var value = this.PropertyInfo.GetValue(null);
 
@@ -38,7 +38,7 @@ namespace AutoFixture.TUnit.Internal
                 throw new InvalidCastException("Member does not return an enumerable value.");
             }
 
-            return enumerable.Select(x => new Func<object[]>(() => x));
+            return enumerable;
         }
     }
 }

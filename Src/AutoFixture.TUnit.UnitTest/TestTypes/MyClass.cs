@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.TUnit.UnitTest.TestTypes
+﻿namespace AutoFixture.TUnit.UnitTest.TestTypes;
+
+public class MyClass
 {
-    public class MyClass
-    {
-        public T Echo<T>(T item) => item;
-    }
+    public T Echo<T>(T item) => item;
 }

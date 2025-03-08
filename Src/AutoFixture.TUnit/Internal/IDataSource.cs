@@ -13,6 +13,6 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         /// <param name="dataGeneratorMetadata">The target method for which to provide the arguments.</param>
         /// <returns>Returns a sequence of argument collections.</returns>
-        IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata);
+        IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata);
     }
 }

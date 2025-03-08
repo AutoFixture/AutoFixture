@@ -2,38 +2,37 @@
 using System.Threading.Tasks;
 using AutoFixture.TUnit.UnitTest.TestTypes;
 
-namespace AutoFixture.TUnit.UnitTest
+namespace AutoFixture.TUnit.UnitTest;
+
+public class CustomizeAttributeTest
 {
-    public class CustomizeAttributeTest
+    [Test]
+    public async Task TestableSutIsSut()
     {
-        [Test]
-        public async Task TestableSutIsSut()
-        {
-            // Arrange
-            // Act
-            var sut = new DelegatingCustomizeAttribute();
-            // Assert
-            await Assert.That(sut).IsAssignableTo<CustomizeAttribute>();
-        }
+        // Arrange
+        // Act
+        var sut = new DelegatingCustomizeAttribute();
+        // Assert
+        await Assert.That(sut).IsAssignableTo<CustomizeAttribute>();
+    }
 
-        [Test]
-        public async Task SutIsAttribute()
-        {
-            // Arrange
-            // Act
-            var sut = new DelegatingCustomizeAttribute();
-            // Assert
-            await Assert.That(sut).IsAssignableTo<Attribute>();
-        }
+    [Test]
+    public async Task SutIsAttribute()
+    {
+        // Arrange
+        // Act
+        var sut = new DelegatingCustomizeAttribute();
+        // Assert
+        await Assert.That(sut).IsAssignableTo<Attribute>();
+    }
 
-        [Test]
-        public async Task SutImplementsIParameterCustomizationSource()
-        {
-            // Arrange
-            // Act
-            var sut = new DelegatingCustomizeAttribute();
-            // Assert
-            await Assert.That(sut).IsAssignableTo<IParameterCustomizationSource>();
-        }
+    [Test]
+    public async Task SutImplementsIParameterCustomizationSource()
+    {
+        // Arrange
+        // Act
+        var sut = new DelegatingCustomizeAttribute();
+        // Assert
+        await Assert.That(sut).IsAssignableTo<IParameterCustomizationSource>();
     }
 }

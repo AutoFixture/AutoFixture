@@ -37,7 +37,7 @@ namespace AutoFixture.TUnit.Internal
         public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
 
         /// <inheritdoc/>
-        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
+        public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var value = this.MethodInfo.Invoke(null, this.arguments);
             if (value is not IEnumerable<object[]> enumerable)
@@ -45,7 +45,7 @@ namespace AutoFixture.TUnit.Internal
                 throw new InvalidCastException("Member does not return an enumerable value.");
             }
 
-            return enumerable.Select(x => new Func<object[]>(() => x));
+            return enumerable;
         }
     }
 }

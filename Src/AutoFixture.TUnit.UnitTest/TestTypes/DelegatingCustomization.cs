@@ -1,19 +1,18 @@
 ﻿using System;
 
-namespace AutoFixture.TUnit.UnitTest.TestTypes
+namespace AutoFixture.TUnit.UnitTest.TestTypes;
+
+internal class DelegatingCustomization : ICustomization
 {
-    internal class DelegatingCustomization : ICustomization
+    internal DelegatingCustomization()
     {
-        internal DelegatingCustomization()
-        {
-            this.OnCustomize = _ => { };
-        }
-
-        public void Customize(IFixture fixture)
-        {
-            this.OnCustomize(fixture);
-        }
-
-        internal Action<IFixture> OnCustomize { get; set; }
+        this.OnCustomize = _ => { };
     }
+
+    public void Customize(IFixture fixture)
+    {
+        this.OnCustomize(fixture);
+    }
+
+    internal Action<IFixture> OnCustomize { get; set; }
 }
