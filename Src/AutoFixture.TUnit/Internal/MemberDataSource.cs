@@ -49,12 +49,6 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         protected DataSource Source { get; }
 
-        /// <inheritdoc />
-        public IEnumerable<object[]> GetData(MethodBase method)
-        {
-            return this.Source.GetData(method);
-        }
-
         private DataSource GetTestDataSource()
         {
             var sourceMember = this.Type.GetMember(this.Name,
@@ -88,6 +82,11 @@ namespace AutoFixture.TUnit.Internal
                 MethodInfo methodInfo => new MethodDataSource(methodInfo, this.arguments),
                 _ => throw new InvalidOperationException("Unsupported member type.")
             };
+        }
+
+        public IEnumerable<Func<object?[]?>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
+        {
+            return this.Source.GenerateDataSources(dataGeneratorMetadata);
         }
     }
 }

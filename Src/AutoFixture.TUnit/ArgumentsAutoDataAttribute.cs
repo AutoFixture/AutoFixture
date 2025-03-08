@@ -52,11 +52,8 @@ namespace AutoFixture.TUnit
         /// <inheritdoc />
         public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            foreach (var array in new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
-                         .GetData(dataGeneratorMetadata.GetMethod()))
-            {
-                yield return () => array;
-            }
+            return new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
+                .GenerateDataSources(dataGeneratorMetadata);
         }
     }
 }

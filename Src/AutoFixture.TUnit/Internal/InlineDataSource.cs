@@ -31,22 +31,21 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         public IReadOnlyList<object> Values => Array.AsReadOnly(this.values);
 
-        /// <inheritdoc />
-        public IEnumerable<object[]> GetData(MethodBase method)
+        public IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            if (method is null)
+            if (dataGeneratorMetadata is null)
             {
-                throw new ArgumentNullException(nameof(method));
+                throw new ArgumentNullException(nameof(dataGeneratorMetadata));
             }
 
-            var parameters = method.GetParameters();
-            if (this.values.Length > parameters.Length)
+            var membersToGenerate = dataGeneratorMetadata.MembersToGenerate;
+            if (this.values.Length > membersToGenerate.Length)
             {
                 throw new InvalidOperationException(
                     "The number of arguments provided exceeds the number of parameters.");
             }
 
-            return new[] { this.values };
+            yield return () => this.values;
         }
     }
 }

@@ -60,7 +60,7 @@ public class InlineDataSourceTests
 
         // Act & Assert
         await Assert.That(() =>
-            sut.GenerateDataSources(testMethod)).ThrowsExactly<InvalidOperationException>();
+            sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(testMethod);
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();
@@ -90,7 +90,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(testMethod);
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();

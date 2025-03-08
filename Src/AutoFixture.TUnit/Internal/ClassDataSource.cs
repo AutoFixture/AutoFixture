@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace AutoFixture.TUnit.Internal
 {
@@ -34,17 +35,18 @@ namespace AutoFixture.TUnit.Internal
         /// Gets the constructor parameters for test data source type.
         /// </summary>
         public IReadOnlyList<object> Parameters => Array.AsReadOnly(this.parameters);
+        
 
-         /// <inheritdoc />
-        protected override IEnumerable<object[]> GetData()
+        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
+            
             if (instance is not IEnumerable<object[]> enumerable)
             {
                 throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
             }
 
-            return enumerable;
+            return enumerable.Select(x => new Func<object[]>(() => x));
         }
     }
 }

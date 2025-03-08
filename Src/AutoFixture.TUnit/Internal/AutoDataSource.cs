@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.TUnit.Extensions;
 
 namespace AutoFixture.TUnit.Internal
 {
     /// <summary>
     /// Combines the values from a source with auto-generated values.
     /// </summary>
-    public class AutoDataSource : IDataSource
+    public class AutoDataSource : DataSource
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDataSource"/> class.
@@ -40,32 +41,37 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         /// <param name="method">The target method for which to provide the arguments.</param>
         /// <returns>Returns a sequence of argument collections.</returns>
-        public IEnumerable<object[]> GetData(MethodBase method)
+        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata metadata)
         {
             return this.Source is null
-                ? this.GenerateValues(method)
-                : this.CombineValues(method, this.Source);
+                ? this.GenerateValues(metadata)
+                : this.CombineValues(metadata, this.Source);
         }
 
-        private IEnumerable<object[]> GenerateValues(MethodBase methodInfo)
+        private IEnumerable<Func<object[]>> GenerateValues(DataGeneratorMetadata metadata)
         {
-            var parameters = Array.ConvertAll(methodInfo.GetParameters(), TestParameter.From);
+            var parameters = Array.ConvertAll(metadata.GetMethod().GetParameters(), TestParameter.From);
             var fixture = this.CreateFixture();
-            yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
+            yield return () => Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
         }
 
-        private IEnumerable<object[]> CombineValues(MethodBase methodInfo, IDataSource source)
+        private IEnumerable<Func<object[]>> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
         {
-            var parameters = Array.ConvertAll(methodInfo.GetParameters(), TestParameter.From);
+            var method = metadata.GetMethod();
+            
+            var parameters = Array.ConvertAll(method.GetParameters(), TestParameter.From);
 
-            foreach (object[] testData in source.GetData(methodInfo))
+            foreach (var testDataFunc in source.GenerateDataSources(metadata))
             {
+                var testData = testDataFunc();
+                
                 var customizations = parameters.Take(testData.Length)
                     .Zip(testData, (parameter, value) => new Argument(parameter, value))
                     .Select(argument => argument.GetCustomization())
                     .Where(x => x is not NullCustomization);
 
                 var fixture = this.CreateFixture();
+                
                 foreach (var customization in customizations)
                 {
                     fixture.Customize(customization);
@@ -75,7 +81,7 @@ namespace AutoFixture.TUnit.Internal
                     .Select(parameter => GenerateAutoValue(parameter, fixture))
                     .ToArray();
 
-                yield return testData.Concat(missingValues).ToArray();
+                yield return () => testData.Concat(missingValues).ToArray();
             }
         }
 

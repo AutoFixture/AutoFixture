@@ -51,10 +51,7 @@ namespace AutoFixture.TUnit
         {
             var source = new AutoDataSource(this.FixtureFactory);
 
-            foreach (var array in source.GetData(dataGeneratorMetadata.GetMethod()))
-            {
-                yield return () => array;
-            }
+            return source.GenerateDataSources(dataGeneratorMetadata);
         }
     }
 }

@@ -86,7 +86,7 @@ namespace AutoFixture.TUnit.UnitTest
             await Assert.That(z).IsEqualTo(42);
         }
 
-        private class MyCustomArgumentsAutoDataAttribute : ArgumentsAutoDataAttribute
+        public class MyCustomArgumentsAutoDataAttribute : ArgumentsAutoDataAttribute
         {
             public MyCustomArgumentsAutoDataAttribute(params object[] values)
                 : base(() => new Fixture().Customize(new TheAnswer()), values)
@@ -166,7 +166,7 @@ namespace AutoFixture.TUnit.UnitTest
             yield return [x, y, z];
         }
 
-        private class MyCustomMemberAutoDataAttribute : MemberAutoDataAttribute
+        public class MyCustomMemberAutoDataAttribute : MemberAutoDataAttribute
         {
             public MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
                 : base(() => new Fixture().Customize(new TheAnswer()), memberName, parameters)

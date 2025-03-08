@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 
 namespace AutoFixture.TUnit.Internal
@@ -27,16 +28,16 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         public PropertyInfo PropertyInfo { get; }
 
-        /// <inheritdoc />
-        protected override IEnumerable<object[]> GetData()
+        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var value = this.PropertyInfo.GetValue(null);
+            
             if (value is not IEnumerable<object[]> enumerable)
             {
                 throw new InvalidCastException("Member does not return an enumerable value.");
             }
 
-            return enumerable;
+            return enumerable.Select(x => new Func<object[]>(() => x));
         }
     }
 }

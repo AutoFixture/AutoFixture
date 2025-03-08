@@ -85,7 +85,8 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new MethodDataSource(testDataSource);
 
             // Act
-            var result = sut.GenerateDataSources(testData);
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData))
+                .Select(x => x());
 
             // Assert
             await Assert.That(result).IsEqualTo(expected);
@@ -102,7 +103,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
             var sut = new MethodDataSource(dataSource);
 
             // Act & Assert
-            await Assert.That(() => sut.GenerateDataSources(testData).ToArray()).ThrowsExactly<InvalidCastException>();
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData)).ToArray()).ThrowsExactly<InvalidCastException>();
         }
 
         public static object NonEnumerableTestData() => new();

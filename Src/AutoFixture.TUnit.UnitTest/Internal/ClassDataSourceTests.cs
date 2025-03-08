@@ -73,7 +73,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GenerateDataSources(method).ToArray()).ThrowsExactly<InvalidOperationException>();
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -91,7 +91,9 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act
-            var actual = sut.GenerateDataSources(method).ToArray();
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+                .Select(x => x())
+                .ToArray();
 
             // Assert
             await Assert.That(actual).IsEqualTo(expected);
@@ -119,7 +121,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GenerateDataSources(method).ToArray()).ThrowsExactly<MissingMethodException>();
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<MissingMethodException>();
         }
 
         [Test]
@@ -132,7 +134,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act
-            var result = sut.GenerateDataSources(method).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
 
             // Assert
             await Assert.That(result.Single()).IsEqualTo(new object[] { "y", 25 });

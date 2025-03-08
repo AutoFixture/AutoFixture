@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 
 namespace AutoFixture.TUnit.Internal
@@ -34,9 +35,8 @@ namespace AutoFixture.TUnit.Internal
         /// Gets the source method arguments.
         /// </summary>
         public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
-
-        /// <inheritdoc />
-        protected override IEnumerable<object[]> GetData()
+        
+        public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var value = this.MethodInfo.Invoke(null, this.arguments);
             if (value is not IEnumerable<object[]> enumerable)
@@ -44,7 +44,7 @@ namespace AutoFixture.TUnit.Internal
                 throw new InvalidCastException("Member does not return an enumerable value.");
             }
 
-            return enumerable;
+            return enumerable.Select(x => new Func<object[]>(() => x));
         }
     }
 }

@@ -108,10 +108,7 @@ namespace AutoFixture.TUnit
                 createFixture: this.FixtureFactory,
                 source: new MemberDataSource(sourceType, this.MemberName, this.Parameters));
 
-            foreach (var array in source.GetData(testMethod))
-            {
-                yield return () => array;
-            }
+            return source.GenerateDataSources(dataGeneratorMetadata);
         }
     }
 }

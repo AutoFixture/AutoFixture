@@ -38,7 +38,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithoutParameters));
 
             // Act
-            var result = sut.GenerateDataSources(testMethod).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
             // Assert
             var item = await Assert.That(result).HasSingleItem();
@@ -54,7 +54,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GenerateDataSources(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
             // Act
-            var result = sut.GenerateDataSources(testMethod).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
             // Assert
             var testData = await Assert.That(result).HasSingleItem();
@@ -94,11 +94,12 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act
-            var actual = sut.GenerateDataSources(testMethod).ToArray();
+            var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
             // Assert
             await Assert.That(actual.Length).IsEqualTo(testData.Length);
-            Assert.That(x => Assert.InRange(x.Length, 0, 3)).All().Satisfy(actual);
+            await Assert.That(actual).Satisfies(x => x.Select(y => y().Length), 
+                assert => assert.All().Satisfy(y => y.IsBetween(0, 3)));
         }
 
         [Test]
@@ -111,7 +112,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
             // Act & Assert
-            await Assert.That(() => sut.GenerateDataSources(testMethod).ToArray()).ThrowsExactly<InvalidOperationException>();
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
         }
     }
 }

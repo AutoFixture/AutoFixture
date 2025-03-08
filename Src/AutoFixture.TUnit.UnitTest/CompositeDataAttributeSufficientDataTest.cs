@@ -8,7 +8,7 @@ using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.UnitTest
 {
-    public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
+    public class CompositeDataAttributeSufficientDataTest
     {
         private readonly MethodInfo method = typeof(TypeWithOverloadedMembers)
             .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething),
@@ -26,11 +26,11 @@ namespace AutoFixture.TUnit.UnitTest
             var result = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(this.method.DeclaringType, this.method.Name)).ToArray();
 
             // Assert
-
             await Assert.That(result).IsEquivalentTo(expectedResult);
         }
 
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerable<(IEnumerable<NonTypedDataSourceGeneratorAttribute> attributes,
+            IEnumerable<object[]> expectedResult)> GetEnumerator()
         {
             yield return CreateTestData(
                 data:
@@ -193,14 +193,10 @@ namespace AutoFixture.TUnit.UnitTest
                 ]);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        private static (IEnumerable<NonTypedDataSourceGeneratorAttribute> attributes,
+            IEnumerable<object[]> expectedResult) CreateTestData(NonTypedDataSourceGeneratorAttribute[] data, object[][] expected)
         {
-            return this.GetEnumerator();
-        }
-
-        private static object[] CreateTestData(NonTypedDataSourceGeneratorAttribute[] data, object[][] expected)
-        {
-            return [data, expected];
+            return (data, expected);
         }
 
         private sealed class TheoryComparer : IEqualityComparer<object[]>

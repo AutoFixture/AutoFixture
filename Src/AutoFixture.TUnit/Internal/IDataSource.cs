@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AutoFixture.TUnit.Internal
 {
@@ -11,8 +11,8 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// Returns the test data provided by the source.
         /// </summary>
-        /// <param name="method">The target method for which to provide the arguments.</param>
+        /// <param name="dataGeneratorMetadata">The target method for which to provide the arguments.</param>
         /// <returns>Returns a sequence of argument collections.</returns>
-        IEnumerable<object[]> GetData(MethodBase method);
+        IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata);
     }
 }

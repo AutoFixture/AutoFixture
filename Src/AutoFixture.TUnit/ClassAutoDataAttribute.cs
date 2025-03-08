@@ -104,10 +104,7 @@ namespace AutoFixture.TUnit
                 this.FixtureFactory,
                 new ClassDataSource(this.SourceType, this.Parameters));
 
-            foreach (var array in source.GetData(dataGeneratorMetadata.GetMethod()))
-            {
-                yield return () => array;
-            }
+            return source.GenerateDataSources(dataGeneratorMetadata);
         }
     }
 }

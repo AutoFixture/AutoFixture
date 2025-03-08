@@ -77,7 +77,7 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
             // Act & Assert
-            await Assert.That(() => sut.GenerateDataSources(method).ToArray()).ThrowsExactly<InvalidCastException>();
+            await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidCastException>();
         }
 
         [Test]
@@ -97,7 +97,9 @@ namespace AutoFixture.TUnit.UnitTest.Internal
                 .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
             // Act
-            var result = sut.GenerateDataSources(method).ToArray();
+            var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+                .Select(x => x())
+                .ToArray();
 
             // Assert
             await Assert.That(result).IsEqualTo(expected);
