@@ -25,10 +25,12 @@ Hello,
 - AutoFixture.AutoMoq v4.10.0
 -->
 
-### Tasks
+### Checklist
 
+- [ ] Read the [Contributing guidelines](https://github.com/AutoFixture/AutoFixture/blob/master/CONTRIBUTING.md) and [Code of Conduct](https://github.com/AutoFixture/AutoFixture/blob/master/CODE_OF_CONDUCT.md) documents
 - [ ] Issue reported to issue owner (if it comes from a third party library)
 - [ ] Attached links to GitHub Advisory Database or other authority
+- [ ] Checked the issue is not a duplicate
 
 ### More Information
 <!-- Add any other context about the problem here. -->
