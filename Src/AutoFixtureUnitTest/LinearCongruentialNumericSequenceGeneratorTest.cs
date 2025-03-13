@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using AutoFixture;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
@@ -9,21 +8,21 @@ using Xunit;
 
 namespace AutoFixtureUnitTest
 {
-    public class RandomNumericSequenceGeneratorTest
+    public class LinearCongruentialNumericSequenceGeneratorTest
     {
         [Fact]
         public void InitializeWithDefaultConstructorDoesNotThrow()
         {
             // Arrange
             // Act & assert
-            Assert.Null(Record.Exception(() => new RandomNumericSequenceGenerator()));
+            Assert.Null(Record.Exception(() => new LinearCongruentialNumericSequenceGenerator()));
         }
 
         [Fact]
         public void InitializeWithDefaultConstructorSetsCorrectLimits()
         {
             // Arrange
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new LinearCongruentialNumericSequenceGenerator();
             var expectedResult = new long[]
             {
                 1,
@@ -44,7 +43,7 @@ namespace AutoFixtureUnitTest
             IEnumerable<long> nullEnumerable = null;
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                new RandomNumericSequenceGenerator(nullEnumerable));
+                new LinearCongruentialNumericSequenceGenerator(nullEnumerable));
         }
 
         [Theory]
@@ -56,7 +55,7 @@ namespace AutoFixtureUnitTest
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentException>(() =>
-                new RandomNumericSequenceGenerator(limits));
+                new LinearCongruentialNumericSequenceGenerator(limits));
         }
 
         [Theory]
@@ -71,7 +70,7 @@ namespace AutoFixtureUnitTest
             // Arrange
             // Act & assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new RandomNumericSequenceGenerator(limits));
+                new LinearCongruentialNumericSequenceGenerator(limits));
         }
 
         [Fact]
@@ -79,7 +78,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var expectedResult = new long[] { 10, 20, 30 }.AsEnumerable();
-            var sut = new RandomNumericSequenceGenerator(expectedResult);
+            var sut = new LinearCongruentialNumericSequenceGenerator(expectedResult);
             // Act
             IEnumerable<long> result = sut.Limits;
             // Assert
@@ -93,7 +92,7 @@ namespace AutoFixtureUnitTest
             long[] nullArray = null;
             // Act & assert
             Assert.Throws<ArgumentNullException>(() =>
-                new RandomNumericSequenceGenerator(nullArray));
+                new LinearCongruentialNumericSequenceGenerator(nullArray));
         }
 
         [Fact]
@@ -101,7 +100,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var expectedResult = new long[] { 10, 20, 30 };
-            var sut = new RandomNumericSequenceGenerator(expectedResult);
+            var sut = new LinearCongruentialNumericSequenceGenerator(expectedResult);
             // Act
             IEnumerable<long> result = sut.Limits;
             // Assert
@@ -113,7 +112,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             // Act
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new LinearCongruentialNumericSequenceGenerator();
             // Assert
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
         }
@@ -123,7 +122,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new LinearCongruentialNumericSequenceGenerator();
             // Act
             object result = sut.Create(null, dummyContext);
             // Assert
@@ -135,7 +134,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var dummyRequest = typeof(byte);
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new LinearCongruentialNumericSequenceGenerator();
             // Act & assert
             Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
         }
@@ -148,7 +147,7 @@ namespace AutoFixtureUnitTest
             // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var expectedResult = new NoSpecimen();
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new LinearCongruentialNumericSequenceGenerator();
             // Act
             object result = sut.Create(request, dummyContext);
             // Assert
@@ -164,7 +163,7 @@ namespace AutoFixtureUnitTest
             // Arrange
             var dummyContext = new DelegatingSpecimenContext();
             var expectedResult = new NoSpecimen();
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new LinearCongruentialNumericSequenceGenerator();
             // Act
             object result = sut.Create(request, dummyContext);
             // Assert
@@ -187,7 +186,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new LinearCongruentialNumericSequenceGenerator();
             // Act
             object result = sut.Create(request, dummyContext);
             // Assert
@@ -203,7 +202,7 @@ namespace AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var expectedMin = (int)limits.Min();
             var expectedMax = (int)limits.Max();
-            var sut = new RandomNumericSequenceGenerator(limits);
+            var sut = new LinearCongruentialNumericSequenceGenerator(limits);
             // Act
             var result = (double)sut.Create(request, dummyContext);
             // Assert
@@ -221,7 +220,7 @@ namespace AutoFixtureUnitTest
             var expectedMin = (int)limits.Min();
             var expectedMax = (int)limits.Max();
             int repeatCount = (expectedMax - expectedMin) + 1;
-            var sut = new RandomNumericSequenceGenerator(limits);
+            var sut = new LinearCongruentialNumericSequenceGenerator(limits);
             // Act
             var result = Enumerable
                 .Range(0, repeatCount)
@@ -256,7 +255,7 @@ namespace AutoFixtureUnitTest
             long expectedMin = limits.Min();
             long expectedMax = limits.Max();
             int repeatCount = 300;
-            var sut = new RandomNumericSequenceGenerator(expectedMin, expectedMax);
+            var sut = new LinearCongruentialNumericSequenceGenerator(expectedMin, expectedMax);
             // Act
             var result = Enumerable
                 .Range(0, repeatCount)
@@ -283,7 +282,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new RandomNumericSequenceGenerator(limits);
+            var sut = new LinearCongruentialNumericSequenceGenerator(limits);
             var expectedMin = (int)limits[indexOfLower];
             var expectedMax = (int)limits[indexOfUpper];
             int repeatCount = expectedMax - expectedMin;
@@ -308,7 +307,7 @@ namespace AutoFixtureUnitTest
             var min = (int)limits.Min();
             var max = (int)limits.Max();
             int repeatCount = (max - min) + 1;
-            var sut = new RandomNumericSequenceGenerator(limits);
+            var sut = new LinearCongruentialNumericSequenceGenerator(limits);
             // Act & assert
             var expectedResult = Enumerable.Range(min, repeatCount).ToArray();
             for (int iteration = 0; iteration < 3; iteration++)
@@ -333,7 +332,7 @@ namespace AutoFixtureUnitTest
             var min = (int)limits.Min();
             var max = (int)limits.Max();
             int repeatCount = (max - min) + 1;
-            var sut = new RandomNumericSequenceGenerator(limits);
+            var sut = new LinearCongruentialNumericSequenceGenerator(limits);
             // Act
             var result = Enumerable
                 .Repeat(0, repeatCount)
@@ -359,7 +358,7 @@ namespace AutoFixtureUnitTest
             int repeatCount = ((max - min) + 1) / iterations;
             int expectedResult = repeatCount * iterations;
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new RandomNumericSequenceGenerator(limits);
+            var sut = new LinearCongruentialNumericSequenceGenerator(limits);
             // Exercise system
             var numbers = Enumerable.Repeat(0, iterations)
                 .AsParallel()
