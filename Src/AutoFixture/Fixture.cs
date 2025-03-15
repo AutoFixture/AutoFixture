@@ -166,7 +166,8 @@ namespace AutoFixture
                                     typeof(HashSet<>)),
                                 new EnumerableRelay(),
                                 new AsyncEnumerableRelay(),
-                                new EnumeratorRelay())),
+                                new EnumeratorRelay(),
+                                new AsyncEnumeratorRelay())),
                         new FilteringSpecimenBuilder(
                             new MutableValueTypeWarningThrower(),
                             new AndRequestSpecification(
