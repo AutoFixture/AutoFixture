@@ -4,10 +4,19 @@ using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit;
 
+/// <summary>
+/// Base class for data sources that provide AutoFixture test data for TUnit data driven tests.
+/// </summary>
 public abstract class AutoFixtureDataSourceAttribute : NonTypedDataSourceGeneratorAttribute, IDataSource
 {
+    /// <summary>
+    /// Returns the test data provided by the source.
+    /// </summary>
+    /// <param name="dataGeneratorMetadata"></param>
+    /// <returns></returns>
     public abstract IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata);
-    
+
+    /// <inheritdoc />
     public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
     {
         if (dataGeneratorMetadata is null)

@@ -30,6 +30,7 @@ namespace AutoFixture.TUnit.Internal
         /// </summary>
         public IReadOnlyList<object> Values => Array.AsReadOnly(this.values);
 
+        /// <inheritdoc />
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             if (dataGeneratorMetadata is null)
