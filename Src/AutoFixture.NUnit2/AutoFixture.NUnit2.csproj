@@ -11,6 +11,7 @@
     <PackageId>AutoFixture.NUnit2</PackageId>
     <Title>AutoFixture with NUnit2</Title>
     <Description>By leveraging the some features of NUnit, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

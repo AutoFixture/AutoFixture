@@ -11,6 +11,7 @@
     <PackageId>AutoFixture.AutoRhinoMocks</PackageId>
     <Title>AutoFixture with Auto Mocking using Rhino Mocks</Title>
     <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Rhino Mocks. To use it, add the AutoRhinoMockCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/11/13/RhinoMocksbasedAutomockingWithAutoFixture.aspx</Description>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
