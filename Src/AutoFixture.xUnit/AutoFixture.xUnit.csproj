@@ -11,6 +11,7 @@
     <PackageId>AutoFixture.Xunit</PackageId>
     <Title>AutoFixture with xUnit.net data theories</Title>
     <Description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language). For xUnit.net 2, please use the AutoFixture.Xunit2 NuGet Package.</Description>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
