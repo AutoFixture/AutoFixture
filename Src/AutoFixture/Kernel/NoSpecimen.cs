@@ -15,7 +15,7 @@ namespace AutoFixture.Kernel
     public class NoSpecimen : IEquatable<NoSpecimen>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoSpecimen"/> class with a null request.
+        /// Initializes a new instance of the <see cref="NoSpecimen"/> class.
         /// </summary>
         public NoSpecimen()
         {
