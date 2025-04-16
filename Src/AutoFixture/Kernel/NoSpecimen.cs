@@ -36,7 +36,7 @@ namespace AutoFixture.Kernel
             {
                 return this.Equals(other);
             }
-            return base.Equals(obj);
+            return false;
         }
 
         /// <summary>
@@ -61,10 +61,7 @@ namespace AutoFixture.Kernel
         /// </returns>
         public bool Equals(NoSpecimen other)
         {
-            if (other == null)
-            {
-                return false;
-            }
+            return other is not null;
         }
     }
 }
