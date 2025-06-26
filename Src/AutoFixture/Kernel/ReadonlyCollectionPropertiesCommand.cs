@@ -56,9 +56,13 @@ namespace AutoFixture.Kernel
             var specimenType = specimen.GetType();
             foreach (var pi in this.PropertyQuery.SelectProperties(specimenType))
             {
-                var addMethod = new InstanceMethodQuery(pi.GetValue(specimen), nameof(ICollection<object>.Add))
+                var owner = pi.GetValue(specimen);
+                if (owner == null) continue;
+
+                var addMethod = new MethodByParametersCountQuery(owner, nameof(ICollection<object>.Add), 1)
                     .SelectMethods()
                     .SingleOrDefault();
+
                 if (addMethod == null) continue;
 
                 var valuesToAdd = SpecimenFactory.CreateMany(

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoFixture;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
@@ -59,6 +60,24 @@ namespace AutoFixtureUnitTest.Kernel
 
             // Assert
             Assert.NotEmpty(specimen.Collection);
+        }
+
+        [Fact]
+        public void ExecuteDoesNotFailWhenReadonlyPropertyIsNull()
+        {
+            // Arrange
+            var sut = new ReadonlyCollectionPropertiesCommand();
+            var specimen = new NullCollectionHolder<string>();
+            var container = new DelegatingSpecimenContext
+            {
+                OnResolve = r => new Fixture().CreateMany<string>()
+            };
+
+            // Act
+            sut.Execute(specimen, container);
+
+            // Assert
+            Assert.Null(specimen.Collection);
         }
 
         [Fact]
