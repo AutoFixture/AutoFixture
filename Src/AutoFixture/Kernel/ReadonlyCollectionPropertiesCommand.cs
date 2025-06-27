@@ -59,7 +59,7 @@ namespace AutoFixture.Kernel
                 var owner = pi.GetValue(specimen);
                 if (owner == null) continue;
 
-                var addMethod = new MethodByParametersCountQuery(owner, nameof(ICollection<object>.Add), 1)
+                var addMethod = new InstanceMethodByParametersCountQuery(owner, nameof(ICollection<object>.Add), 1)
                     .SelectMethods()
                     .SingleOrDefault();
 

@@ -7,12 +7,12 @@ using Xunit;
 
 namespace AutoFixtureUnitTest.Kernel
 {
-    public class MethodByParametersCountQueryTest
+    public class InstanceMethodByParametersCountQueryTest
     {
         [Fact]
         public void SutIsMethodQuery()
         {
-            var sut = new MethodByParametersCountQuery(new object(), string.Empty, 1);
+            var sut = new InstanceMethodByParametersCountQuery(new object(), string.Empty, 1);
 
             Assert.IsAssignableFrom<IMethodQuery>(sut);
         }
@@ -20,13 +20,13 @@ namespace AutoFixtureUnitTest.Kernel
         [Fact]
         public void ConstructionOfSutWithNullOwnerThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new MethodByParametersCountQuery(null, string.Empty, 1));
+            Assert.Throws<ArgumentNullException>(() => new InstanceMethodByParametersCountQuery(null, string.Empty, 1));
         }
 
         [Fact]
         public void ConstructionOfSutWithNullMethodNameThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new MethodByParametersCountQuery(new object(), null, 1));
+            Assert.Throws<ArgumentNullException>(() => new InstanceMethodByParametersCountQuery(new object(), null, 1));
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace AutoFixtureUnitTest.Kernel
             var owner = new CollectionHolder<string>().Collection;
             var methodName = nameof(CollectionHolder<string>.Collection.Add);
             var expectedContents = string.Empty;
-            var sut = new MethodByParametersCountQuery(owner, methodName, 1);
+            var sut = new InstanceMethodByParametersCountQuery(owner, methodName, 1);
 
             // Act
             var result = sut.SelectMethods();
@@ -54,7 +54,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var owner = new CollectionHolder<string>().Collection;
             var methodName = string.Empty;
-            var sut = new MethodByParametersCountQuery(owner, methodName, 1);
+            var sut = new InstanceMethodByParametersCountQuery(owner, methodName, 1);
 
             // Act
             var result = sut.SelectMethods();
@@ -70,7 +70,7 @@ namespace AutoFixtureUnitTest.Kernel
             var owner = new DictionaryHolder<string, string>().Dictionary;
             var methodName = nameof(DictionaryHolder<string, string>.Dictionary.Add);
             object expectedContents = new KeyValuePair<string, string>("key", "value");
-            var sut = new MethodByParametersCountQuery(owner, methodName, 1);
+            var sut = new InstanceMethodByParametersCountQuery(owner, methodName, 1);
 
             // Act
             var result = sut.SelectMethods();
@@ -81,6 +81,5 @@ namespace AutoFixtureUnitTest.Kernel
             Assert.Single(enumerable);
             Assert.Single(owner, expectedContents);
         }
-
     }
 }
