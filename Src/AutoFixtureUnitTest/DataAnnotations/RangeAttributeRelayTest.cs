@@ -30,7 +30,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContext);
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -74,7 +74,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -99,7 +99,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : NoSpecimen.Instance
             };
             var sut = new RangeAttributeRelay();
             // Act
@@ -122,7 +122,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : NoSpecimen.Instance
             };
             var sut = new RangeAttributeRelay();
             // Act
@@ -146,7 +146,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : NoSpecimen.Instance
             };
             var sut = new RangeAttributeRelay();
             // Act
@@ -170,7 +170,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : NoSpecimen.Instance
             };
             var sut = new RangeAttributeRelay();
             // Act

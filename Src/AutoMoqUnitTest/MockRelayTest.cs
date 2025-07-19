@@ -76,7 +76,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -113,7 +113,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             // Act
             var result = sut.Create(request, contextStub.Object);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -180,7 +180,7 @@ namespace AutoFixture.AutoMoq.UnitTest
             var dummyContext = new Mock<ISpecimenContext>().Object;
             var actual = sut.Create(request, dummyContext);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, actual);
         }
     }

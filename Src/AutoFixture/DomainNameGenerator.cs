@@ -19,11 +19,11 @@ namespace AutoFixture
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             if (request == null || !typeof(DomainName).Equals(request))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var domainName = this.fictitiousDomainBuilder.Create(typeof(string), context) as string;
             if (domainName == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return new DomainName(domainName);
         }

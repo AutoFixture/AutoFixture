@@ -24,7 +24,7 @@ namespace AutoFixture
             var constrain = request as ConstrainedStringRequest;
             if (constrain == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return Create(constrain.MinimumLength, constrain.MaximumLength, context);

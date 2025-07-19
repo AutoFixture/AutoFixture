@@ -24,7 +24,7 @@ namespace AutoFixture
         {
             var type = request as Type;
             if (type == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return this.CreateNumericSpecimen(type);
         }
@@ -58,7 +58,7 @@ namespace AutoFixture
                 case TypeCode.UInt64:
                     return (ulong)this.GetNextNumber();
                 default:
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
             }
         }
 

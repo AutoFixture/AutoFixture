@@ -39,7 +39,7 @@ namespace AutoFixture
 
             var rangedNumberRequest = request as RangedNumberRequest;
             if (rangedNumberRequest == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             try
             {
@@ -47,7 +47,7 @@ namespace AutoFixture
             }
             catch (ArgumentException)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
         }
 
@@ -129,7 +129,7 @@ namespace AutoFixture
             public object Create(object request, ISpecimenContext context)
             {
                 var randomValue = this.generator.Create(typeof(double), context);
-                if (randomValue is NoSpecimen) return new NoSpecimen();
+                if (randomValue is NoSpecimen) return NoSpecimen.Instance;
 
                 // Half offset is needed to avoid overflow - full offset might be larger than double range.
                 double halfOffset = (this.factor / 2) * (double)randomValue;
@@ -163,7 +163,7 @@ namespace AutoFixture
             public object Create(object request, ISpecimenContext context)
             {
                 var randomValue = this.generator.Create(typeof(decimal), context);
-                if (randomValue is NoSpecimen) return new NoSpecimen();
+                if (randomValue is NoSpecimen) return NoSpecimen.Instance;
 
                 // Half offset is needed to avoid overflow - full offset might be larger than decimal range.
                 var halfOffset = (this.factor / 2) * (decimal)randomValue;

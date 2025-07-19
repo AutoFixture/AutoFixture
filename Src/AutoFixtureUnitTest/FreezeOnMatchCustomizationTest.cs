@@ -145,7 +145,7 @@ namespace AutoFixtureUnitTest
                 OnCreate = (request, ctx) =>
                     request.Equals(frozenType)
                         ? new object()
-                        : new NoSpecimen()
+                        : NoSpecimen.Instance
 #pragma warning restore 618
             };
             var sut = new FreezeOnMatchCustomization(
@@ -171,7 +171,7 @@ namespace AutoFixtureUnitTest
                 OnCreate = (req, ctx) =>
                     req.Equals(request)
                         ? new object()
-                        : new NoSpecimen()
+                        : NoSpecimen.Instance
             };
             var sut = new FreezeOnMatchCustomization(
                 request,

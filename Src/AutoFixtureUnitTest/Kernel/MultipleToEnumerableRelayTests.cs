@@ -32,7 +32,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(request, dummyContext);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, actual);
         }
 
@@ -82,7 +82,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(request, dummyContext);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, actual);
         }
 
@@ -136,7 +136,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(request, dummyContext);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, actual);
         }
 

@@ -32,10 +32,10 @@ namespace AutoFixture
 
             var requestType = request as Type;
             if (requestType == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!typeof(LambdaExpression).GetTypeInfo().IsAssignableFrom(requestType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var delegateType = requestType == typeof(LambdaExpression)
                                ? typeof(Action)

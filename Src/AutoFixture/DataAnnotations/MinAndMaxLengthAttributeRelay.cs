@@ -37,13 +37,13 @@ namespace AutoFixture.DataAnnotations
 
             if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var range = Range.From(request);
             if (!range.IsConstrained)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if (memberType == typeof(string))
@@ -53,14 +53,14 @@ namespace AutoFixture.DataAnnotations
 
             if (!memberType.IsArray)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var elementType = memberType.GetElementType();
             var result = context.Resolve(range.ToSequenceRequest(elementType));
             if (result is not IEnumerable seqResult)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return seqResult.ToTypedArray(elementType);

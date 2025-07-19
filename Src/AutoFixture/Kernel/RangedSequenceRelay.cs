@@ -14,10 +14,10 @@ namespace AutoFixture.Kernel
 
             var rsr = request as RangedSequenceRequest;
             if (rsr == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!TryGetSequenceLength(rsr, context, out int sequenceLength))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return context.Resolve(new FiniteSequenceRequest(rsr.Request, sequenceLength));
         }

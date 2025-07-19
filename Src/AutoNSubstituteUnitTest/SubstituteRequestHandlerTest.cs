@@ -49,7 +49,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act
             object result = sut.Create(request, context);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, result);
         }
 

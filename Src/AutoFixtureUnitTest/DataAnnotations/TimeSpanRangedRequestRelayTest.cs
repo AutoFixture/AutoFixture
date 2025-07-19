@@ -43,7 +43,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var result = sut.Create(request, context);
 
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -78,14 +78,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
 
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = _ => new NoSpecimen()
+                OnResolve = _ => NoSpecimen.Instance
             };
 
             // Act
             var actualResult = sut.Create(request, context);
 
             // Assert
-            Assert.Equal(new NoSpecimen(), actualResult);
+            Assert.Equal(NoSpecimen.Instance, actualResult);
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r =>
                 {
                     capturedNumericRequest = (RangedNumberRequest)r;
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
 

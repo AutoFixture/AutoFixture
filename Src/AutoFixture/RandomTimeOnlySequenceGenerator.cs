@@ -61,7 +61,7 @@ public class RandomTimeOnlySequenceGenerator : ISpecimenBuilder
 
         if (!typeof(TimeOnly).GetTypeInfo().IsAssignableFrom(request as Type))
         {
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
 
         var ticks = (long)this.randomizer.Create(typeof(long), context);

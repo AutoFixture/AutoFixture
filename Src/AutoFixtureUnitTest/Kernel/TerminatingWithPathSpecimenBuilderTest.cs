@@ -217,7 +217,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnCreate = (r, c) => requestQueue.Count > 0
                     ? c.Resolve(requestQueue.Dequeue())
-                    : new NoSpecimen()
+                    : NoSpecimen.Instance
             };
             var sut = new TerminatingWithPathSpecimenBuilder(builder);
             // Cause sut to be executed recursively for multiple times.
@@ -237,7 +237,7 @@ namespace AutoFixtureUnitTest.Kernel
             var builder = new DelegatingSpecimenBuilder
             {
                 // Returns NoSpecimen only on the last specimen request
-                OnCreate = (r, c) => r == requests[2] ? new NoSpecimen() : new object()
+                OnCreate = (r, c) => r == requests[2] ? NoSpecimen.Instance : new object()
             };
 
             var sut = new TerminatingWithPathSpecimenBuilder(builder);
@@ -257,7 +257,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             var builder = new DelegatingSpecimenBuilder
             {
-                OnCreate = (r, c) => new NoSpecimen()
+                OnCreate = (r, c) => NoSpecimen.Instance
             };
             var sut = new TerminatingWithPathSpecimenBuilder(builder);
 

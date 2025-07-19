@@ -68,7 +68,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             var sut = new OmitEnumerableParameterRequestRelay();
             var actual = sut.Create(request, new DelegatingSpecimenContext());
-            Assert.Equal(new NoSpecimen(), actual);
+            Assert.Equal(NoSpecimen.Instance, actual);
         }
 
         [Theory]
@@ -92,7 +92,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(parameterInfo, dummyContext);
 
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, actual);
         }
 

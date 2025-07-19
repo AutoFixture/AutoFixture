@@ -37,7 +37,7 @@ namespace AutoFixture
             var range = request as RangedNumberRequest;
             if (range == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if (range.Minimum.Equals(range.Maximum))
@@ -48,7 +48,7 @@ namespace AutoFixture
             var value = context.Resolve(range.OperandType) as IComparable;
             if (value == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             try
@@ -57,7 +57,7 @@ namespace AutoFixture
             }
             catch (InvalidOperationException)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return this.rangedValue;

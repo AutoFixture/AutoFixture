@@ -39,7 +39,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -55,7 +55,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -68,7 +68,7 @@ namespace AutoFixtureUnitTest.Kernel
             var manyRequest = new FiniteSequenceRequest(request, count);
 
             var expectedResult = new object();
-            var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? expectedResult : new NoSpecimen() };
+            var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? expectedResult : NoSpecimen.Instance };
 
             var sut = new StableFiniteSequenceRelay();
             // Act
@@ -86,7 +86,7 @@ namespace AutoFixtureUnitTest.Kernel
             var count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
 
-            var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? new object() : new NoSpecimen() };
+            var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? new object() : NoSpecimen.Instance };
 
             var sut = new StableFiniteSequenceRelay();
             // Act
@@ -113,7 +113,7 @@ namespace AutoFixtureUnitTest.Kernel
             var q = new Queue<object>(results);
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen()
+                OnResolve = r => request.Equals(r) ? q.Dequeue() : NoSpecimen.Instance
             };
 
             var sut = new StableFiniteSequenceRelay();

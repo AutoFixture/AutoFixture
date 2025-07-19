@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using AutoFixture.AutoMoq.UnitTest.TestTypes;
 using AutoFixture.Kernel;
@@ -103,23 +104,28 @@ namespace AutoFixture.AutoMoq.UnitTest
                 ex.Message);
         }
 
+        public static TheoryData<object> UnexpectedSpecimens =>
+           new TheoryData<object>
+           {
+                new OmitSpecimen(),
+                NoSpecimen.Instance,
+                new object(),
+                new StringBuilder()
+           };
+
         [Theory]
-        [InlineData(typeof(OmitSpecimen))]
-        [InlineData(typeof(NoSpecimen))]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(StringBuilder))]
-        public void ReturnsUsingFixture_Throws_WhenContextReturnsUnexpectedSpecimen(Type specimenType)
+        [MemberData(nameof(UnexpectedSpecimens))]
+        public void ReturnsUsingFixture_Throws_WhenContextReturnsUnexpectedSpecimen(object specimen)
         {
             // Arrange
             var mock = new Mock<IInterfaceWithProperty>();
-            var specimen = Activator.CreateInstance(specimenType);
             var fixture = new Mock<ISpecimenBuilder>();
             fixture.Setup(f => f.Create(typeof(string), It.IsAny<ISpecimenContext>()))
                 .Returns(specimen);
             var expectedExceptionMessage =
                 string.Format(
                     "Tried to setup a member with a return type of System.String, but an instance of {0} was found instead.",
-                    specimenType.FullName);
+                    specimen.GetType().FullName);
 
             // Act
             mock.Setup(x => x.Property).ReturnsUsingFixture(fixture.Object);

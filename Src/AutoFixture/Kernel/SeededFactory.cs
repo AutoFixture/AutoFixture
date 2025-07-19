@@ -42,18 +42,18 @@ namespace AutoFixture.Kernel
             var seededRequest = request as SeededRequest;
             if (seededRequest == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if (!seededRequest.Request.Equals(typeof(T)))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if ((seededRequest.Seed != null)
                 && !(seededRequest.Seed is T))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
             var seed = (T)seededRequest.Seed;
 

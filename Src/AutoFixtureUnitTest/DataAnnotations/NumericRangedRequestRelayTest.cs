@@ -113,7 +113,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve =
                     r => r is RangedNumberRequest rr && rr.OperandType == requestType
                         ? expectedResult
-                        : new NoSpecimen()
+                        : NoSpecimen.Instance
             };
 
             // Act
@@ -141,7 +141,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve =
                     r => r.Equals(expectedNestedRequest)
                         ? expectedResult
-                        : new NoSpecimen()
+                        : NoSpecimen.Instance
             };
 
             // Act

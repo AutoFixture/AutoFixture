@@ -25,18 +25,18 @@ namespace AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (context is null) throw new ArgumentNullException(nameof(context));
-            if (request is not Type type) return new NoSpecimen();
+            if (request is not Type type) return NoSpecimen.Instance;
 
             if (!type.TryGetSingleGenericTypeArgument(typeof(IAsyncEnumerable<>), out Type enumerableType))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var specimen = context.Resolve(new MultipleRequest(enumerableType));
             if (specimen is OmitSpecimen) return specimen;
 
             if (specimen is not IEnumerable<object> enumerable)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var typedAdapterType = typeof(SynchronousAsyncEnumerable<>).MakeGenericType(enumerableType);
             return Activator.CreateInstance(typedAdapterType, enumerable);

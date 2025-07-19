@@ -56,10 +56,10 @@ namespace AutoFixture.Kernel
 
             var pi = request as ParameterInfo;
             if (pi == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!pi.ParameterType.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var returnValue = context.Resolve(
                 new SeededRequest(

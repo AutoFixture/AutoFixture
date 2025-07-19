@@ -43,7 +43,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             object expectedResult = 1;
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : NoSpecimen.Instance };
             // Act
             var result = container.CreateAnonymous<int>();
             // Assert
@@ -55,7 +55,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             object expectedResult = 1;
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : NoSpecimen.Instance };
             // Act
             var result = container.Create<int>();
             // Assert
@@ -171,7 +171,7 @@ namespace AutoFixtureUnitTest
             {
                 OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(int), 0))) ?
                     (object)expectedResult.Cast<object>() :
-                    new NoSpecimen()
+                    NoSpecimen.Instance
             };
             // Act
             var result = container.CreateMany<int>();
@@ -253,7 +253,7 @@ namespace AutoFixtureUnitTest
             {
                 OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(DateTime), default(DateTime)), count)) ?
                     (object)expectedResult.Cast<object>() :
-                    new NoSpecimen()
+                    NoSpecimen.Instance
             };
             // Act
             var result = container.CreateMany<DateTime>(count);

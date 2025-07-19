@@ -34,10 +34,10 @@ namespace AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
             if (type == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!type.IsArray)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var elementType = type.GetElementType();
             var specimen = context.Resolve(new MultipleRequest(elementType));
@@ -46,7 +46,7 @@ namespace AutoFixture.Kernel
 
             var elements = specimen as IEnumerable;
             if (elements == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return elements.ToTypedArray(elementType);
         }

@@ -76,7 +76,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Act
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -114,7 +114,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             // Act
             var result = sut.Create(request, contextStub.FakedObject);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -162,7 +162,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
             var dummyContext = A.Fake<ISpecimenContext>();
             var actual = sut.Create(request, dummyContext);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, actual);
         }
     }

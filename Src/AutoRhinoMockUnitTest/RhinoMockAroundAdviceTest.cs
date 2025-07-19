@@ -53,7 +53,7 @@ namespace AutoFixture.AutoRhinoMock.UnitTest
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
     }

@@ -27,7 +27,7 @@ namespace AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContext);
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -62,12 +62,12 @@ namespace AutoFixtureUnitTest
             object expectedValue = null;
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => typeof(UriScheme).Equals(r) ? expectedValue : new NoSpecimen()
+                OnResolve = r => typeof(UriScheme).Equals(r) ? expectedValue : NoSpecimen.Instance
             };
             var sut = new UriGenerator();
             // Act & assert
             var result = sut.Create(request, context);
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -91,13 +91,13 @@ namespace AutoFixtureUnitTest
                         return expectedValue;
                     }
 
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
             var sut = new UriGenerator();
             // Act & assert
             var result = sut.Create(request, context);
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -121,7 +121,7 @@ namespace AutoFixtureUnitTest
                         return Guid.NewGuid().ToString();
                     }
 
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
             var sut = new UriGenerator();
@@ -151,7 +151,7 @@ namespace AutoFixtureUnitTest
                         return expectedAuthority;
                     }
 
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
             var sut = new UriGenerator();
@@ -182,7 +182,7 @@ namespace AutoFixtureUnitTest
                         return expectedAuthority;
                     }
 
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
             var sut = new UriGenerator();

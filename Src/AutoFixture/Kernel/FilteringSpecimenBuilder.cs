@@ -47,7 +47,7 @@ namespace AutoFixture.Kernel
         {
             if (!this.Specification.IsSatisfiedBy(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return this.Builder.Create(request, context);

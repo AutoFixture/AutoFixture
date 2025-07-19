@@ -12,12 +12,17 @@ namespace AutoFixture.Kernel
     /// <see langword="null"/> can be used as a proper return value.
     /// </para>
     /// </remarks>
-    public class NoSpecimen : IEquatable<NoSpecimen>
+    public sealed class NoSpecimen : IEquatable<NoSpecimen>
     {
+        /// <summary>
+        /// The singleton instance of <see cref="NoSpecimen"/>.
+        /// </summary>
+        public static readonly NoSpecimen Instance = new NoSpecimen();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NoSpecimen"/> class.
         /// </summary>
-        public NoSpecimen()
+        private NoSpecimen()
         {
         }
 

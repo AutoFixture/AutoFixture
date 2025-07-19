@@ -26,7 +26,7 @@ namespace AutoFixture.Kernel
             var fieldInfo = request as FieldInfo;
             if (fieldInfo == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return context.Resolve(new SeededRequest(fieldInfo.FieldType, fieldInfo.Name));

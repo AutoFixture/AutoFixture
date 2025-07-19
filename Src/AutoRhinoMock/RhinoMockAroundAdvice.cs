@@ -58,14 +58,14 @@ namespace AutoFixture.AutoRhinoMock
         {
             if (!request.IsMockable())
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var built = this.Builder.Create(request, context);
             var m = built as IMockedObject;
             if (m == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return m;

@@ -27,7 +27,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -52,7 +52,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonFieldRequest, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -61,12 +61,12 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
-            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => NoSpecimen.Instance };
             var sut = new FieldRequestRelay();
             // Act
             var result = sut.Create(fieldInfo, container);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 

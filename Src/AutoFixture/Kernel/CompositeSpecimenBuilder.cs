@@ -53,7 +53,7 @@ namespace AutoFixture.Kernel
                 if (!(result is NoSpecimen)) return result;
             }
 
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
 
         /// <summary>Composes the supplied builders.</summary>
