@@ -17,12 +17,13 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// The singleton instance of <see cref="NoSpecimen"/>.
         /// </summary>
-        public static readonly NoSpecimen Instance = new NoSpecimen();
+        public static NoSpecimen Instance { get; } = new NoSpecimen();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NoSpecimen"/> class.
         /// </summary>
-        private NoSpecimen()
+        [Obsolete(@"Use the NoSpecimen.Instance property instead of calling new NoSpecimen(). This constructor is being deprecated in future versions of AutoFixture, as creating many NoSpecimen instances causes excessive memory usage: https://github.com/AutoFixture/AutoFixture/issues/1489", false)]
+        public NoSpecimen()
         {
         }
 
