@@ -9,7 +9,7 @@ namespace AutoFixtureUnitTest
     public class TimeZoneInfoGeneratorTests
     {
         [Fact]
-        public void Create_WithNullContext_ThrowsArgumentNullException()
+        public void WhenNullContext_ThrowsArgumentNullException()
         {
             var sut = new TimeZoneInfoGenerator();
 
@@ -17,7 +17,7 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
-        public void Create_WithNullRequest_ReturnsCorrectResult()
+        public void WhenNullRequest_ReturnsNoSpecimen()
         {
             var sut = new DomainNameGenerator();
             var context = new DelegatingSpecimenContext();
@@ -28,7 +28,7 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
-        public void Create_WithNonTimeZoneInfoRequest_ReturnsNoSpecimen()
+        public void WhenNonTimeZoneInfoRequest_ReturnsNoSpecimen()
         {
             var sut = new TimeZoneInfoGenerator();
             var context = new DelegatingSpecimenContext();
@@ -39,7 +39,7 @@ namespace AutoFixtureUnitTest
         }
 
         [Fact]
-        public void Create_WithTimeZoneInfoRequest_ReturnsCustomTimeZoneInfo()
+        public void WhenTimeZoneInfoRequest_ReturnsCustomTimeZoneInfo()
         {
             var sut = new TimeZoneInfoGenerator();
             var context = new DelegatingSpecimenContext
