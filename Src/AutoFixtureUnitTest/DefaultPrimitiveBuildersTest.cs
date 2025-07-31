@@ -51,7 +51,7 @@ namespace AutoFixtureUnitTest
 #endif
                     typeof(EmailAddressLocalPartGenerator),
                     typeof(DomainNameGenerator),
-                    typeof(ElementsBuilder<TimeZoneInfo>)
+                    typeof(TimeZoneInfoGenerator)
                 };
             // Act
             var sut = new DefaultPrimitiveBuilders();

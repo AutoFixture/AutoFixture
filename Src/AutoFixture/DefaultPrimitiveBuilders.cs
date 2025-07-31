@@ -46,7 +46,7 @@ namespace AutoFixture
 #endif
             yield return new EmailAddressLocalPartGenerator();
             yield return new DomainNameGenerator();
-            yield return new ElementsBuilder<TimeZoneInfo>(TimeZoneInfo.GetSystemTimeZones());
+            yield return new TimeZoneInfoGenerator();
         }
 
         /// <summary>
