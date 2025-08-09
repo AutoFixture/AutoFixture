@@ -17,7 +17,9 @@ namespace AutoFixture.Kernel
         /// <summary>
         /// The singleton instance of <see cref="NoSpecimen"/>.
         /// </summary>
+#pragma warning disable 0618
         public static NoSpecimen Instance { get; } = new NoSpecimen();
+#pragma warning restore 0618
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NoSpecimen"/> class.
