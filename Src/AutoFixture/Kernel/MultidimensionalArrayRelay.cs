@@ -28,7 +28,7 @@ namespace AutoFixture.Kernel
 
             var arrayType = request as Type;
             if (arrayType == null || !IsMultidimensionalArray(arrayType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return CreateMultidimensionalArray(arrayType, context);
         }

@@ -61,7 +61,7 @@ public class RandomDateOnlySequenceGenerator : ISpecimenBuilder
 
         if (!typeof(DateOnly).GetTypeInfo().IsAssignableFrom(request as Type))
         {
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
 
         var dayNumber = (int)this.randomizer.Create(typeof(int), context);

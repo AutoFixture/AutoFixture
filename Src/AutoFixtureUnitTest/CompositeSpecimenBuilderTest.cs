@@ -84,7 +84,7 @@ namespace AutoFixtureUnitTest
             // Arrange
             var builders = new ISpecimenBuilder[]
             {
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => NoSpecimen.Instance },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => null },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() }
             };

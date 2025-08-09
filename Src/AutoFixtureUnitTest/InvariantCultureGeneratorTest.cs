@@ -27,7 +27,7 @@ namespace AutoFixtureUnitTest
 #pragma warning restore 618
             var actual = sut.Create(null, new DelegatingSpecimenContext());
 
-            Assert.Equal(new NoSpecimen(), actual);
+            Assert.Equal(NoSpecimen.Instance, actual);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace AutoFixtureUnitTest
 #pragma warning restore 618
             var actual = sut.Create(new object(), new DelegatingSpecimenContext());
 
-            Assert.Equal(new NoSpecimen(), actual);
+            Assert.Equal(NoSpecimen.Instance, actual);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace AutoFixtureUnitTest
 #pragma warning restore 618
             var actual = sut.Create(typeof(object), new DelegatingSpecimenContext());
 
-            Assert.Equal(new NoSpecimen(), actual);
+            Assert.Equal(NoSpecimen.Instance, actual);
         }
 
         [Fact]

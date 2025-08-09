@@ -28,12 +28,12 @@ namespace AutoFixture
         {
             if (request == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if (!this.encodingTypeSpecification.IsSatisfiedBy(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return Encoding.UTF8;

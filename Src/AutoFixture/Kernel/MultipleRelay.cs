@@ -54,7 +54,7 @@ namespace AutoFixture.Kernel
             var manyRequest = request as MultipleRequest;
             if (manyRequest == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return context.Resolve(new FiniteSequenceRequest(manyRequest.Request, this.Count));

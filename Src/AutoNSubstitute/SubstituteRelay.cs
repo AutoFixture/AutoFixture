@@ -50,11 +50,11 @@ namespace AutoFixture.AutoNSubstitute
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             if (!this.Specification.IsSatisfiedBy(request))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var requestedType = request as Type;
             if (requestedType == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             object substitute = context.Resolve(new SubstituteRequest(requestedType));
 

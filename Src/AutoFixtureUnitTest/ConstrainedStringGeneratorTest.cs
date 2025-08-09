@@ -28,7 +28,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(null, dummyContext);
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(request, dummyContext);
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace AutoFixtureUnitTest
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedType.Equals(r) ? contextValue : new NoSpecimen()
+                OnResolve = r => expectedType.Equals(r) ? contextValue : NoSpecimen.Instance
             };
             var sut = new ConstrainedStringGenerator();
             // Act
@@ -80,7 +80,7 @@ namespace AutoFixtureUnitTest
             object expectedValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => typeof(string).Equals(r) ? expectedValue : new NoSpecimen()
+                OnResolve = r => typeof(string).Equals(r) ? expectedValue : NoSpecimen.Instance
             };
             var sut = new ConstrainedStringGenerator();
             // Act & assert
@@ -97,7 +97,7 @@ namespace AutoFixtureUnitTest
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => typeof(string).Equals(r) ? contextValue : new NoSpecimen()
+                OnResolve = r => typeof(string).Equals(r) ? contextValue : NoSpecimen.Instance
             };
             var sut = new ConstrainedStringGenerator();
             // Act
@@ -117,7 +117,7 @@ namespace AutoFixtureUnitTest
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => typeof(string).Equals(r) ? contextValue : new NoSpecimen()
+                OnResolve = r => typeof(string).Equals(r) ? contextValue : NoSpecimen.Instance
             };
             var sut = new ConstrainedStringGenerator();
             // Act

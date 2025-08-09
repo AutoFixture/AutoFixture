@@ -22,14 +22,14 @@ namespace AutoFixture
 
             if (request == null || !typeof(EmailAddressLocalPart).Equals(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var localPart = context.Resolve(typeof(string)) as string;
 
             if (string.IsNullOrEmpty(localPart))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return new EmailAddressLocalPart(localPart);

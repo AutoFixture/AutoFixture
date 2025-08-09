@@ -36,23 +36,23 @@ namespace AutoFixture.DataAnnotations
 
             if (request is null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var attribute = TypeEnvy.GetAttribute<StringLengthAttribute>(request);
             if (attribute is null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if (memberType != typeof(string))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var stringRequest = new ConstrainedStringRequest(

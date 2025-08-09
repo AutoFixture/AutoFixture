@@ -73,7 +73,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -89,7 +89,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -101,7 +101,7 @@ namespace AutoFixtureUnitTest.Kernel
             var count = 7;
             var expectedTranslation = new FiniteSequenceRequest(request.Request, 7);
             var expectedResult = new object();
-            var container = new DelegatingSpecimenContext { OnResolve = r => expectedTranslation.Equals(r) ? expectedResult : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedTranslation.Equals(r) ? expectedResult : NoSpecimen.Instance };
 
             var sut = new MultipleRelay { Count = count };
             // Act

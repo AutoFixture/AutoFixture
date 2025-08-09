@@ -26,7 +26,7 @@ namespace AutoFixture.Kernel
             var propertyInfo = request as PropertyInfo;
             if (propertyInfo == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return context.Resolve(new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name));

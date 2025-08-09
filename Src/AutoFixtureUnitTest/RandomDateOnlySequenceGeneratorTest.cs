@@ -55,7 +55,7 @@ public class RandomDateOnlySequenceGeneratorTest
         var result = sut.Create(null, dummyContainer);
 
         // Assert
-        Assert.Equal(new NoSpecimen(), result);
+        Assert.Equal(NoSpecimen.Instance, result);
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class RandomDateOnlySequenceGeneratorTest
         var result = sut.Create(request, dummyContainer);
 
         // Assert
-        Assert.Equal(new NoSpecimen(), result);
+        Assert.Equal(NoSpecimen.Instance, result);
     }
 
     [Theory]
@@ -101,7 +101,7 @@ public class RandomDateOnlySequenceGeneratorTest
         var result = sut.Create(request, dummyContainer);
 
         // Assert
-        Assert.Equal(new NoSpecimen(), result);
+        Assert.Equal(NoSpecimen.Instance, result);
     }
 
     [Fact]

@@ -87,8 +87,8 @@ namespace AutoFixtureUnitTest.Kernel
             object subRequest = "Some sub request";
 
             var spy = new List<RequestTraceEventArgs>();
-            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Resolve(subRequest) : new NoSpecimen() };
-            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : new NoSpecimen() };
+            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Resolve(subRequest) : NoSpecimen.Instance };
+            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : NoSpecimen.Instance };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
             var sut = new DelegatingTracingBuilder(compBuilder);
@@ -110,8 +110,8 @@ namespace AutoFixtureUnitTest.Kernel
             object requestedObject = "The request";
             object subRequest = "Some sub request";
             var spy = new List<object>();
-            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Resolve(subRequest) : new NoSpecimen() };
-            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : new NoSpecimen() };
+            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Resolve(subRequest) : NoSpecimen.Instance };
+            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : NoSpecimen.Instance };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
             var sut = new DelegatingTracingBuilder(compBuilder);
@@ -167,8 +167,8 @@ namespace AutoFixtureUnitTest.Kernel
             var createdSpecimen = new object();
 
             var spy = new List<SpecimenCreatedEventArgs>();
-            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request ? c.Resolve(subRequest) : new NoSpecimen() };
-            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? createdSpecimen : new NoSpecimen() };
+            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request ? c.Resolve(subRequest) : NoSpecimen.Instance };
+            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? createdSpecimen : NoSpecimen.Instance };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
             var sut = new DelegatingTracingBuilder(compBuilder);
@@ -193,8 +193,8 @@ namespace AutoFixtureUnitTest.Kernel
             object subRequest = "Some sub request";
             object createdSpecimen = Guid.NewGuid();
             var spy = new List<object>();
-            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Resolve(subRequest) : new NoSpecimen() };
-            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? createdSpecimen : new NoSpecimen() };
+            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Resolve(subRequest) : NoSpecimen.Instance };
+            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? createdSpecimen : NoSpecimen.Instance };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
             var sut = new DelegatingTracingBuilder(compBuilder);

@@ -28,7 +28,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -53,7 +53,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonParameterRequest, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -62,12 +62,12 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var parameterInfo = typeof(SingleParameterType<string>).GetTypeInfo().GetConstructors().First().GetParameters().First();
-            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => NoSpecimen.Instance };
             var sut = new ParameterRequestRelay();
             // Act
             var result = sut.Create(parameterInfo, container);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 

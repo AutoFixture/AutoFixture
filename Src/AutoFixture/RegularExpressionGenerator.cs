@@ -32,12 +32,12 @@ namespace AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null) return new NoSpecimen();
+            if (request == null) return NoSpecimen.Instance;
 
             var regularExpressionRequest = request as RegularExpressionRequest;
             if (regularExpressionRequest == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return this.GenerateRegularExpression(regularExpressionRequest);
@@ -59,14 +59,14 @@ namespace AutoFixture
             }
             catch (InvalidOperationException)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
             catch (ArgumentException)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
 
         private int GenerateSeed()

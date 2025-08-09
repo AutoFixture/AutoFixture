@@ -43,7 +43,7 @@ namespace AutoFixture
                 return this.Builder.Create(memberType, context);
             }
 
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
     }
 }

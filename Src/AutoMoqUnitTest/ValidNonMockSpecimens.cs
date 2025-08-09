@@ -8,7 +8,7 @@ namespace AutoFixture.AutoMoq.UnitTest
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { new NoSpecimen() };
+            yield return new object[] { NoSpecimen.Instance };
             yield return new object[] { new OmitSpecimen() };
             yield return new object[] { null };
         }

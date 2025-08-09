@@ -12,14 +12,24 @@ namespace AutoFixture.Kernel
     /// <see langword="null"/> can be used as a proper return value.
     /// </para>
     /// </remarks>
-    public class NoSpecimen : IEquatable<NoSpecimen>
+    public sealed class NoSpecimen : IEquatable<NoSpecimen>
     {
+        /// <summary>
+        /// The singleton instance of <see cref="NoSpecimen"/>.
+        /// </summary>
+#pragma warning disable 0618
+        public static NoSpecimen Instance { get; } = new NoSpecimen();
+#pragma warning restore 0618
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NoSpecimen"/> class.
         /// </summary>
+#pragma warning disable 0618
+        [Obsolete(@"Use the NoSpecimen.Instance property instead of calling new NoSpecimen(). This constructor is being deprecated in future versions of AutoFixture, as creating many NoSpecimen instances causes excessive memory usage: https://github.com/AutoFixture/AutoFixture/issues/1489", false)]
         public NoSpecimen()
         {
         }
+#pragma warning restore 0618
 
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current

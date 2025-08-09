@@ -40,10 +40,10 @@ namespace AutoFixture.Kernel
 
             var type = request as Type;
             if (type == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerator<>), out Type enumeratorType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var specimenBuilder = (IEnumeratorBuilder)Activator.CreateInstance(
                 typeof(GenericEnumeratorRelay<>).MakeGenericType(enumeratorType));
@@ -65,7 +65,7 @@ namespace AutoFixture.Kernel
                 if (result is IEnumerable<T> enumerable)
                     return enumerable.GetEnumerator();
 
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
         }
     }

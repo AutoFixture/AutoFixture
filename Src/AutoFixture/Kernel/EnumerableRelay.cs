@@ -36,10 +36,10 @@ namespace AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
             if (type == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!type.TryGetSingleGenericTypeArgument(typeof(IEnumerable<>), out Type enumerableType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var specimen = context.Resolve(new MultipleRequest(enumerableType));
             if (specimen is OmitSpecimen)
@@ -47,7 +47,7 @@ namespace AutoFixture.Kernel
 
             var enumerable = specimen as IEnumerable<object>;
             if (enumerable == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var typedAdapterType = typeof(ConvertedEnumerable<>).MakeGenericType(enumerableType);
             return Activator.CreateInstance(typedAdapterType, enumerable);

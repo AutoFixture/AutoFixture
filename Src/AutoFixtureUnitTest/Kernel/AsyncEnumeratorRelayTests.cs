@@ -99,7 +99,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => expectedRequest.Equals(r)
                     ? asyncEnumerable
-                    : new NoSpecimen()
+                    : NoSpecimen.Instance
             };
             var sut = new AsyncEnumeratorRelay();
 
@@ -121,7 +121,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => r.Equals(typeof(IAsyncEnumerable<int>))
                     ? collection.ToAsyncEnumerable()
-                    : new NoSpecimen()
+                    : NoSpecimen.Instance
             };
 
             // Act
@@ -139,7 +139,7 @@ namespace AutoFixtureUnitTest.Kernel
             var request = typeof(IAsyncEnumerator<int>);
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = _ => new NoSpecimen()
+                OnResolve = _ => NoSpecimen.Instance
             };
 
             // Act

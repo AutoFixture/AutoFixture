@@ -321,7 +321,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var request = new FakeMemberInfo(providedAttribute);
             var enumGenerator = new DelegatingSpecimenBuilder
             {
-                OnCreate = (_, _) => new NoSpecimen()
+                OnCreate = (_, _) => NoSpecimen.Instance
             };
             var sut = new EnumDataTypeAttributeRelay(enumGenerator);
 

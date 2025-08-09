@@ -47,10 +47,10 @@ namespace AutoFixture
         {
             var type = request as Type;
             if (type == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!type.GetTypeInfo().IsEnum)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             lock (this.syncRoot)
             {

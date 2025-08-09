@@ -22,19 +22,19 @@ namespace AutoFixture
 
             if (!typeof(Uri).Equals(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var scheme = context.Resolve(typeof(UriScheme)) as UriScheme;
             if (scheme == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var authority = context.Resolve(typeof(string)) as string;
             if (authority == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return MakeUri(scheme, authority);

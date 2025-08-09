@@ -41,7 +41,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             var sut = new MultidimensionalArrayRelay();
             var dummyContext = new DelegatingSpecimenContext();
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
 
             var actual = sut.Create(invalidRequest, dummyContext);
 

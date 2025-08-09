@@ -28,7 +28,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(null, context);
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(nonDomainNameRequest, context);
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]

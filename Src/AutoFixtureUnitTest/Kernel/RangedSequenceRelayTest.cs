@@ -52,7 +52,7 @@ namespace AutoFixtureUnitTest.Kernel
                     if (r is RangedNumberRequest rnr)
                         capturedNumberRequest = rnr;
 
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
 
@@ -77,7 +77,7 @@ namespace AutoFixtureUnitTest.Kernel
                 OnResolve = r =>
                 {
                     if (r is RangedNumberRequest)
-                        return new NoSpecimen();
+                        return NoSpecimen.Instance;
 
                     return 42;
                 }
@@ -109,7 +109,7 @@ namespace AutoFixtureUnitTest.Kernel
                     if (r is FiniteSequenceRequest fsr)
                         capturedSequenceRequest = fsr;
 
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
 
@@ -139,7 +139,7 @@ namespace AutoFixtureUnitTest.Kernel
                     if (r is FiniteSequenceRequest)
                         return expectedResult;
 
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
             var sut = new RangedSequenceRelay();

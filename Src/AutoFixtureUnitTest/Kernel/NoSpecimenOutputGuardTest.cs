@@ -105,7 +105,7 @@ namespace AutoFixtureUnitTest.Kernel
             var request = new object();
             var context = new DelegatingSpecimenContext();
             var expectedResult = new object();
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request && c == context ? expectedResult : new NoSpecimen() };
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request && c == context ? expectedResult : NoSpecimen.Instance };
 
             var sut = new NoSpecimenOutputGuard(builder);
             // Act
@@ -118,7 +118,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void CreateThrowsWhenDecoratedBuilderReturnsNoSpecimen()
         {
             // Arrange
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() };
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => NoSpecimen.Instance };
             var sut = new NoSpecimenOutputGuard(builder);
             // Act & assert
             var dummyRequest = new object();
@@ -133,14 +133,14 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var request = new object();
 
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() };
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => NoSpecimen.Instance };
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => request == r ? false : true };
             var sut = new NoSpecimenOutputGuard(builder, spec);
             // Act
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 

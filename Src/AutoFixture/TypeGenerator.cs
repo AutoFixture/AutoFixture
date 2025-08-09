@@ -24,7 +24,7 @@ namespace AutoFixture
                 return typeof(object);
             }
 
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
     }
 }

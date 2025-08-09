@@ -61,11 +61,11 @@ namespace AutoFixture.AutoNSubstitute
         public object Create(object request, ISpecimenContext context)
         {
             if (!this.SubstitutionSpecification.IsSatisfiedBy(request))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var substitute = this.Builder.Create(request, context);
             if (substitute == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return substitute;
         }

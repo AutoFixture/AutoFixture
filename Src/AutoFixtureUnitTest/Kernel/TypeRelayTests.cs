@@ -61,7 +61,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(request, dummyContext);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, actual);
         }
 
@@ -169,7 +169,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRelay.Equals(r) ? expectedResult : new NoSpecimen()
+                OnResolve = r => expectedRelay.Equals(r) ? expectedResult : NoSpecimen.Instance
             };
 
             // Act

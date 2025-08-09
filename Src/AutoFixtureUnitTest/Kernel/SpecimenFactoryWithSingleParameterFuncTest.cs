@@ -56,9 +56,9 @@ namespace AutoFixtureUnitTest.Kernel
 
             var dtSpecimen = DateTimeOffset.Now;
             var expectedParameterRequest = typeof(DateTimeOffset);
-            var container = new DelegatingSpecimenContext { OnResolve = r => expectedParameterRequest.Equals(r) ? (object)dtSpecimen : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedParameterRequest.Equals(r) ? (object)dtSpecimen : NoSpecimen.Instance };
 
-            Func<DateTimeOffset, object> f = dt => dtSpecimen.Equals(dt) ? expectedSpecimen : new NoSpecimen();
+            Func<DateTimeOffset, object> f = dt => dtSpecimen.Equals(dt) ? expectedSpecimen : NoSpecimen.Instance;
             var sut = new SpecimenFactory<DateTimeOffset, object>(f);
             // Act
             var dummyRequest = new object();

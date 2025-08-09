@@ -146,7 +146,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedResult = new object();
             var builders = new ISpecimenBuilder[]
             {
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => NoSpecimen.Instance },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() }
             };
@@ -165,9 +165,9 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var builders = new ISpecimenBuilder[]
             {
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() }
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => NoSpecimen.Instance },
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => NoSpecimen.Instance },
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => NoSpecimen.Instance }
             };
             var sut = new CompositeSpecimenBuilder(builders);
             // Act
@@ -175,7 +175,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(anonymousRequest, dummyContainer);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, result);
         }
 

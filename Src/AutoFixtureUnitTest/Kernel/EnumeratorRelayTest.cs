@@ -40,7 +40,7 @@ namespace AutoFixtureUnitTest.Kernel
 
             var result = sut.Create(request, dummyContext);
 
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -61,7 +61,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => expectedRequest.Equals(r)
                     ? (object)enumerable
-                    : new NoSpecimen()
+                    : NoSpecimen.Instance
             };
             var sut = new EnumeratorRelay();
 
@@ -88,7 +88,7 @@ namespace AutoFixtureUnitTest.Kernel
 
             var result = sut.Create(request, context);
 
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
     }

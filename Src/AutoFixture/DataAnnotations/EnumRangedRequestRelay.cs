@@ -18,10 +18,10 @@ namespace AutoFixture.DataAnnotations
 
             var rangedRequest = request as RangedRequest;
             if (rangedRequest == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!rangedRequest.MemberType.GetTypeInfo().IsEnum)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var underlyingNumericType = rangedRequest.MemberType.GetTypeInfo().GetEnumUnderlyingType();
 
@@ -43,7 +43,7 @@ namespace AutoFixture.DataAnnotations
 
             var numericValue = context.Resolve(new RangedNumberRequest(underlyingNumericType, numericMin, numericMax));
             if (numericValue is NoSpecimen)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return Enum.ToObject(rangedRequest.MemberType, numericValue);
         }

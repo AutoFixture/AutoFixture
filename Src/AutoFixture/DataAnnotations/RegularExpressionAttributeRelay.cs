@@ -21,7 +21,7 @@ namespace AutoFixture.DataAnnotations
         {
             if (request == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             if (context == null)
@@ -32,7 +32,7 @@ namespace AutoFixture.DataAnnotations
             var regularExpressionAttribute = TypeEnvy.GetAttribute<RegularExpressionAttribute>(request);
             if (regularExpressionAttribute == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return context.Resolve(new RegularExpressionRequest(regularExpressionAttribute.Pattern));

@@ -37,7 +37,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(null, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -63,7 +63,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -83,7 +83,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 

@@ -127,7 +127,7 @@ namespace AutoFixtureUnitTest
             // Act
             object result = sut.Create(null, dummyContext);
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var dummyContext = new DelegatingSpecimenContext();
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             var sut = new RandomNumericSequenceGenerator();
             // Act
             object result = sut.Create(request, dummyContext);
@@ -163,7 +163,7 @@ namespace AutoFixtureUnitTest
         {
             // Arrange
             var dummyContext = new DelegatingSpecimenContext();
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             var sut = new RandomNumericSequenceGenerator();
             // Act
             object result = sut.Create(request, dummyContext);
