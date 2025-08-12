@@ -4,7 +4,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture
 {
     /// <summary>
-    /// Creates new <see cref="TimeZoneInfoGenerator"/> instances.
+    /// Creates new <see cref="TimeZoneInfo"/> instances.
     /// </summary>
     public class TimeZoneInfoGenerator : ISpecimenBuilder
     {
