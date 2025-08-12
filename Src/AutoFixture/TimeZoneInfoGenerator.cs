@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoFixture.DataAnnotations;
 using AutoFixture.Kernel;
 
 namespace AutoFixture
@@ -19,22 +18,22 @@ namespace AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context is null) throw new ArgumentNullException(nameof(context));
+            if (!typeof(TimeZoneInfo).Equals(request)) return new NoSpecimen();
 
-            if (!typeof(TimeZoneInfo).Equals(request))
-            {
-                return new NoSpecimen();
-            }
-
-            var id = (string)context.Resolve(typeof(string));
-            var tmp1 = new RangedNumberRequest(typeof(int), -14, 14);
-            var tmp2 = context.Resolve(tmp1);
-            int offset = (int)tmp2;
+            var timeZoneRangeRequest = new RangedNumberRequest(typeof(int), -12, 14);
+            var offset = (int)context.Resolve(timeZoneRangeRequest);
             var baseUtcOffset = TimeSpan.FromHours(offset);
-            var displayName = (string)context.Resolve(typeof(string));
-            var standardDisplayName = (string)context.Resolve(typeof(string));
 
-            return TimeZoneInfo.CreateCustomTimeZone(id, baseUtcOffset, displayName, standardDisplayName);
+            var sign = baseUtcOffset < TimeSpan.Zero ? "-" : "+";
+            var id = $"UTC{sign}{baseUtcOffset:hh}";
+            var displayName = $"(UTC{sign}{baseUtcOffset:hh\\:mm}) Test Time Zone{sign}{baseUtcOffset:hh}";
+
+            return TimeZoneInfo.CreateCustomTimeZone(
+                id: id,
+                baseUtcOffset: baseUtcOffset,
+                displayName: displayName,
+                standardDisplayName: id);
         }
     }
 }

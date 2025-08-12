@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
@@ -13,18 +14,19 @@ namespace AutoFixtureUnitTest
         {
             var sut = new TimeZoneInfoGenerator();
 
-            Assert.Throws<ArgumentNullException>(() => sut.Create(typeof(TimeZoneInfo), null));
+            Assert.Throws<ArgumentNullException>(
+                () => sut.Create(typeof(TimeZoneInfo), null));
         }
 
         [Fact]
         public void WhenNullRequest_ReturnsNoSpecimen()
         {
-            var sut = new DomainNameGenerator();
+            var sut = new TimeZoneInfoGenerator();
             var context = new DelegatingSpecimenContext();
 
             var result = sut.Create(null, context);
 
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.IsType<NoSpecimen>(result);
         }
 
         [Fact]
@@ -44,28 +46,20 @@ namespace AutoFixtureUnitTest
             var sut = new TimeZoneInfoGenerator();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r =>
+                OnResolve = r => r switch
                 {
-                    if (typeof(string).Equals(r))
-                    {
-                        return "testString";
-                    }
-                    else if (r is RangedNumberRequest)
-                    {
-                        return 2;
-                    }
-
-                    return new NoSpecimen();
+                    RangedNumberRequest _ => 2,
+                    _ => new NoSpecimen()
                 }
             };
 
             var result = sut.Create(typeof(TimeZoneInfo), context);
 
             var tz = Assert.IsType<TimeZoneInfo>(result);
-            Assert.Equal("testString", tz.Id);
             Assert.Equal(TimeSpan.FromHours(2), tz.BaseUtcOffset);
-            Assert.Equal("testString", tz.DisplayName);
-            Assert.Equal("testString", tz.StandardName);
+            Assert.Equal("UTC+02", tz.Id);
+            Assert.Equal("UTC+02", tz.StandardName);
+            Assert.Equal("(UTC+02:00) Test Time Zone+02", tz.DisplayName);
         }
     }
 }
