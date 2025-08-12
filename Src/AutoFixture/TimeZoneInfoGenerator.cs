@@ -19,7 +19,7 @@ namespace AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             if (context is null) throw new ArgumentNullException(nameof(context));
-            if (!typeof(TimeZoneInfo).Equals(request)) return new NoSpecimen();
+            if (!typeof(TimeZoneInfo).Equals(request)) return NoSpecimen.Instance;
 
             var timeZoneRangeRequest = new RangedNumberRequest(typeof(int), -12, 14);
             var offset = (int)context.Resolve(timeZoneRangeRequest);

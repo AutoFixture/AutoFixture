@@ -49,7 +49,7 @@ namespace AutoFixtureUnitTest
                 OnResolve = r => r switch
                 {
                     RangedNumberRequest _ => 2,
-                    _ => new NoSpecimen()
+                    _ => NoSpecimen.Instance
                 }
             };
 
