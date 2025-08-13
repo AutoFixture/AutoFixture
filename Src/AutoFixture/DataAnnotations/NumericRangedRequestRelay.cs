@@ -15,10 +15,10 @@ namespace AutoFixture.DataAnnotations
             if (context is null) throw new ArgumentNullException(nameof(context));
 
             if (request is not RangedRequest rangedRequest)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!rangedRequest.MemberType.IsNumberType())
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var convertedMinimum = rangedRequest.GetConvertedMinimum(rangedRequest.MemberType);
             var convertedMaximum = rangedRequest.GetConvertedMaximum(rangedRequest.MemberType);

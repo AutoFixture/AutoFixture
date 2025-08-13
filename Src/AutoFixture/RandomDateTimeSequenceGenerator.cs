@@ -57,7 +57,7 @@ namespace AutoFixture
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             return IsNotDateTimeRequest(request)
-                       ? new NoSpecimen()
+                       ? NoSpecimen.Instance
                        : this.CreateRandomDate(context);
         }
 

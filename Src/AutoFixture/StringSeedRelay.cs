@@ -33,13 +33,13 @@ namespace AutoFixture
             if (seededRequest == null ||
                 (!seededRequest.Request.Equals(typeof(string))))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var seed = seededRequest.Seed as string;
             if (seed == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var containerResult = context.Resolve(typeof(string));

@@ -38,10 +38,10 @@ namespace AutoFixture
 
             var type = request as Type;
             if (type == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!type.TryGetSingleGenericTypeArgument(typeof(Lazy<>), out Type lazyType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var lazyBuilderType = typeof(LazyBuilder<>).MakeGenericType(lazyType);
             var builder = (ILazyBuilder)Activator.CreateInstance(lazyBuilderType);

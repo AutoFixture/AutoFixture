@@ -25,7 +25,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -45,12 +45,12 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var anonymousSeed = new SeededRequest(typeof(object), new object());
-            var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
+            var unableContainer = new DelegatingSpecimenContext { OnResolve = r => NoSpecimen.Instance };
             var sut = new SeedIgnoringRelay();
             // Act
             var result = sut.Create(anonymousSeed, unableContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 

@@ -45,7 +45,7 @@ namespace AutoFixture
         {
             if (!typeof(long).Equals(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
 #pragma warning disable 618

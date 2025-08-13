@@ -15,7 +15,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
             // Arrange
             var seed = TimeSpan.FromMinutes(8);
             object expectedResult = TimeSpan.FromHours(2);
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : NoSpecimen.Instance };
             // Act
             var result = container.CreateAnonymous(seed);
             // Assert
@@ -100,7 +100,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
             {
                 OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(Version), seed))) ?
                     (object)expectedResult.Cast<object>() :
-                    new NoSpecimen()
+                    NoSpecimen.Instance
             };
             // Act
             var result = container.CreateMany(seed);
@@ -191,7 +191,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
             {
                 OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(Version), seed), count)) ?
                     (object)expectedResult.Cast<object>() :
-                    new NoSpecimen()
+                    NoSpecimen.Instance
             };
             // Act
             var result = container.CreateMany(seed, count);
@@ -266,7 +266,7 @@ namespace AutoFixture.SeedExtensions.UnitTest
             // Arrange
             var seed = TimeSpan.FromMinutes(8);
             object expectedResult = TimeSpan.FromHours(2);
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : NoSpecimen.Instance };
             // Act
             var result = container.Create(seed);
             // Assert

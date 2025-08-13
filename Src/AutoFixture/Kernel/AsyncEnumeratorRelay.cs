@@ -38,10 +38,10 @@ namespace AutoFixture.Kernel
         {
             if (context is null) throw new ArgumentNullException(nameof(context));
 
-            if (request is not Type type) return new NoSpecimen();
+            if (request is not Type type) return NoSpecimen.Instance;
 
             if (!type.TryGetSingleGenericTypeArgument(typeof(IAsyncEnumerator<>), out Type enumeratorType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var specimenBuilder = (IAsyncEnumeratorBuilder)Activator.CreateInstance(
                 typeof(GenericAsyncEnumeratorRelay<>).MakeGenericType(enumeratorType));
@@ -65,7 +65,7 @@ namespace AutoFixture.Kernel
                 if (result is IAsyncEnumerable<T> enumerable)
                     return enumerable.GetAsyncEnumerator();
 
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
         }
     }

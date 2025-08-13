@@ -48,10 +48,10 @@ namespace AutoFixture.Kernel
 
             var delegateType = request as Type;
             if (delegateType == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (!this.Specification.IsSatisfiedBy(delegateType))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var delegateMethod = delegateType.GetTypeInfo().GetMethod("Invoke");
             var methodSpecimenParams = CreateMethodSpecimenParameters(delegateMethod);

@@ -44,7 +44,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var result = sut.Create(request, context);
 
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -98,14 +98,14 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 new RangedRequest(memberType: typeof(EnumType), operandType: typeof(int), minimum: 1, maximum: 2);
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = _ => new NoSpecimen()
+                OnResolve = _ => NoSpecimen.Instance
             };
 
             // Act
             var result = sut.Create(request, context);
 
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Theory]
@@ -125,7 +125,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r =>
                 {
                     capturedNumericRequest = (RangedNumberRequest)r;
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
 
@@ -154,7 +154,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
                 OnResolve = r =>
                 {
                     capturedNumericRequest = (RangedNumberRequest)r;
-                    return new NoSpecimen();
+                    return NoSpecimen.Instance;
                 }
             };
 
@@ -177,7 +177,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var result = (int)EnumType.Second;
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => r is RangedNumberRequest ? (object)result : new NoSpecimen()
+                OnResolve = r => r is RangedNumberRequest ? (object)result : NoSpecimen.Instance
             };
 
             // Act

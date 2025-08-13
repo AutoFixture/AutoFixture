@@ -50,13 +50,13 @@ namespace AutoFixture.Kernel
 
             var multipleRequest = request as MultipleRequest;
             if (multipleRequest == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var innerRequest = GetInnerRequest(multipleRequest);
 
             var itemType = innerRequest as Type;
             if (itemType == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return context.Resolve(
                 typeof(IEnumerable<>).MakeGenericType(itemType));

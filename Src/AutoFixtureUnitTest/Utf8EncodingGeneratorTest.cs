@@ -46,7 +46,7 @@ namespace AutoFixtureUnitTest
             var result = sut.Create(null, new DelegatingSpecimenContext());
 
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace AutoFixtureUnitTest
             // Act
             var result = sut.Create(new object(), new DelegatingSpecimenContext());
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
     }
 }

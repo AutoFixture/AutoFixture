@@ -50,7 +50,7 @@ namespace AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -75,7 +75,7 @@ namespace AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringRequest, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -105,7 +105,7 @@ namespace AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(stringRequest, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -113,7 +113,7 @@ namespace AutoFixtureUnitTest
         public void CreateFromStringRequestWhenFactoryReturnsNoSpecimenWillReturnCorrectResult()
         {
             // Arrange
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             var sut = new StringGenerator(() => expectedResult);
             var stringRequest = typeof(string);
             // Act

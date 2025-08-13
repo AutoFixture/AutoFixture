@@ -64,11 +64,11 @@ namespace AutoFixture.AutoMoq
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             if (!this.MockableSpecification.IsSatisfiedBy(request))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var t = request as Type;
             if (t == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var result = ResolveMock(t, context);
 
@@ -78,7 +78,7 @@ namespace AutoFixture.AutoMoq
 
             var m = result as Mock;
             if (m == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return m.Object;
         }

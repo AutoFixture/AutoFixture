@@ -19,7 +19,7 @@ namespace AutoFixture
         {
             if (!typeof(UriScheme).Equals(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return new UriScheme();

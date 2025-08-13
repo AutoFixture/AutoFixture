@@ -50,7 +50,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -75,7 +75,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Act
             var result = sut.Create(nonTypeRequest, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -90,7 +90,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -99,12 +99,12 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             var type = typeof(string);
-            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => NoSpecimen.Instance };
             var sut = new MethodInvoker(new ModestConstructorQuery());
             // Act
             var result = sut.Create(type, container);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -117,7 +117,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Act
             var result = sut.Create(typeof(AbstractType), container);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -127,7 +127,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var requestedType = typeof(DoubleParameterType<string, int>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
-            var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : NoSpecimen.Instance };
             var sut = new MethodInvoker(new ModestConstructorQuery());
             // Act
             var result = sut.Create(requestedType, container);
@@ -228,7 +228,7 @@ namespace AutoFixtureUnitTest.Kernel
                         return expectedNumber;
                     }
                 }
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             };
             // Act
             var result = sut.Create(requestedType, context);

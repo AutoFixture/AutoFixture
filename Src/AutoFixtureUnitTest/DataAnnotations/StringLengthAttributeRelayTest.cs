@@ -103,7 +103,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             };
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expected : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expected : NoSpecimen.Instance
             };
             var sut = new StringLengthAttributeRelay
             {
@@ -136,7 +136,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             };
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : NoSpecimen.Instance
             };
             var sut = new StringLengthAttributeRelay
             {
@@ -190,7 +190,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
             var expected = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expected : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expected : NoSpecimen.Instance
             };
 
             // Act

@@ -18,10 +18,10 @@ namespace AutoFixture.DataAnnotations
             var rangedRequest = request as RangedRequest;
 
             if (rangedRequest == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (rangedRequest.MemberType != typeof(TimeSpan))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return CreateRangedTimeSpanSpecimen(rangedRequest, context);
         }
@@ -29,7 +29,7 @@ namespace AutoFixture.DataAnnotations
         private static object CreateRangedTimeSpanSpecimen(RangedRequest rangedRequest, ISpecimenContext context)
         {
             if (!(rangedRequest.Minimum is string) || !(rangedRequest.Maximum is string))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var range = ParseTimeSpanRange(rangedRequest);
             return RandomizeTimeSpanInRange(range, context);
@@ -50,7 +50,7 @@ namespace AutoFixture.DataAnnotations
                 new RangedNumberRequest(typeof(double), range.Min.TotalMilliseconds, range.Max.TotalMilliseconds));
 
             if (millisecondsInRange is NoSpecimen)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             return TimeSpan.FromMilliseconds((double)millisecondsInRange);
         }

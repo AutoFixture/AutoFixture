@@ -32,7 +32,7 @@ namespace AutoFixture
             Type type = request as Type;
             if (type == null || !this.valueTypeWithoutConstructorsSpecification.IsSatisfiedBy(type))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return Activator.CreateInstance(type);

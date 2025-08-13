@@ -66,7 +66,7 @@ namespace AutoFixtureUnitTest
             var expectedResult = new object();
             var innerBuilder = new DelegatingSpecimenBuilder
             {
-                OnCreate = (r, c) => memberType.Equals(r) ? expectedResult : new NoSpecimen()
+                OnCreate = (r, c) => memberType.Equals(r) ? expectedResult : NoSpecimen.Instance
             };
 
             var sut = new UnwrapMemberRequest(innerBuilder)
@@ -109,7 +109,7 @@ namespace AutoFixtureUnitTest
             var result = sut.Create(nonMemberRequest, ctx);
 
             // Assert
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(NoSpecimen.Instance, result);
         }
     }
 }

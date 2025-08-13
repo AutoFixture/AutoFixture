@@ -37,7 +37,7 @@ namespace AutoFixture.DataAnnotations
             var rangeAttribute = TypeEnvy.GetAttribute<RangeAttribute>(request);
             if (rangeAttribute is null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var memberType = this.GetMemberType(rangeAttribute, request);

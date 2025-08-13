@@ -26,7 +26,7 @@ namespace AutoFixture.Kernel
             var paramInfo = request as ParameterInfo;
             if (paramInfo == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return context.Resolve(new SeededRequest(paramInfo.ParameterType, paramInfo.Name));

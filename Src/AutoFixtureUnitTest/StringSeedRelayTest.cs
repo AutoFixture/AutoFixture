@@ -27,7 +27,7 @@ namespace AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -52,7 +52,7 @@ namespace AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonSeed, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -66,7 +66,7 @@ namespace AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringRequestSeed, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -80,7 +80,7 @@ namespace AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringSeed, dummyContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -90,11 +90,11 @@ namespace AutoFixtureUnitTest
             // Arrange
             var sut = new StringSeedRelay();
             var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
-            var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
+            var unableContainer = new DelegatingSpecimenContext { OnResolve = r => NoSpecimen.Instance };
             // Act
             var result = sut.Create(stringSeed, unableContainer);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 

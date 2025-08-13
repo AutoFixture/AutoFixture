@@ -73,7 +73,7 @@ namespace AutoFixtureUnitTest.Kernel
 
             var builder = new DelegatingSpecimenBuilder
             {
-                OnCreate = (r, c) => (r == request) && (c == ctx) ? expectedResult : new NoSpecimen()
+                OnCreate = (r, c) => (r == request) && (c == ctx) ? expectedResult : NoSpecimen.Instance
             };
 
             var sut = new DisposableTracker(builder);

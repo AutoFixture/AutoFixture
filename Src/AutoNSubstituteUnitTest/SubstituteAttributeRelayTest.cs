@@ -27,7 +27,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act
             object specimen = sut.Create(null, context);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, specimen);
         }
 
@@ -41,7 +41,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act
             object specimen = sut.Create(request, context);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, specimen);
         }
 
@@ -56,7 +56,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Act
             object specimen = sut.Create(request, context);
             // Assert
-            var expected = new NoSpecimen();
+            var expected = NoSpecimen.Instance;
             Assert.Equal(expected, specimen);
         }
 

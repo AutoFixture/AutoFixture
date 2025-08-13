@@ -52,17 +52,17 @@ namespace AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null) return new NoSpecimen();
+            if (request == null) return NoSpecimen.Instance;
 
             var attribute = TypeEnvy.GetAttribute<EnumDataTypeAttribute>(request);
-            if (attribute == null || !attribute.EnumType.GetTypeInfo().IsEnum) return new NoSpecimen();
+            if (attribute == null || !attribute.EnumType.GetTypeInfo().IsEnum) return NoSpecimen.Instance;
 
             var enumValue = this.enumGenerator.Create(attribute.EnumType, context);
             if (enumValue is NoSpecimen) return enumValue;
 
             if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return memberType switch
@@ -71,7 +71,7 @@ namespace AutoFixture.DataAnnotations
                 var t when t == typeof(object) => enumValue,
                 var t when t.IsNumberType() => Convert.ChangeType(enumValue, memberType, CultureInfo.CurrentCulture),
                 var t when t == typeof(string) => enumValue.ToString(),
-                _ => new NoSpecimen()
+                _ => NoSpecimen.Instance
             };
         }
     }

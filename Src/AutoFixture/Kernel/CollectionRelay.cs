@@ -35,11 +35,11 @@ namespace AutoFixture.Kernel
             // This is performance-sensitive code when used repeatedly over many requests.
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
-            if (type == null) return new NoSpecimen();
+            if (type == null) return NoSpecimen.Instance;
             var typeArguments = type.GetTypeInfo().GetGenericArguments();
-            if (typeArguments.Length != 1) return new NoSpecimen();
+            if (typeArguments.Length != 1) return NoSpecimen.Instance;
             var gtd = type.GetGenericTypeDefinition();
-            if (gtd != typeof(ICollection<>)) return new NoSpecimen();
+            if (gtd != typeof(ICollection<>)) return NoSpecimen.Instance;
             return context.Resolve(typeof(List<>).MakeGenericType(typeArguments));
         }
     }

@@ -78,7 +78,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => expectedRequest.Equals(r)
                     ? contextResult
-                    : new NoSpecimen()
+                    : NoSpecimen.Instance
             };
             var sut = new AsyncEnumerableRelay();
 
@@ -100,7 +100,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => expectedRequest.Equals(r)
                     ? enumerable.Cast<object>()
-                    : new NoSpecimen()
+                    : NoSpecimen.Instance
             };
             var sut = new AsyncEnumerableRelay();
 
@@ -147,7 +147,7 @@ namespace AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => expectedRequest.Equals(r)
                     ? enumerable
-                    : new NoSpecimen()
+                    : NoSpecimen.Instance
             };
 
             var sut = new AsyncEnumerableRelay();

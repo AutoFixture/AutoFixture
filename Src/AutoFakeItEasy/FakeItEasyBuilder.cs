@@ -57,12 +57,12 @@ namespace AutoFixture.AutoFakeItEasy
         {
             if (request is not Type type || !type.IsFake())
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var fake = this.Builder.Create(request, context);
 
-            return type.IsInstanceOfType(fake) ? fake : new NoSpecimen();
+            return type.IsInstanceOfType(fake) ? fake : NoSpecimen.Instance;
         }
     }
 }

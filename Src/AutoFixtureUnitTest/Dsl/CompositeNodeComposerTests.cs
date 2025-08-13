@@ -82,7 +82,7 @@ namespace AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => r == request && c == context ?
                     expected :
-                    new NoSpecimen()
+                    NoSpecimen.Instance
             };
             var sut = new CompositeNodeComposer<ushort>(
                 new CompositeSpecimenBuilder(

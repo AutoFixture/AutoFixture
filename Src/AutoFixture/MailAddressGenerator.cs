@@ -30,7 +30,7 @@ namespace AutoFixture
 
             if (!typeof(MailAddress).Equals(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             try
@@ -39,7 +39,7 @@ namespace AutoFixture
             }
             catch (FormatException)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
         }
 
@@ -50,7 +50,7 @@ namespace AutoFixture
 
             if (localPart == null || domainName == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, domainName);

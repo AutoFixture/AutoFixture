@@ -43,7 +43,7 @@ namespace AutoFixture
         {
             if (!typeof(uint).Equals(request))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             lock (this.syncRoot)

@@ -44,7 +44,7 @@ namespace AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
 
@@ -58,7 +58,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var expectedRequest = new MultipleRequest(itemType);
             object expectedResult = Array.CreateInstance(itemType, 0);
-            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen() };
+            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedResult : NoSpecimen.Instance };
 
             var sut = new ArrayRelay();
             // Act
@@ -74,7 +74,7 @@ namespace AutoFixtureUnitTest.Kernel
             var request = typeof(int[]);
             var expectedRequest = new MultipleRequest(typeof(int));
             var enumerable = Enumerable.Range(1, 3);
-            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? (object)enumerable : new NoSpecimen() };
+            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? (object)enumerable : NoSpecimen.Instance };
 
             var sut = new ArrayRelay();
             // Act
@@ -98,7 +98,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Act
             var result = sut.Create(request, context);
             // Assert
-            var expectedResult = new NoSpecimen();
+            var expectedResult = NoSpecimen.Instance;
             Assert.Equal(expectedResult, result);
         }
     }

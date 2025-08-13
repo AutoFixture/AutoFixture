@@ -28,14 +28,14 @@ namespace AutoFixture.AutoNSubstitute
             var customAttributeProvider = request as ICustomAttributeProvider;
             if (customAttributeProvider == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             var attribute = customAttributeProvider.GetCustomAttributes(typeof(SubstituteAttribute), true)
                     .OfType<SubstituteAttribute>().FirstOrDefault();
             if (attribute == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             object substituteRequest = CreateSubstituteRequest(customAttributeProvider, attribute);

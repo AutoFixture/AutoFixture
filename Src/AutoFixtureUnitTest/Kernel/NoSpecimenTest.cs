@@ -12,7 +12,7 @@ namespace AutoFixtureUnitTest.Kernel
         {
             // Arrange
             // Act
-            var sut = new NoSpecimen();
+            var sut = NoSpecimen.Instance;
             // Assert
             Assert.IsAssignableFrom<IEquatable<NoSpecimen>>(sut);
         }
@@ -22,7 +22,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullObject()
         {
             // Arrange
-            var sut = new NoSpecimen();
+            var sut = NoSpecimen.Instance;
             object other = null;
             // Act
             var result = sut.Equals(other);
@@ -35,7 +35,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullSut()
         {
             // Arrange
-            var sut = new NoSpecimen();
+            var sut = NoSpecimen.Instance;
             NoSpecimen other = null;
             // Act
             var result = sut.Equals(other);
@@ -47,7 +47,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualAnonymousObject()
         {
             // Arrange
-            var sut = new NoSpecimen();
+            var sut = NoSpecimen.Instance;
             var anonymousObject = new object();
             // Act
             var result = sut.Equals(anonymousObject);
@@ -59,8 +59,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutEqualsOtherObject()
         {
             // Arrange
-            var sut = new NoSpecimen();
-            object other = new NoSpecimen();
+            var sut = NoSpecimen.Instance;
+            object other = NoSpecimen.Instance;
             // Act
             var result = sut.Equals(other);
             // Assert
@@ -71,8 +71,8 @@ namespace AutoFixtureUnitTest.Kernel
         public void SutEqualsOtherSut()
         {
             // Arrange
-            var sut = new NoSpecimen();
-            var other = new NoSpecimen();
+            var sut = NoSpecimen.Instance;
+            var other = NoSpecimen.Instance;
             // Act
             var result = sut.Equals(other);
             // Assert
@@ -83,7 +83,7 @@ namespace AutoFixtureUnitTest.Kernel
         public void GetHashCodeWillAlwaysReturnZeroResult()
         {
             // Arrange
-            var sut = new NoSpecimen();
+            var sut = NoSpecimen.Instance;
             // Act
             var result = sut.GetHashCode();
             // Assert

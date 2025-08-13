@@ -62,17 +62,17 @@ namespace AutoFixture.AutoFakeItEasy
             if (context is null) throw new ArgumentNullException(nameof(context));
 
             if (!this.FakeableSpecification.IsSatisfiedBy(request))
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             if (request is not Type type)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
             var fake = context.Resolve(fakeType);
             if (!fakeType.IsInstanceOfType(fake))
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);

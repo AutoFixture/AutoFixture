@@ -94,7 +94,7 @@ namespace AutoFixture.Kernel
             if (request is Type t && this.fromSpecification.IsSatisfiedBy(request))
                 return context.Resolve(this.GetRedirectedTypeRequest(t));
 
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
 
         private Type GetRedirectedTypeRequest(Type originalRequest)

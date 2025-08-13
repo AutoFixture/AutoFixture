@@ -45,7 +45,7 @@ namespace AutoFixture.AutoNSubstitute
             var substituteRequest = request as SubstituteRequest;
             if (substituteRequest == null)
             {
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
             }
 
             return this.SubstituteFactory.Create(substituteRequest.TargetType, context);

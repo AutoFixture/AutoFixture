@@ -191,7 +191,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var expectedValue = new object();
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
-            var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : NoSpecimen.Instance };
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             var specimen = new PropertyHolder<object>();
@@ -209,7 +209,7 @@ namespace AutoFixtureUnitTest.Kernel
             // Arrange
             var expectedValue = new object();
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
-            var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : NoSpecimen.Instance };
 
             var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
             var specimen = new FieldHolder<object>();
@@ -243,7 +243,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedValue = new object();
             var expectedContainer = new DelegatingSpecimenContext();
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContainer == c ? expectedValue : new NoSpecimen());
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContainer == c ? expectedValue : NoSpecimen.Instance);
             var specimen = new PropertyHolder<object>();
             // Act
 #pragma warning disable 618
@@ -382,7 +382,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : NoSpecimen.Instance
             };
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
@@ -401,7 +401,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen()
+                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : NoSpecimen.Instance
             };
 
             var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
@@ -431,7 +431,7 @@ namespace AutoFixtureUnitTest.Kernel
             var expectedValue = new object();
             var expectedContext = new DelegatingSpecimenContext();
 
-            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContext == c ? expectedValue : new NoSpecimen());
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContext == c ? expectedValue : NoSpecimen.Instance);
             var specimen = new PropertyHolder<object>();
             // Act
             sut.Execute((object)specimen, expectedContext);

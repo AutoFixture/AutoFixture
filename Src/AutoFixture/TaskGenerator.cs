@@ -28,7 +28,7 @@ namespace AutoFixture
 
             var type = request as Type;
             if (type == null)
-                return new NoSpecimen();
+                return NoSpecimen.Instance;
 
             // check if type is a constructed generic type whose definition matches Task<>.
             if (type.TryGetSingleGenericTypeArgument(typeof(Task<>), out Type taskResultType))
@@ -38,7 +38,7 @@ namespace AutoFixture
             if (type == typeof(Task))
                 return CreateNonGenericTask();
 
-            return new NoSpecimen();
+            return NoSpecimen.Instance;
         }
 
         private static object CreateGenericTask(Type resultType, ISpecimenContext context)

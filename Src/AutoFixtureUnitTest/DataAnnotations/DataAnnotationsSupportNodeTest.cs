@@ -57,7 +57,7 @@ namespace AutoFixtureUnitTest.DataAnnotations
 
             var builder = new DelegatingSpecimenBuilder
             {
-                OnCreate = (r, ctx) => r == request ? expectedResult : new NoSpecimen()
+                OnCreate = (r, ctx) => r == request ? expectedResult : NoSpecimen.Instance
             };
 
             var sut = new DataAnnotationsSupportNode(builder);
