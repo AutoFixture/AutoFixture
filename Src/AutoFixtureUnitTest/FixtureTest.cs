@@ -6907,5 +6907,21 @@ namespace AutoFixtureUnitTest
             // Assert
             Assert.Equal(EnumType.First, result.PropertyWithEnumDataType);
         }
+
+        [Fact]
+        public void ShouldReturnDifferentTimeZoneInfoEveryTime()
+        {
+            // Arrange
+            var sut = new Fixture();
+
+            // Act
+            var result1 = sut.Create<TimeZoneInfo>();
+            var result2 = sut.Create<TimeZoneInfo>();
+            var result3 = sut.Create<TimeZoneInfo>();
+
+            // Assert
+            Assert.NotEqual(result1, result2);
+            Assert.NotEqual(result1, result3);
+        }
     }
 }
