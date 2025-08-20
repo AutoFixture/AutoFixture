@@ -22,9 +22,19 @@ namespace AutoFixture
             if (!typeof(TimeZoneInfo).Equals(request)) return NoSpecimen.Instance;
 
             var timeZoneRangeRequest = new RangedNumberRequest(typeof(int), -12, 14);
-            var offset = (int)context.Resolve(timeZoneRangeRequest);
-            var baseUtcOffset = TimeSpan.FromHours(offset);
+            var offsetResult = context.Resolve(timeZoneRangeRequest);
+            if (offsetResult is NoSpecimen or OmitSpecimen)
+            {
+                return offsetResult;
+            }
 
+            if (offsetResult is not int offset)
+            {
+                throw new InvalidOperationException(
+                    $"The result of ranged number request must be an int, but was {offsetResult?.GetType().FullName ?? "null"}.");
+            }
+
+            var baseUtcOffset = TimeSpan.FromHours(offset);
             var sign = baseUtcOffset < TimeSpan.Zero ? "-" : "+";
             var id = $"UTC{sign}{baseUtcOffset:hh}";
             var displayName = $"(UTC{sign}{baseUtcOffset:hh\\:mm}) Test Time Zone{sign}{baseUtcOffset:hh}";
