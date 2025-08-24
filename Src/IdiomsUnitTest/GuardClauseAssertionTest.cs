@@ -13,6 +13,45 @@ using Xunit;
 
 namespace AutoFixture.IdiomsUnitTest
 {
+    public class MyClassTests
+    {
+        class MyClass
+        {
+            string myString;
+
+            public MyClass(string myString)
+            {
+                if (myString == null)
+                    throw new ArgumentNullException(nameof(myString));
+
+                this.myString = myString;
+            }
+
+            override public string ToString() => this.myString;
+
+            public string Append(string s2)
+            {
+                return this.myString + s2;
+            }
+        }
+
+        [Fact]
+        public void Test1()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            sut.Verify(typeof(MyClass).GetConstructors().First());
+        }
+
+        [Fact]
+        public void Test2()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            sut.Verify(typeof(MyClass).GetMethods().First());
+        }
+    }
+
     [SuppressMessage("ReSharper", "UnusedMember.Local", Justification = "Used via reflection.")]
     [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Required for testing.")]
 #pragma warning disable SA1601 // This is a test class, so it's OK to have unannotated public members
@@ -1315,6 +1354,64 @@ namespace AutoFixture.IdiomsUnitTest
             {
                 if (arg.All(x => x == ' '))
                     throw new ArgumentException("Value cannot be whitespace.", "invalid parameter name");
+            }
+        }
+    }
+
+    public class NullableParametersGuardCLauseAssertionTests
+    {
+        [Fact]
+        public void VerifyThrowsForMissingGuardClauseOnNonNullableReferenceType()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var method = typeof(NonNullableReferenceParameterClass)
+                .GetMethod(nameof(NonNullableReferenceParameterClass.Method));
+
+            Assert.Throws<GuardClauseException>(() => sut.Verify(method));
+        }
+
+        private class NonNullableReferenceParameterClass
+        {
+            public void Method(string foo) { /* no guard clause */ }
+        }
+
+        [Fact]
+        public void VerifyDoesNotThrowForMissingGuardClauseOnNullableReferenceType()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var method = typeof(NullableReferenceParameterClass)
+                .GetMethod(nameof(NullableReferenceParameterClass.Method));
+
+            var ex = Record.Exception(() => sut.Verify(method));
+
+            Assert.Null(ex);
+        }
+
+        private class NullableReferenceParameterClass
+        {
+#nullable enable
+            public void Method(string? foo)
+            {
+                if (foo == null) throw new ArgumentNullException(nameof(foo));
+            }
+        }
+
+        [Fact]
+        public void VerifyDoesNotThrowForMissingGuardClauseOnNullableValueType()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var method = typeof(NullableReferenceParameterClass).GetMethod(nameof(NullableReferenceParameterClass.Method));
+
+            var ex = Record.Exception(() => sut.Verify(method));
+
+            Assert.Null(ex);
+        }
+
+        private class NullableValueParameterClass
+        {
+            public void Method(int? foo)
+            {
+                if (foo == null) throw new ArgumentNullException(nameof(foo));
             }
         }
     }
