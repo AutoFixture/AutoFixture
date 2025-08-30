@@ -16,6 +16,7 @@
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
     <Reference Condition=" '$(TargetFramework)'=='net452' " Include="System.ComponentModel.DataAnnotations" />
     <PackageReference Condition=" '$(TargetFramework)'=='netcoreapp1.1' " Include="System.Linq.Parallel" Version="4.3.0" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,7 @@
     <PackageReference Include="FakeItEasy" Version="[4.0.0]" Condition=" '$(TargetFramework)'=='net452' " />
     <PackageReference Include="FakeItEasy" Version="[4.0.0]" Condition=" '$(TargetFramework)'=='netcoreapp1.1' " />
     <PackageReference Include="FakeItEasy" Version="[4.9.0]" Condition=" '$(TargetFramework)'=='netcoreapp2.0' " />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

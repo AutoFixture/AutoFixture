@@ -24,6 +24,7 @@
 
     <PackageReference Include="NSubstitute" Version="[2.0.3,6.0.0)" Condition="'$(TargetFramework)'=='net452'" />
     <PackageReference Include="NSubstitute" Version="[2.0.3,6.0.0)" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

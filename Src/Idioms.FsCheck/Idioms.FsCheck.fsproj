@@ -40,6 +40,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\Idioms\Idioms.csproj" />
   </ItemGroup>

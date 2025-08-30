@@ -7,6 +7,10 @@
     <AssemblyTitle>TestTypeFoundation</AssemblyTitle>
     <AssemblyName>TestTypeFoundation</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
  
 </Project>
 

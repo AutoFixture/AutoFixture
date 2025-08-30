@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="[3.0.0]" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
