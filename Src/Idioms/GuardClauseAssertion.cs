@@ -238,69 +238,27 @@ namespace AutoFixture.Idioms
             }
         }
 
-        //private IEnumerable<ReflectionExceptionUnwrappingCommand> GetParameterGuardCommands(IMethod method)
-        //{
-        //    var arguments = this.GetParameters(method);
-        //    return from pi in method.Parameters
-        //           where !pi.IsOut
-        //           let expansion = new IndexedReplacement<object>(pi.Position, arguments)
-        //           select new MethodInvokeCommand(method, expansion, pi)
-        //           into command
-        //           select new ReflectionExceptionUnwrappingCommand(command);
-        //}
-
         private IEnumerable<ReflectionExceptionUnwrappingCommand> GetParameterGuardCommands(IMethod method)
         {
             var arguments = this.GetParameters(method);
             return from pi in method.Parameters
-                   where !pi.IsOut && !IsNullable(pi)
+                   where !pi.IsOut && !IsNullableReferenceType(pi)
                    let expansion = new IndexedReplacement<object>(pi.Position, arguments)
                    select new MethodInvokeCommand(method, expansion, pi)
                    into command
                    select new ReflectionExceptionUnwrappingCommand(command);
         }
 
-        // Helper method to detect nullable reference types
-        private static bool IsNullable(ParameterInfo parameter)
+        private static bool IsNullableReferenceType(ParameterInfo parameter)
         {
-            //// Value types are not reference types
-            //if (!parameter.ParameterType.IsClass && !parameter.ParameterType.IsInterface)
-            //    return false;
-
+#if NET6_0
             var nic = new NullabilityInfoContext();
             var nullabilityInfo = nic.Create(parameter);
             return nullabilityInfo.ReadState == NullabilityState.Nullable;
-
-            //// Check for [Nullable] attribute on the parameter
-            //var nullableAttr = parameter.GetCustomAttributes(false)
-            //    .FirstOrDefault(a => a.GetType().FullName == "System.Runtime.CompilerServices.NullableAttribute");
-            //if (nullableAttr != null)
-            //{
-            //    var field = nullableAttr.GetType().GetField("NullableFlags");
-            //    if (field != null)
-            //    {
-            //        var flags = field.GetValue(nullableAttr) as byte[];
-            //        if (flags != null && flags.Length > 0)
-            //            return flags[0] == 2; // 2 means nullable
-            //    }
-            //}
-
-            //// Check for [NullableContext] attribute on the declaring method or type
-            //var nullableContext = parameter.Member.GetCustomAttributes(false)
-            //    .Concat(parameter.Member.DeclaringType?.GetCustomAttributes(false) ?? Array.Empty<object>())
-            //    .FirstOrDefault(a => a.GetType().FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
-            //if (nullableContext != null)
-            //{
-            //    var field = nullableContext.GetType().GetField("Flag");
-            //    if (field != null)
-            //    {
-            //        var flag = field.GetValue(nullableContext);
-            //        if (flag is byte b)
-            //            return b == 2;
-            //    }
-            //}
-
-            //return false;
+#else
+            // Older frameworks does not support nullable reference types, so we assume it's not nullable.
+            return false;
+#endif
         }
 
         private List<object> GetParameters(IMethod method)
