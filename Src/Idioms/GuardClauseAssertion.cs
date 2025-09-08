@@ -249,11 +249,14 @@ namespace AutoFixture.Idioms
                    select new ReflectionExceptionUnwrappingCommand(command);
         }
 
+#if NET6_0
+        private static readonly NullabilityInfoContext NullInfoContext = new();
+#endif
+
         private static bool IsNullableReferenceType(ParameterInfo parameter)
         {
 #if NET6_0
-            var nic = new NullabilityInfoContext();
-            var nullabilityInfo = nic.Create(parameter);
+            var nullabilityInfo = NullInfoContext.Create(parameter);
             return nullabilityInfo.ReadState == NullabilityState.Nullable;
 #else
             // Older frameworks does not support nullable reference types, so we assume it's not nullable.
