@@ -391,8 +391,6 @@ namespace AutoFixture.IdiomsUnitTest
             MemberRef.MethodByIndex(typeof(Version), 4),
             MemberRef.MethodByIndex(typeof(Version), 5),
             MemberRef.MethodByIndex(typeof(Version), 6),
-            MemberRef.MethodByIndex(typeof(Version), 7),
-            MemberRef.MethodByIndex(typeof(Version), 8),
             MemberRef.MethodByIndex(typeof(Version), 9),
             MemberRef.MethodByIndex(typeof(Version), 10),
         };

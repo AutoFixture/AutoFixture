@@ -242,11 +242,26 @@ namespace AutoFixture.Idioms
         {
             var arguments = this.GetParameters(method);
             return from pi in method.Parameters
-                   where !pi.IsOut
+                   where !pi.IsOut && !IsNullableReferenceType(pi)
                    let expansion = new IndexedReplacement<object>(pi.Position, arguments)
                    select new MethodInvokeCommand(method, expansion, pi)
                    into command
                    select new ReflectionExceptionUnwrappingCommand(command);
+        }
+
+#if NET6_0
+        private static readonly NullabilityInfoContext NullInfoContext = new();
+#endif
+
+        private static bool IsNullableReferenceType(ParameterInfo parameter)
+        {
+#if NET6_0
+            var nullabilityInfo = NullInfoContext.Create(parameter);
+            return nullabilityInfo.ReadState == NullabilityState.Nullable;
+#else
+            // Older frameworks does not support nullable reference types, so we assume it's not nullable.
+            return false;
+#endif
         }
 
         private List<object> GetParameters(IMethod method)
