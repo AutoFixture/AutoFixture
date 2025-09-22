@@ -20,7 +20,10 @@ namespace AutoFixture.IdiomsUnitTest
 
         private class NonNullableReferenceParameterClass
         {
-            public void Method(string foo) { /* no guard clause */ }
+            public void Method(string foo)
+            {
+                /* no guard clause */
+            }
         }
 
         [Fact]
