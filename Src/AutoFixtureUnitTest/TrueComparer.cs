@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace AutoFixtureUnitTest
-{
-    public class TrueComparer<T> : IEqualityComparer<T>
-    {
-        public bool Equals(T x, T y)
-        {
-            return true;
-        }
+namespace AutoFixtureUnitTest;
 
-        public int GetHashCode(T obj)
-        {
-            return obj.GetHashCode();
-        }
+public class TrueComparer<T> : IEqualityComparer<T>
+{
+    public bool Equals(T x, T y)
+    {
+        return true;
+    }
+
+    public int GetHashCode(T obj)
+    {
+        return obj.GetHashCode();
     }
 }

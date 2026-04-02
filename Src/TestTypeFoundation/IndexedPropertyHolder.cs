@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class IndexedPropertyHolder<T>
 {
-    public class IndexedPropertyHolder<T>
+    private readonly List<T> items;
+
+    public IndexedPropertyHolder()
     {
-        private readonly List<T> items;
+        this.items = new List<T>();
+    }
 
-        public IndexedPropertyHolder()
-        {
-            this.items = new List<T>();
-        }
-
-        public T this[int index]
-        {
-            get { return this.items[index]; }
-            set { this.items[index] = value; }
-        }
+    public T this[int index]
+    {
+        get { return this.items[index]; }
+        set { this.items[index] = value; }
     }
 }

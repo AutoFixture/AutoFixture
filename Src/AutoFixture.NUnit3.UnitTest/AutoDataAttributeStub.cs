@@ -1,21 +1,20 @@
 using System;
 
-namespace AutoFixture.NUnit3.UnitTest
-{
-    /// <summary>
-    /// A stub of <see cref="AutoDataAttribute"/> for the benefit of unit testing.
-    /// </summary>
-    public class AutoDataAttributeStub : AutoDataAttribute
-    {
-        [Obsolete]
-        public AutoDataAttributeStub(IFixture fixture)
-            : base(fixture)
-        {
-        }
+namespace AutoFixture.NUnit3.UnitTest;
 
-        public AutoDataAttributeStub(Func<IFixture> fixtureFactory)
-            : base(fixtureFactory)
-        {
-        }
+/// <summary>
+/// A stub of <see cref="AutoDataAttribute"/> for the benefit of unit testing.
+/// </summary>
+public class AutoDataAttributeStub : AutoDataAttribute
+{
+    [Obsolete]
+    public AutoDataAttributeStub(IFixture fixture)
+        : base(fixture)
+    {
+    }
+
+    public AutoDataAttributeStub(Func<IFixture> fixtureFactory)
+        : base(fixtureFactory)
+    {
     }
 }

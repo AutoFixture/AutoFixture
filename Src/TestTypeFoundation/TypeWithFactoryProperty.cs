@@ -1,17 +1,16 @@
-﻿namespace TestTypeFoundation
-{
-    public class TypeWithFactoryProperty
-    {
-        private TypeWithFactoryProperty()
-        {
-        }
+﻿namespace TestTypeFoundation;
 
-        public static TypeWithFactoryProperty Factory
+public class TypeWithFactoryProperty
+{
+    private TypeWithFactoryProperty()
+    {
+    }
+
+    public static TypeWithFactoryProperty Factory
+    {
+        get
         {
-            get
-            {
-                return new TypeWithFactoryProperty();
-            }
+            return new TypeWithFactoryProperty();
         }
     }
 }

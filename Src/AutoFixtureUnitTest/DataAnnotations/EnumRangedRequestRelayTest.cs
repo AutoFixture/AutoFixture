@@ -5,204 +5,203 @@ using AutoFixtureUnitTest.Kernel;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixtureUnitTest.DataAnnotations
+namespace AutoFixtureUnitTest.DataAnnotations;
+
+public class EnumRangedRequestRelayTest
 {
-    public class EnumRangedRequestRelayTest
+    [Fact]
+    public void SutShouldBeASpecimenBuilder()
     {
-        [Fact]
-        public void SutShouldBeASpecimenBuilder()
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+
+        // Act & Assert
+        Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+    }
+
+    [Fact]
+    public void ShouldFailForNullContext()
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        var request = new object();
+
+        // Act & Assert
+        Assert.ThrowsAny<ArgumentNullException>(() =>
+            sut.Create(request, null));
+    }
+
+    [Fact]
+    public void ShouldNotHandleRequestIfMemberTypeIsNotEnum()
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: typeof(object), operandType: typeof(EnumType), minimum: 0, maximum: 1);
+        var context = new DelegatingSpecimenContext();
+
+        // Act
+        var result = sut.Create(request, context);
+
+        // Assert
+        Assert.Equal(NoSpecimen.Instance, result);
+    }
+
+    [Fact]
+    public void ShouldHandleRequestOfEnumType()
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: typeof(EnumType), operandType: typeof(int), minimum: 1, maximum: 2);
+        var result = (int)EnumType.Second;
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
+            OnResolve = _ => result
+        };
 
-            // Act & Assert
-            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-        }
+        // Act
+        var actualResult = sut.Create(request, context);
 
-        [Fact]
-        public void ShouldFailForNullContext()
+        // Assert
+        Assert.Equal(EnumType.Second, actualResult);
+    }
+
+    [Theory]
+    [InlineData(EnumType.First, 1)]
+    [InlineData(EnumType.Second, 2)]
+    [InlineData(EnumType.Third, 3)]
+    public void ShouldCorrectlyConvertNumericValue(EnumType expectedResult, int numericValue)
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: typeof(EnumType), operandType: typeof(int), minimum: 1, maximum: 3);
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            var request = new object();
+            OnResolve = _ => numericValue
+        };
 
-            // Act & Assert
-            Assert.ThrowsAny<ArgumentNullException>(() =>
-                sut.Create(request, null));
-        }
+        // Act
+        var result = sut.Create(request, context);
 
-        [Fact]
-        public void ShouldNotHandleRequestIfMemberTypeIsNotEnum()
+        // Assert
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void ShouldReturnNoSpecimenIfUnableToSatisfyRangedRequest()
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: typeof(EnumType), operandType: typeof(int), minimum: 1, maximum: 2);
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: typeof(object), operandType: typeof(EnumType), minimum: 0, maximum: 1);
-            var context = new DelegatingSpecimenContext();
+            OnResolve = _ => NoSpecimen.Instance
+        };
 
-            // Act
-            var result = sut.Create(request, context);
+        // Act
+        var result = sut.Create(request, context);
 
-            // Assert
-            Assert.Equal(NoSpecimen.Instance, result);
-        }
+        // Assert
+        Assert.Equal(NoSpecimen.Instance, result);
+    }
 
-        [Fact]
-        public void ShouldHandleRequestOfEnumType()
+    [Theory]
+    [InlineData(typeof(ShortEnumType), typeof(short))]
+    [InlineData(typeof(ByteEnumType), typeof(byte))]
+    [InlineData(typeof(LongEnumType), typeof(long))]
+    public void ShouldRespectUnderlyingEnumType(Type enumType, Type underlyingType)
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: enumType, operandType: typeof(int), minimum: 1, maximum: 2);
+
+        RangedNumberRequest capturedNumericRequest = null;
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: typeof(EnumType), operandType: typeof(int), minimum: 1, maximum: 2);
-            var result = (int)EnumType.Second;
-            var context = new DelegatingSpecimenContext
+            OnResolve = r =>
             {
-                OnResolve = _ => result
-            };
+                capturedNumericRequest = (RangedNumberRequest)r;
+                return NoSpecimen.Instance;
+            }
+        };
 
-            // Act
-            var actualResult = sut.Create(request, context);
+        // Act
+        sut.Create(request, context);
 
-            // Assert
-            Assert.Equal(EnumType.Second, actualResult);
-        }
+        // Assert
+        Assert.NotNull(capturedNumericRequest);
+        Assert.Equal(underlyingType, capturedNumericRequest.OperandType);
+        Assert.IsType(underlyingType, capturedNumericRequest.Minimum);
+        Assert.IsType(underlyingType, capturedNumericRequest.Maximum);
+    }
 
-        [Theory]
-        [InlineData(EnumType.First, 1)]
-        [InlineData(EnumType.Second, 2)]
-        [InlineData(EnumType.Third, 3)]
-        public void ShouldCorrectlyConvertNumericValue(EnumType expectedResult, int numericValue)
+    [Fact]
+    public void ShouldCorrectPassMinimumAndMaximum()
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        int minimum = 5;
+        int maximum = 10;
+
+        var request = new RangedRequest(typeof(EnumType), typeof(int), minimum, maximum);
+        RangedNumberRequest capturedNumericRequest = null;
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: typeof(EnumType), operandType: typeof(int), minimum: 1, maximum: 3);
-            var context = new DelegatingSpecimenContext
+            OnResolve = r =>
             {
-                OnResolve = _ => numericValue
-            };
+                capturedNumericRequest = (RangedNumberRequest)r;
+                return NoSpecimen.Instance;
+            }
+        };
 
-            // Act
-            var result = sut.Create(request, context);
+        // Act
+        sut.Create(request, context);
 
-            // Assert
-            Assert.Equal(expectedResult, result);
-        }
+        // Assert
+        Assert.NotNull(capturedNumericRequest);
+        Assert.Equal(minimum, capturedNumericRequest.Minimum);
+        Assert.Equal(maximum, capturedNumericRequest.Maximum);
+    }
 
-        [Fact]
-        public void ShouldReturnNoSpecimenIfUnableToSatisfyRangedRequest()
+    [Fact]
+    public void ShouldSupportRangeForLiteralBoundaries()
+    {
+        // Arrange
+        var sut = new EnumRangedRequestRelay();
+        var request
+            = new RangedRequest(typeof(EnumType), typeof(EnumType), nameof(EnumType.First), nameof(EnumType.Third));
+        var result = (int)EnumType.Second;
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: typeof(EnumType), operandType: typeof(int), minimum: 1, maximum: 2);
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = _ => NoSpecimen.Instance
-            };
+            OnResolve = r => r is RangedNumberRequest ? (object)result : NoSpecimen.Instance
+        };
 
-            // Act
-            var result = sut.Create(request, context);
+        // Act
+        var actualResult = sut.Create(request, context);
 
-            // Assert
-            Assert.Equal(NoSpecimen.Instance, result);
-        }
+        // Assert
+        Assert.Equal(EnumType.Second, actualResult);
+    }
 
-        [Theory]
-        [InlineData(typeof(ShortEnumType), typeof(short))]
-        [InlineData(typeof(ByteEnumType), typeof(byte))]
-        [InlineData(typeof(LongEnumType), typeof(long))]
-        public void ShouldRespectUnderlyingEnumType(Type enumType, Type underlyingType)
-        {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: enumType, operandType: typeof(int), minimum: 1, maximum: 2);
+    private enum ShortEnumType : short
+    {
+        First,
+        Second
+    }
 
-            RangedNumberRequest capturedNumericRequest = null;
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r =>
-                {
-                    capturedNumericRequest = (RangedNumberRequest)r;
-                    return NoSpecimen.Instance;
-                }
-            };
+    private enum ByteEnumType : byte
+    {
+        First,
+        Second
+    }
 
-            // Act
-            sut.Create(request, context);
-
-            // Assert
-            Assert.NotNull(capturedNumericRequest);
-            Assert.Equal(underlyingType, capturedNumericRequest.OperandType);
-            Assert.IsType(underlyingType, capturedNumericRequest.Minimum);
-            Assert.IsType(underlyingType, capturedNumericRequest.Maximum);
-        }
-
-        [Fact]
-        public void ShouldCorrectPassMinimumAndMaximum()
-        {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            int minimum = 5;
-            int maximum = 10;
-
-            var request = new RangedRequest(typeof(EnumType), typeof(int), minimum, maximum);
-            RangedNumberRequest capturedNumericRequest = null;
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r =>
-                {
-                    capturedNumericRequest = (RangedNumberRequest)r;
-                    return NoSpecimen.Instance;
-                }
-            };
-
-            // Act
-            sut.Create(request, context);
-
-            // Assert
-            Assert.NotNull(capturedNumericRequest);
-            Assert.Equal(minimum, capturedNumericRequest.Minimum);
-            Assert.Equal(maximum, capturedNumericRequest.Maximum);
-        }
-
-        [Fact]
-        public void ShouldSupportRangeForLiteralBoundaries()
-        {
-            // Arrange
-            var sut = new EnumRangedRequestRelay();
-            var request
-                = new RangedRequest(typeof(EnumType), typeof(EnumType), nameof(EnumType.First), nameof(EnumType.Third));
-            var result = (int)EnumType.Second;
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => r is RangedNumberRequest ? (object)result : NoSpecimen.Instance
-            };
-
-            // Act
-            var actualResult = sut.Create(request, context);
-
-            // Assert
-            Assert.Equal(EnumType.Second, actualResult);
-        }
-
-        private enum ShortEnumType : short
-        {
-            First,
-            Second
-        }
-
-        private enum ByteEnumType : byte
-        {
-            First,
-            Second
-        }
-
-        private enum LongEnumType : long
-        {
-            First,
-            Second
-        }
+    private enum LongEnumType : long
+    {
+        First,
+        Second
     }
 }

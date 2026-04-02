@@ -3,32 +3,31 @@
 using System.IO;
 using System.Text;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest;
+
+internal static class TestConsole
 {
-    internal static class TestConsole
+    internal static TextWriter Out
     {
-        internal static TextWriter Out
+        get
         {
-            get
-            {
 #if ALLOWCONSOLE
                 return Console.Out;
 #else
-                return new NullWriter();
+            return new NullWriter();
 #endif
-            }
+        }
+    }
+
+    private class NullWriter : TextWriter
+    {
+        public override void Write(char value)
+        {
         }
 
-        private class NullWriter : TextWriter
+        public override Encoding Encoding
         {
-            public override void Write(char value)
-            {
-            }
-
-            public override Encoding Encoding
-            {
-                get { return Encoding.Unicode; }
-            }
+            get { return Encoding.Unicode; }
         }
     }
 }

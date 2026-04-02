@@ -1,31 +1,30 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture
+namespace AutoFixture;
+
+/// <summary>
+/// Creates new <see cref="DomainName"/> instances.
+/// </summary>
+public class DomainNameGenerator : ISpecimenBuilder
 {
-    /// <summary>
-    /// Creates new <see cref="DomainName"/> instances.
-    /// </summary>
-    public class DomainNameGenerator : ISpecimenBuilder
+    private readonly ElementsBuilder<string> fictitiousDomainBuilder = new ElementsBuilder<string>(
+        "example.com",
+        "example.net",
+        "example.org");
+
+    /// <inheritdoc />
+    public object Create(object request, ISpecimenContext context)
     {
-        private readonly ElementsBuilder<string> fictitiousDomainBuilder = new ElementsBuilder<string>(
-                "example.com",
-                "example.net",
-                "example.org");
+        if (context == null) throw new ArgumentNullException(nameof(context));
 
-        /// <inheritdoc />
-        public object Create(object request, ISpecimenContext context)
-        {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+        if (request == null || !typeof(DomainName).Equals(request))
+            return NoSpecimen.Instance;
 
-            if (request == null || !typeof(DomainName).Equals(request))
-                return NoSpecimen.Instance;
+        var domainName = this.fictitiousDomainBuilder.Create(typeof(string), context) as string;
+        if (domainName == null)
+            return NoSpecimen.Instance;
 
-            var domainName = this.fictitiousDomainBuilder.Create(typeof(string), context) as string;
-            if (domainName == null)
-                return NoSpecimen.Instance;
-
-            return new DomainName(domainName);
-        }
+        return new DomainName(domainName);
     }
 }

@@ -1,25 +1,24 @@
 ﻿using System;
 
-namespace AutoFixtureDocumentationTest.Intermediate
+namespace AutoFixtureDocumentationTest.Intermediate;
+
+public class Person
 {
-    public class Person
+    private Person spouse;
+
+    public DateTime BirthDay { get; set; }
+
+    public string Name { get; set; }
+
+    public Person Spouse
     {
-        private Person spouse;
-
-        public DateTime BirthDay { get; set; }
-
-        public string Name { get; set; }
-
-        public Person Spouse
+        get => this.spouse;
+        set
         {
-            get => this.spouse;
-            set
+            this.spouse = value;
+            if (value != null)
             {
-                this.spouse = value;
-                if (value != null)
-                {
-                    value.spouse = this;
-                }
+                value.spouse = this;
             }
         }
     }

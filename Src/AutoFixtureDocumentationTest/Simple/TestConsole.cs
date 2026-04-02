@@ -1,14 +1,13 @@
 ﻿// #define ALLOWCONSOLE
 
-namespace AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple;
+
+internal static class TestConsole
 {
-    internal static class TestConsole
+    internal static void WriteLine(string value)
     {
-        internal static void WriteLine(string value)
-        {
 #if ALLOWCONSOLE
             Console.WriteLine(value);
 #endif
-        }
     }
 }

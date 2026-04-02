@@ -1,6 +1,5 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IDerivedInterface : IInterfaceWithParameterlessMethod
 {
-    public interface IDerivedInterface : IInterfaceWithParameterlessMethod
-    {
-    }
 }

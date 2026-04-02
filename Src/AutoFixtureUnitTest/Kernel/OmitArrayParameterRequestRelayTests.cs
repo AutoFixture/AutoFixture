@@ -5,132 +5,131 @@ using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel;
+
+public class OmitArrayParameterRequestRelayTests
 {
-    public class OmitArrayParameterRequestRelayTests
+    [Fact]
+    public void SutIsSpecimenBuilder()
     {
-        [Fact]
-        public void SutIsSpecimenBuilder()
-        {
-            var sut = new OmitArrayParameterRequestRelay();
-            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-        }
+        var sut = new OmitArrayParameterRequestRelay();
+        Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+    }
 
-        [Theory]
-        [InlineData(typeof(object[]))]
-        [InlineData(typeof(string[]))]
-        [InlineData(typeof(int[]))]
-        [InlineData(typeof(Version[]))]
-        [InlineData(typeof(SingleParameterType<string>[]))]
-        public void CreateWithEnumerableParameterReturnsCorrectResult(
-            Type argumentType)
+    [Theory]
+    [InlineData(typeof(object[]))]
+    [InlineData(typeof(string[]))]
+    [InlineData(typeof(int[]))]
+    [InlineData(typeof(Version[]))]
+    [InlineData(typeof(SingleParameterType<string>[]))]
+    public void CreateWithEnumerableParameterReturnsCorrectResult(
+        Type argumentType)
+    {
+        var parameterInfo =
+            typeof(SingleParameterType<>)
+                .MakeGenericType(new[] { argumentType })
+                .GetConstructors()
+                .First()
+                .GetParameters()
+                .First();
+        var expected = new object();
+        var context = new DelegatingSpecimenContext
         {
-            var parameterInfo =
-                typeof(SingleParameterType<>)
-                    .MakeGenericType(new[] { argumentType })
-                    .GetConstructors()
-                    .First()
-                    .GetParameters()
-                    .First();
-            var expected = new object();
-            var context = new DelegatingSpecimenContext
+            OnResolve = r =>
             {
-                OnResolve = r =>
-                {
-                    Assert.Equal(
-                        new SeededRequest(
-                            parameterInfo.ParameterType,
-                            parameterInfo.Name),
-                        r);
-                    return expected;
-                }
-            };
-            var sut = new OmitArrayParameterRequestRelay();
+                Assert.Equal(
+                    new SeededRequest(
+                        parameterInfo.ParameterType,
+                        parameterInfo.Name),
+                    r);
+                return expected;
+            }
+        };
+        var sut = new OmitArrayParameterRequestRelay();
 
-            var actual = sut.Create(parameterInfo, context);
+        var actual = sut.Create(parameterInfo, context);
 
-            Assert.Equal(expected, actual);
-        }
+        Assert.Equal(expected, actual);
+    }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData(false)]
-        [InlineData(true)]
-        [InlineData(0)]
-        [InlineData(42)]
-        [InlineData("")]
-        [InlineData("Foo")]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        public void CreateReturnsCorrectResultForNonParameterRequest(
-            object request)
+    [Theory]
+    [InlineData(null)]
+    [InlineData(false)]
+    [InlineData(true)]
+    [InlineData(0)]
+    [InlineData(42)]
+    [InlineData("")]
+    [InlineData("Foo")]
+    [InlineData(typeof(object))]
+    [InlineData(typeof(string))]
+    public void CreateReturnsCorrectResultForNonParameterRequest(
+        object request)
+    {
+        var sut = new OmitArrayParameterRequestRelay();
+        var actual = sut.Create(request, new DelegatingSpecimenContext());
+        Assert.Equal(NoSpecimen.Instance, actual);
+    }
+
+    [Theory]
+    [InlineData(typeof(object))]
+    [InlineData(typeof(string))]
+    [InlineData(typeof(int))]
+    [InlineData(typeof(Version))]
+    [InlineData(typeof(SingleParameterType<string>))]
+    public void CreateWithNonEnumerableParameterRequestReturnsCorrectResult(
+        Type argumentType)
+    {
+        var parameterInfo =
+            typeof(SingleParameterType<>)
+                .MakeGenericType(new[] { argumentType })
+                .GetConstructors()
+                .First()
+                .GetParameters()
+                .First();
+        var sut = new OmitArrayParameterRequestRelay();
+
+        var dummyContext = new DelegatingSpecimenContext();
+        var actual = sut.Create(parameterInfo, dummyContext);
+
+        var expected = NoSpecimen.Instance;
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData(typeof(object[]))]
+    [InlineData(typeof(string[]))]
+    [InlineData(typeof(int[]))]
+    [InlineData(typeof(Version[]))]
+    [InlineData(typeof(SingleParameterType<string>[]))]
+    public void CreateReturnsCorrectResultWhenContextReturnsOmitSpecimen(
+        Type argumentType)
+    {
+        var parameterInfo =
+            typeof(SingleParameterType<>)
+                .MakeGenericType(new[] { argumentType })
+                .GetConstructors()
+                .First()
+                .GetParameters()
+                .First();
+        var context = new DelegatingSpecimenContext
         {
-            var sut = new OmitArrayParameterRequestRelay();
-            var actual = sut.Create(request, new DelegatingSpecimenContext());
-            Assert.Equal(NoSpecimen.Instance, actual);
-        }
+            OnResolve = r => new OmitSpecimen()
+        };
+        var sut = new OmitArrayParameterRequestRelay();
 
-        [Theory]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(Version))]
-        [InlineData(typeof(SingleParameterType<string>))]
-        public void CreateWithNonEnumerableParameterRequestReturnsCorrectResult(
-            Type argumentType)
-        {
-            var parameterInfo =
-                typeof(SingleParameterType<>)
-                    .MakeGenericType(new[] { argumentType })
-                    .GetConstructors()
-                    .First()
-                    .GetParameters()
-                    .First();
-            var sut = new OmitArrayParameterRequestRelay();
+        var actual = sut.Create(parameterInfo, context);
 
-            var dummyContext = new DelegatingSpecimenContext();
-            var actual = sut.Create(parameterInfo, dummyContext);
+        var expected = Array.CreateInstance(
+            argumentType.GetElementType(),
+            0);
+        Assert.Equal(expected, actual);
+    }
 
-            var expected = NoSpecimen.Instance;
-            Assert.Equal(expected, actual);
-        }
-
-        [Theory]
-        [InlineData(typeof(object[]))]
-        [InlineData(typeof(string[]))]
-        [InlineData(typeof(int[]))]
-        [InlineData(typeof(Version[]))]
-        [InlineData(typeof(SingleParameterType<string>[]))]
-        public void CreateReturnsCorrectResultWhenContextReturnsOmitSpecimen(
-            Type argumentType)
-        {
-            var parameterInfo =
-                typeof(SingleParameterType<>)
-                    .MakeGenericType(new[] { argumentType })
-                    .GetConstructors()
-                    .First()
-                    .GetParameters()
-                    .First();
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => new OmitSpecimen()
-            };
-            var sut = new OmitArrayParameterRequestRelay();
-
-            var actual = sut.Create(parameterInfo, context);
-
-            var expected = Array.CreateInstance(
-                argumentType.GetElementType(),
-                0);
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void CreateWithNullContextThrows()
-        {
-            var sut = new OmitArrayParameterRequestRelay();
-            Assert.Throws<ArgumentNullException>(
-                () => sut.Create(new object(), null));
-        }
+    [Fact]
+    public void CreateWithNullContextThrows()
+    {
+        var sut = new OmitArrayParameterRequestRelay();
+        Assert.Throws<ArgumentNullException>(
+            () => sut.Create(new object(), null));
     }
 }

@@ -1,12 +1,11 @@
-﻿namespace AutoFixtureDocumentationTest.Simple
-{
-    public class ComplexParent
-    {
-        public ComplexParent(ComplexChild child)
-        {
-            this.Child = child;
-        }
+﻿namespace AutoFixtureDocumentationTest.Simple;
 
-        public ComplexChild Child { get; }
+public class ComplexParent
+{
+    public ComplexParent(ComplexChild child)
+    {
+        this.Child = child;
     }
+
+    public ComplexChild Child { get; }
 }

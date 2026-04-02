@@ -1,7 +1,6 @@
-﻿namespace AutoFixtureDocumentationTest.Extension.Constraints
+﻿namespace AutoFixtureDocumentationTest.Extension.Constraints;
+
+public class MyClass
 {
-    public class MyClass
-    {
-        public string SomeText { get; set; }
-    }
+    public string SomeText { get; set; }
 }

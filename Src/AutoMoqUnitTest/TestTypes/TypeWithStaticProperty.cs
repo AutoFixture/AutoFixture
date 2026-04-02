@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithStaticProperty
 {
-    public class TypeWithStaticProperty
-    {
-        public static string Property { get; set; }
-    }
+    public static string Property { get; set; }
 }

@@ -1,6 +1,5 @@
-﻿namespace AutoFixtureDocumentationTest.Array
+﻿namespace AutoFixtureDocumentationTest.Array;
+
+public class MyClassD
 {
-    public class MyClassD
-    {
-    }
 }

@@ -2,26 +2,25 @@
 using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2.Internal
+namespace AutoFixture.Xunit2.Internal;
+
+internal class FrozenValueCustomization : ICustomization
 {
-    internal class FrozenValueCustomization : ICustomization
+    private readonly IRequestSpecification specification;
+    private readonly object? value;
+
+    public FrozenValueCustomization(IRequestSpecification specification, object? value)
     {
-        private readonly IRequestSpecification specification;
-        private readonly object? value;
+        this.specification = specification ?? throw new ArgumentNullException(nameof(specification));
+        this.value = value;
+    }
 
-        public FrozenValueCustomization(IRequestSpecification specification, object? value)
-        {
-            this.specification = specification ?? throw new ArgumentNullException(nameof(specification));
-            this.value = value;
-        }
+    public void Customize(IFixture fixture)
+    {
+        var builder = new FilteringSpecimenBuilder(
+            builder: new FixedBuilder(this.value),
+            specification: this.specification);
 
-        public void Customize(IFixture fixture)
-        {
-            var builder = new FilteringSpecimenBuilder(
-                builder: new FixedBuilder(this.value),
-                specification: this.specification);
-
-            fixture.Customizations.Insert(0, builder);
-        }
+        fixture.Customizations.Insert(0, builder);
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class NoopInterfaceImplementer : IInterface
 {
-    public class NoopInterfaceImplementer : IInterface
+    public object MakeIt(object obj)
     {
-        public object MakeIt(object obj)
-        {
-            return obj;
-        }
+        return obj;
     }
 }

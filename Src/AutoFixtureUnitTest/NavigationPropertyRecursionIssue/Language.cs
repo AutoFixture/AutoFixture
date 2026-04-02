@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue
+namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue;
+
+public class Language
 {
-    public class Language
-    {
-        public ICollection<Session> Sessions { get; set; }
-    }
+    public ICollection<Session> Sessions { get; set; }
 }

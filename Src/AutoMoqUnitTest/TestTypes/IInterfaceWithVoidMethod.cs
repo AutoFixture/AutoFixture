@@ -1,8 +1,7 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithVoidMethod
 {
-    public interface IInterfaceWithVoidMethod
-    {
-        void VoidMethod();
-        string SetOnlyProperty { set; }
-    }
+    void VoidMethod();
+    string SetOnlyProperty { set; }
 }

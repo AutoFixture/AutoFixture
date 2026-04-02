@@ -2,30 +2,29 @@
 using System.Reflection;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.Xunit2
+namespace AutoFixture.Xunit2;
+
+/// <summary>
+/// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
+/// Theory to indicate that the parameter value should be created using the most modest
+/// constructor that can be satisfied by an <see cref="IFixture"/>.
+/// </summary>
+[AttributeUsage(AttributeTargets.Parameter)]
+public sealed class ModestAttribute : CustomizeAttribute
 {
     /// <summary>
-    /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
-    /// Theory to indicate that the parameter value should be created using the most modest
-    /// constructor that can be satisfied by an <see cref="IFixture"/>.
+    /// Gets a customization that associates a <see cref="ModestConstructorQuery"/> with the
+    /// <see cref="Type"/> of the parameter.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter)]
-    public sealed class ModestAttribute : CustomizeAttribute
+    /// <param name="parameter">The parameter for which the customization is requested.</param>
+    /// <returns>
+    /// A customization that associates a <see cref="ModestConstructorQuery"/> with the
+    /// <see cref="Type"/> of the parameter.
+    /// </returns>
+    public override ICustomization GetCustomization(ParameterInfo parameter)
     {
-        /// <summary>
-        /// Gets a customization that associates a <see cref="ModestConstructorQuery"/> with the
-        /// <see cref="Type"/> of the parameter.
-        /// </summary>
-        /// <param name="parameter">The parameter for which the customization is requested.</param>
-        /// <returns>
-        /// A customization that associates a <see cref="ModestConstructorQuery"/> with the
-        /// <see cref="Type"/> of the parameter.
-        /// </returns>
-        public override ICustomization GetCustomization(ParameterInfo parameter)
-        {
-            if (parameter is null) throw new ArgumentNullException(nameof(parameter));
+        if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
-            return new ConstructorCustomization(parameter.ParameterType, new ModestConstructorQuery());
-        }
+        return new ConstructorCustomization(parameter.ParameterType, new ModestConstructorQuery());
     }
 }

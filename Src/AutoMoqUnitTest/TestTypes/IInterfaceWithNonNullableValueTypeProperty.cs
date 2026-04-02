@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithNonNullableValueTypeProperty
 {
-    public interface IInterfaceWithNonNullableValueTypeProperty
-    {
-        int Property { get; set; }
-    }
+    int Property { get; set; }
 }

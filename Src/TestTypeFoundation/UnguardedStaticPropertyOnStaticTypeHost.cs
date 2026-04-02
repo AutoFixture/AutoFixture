@@ -1,11 +1,10 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public static class UnguardedStaticPropertyOnStaticTypeHost
 {
-    public static class UnguardedStaticPropertyOnStaticTypeHost
+    public static object Property
     {
-        public static object Property
-        {
-            get;
-            set;
-        }
+        get;
+        set;
     }
 }

@@ -3,68 +3,67 @@ using System.Linq;
 using System.Reflection;
 using FakeItEasy.Core;
 
-namespace AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy;
+
+/// <summary>
+/// A rule that intercepts property setter calls. Values will be saved into a result cache to be
+/// provided as the return value from the matching get methods when the latter are called.
+/// </summary>
+internal class PropertySetterRule : IFakeObjectCallRule
 {
-    /// <summary>
-    /// A rule that intercepts property setter calls. Values will be saved into a result cache to be
-    /// provided as the return value from the matching get methods when the latter are called.
-    /// </summary>
-    internal class PropertySetterRule : IFakeObjectCallRule
+    private readonly CallResultCache resultCache;
+
+    public PropertySetterRule(CallResultCache resultCache)
     {
-        private readonly CallResultCache resultCache;
+        this.resultCache = resultCache;
+    }
 
-        public PropertySetterRule(CallResultCache resultCache)
-        {
-            this.resultCache = resultCache;
-        }
+    /// <summary>
+    /// Gets the number of times this call rule is valid.
+    /// </summary>
+    /// <returns><c>null</c>, indicating that the rule has no expiration.</returns>
+    public int? NumberOfTimesToCall => null;
 
-        /// <summary>
-        /// Gets the number of times this call rule is valid.
-        /// </summary>
-        /// <returns><c>null</c>, indicating that the rule has no expiration.</returns>
-        public int? NumberOfTimesToCall => null;
+    /// <summary>
+    /// Gets whether this rule is applicable to the specified
+    /// call. If <c>true</c> is returned then <see cref="Apply" /> will be called.
+    /// </summary>
+    /// <param name="fakeObjectCall">The call to check for applicability.</param>
+    /// <returns><c>true</c> if the call is a property setter.</returns>
+    public bool IsApplicableTo(IFakeObjectCall fakeObjectCall)
+    {
+        return fakeObjectCall is not null
+               && IsSetter(fakeObjectCall.Method);
+    }
 
-        /// <summary>
-        /// Gets whether this rule is applicable to the specified
-        /// call. If <c>true</c> is returned then <see cref="Apply" /> will be called.
-        /// </summary>
-        /// <param name="fakeObjectCall">The call to check for applicability.</param>
-        /// <returns><c>true</c> if the call is a property setter.</returns>
-        public bool IsApplicableTo(IFakeObjectCall fakeObjectCall)
-        {
-            return fakeObjectCall is not null
-                && IsSetter(fakeObjectCall.Method);
-        }
+    /// <summary>
+    /// Stores the value provided in the property setter to be returned from later
+    /// calls to the corresponding getter.
+    /// </summary>
+    /// <param name="fakeObjectCall">The call to apply the rule to.</param>
+    public void Apply(IInterceptedFakeObjectCall fakeObjectCall)
+    {
+        if (fakeObjectCall is null) throw new ArgumentNullException(nameof(fakeObjectCall));
 
-        /// <summary>
-        /// Stores the value provided in the property setter to be returned from later
-        /// calls to the corresponding getter.
-        /// </summary>
-        /// <param name="fakeObjectCall">The call to apply the rule to.</param>
-        public void Apply(IInterceptedFakeObjectCall fakeObjectCall)
-        {
-            if (fakeObjectCall is null) throw new ArgumentNullException(nameof(fakeObjectCall));
+        var methodCall = CreateMethodCallForGetter(fakeObjectCall);
+        this.resultCache.Put(methodCall, new MethodCallResult(fakeObjectCall.Arguments.Last()));
+    }
 
-            var methodCall = CreateMethodCallForGetter(fakeObjectCall);
-            this.resultCache.Put(methodCall, new MethodCallResult(fakeObjectCall.Arguments.Last()));
-        }
+    private static bool IsSetter(MethodInfo method) =>
+        method.IsSpecialName &&
+        method.Name.StartsWith("set_", StringComparison.Ordinal);
 
-        private static bool IsSetter(MethodInfo method) =>
-            method.IsSpecialName &&
-            method.Name.StartsWith("set_", StringComparison.Ordinal);
-
-        private static MethodCall CreateMethodCallForGetter(IFakeObjectCall fakeObjectCall)
-        {
+    private static MethodCall CreateMethodCallForGetter(IFakeObjectCall fakeObjectCall)
+    {
 #if NETFRAMEWORK || NETSTANDARD2_0
             var methodName = "get_" + fakeObjectCall.Method.Name.Substring(4);
 #else
-            var methodName = string.Concat("get_", fakeObjectCall.Method.Name.AsSpan(4));
+        var methodName = string.Concat("get_", fakeObjectCall.Method.Name.AsSpan(4));
 #endif
-            var numberOfArguments = fakeObjectCall.Arguments.Count - 1;
+        var numberOfArguments = fakeObjectCall.Arguments.Count - 1;
 
-            var arguments = fakeObjectCall.Arguments.Take(numberOfArguments);
-            var parameters = fakeObjectCall.Method.GetParameters().Take(numberOfArguments);
-            return new MethodCall(fakeObjectCall.Method.DeclaringType, methodName, parameters, arguments);
-        }
+        var arguments = fakeObjectCall.Arguments.Take(numberOfArguments);
+        var parameters = fakeObjectCall.Method.GetParameters().Take(numberOfArguments);
+        return new MethodCall(fakeObjectCall.Method.DeclaringType, methodName, parameters, arguments);
     }
 }

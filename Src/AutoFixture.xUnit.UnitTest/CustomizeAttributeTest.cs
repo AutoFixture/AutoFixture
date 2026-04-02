@@ -1,38 +1,37 @@
 ﻿using System;
 using Xunit;
 
-namespace AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest;
+
+public class CustomizeAttributeTest
 {
-    public class CustomizeAttributeTest
+    [Fact]
+    public void TestableSutIsSut()
     {
-        [Fact]
-        public void TestableSutIsSut()
-        {
-            // Arrange
-            // Act
-            var sut = new DelegatingCustomizeAttribute();
-            // Assert
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
-        }
+        // Arrange
+        // Act
+        var sut = new DelegatingCustomizeAttribute();
+        // Assert
+        Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+    }
 
-        [Fact]
-        public void SutIsAttribute()
-        {
-            // Arrange
-            // Act
-            var sut = new DelegatingCustomizeAttribute();
-            // Assert
-            Assert.IsAssignableFrom<Attribute>(sut);
-        }
+    [Fact]
+    public void SutIsAttribute()
+    {
+        // Arrange
+        // Act
+        var sut = new DelegatingCustomizeAttribute();
+        // Assert
+        Assert.IsAssignableFrom<Attribute>(sut);
+    }
 
-        [Fact]
-        public void SutImplementsIParameterCustomizationSource()
-        {
-            // Arrange
-            // Act
-            var sut = new DelegatingCustomizeAttribute();
-            // Assert
-            Assert.IsAssignableFrom<IParameterCustomizationSource>(sut);
-        }
+    [Fact]
+    public void SutImplementsIParameterCustomizationSource()
+    {
+        // Arrange
+        // Act
+        var sut = new DelegatingCustomizeAttribute();
+        // Assert
+        Assert.IsAssignableFrom<IParameterCustomizationSource>(sut);
     }
 }

@@ -1,20 +1,19 @@
-﻿namespace AutoFixture.Kernel
+﻿namespace AutoFixture.Kernel;
+
+/// <summary>
+/// A <see cref="IRequestSpecification"/> that is always <see langword="false"/>.
+/// </summary>
+public class FalseRequestSpecification : IRequestSpecification
 {
     /// <summary>
-    /// A <see cref="IRequestSpecification"/> that is always <see langword="false"/>.
+    /// Evaluates a request for a specimen.
     /// </summary>
-    public class FalseRequestSpecification : IRequestSpecification
+    /// <param name="request">The specimen request.</param>
+    /// <returns>
+    /// <see langword="false"/>.
+    /// </returns>
+    public bool IsSatisfiedBy(object request)
     {
-        /// <summary>
-        /// Evaluates a request for a specimen.
-        /// </summary>
-        /// <param name="request">The specimen request.</param>
-        /// <returns>
-        /// <see langword="false"/>.
-        /// </returns>
-        public bool IsSatisfiedBy(object request)
-        {
-            return false;
-        }
+        return false;
     }
 }

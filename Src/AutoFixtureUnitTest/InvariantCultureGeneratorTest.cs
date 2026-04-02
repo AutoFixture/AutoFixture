@@ -5,71 +5,70 @@ using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest;
+
+[Obsolete]
+public class InvariantCultureGeneratorTest
 {
-    [Obsolete]
-    public class InvariantCultureGeneratorTest
+    [Fact]
+    public void SutIsSpecimenBuilder()
     {
-        [Fact]
-        public void SutIsSpecimenBuilder()
-        {
 #pragma warning disable 618
-            var sut = new InvariantCultureGenerator();
+        var sut = new InvariantCultureGenerator();
 #pragma warning restore 618
-            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-        }
+        Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+    }
 
-        [Fact]
-        public void CreateWithNullRequestWillReturnNoSpecimen()
-        {
+    [Fact]
+    public void CreateWithNullRequestWillReturnNoSpecimen()
+    {
 #pragma warning disable 618
-            var sut = new InvariantCultureGenerator();
+        var sut = new InvariantCultureGenerator();
 #pragma warning restore 618
-            var actual = sut.Create(null, new DelegatingSpecimenContext());
+        var actual = sut.Create(null, new DelegatingSpecimenContext());
 
-            Assert.Equal(NoSpecimen.Instance, actual);
-        }
+        Assert.Equal(NoSpecimen.Instance, actual);
+    }
 
-        [Fact]
-        public void CreateWithNullContextDoesNotThrow()
-        {
+    [Fact]
+    public void CreateWithNullContextDoesNotThrow()
+    {
 #pragma warning disable 618
-            var sut = new InvariantCultureGenerator();
+        var sut = new InvariantCultureGenerator();
 #pragma warning restore 618
-            sut.Create(new object(), null);
-        }
+        sut.Create(new object(), null);
+    }
 
-        [Fact]
-        public void CreateWithNonTypeRequestWillReturnNoSpecimen()
-        {
+    [Fact]
+    public void CreateWithNonTypeRequestWillReturnNoSpecimen()
+    {
 #pragma warning disable 618
-            var sut = new InvariantCultureGenerator();
+        var sut = new InvariantCultureGenerator();
 #pragma warning restore 618
-            var actual = sut.Create(new object(), new DelegatingSpecimenContext());
+        var actual = sut.Create(new object(), new DelegatingSpecimenContext());
 
-            Assert.Equal(NoSpecimen.Instance, actual);
-        }
+        Assert.Equal(NoSpecimen.Instance, actual);
+    }
 
-        [Fact]
-        public void CreateWithNonCultureInfoTypeWillReturnNoSpecimen()
-        {
+    [Fact]
+    public void CreateWithNonCultureInfoTypeWillReturnNoSpecimen()
+    {
 #pragma warning disable 618
-            var sut = new InvariantCultureGenerator();
+        var sut = new InvariantCultureGenerator();
 #pragma warning restore 618
-            var actual = sut.Create(typeof(object), new DelegatingSpecimenContext());
+        var actual = sut.Create(typeof(object), new DelegatingSpecimenContext());
 
-            Assert.Equal(NoSpecimen.Instance, actual);
-        }
+        Assert.Equal(NoSpecimen.Instance, actual);
+    }
 
-        [Fact]
-        public void CreateWithCultureInfoRequestTypeReturnsInvariantCulture()
-        {
+    [Fact]
+    public void CreateWithCultureInfoRequestTypeReturnsInvariantCulture()
+    {
 #pragma warning disable 618
-            var sut = new InvariantCultureGenerator();
+        var sut = new InvariantCultureGenerator();
 #pragma warning restore 618
-            var actual = sut.Create(typeof(CultureInfo), new DelegatingSpecimenContext());
+        var actual = sut.Create(typeof(CultureInfo), new DelegatingSpecimenContext());
 
-            Assert.Equal(CultureInfo.InvariantCulture, actual);
-        }
+        Assert.Equal(CultureInfo.InvariantCulture, actual);
     }
 }

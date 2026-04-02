@@ -1,10 +1,9 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithGetOnlyProperty
 {
-    public class TypeWithGetOnlyProperty
+    public string GetOnlyProperty
     {
-        public string GetOnlyProperty
-        {
-            get { return string.Empty; }
-        }
+        get { return string.Empty; }
     }
 }

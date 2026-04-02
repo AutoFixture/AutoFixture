@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using AutoFixture.Xunit2.Internal;
 
-namespace AutoFixture.Xunit2.UnitTest.TestTypes
-{
-    public class DelegatingDataSource : DataSource
-    {
-        public IEnumerable<object[]> TestData { get; set; } = Array.Empty<object[]>();
+namespace AutoFixture.Xunit2.UnitTest.TestTypes;
 
-        protected override IEnumerable<object[]> GetData()
-        {
-            return this.TestData;
-        }
+public class DelegatingDataSource : DataSource
+{
+    public IEnumerable<object[]> TestData { get; set; } = Array.Empty<object[]>();
+
+    protected override IEnumerable<object[]> GetData()
+    {
+        return this.TestData;
     }
 }

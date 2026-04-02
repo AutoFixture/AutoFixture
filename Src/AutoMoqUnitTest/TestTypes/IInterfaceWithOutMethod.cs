@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithOutMethod
 {
-    public interface IInterfaceWithOutMethod
-    {
-        void Method(out int i);
-    }
+    void Method(out int i);
 }

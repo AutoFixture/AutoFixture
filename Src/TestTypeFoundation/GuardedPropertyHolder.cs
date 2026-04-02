@@ -1,28 +1,27 @@
 using System;
 
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class GuardedPropertyHolder<T>
+    where T : class
 {
-    public class GuardedPropertyHolder<T>
-        where T : class
+    private T property;
+
+    public T Property
     {
-        private T property;
-
-        public T Property
+        get
         {
-            get
+            return this.property;
+        }
+
+        set
+        {
+            if (value == null)
             {
-                return this.property;
+                throw new ArgumentNullException(nameof(value));
             }
 
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                this.property = value;
-            }
+            this.property = value;
         }
     }
 }

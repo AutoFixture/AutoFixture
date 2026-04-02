@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithReadonlyField
 {
-    public class TypeWithReadonlyField
-    {
-        public readonly string ReadonlyField = string.Empty;
-    }
+    public readonly string ReadonlyField = string.Empty;
 }

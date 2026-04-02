@@ -1,19 +1,18 @@
 ﻿using System.Linq;
 
-namespace AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple;
+
+public class MyClass
 {
-    public class MyClass
+    public string MyText { get; set; }
+
+    public string DoStuff(string message)
     {
-        public string MyText { get; set; }
+        return new string(message.Reverse().ToArray());
+    }
 
-        public string DoStuff(string message)
-        {
-            return new string(message.Reverse().ToArray());
-        }
-
-        public T Echo<T>(T item)
-        {
-            return item;
-        }
+    public T Echo<T>(T item)
+    {
+        return item;
     }
 }

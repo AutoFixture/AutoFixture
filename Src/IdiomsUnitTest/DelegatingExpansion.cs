@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using AutoFixture.Idioms;
 
-namespace AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest;
+
+public class DelegatingExpansion<T> : IExpansion<T>
 {
-    public class DelegatingExpansion<T> : IExpansion<T>
+    public DelegatingExpansion()
     {
-        public DelegatingExpansion()
-        {
-            this.OnExpand = v => new[] { v };
-        }
+        this.OnExpand = v => new[] { v };
+    }
 
-        public Func<T, IEnumerable<T>> OnExpand { get; set; }
+    public Func<T, IEnumerable<T>> OnExpand { get; set; }
 
-        public IEnumerable<T> Expand(T value)
-        {
-            return this.OnExpand(value);
-        }
+    public IEnumerable<T> Expand(T value)
+    {
+        return this.OnExpand(value);
     }
 }

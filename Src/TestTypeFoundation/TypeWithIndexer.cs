@@ -1,26 +1,25 @@
 ﻿using System.Collections.Generic;
 
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class TypeWithIndexer
 {
-    public class TypeWithIndexer
+    private readonly Dictionary<string, string> dict;
+
+    public TypeWithIndexer()
     {
-        private readonly Dictionary<string, string> dict;
+        this.dict = new Dictionary<string, string>();
+    }
 
-        public TypeWithIndexer()
+    public string this[string index]
+    {
+        get
         {
-            this.dict = new Dictionary<string, string>();
+            return this.dict[index];
         }
-
-        public string this[string index]
+        set
         {
-            get
-            {
-                return this.dict[index];
-            }
-            set
-            {
-                this.dict[index] = value;
-            }
+            this.dict[index] = value;
         }
     }
 }

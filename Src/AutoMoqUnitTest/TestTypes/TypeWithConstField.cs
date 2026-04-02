@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithConstField
 {
-    public class TypeWithConstField
-    {
-        public const string ConstField = "";
-    }
+    public const string ConstField = "";
 }

@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithPublicField
 {
-    public class TypeWithPublicField
-    {
-        public string Field;
-    }
+    public string Field;
 }

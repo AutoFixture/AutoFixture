@@ -2,257 +2,256 @@ using System;
 using AutoFixture.Idioms;
 using Xunit;
 
-namespace AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest;
+
+public class EmptyStringBehaviorExpectationTest
 {
-    public class EmptyStringBehaviorExpectationTest
+    [Fact]
+    public void SutIsBehaviorExpectation()
     {
-        [Fact]
-        public void SutIsBehaviorExpectation()
+        // Arrange
+        var expectation = new EmptyStringBehaviorExpectation();
+
+        // Act & Assert
+        Assert.IsAssignableFrom<IBehaviorExpectation>(expectation);
+    }
+
+    [Fact]
+    public void VerifyNullCommandThrows()
+    {
+        // Arrange
+        var expectation = new EmptyStringBehaviorExpectation();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => expectation.Verify(default));
+    }
+
+    [Fact]
+    public void VerifyExecutesCommandWhenRequestedTypeIsString()
+    {
+        // Arrange
+        var commandExecuted = false;
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var expectation = new EmptyStringBehaviorExpectation();
-
-            // Act & Assert
-            Assert.IsAssignableFrom<IBehaviorExpectation>(expectation);
-        }
-
-        [Fact]
-        public void VerifyNullCommandThrows()
-        {
-            // Arrange
-            var expectation = new EmptyStringBehaviorExpectation();
-
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => expectation.Verify(default));
-        }
-
-        [Fact]
-        public void VerifyExecutesCommandWhenRequestedTypeIsString()
-        {
-            // Arrange
-            var commandExecuted = false;
-            var command = new DelegatingGuardClauseCommand
+            OnExecute = (v) =>
             {
-                OnExecute = (v) =>
-                {
-                    commandExecuted = true;
-                    throw new ArgumentException(string.Empty, "paramName");
-                },
-                RequestedType = typeof(string),
-                RequestedParameterName = "paramName"
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+                commandExecuted = true;
+                throw new ArgumentException(string.Empty, "paramName");
+            },
+            RequestedType = typeof(string),
+            RequestedParameterName = "paramName"
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            expectation.Verify(command);
+        // Act
+        expectation.Verify(command);
 
-            // Assert
-            Assert.True(commandExecuted);
-        }
+        // Assert
+        Assert.True(commandExecuted);
+    }
 
-        [Theory]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(Guid))]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(Version))]
-        [InlineData(typeof(decimal))]
-        public void VerifyDoesNotExecuteCommandWhenRequestedTypeNotString(Type type)
+    [Theory]
+    [InlineData(typeof(int))]
+    [InlineData(typeof(Guid))]
+    [InlineData(typeof(object))]
+    [InlineData(typeof(Version))]
+    [InlineData(typeof(decimal))]
+    public void VerifyDoesNotExecuteCommandWhenRequestedTypeNotString(Type type)
+    {
+        // Arrange
+        var commandExecuted = false;
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var commandExecuted = false;
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = (v) => commandExecuted = true,
-                RequestedType = type
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = (v) => commandExecuted = true,
+            RequestedType = type
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            expectation.Verify(command);
+        // Act
+        expectation.Verify(command);
 
-            // Assert
-            Assert.False(commandExecuted);
-        }
+        // Assert
+        Assert.False(commandExecuted);
+    }
 
-        [Fact]
-        public void VerifyDoesNotThrowWhenCommandThrowsArgumentExceptionWithMatchingParameterName()
+    [Fact]
+    public void VerifyDoesNotThrowWhenCommandThrowsArgumentExceptionWithMatchingParameterName()
+    {
+        // Arrange
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => throw new ArgumentException(string.Empty, "paramName"),
-                RequestedType = typeof(string),
-                RequestedParameterName = "paramName"
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => throw new ArgumentException(string.Empty, "paramName"),
+            RequestedType = typeof(string),
+            RequestedParameterName = "paramName"
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Null(actual);
-        }
+        // Assert
+        Assert.Null(actual);
+    }
 
-        [Fact]
-        public void VerifyThrowsExpectedExceptionWhenCommandDoesNotThrow()
+    [Fact]
+    public void VerifyThrowsExpectedExceptionWhenCommandDoesNotThrow()
+    {
+        // Arrange
+        var expected = new Exception();
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var expected = new Exception();
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => { },
-                OnCreateException = v => expected,
-                RequestedType = typeof(string)
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => { },
+            OnCreateException = v => expected,
+            RequestedType = typeof(string)
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Equal(expected, actual);
-        }
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 
-        [Fact]
-        public void VerifyThrowsExceptionWithExpectedValueWhenCommandDoesNotThrow()
+    [Fact]
+    public void VerifyThrowsExceptionWithExpectedValueWhenCommandDoesNotThrow()
+    {
+        // Arrange
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => { },
-                OnCreateException = v => new Exception(v),
-                RequestedType = typeof(string)
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => { },
+            OnCreateException = v => new Exception(v),
+            RequestedType = typeof(string)
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Equal("<empty string>", actual.Message);
-        }
+        // Assert
+        Assert.Equal("<empty string>", actual.Message);
+    }
 
-        [Fact]
-        public void VerifyThrowsExpectedExceptionWhenCommandThrowsNonArgumentException()
+    [Fact]
+    public void VerifyThrowsExpectedExceptionWhenCommandThrowsNonArgumentException()
+    {
+        // Arrange
+        var expected = new Exception();
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var expected = new Exception();
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => throw new Exception(),
-                OnCreateExceptionWithInner = (v, e) => expected,
-                RequestedType = typeof(string)
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => throw new Exception(),
+            OnCreateExceptionWithInner = (v, e) => expected,
+            RequestedType = typeof(string)
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Equal(expected, actual);
-        }
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 
-        [Fact]
-        public void VerifyThrowsWithExpectedValueWhenCommandThrowsNonArgumentException()
+    [Fact]
+    public void VerifyThrowsWithExpectedValueWhenCommandThrowsNonArgumentException()
+    {
+        // Arrange
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => throw new Exception(),
-                OnCreateExceptionWithInner = (v, e) => new Exception(v, e),
-                RequestedType = typeof(string)
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => throw new Exception(),
+            OnCreateExceptionWithInner = (v, e) => new Exception(v, e),
+            RequestedType = typeof(string)
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Equal("<empty string>", actual.Message);
-        }
+        // Assert
+        Assert.Equal("<empty string>", actual.Message);
+    }
 
-        [Fact]
-        public void VerifyThrowsWithExpectedInnerExceptionWhenCommandThrowsNonArgumentException()
+    [Fact]
+    public void VerifyThrowsWithExpectedInnerExceptionWhenCommandThrowsNonArgumentException()
+    {
+        // Arrange
+        var expected = new Exception();
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var expected = new Exception();
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => throw expected,
-                OnCreateExceptionWithInner = (v, e) => new Exception(v, e),
-                RequestedType = typeof(string)
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => throw expected,
+            OnCreateExceptionWithInner = (v, e) => new Exception(v, e),
+            RequestedType = typeof(string)
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Equal(expected, actual.InnerException);
-        }
+        // Assert
+        Assert.Equal(expected, actual.InnerException);
+    }
 
-        [Fact]
-        public void VerifyThrowsExpectedExceptionWhenCommandThrowsArgumentExceptionWithWrongParameterName()
+    [Fact]
+    public void VerifyThrowsExpectedExceptionWhenCommandThrowsArgumentExceptionWithWrongParameterName()
+    {
+        // Arrange
+        var expected = new Exception();
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var expected = new Exception();
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => throw new ArgumentException(string.Empty, "wrongParamName"),
-                OnCreateExceptionWithFailureReason = (v, m, e) => expected,
-                RequestedType = typeof(string),
-                RequestedParameterName = "expectedParamName"
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => throw new ArgumentException(string.Empty, "wrongParamName"),
+            OnCreateExceptionWithFailureReason = (v, m, e) => expected,
+            RequestedType = typeof(string),
+            RequestedParameterName = "expectedParamName"
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Equal(expected, actual);
-        }
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 
-        [Fact]
-        public void VerifyThrowsExceptionWithExpectedMessageWhenCommandThrowsArgumentExceptionWithWrongParameterName()
+    [Fact]
+    public void VerifyThrowsExceptionWithExpectedMessageWhenCommandThrowsArgumentExceptionWithWrongParameterName()
+    {
+        // Arrange
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => throw new ArgumentException(string.Empty, "wrongParamName"),
-                OnCreateExceptionWithFailureReason = (v, m, e) => new Exception(m, e),
-                RequestedType = typeof(string),
-                RequestedParameterName = "expectedParamName"
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => throw new ArgumentException(string.Empty, "wrongParamName"),
+            OnCreateExceptionWithFailureReason = (v, m, e) => new Exception(m, e),
+            RequestedType = typeof(string),
+            RequestedParameterName = "expectedParamName"
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.EndsWith(
-                $"Expected parameter name: expectedParamName{Environment.NewLine}Actual parameter name: wrongParamName",
-                actual.Message);
-        }
+        // Assert
+        Assert.EndsWith(
+            $"Expected parameter name: expectedParamName{Environment.NewLine}Actual parameter name: wrongParamName",
+            actual.Message);
+    }
 
-        [Fact]
-        public void VerifyThrowsExceptionWithExpectedInnerWhenCommandThrowsArgumentExceptionWithWrongParameterName()
+    [Fact]
+    public void VerifyThrowsExceptionWithExpectedInnerWhenCommandThrowsArgumentExceptionWithWrongParameterName()
+    {
+        // Arrange
+        var expected = new ArgumentException(string.Empty, "wrongParamName");
+        var command = new DelegatingGuardClauseCommand
         {
-            // Arrange
-            var expected = new ArgumentException(string.Empty, "wrongParamName");
-            var command = new DelegatingGuardClauseCommand
-            {
-                OnExecute = v => throw expected,
-                OnCreateExceptionWithFailureReason = (v, m, e) => new Exception(m, e),
-                RequestedType = typeof(string),
-                RequestedParameterName = "expectedParamName"
-            };
-            var expectation = new EmptyStringBehaviorExpectation();
+            OnExecute = v => throw expected,
+            OnCreateExceptionWithFailureReason = (v, m, e) => new Exception(m, e),
+            RequestedType = typeof(string),
+            RequestedParameterName = "expectedParamName"
+        };
+        var expectation = new EmptyStringBehaviorExpectation();
 
-            // Act
-            var actual = Record.Exception(() => expectation.Verify(command));
+        // Act
+        var actual = Record.Exception(() => expectation.Verify(command));
 
-            // Assert
-            Assert.Equal(expected, actual.InnerException);
-        }
+        // Assert
+        Assert.Equal(expected, actual.InnerException);
     }
 }

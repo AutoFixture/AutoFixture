@@ -1,20 +1,19 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest;
+
+internal class DelegatingSpecimenBuilder : ISpecimenBuilder
 {
-    internal class DelegatingSpecimenBuilder : ISpecimenBuilder
+    public DelegatingSpecimenBuilder()
     {
-        public DelegatingSpecimenBuilder()
-        {
-            this.OnCreate = (r, c) => new object();
-        }
-
-        public object Create(object request, ISpecimenContext context)
-        {
-            return this.OnCreate(request, context);
-        }
-
-        internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
+        this.OnCreate = (r, c) => new object();
     }
+
+    public object Create(object request, ISpecimenContext context)
+    {
+        return this.OnCreate(request, context);
+    }
+
+    internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
 }

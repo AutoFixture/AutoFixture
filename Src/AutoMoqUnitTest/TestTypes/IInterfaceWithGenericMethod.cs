@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithGenericMethod
 {
-    public interface IInterfaceWithGenericMethod
-    {
-        string GenericMethod<T>();
-    }
+    string GenericMethod<T>();
 }

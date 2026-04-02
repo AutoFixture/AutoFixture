@@ -1,12 +1,11 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
-{
-    public class TypeWithPrivateField
-    {
-        private string field = string.Empty;
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
 
-        public string GetPrivateField()
-        {
-            return this.field;
-        }
+public class TypeWithPrivateField
+{
+    private string field = string.Empty;
+
+    public string GetPrivateField()
+    {
+        return this.field;
     }
 }

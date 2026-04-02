@@ -1,9 +1,8 @@
-﻿namespace AutoFixtureUnitTest.AbstractRecursionIssue
-{
-    public class ItemLocation
-    {
-        public int LocationId { get; set; }
+﻿namespace AutoFixtureUnitTest.AbstractRecursionIssue;
 
-        public ItemBase Item { get; set; }
-    }
+public class ItemLocation
+{
+    public int LocationId { get; set; }
+
+    public ItemBase Item { get; set; }
 }

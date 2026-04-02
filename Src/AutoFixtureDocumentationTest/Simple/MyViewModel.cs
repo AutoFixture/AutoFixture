@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple;
+
+public class MyViewModel
 {
-    public class MyViewModel
+    private readonly List<MyClass> availableItems;
+    private MyClass selectedItem;
+
+    public MyViewModel()
     {
-        private readonly List<MyClass> availableItems;
-        private MyClass selectedItem;
+        this.availableItems = new List<MyClass>();
+    }
 
-        public MyViewModel()
-        {
-            this.availableItems = new List<MyClass>();
-        }
+    public ICollection<MyClass> AvailableItems
+    {
+        get { return this.availableItems; }
+    }
 
-        public ICollection<MyClass> AvailableItems
+    public MyClass SelectedItem
+    {
+        get => this.selectedItem;
+        set
         {
-            get { return this.availableItems; }
-        }
-
-        public MyClass SelectedItem
-        {
-            get => this.selectedItem;
-            set
+            if (!this.availableItems.Contains(value))
             {
-                if (!this.availableItems.Contains(value))
-                {
-                    throw new ArgumentException("...");
-                }
-                this.selectedItem = value;
+                throw new ArgumentException("...");
             }
+            this.selectedItem = value;
         }
     }
 }

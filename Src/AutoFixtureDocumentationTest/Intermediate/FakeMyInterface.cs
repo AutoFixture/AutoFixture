@@ -1,35 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AutoFixtureDocumentationTest.Intermediate
+namespace AutoFixtureDocumentationTest.Intermediate;
+
+public class FakeMyInterface : IMyInterface
 {
-    public class FakeMyInterface : IMyInterface
+    private readonly IList<Thing> things;
+
+    public FakeMyInterface()
     {
-        private readonly IList<Thing> things;
+        this.things = new List<Thing>();
+    }
 
-        public FakeMyInterface()
-        {
-            this.things = new List<Thing>();
-        }
+    public FakeMyInterface(int number, string text)
+    {
+        this.Number = number;
+        this.Text = text;
+    }
 
-        public FakeMyInterface(int number, string text)
-        {
-            this.Number = number;
-            this.Text = text;
-        }
+    public int Number { get; private set; }
 
-        public int Number { get; private set; }
+    public string Text { get; private set; }
 
-        public string Text { get; private set; }
+    public IEnumerable<int> ThingNumbers
+    {
+        get { return this.things.Select(t => t.Number); }
+    }
 
-        public IEnumerable<int> ThingNumbers
-        {
-            get { return this.things.Select(t => t.Number); }
-        }
-
-        public void AddThing(Thing thing)
-        {
-            this.things.Add(thing);
-        }
+    public void AddThing(Thing thing)
+    {
+        this.things.Add(thing);
     }
 }

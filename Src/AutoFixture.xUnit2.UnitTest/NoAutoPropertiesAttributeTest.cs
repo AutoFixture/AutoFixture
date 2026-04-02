@@ -3,42 +3,41 @@ using System.Linq;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest;
+
+public class NoAutoPropertiesAttributeTest
 {
-    public class NoAutoPropertiesAttributeTest
+    [Fact]
+    public void SutIsAttribute()
     {
-        [Fact]
-        public void SutIsAttribute()
-        {
-            // Arrange
-            // Act
-            var sut = new NoAutoPropertiesAttribute();
-            // Assert
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
-        }
+        // Arrange
+        // Act
+        var sut = new NoAutoPropertiesAttribute();
+        // Assert
+        Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+    }
 
-        [Fact]
-        public void GetCustomizationFromNullParameterThrows()
-        {
-            // Arrange
-            var sut = new NoAutoPropertiesAttribute();
-            // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetCustomization(null));
-        }
+    [Fact]
+    public void GetCustomizationFromNullParameterThrows()
+    {
+        // Arrange
+        var sut = new NoAutoPropertiesAttribute();
+        // Act & assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.GetCustomization(null));
+    }
 
-        [Fact]
-        public void GetCustomizationReturnsTheCorrectResult()
-        {
-            // Arrange
-            var sut = new NoAutoPropertiesAttribute();
-            var parameter = TypeWithOverloadedMembers
-                .GetDoSomethingMethod(typeof(object))
-                .GetParameters().Single();
-            // Act
-            var result = sut.GetCustomization(parameter);
-            // Assert
-            Assert.IsAssignableFrom<NoAutoPropertiesCustomization>(result);
-        }
+    [Fact]
+    public void GetCustomizationReturnsTheCorrectResult()
+    {
+        // Arrange
+        var sut = new NoAutoPropertiesAttribute();
+        var parameter = TypeWithOverloadedMembers
+            .GetDoSomethingMethod(typeof(object))
+            .GetParameters().Single();
+        // Act
+        var result = sut.GetCustomization(parameter);
+        // Assert
+        Assert.IsAssignableFrom<NoAutoPropertiesCustomization>(result);
     }
 }

@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Reflection;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq;
+
+internal class MockConstructorMethod : IMethod
 {
-    internal class MockConstructorMethod : IMethod
+    private readonly ConstructorInfo ctor;
+
+    internal MockConstructorMethod(ConstructorInfo ctor, ParameterInfo[] paramInfos)
     {
-        private readonly ConstructorInfo ctor;
+        this.ctor = ctor ?? throw new ArgumentNullException(nameof(ctor));
+        this.Parameters = paramInfos ?? throw new ArgumentNullException(nameof(paramInfos));
+    }
 
-        internal MockConstructorMethod(ConstructorInfo ctor, ParameterInfo[] paramInfos)
-        {
-            this.ctor = ctor ?? throw new ArgumentNullException(nameof(ctor));
-            this.Parameters = paramInfos ?? throw new ArgumentNullException(nameof(paramInfos));
-        }
+    public IEnumerable<ParameterInfo> Parameters { get; }
 
-        public IEnumerable<ParameterInfo> Parameters { get; }
-
-        public object Invoke(IEnumerable<object> parameters)
-        {
-            var paramsArray = new object[] { parameters };
-            return this.ctor.Invoke(paramsArray);
-        }
+    public object Invoke(IEnumerable<object> parameters)
+    {
+        var paramsArray = new object[] { parameters };
+        return this.ctor.Invoke(paramsArray);
     }
 }

@@ -6,74 +6,73 @@ using System.Reflection;
 using AutoFixture.Kernel;
 using FakeItEasy;
 
-namespace AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy;
+
+/// <summary>
+/// Selects appropriate methods to create <see cref="Fake{T}"/> instances.
+/// </summary>
+public class FakeItEasyMethodQuery : IMethodQuery
 {
+    private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
+
     /// <summary>
-    /// Selects appropriate methods to create <see cref="Fake{T}"/> instances.
+    /// Selects constructors for the supplied type.
     /// </summary>
-    public class FakeItEasyMethodQuery : IMethodQuery
+    /// <param name="type">The type.</param>
+    /// <returns>
+    /// Constructors for <paramref name="type"/>.
+    /// </returns>
+    /// <remarks>
+    /// <para>
+    /// This method returns a sequence of <see cref="StaticMethod"/> according to
+    /// the public and protected constructors available on <paramref name="type"/>.
+    /// </para>
+    /// </remarks>
+    public IEnumerable<IMethod> SelectMethods(Type type)
     {
-        private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
+        if (type is null) throw new ArgumentNullException(nameof(type));
 
-        /// <summary>
-        /// Selects constructors for the supplied type.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>
-        /// Constructors for <paramref name="type"/>.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// This method returns a sequence of <see cref="StaticMethod"/> according to
-        /// the public and protected constructors available on <paramref name="type"/>.
-        /// </para>
-        /// </remarks>
-        public IEnumerable<IMethod> SelectMethods(Type type)
+        if (!type.IsFake())
         {
-            if (type is null) throw new ArgumentNullException(nameof(type));
-
-            if (!type.IsFake())
-            {
-                return Enumerable.Empty<IMethod>();
-            }
-
-            var fakeType = type.GetFakedType();
-            if (fakeType.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(fakeType))
-            {
-                return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
-            }
-
-            return from ci in fakeType.GetPublicAndProtectedConstructors()
-                   let parameters = ci.GetParameters()
-                   orderby parameters.Length ascending
-                   select FakeMethod.Create(fakeType, parameters);
+            return Enumerable.Empty<IMethod>();
         }
 
-        private static class FakeMethod
+        var fakeType = type.GetFakedType();
+        if (fakeType.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(fakeType))
         {
-            public static IMethod Create(Type type, IEnumerable<ParameterInfo> parameters)
-            {
-                var constructedType = typeof(FakeMethod<>).MakeGenericType(type);
-                return (IMethod)Activator.CreateInstance(constructedType, parameters);
-            }
+            return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
-            Justification = "It's activated via reflection.")]
-        private class FakeMethod<T> : IMethod
-            where T : class
+        return from ci in fakeType.GetPublicAndProtectedConstructors()
+            let parameters = ci.GetParameters()
+            orderby parameters.Length ascending
+            select FakeMethod.Create(fakeType, parameters);
+    }
+
+    private static class FakeMethod
+    {
+        public static IMethod Create(Type type, IEnumerable<ParameterInfo> parameters)
         {
-            public FakeMethod(IEnumerable<ParameterInfo> parameters)
-            {
-                this.Parameters = parameters;
-            }
+            var constructedType = typeof(FakeMethod<>).MakeGenericType(type);
+            return (IMethod)Activator.CreateInstance(constructedType, parameters);
+        }
+    }
 
-            public IEnumerable<ParameterInfo> Parameters { get; }
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+        Justification = "It's activated via reflection.")]
+    private class FakeMethod<T> : IMethod
+        where T : class
+    {
+        public FakeMethod(IEnumerable<ParameterInfo> parameters)
+        {
+            this.Parameters = parameters;
+        }
 
-            public object Invoke(IEnumerable<object> parameters)
-            {
-                return new Fake<T>(x => x.WithArgumentsForConstructor(parameters));
-            }
+        public IEnumerable<ParameterInfo> Parameters { get; }
+
+        public object Invoke(IEnumerable<object> parameters)
+        {
+            return new Fake<T>(x => x.WithArgumentsForConstructor(parameters));
         }
     }
 }

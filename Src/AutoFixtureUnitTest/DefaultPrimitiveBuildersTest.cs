@@ -6,90 +6,89 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Xunit;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest;
+
+public class DefaultPrimitiveBuildersTest
 {
-    public class DefaultPrimitiveBuildersTest
+    [Fact]
+    public void SutIsSpecimenBuilders()
     {
-        [Fact]
-        public void SutIsSpecimenBuilders()
-        {
-            // Arrange
-            // Act
-            var sut = new DefaultPrimitiveBuilders();
-            // Assert
-            Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
-        }
+        // Arrange
+        // Act
+        var sut = new DefaultPrimitiveBuilders();
+        // Assert
+        Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
+    }
 
-        [Fact]
-        public void SutHasCorrectContents()
+    [Fact]
+    public void SutHasCorrectContents()
+    {
+        // Arrange
+        var expectedBuilderTypes = new[]
         {
-            // Arrange
-            var expectedBuilderTypes = new[]
-                {
-                    typeof(StringGenerator),
-                    typeof(ConstrainedStringGenerator),
-                    typeof(StringSeedRelay),
-                    typeof(RandomNumericSequenceGenerator),
-                    typeof(RandomCharSequenceGenerator),
-                    typeof(UriGenerator),
-                    typeof(UriSchemeGenerator),
-                    typeof(RandomRangedNumberGenerator),
-                    typeof(RegularExpressionGenerator),
-                    typeof(RandomDateTimeSequenceGenerator),
+            typeof(StringGenerator),
+            typeof(ConstrainedStringGenerator),
+            typeof(StringSeedRelay),
+            typeof(RandomNumericSequenceGenerator),
+            typeof(RandomCharSequenceGenerator),
+            typeof(UriGenerator),
+            typeof(UriSchemeGenerator),
+            typeof(RandomRangedNumberGenerator),
+            typeof(RegularExpressionGenerator),
+            typeof(RandomDateTimeSequenceGenerator),
 #if NET6_0_OR_GREATER
-                    typeof(RandomDateOnlySequenceGenerator),
-                    typeof(RandomTimeOnlySequenceGenerator),
+            typeof(RandomDateOnlySequenceGenerator),
+            typeof(RandomTimeOnlySequenceGenerator),
 #endif
-                    typeof(BooleanSwitch),
-                    typeof(GuidGenerator),
-                    typeof(TypeGenerator),
-                    typeof(DelegateGenerator),
-                    typeof(TaskGenerator),
-                    typeof(IntPtrGuard),
+            typeof(BooleanSwitch),
+            typeof(GuidGenerator),
+            typeof(TypeGenerator),
+            typeof(DelegateGenerator),
+            typeof(TaskGenerator),
+            typeof(IntPtrGuard),
 #if SYSTEM_NET_MAIL
-                    typeof(MailAddressGenerator),
+            typeof(MailAddressGenerator),
 #endif
-                    typeof(EmailAddressLocalPartGenerator),
-                    typeof(DomainNameGenerator),
-                    typeof(TimeZoneInfoGenerator)
-                };
-            // Act
-            var sut = new DefaultPrimitiveBuilders();
-            // Assert
-            Assert.True(expectedBuilderTypes.SequenceEqual(sut.Select(b => b.GetType())));
-        }
+            typeof(EmailAddressLocalPartGenerator),
+            typeof(DomainNameGenerator),
+            typeof(TimeZoneInfoGenerator)
+        };
+        // Act
+        var sut = new DefaultPrimitiveBuilders();
+        // Assert
+        Assert.True(expectedBuilderTypes.SequenceEqual(sut.Select(b => b.GetType())));
+    }
 
-        [Fact]
-        public void NonGenericEnumeratorMatchesGenericEnumerator()
-        {
-            // Arrange
-            var sut = new DefaultPrimitiveBuilders();
-            // Act
-            IEnumerable result = sut;
-            // Assert
-            Assert.True(sut.Select(b => b.GetType()).SequenceEqual(result.Cast<object>().Select(o => o.GetType())));
-        }
+    [Fact]
+    public void NonGenericEnumeratorMatchesGenericEnumerator()
+    {
+        // Arrange
+        var sut = new DefaultPrimitiveBuilders();
+        // Act
+        IEnumerable result = sut;
+        // Assert
+        Assert.True(sut.Select(b => b.GetType()).SequenceEqual(result.Cast<object>().Select(o => o.GetType())));
+    }
 
-        [Fact]
-        public void StringGeneratorHasFactoryThatCreatesCorrectType()
-        {
-            // Arrange
-            var sut = new DefaultPrimitiveBuilders();
-            // Act
-            var result = sut.OfType<StringGenerator>().Single();
-            // Assert
-            Assert.IsAssignableFrom<Guid>(result.Factory());
-        }
+    [Fact]
+    public void StringGeneratorHasFactoryThatCreatesCorrectType()
+    {
+        // Arrange
+        var sut = new DefaultPrimitiveBuilders();
+        // Act
+        var result = sut.OfType<StringGenerator>().Single();
+        // Assert
+        Assert.IsAssignableFrom<Guid>(result.Factory());
+    }
 
-        [Fact]
-        public void StringGeneratorFactoryReturnsNewInstancesForEachCall()
-        {
-            // Arrange
-            var sut = new DefaultPrimitiveBuilders();
-            // Act
-            var result = sut.OfType<StringGenerator>().Single();
-            // Assert
-            Assert.NotEqual(result.Factory(), result.Factory());
-        }
+    [Fact]
+    public void StringGeneratorFactoryReturnsNewInstancesForEachCall()
+    {
+        // Arrange
+        var sut = new DefaultPrimitiveBuilders();
+        // Act
+        var result = sut.OfType<StringGenerator>().Single();
+        // Assert
+        Assert.NotEqual(result.Factory(), result.Factory());
     }
 }

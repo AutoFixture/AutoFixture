@@ -5,232 +5,231 @@ using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 
-namespace AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest;
+
+[Obsolete]
+public class MockSealedPropertiesCommandTest
 {
-    [Obsolete]
-    public class MockSealedPropertiesCommandTest
+    [Fact]
+    public void SetupThrowsWhenMockIsNull()
     {
-        [Fact]
-        public void SetupThrowsWhenMockIsNull()
-        {
-            // Arrange
-            var context = new Mock<ISpecimenContext>();
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => sut.Execute(null, context.Object));
-        }
+        // Arrange
+        var context = new Mock<ISpecimenContext>();
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(
+            () => sut.Execute(null, context.Object));
+    }
 
-        [Fact]
-        public void SetupThrowsWhenContextIsNull()
-        {
-            // Arrange
-            var mock = new Mock<object>();
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(
-                () => sut.Execute(mock, null));
-        }
+    [Fact]
+    public void SetupThrowsWhenContextIsNull()
+    {
+        // Arrange
+        var mock = new Mock<object>();
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(
+            () => sut.Execute(mock, null));
+    }
 
-        [Fact]
-        public void InitializesSealedPropertyUsingContext()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithSealedMembers>();
+    [Fact]
+    public void InitializesSealedPropertyUsingContext()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithSealedMembers>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act
-            sut.Execute(mock, new SpecimenContext(fixture));
-            // Assert
-            Assert.Equal(frozenString, mock.Object.ExplicitlySealedProperty);
-            Assert.Equal(frozenString, mock.Object.ImplicitlySealedProperty);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act
+        sut.Execute(mock, new SpecimenContext(fixture));
+        // Assert
+        Assert.Equal(frozenString, mock.Object.ExplicitlySealedProperty);
+        Assert.Equal(frozenString, mock.Object.ImplicitlySealedProperty);
+    }
 
-        [Fact]
-        public void InitializesPublicFields()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithPublicField>();
+    [Fact]
+    public void InitializesPublicFields()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithPublicField>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act
-            sut.Execute(mock, new SpecimenContext(fixture));
-            // Assert
-            Assert.Equal(frozenString, mock.Object.Field);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act
+        sut.Execute(mock, new SpecimenContext(fixture));
+        // Assert
+        Assert.Equal(frozenString, mock.Object.Field);
+    }
 
-        [Fact]
-        public void IgnoresGetOnlyProperties()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var mock = new Mock<TypeWithGetOnlyProperty>();
+    [Fact]
+    public void IgnoresGetOnlyProperties()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var mock = new Mock<TypeWithGetOnlyProperty>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+    }
 
-        [Fact]
-        public void IgnoresVirtualProperties()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithVirtualMembers>();
+    [Fact]
+    public void IgnoresVirtualProperties()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithVirtualMembers>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, mock.Object.VirtualProperty);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, mock.Object.VirtualProperty);
+    }
 
-        [Fact]
-        public void IgnoresPropertiesWithPrivateSetter()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithPropertyWithPrivateSetter>();
+    [Fact]
+    public void IgnoresPropertiesWithPrivateSetter()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithPropertyWithPrivateSetter>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, mock.Object.PropertyWithPrivateSetter);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, mock.Object.PropertyWithPrivateSetter);
+    }
 
-        [Fact]
-        public void IgnoresPrivateProperties()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithPrivateProperty>();
-            var privateProperty = typeof(TypeWithPrivateProperty)
-                .GetProperty("PrivateProperty",
-                             BindingFlags.Instance | BindingFlags.NonPublic);
+    [Fact]
+    public void IgnoresPrivateProperties()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithPrivateProperty>();
+        var privateProperty = typeof(TypeWithPrivateProperty)
+            .GetProperty("PrivateProperty",
+                BindingFlags.Instance | BindingFlags.NonPublic);
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, privateProperty.GetValue(mock.Object, null));
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, privateProperty.GetValue(mock.Object, null));
+    }
 
-        [Fact]
-        public void IgnoresInterfaceProperties()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<IInterfaceWithProperty>();
+    [Fact]
+    public void IgnoresInterfaceProperties()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<IInterfaceWithProperty>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, mock.Object.Property);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, mock.Object.Property);
+    }
 
-        [Fact]
-        public void IgnoresStaticProperties()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithStaticProperty>();
+    [Fact]
+    public void IgnoresStaticProperties()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithStaticProperty>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
+    }
 
-        [Fact]
-        public void IgnoresIndexers()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenInt = fixture.Freeze<int>();
-            var mock = new Mock<TypeWithIndexer>();
+    [Fact]
+    public void IgnoresIndexers()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenInt = fixture.Freeze<int>();
+        var mock = new Mock<TypeWithIndexer>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenInt, mock.Object[2]);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenInt, mock.Object[2]);
+    }
 
-        [Fact]
-        public void IgnoresPrivateFields()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithPrivateField>();
+    [Fact]
+    public void IgnoresPrivateFields()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithPrivateField>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, mock.Object.GetPrivateField());
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, mock.Object.GetPrivateField());
+    }
 
-        [Fact]
-        public void IgnoresReadonlyFields()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithReadonlyField>();
+    [Fact]
+    public void IgnoresReadonlyFields()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithReadonlyField>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, mock.Object.ReadonlyField);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, mock.Object.ReadonlyField);
+    }
 
-        [Fact]
-        public void IgnoresLiteralFields()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithConstField>();
+    [Fact]
+    public void IgnoresLiteralFields()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithConstField>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
 #pragma warning disable xUnit2000 // This test asserts a literal value
-            Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+        Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
 #pragma warning restore xUnit2000
-        }
+    }
 
-        [Fact]
-        public void IgnoresStaticFields()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<TypeWithStaticField>();
+    [Fact]
+    public void IgnoresStaticFields()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var frozenString = fixture.Freeze<string>();
+        var mock = new Mock<TypeWithStaticField>();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
-            Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(mock, new SpecimenContext(fixture))));
+        Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
+    }
 
-        [Fact]
-        public void IgnoresNonMockSpecimens()
-        {
-            // Arrange
-            // The context mock has a strict behaviour - if any of its members are invoked, an exception will be thrown
-            var context = new Mock<ISpecimenContext>(MockBehavior.Strict);
-            var specimen = new TypeWithSealedMembers();
+    [Fact]
+    public void IgnoresNonMockSpecimens()
+    {
+        // Arrange
+        // The context mock has a strict behaviour - if any of its members are invoked, an exception will be thrown
+        var context = new Mock<ISpecimenContext>(MockBehavior.Strict);
+        var specimen = new TypeWithSealedMembers();
 
-            var sut = new MockSealedPropertiesCommand();
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Execute(specimen, context.Object)));
-        }
+        var sut = new MockSealedPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(specimen, context.Object)));
     }
 }

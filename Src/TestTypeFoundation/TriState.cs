@@ -1,9 +1,8 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public enum TriState
 {
-    public enum TriState
-    {
-        First = 0,
-        Second,
-        Third
-    }
+    First = 0,
+    Second,
+    Third
 }

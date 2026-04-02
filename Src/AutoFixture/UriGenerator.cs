@@ -1,48 +1,47 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture
+namespace AutoFixture;
+
+/// <summary>
+/// Creates new <see cref="Uri"/> instances.
+/// </summary>
+public class UriGenerator : ISpecimenBuilder
 {
     /// <summary>
-    /// Creates new <see cref="Uri"/> instances.
+    /// Creates a new specimen based on a request.
     /// </summary>
-    public class UriGenerator : ISpecimenBuilder
+    /// <param name="request">The request that describes what to create.</param>
+    /// <param name="context">A context that can be used to create other specimens.</param>
+    /// <returns>
+    /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+    /// </returns>
+    public object Create(object request, ISpecimenContext context)
     {
-        /// <summary>
-        /// Creates a new specimen based on a request.
-        /// </summary>
-        /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A context that can be used to create other specimens.</param>
-        /// <returns>
-        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
-        /// </returns>
-        public object Create(object request, ISpecimenContext context)
+        if (context == null) throw new ArgumentNullException(nameof(context));
+
+        if (!typeof(Uri).Equals(request))
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
-            if (!typeof(Uri).Equals(request))
-            {
-                return NoSpecimen.Instance;
-            }
-
-            var scheme = context.Resolve(typeof(UriScheme)) as UriScheme;
-            if (scheme == null)
-            {
-                return NoSpecimen.Instance;
-            }
-
-            var authority = context.Resolve(typeof(string)) as string;
-            if (authority == null)
-            {
-                return NoSpecimen.Instance;
-            }
-
-            return MakeUri(scheme, authority);
+            return NoSpecimen.Instance;
         }
 
-        private static Uri MakeUri(UriScheme scheme, string authority)
+        var scheme = context.Resolve(typeof(UriScheme)) as UriScheme;
+        if (scheme == null)
         {
-            return new Uri(scheme + "://" + authority);
+            return NoSpecimen.Instance;
         }
+
+        var authority = context.Resolve(typeof(string)) as string;
+        if (authority == null)
+        {
+            return NoSpecimen.Instance;
+        }
+
+        return MakeUri(scheme, authority);
+    }
+
+    private static Uri MakeUri(UriScheme scheme, string authority)
+    {
+        return new Uri(scheme + "://" + authority);
     }
 }

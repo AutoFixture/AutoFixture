@@ -1,9 +1,8 @@
-﻿namespace AutoFixtureDocumentationTest.Array
+﻿namespace AutoFixtureDocumentationTest.Array;
+
+public class MyClassA
 {
-    public class MyClassA
-    {
-        public MyClassB[] Items;
-        public MyClassC C;
-        public MyClassD D;
-    }
+    public MyClassB[] Items;
+    public MyClassC C;
+    public MyClassD D;
 }

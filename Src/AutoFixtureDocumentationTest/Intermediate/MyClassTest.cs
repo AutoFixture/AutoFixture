@@ -2,47 +2,46 @@
 using AutoFixture;
 using Xunit;
 
-namespace AutoFixtureDocumentationTest.Intermediate
+namespace AutoFixtureDocumentationTest.Intermediate;
+
+public class MyClassTest
 {
-    public class MyClassTest
+    public MyClassTest()
     {
-        public MyClassTest()
-        {
-        }
+    }
 
-        [Fact]
-        public void NumberSumIsCorrect_AutoFixture()
-        {
-            // Arrange
-            Fixture fixture = new Fixture();
-            IMyInterface fake = new FakeMyInterface();
-            fixture.Register<IMyInterface>(() => fake);
+    [Fact]
+    public void NumberSumIsCorrect_AutoFixture()
+    {
+        // Arrange
+        Fixture fixture = new Fixture();
+        IMyInterface fake = new FakeMyInterface();
+        fixture.Register<IMyInterface>(() => fake);
 
-            var things = fixture.CreateMany<Thing>().ToList();
-            things.ForEach(t => fake.AddThing(t));
-            int expectedSum = things.Select(t => t.Number).Sum();
+        var things = fixture.CreateMany<Thing>().ToList();
+        things.ForEach(t => fake.AddThing(t));
+        int expectedSum = things.Select(t => t.Number).Sum();
 
-            MyClass sut = fixture.Create<MyClass>();
-            // Act
-            int result = sut.CalculateSumOfThings();
-            // Assert
-            Assert.Equal<int>(expectedSum, result);
-        }
+        MyClass sut = fixture.Create<MyClass>();
+        // Act
+        int result = sut.CalculateSumOfThings();
+        // Assert
+        Assert.Equal<int>(expectedSum, result);
+    }
 
-        [Fact]
-        public void NumberSumIsCorrect_DerivedFixture()
-        {
-            // Arrange
-            MyClassFixture fixture = new MyClassFixture();
-            fixture.AddManyTo(fixture.Things);
+    [Fact]
+    public void NumberSumIsCorrect_DerivedFixture()
+    {
+        // Arrange
+        MyClassFixture fixture = new MyClassFixture();
+        fixture.AddManyTo(fixture.Things);
 
-            int expectedSum =
-                fixture.Things.Select(t => t.Number).Sum();
-            MyClass sut = fixture.Create<MyClass>();
-            // Act
-            int result = sut.CalculateSumOfThings();
-            // Assert
-            Assert.Equal<int>(expectedSum, result);
-        }
+        int expectedSum =
+            fixture.Things.Select(t => t.Number).Sum();
+        MyClass sut = fixture.Create<MyClass>();
+        // Act
+        int result = sut.CalculateSumOfThings();
+        // Assert
+        Assert.Equal<int>(expectedSum, result);
     }
 }

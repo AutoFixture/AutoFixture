@@ -11,908 +11,907 @@ using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest;
+
+public class ConstructorInitializedMemberAssertionTest
 {
-    public class ConstructorInitializedMemberAssertionTest
+    [Fact]
+    public void SutIsIdiomaticAssertion()
     {
-        [Fact]
-        public void SutIsIdiomaticAssertion()
+        // Arrange
+        var dummyComposer = new Fixture();
+        // Act
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        // Assert
+        Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
+    }
+
+    [Fact]
+    public void ComposerIsCorrect()
+    {
+        // Arrange
+        var expectedComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(expectedComposer);
+        // Act
+        ISpecimenBuilder result = sut.Builder;
+        // Assert
+        Assert.Equal(expectedComposer, result);
+    }
+
+    [Fact]
+    public void ConstructWithNullComposerThrows()
+    {
+        // Arrange
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            new ConstructorInitializedMemberAssertion(null));
+    }
+
+    [Fact]
+    public void ComparerIsCorrect()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var expectedComparer = new FakeEqualityComparer<object>();
+        var dummyMatcher = new FakeReflectionElementComparer();
+        var sut = new ConstructorInitializedMemberAssertion(
+            dummyComposer, expectedComparer, dummyMatcher);
+        // Act
+        IEqualityComparer result = sut.Comparer;
+        // Assert
+        Assert.Equal(expectedComparer, result);
+    }
+
+    [Fact]
+    public void ConstructWithNullComparerThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var dummyMatcher = new FakeReflectionElementComparer();
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            new ConstructorInitializedMemberAssertion(dummyComposer, null, dummyMatcher));
+    }
+
+    [Fact]
+    public void ParameterMemberMatcherIsCorrect()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var dummyComparer = new FakeEqualityComparer<object>();
+        var expectedMatcher = new FakeReflectionElementComparer();
+        var sut = new ConstructorInitializedMemberAssertion(
+            dummyComposer, dummyComparer, expectedMatcher);
+        // Act
+        IEqualityComparer<IReflectionElement> result = sut.ParameterMemberMatcher;
+        // Assert
+        Assert.Equal(expectedMatcher, result);
+    }
+
+    [Fact]
+    public void ConstructWithNullParameterMemberMatcherThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var dummyComparer = new FakeEqualityComparer<object>();
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            new ConstructorInitializedMemberAssertion(dummyComposer, dummyComparer, null));
+    }
+
+    [Fact]
+    public void VerifyNullPropertyThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Verify((PropertyInfo)null));
+    }
+
+    [Fact]
+    public void VerifyNullFieldThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Verify((FieldInfo)null));
+    }
+
+    [Fact]
+    public void VerifyNullConstructorInfoThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Verify((ConstructorInfo)null));
+    }
+
+    [Fact]
+    public void VerifyDefaultConstructorDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        // Act & Assert
+        var constructorWithNoParameters = typeof(PropertyHolder<object>).GetConstructors().First();
+        Assert.Empty(constructorWithNoParameters.GetParameters());
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(constructorWithNoParameters)));
+    }
+
+    [Fact]
+    public void VerifyWritablePropertyWithNoMatchingConstructorDoesNotThrow()
+    {
+        // Arrange
+        var composer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(composer);
+        var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
+        // Act & Assert
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(propertyInfo)));
+    }
+
+    [Fact]
+    public void VerifyWritableFieldWithNoMatchingConstructorDoesNotThrow()
+    {
+        // Arrange
+        var composer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(composer);
+        var propertyInfo = typeof(FieldHolder<object>).GetField("Field");
+        // Act & Assert
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(propertyInfo)));
+    }
+
+    [Fact]
+    public void VerifyReadOnlyPropertyWithPrivateSetterAndNoMatchingConstructorThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var propertyInfo = typeof(ReadOnlyPropertyHolder<int>).GetProperty("Property");
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
+            sut.Verify(propertyInfo));
+        AssertExceptionPropertiesEqual(e, propertyInfo);
+    }
+
+    [Fact]
+    public void VerifyReadOnlyPropertyWithNoSetterAndNoMatchingConstructorThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var propertyInfo = typeof(ReadOnlyPropertyWithNoSetterHolder<int>).GetProperty("Property");
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
+            sut.Verify(propertyInfo));
+        AssertExceptionPropertiesEqual(e, propertyInfo);
+    }
+
+    [Fact]
+    public void VerifyWellBehavedReadOnlyPropertyInitializedViaConstructorDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var propertyInfo = typeof(ReadOnlyPropertyInitializedViaConstructor<object>).GetProperty("Property");
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
+    }
+
+    [Fact]
+    public void VerifyIllBehavedPropertiesInitializedViaConstructorThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var illBehavedType = typeof(PropertiesIncorrectlyInitializedViaConstructor<object, object>);
+        var propertyInfo1 = illBehavedType.GetProperty("Property1");
+        var propertyInfo2 = illBehavedType.GetProperty("Property2");
+        // Act & Assert
+        var e1 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo1));
+        AssertExceptionPropertiesEqual(e1, propertyInfo1);
+        var e2 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo2));
+        AssertExceptionPropertiesEqual(e2, propertyInfo2);
+    }
+
+    [Fact]
+    public void VerifyWellBehavedReadOnlyFieldInitializedViaConstructorDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructor<object>).GetField("Field");
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(fieldInfo)));
+    }
+
+    [Fact]
+    public void VerifyReadOnlyFieldInitializedViaConstructorWithDifferentTypeThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetField("Field");
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(fieldInfo));
+        AssertExceptionPropertiesEqual(e, fieldInfo);
+    }
+
+    [Fact]
+    public void VerifyAllConstructorArgumentsAreExposedAsFieldsDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor1 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
+        var ctor2 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
+        var ctor3 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
+        Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
+        Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
+    }
+
+    [Fact]
+    public void VerifyWhenNotAllConstructorArgumentsAreExposedAsFieldsThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor = typeof(FieldsInitializedViaConstructor<object, int>)
+            .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+        var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingField");
+        AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
+    }
+
+    [Fact]
+    public void VerifyConstructorArgumentsAreExposedAsProperties()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor1 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
+        var ctor2 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
+        var ctor3 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
+        Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
+        Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
+    }
+
+    [Fact]
+    public void VerifyWhenNotAllConstructorArgumentsAreExposedAsPropertiesThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>)
+            .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+        var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
+        AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
+    }
+
+    [Fact]
+    public void VerifyWhenConstructorArgumentTypeIsDifferentToFieldThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetConstructors().First();
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+        var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "value");
+        AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
+    }
+
+    [Fact]
+    public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeShouldThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor = typeof(PropertyIsAssignableFromConstructorArgumentType).GetConstructors().First();
+        // Act & Assert
+        Assert.Throws<ConstructorInitializedMemberException>(() =>
+            sut.Verify(ctor));
+    }
+
+    [Fact]
+    public void VerifyWhenMemberTypeIsComplexDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
+            .GetConstructor(new[] { typeof(ComplexType), typeof(object) });
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(ctor)));
+    }
+
+    [Fact]
+    public void VerifyWhenMemberTypeIsComplexWithIllBehavedConstructorThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
+            .GetConstructor(new[] { typeof(ComplexType), typeof(object), typeof(TriState) });
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(
+            () => sut.Verify(ctor));
+        var expectedMissingParameter = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
+        AssertExceptionPropertiesEqual(e, ctor, expectedMissingParameter);
+    }
+
+    [Fact]
+    public void VerifyWhenConstructorArgumentHasWriteOnlyPropertyDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var ctor = typeof(WriteOnlyPropertyHolder<ComplexType>).GetConstructors().First();
+        // Act & Assert
+        Assert.Null(
+            Record.Exception(() => sut.Verify(ctor)));
+    }
+
+    [Fact]
+    public void VerifyWhenPropertyIsWriteOnlyDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var propertyInfo = typeof(WriteOnlyPropertyHolder<ComplexType>).GetProperty("WriteOnlyProperty");
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
+    }
+
+    [Fact]
+    public void VerifyWhenPropertyGetterIsInternalDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var propertyInfo = typeof(InternalGetterPropertyHolder<ComplexType>).GetProperty("Property");
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
+    }
+
+    [Fact]
+    public void VerifyTypeWithPublicWritablePropertyAndNoMatchingConstructorArgumentDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(PropertyHolder<ComplexType>);
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
+    }
+
+    [Fact]
+    public void VerifyTypeWithPublicStaticPropertyAndNoMatchingConstructorArgumentDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(StaticPropertyHolder<ComplexType>);
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
+    }
+
+    [Fact]
+    public void VerifyTypeWithPublicStaticFieldAndNoMatchingConstructorArgumentDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(StaticFieldHolder<ComplexType>);
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
+    }
+
+    [Fact]
+    public void VerifyTypeWithPublicStaticReadOnlyFieldAndNoMatchingGuardedConstuctorArgumentDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyField<ComplexType, int>);
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
+    }
+
+    [Fact]
+    public void VerifyTypeWithPublicStaticReadOnlyPropertyAndNoMatchingGuardedConstuctorArgumentDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyProperty<ComplexType, int>);
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
+    }
+
+    [Fact]
+    public void VerifyTypeWithReadOnlyPropertyAndIllBehavedConstructorThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(ReadOnlyPropertiesInitializedViaConstructor<int, string>);
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
+        var expectedFailingConstructor = typeToVerify.GetConstructor(new[] { typeof(int), typeof(string), typeof(TriState) });
+        var expectedFailingParameter = expectedFailingConstructor.GetParameters().Single(p => p.Name == "noMatchingProperty");
+        AssertExceptionPropertiesEqual(e, expectedFailingConstructor, expectedFailingParameter);
+    }
+
+    [Fact]
+    public void VerifyTypeWithWritablePropertyAndMatchingIllBehavedConstructorArgumentThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(WritablePropertyAndIllBehavedConstructor);
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
+        var expectedFailingProperty = typeToVerify.GetProperties().Single();
+        AssertExceptionPropertiesEqual(e, expectedFailingProperty);
+    }
+
+    [Fact]
+    public void VerifyTypeWithPublicReadOnlyFieldsIncorrectlyInitialisedViaConstructorThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+        var typeToVerify = typeof(PublicReadOnlyFieldNotInitializedByConstructor);
+        // Act & Assert
+        var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
+        var expectedFailingField = typeToVerify.GetFields().First();
+        AssertExceptionPropertiesEqual(e, expectedFailingField);
+    }
+
+    [Theory]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestIntEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestIntEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestByteEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestByteEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestSByteEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSByteEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestShortEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestShortEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestUShortEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestUShortEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestUIntEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestUIntEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestLongEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestLongEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestULongEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestULongEnum>))]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+    public void VerifyWellBehavedEnumInitializersDoNotThrow(Type type)
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Verify(type)));
+    }
+
+    [Theory]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestIntEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestIntEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestByteEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestByteEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestSByteEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSByteEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestShortEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestShortEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestUShortEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestUShortEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestUIntEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestUIntEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestLongEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestLongEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestULongEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestULongEnum>))]
+    [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+    public void VerifyIllBehavedEnumInitializersDoThrow(Type type)
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+        // Act & Assert
+        Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
+    }
+
+    [Theory]
+    [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestDefaultOnlyEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestDefaultOnlyEnum>))]
+    [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
+    public void VerifyDefaultOnlyEnumDoesThrowBecauseOfPotentialFalsePositive(Type type)
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+        // Act & Assert
+        Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
+    }
+
+    [Theory]
+    [InlineData(typeof(IllBehavedFieldMatchedByEvenPositionConstructorParameter<TestIntEnum, bool>))]
+    [InlineData(typeof(IllBehavedPropertyMatchedByEvenPositionConstructorParameter<TestIntEnum, bool>))]
+    public void FailForUninitializedBooleanMember(Type type)
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+        // Act & Assert
+        Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
+    }
+
+    private static void AssertExceptionPropertiesEqual(
+        ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
+    {
+        Assert.Equal(param, ex.MissingParameter);
+        Assert.Equal(ctor, ex.MemberInfo);
+        Assert.Equal(ctor, ex.ConstructorInfo);
+        Assert.Null(ex.FieldInfo);
+        Assert.Null(ex.PropertyInfo);
+    }
+
+    private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, PropertyInfo pi)
+    {
+        Assert.Null(ex.ConstructorInfo);
+        Assert.Null(ex.MissingParameter);
+        Assert.Equal(pi, ex.MemberInfo);
+        Assert.Null(ex.FieldInfo);
+        Assert.Equal(pi, ex.PropertyInfo);
+    }
+
+    private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, FieldInfo fi)
+    {
+        Assert.Null(ex.ConstructorInfo);
+        Assert.Null(ex.MissingParameter);
+        Assert.Equal(fi, ex.MemberInfo);
+        Assert.Equal(fi, ex.FieldInfo);
+        Assert.Null(ex.PropertyInfo);
+    }
+
+    private class IllBehavedPropertyMatchedByEvenPositionConstructorParameter<T1, T2>
+    {
+        public IllBehavedPropertyMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
         {
-            // Arrange
-            var dummyComposer = new Fixture();
-            // Act
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Assert
-            Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
+            this.Member1 = member1;
         }
 
-        [Fact]
-        public void ComposerIsCorrect()
+        public T1 Member1 { get; }
+
+        public T2 Member2 { get; }
+    }
+
+    private class IllBehavedFieldMatchedByEvenPositionConstructorParameter<T1, T2>
+    {
+        public IllBehavedFieldMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
         {
-            // Arrange
-            var expectedComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(expectedComposer);
-            // Act
-            ISpecimenBuilder result = sut.Builder;
-            // Assert
-            Assert.Equal(expectedComposer, result);
+            this.Member1 = member1;
         }
 
-        [Fact]
-        public void ConstructWithNullComposerThrows()
-        {
-            // Arrange
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new ConstructorInitializedMemberAssertion(null));
-        }
-
-        [Fact]
-        public void ComparerIsCorrect()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var expectedComparer = new FakeEqualityComparer<object>();
-            var dummyMatcher = new FakeReflectionElementComparer();
-            var sut = new ConstructorInitializedMemberAssertion(
-                dummyComposer, expectedComparer, dummyMatcher);
-            // Act
-            IEqualityComparer result = sut.Comparer;
-            // Assert
-            Assert.Equal(expectedComparer, result);
-        }
-
-        [Fact]
-        public void ConstructWithNullComparerThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var dummyMatcher = new FakeReflectionElementComparer();
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new ConstructorInitializedMemberAssertion(dummyComposer, null, dummyMatcher));
-        }
-
-        [Fact]
-        public void ParameterMemberMatcherIsCorrect()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var dummyComparer = new FakeEqualityComparer<object>();
-            var expectedMatcher = new FakeReflectionElementComparer();
-            var sut = new ConstructorInitializedMemberAssertion(
-                dummyComposer, dummyComparer, expectedMatcher);
-            // Act
-            IEqualityComparer<IReflectionElement> result = sut.ParameterMemberMatcher;
-            // Assert
-            Assert.Equal(expectedMatcher, result);
-        }
-
-        [Fact]
-        public void ConstructWithNullParameterMemberMatcherThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var dummyComparer = new FakeEqualityComparer<object>();
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new ConstructorInitializedMemberAssertion(dummyComposer, dummyComparer, null));
-        }
-
-        [Fact]
-        public void VerifyNullPropertyThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((PropertyInfo)null));
-        }
-
-        [Fact]
-        public void VerifyNullFieldThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((FieldInfo)null));
-        }
-
-        [Fact]
-        public void VerifyNullConstructorInfoThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((ConstructorInfo)null));
-        }
-
-        [Fact]
-        public void VerifyDefaultConstructorDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            // Act & Assert
-            var constructorWithNoParameters = typeof(PropertyHolder<object>).GetConstructors().First();
-            Assert.Empty(constructorWithNoParameters.GetParameters());
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(constructorWithNoParameters)));
-        }
-
-        [Fact]
-        public void VerifyWritablePropertyWithNoMatchingConstructorDoesNotThrow()
-        {
-            // Arrange
-            var composer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(composer);
-            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
-            // Act & Assert
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(propertyInfo)));
-        }
-
-        [Fact]
-        public void VerifyWritableFieldWithNoMatchingConstructorDoesNotThrow()
-        {
-            // Arrange
-            var composer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(composer);
-            var propertyInfo = typeof(FieldHolder<object>).GetField("Field");
-            // Act & Assert
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(propertyInfo)));
-        }
-
-        [Fact]
-        public void VerifyReadOnlyPropertyWithPrivateSetterAndNoMatchingConstructorThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var propertyInfo = typeof(ReadOnlyPropertyHolder<int>).GetProperty("Property");
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
-                sut.Verify(propertyInfo));
-            AssertExceptionPropertiesEqual(e, propertyInfo);
-        }
-
-        [Fact]
-        public void VerifyReadOnlyPropertyWithNoSetterAndNoMatchingConstructorThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var propertyInfo = typeof(ReadOnlyPropertyWithNoSetterHolder<int>).GetProperty("Property");
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
-                sut.Verify(propertyInfo));
-            AssertExceptionPropertiesEqual(e, propertyInfo);
-        }
-
-        [Fact]
-        public void VerifyWellBehavedReadOnlyPropertyInitializedViaConstructorDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var propertyInfo = typeof(ReadOnlyPropertyInitializedViaConstructor<object>).GetProperty("Property");
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
-        }
-
-        [Fact]
-        public void VerifyIllBehavedPropertiesInitializedViaConstructorThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var illBehavedType = typeof(PropertiesIncorrectlyInitializedViaConstructor<object, object>);
-            var propertyInfo1 = illBehavedType.GetProperty("Property1");
-            var propertyInfo2 = illBehavedType.GetProperty("Property2");
-            // Act & Assert
-            var e1 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo1));
-            AssertExceptionPropertiesEqual(e1, propertyInfo1);
-            var e2 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo2));
-            AssertExceptionPropertiesEqual(e2, propertyInfo2);
-        }
-
-        [Fact]
-        public void VerifyWellBehavedReadOnlyFieldInitializedViaConstructorDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructor<object>).GetField("Field");
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(fieldInfo)));
-        }
-
-        [Fact]
-        public void VerifyReadOnlyFieldInitializedViaConstructorWithDifferentTypeThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetField("Field");
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(fieldInfo));
-            AssertExceptionPropertiesEqual(e, fieldInfo);
-        }
-
-        [Fact]
-        public void VerifyAllConstructorArgumentsAreExposedAsFieldsDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor1 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
-            var ctor2 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
-            var ctor3 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
-            Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
-            Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
-        }
-
-        [Fact]
-        public void VerifyWhenNotAllConstructorArgumentsAreExposedAsFieldsThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(FieldsInitializedViaConstructor<object, int>)
-                .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
-            var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingField");
-            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
-        }
-
-        [Fact]
-        public void VerifyConstructorArgumentsAreExposedAsProperties()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor1 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
-            var ctor2 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
-            var ctor3 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(ctor1)));
-            Assert.Null(Record.Exception(() => sut.Verify(ctor2)));
-            Assert.Null(Record.Exception(() => sut.Verify(ctor3)));
-        }
-
-        [Fact]
-        public void VerifyWhenNotAllConstructorArgumentsAreExposedAsPropertiesThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>)
-                .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
-            var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
-            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
-        }
-
-        [Fact]
-        public void VerifyWhenConstructorArgumentTypeIsDifferentToFieldThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetConstructors().First();
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
-            var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "value");
-            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
-        }
-
-        [Fact]
-        public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeShouldThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(PropertyIsAssignableFromConstructorArgumentType).GetConstructors().First();
-            // Act & Assert
-            Assert.Throws<ConstructorInitializedMemberException>(() =>
-                sut.Verify(ctor));
-        }
-
-        [Fact]
-        public void VerifyWhenMemberTypeIsComplexDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
-                .GetConstructor(new[] { typeof(ComplexType), typeof(object) });
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(ctor)));
-        }
-
-        [Fact]
-        public void VerifyWhenMemberTypeIsComplexWithIllBehavedConstructorThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
-                .GetConstructor(new[] { typeof(ComplexType), typeof(object), typeof(TriState) });
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(
-                () => sut.Verify(ctor));
-            var expectedMissingParameter = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
-            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParameter);
-        }
-
-        [Fact]
-        public void VerifyWhenConstructorArgumentHasWriteOnlyPropertyDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(WriteOnlyPropertyHolder<ComplexType>).GetConstructors().First();
-            // Act & Assert
-            Assert.Null(
-                Record.Exception(() => sut.Verify(ctor)));
-        }
-
-        [Fact]
-        public void VerifyWhenPropertyIsWriteOnlyDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var propertyInfo = typeof(WriteOnlyPropertyHolder<ComplexType>).GetProperty("WriteOnlyProperty");
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
-        }
-
-        [Fact]
-        public void VerifyWhenPropertyGetterIsInternalDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var propertyInfo = typeof(InternalGetterPropertyHolder<ComplexType>).GetProperty("Property");
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(propertyInfo)));
-        }
-
-        [Fact]
-        public void VerifyTypeWithPublicWritablePropertyAndNoMatchingConstructorArgumentDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(PropertyHolder<ComplexType>);
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-        }
-
-        [Fact]
-        public void VerifyTypeWithPublicStaticPropertyAndNoMatchingConstructorArgumentDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(StaticPropertyHolder<ComplexType>);
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-        }
-
-        [Fact]
-        public void VerifyTypeWithPublicStaticFieldAndNoMatchingConstructorArgumentDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(StaticFieldHolder<ComplexType>);
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-        }
-
-        [Fact]
-        public void VerifyTypeWithPublicStaticReadOnlyFieldAndNoMatchingGuardedConstuctorArgumentDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyField<ComplexType, int>);
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-        }
-
-        [Fact]
-        public void VerifyTypeWithPublicStaticReadOnlyPropertyAndNoMatchingGuardedConstuctorArgumentDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyProperty<ComplexType, int>);
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(typeToVerify)));
-        }
-
-        [Fact]
-        public void VerifyTypeWithReadOnlyPropertyAndIllBehavedConstructorThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(ReadOnlyPropertiesInitializedViaConstructor<int, string>);
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
-            var expectedFailingConstructor = typeToVerify.GetConstructor(new[] { typeof(int), typeof(string), typeof(TriState) });
-            var expectedFailingParameter = expectedFailingConstructor.GetParameters().Single(p => p.Name == "noMatchingProperty");
-            AssertExceptionPropertiesEqual(e, expectedFailingConstructor, expectedFailingParameter);
-        }
-
-        [Fact]
-        public void VerifyTypeWithWritablePropertyAndMatchingIllBehavedConstructorArgumentThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(WritablePropertyAndIllBehavedConstructor);
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
-            var expectedFailingProperty = typeToVerify.GetProperties().Single();
-            AssertExceptionPropertiesEqual(e, expectedFailingProperty);
-        }
-
-        [Fact]
-        public void VerifyTypeWithPublicReadOnlyFieldsIncorrectlyInitialisedViaConstructorThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof(PublicReadOnlyFieldNotInitializedByConstructor);
-            // Act & Assert
-            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
-            var expectedFailingField = typeToVerify.GetFields().First();
-            AssertExceptionPropertiesEqual(e, expectedFailingField);
-        }
-
-        [Theory]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestIntEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestIntEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestByteEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestByteEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestSByteEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSByteEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestShortEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestShortEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestUShortEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestUShortEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestUIntEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestUIntEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestLongEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestLongEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestULongEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestULongEnum>))]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestSingleNonDefaultEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
-        public void VerifyWellBehavedEnumInitializersDoNotThrow(Type type)
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(fixture);
-
-            // Act & Assert
-            Assert.Null(Record.Exception(() => sut.Verify(type)));
-        }
-
-        [Theory]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestIntEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestIntEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestByteEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestByteEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestSByteEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSByteEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestShortEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestShortEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestUShortEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestUShortEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestUIntEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestUIntEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestLongEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestLongEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestULongEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestULongEnum>))]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
-        public void VerifyIllBehavedEnumInitializersDoThrow(Type type)
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(fixture);
-
-            // Act & Assert
-            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
-        }
-
-        [Theory]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestDefaultOnlyEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestDefaultOnlyEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
-        public void VerifyDefaultOnlyEnumDoesThrowBecauseOfPotentialFalsePositive(Type type)
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(fixture);
-
-            // Act & Assert
-            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
-        }
-
-        [Theory]
-        [InlineData(typeof(IllBehavedFieldMatchedByEvenPositionConstructorParameter<TestIntEnum, bool>))]
-        [InlineData(typeof(IllBehavedPropertyMatchedByEvenPositionConstructorParameter<TestIntEnum, bool>))]
-        public void FailForUninitializedBooleanMember(Type type)
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(fixture);
-
-            // Act & Assert
-            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
-        }
-
-        private static void AssertExceptionPropertiesEqual(
-            ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
-        {
-            Assert.Equal(param, ex.MissingParameter);
-            Assert.Equal(ctor, ex.MemberInfo);
-            Assert.Equal(ctor, ex.ConstructorInfo);
-            Assert.Null(ex.FieldInfo);
-            Assert.Null(ex.PropertyInfo);
-        }
-
-        private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, PropertyInfo pi)
-        {
-            Assert.Null(ex.ConstructorInfo);
-            Assert.Null(ex.MissingParameter);
-            Assert.Equal(pi, ex.MemberInfo);
-            Assert.Null(ex.FieldInfo);
-            Assert.Equal(pi, ex.PropertyInfo);
-        }
-
-        private static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, FieldInfo fi)
-        {
-            Assert.Null(ex.ConstructorInfo);
-            Assert.Null(ex.MissingParameter);
-            Assert.Equal(fi, ex.MemberInfo);
-            Assert.Equal(fi, ex.FieldInfo);
-            Assert.Null(ex.PropertyInfo);
-        }
-
-        private class IllBehavedPropertyMatchedByEvenPositionConstructorParameter<T1, T2>
-        {
-            public IllBehavedPropertyMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
-            {
-                this.Member1 = member1;
-            }
-
-            public T1 Member1 { get; }
-
-            public T2 Member2 { get; }
-        }
-
-        private class IllBehavedFieldMatchedByEvenPositionConstructorParameter<T1, T2>
-        {
-            public IllBehavedFieldMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
-            {
-                this.Member1 = member1;
-            }
-
-            public readonly T1 Member1;
+        public readonly T1 Member1;
 
 #pragma warning disable CA1805 // This demonstrates the field is initialized with a default value
-            public readonly T2 Member2 = default;
+        public readonly T2 Member2 = default;
 #pragma warning restore CA1805
-        }
+    }
 
-        private class PublicReadOnlyFieldNotInitializedByConstructor
-        {
+    private class PublicReadOnlyFieldNotInitializedByConstructor
+    {
 #pragma warning disable 649
-            public readonly int Field;
+        public readonly int Field;
 #pragma warning restore 649
+    }
+
+    private class ReadOnlyPropertyWithNoSetterHolder<T>
+    {
+        public T Property => default(T);
+    }
+
+    private class WritablePropertyAndIllBehavedConstructor
+    {
+        public WritablePropertyAndIllBehavedConstructor(int property)
+        {
         }
 
-        private class ReadOnlyPropertyWithNoSetterHolder<T>
+        public int Property { get; set; }
+    }
+
+    private class WriteOnlyPropertyHolder<T>
+    {
+        private T writeOnlyPropertyBackingField;
+
+        public WriteOnlyPropertyHolder(T writeOnlyProperty)
         {
-            public T Property => default(T);
+            this.writeOnlyPropertyBackingField = writeOnlyProperty;
         }
 
-        private class WritablePropertyAndIllBehavedConstructor
+        public T GetWriteOnlyProperty()
         {
-            public WritablePropertyAndIllBehavedConstructor(int property)
-            {
-            }
-
-            public int Property { get; set; }
+            return this.writeOnlyPropertyBackingField;
         }
 
-        private class WriteOnlyPropertyHolder<T>
+        public T WriteOnlyProperty
         {
-            private T writeOnlyPropertyBackingField;
-
-            public WriteOnlyPropertyHolder(T writeOnlyProperty)
+            set
             {
-                this.writeOnlyPropertyBackingField = writeOnlyProperty;
-            }
-
-            public T GetWriteOnlyProperty()
-            {
-                return this.writeOnlyPropertyBackingField;
-            }
-
-            public T WriteOnlyProperty
-            {
-                set
-                {
-                    this.writeOnlyPropertyBackingField = value;
-                }
+                this.writeOnlyPropertyBackingField = value;
             }
         }
+    }
 
-        private class ComplexType
+    private class ComplexType
+    {
+        public ComplexType()
         {
-            public ComplexType()
-            {
-                this.Children = new Collection<ComplexTypeChild>();
-            }
-
-            public ICollection<ComplexTypeChild> Children { get; set; }
+            this.Children = new Collection<ComplexTypeChild>();
         }
 
-        private class ComplexTypeChild
+        public ICollection<ComplexTypeChild> Children { get; set; }
+    }
+
+    private class ComplexTypeChild
+    {
+        public string Name { get; set; }
+    }
+
+    private class PropertyIsAssignableFromConstructorArgumentType
+    {
+        private readonly IEnumerable<string> bribbets;
+
+        public PropertyIsAssignableFromConstructorArgumentType(params string[] bribbets)
         {
-            public string Name { get; set; }
+            this.bribbets = bribbets;
         }
 
-        private class PropertyIsAssignableFromConstructorArgumentType
+        public IEnumerable<string> Bribbets
         {
-            private readonly IEnumerable<string> bribbets;
-
-            public PropertyIsAssignableFromConstructorArgumentType(params string[] bribbets)
-            {
-                this.bribbets = bribbets;
-            }
-
-            public IEnumerable<string> Bribbets
-            {
-                get { return this.bribbets; }
-            }
+            get { return this.bribbets; }
         }
+    }
 
-        private class ReadOnlyFieldInitializedViaConstructorWithDifferentType
+    private class ReadOnlyFieldInitializedViaConstructorWithDifferentType
+    {
+        public readonly string Field;
+
+        public ReadOnlyFieldInitializedViaConstructorWithDifferentType(int value)
         {
-            public readonly string Field;
-
-            public ReadOnlyFieldInitializedViaConstructorWithDifferentType(int value)
-            {
-                this.Field = value.ToString(CultureInfo.CurrentCulture);
-            }
+            this.Field = value.ToString(CultureInfo.CurrentCulture);
         }
+    }
 
-        private class ReadOnlyFieldInitializedViaConstructor<T>
+    private class ReadOnlyFieldInitializedViaConstructor<T>
+    {
+        public readonly T Field;
+
+        public ReadOnlyFieldInitializedViaConstructor(T field)
         {
-            public readonly T Field;
-
-            public ReadOnlyFieldInitializedViaConstructor(T field)
-            {
-                this.Field = field;
-            }
+            this.Field = field;
         }
+    }
 
-        private class ReadOnlyFieldIncorrectlyInitializedViaConstructor<T>
-        {
+    private class ReadOnlyFieldIncorrectlyInitializedViaConstructor<T>
+    {
 #pragma warning disable 649
-            public readonly T Field;
+        public readonly T Field;
 #pragma warning restore 649
 
-            public ReadOnlyFieldIncorrectlyInitializedViaConstructor(T field)
-            {
-            }
-        }
-
-        private class ReadOnlyPropertiesInitializedViaConstructor<T1, T2>
+        public ReadOnlyFieldIncorrectlyInitializedViaConstructor(T field)
         {
-            public ReadOnlyPropertiesInitializedViaConstructor(T1 property1)
-            {
-                this.Property1 = property1;
-            }
-
-            public ReadOnlyPropertiesInitializedViaConstructor(T2 property2)
-            {
-                this.Property2 = property2;
-            }
-
-            public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2)
-            {
-                this.Property1 = property1;
-                this.Property2 = property2;
-            }
-
-            public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2, TriState noMatchingProperty)
-            {
-                this.Property1 = property1;
-                this.Property2 = property2;
-            }
-
-            public T1 Property1 { get; private set; }
-            public T2 Property2 { get; private set; }
         }
+    }
 
-        private class PropertiesIncorrectlyInitializedViaConstructor<T1, T2>
+    private class ReadOnlyPropertiesInitializedViaConstructor<T1, T2>
+    {
+        public ReadOnlyPropertiesInitializedViaConstructor(T1 property1)
         {
-            public PropertiesIncorrectlyInitializedViaConstructor(T1 property1, T2 property2)
-            {
-            }
-
-            public PropertiesIncorrectlyInitializedViaConstructor(T1 property1)
-            {
-            }
-
-            public PropertiesIncorrectlyInitializedViaConstructor(T2 property2)
-            {
-            }
-
-            public T1 Property1 { get; set; }
-            public T2 Property2 { get; set; }
+            this.Property1 = property1;
         }
 
-        private class FieldsInitializedViaConstructor<T1, T2>
+        public ReadOnlyPropertiesInitializedViaConstructor(T2 property2)
         {
-            public FieldsInitializedViaConstructor(T1 field1)
-            {
-                this.Field1 = field1;
-            }
-
-            public FieldsInitializedViaConstructor(T2 field2)
-            {
-                this.Field2 = field2;
-            }
-
-            public FieldsInitializedViaConstructor(T1 field1, T2 field2)
-            {
-                this.Field1 = field1;
-                this.Field2 = field2;
-            }
-
-            public FieldsInitializedViaConstructor(T1 field1, T2 field2, TriState noMatchingField)
-            {
-                this.Field1 = field1;
-                this.Field2 = field2;
-            }
-
-            public T1 Field1;
-            public T2 Field2;
+            this.Property2 = property2;
         }
 
-        private class ReadOnlyPropertyInitializedViaConstructor<T>
+        public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2)
         {
-            public ReadOnlyPropertyInitializedViaConstructor(T property)
-            {
-                this.Property = property;
-            }
-
-            public T Property { get; private set; }
+            this.Property1 = property1;
+            this.Property2 = property2;
         }
 
-        private class ReadOnlyPropertyIncorrectlyInitializedViaConstructor<T>
+        public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2, TriState noMatchingProperty)
         {
-            public ReadOnlyPropertyIncorrectlyInitializedViaConstructor(T property)
-            {
-            }
-
-            public T Property { get; private set; }
+            this.Property1 = property1;
+            this.Property2 = property2;
         }
 
-        private class FakeReflectionElementComparer : IEqualityComparer<IReflectionElement>
-        {
-            public bool Equals(IReflectionElement x, IReflectionElement y)
-            {
-                throw new NotImplementedException();
-            }
+        public T1 Property1 { get; private set; }
+        public T2 Property2 { get; private set; }
+    }
 
-            public int GetHashCode(IReflectionElement obj)
-            {
-                throw new NotImplementedException();
-            }
+    private class PropertiesIncorrectlyInitializedViaConstructor<T1, T2>
+    {
+        public PropertiesIncorrectlyInitializedViaConstructor(T1 property1, T2 property2)
+        {
         }
 
-        private class FakeEqualityComparer<T> : IEqualityComparer
+        public PropertiesIncorrectlyInitializedViaConstructor(T1 property1)
         {
-            bool IEqualityComparer.Equals(object x, object y)
-            {
-                throw new NotImplementedException();
-            }
-
-            int IEqualityComparer.GetHashCode(object obj)
-            {
-                throw new NotImplementedException();
-            }
         }
 
-        // All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
-        private enum TestIntEnum
+        public PropertiesIncorrectlyInitializedViaConstructor(T2 property2)
         {
-            None = 0,
-            One,
-            Two,
-            Three
-        }
-        private enum TestByteEnum : byte
-        {
-            None = 0,
-            One,
-            Two,
-            Three
-        }
-        private enum TestSByteEnum : sbyte
-        {
-            None = 0,
-            One,
-            Two,
-            Three
-        }
-        private enum TestShortEnum : short
-        {
-            None = 0,
-            One,
-            Two,
-            Three
-        }
-        private enum TestUShortEnum : ushort
-        {
-            None = 0,
-            One,
-            Two,
-            Three
-        }
-        private enum TestUIntEnum : uint
-        {
-            None = 0,
-            One,
-            Two,
-            Three
-        }
-        private enum TestLongEnum : long
-        {
-            None = 0,
-            One,
-            Two,
-            Three
-        }
-        private enum TestULongEnum : ulong
-        {
-            None = 0,
-            One,
-            Two,
-            Three
         }
 
-        private enum TestDefaultOnlyEnum
+        public T1 Property1 { get; set; }
+        public T2 Property2 { get; set; }
+    }
+
+    private class FieldsInitializedViaConstructor<T1, T2>
+    {
+        public FieldsInitializedViaConstructor(T1 field1)
         {
-            None = 0
+            this.Field1 = field1;
         }
 
-        private enum TestSingleNonDefaultEnum
+        public FieldsInitializedViaConstructor(T2 field2)
         {
-            None = 1
+            this.Field2 = field2;
         }
+
+        public FieldsInitializedViaConstructor(T1 field1, T2 field2)
+        {
+            this.Field1 = field1;
+            this.Field2 = field2;
+        }
+
+        public FieldsInitializedViaConstructor(T1 field1, T2 field2, TriState noMatchingField)
+        {
+            this.Field1 = field1;
+            this.Field2 = field2;
+        }
+
+        public T1 Field1;
+        public T2 Field2;
+    }
+
+    private class ReadOnlyPropertyInitializedViaConstructor<T>
+    {
+        public ReadOnlyPropertyInitializedViaConstructor(T property)
+        {
+            this.Property = property;
+        }
+
+        public T Property { get; private set; }
+    }
+
+    private class ReadOnlyPropertyIncorrectlyInitializedViaConstructor<T>
+    {
+        public ReadOnlyPropertyIncorrectlyInitializedViaConstructor(T property)
+        {
+        }
+
+        public T Property { get; private set; }
+    }
+
+    private class FakeReflectionElementComparer : IEqualityComparer<IReflectionElement>
+    {
+        public bool Equals(IReflectionElement x, IReflectionElement y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode(IReflectionElement obj)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    private class FakeEqualityComparer<T> : IEqualityComparer
+    {
+        bool IEqualityComparer.Equals(object x, object y)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IEqualityComparer.GetHashCode(object obj)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
+    private enum TestIntEnum
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+    private enum TestByteEnum : byte
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+    private enum TestSByteEnum : sbyte
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+    private enum TestShortEnum : short
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+    private enum TestUShortEnum : ushort
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+    private enum TestUIntEnum : uint
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+    private enum TestLongEnum : long
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+    private enum TestULongEnum : ulong
+    {
+        None = 0,
+        One,
+        Two,
+        Three
+    }
+
+    private enum TestDefaultOnlyEnum
+    {
+        None = 0
+    }
+
+    private enum TestSingleNonDefaultEnum
+    {
+        None = 1
     }
 }

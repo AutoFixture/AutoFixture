@@ -1,25 +1,24 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithSealedMembers : TypeWithSealedMembersTemp
 {
-    public class TypeWithSealedMembers : TypeWithSealedMembersTemp
+    public sealed override string ExplicitlySealedProperty { get; set; }
+    public string ImplicitlySealedProperty { get; set; }
+
+    public sealed override string ExplicitlySealedMethod()
     {
-        public sealed override string ExplicitlySealedProperty { get; set; }
-        public string ImplicitlySealedProperty { get; set; }
-
-        public sealed override string ExplicitlySealedMethod()
-        {
-            return "Awesome string";
-        }
-
-        public string ImplicitlySealedMethod()
-        {
-            return "Awesome string";
-        }
+        return "Awesome string";
     }
 
-    public abstract class TypeWithSealedMembersTemp
+    public string ImplicitlySealedMethod()
     {
-        public abstract string ExplicitlySealedProperty { get; set; }
-
-        public abstract string ExplicitlySealedMethod();
+        return "Awesome string";
     }
+}
+
+public abstract class TypeWithSealedMembersTemp
+{
+    public abstract string ExplicitlySealedProperty { get; set; }
+
+    public abstract string ExplicitlySealedMethod();
 }

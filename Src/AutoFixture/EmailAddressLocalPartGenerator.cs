@@ -1,38 +1,37 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture
+namespace AutoFixture;
+
+/// <summary>
+/// Creates new <see cref="EmailAddressLocalPart"/> instances.
+/// </summary>
+public class EmailAddressLocalPartGenerator : ISpecimenBuilder
 {
     /// <summary>
-    /// Creates new <see cref="EmailAddressLocalPart"/> instances.
+    /// Creates a new specimen based on a request.
     /// </summary>
-    public class EmailAddressLocalPartGenerator : ISpecimenBuilder
+    /// <param name="request">The request that describes what to create.</param>
+    /// <param name="context">A context that can be used to create other specimens.</param>
+    /// <returns>
+    /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+    /// </returns>
+    public object Create(object request, ISpecimenContext context)
     {
-        /// <summary>
-        /// Creates a new specimen based on a request.
-        /// </summary>
-        /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A context that can be used to create other specimens.</param>
-        /// <returns>
-        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
-        /// </returns>
-        public object Create(object request, ISpecimenContext context)
+        if (context == null) throw new ArgumentNullException(nameof(context));
+
+        if (request == null || !typeof(EmailAddressLocalPart).Equals(request))
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
-            if (request == null || !typeof(EmailAddressLocalPart).Equals(request))
-            {
-                return NoSpecimen.Instance;
-            }
-
-            var localPart = context.Resolve(typeof(string)) as string;
-
-            if (string.IsNullOrEmpty(localPart))
-            {
-                return NoSpecimen.Instance;
-            }
-
-            return new EmailAddressLocalPart(localPart);
+            return NoSpecimen.Instance;
         }
+
+        var localPart = context.Resolve(typeof(string)) as string;
+
+        if (string.IsNullOrEmpty(localPart))
+        {
+            return NoSpecimen.Instance;
+        }
+
+        return new EmailAddressLocalPart(localPart);
     }
 }

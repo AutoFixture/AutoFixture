@@ -1,7 +1,6 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class ReadOnlyFieldHolder<T>
 {
-    public class ReadOnlyFieldHolder<T>
-    {
-        public readonly T Field;
-    }
+    public readonly T Field;
 }

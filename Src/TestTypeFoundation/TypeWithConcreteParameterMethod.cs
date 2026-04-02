@@ -1,9 +1,8 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class TypeWithConcreteParameterMethod
 {
-    public class TypeWithConcreteParameterMethod
+    public void DoSomething(ConcreteType param)
     {
-        public void DoSomething(ConcreteType param)
-        {
-        }
     }
 }

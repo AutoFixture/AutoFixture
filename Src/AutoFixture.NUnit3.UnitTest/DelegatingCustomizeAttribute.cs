@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest;
+
+internal class DelegatingCustomizeAttribute : CustomizeAttribute
 {
-    internal class DelegatingCustomizeAttribute : CustomizeAttribute
+    internal DelegatingCustomizeAttribute()
     {
-        internal DelegatingCustomizeAttribute()
-        {
-            this.OnGetCustomization = p => new DelegatingCustomization();
-        }
-
-        public override ICustomization GetCustomization(ParameterInfo parameter)
-        {
-            return this.OnGetCustomization(parameter);
-        }
-
-        internal Func<ParameterInfo, ICustomization> OnGetCustomization { get; set; }
+        this.OnGetCustomization = p => new DelegatingCustomization();
     }
+
+    public override ICustomization GetCustomization(ParameterInfo parameter)
+    {
+        return this.OnGetCustomization(parameter);
+    }
+
+    internal Func<ParameterInfo, ICustomization> OnGetCustomization { get; set; }
 }

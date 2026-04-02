@@ -4,115 +4,114 @@ using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace AutoFixtureUnitTest.DataAnnotations
+namespace AutoFixtureUnitTest.DataAnnotations;
+
+public class TimeSpanRangedRequestRelayTest
 {
-    public class TimeSpanRangedRequestRelayTest
+    [Fact]
+    public void SutShouldBeASpecimenBuilder()
     {
-        [Fact]
-        public void SutShouldBeASpecimenBuilder()
+        // Arrange
+        var sut = new TimeSpanRangedRequestRelay();
+
+        // Act & Assert
+        Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+    }
+
+    [Fact]
+    public void ShouldFailForNullContext()
+    {
+        // Arrange
+        var sut = new TimeSpanRangedRequestRelay();
+        var request = new object();
+
+        // Act & Assert
+        Assert.ThrowsAny<ArgumentNullException>(() =>
+            sut.Create(request, null));
+    }
+
+    [Fact]
+    public void ShouldNotHandleRequestIfMemberTypeIsNotTimeSpan()
+    {
+        // Arrange
+        var sut = new TimeSpanRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: typeof(object), operandType: typeof(object), minimum: 0, maximum: 1);
+        var context = new DelegatingSpecimenContext();
+
+        // Act
+        var result = sut.Create(request, context);
+
+        // Assert
+        Assert.Equal(NoSpecimen.Instance, result);
+    }
+
+    [Fact]
+    public void ShouldHandleRequestOfTimeSpanType()
+    {
+        // Arrange
+        var sut = new TimeSpanRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: typeof(TimeSpan), operandType: typeof(TimeSpan), minimum: "00:00:00",
+                maximum: "01:00:00");
+
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new TimeSpanRangedRequestRelay();
+            OnResolve = _ => 30 * 60 * 1000.0 // 30 (chosen randomly) minutes in miliseconds
+        };
 
-            // Act & Assert
-            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-        }
+        // Act
+        var actualResult = sut.Create(request, context);
 
-        [Fact]
-        public void ShouldFailForNullContext()
+        // Assert
+        Assert.Equal(TimeSpan.FromMinutes(30), actualResult);
+    }
+
+    [Fact]
+    public void ShouldReturnNoSpecimenIfUnableToSatisfyRangedRequest()
+    {
+        // Arrange
+        var sut = new TimeSpanRangedRequestRelay();
+        var request =
+            new RangedRequest(memberType: typeof(TimeSpan), operandType: typeof(TimeSpan), minimum: "00:00:00",
+                maximum: "01:00:00");
+
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new TimeSpanRangedRequestRelay();
-            var request = new object();
+            OnResolve = _ => NoSpecimen.Instance
+        };
 
-            // Act & Assert
-            Assert.ThrowsAny<ArgumentNullException>(() =>
-                sut.Create(request, null));
-        }
+        // Act
+        var actualResult = sut.Create(request, context);
 
-        [Fact]
-        public void ShouldNotHandleRequestIfMemberTypeIsNotTimeSpan()
+        // Assert
+        Assert.Equal(NoSpecimen.Instance, actualResult);
+    }
+
+    [Fact]
+    public void ShouldCorrectPassMinimumAndMaximumAsMilliseconds()
+    {
+        // Arrange
+        var sut = new TimeSpanRangedRequestRelay();
+
+        var request = new RangedRequest(typeof(TimeSpan), typeof(TimeSpan), "00:00:00", "12:00:00");
+        RangedNumberRequest capturedNumericRequest = null;
+
+        var context = new DelegatingSpecimenContext
         {
-            // Arrange
-            var sut = new TimeSpanRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: typeof(object), operandType: typeof(object), minimum: 0, maximum: 1);
-            var context = new DelegatingSpecimenContext();
-
-            // Act
-            var result = sut.Create(request, context);
-
-            // Assert
-            Assert.Equal(NoSpecimen.Instance, result);
-        }
-
-        [Fact]
-        public void ShouldHandleRequestOfTimeSpanType()
-        {
-            // Arrange
-            var sut = new TimeSpanRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: typeof(TimeSpan), operandType: typeof(TimeSpan), minimum: "00:00:00",
-                    maximum: "01:00:00");
-
-            var context = new DelegatingSpecimenContext
+            OnResolve = r =>
             {
-                OnResolve = _ => 30 * 60 * 1000.0 // 30 (chosen randomly) minutes in miliseconds
-            };
+                capturedNumericRequest = (RangedNumberRequest)r;
+                return NoSpecimen.Instance;
+            }
+        };
 
-            // Act
-            var actualResult = sut.Create(request, context);
+        // Act
+        sut.Create(request, context);
 
-            // Assert
-            Assert.Equal(TimeSpan.FromMinutes(30), actualResult);
-        }
-
-        [Fact]
-        public void ShouldReturnNoSpecimenIfUnableToSatisfyRangedRequest()
-        {
-            // Arrange
-            var sut = new TimeSpanRangedRequestRelay();
-            var request =
-                new RangedRequest(memberType: typeof(TimeSpan), operandType: typeof(TimeSpan), minimum: "00:00:00",
-                    maximum: "01:00:00");
-
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = _ => NoSpecimen.Instance
-            };
-
-            // Act
-            var actualResult = sut.Create(request, context);
-
-            // Assert
-            Assert.Equal(NoSpecimen.Instance, actualResult);
-        }
-
-        [Fact]
-        public void ShouldCorrectPassMinimumAndMaximumAsMilliseconds()
-        {
-            // Arrange
-            var sut = new TimeSpanRangedRequestRelay();
-
-            var request = new RangedRequest(typeof(TimeSpan), typeof(TimeSpan), "00:00:00", "12:00:00");
-            RangedNumberRequest capturedNumericRequest = null;
-
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r =>
-                {
-                    capturedNumericRequest = (RangedNumberRequest)r;
-                    return NoSpecimen.Instance;
-                }
-            };
-
-            // Act
-            sut.Create(request, context);
-
-            // Assert
-            Assert.NotNull(capturedNumericRequest);
-            Assert.Equal(0.0, capturedNumericRequest.Minimum);
-            Assert.Equal(12 * 60 * 60 * 1000.0, capturedNumericRequest.Maximum);
-        }
+        // Assert
+        Assert.NotNull(capturedNumericRequest);
+        Assert.Equal(0.0, capturedNumericRequest.Minimum);
+        Assert.Equal(12 * 60 * 60 * 1000.0, capturedNumericRequest.Maximum);
     }
 }
