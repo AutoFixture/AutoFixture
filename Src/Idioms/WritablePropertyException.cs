@@ -101,7 +101,7 @@ public class WritablePropertyException : Exception
         base.GetObjectData(info, context);
 
 #if SERIALIZABLE_MEMBERINFO
-            info.AddValue("PropertyInfo", this.propertyInfo);
+        info.AddValue("PropertyInfo", this.propertyInfo);
 #endif
     }
 

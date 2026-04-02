@@ -17,7 +17,7 @@ namespace AutoFixture.Kernel;
 /// </remarks>
 /// <seealso cref="IntPtrGuard"/>
 #if SYSTEM_RUNTIME_SERIALIZATION
-    [Serializable]
+[Serializable]
 #endif
 public class IllegalRequestException : Exception
 {
@@ -68,7 +68,7 @@ public class IllegalRequestException : Exception
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// The class name is null or <see cref="System.Exception.HResult"/> is zero (0).
         /// </exception>
-        protected IllegalRequestException(SerializationInfo info, StreamingContext context)
+    protected IllegalRequestException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

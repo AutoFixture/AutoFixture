@@ -157,7 +157,7 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
                                 typeof(IReadOnlyList<>),
                                 typeof(ReadOnlyCollection<>)),
 #if NET5_0_OR_GREATER
-                                new TypeRelay(
+                            new TypeRelay(
                                     typeof(IReadOnlySet<>),
                                     typeof(HashSet<>)),
 #endif

@@ -14,7 +14,7 @@ namespace AutoFixture.Kernel;
 /// parameters of a generic method from its arguments.
 /// </summary>
 #if SYSTEM_RUNTIME_SERIALIZATION
-    [Serializable]
+[Serializable]
 #endif
 public class TypeArgumentsCannotBeInferredException : Exception
 {
@@ -84,7 +84,7 @@ public class TypeArgumentsCannotBeInferredException : Exception
         /// <param name="context">
         /// The contextual information about the source or destination.
         /// </param>
-        protected TypeArgumentsCannotBeInferredException(SerializationInfo info, StreamingContext context)
+    protected TypeArgumentsCannotBeInferredException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

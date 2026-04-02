@@ -5018,7 +5018,7 @@ public class FixtureTest
     [InlineData(typeof(IDictionary<,>), typeof(Dictionary<,>))]
     [InlineData(typeof(IReadOnlyDictionary<,>), typeof(ReadOnlyDictionary<,>))]
 #if NET5_0_OR_GREATER
-        [InlineData(typeof(IReadOnlySet<>), typeof(HashSet<>))]
+    [InlineData(typeof(IReadOnlySet<>), typeof(HashSet<>))]
 #endif
     public void ResidueCollectorsContainForwardsByDefault(Type from, Type to)
     {
@@ -5038,7 +5038,7 @@ public class FixtureTest
     [InlineData(typeof(IDictionary<string, object>), typeof(Dictionary<string, object>))]
     [InlineData(typeof(IReadOnlyDictionary<string, object>), typeof(ReadOnlyDictionary<string, object>))]
 #if NET5_0_OR_GREATER
-        [InlineData(typeof(IReadOnlySet<object>), typeof(HashSet<object>))]
+    [InlineData(typeof(IReadOnlySet<object>), typeof(HashSet<object>))]
 #endif
     public void DefaultForwardsAreUsedWhenTypeIsRequested(Type request, Type expected)
     {

@@ -10,7 +10,7 @@ namespace AutoFixture;
 /// The exception that is thrown when AutoFixture is unable to create an object.
 /// </summary>
 #if SYSTEM_RUNTIME_SERIALIZATION
-    [Serializable]
+[Serializable]
 #endif
 public class ObjectCreationException : Exception
 {
@@ -59,7 +59,7 @@ public class ObjectCreationException : Exception
         /// <param name="context">
         /// The contextual information about the source or destination.
         /// </param>
-        protected ObjectCreationException(SerializationInfo info, StreamingContext context)
+    protected ObjectCreationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

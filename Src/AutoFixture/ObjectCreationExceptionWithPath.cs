@@ -13,7 +13,7 @@ namespace AutoFixture;
 /// This exception is supposed to contain the full request path.
 /// </summary>
 #if SYSTEM_RUNTIME_SERIALIZATION
-    [Serializable]
+[Serializable]
 #endif
 internal class ObjectCreationExceptionWithPath : ObjectCreationException
 {
@@ -43,7 +43,7 @@ internal class ObjectCreationExceptionWithPath : ObjectCreationException
     }
 
 #if SYSTEM_RUNTIME_SERIALIZATION
-        protected ObjectCreationExceptionWithPath(
+    protected ObjectCreationExceptionWithPath(
             System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
