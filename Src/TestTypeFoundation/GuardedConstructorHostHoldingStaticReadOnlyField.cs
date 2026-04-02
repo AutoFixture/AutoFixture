@@ -1,22 +1,21 @@
 ﻿using System;
 
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class GuardedConstructorHostHoldingStaticReadOnlyField<TItem, TStaticField>
+    where TItem : class
 {
-    public class GuardedConstructorHostHoldingStaticReadOnlyField<TItem, TStaticField>
-        where TItem : class
+    public static readonly TStaticField Field;
+
+    public GuardedConstructorHostHoldingStaticReadOnlyField(TItem item)
     {
-        public static readonly TStaticField Field;
-
-        public GuardedConstructorHostHoldingStaticReadOnlyField(TItem item)
+        if (item is null)
         {
-            if (item is null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
-
-            this.Item = item;
+            throw new ArgumentNullException(nameof(item));
         }
 
-        public TItem Item { get; private set; }
+        this.Item = item;
     }
+
+    public TItem Item { get; private set; }
 }

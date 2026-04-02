@@ -1,45 +1,44 @@
 ﻿using System;
 
-namespace AutoFixtureDocumentationTest.Extension.Constraints
+namespace AutoFixtureDocumentationTest.Extension.Constraints;
+
+public class ConstrainedStringGenerator
 {
-    public class ConstrainedStringGenerator
+    private readonly int minimumLength;
+    private readonly int maximumLength;
+
+    public ConstrainedStringGenerator(int minimumLength,
+        int maximumLength)
     {
-        private readonly int minimumLength;
-        private readonly int maximumLength;
-
-        public ConstrainedStringGenerator(int minimumLength,
-            int maximumLength)
+        if (maximumLength < 0)
         {
-            if (maximumLength < 0)
-            {
-                throw new ArgumentOutOfRangeException("...");
-            }
-            if (minimumLength > maximumLength)
-            {
-                throw new ArgumentOutOfRangeException("...");
-            }
-
-            this.minimumLength = minimumLength;
-            this.maximumLength = maximumLength;
+            throw new ArgumentOutOfRangeException("...");
+        }
+        if (minimumLength > maximumLength)
+        {
+            throw new ArgumentOutOfRangeException("...");
         }
 
-        public string CreateaAnonymous(string seed)
-        {
-            var s = string.Empty;
-            while (s.Length < this.minimumLength)
-            {
-                s += ConstrainedStringGenerator.CreateAnonymous(seed);
-            }
-            if (s.Length > this.maximumLength)
-            {
-                s = s.Substring(0, this.maximumLength);
-            }
-            return s;
-        }
+        this.minimumLength = minimumLength;
+        this.maximumLength = maximumLength;
+    }
 
-        private static string CreateAnonymous(string seed)
+    public string CreateaAnonymous(string seed)
+    {
+        var s = string.Empty;
+        while (s.Length < this.minimumLength)
         {
-            return seed + Guid.NewGuid();
+            s += ConstrainedStringGenerator.CreateAnonymous(seed);
         }
+        if (s.Length > this.maximumLength)
+        {
+            s = s.Substring(0, this.maximumLength);
+        }
+        return s;
+    }
+
+    private static string CreateAnonymous(string seed)
+    {
+        return seed + Guid.NewGuid();
     }
 }

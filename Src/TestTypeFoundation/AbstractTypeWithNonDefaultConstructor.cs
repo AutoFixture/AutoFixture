@@ -1,19 +1,18 @@
 ﻿using System;
 
-namespace TestTypeFoundation
-{
-    public abstract class AbstractTypeWithNonDefaultConstructor<T>
-    {
-        protected AbstractTypeWithNonDefaultConstructor(T value)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
+namespace TestTypeFoundation;
 
-            this.Property = value;
+public abstract class AbstractTypeWithNonDefaultConstructor<T>
+{
+    protected AbstractTypeWithNonDefaultConstructor(T value)
+    {
+        if (value == null)
+        {
+            throw new ArgumentNullException(nameof(value));
         }
 
-        public T Property { get; }
+        this.Property = value;
     }
+
+    public T Property { get; }
 }

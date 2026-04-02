@@ -4,41 +4,40 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Xunit;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest;
+
+[Obsolete]
+public class StableFiniteSequenceCustomizationTest
 {
-    [Obsolete]
-    public class StableFiniteSequenceCustomizationTest
+    [Fact]
+    public void SutIsCustomization()
     {
-        [Fact]
-        public void SutIsCustomization()
-        {
-            // Arrange
-            // Act
-            var sut = new StableFiniteSequenceCustomization();
-            // Assert
-            Assert.IsAssignableFrom<ICustomization>(sut);
-        }
+        // Arrange
+        // Act
+        var sut = new StableFiniteSequenceCustomization();
+        // Assert
+        Assert.IsAssignableFrom<ICustomization>(sut);
+    }
 
-        [Fact]
-        public void CustomizeNullFixtureThrows()
-        {
-            // Arrange
-            var sut = new StableFiniteSequenceCustomization();
-            // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Customize(null));
-        }
+    [Fact]
+    public void CustomizeNullFixtureThrows()
+    {
+        // Arrange
+        var sut = new StableFiniteSequenceCustomization();
+        // Act & assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Customize(null));
+    }
 
-        [Fact]
-        public void CustomizeAddsCorrectItemToCustomizations()
-        {
-            // Arrange
-            var sut = new StableFiniteSequenceCustomization();
-            var fixture = new Fixture();
-            // Act
-            sut.Customize(fixture);
-            // Assert
-            Assert.True(fixture.Customizations.OfType<StableFiniteSequenceRelay>().Any());
-        }
+    [Fact]
+    public void CustomizeAddsCorrectItemToCustomizations()
+    {
+        // Arrange
+        var sut = new StableFiniteSequenceCustomization();
+        var fixture = new Fixture();
+        // Act
+        sut.Customize(fixture);
+        // Assert
+        Assert.True(fixture.Customizations.OfType<StableFiniteSequenceRelay>().Any());
     }
 }

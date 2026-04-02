@@ -1,6 +1,5 @@
-﻿namespace AutoFixtureDocumentationTest.Greedy
+﻿namespace AutoFixtureDocumentationTest.Greedy;
+
+public class DummyFoo : IFoo
 {
-    public class DummyFoo : IFoo
-    {
-    }
 }

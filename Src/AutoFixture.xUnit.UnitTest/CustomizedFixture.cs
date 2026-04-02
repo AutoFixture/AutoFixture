@@ -1,12 +1,11 @@
 ﻿using TestTypeFoundation;
 
-namespace AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest;
+
+internal class CustomizedFixture : Fixture
 {
-    internal class CustomizedFixture : Fixture
+    public CustomizedFixture()
     {
-        public CustomizedFixture()
-        {
-            this.Customize<PropertyHolder<string>>(c => c.With(x => x.Property, "Ploeh"));
-        }
+        this.Customize<PropertyHolder<string>>(c => c.With(x => x.Property, "Ploeh"));
     }
 }

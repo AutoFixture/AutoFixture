@@ -1,9 +1,8 @@
-﻿namespace AutoFixtureDocumentationTest.Array
-{
-    public class MyClassB
-    {
-        public int X;
+﻿namespace AutoFixtureDocumentationTest.Array;
 
-        public string Y;
-    }
+public class MyClassB
+{
+    public int X;
+
+    public string Y;
 }

@@ -1,20 +1,19 @@
 ﻿using System;
 
-namespace TestTypeFoundation
-{
-    public class GuardedConstructorHost<T>
-        where T : class
-    {
-        public GuardedConstructorHost(T item)
-        {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+namespace TestTypeFoundation;
 
-            this.Item = item;
+public class GuardedConstructorHost<T>
+    where T : class
+{
+    public GuardedConstructorHost(T item)
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
         }
 
-        public T Item { get; }
+        this.Item = item;
     }
+
+    public T Item { get; }
 }

@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithPropertyWithCircularDependency
 {
-    public interface IInterfaceWithPropertyWithCircularDependency
-    {
-        IInterfaceWithPropertyWithCircularDependency Property { get; set; }
-    }
+    IInterfaceWithPropertyWithCircularDependency Property { get; set; }
 }

@@ -4,76 +4,75 @@ using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel;
+
+public class AndPropertyQueryTest
 {
-    public class AndPropertyQueryTest
+    [Fact]
+    public void SutIsPropertyQuery()
     {
-        [Fact]
-        public void SutIsPropertyQuery()
+        // Arrange
+        // Act
+        var sut = new AndPropertyQuery();
+
+        // Assert
+        Assert.IsAssignableFrom<IPropertyQuery>(sut);
+    }
+
+    [Fact]
+    public void QueriesWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
+    {
+        // Arrange
+        var sut = new AndPropertyQuery();
+
+        // Act
+        var result = sut.Queries;
+
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void QueriesWillMatchProvidedParameters()
+    {
+        // Arrange
+        var expectedResult = new IPropertyQuery[]
         {
-            // Arrange
-            // Act
-            var sut = new AndPropertyQuery();
+            new DelegatingPropertyQuery(),
+            new DelegatingPropertyQuery()
+        };
+        var sut = new AndPropertyQuery(expectedResult);
 
-            // Assert
-            Assert.IsAssignableFrom<IPropertyQuery>(sut);
-        }
+        // Act
+        var result = sut.Queries;
 
-        [Fact]
-        public void QueriesWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
-        {
-            // Arrange
-            var sut = new AndPropertyQuery();
+        // Assert
+        Assert.True(expectedResult.SequenceEqual(result));
+    }
 
-            // Act
-            var result = sut.Queries;
+    [Fact]
+    public void SelectPropertiesWillOnlySelectPropertiesMeetingProvidedQueryParameters()
+    {
+        // Arrange
+        var stringProperty = typeof(PropertyHolder<string>).GetTypeInfo().GetProperties();
+        var intProperty = typeof(PropertyHolder<int>).GetTypeInfo().GetProperties();
 
-            // Assert
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public void QueriesWillMatchProvidedParameters()
-        {
-            // Arrange
-            var expectedResult = new IPropertyQuery[]
+        var sut = new AndPropertyQuery(
+            new DelegatingPropertyQuery
             {
-                new DelegatingPropertyQuery(),
-                new DelegatingPropertyQuery()
-            };
-            var sut = new AndPropertyQuery(expectedResult);
+                OnSelectProperties = _ => stringProperty.Concat(intProperty)
+            },
+            new DelegatingPropertyQuery
+            {
+                OnSelectProperties = _ => stringProperty
+            });
 
-            // Act
-            var result = sut.Queries;
+        var expectedResult = stringProperty.AsEnumerable();
 
-            // Assert
-            Assert.True(expectedResult.SequenceEqual(result));
-        }
+        // Act
+        var result = sut.SelectProperties(typeof(string));
 
-        [Fact]
-        public void SelectPropertiesWillOnlySelectPropertiesMeetingProvidedQueryParameters()
-        {
-            // Arrange
-            var stringProperty = typeof(PropertyHolder<string>).GetTypeInfo().GetProperties();
-            var intProperty = typeof(PropertyHolder<int>).GetTypeInfo().GetProperties();
-
-            var sut = new AndPropertyQuery(
-                new DelegatingPropertyQuery
-                {
-                    OnSelectProperties = _ => stringProperty.Concat(intProperty)
-                },
-                new DelegatingPropertyQuery
-                {
-                    OnSelectProperties = _ => stringProperty
-                });
-
-            var expectedResult = stringProperty.AsEnumerable();
-
-            // Act
-            var result = sut.SelectProperties(typeof(string));
-
-            // Assert
-            Assert.True(expectedResult.SequenceEqual(result));
-        }
+        // Assert
+        Assert.True(expectedResult.SequenceEqual(result));
     }
 }

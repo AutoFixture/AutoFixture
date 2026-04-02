@@ -1,20 +1,19 @@
 using System;
 
-namespace TestTypeFoundation
-{
-    public class GenericType<T>
-        where T : class
-    {
-        public GenericType(T t)
-        {
-            if (t == null)
-            {
-                throw new ArgumentNullException(nameof(t));
-            }
+namespace TestTypeFoundation;
 
-            this.Value = t;
+public class GenericType<T>
+    where T : class
+{
+    public GenericType(T t)
+    {
+        if (t == null)
+        {
+            throw new ArgumentNullException(nameof(t));
         }
 
-        private T Value { get; }
+        this.Value = t;
     }
+
+    private T Value { get; }
 }

@@ -3,58 +3,57 @@ using AutoFixture.Kernel;
 using Rhino.Mocks;
 using Xunit;
 
-namespace AutoFixture.AutoRhinoMock.UnitTest
+namespace AutoFixture.AutoRhinoMock.UnitTest;
+
+public class RhinoMockAroundAdviceTest
 {
-    public class RhinoMockAroundAdviceTest
+    [Fact]
+    public void SutImplementsISpecimenBuilder()
     {
-        [Fact]
-        public void SutImplementsISpecimenBuilder()
-        {
-            // Arrange
-            var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
-            // Act
-            var sut = new RhinoMockAroundAdvice(dummyBuilder);
-            // Assert
-            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-        }
+        // Arrange
+        var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
+        // Act
+        var sut = new RhinoMockAroundAdvice(dummyBuilder);
+        // Assert
+        Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+    }
 
-        [Fact]
-        public void InitializeWithNullBuilderThrows()
-        {
-            // Arrange
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new RhinoMockAroundAdvice((ISpecimenBuilder)null));
-        }
+    [Fact]
+    public void InitializeWithNullBuilderThrows()
+    {
+        // Arrange
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            new RhinoMockAroundAdvice((ISpecimenBuilder)null));
+    }
 
-        [Fact]
-        public void BuilderIsCorrect()
-        {
-            // Arrange
-            var expectedBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
-            var sut = new RhinoMockAroundAdvice(expectedBuilder);
-            // Act
-            ISpecimenBuilder result = sut.Builder;
-            // Assert
-            Assert.Equal(expectedBuilder, result);
-        }
+    [Fact]
+    public void BuilderIsCorrect()
+    {
+        // Arrange
+        var expectedBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
+        var sut = new RhinoMockAroundAdvice(expectedBuilder);
+        // Act
+        ISpecimenBuilder result = sut.Builder;
+        // Assert
+        Assert.Equal(expectedBuilder, result);
+    }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(1)]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        public void CreateWithNonMockRequestReturnsCorrectResult(object request)
-        {
-            // Arrange
-            var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
-            var sut = new RhinoMockAroundAdvice(dummyBuilder);
-            // Act
-            var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
-            var result = sut.Create(request, dummyContext);
-            // Assert
-            var expectedResult = NoSpecimen.Instance;
-            Assert.Equal(expectedResult, result);
-        }
+    [Theory]
+    [InlineData("")]
+    [InlineData(1)]
+    [InlineData(typeof(object))]
+    [InlineData(typeof(string))]
+    public void CreateWithNonMockRequestReturnsCorrectResult(object request)
+    {
+        // Arrange
+        var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
+        var sut = new RhinoMockAroundAdvice(dummyBuilder);
+        // Act
+        var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
+        var result = sut.Create(request, dummyContext);
+        // Assert
+        var expectedResult = NoSpecimen.Instance;
+        Assert.Equal(expectedResult, result);
     }
 }

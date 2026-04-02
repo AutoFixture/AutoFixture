@@ -5,44 +5,43 @@ using AutoFixture.Kernel;
 using NUnit.Framework;
 using TestTypeFoundation;
 
-namespace AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest;
+
+[TestFixture]
+public class FavorArraysAttributeTest
 {
-    [TestFixture]
-    public class FavorArraysAttributeTest
+    [Test]
+    public void SutIsAttribute()
     {
-        [Test]
-        public void SutIsAttribute()
-        {
-            // Arrange
-            // Act
-            var sut = new FavorArraysAttribute();
-            // Assert
-            Assert.IsInstanceOf<CustomizeAttribute>(sut);
-        }
+        // Arrange
+        // Act
+        var sut = new FavorArraysAttribute();
+        // Assert
+        Assert.IsInstanceOf<CustomizeAttribute>(sut);
+    }
 
-        [Test]
-        public void GetCustomizationFromNullParameterThrows()
-        {
-            // Arrange
-            var sut = new FavorArraysAttribute();
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetCustomization(null));
-        }
+    [Test]
+    public void GetCustomizationFromNullParameterThrows()
+    {
+        // Arrange
+        var sut = new FavorArraysAttribute();
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.GetCustomization(null));
+    }
 
-        [Test]
-        public void GetCustomizationReturnsCorrectResult()
-        {
-            // Arrange
-            var sut = new FavorArraysAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
-            // Act
-            var result = sut.GetCustomization(parameter);
-            // Assert
-            Assert.IsAssignableFrom<ConstructorCustomization>(result);
-            var invoker = (ConstructorCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, invoker.TargetType);
-            Assert.IsAssignableFrom<ArrayFavoringConstructorQuery>(invoker.Query);
-        }
+    [Test]
+    public void GetCustomizationReturnsCorrectResult()
+    {
+        // Arrange
+        var sut = new FavorArraysAttribute();
+        var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
+        // Act
+        var result = sut.GetCustomization(parameter);
+        // Assert
+        Assert.IsAssignableFrom<ConstructorCustomization>(result);
+        var invoker = (ConstructorCustomization)result;
+        Assert.AreEqual(parameter.ParameterType, invoker.TargetType);
+        Assert.IsAssignableFrom<ArrayFavoringConstructorQuery>(invoker.Query);
     }
 }

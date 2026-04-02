@@ -1,10 +1,9 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithStaticMethod
 {
-    public class TypeWithStaticMethod
+    public static string StaticMethod()
     {
-        public static string StaticMethod()
-        {
-            return "Awesome string";
-        }
+        return "Awesome string";
     }
 }

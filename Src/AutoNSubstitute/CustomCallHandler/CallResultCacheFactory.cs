@@ -1,12 +1,11 @@
-﻿namespace AutoFixture.AutoNSubstitute.CustomCallHandler
+﻿namespace AutoFixture.AutoNSubstitute.CustomCallHandler;
+
+/// <inheritdoc />
+public class CallResultCacheFactory : ICallResultCacheFactory
 {
     /// <inheritdoc />
-    public class CallResultCacheFactory : ICallResultCacheFactory
+    public ICallResultCache CreateCache()
     {
-        /// <inheritdoc />
-        public ICallResultCache CreateCache()
-        {
-            return new CallResultCache();
-        }
+        return new CallResultCache();
     }
 }

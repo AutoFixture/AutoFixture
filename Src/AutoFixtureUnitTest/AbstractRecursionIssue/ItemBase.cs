@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace AutoFixtureUnitTest.AbstractRecursionIssue
-{
-    public abstract class ItemBase
-    {
-        public int ItemId { get; set; }
+namespace AutoFixtureUnitTest.AbstractRecursionIssue;
 
-        public ICollection<ItemLocation> Locations { get; set; }
-    }
+public abstract class ItemBase
+{
+    public int ItemId { get; set; }
+
+    public ICollection<ItemLocation> Locations { get; set; }
 }

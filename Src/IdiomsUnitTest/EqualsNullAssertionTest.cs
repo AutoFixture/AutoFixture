@@ -4,195 +4,194 @@ using AutoFixture.Idioms;
 using AutoFixture.Kernel;
 using Xunit;
 
-namespace AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest;
+
+public class EqualsNullAssertionTest
 {
-    public class EqualsNullAssertionTest
+    [Fact]
+    public void SutIsIdiomaticAssertion()
     {
-        [Fact]
-        public void SutIsIdiomaticAssertion()
+        // Arrange
+        var dummyComposer = new Fixture();
+        // Act
+        var sut = new EqualsNullAssertion(dummyComposer);
+        // Assert
+        Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
+    }
+
+    [Fact]
+    public void ComposerIsCorrect()
+    {
+        // Arrange
+        var expectedComposer = new Fixture();
+        var sut = new EqualsNullAssertion(expectedComposer);
+        // Act
+        ISpecimenBuilder result = sut.Builder;
+        // Assert
+        Assert.Equal(expectedComposer, result);
+    }
+
+    [Fact]
+    public void ConstructWithNullComposerThrows()
+    {
+        // Arrange
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            new EqualsNullAssertion(null));
+    }
+
+    [Fact]
+    public void VerifyNullMethodThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsNullAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Verify((MethodInfo)null));
+    }
+
+    [Fact]
+    public void VerifyClassThatDoesNotOverrideObjectEqualsDoesNothing()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsNullAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals))));
+    }
+
+    [Fact]
+    public void VerifyWellBehavedEqualsNullOverrideDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsNullAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(typeof(WellBehavedEqualsNullOverride))));
+    }
+
+    [Fact]
+    public void VerifyIllbehavedEqualsNullBehaviourThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsNullAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Throws<EqualsOverrideException>(() =>
+            sut.Verify(typeof(IllbehavedEqualsNullOverride)));
+    }
+
+    [Fact]
+    public void VerifyAnonymousMethodWithNoDeclaringOrReflectedTypeDoesNothing()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsNullAssertion(dummyComposer);
+        var method = (MethodInfo)new MethodInfoWithNullDeclaringAndReflectedType();
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(method)));
+    }
+
+    private class MethodInfoWithNullDeclaringAndReflectedType : MethodInfo
+    {
+        public override Type ReflectedType
         {
-            // Arrange
-            var dummyComposer = new Fixture();
-            // Act
-            var sut = new EqualsNullAssertion(dummyComposer);
-            // Assert
-            Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
+            get { return null; }
         }
 
-        [Fact]
-        public void ComposerIsCorrect()
+        public override Type DeclaringType
         {
-            // Arrange
-            var expectedComposer = new Fixture();
-            var sut = new EqualsNullAssertion(expectedComposer);
-            // Act
-            ISpecimenBuilder result = sut.Builder;
-            // Assert
-            Assert.Equal(expectedComposer, result);
+            get { return null; }
         }
 
-        [Fact]
-        public void ConstructWithNullComposerThrows()
+        public override MethodInfo GetBaseDefinition()
         {
-            // Arrange
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new EqualsNullAssertion(null));
+            throw new NotImplementedException();
         }
 
-        [Fact]
-        public void VerifyNullMethodThrows()
+        public override ICustomAttributeProvider ReturnTypeCustomAttributes
         {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsNullAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((MethodInfo)null));
+            get { throw new NotImplementedException(); }
         }
 
-        [Fact]
-        public void VerifyClassThatDoesNotOverrideObjectEqualsDoesNothing()
+        public override MethodAttributes Attributes
         {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsNullAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals))));
+            get { throw new NotImplementedException(); }
         }
 
-        [Fact]
-        public void VerifyWellBehavedEqualsNullOverrideDoesNotThrow()
+        public override MethodImplAttributes GetMethodImplementationFlags()
         {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsNullAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(typeof(WellBehavedEqualsNullOverride))));
+            throw new NotImplementedException();
         }
 
-        [Fact]
-        public void VerifyIllbehavedEqualsNullBehaviourThrows()
+        public override ParameterInfo[] GetParameters()
         {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsNullAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Throws<EqualsOverrideException>(() =>
-                sut.Verify(typeof(IllbehavedEqualsNullOverride)));
+            throw new NotImplementedException();
         }
 
-        [Fact]
-        public void VerifyAnonymousMethodWithNoDeclaringOrReflectedTypeDoesNothing()
+        public override object Invoke(object obj, BindingFlags invokeAttr, Binder binder, object[] parameters, System.Globalization.CultureInfo culture)
         {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsNullAssertion(dummyComposer);
-            var method = (MethodInfo)new MethodInfoWithNullDeclaringAndReflectedType();
-
-            // Act & Assert
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(method)));
+            throw new NotImplementedException();
         }
 
-        private class MethodInfoWithNullDeclaringAndReflectedType : MethodInfo
+        public override RuntimeMethodHandle MethodHandle
         {
-            public override Type ReflectedType
-            {
-                get { return null; }
-            }
-
-            public override Type DeclaringType
-            {
-                get { return null; }
-            }
-
-            public override MethodInfo GetBaseDefinition()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override ICustomAttributeProvider ReturnTypeCustomAttributes
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            public override MethodAttributes Attributes
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            public override MethodImplAttributes GetMethodImplementationFlags()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override ParameterInfo[] GetParameters()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override object Invoke(object obj, BindingFlags invokeAttr, Binder binder, object[] parameters, System.Globalization.CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override RuntimeMethodHandle MethodHandle
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            public override object[] GetCustomAttributes(Type attributeType, bool inherit)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override object[] GetCustomAttributes(bool inherit)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override bool IsDefined(Type attributeType, bool inherit)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override string Name
-            {
-                get { throw new NotImplementedException(); }
-            }
+            get { throw new NotImplementedException(); }
         }
+
+        public override object[] GetCustomAttributes(Type attributeType, bool inherit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object[] GetCustomAttributes(bool inherit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsDefined(Type attributeType, bool inherit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string Name
+        {
+            get { throw new NotImplementedException(); }
+        }
+    }
 
 #pragma warning disable 659
-        private class IllbehavedEqualsNullOverride
+    private class IllbehavedEqualsNullOverride
+    {
+        public override bool Equals(object obj)
         {
-            public override bool Equals(object obj)
+            if (obj == null)
             {
-                if (obj == null)
-                {
-                    return true;
-                }
-                throw new Exception();
+                return true;
             }
+            throw new Exception();
         }
+    }
 
-        private class WellBehavedEqualsNullOverride
+    private class WellBehavedEqualsNullOverride
+    {
+        public override bool Equals(object obj)
         {
-            public override bool Equals(object obj)
+            if (obj == null)
             {
-                if (obj == null)
-                {
-                    return false;
-                }
-                throw new Exception();
+                return false;
             }
+            throw new Exception();
         }
+    }
 #pragma warning restore 659
 
-        private class ClassThatDoesNotOverrideObjectEquals
-        {
-        }
+    private class ClassThatDoesNotOverrideObjectEquals
+    {
     }
 }

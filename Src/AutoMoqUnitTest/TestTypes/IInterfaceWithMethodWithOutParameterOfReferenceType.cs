@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithMethodWithOutParameterOfReferenceType
 {
-    public interface IInterfaceWithMethodWithOutParameterOfReferenceType
-    {
-        string Method(out string s);
-    }
+    string Method(out string s);
 }

@@ -1,20 +1,19 @@
 ﻿using System;
 using AutoFixture;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest;
+
+internal class DelegatingCustomization : ICustomization
 {
-    internal class DelegatingCustomization : ICustomization
+    public DelegatingCustomization()
     {
-        public DelegatingCustomization()
-        {
-            this.OnCustomize = f => { };
-        }
-
-        public void Customize(IFixture fixture)
-        {
-            this.OnCustomize(fixture);
-        }
-
-        internal Action<IFixture> OnCustomize { get; set; }
+        this.OnCustomize = f => { };
     }
+
+    public void Customize(IFixture fixture)
+    {
+        this.OnCustomize(fixture);
+    }
+
+    internal Action<IFixture> OnCustomize { get; set; }
 }

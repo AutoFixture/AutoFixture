@@ -1,7 +1,6 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class StaticFieldHolder<T>
 {
-    public class StaticFieldHolder<T>
-    {
-        public static T Field;
-    }
+    public static T Field;
 }

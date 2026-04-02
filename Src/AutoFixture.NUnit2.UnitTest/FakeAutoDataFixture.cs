@@ -1,10 +1,9 @@
-namespace AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest;
+
+public class FakeAutoDataFixture
 {
-    public class FakeAutoDataFixture
+    [AutoData]
+    public void DoSomething(int number)
     {
-        [AutoData]
-        public void DoSomething(int number)
-        {
-        }
     }
 }

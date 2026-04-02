@@ -1,13 +1,12 @@
-﻿namespace TestTypeFoundation
-{
-    public class ConcreteTypeWithPrivateParameterlessConstructor
-    {
-        private ConcreteTypeWithPrivateParameterlessConstructor()
-        {
-        }
+﻿namespace TestTypeFoundation;
 
-        public ConcreteTypeWithPrivateParameterlessConstructor(object obj)
-        {
-        }
+public class ConcreteTypeWithPrivateParameterlessConstructor
+{
+    private ConcreteTypeWithPrivateParameterlessConstructor()
+    {
+    }
+
+    public ConcreteTypeWithPrivateParameterlessConstructor(object obj)
+    {
     }
 }

@@ -1,12 +1,11 @@
-﻿namespace AutoFixtureDocumentationTest.Contact.ValueObject
-{
-    public class DanishPhoneNumber
-    {
-        public DanishPhoneNumber(int number)
-        {
-            this.RawNumber = number;
-        }
+﻿namespace AutoFixtureDocumentationTest.Contact.ValueObject;
 
-        public int RawNumber { get; }
+public class DanishPhoneNumber
+{
+    public DanishPhoneNumber(int number)
+    {
+        this.RawNumber = number;
     }
+
+    public int RawNumber { get; }
 }

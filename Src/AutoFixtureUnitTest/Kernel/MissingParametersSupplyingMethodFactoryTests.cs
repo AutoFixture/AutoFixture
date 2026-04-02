@@ -3,51 +3,50 @@ using System.Reflection;
 using AutoFixture.Kernel;
 using Xunit;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel;
+
+public class MissingParametersSupplyingMethodFactoryTests
 {
-    public class MissingParametersSupplyingMethodFactoryTests
+    [Fact]
+    public void SutIsIMethodFactory()
     {
-        [Fact]
-        public void SutIsIMethodFactory()
-        {
-            var owner = new object();
-            var sut = new MissingParametersSupplyingMethodFactory(owner);
-            Assert.IsAssignableFrom<IMethodFactory>(sut);
-        }
+        var owner = new object();
+        var sut = new MissingParametersSupplyingMethodFactory(owner);
+        Assert.IsAssignableFrom<IMethodFactory>(sut);
+    }
 
-        [Fact]
-        public void OwnerIsCorrect()
-        {
-            var owner = new object();
-            var sut = new MissingParametersSupplyingMethodFactory(owner);
-            Assert.Equal(owner, sut.Owner);
-        }
+    [Fact]
+    public void OwnerIsCorrect()
+    {
+        var owner = new object();
+        var sut = new MissingParametersSupplyingMethodFactory(owner);
+        Assert.Equal(owner, sut.Owner);
+    }
 
-        [Fact]
-        public void CreateReturnsCorrectResult()
-        {
-            Action dummy = () => { };
-            var owner = new object();
-            var sut = new MissingParametersSupplyingMethodFactory(owner);
+    [Fact]
+    public void CreateReturnsCorrectResult()
+    {
+        Action dummy = () => { };
+        var owner = new object();
+        var sut = new MissingParametersSupplyingMethodFactory(owner);
 
-            var result = sut.Create(dummy.GetMethodInfo());
+        var result = sut.Create(dummy.GetMethodInfo());
 
-            var expected = new MissingParametersSupplyingMethod(new InstanceMethod(dummy.GetMethodInfo(), owner));
-            Assert.Equal(expected, result);
-        }
+        var expected = new MissingParametersSupplyingMethod(new InstanceMethod(dummy.GetMethodInfo(), owner));
+        Assert.Equal(expected, result);
+    }
 
-        [Fact]
-        public void CreateWithNullThrows()
-        {
-            var owner = new object();
-            var sut = new MissingParametersSupplyingMethodFactory(owner);
-            Assert.Throws<ArgumentNullException>(() => sut.Create(null));
-        }
+    [Fact]
+    public void CreateWithNullThrows()
+    {
+        var owner = new object();
+        var sut = new MissingParametersSupplyingMethodFactory(owner);
+        Assert.Throws<ArgumentNullException>(() => sut.Create(null));
+    }
 
-        [Fact]
-        public void InitializeWithNullThrows()
-        {
-            Assert.Throws<ArgumentNullException>(() => new MissingParametersSupplyingMethodFactory(null));
-        }
+    [Fact]
+    public void InitializeWithNullThrows()
+    {
+        Assert.Throws<ArgumentNullException>(() => new MissingParametersSupplyingMethodFactory(null));
     }
 }

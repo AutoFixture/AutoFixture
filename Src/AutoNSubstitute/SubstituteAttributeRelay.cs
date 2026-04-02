@@ -4,65 +4,64 @@ using System.Linq;
 using System.Reflection;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute;
+
+/// <summary>
+/// Relays a request for a code element marked with the <see cref="SubstituteAttribute"/> to a
+/// <see cref="SubstituteRequest"/> of element's type.
+/// </summary>
+public class SubstituteAttributeRelay : ISpecimenBuilder
 {
     /// <summary>
-    /// Relays a request for a code element marked with the <see cref="SubstituteAttribute"/> to a
-    /// <see cref="SubstituteRequest"/> of element's type.
+    /// Creates a relayed request based on the <see cref="SubstituteAttribute"/> applied to a code element and
+    /// resolves it from the given <paramref name="context"/>.
     /// </summary>
-    public class SubstituteAttributeRelay : ISpecimenBuilder
+    /// <returns>
+    /// A specimen resolved from the <paramref name="context"/> based on a relayed request.
+    /// If the <paramref name="request"/> code element does not have <see cref="SubstituteAttribute"/> applied,
+    /// returns <see cref="NoSpecimen"/>.
+    /// </returns>
+    public object Create(object request, ISpecimenContext context)
     {
-        /// <summary>
-        /// Creates a relayed request based on the <see cref="SubstituteAttribute"/> applied to a code element and
-        /// resolves it from the given <paramref name="context"/>.
-        /// </summary>
-        /// <returns>
-        /// A specimen resolved from the <paramref name="context"/> based on a relayed request.
-        /// If the <paramref name="request"/> code element does not have <see cref="SubstituteAttribute"/> applied,
-        /// returns <see cref="NoSpecimen"/>.
-        /// </returns>
-        public object Create(object request, ISpecimenContext context)
+        if (context == null) throw new ArgumentNullException(nameof(context));
+
+        var customAttributeProvider = request as ICustomAttributeProvider;
+        if (customAttributeProvider == null)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-                return NoSpecimen.Instance;
-            }
-
-            var attribute = customAttributeProvider.GetCustomAttributes(typeof(SubstituteAttribute), true)
-                    .OfType<SubstituteAttribute>().FirstOrDefault();
-            if (attribute == null)
-            {
-                return NoSpecimen.Instance;
-            }
-
-            object substituteRequest = CreateSubstituteRequest(customAttributeProvider, attribute);
-            return context.Resolve(substituteRequest);
+            return NoSpecimen.Instance;
         }
 
-        private static object CreateSubstituteRequest(ICustomAttributeProvider request, SubstituteAttribute attribute)
+        var attribute = customAttributeProvider.GetCustomAttributes(typeof(SubstituteAttribute), true)
+            .OfType<SubstituteAttribute>().FirstOrDefault();
+        if (attribute == null)
         {
-            switch (request)
-            {
-                case ParameterInfo parameter:
-                    return new SubstituteRequest(parameter.ParameterType);
+            return NoSpecimen.Instance;
+        }
 
-                case PropertyInfo property:
-                    return new SubstituteRequest(property.PropertyType);
+        object substituteRequest = CreateSubstituteRequest(customAttributeProvider, attribute);
+        return context.Resolve(substituteRequest);
+    }
 
-                case FieldInfo field:
-                    return new SubstituteRequest(field.FieldType);
+    private static object CreateSubstituteRequest(ICustomAttributeProvider request, SubstituteAttribute attribute)
+    {
+        switch (request)
+        {
+            case ParameterInfo parameter:
+                return new SubstituteRequest(parameter.ParameterType);
 
-                default:
-                    throw new NotSupportedException(
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            "{0} is applied to an unsupported code element {1}",
-                            attribute,
-                            request));
-            }
+            case PropertyInfo property:
+                return new SubstituteRequest(property.PropertyType);
+
+            case FieldInfo field:
+                return new SubstituteRequest(field.FieldType);
+
+            default:
+                throw new NotSupportedException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} is applied to an unsupported code element {1}",
+                        attribute,
+                        request));
         }
     }
 }

@@ -1,26 +1,25 @@
 ﻿using System.Collections.Generic;
 
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class TypeWithFactoryMethod
 {
-    public class TypeWithFactoryMethod
+    private TypeWithFactoryMethod()
     {
-        private TypeWithFactoryMethod()
-        {
-        }
+    }
 
-        public static TypeWithFactoryMethod Create()
-        {
-            return new TypeWithFactoryMethod();
-        }
+    public static TypeWithFactoryMethod Create()
+    {
+        return new TypeWithFactoryMethod();
+    }
 
-        public static TypeWithFactoryMethod Create(object argument)
-        {
-            return new TypeWithFactoryMethod();
-        }
+    public static TypeWithFactoryMethod Create(object argument)
+    {
+        return new TypeWithFactoryMethod();
+    }
 
-        public static TypeWithFactoryMethod Create(IEnumerable<object> arguments)
-        {
-            return new TypeWithFactoryMethod();
-        }
+    public static TypeWithFactoryMethod Create(IEnumerable<object> arguments)
+    {
+        return new TypeWithFactoryMethod();
     }
 }

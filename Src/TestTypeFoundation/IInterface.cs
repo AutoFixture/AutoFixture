@@ -1,7 +1,6 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public interface IInterface
 {
-    public interface IInterface
-    {
-        object MakeIt(object obj);
-    }
+    object MakeIt(object obj);
 }

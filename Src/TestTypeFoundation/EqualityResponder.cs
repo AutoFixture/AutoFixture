@@ -1,22 +1,21 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class EqualityResponder
 {
-    public class EqualityResponder
+    private readonly bool equals;
+
+    public EqualityResponder(bool equals)
     {
-        private readonly bool equals;
+        this.equals = equals;
+    }
 
-        public EqualityResponder(bool equals)
-        {
-            this.equals = equals;
-        }
+    public override bool Equals(object obj)
+    {
+        return this.equals;
+    }
 
-        public override bool Equals(object obj)
-        {
-            return this.equals;
-        }
-
-        public override int GetHashCode()
-        {
-            return this.equals.GetHashCode();
-        }
+    public override int GetHashCode()
+    {
+        return this.equals.GetHashCode();
     }
 }

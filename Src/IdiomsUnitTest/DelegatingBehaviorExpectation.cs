@@ -1,20 +1,19 @@
 ﻿using System;
 using AutoFixture.Idioms;
 
-namespace AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest;
+
+public class DelegatingBehaviorExpectation : IBehaviorExpectation
 {
-    public class DelegatingBehaviorExpectation : IBehaviorExpectation
+    public DelegatingBehaviorExpectation()
     {
-        public DelegatingBehaviorExpectation()
-        {
-            this.OnVerify = c => { };
-        }
+        this.OnVerify = c => { };
+    }
 
-        public Action<IGuardClauseCommand> OnVerify { get; set; }
+    public Action<IGuardClauseCommand> OnVerify { get; set; }
 
-        public void Verify(IGuardClauseCommand command)
-        {
-            this.OnVerify(command);
-        }
+    public void Verify(IGuardClauseCommand command)
+    {
+        this.OnVerify(command);
     }
 }

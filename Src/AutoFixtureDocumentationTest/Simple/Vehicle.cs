@@ -1,12 +1,11 @@
-﻿namespace AutoFixtureDocumentationTest.Simple
-{
-    public class Vehicle
-    {
-        public Vehicle()
-        {
-            this.Wheels = 4;
-        }
+﻿namespace AutoFixtureDocumentationTest.Simple;
 
-        public int Wheels { get; set; }
+public class Vehicle
+{
+    public Vehicle()
+    {
+        this.Wheels = 4;
     }
+
+    public int Wheels { get; set; }
 }

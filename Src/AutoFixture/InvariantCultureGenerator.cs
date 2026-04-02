@@ -2,38 +2,37 @@
 using System.Globalization;
 using AutoFixture.Kernel;
 
-namespace AutoFixture
+namespace AutoFixture;
+
+/// <summary>
+/// Handles creation requests for <see cref="CultureInfo"/> instances,
+/// returning always the same <see cref="CultureInfo.InvariantCulture"/>.
+/// </summary>
+[Obsolete("Please use a 'AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]
+public class InvariantCultureGenerator : ISpecimenBuilder
 {
+    private readonly ExactTypeSpecification cultureTypeSpecification
+        = new ExactTypeSpecification(typeof(CultureInfo));
+
     /// <summary>
-    /// Handles creation requests for <see cref="CultureInfo"/> instances,
-    /// returning always the same <see cref="CultureInfo.InvariantCulture"/>.
+    /// Generates a CultureInfo specimen based on a <see cref="CultureInfo"/> type request.
     /// </summary>
-    [Obsolete("Please use a 'AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]
-    public class InvariantCultureGenerator : ISpecimenBuilder
+    /// <param name="request">The request that describes what to create.</param>
+    /// <param name="context">A context that can be used to create other specimens.</param>
+    /// <returns>
+    /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+    /// </returns>
+    /// <remarks>>
+    /// The generated CultureInfo will always be the same as <see cref="CultureInfo.InvariantCulture"/>.
+    /// </remarks>
+    public object Create(object request, ISpecimenContext context)
     {
-        private readonly ExactTypeSpecification cultureTypeSpecification
-            = new ExactTypeSpecification(typeof(CultureInfo));
+        if (request == null)
+            return NoSpecimen.Instance;
 
-        /// <summary>
-        /// Generates a CultureInfo specimen based on a <see cref="CultureInfo"/> type request.
-        /// </summary>
-        /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A context that can be used to create other specimens.</param>
-        /// <returns>
-        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
-        /// </returns>
-        /// <remarks>>
-        /// The generated CultureInfo will always be the same as <see cref="CultureInfo.InvariantCulture"/>.
-        /// </remarks>
-        public object Create(object request, ISpecimenContext context)
-        {
-            if (request == null)
-                return NoSpecimen.Instance;
+        if (!this.cultureTypeSpecification.IsSatisfiedBy(request))
+            return NoSpecimen.Instance;
 
-            if (!this.cultureTypeSpecification.IsSatisfiedBy(request))
-                return NoSpecimen.Instance;
-
-            return CultureInfo.InvariantCulture;
-        }
+        return CultureInfo.InvariantCulture;
     }
 }

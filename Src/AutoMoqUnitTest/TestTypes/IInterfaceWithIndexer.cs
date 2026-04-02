@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithIndexer
 {
-    public interface IInterfaceWithIndexer
-    {
-        int this[int index] { get; }
-    }
+    int this[int index] { get; }
 }

@@ -1,20 +1,19 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel;
+
+internal class DelegatingSpecimenContext : ISpecimenContext
 {
-    internal class DelegatingSpecimenContext : ISpecimenContext
+    public DelegatingSpecimenContext()
     {
-        public DelegatingSpecimenContext()
-        {
-            this.OnResolve = r => null;
-        }
-
-        public object Resolve(object request)
-        {
-            return this.OnResolve(request);
-        }
-
-        internal Func<object, object> OnResolve { get; set; }
+        this.OnResolve = r => null;
     }
+
+    public object Resolve(object request)
+    {
+        return this.OnResolve(request);
+    }
+
+    internal Func<object, object> OnResolve { get; set; }
 }

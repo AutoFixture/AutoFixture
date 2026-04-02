@@ -1,9 +1,8 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public static class UnguardedStaticMethodOnStaticTypeHost
 {
-    public static class UnguardedStaticMethodOnStaticTypeHost
+    public static void Method(object argument)
     {
-        public static void Method(object argument)
-        {
-        }
     }
 }

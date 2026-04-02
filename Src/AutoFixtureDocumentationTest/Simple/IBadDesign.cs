@@ -1,9 +1,8 @@
-﻿namespace AutoFixtureDocumentationTest.Simple
-{
-    public interface IBadDesign
-    {
-        string Message { get; set; }
+﻿namespace AutoFixtureDocumentationTest.Simple;
 
-        void Initialize(MyClass mc);
-    }
+public interface IBadDesign
+{
+    string Message { get; set; }
+
+    void Initialize(MyClass mc);
 }

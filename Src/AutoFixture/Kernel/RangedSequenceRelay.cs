@@ -1,38 +1,37 @@
 ﻿using System;
 
-namespace AutoFixture.Kernel
+namespace AutoFixture.Kernel;
+
+/// <summary>
+/// Relay the <see cref="RangedSequenceRelay"/> to the request for the sequence of the fixed length.
+/// </summary>
+public class RangedSequenceRelay : ISpecimenBuilder
 {
-    /// <summary>
-    /// Relay the <see cref="RangedSequenceRelay"/> to the request for the sequence of the fixed length.
-    /// </summary>
-    public class RangedSequenceRelay : ISpecimenBuilder
+    /// <inheritdoc />
+    public object Create(object request, ISpecimenContext context)
     {
-        /// <inheritdoc />
-        public object Create(object request, ISpecimenContext context)
+        if (context == null) throw new ArgumentNullException(nameof(context));
+
+        var rsr = request as RangedSequenceRequest;
+        if (rsr == null)
+            return NoSpecimen.Instance;
+
+        if (!TryGetSequenceLength(rsr, context, out int sequenceLength))
+            return NoSpecimen.Instance;
+
+        return context.Resolve(new FiniteSequenceRequest(rsr.Request, sequenceLength));
+    }
+
+    private static bool TryGetSequenceLength(RangedSequenceRequest rsr, ISpecimenContext ctx, out int length)
+    {
+        var result = ctx.Resolve(new RangedNumberRequest(typeof(int), rsr.MinLength, rsr.MaxLength));
+        if (result is int randNumber)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var rsr = request as RangedSequenceRequest;
-            if (rsr == null)
-                return NoSpecimen.Instance;
-
-            if (!TryGetSequenceLength(rsr, context, out int sequenceLength))
-                return NoSpecimen.Instance;
-
-            return context.Resolve(new FiniteSequenceRequest(rsr.Request, sequenceLength));
+            length = randNumber;
+            return true;
         }
 
-        private static bool TryGetSequenceLength(RangedSequenceRequest rsr, ISpecimenContext ctx, out int length)
-        {
-            var result = ctx.Resolve(new RangedNumberRequest(typeof(int), rsr.MinLength, rsr.MaxLength));
-            if (result is int randNumber)
-            {
-                length = randNumber;
-                return true;
-            }
-
-            length = default;
-            return false;
-        }
+        length = default;
+        return false;
     }
 }

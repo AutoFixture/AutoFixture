@@ -1,10 +1,9 @@
-﻿namespace AutoFixture.Xunit.UnitTest
+﻿namespace AutoFixture.Xunit.UnitTest;
+
+public class MyClass
 {
-    public class MyClass
+    public T Echo<T>(T item)
     {
-        public T Echo<T>(T item)
-        {
-            return item;
-        }
+        return item;
     }
 }

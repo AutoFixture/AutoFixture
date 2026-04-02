@@ -4,45 +4,44 @@ using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest;
+
+public class CustomizationExtensionsTest
 {
-    public class CustomizationExtensionsTest
+    [Fact]
+    public void ToCustomization_ShouldThrowIfBuilderIsNull()
     {
-        [Fact]
-        public void ToCustomization_ShouldThrowIfBuilderIsNull()
-        {
-            // Arrange
-            ISpecimenBuilder nullBuilder = null;
+        // Arrange
+        ISpecimenBuilder nullBuilder = null;
 
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                nullBuilder.ToCustomization());
-        }
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            nullBuilder.ToCustomization());
+    }
 
-        [Fact]
-        public void ToCustomization_ShouldThrowIfNullFixturePassedToCustomization()
-        {
-            // Arrange
-            var sut = new DelegatingSpecimenBuilder().ToCustomization();
+    [Fact]
+    public void ToCustomization_ShouldThrowIfNullFixturePassedToCustomization()
+    {
+        // Arrange
+        var sut = new DelegatingSpecimenBuilder().ToCustomization();
 
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Customize(fixture: null));
-        }
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Customize(fixture: null));
+    }
 
-        [Fact]
-        public void ToCustomization_ReturnedCustomizationShouldInsertAtTheBeginning()
-        {
-            // Arrange
-            var builder = new DelegatingSpecimenBuilder();
-            var fixture = new Fixture();
+    [Fact]
+    public void ToCustomization_ReturnedCustomizationShouldInsertAtTheBeginning()
+    {
+        // Arrange
+        var builder = new DelegatingSpecimenBuilder();
+        var fixture = new Fixture();
 
-            // Act
-            var sut = builder.ToCustomization();
-            fixture.Customize(sut);
+        // Act
+        var sut = builder.ToCustomization();
+        fixture.Customize(sut);
 
-            // Assert
-            Assert.Same(builder, fixture.Customizations[0]);
-        }
+        // Assert
+        Assert.Same(builder, fixture.Customizations[0]);
     }
 }

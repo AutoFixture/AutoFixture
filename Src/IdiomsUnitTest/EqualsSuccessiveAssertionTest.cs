@@ -4,108 +4,107 @@ using AutoFixture.Idioms;
 using AutoFixture.Kernel;
 using Xunit;
 
-namespace AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest;
+
+public class EqualsSuccessiveAssertionTest
 {
-    public class EqualsSuccessiveAssertionTest
+    [Fact]
+    public void SutIsIdiomaticAssertion()
     {
-        [Fact]
-        public void SutIsIdiomaticAssertion()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            // Act
-            var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Assert
-            Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
-        }
+        // Arrange
+        var dummyComposer = new Fixture();
+        // Act
+        var sut = new EqualsSuccessiveAssertion(dummyComposer);
+        // Assert
+        Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
+    }
 
-        [Fact]
-        public void ComposerIsCorrect()
-        {
-            // Arrange
-            var expectedComposer = new Fixture();
-            var sut = new EqualsSuccessiveAssertion(expectedComposer);
-            // Act
-            ISpecimenBuilder result = sut.Builder;
-            // Assert
-            Assert.Equal(expectedComposer, result);
-        }
+    [Fact]
+    public void ComposerIsCorrect()
+    {
+        // Arrange
+        var expectedComposer = new Fixture();
+        var sut = new EqualsSuccessiveAssertion(expectedComposer);
+        // Act
+        ISpecimenBuilder result = sut.Builder;
+        // Assert
+        Assert.Equal(expectedComposer, result);
+    }
 
-        [Fact]
-        public void ConstructWithNullComposerThrows()
-        {
-            // Arrange
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new EqualsSuccessiveAssertion(null));
-        }
+    [Fact]
+    public void ConstructWithNullComposerThrows()
+    {
+        // Arrange
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            new EqualsSuccessiveAssertion(null));
+    }
 
-        [Fact]
-        public void VerifyNullMethodThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((MethodInfo)null));
-        }
+    [Fact]
+    public void VerifyNullMethodThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsSuccessiveAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Verify((MethodInfo)null));
+    }
 
-        [Fact]
-        public void VerifyClassThatDoesNotOverrideObjectEqualsDoesNothing()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals))));
-        }
+    [Fact]
+    public void VerifyClassThatDoesNotOverrideObjectEqualsDoesNothing()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsSuccessiveAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals))));
+    }
 
-        [Fact]
-        public void VerifyWellBehavedEqualsSuccessiveOverrideDoesNotThrow()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(typeof(WellBehavedEqualsSuccessiveObjectOverride))));
-        }
+    [Fact]
+    public void VerifyWellBehavedEqualsSuccessiveOverrideDoesNotThrow()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsSuccessiveAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Null(Record.Exception(() =>
+            sut.Verify(typeof(WellBehavedEqualsSuccessiveObjectOverride))));
+    }
 
-        [Fact]
-        public void VerifyIllbehavedEqualsSuccessiveBehaviourThrows()
-        {
-            // Arrange
-            var dummyComposer = new Fixture();
-            var sut = new EqualsSuccessiveAssertion(dummyComposer);
-            // Act & Assert
-            Assert.Throws<EqualsOverrideException>(() =>
-                sut.Verify(typeof(IllBehavedEqualsSuccessiveObjectOverride)));
-        }
+    [Fact]
+    public void VerifyIllbehavedEqualsSuccessiveBehaviourThrows()
+    {
+        // Arrange
+        var dummyComposer = new Fixture();
+        var sut = new EqualsSuccessiveAssertion(dummyComposer);
+        // Act & Assert
+        Assert.Throws<EqualsOverrideException>(() =>
+            sut.Verify(typeof(IllBehavedEqualsSuccessiveObjectOverride)));
+    }
 
 #pragma warning disable 659
-        private class WellBehavedEqualsSuccessiveObjectOverride
+    private class WellBehavedEqualsSuccessiveObjectOverride
+    {
+        public override bool Equals(object obj)
         {
-            public override bool Equals(object obj)
-            {
-                return true;
-            }
+            return true;
         }
+    }
 
-        private class IllBehavedEqualsSuccessiveObjectOverride
+    private class IllBehavedEqualsSuccessiveObjectOverride
+    {
+        public int EqualsCallCount;
+
+        public override bool Equals(object obj)
         {
-            public int EqualsCallCount;
-
-            public override bool Equals(object obj)
-            {
-                return ++this.EqualsCallCount % 2 == 0;
-            }
+            return ++this.EqualsCallCount % 2 == 0;
         }
+    }
 #pragma warning restore 659
 
-        private class ClassThatDoesNotOverrideObjectEquals
-        {
-        }
+    private class ClassThatDoesNotOverrideObjectEquals
+    {
     }
 }

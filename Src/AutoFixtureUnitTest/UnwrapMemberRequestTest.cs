@@ -5,111 +5,110 @@ using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace AutoFixtureUnitTest
+namespace AutoFixtureUnitTest;
+
+public class UnwrapMemberRequestTest
 {
-    public class UnwrapMemberRequestTest
+    [Fact]
+    public void ShouldThrowIfNullInnerBuilderIsPassedToConstructor()
     {
-        [Fact]
-        public void ShouldThrowIfNullInnerBuilderIsPassedToConstructor()
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            new UnwrapMemberRequest(builder: null));
+    }
+
+    [Fact]
+    public void ShouldSaveThePassedBuilderToProperty()
+    {
+        // Arrange
+        var builder = new DelegatingSpecimenBuilder();
+
+        // Act
+        var sut = new UnwrapMemberRequest(builder);
+
+        // Assert
+        Assert.Same(builder, sut.Builder);
+    }
+
+    [Fact]
+    public void DefaultResolverShouldHaveCorrectType()
+    {
+        // Act
+        var sut = new UnwrapMemberRequest(new DelegatingSpecimenBuilder());
+
+        // Assert
+        Assert.IsType<RequestMemberTypeResolver>(sut.MemberTypeResolver);
+    }
+
+    [Fact]
+    public void ShouldThrowIfNullMemberTypeResolverIsAssigned()
+    {
+        // Arrange
+        var sut = new UnwrapMemberRequest(new DelegatingSpecimenBuilder());
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.MemberTypeResolver = null);
+    }
+
+    [Fact]
+    public void ShouldPassUnwrappedTypeToInnerBuilder()
+    {
+        // Arrange
+        var memberRequest = new object();
+        var memberType = typeof(List<int>);
+
+        var memberTypeResolver = new DelegatingRequestMemberTypeResolver
         {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new UnwrapMemberRequest(builder: null));
-        }
+            OnTryGetMemberType = r => r == memberRequest ? memberType : null
+        };
 
-        [Fact]
-        public void ShouldSaveThePassedBuilderToProperty()
+        var expectedResult = new object();
+        var innerBuilder = new DelegatingSpecimenBuilder
         {
-            // Arrange
-            var builder = new DelegatingSpecimenBuilder();
+            OnCreate = (r, c) => memberType.Equals(r) ? expectedResult : NoSpecimen.Instance
+        };
 
-            // Act
-            var sut = new UnwrapMemberRequest(builder);
-
-            // Assert
-            Assert.Same(builder, sut.Builder);
-        }
-
-        [Fact]
-        public void DefaultResolverShouldHaveCorrectType()
+        var sut = new UnwrapMemberRequest(innerBuilder)
         {
-            // Act
-            var sut = new UnwrapMemberRequest(new DelegatingSpecimenBuilder());
+            MemberTypeResolver = memberTypeResolver
+        };
 
-            // Assert
-            Assert.IsType<RequestMemberTypeResolver>(sut.MemberTypeResolver);
-        }
+        var ctx = new DelegatingSpecimenContext();
 
-        [Fact]
-        public void ShouldThrowIfNullMemberTypeResolverIsAssigned()
+        // Act
+        var result = sut.Create(memberRequest, ctx);
+
+        // Assert
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void ShouldNotInvokeInnerBuilderIfUnableToResolveMemberType()
+    {
+        // Arrange
+        var nonMemberRequest = new object();
+        var memberTypeResolver = new DelegatingRequestMemberTypeResolver
         {
-            // Arrange
-            var sut = new UnwrapMemberRequest(new DelegatingSpecimenBuilder());
+            OnTryGetMemberType = _ => null
+        };
 
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.MemberTypeResolver = null);
-        }
-
-        [Fact]
-        public void ShouldPassUnwrappedTypeToInnerBuilder()
+        var innerBuilder = new DelegatingSpecimenBuilder
         {
-            // Arrange
-            var memberRequest = new object();
-            var memberType = typeof(List<int>);
+            OnCreate = (r, c) => throw new InvalidOperationException("Should not be invoked")
+        };
 
-            var memberTypeResolver = new DelegatingRequestMemberTypeResolver
-            {
-                OnTryGetMemberType = r => r == memberRequest ? memberType : null
-            };
-
-            var expectedResult = new object();
-            var innerBuilder = new DelegatingSpecimenBuilder
-            {
-                OnCreate = (r, c) => memberType.Equals(r) ? expectedResult : NoSpecimen.Instance
-            };
-
-            var sut = new UnwrapMemberRequest(innerBuilder)
-            {
-                MemberTypeResolver = memberTypeResolver
-            };
-
-            var ctx = new DelegatingSpecimenContext();
-
-            // Act
-            var result = sut.Create(memberRequest, ctx);
-
-            // Assert
-            Assert.Equal(expectedResult, result);
-        }
-
-        [Fact]
-        public void ShouldNotInvokeInnerBuilderIfUnableToResolveMemberType()
+        var sut = new UnwrapMemberRequest(innerBuilder)
         {
-            // Arrange
-            var nonMemberRequest = new object();
-            var memberTypeResolver = new DelegatingRequestMemberTypeResolver
-            {
-                OnTryGetMemberType = _ => null
-            };
+            MemberTypeResolver = memberTypeResolver
+        };
 
-            var innerBuilder = new DelegatingSpecimenBuilder
-            {
-                OnCreate = (r, c) => throw new InvalidOperationException("Should not be invoked")
-            };
+        var ctx = new DelegatingSpecimenContext();
 
-            var sut = new UnwrapMemberRequest(innerBuilder)
-            {
-                MemberTypeResolver = memberTypeResolver
-            };
+        // Act
+        var result = sut.Create(nonMemberRequest, ctx);
 
-            var ctx = new DelegatingSpecimenContext();
-
-            // Act
-            var result = sut.Create(nonMemberRequest, ctx);
-
-            // Assert
-            Assert.Equal(NoSpecimen.Instance, result);
-        }
+        // Assert
+        Assert.Equal(NoSpecimen.Instance, result);
     }
 }

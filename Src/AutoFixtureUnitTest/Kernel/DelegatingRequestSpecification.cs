@@ -1,20 +1,19 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel;
+
+internal class DelegatingRequestSpecification : IRequestSpecification
 {
-    internal class DelegatingRequestSpecification : IRequestSpecification
+    public DelegatingRequestSpecification()
     {
-        public DelegatingRequestSpecification()
-        {
-            this.OnIsSatisfiedBy = r => false;
-        }
-
-        public bool IsSatisfiedBy(object request)
-        {
-            return this.OnIsSatisfiedBy(request);
-        }
-
-        internal Predicate<object> OnIsSatisfiedBy { get; set; }
+        this.OnIsSatisfiedBy = r => false;
     }
+
+    public bool IsSatisfiedBy(object request)
+    {
+        return this.OnIsSatisfiedBy(request);
+    }
+
+    internal Predicate<object> OnIsSatisfiedBy { get; set; }
 }

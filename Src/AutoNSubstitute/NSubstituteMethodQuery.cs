@@ -6,63 +6,62 @@ using System.Reflection;
 using AutoFixture.Kernel;
 using NSubstitute;
 
-namespace AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute;
+
+/// <summary>Selects appropriate methods to create substitutes.</summary>
+public class NSubstituteMethodQuery : IMethodQuery
 {
-    /// <summary>Selects appropriate methods to create substitutes.</summary>
-    public class NSubstituteMethodQuery : IMethodQuery
+    private static readonly IRequestSpecification DelegateSpecification = new DelegateSpecification();
+
+    /// <summary>Selects the methods for the supplied type.</summary>
+    /// <param name="type">The type.</param>
+    /// <returns>Methods for <paramref name="type"/>.</returns>
+    public IEnumerable<IMethod> SelectMethods(Type type)
     {
-        private static readonly IRequestSpecification DelegateSpecification = new DelegateSpecification();
+        if (type == null) throw new ArgumentNullException(nameof(type));
 
-        /// <summary>Selects the methods for the supplied type.</summary>
-        /// <param name="type">The type.</param>
-        /// <returns>Methods for <paramref name="type"/>.</returns>
-        public IEnumerable<IMethod> SelectMethods(Type type)
+        if (type.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(type))
+            return new[] { SubstituteMethod.Create(type) };
+
+        return from ci in type.GetPublicAndProtectedConstructors()
+            let parameters = ci.GetParameters()
+            orderby parameters.Length ascending
+            select SubstituteMethod.Create(type, parameters);
+    }
+
+    private static class SubstituteMethod
+    {
+        public static IMethod Create(Type type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
-
-            if (type.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(type))
-                return new[] { SubstituteMethod.Create(type) };
-
-            return from ci in type.GetPublicAndProtectedConstructors()
-                   let parameters = ci.GetParameters()
-                   orderby parameters.Length ascending
-                   select SubstituteMethod.Create(type, parameters);
+            return Create(type, new ParameterInfo[0]);
         }
 
-        private static class SubstituteMethod
+        public static IMethod Create(
+            Type type,
+            IEnumerable<ParameterInfo> parameterInfos)
         {
-            public static IMethod Create(Type type)
-            {
-                return Create(type, new ParameterInfo[0]);
-            }
+            var constructedType = typeof(SubstituteMethod<>).MakeGenericType(type);
+            return (IMethod)Activator.CreateInstance(
+                constructedType,
+                parameterInfos);
+        }
+    }
 
-            public static IMethod Create(
-                Type type,
-                IEnumerable<ParameterInfo> parameterInfos)
-            {
-                var constructedType = typeof(SubstituteMethod<>).MakeGenericType(type);
-                return (IMethod)Activator.CreateInstance(
-                    constructedType,
-                    parameterInfos);
-            }
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+        Justification = "It's activated via reflection.")]
+    private class SubstituteMethod<T> : IMethod
+        where T : class
+    {
+        public SubstituteMethod(IEnumerable<ParameterInfo> parameterInfos)
+        {
+            this.Parameters = parameterInfos;
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
-            Justification = "It's activated via reflection.")]
-        private class SubstituteMethod<T> : IMethod
-            where T : class
+        public IEnumerable<ParameterInfo> Parameters { get; }
+
+        public object Invoke(IEnumerable<object> parameters)
         {
-            public SubstituteMethod(IEnumerable<ParameterInfo> parameterInfos)
-            {
-                this.Parameters = parameterInfos;
-            }
-
-            public IEnumerable<ParameterInfo> Parameters { get; }
-
-            public object Invoke(IEnumerable<object> parameters)
-            {
-                return Substitute.For<T>(parameters.ToArray());
-            }
+            return Substitute.For<T>(parameters.ToArray());
         }
     }
 }

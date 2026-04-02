@@ -1,21 +1,20 @@
-﻿namespace AutoFixtureDocumentationTest.Contact.Parsing
+﻿namespace AutoFixtureDocumentationTest.Contact.Parsing;
+
+public class Contact
 {
-    public class Contact
+    public Contact(string name, string phoneNumber)
     {
-        public Contact(string name, string phoneNumber)
-        {
-            this.Name = name;
-            this.PhoneNumber =
-                Contact.ParsePhoneNumber(phoneNumber);
-        }
+        this.Name = name;
+        this.PhoneNumber =
+            Contact.ParsePhoneNumber(phoneNumber);
+    }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public int PhoneNumber { get; set; }
+    public int PhoneNumber { get; set; }
 
-        private static int ParsePhoneNumber(string phoneNumber)
-        {
-            return int.Parse(phoneNumber);
-        }
+    private static int ParsePhoneNumber(string phoneNumber)
+    {
+        return int.Parse(phoneNumber);
     }
 }

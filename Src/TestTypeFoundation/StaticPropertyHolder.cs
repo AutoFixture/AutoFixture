@@ -1,7 +1,6 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class StaticPropertyHolder<T>
 {
-    public class StaticPropertyHolder<T>
-    {
-        public static T Property { get; set; }
-    }
+    public static T Property { get; set; }
 }

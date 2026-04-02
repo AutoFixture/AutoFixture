@@ -1,7 +1,6 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class ReadOnlyPropertyHolder<T>
 {
-    public class ReadOnlyPropertyHolder<T>
-    {
-        public T Property { get; private set; }
-    }
+    public T Property { get; private set; }
 }

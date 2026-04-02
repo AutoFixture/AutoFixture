@@ -3,78 +3,77 @@ using System.Text.RegularExpressions;
 using AutoFixture.Kernel;
 using Fare;
 
-namespace AutoFixture
+namespace AutoFixture;
+
+/// <summary>
+/// Creates a string that is guaranteed to match a RegularExpressionRequest.
+/// </summary>
+public class RegularExpressionGenerator : ISpecimenBuilder
 {
+    private readonly Random random;
+    private readonly object syncRoot;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RegularExpressionGenerator"/> class.
+    /// </summary>
+    public RegularExpressionGenerator()
+    {
+        this.random = new Random();
+        this.syncRoot = new object();
+    }
+
     /// <summary>
     /// Creates a string that is guaranteed to match a RegularExpressionRequest.
     /// </summary>
-    public class RegularExpressionGenerator : ISpecimenBuilder
+    /// <param name="request">The request that describes what to create.</param>
+    /// <param name="context">A context that can be used to create other specimens.</param>
+    /// <returns>
+    /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+    /// </returns>
+    public object Create(object request, ISpecimenContext context)
     {
-        private readonly Random random;
-        private readonly object syncRoot;
+        if (request == null) return NoSpecimen.Instance;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RegularExpressionGenerator"/> class.
-        /// </summary>
-        public RegularExpressionGenerator()
+        var regularExpressionRequest = request as RegularExpressionRequest;
+        if (regularExpressionRequest == null)
         {
-            this.random = new Random();
-            this.syncRoot = new object();
-        }
-
-        /// <summary>
-        /// Creates a string that is guaranteed to match a RegularExpressionRequest.
-        /// </summary>
-        /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A context that can be used to create other specimens.</param>
-        /// <returns>
-        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
-        /// </returns>
-        public object Create(object request, ISpecimenContext context)
-        {
-            if (request == null) return NoSpecimen.Instance;
-
-            var regularExpressionRequest = request as RegularExpressionRequest;
-            if (regularExpressionRequest == null)
-            {
-                return NoSpecimen.Instance;
-            }
-
-            return this.GenerateRegularExpression(regularExpressionRequest);
-        }
-
-        private object GenerateRegularExpression(RegularExpressionRequest request)
-        {
-            string pattern = request.Pattern;
-
-            try
-            {
-                // Use the Xeger constructor overload that that takes an instance of Random.
-                // Otherwise identically strings can be generated, if regex are generated within short time.
-                string regex = new Xeger(pattern, new Random(this.GenerateSeed())).Generate();
-                if (Regex.IsMatch(regex, pattern))
-                {
-                    return regex;
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                return NoSpecimen.Instance;
-            }
-            catch (ArgumentException)
-            {
-                return NoSpecimen.Instance;
-            }
-
             return NoSpecimen.Instance;
         }
 
-        private int GenerateSeed()
+        return this.GenerateRegularExpression(regularExpressionRequest);
+    }
+
+    private object GenerateRegularExpression(RegularExpressionRequest request)
+    {
+        string pattern = request.Pattern;
+
+        try
         {
-            lock (this.syncRoot)
+            // Use the Xeger constructor overload that that takes an instance of Random.
+            // Otherwise identically strings can be generated, if regex are generated within short time.
+            string regex = new Xeger(pattern, new Random(this.GenerateSeed())).Generate();
+            if (Regex.IsMatch(regex, pattern))
             {
-                return this.random.Next();
+                return regex;
             }
+        }
+        catch (InvalidOperationException)
+        {
+            return NoSpecimen.Instance;
+        }
+        catch (ArgumentException)
+        {
+            return NoSpecimen.Instance;
+        }
+
+        return NoSpecimen.Instance;
+    }
+
+    private int GenerateSeed()
+    {
+        lock (this.syncRoot)
+        {
+            return this.random.Next();
         }
     }
 }

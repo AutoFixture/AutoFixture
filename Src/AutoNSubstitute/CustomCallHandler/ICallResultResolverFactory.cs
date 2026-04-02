@@ -1,17 +1,16 @@
 ﻿using AutoFixture.Kernel;
 
-namespace AutoFixture.AutoNSubstitute.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.CustomCallHandler;
+
+/// <summary>
+/// Factory to create <see cref="ICallResultResolver"/>.
+/// </summary>
+public interface ICallResultResolverFactory
 {
     /// <summary>
-    /// Factory to create <see cref="ICallResultResolver"/>.
+    /// Creates a new instance of the <see cref="ICallResultResolver"/>.
     /// </summary>
-    public interface ICallResultResolverFactory
-    {
-        /// <summary>
-        /// Creates a new instance of the <see cref="ICallResultResolver"/>.
-        /// </summary>
-        /// <param name="specimenContext">The <see cref="ISpecimenContext"/> to use to create speciments.</param>
-        /// <returns>The call result resolver.</returns>
-        ICallResultResolver Create(ISpecimenContext specimenContext);
-    }
+    /// <param name="specimenContext">The <see cref="ISpecimenContext"/> to use to create speciments.</param>
+    /// <returns>The call result resolver.</returns>
+    ICallResultResolver Create(ISpecimenContext specimenContext);
 }

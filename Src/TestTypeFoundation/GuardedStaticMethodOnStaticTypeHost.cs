@@ -1,12 +1,11 @@
 using System;
 
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public static class GuardedStaticMethodOnStaticTypeHost
 {
-    public static class GuardedStaticMethodOnStaticTypeHost
+    public static void Method(object argument)
     {
-        public static void Method(object argument)
-        {
-            if (argument == null) throw new ArgumentNullException(nameof(argument));
-        }
+        if (argument == null) throw new ArgumentNullException(nameof(argument));
     }
 }

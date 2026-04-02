@@ -1,13 +1,12 @@
 ﻿using System;
 using AutoFixture.Kernel;
 
-namespace AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest;
+
+internal class ComposerWithoutADefaultConstructor : DelegatingFixture
 {
-    internal class ComposerWithoutADefaultConstructor : DelegatingFixture
+    public ComposerWithoutADefaultConstructor(Func<ISpecimenBuilder> onCompose)
     {
-        public ComposerWithoutADefaultConstructor(Func<ISpecimenBuilder> onCompose)
-        {
-            if (onCompose == null) throw new ArgumentNullException(nameof(onCompose));
-        }
+        if (onCompose == null) throw new ArgumentNullException(nameof(onCompose));
     }
 }

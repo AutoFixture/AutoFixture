@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AutoFixture.Xunit3.UnitTest.TestTypes
+namespace AutoFixture.Xunit3.UnitTest.TestTypes;
+
+public class TypeWithIParameterCustomizationSourceUsage
 {
-    public class TypeWithIParameterCustomizationSourceUsage
+    public void DecoratedMethod([CustomizationSource] int arg)
     {
-        public void DecoratedMethod([CustomizationSource] int arg)
-        {
-        }
+    }
 
-        [AttributeUsage(AttributeTargets.All)]
-        public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
+    [AttributeUsage(AttributeTargets.All)]
+    public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
+    {
+        public ICustomization GetCustomization(ParameterInfo parameter)
         {
-            public ICustomization GetCustomization(ParameterInfo parameter)
-            {
-                return new Customization();
-            }
+            return new Customization();
         }
+    }
 
-        public class Customization : ICustomization
+    public class Customization : ICustomization
+    {
+        public void Customize(IFixture fixture)
         {
-            public void Customize(IFixture fixture)
-            {
-            }
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿namespace AutoFixture
+﻿namespace AutoFixture;
+
+/// <summary>
+/// Encapsulates a customization of an <see cref="IFixture"/>.
+/// </summary>
+public interface ICustomization
 {
     /// <summary>
-    /// Encapsulates a customization of an <see cref="IFixture"/>.
+    /// Customizes the specified fixture.
     /// </summary>
-    public interface ICustomization
-    {
-        /// <summary>
-        /// Customizes the specified fixture.
-        /// </summary>
-        /// <param name="fixture">The fixture to customize.</param>
-        void Customize(IFixture fixture);
-    }
+    /// <param name="fixture">The fixture to customize.</param>
+    void Customize(IFixture fixture);
 }

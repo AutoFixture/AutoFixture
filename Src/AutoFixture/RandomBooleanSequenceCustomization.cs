@@ -1,22 +1,21 @@
 ﻿using System;
 
-namespace AutoFixture
+namespace AutoFixture;
+
+/// <summary>
+/// A customization that changes how <see cref="bool"/> are generated. Uses <see cref="RandomBooleanSequenceGenerator"/>.
+/// </summary>
+public class RandomBooleanSequenceCustomization : ICustomization
 {
     /// <summary>
-    /// A customization that changes how <see cref="bool"/> are generated. Uses <see cref="RandomBooleanSequenceGenerator"/>.
+    /// Customizes specified fixture by adding <see cref="RandomBooleanSequenceGenerator"/> as a default strategy for
+    /// creating new <see cref="bool"/>.
     /// </summary>
-    public class RandomBooleanSequenceCustomization : ICustomization
+    /// <param name="fixture">The fixture to customize.</param>
+    public void Customize(IFixture fixture)
     {
-        /// <summary>
-        /// Customizes specified fixture by adding <see cref="RandomBooleanSequenceGenerator"/> as a default strategy for
-        /// creating new <see cref="bool"/>.
-        /// </summary>
-        /// <param name="fixture">The fixture to customize.</param>
-        public void Customize(IFixture fixture)
-        {
-            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+        if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-            fixture.Customizations.Add(new RandomBooleanSequenceGenerator());
-        }
+        fixture.Customizations.Add(new RandomBooleanSequenceGenerator());
     }
 }

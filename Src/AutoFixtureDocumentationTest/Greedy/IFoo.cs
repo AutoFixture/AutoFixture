@@ -1,6 +1,5 @@
-﻿namespace AutoFixtureDocumentationTest.Greedy
+﻿namespace AutoFixtureDocumentationTest.Greedy;
+
+public interface IFoo
 {
-    public interface IFoo
-    {
-    }
 }

@@ -1,23 +1,22 @@
 ﻿using System;
 
-namespace AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel;
+
+public class DisposableSpy : IDisposable
 {
-    public class DisposableSpy : IDisposable
+    public bool Disposed { get; private set; }
+
+    public void Dispose()
     {
-        public bool Disposed { get; private set; }
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        public void Dispose()
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.Disposed = true;
-            }
+            this.Disposed = true;
         }
     }
 }

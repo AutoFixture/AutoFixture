@@ -2,50 +2,49 @@
 using System.Text;
 using AutoFixture.Kernel;
 
-namespace AutoFixture
+namespace AutoFixture;
+
+/// <summary>
+/// Creates a constrained string.
+/// </summary>
+public class ConstrainedStringGenerator : ISpecimenBuilder
 {
     /// <summary>
-    /// Creates a constrained string.
+    /// Creates a constrained string based on a ConstrainedStringRequest.
     /// </summary>
-    public class ConstrainedStringGenerator : ISpecimenBuilder
+    /// <param name="request">The request that describes what to create.</param>
+    /// <param name="context">A context that can be used to create other specimens.</param>
+    /// <returns>
+    /// The requested number if possible; otherwise a <see cref="NoSpecimen"/> instance.
+    /// </returns>
+    public object Create(object request, ISpecimenContext context)
     {
-        /// <summary>
-        /// Creates a constrained string based on a ConstrainedStringRequest.
-        /// </summary>
-        /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A context that can be used to create other specimens.</param>
-        /// <returns>
-        /// The requested number if possible; otherwise a <see cref="NoSpecimen"/> instance.
-        /// </returns>
-        public object Create(object request, ISpecimenContext context)
+        if (context == null) throw new ArgumentNullException(nameof(context));
+
+        var constrain = request as ConstrainedStringRequest;
+        if (constrain == null)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var constrain = request as ConstrainedStringRequest;
-            if (constrain == null)
-            {
-                return NoSpecimen.Instance;
-            }
-
-            return Create(constrain.MinimumLength, constrain.MaximumLength, context);
+            return NoSpecimen.Instance;
         }
 
-        private static string Create(int minimumLength, int maximumLength, ISpecimenContext context)
+        return Create(constrain.MinimumLength, constrain.MaximumLength, context);
+    }
+
+    private static string Create(int minimumLength, int maximumLength, ISpecimenContext context)
+    {
+        var sb = new StringBuilder();
+
+        do
         {
-            var sb = new StringBuilder();
-
-            do
-            {
-                sb.Append(context.Resolve(typeof(string)));
-            }
-            while (sb.Length < minimumLength);
-
-            if (sb.Length > maximumLength)
-            {
-                return sb.ToString().Substring(0, maximumLength);
-            }
-
-            return sb.ToString();
+            sb.Append(context.Resolve(typeof(string)));
         }
+        while (sb.Length < minimumLength);
+
+        if (sb.Length > maximumLength)
+        {
+            return sb.ToString().Substring(0, maximumLength);
+        }
+
+        return sb.ToString();
     }
 }

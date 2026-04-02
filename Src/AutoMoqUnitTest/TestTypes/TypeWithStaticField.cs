@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public class TypeWithStaticField
 {
-    public class TypeWithStaticField
-    {
-        public static string StaticField = string.Empty;
-    }
+    public static string StaticField = string.Empty;
 }

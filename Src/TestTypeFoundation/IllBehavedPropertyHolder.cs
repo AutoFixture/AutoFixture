@@ -1,32 +1,31 @@
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class IllBehavedPropertyHolder<T>
 {
-    public class IllBehavedPropertyHolder<T>
+    private T propertyIllBehavedSet;
+
+    public T PropertyIllBehavedGet
     {
-        private T propertyIllBehavedSet;
-
-        public T PropertyIllBehavedGet
+        get
         {
-            get
-            {
-                return default(T);
-            }
-
-            set
-            {
-            }
+            return default(T);
         }
 
-        public T PropertyIllBehavedSet
+        set
         {
-            get
-            {
-                return this.propertyIllBehavedSet;
-            }
+        }
+    }
 
-            set
-            {
-                this.propertyIllBehavedSet = default(T);
-            }
+    public T PropertyIllBehavedSet
+    {
+        get
+        {
+            return this.propertyIllBehavedSet;
+        }
+
+        set
+        {
+            this.propertyIllBehavedSet = default(T);
         }
     }
 }

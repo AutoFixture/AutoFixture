@@ -1,7 +1,6 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithGetOnlyProperty
 {
-    public interface IInterfaceWithGetOnlyProperty
-    {
-        string GetOnlyProperty { get; }
-    }
+    string GetOnlyProperty { get; }
 }

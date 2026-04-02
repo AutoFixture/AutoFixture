@@ -1,7 +1,6 @@
-﻿namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue
+﻿namespace AutoFixtureUnitTest.NavigationPropertyRecursionIssue;
+
+public class Session
 {
-    public class Session
-    {
-        public Language Language { get; set; }
-    }
+    public Language Language { get; set; }
 }

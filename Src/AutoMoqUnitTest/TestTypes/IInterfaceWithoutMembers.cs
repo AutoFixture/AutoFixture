@@ -1,6 +1,5 @@
-﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes;
+
+public interface IInterfaceWithoutMembers
 {
-    public interface IInterfaceWithoutMembers
-    {
-    }
 }
