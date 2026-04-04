@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Common.props" />
+  <Import Project="..\..\Common.Test.props" />
+  <Import Project="..\..\Common.Test.xUnit.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;net5.0;net6.0</TargetFrameworks>
+    <AssemblyTitle>AutoFixtureDocumentationTest</AssemblyTitle>
+    <AssemblyName>AutoFixtureDocumentationTest</AssemblyName>
+    <RootNamespace>AutoFixtureDocumentationTest</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\..\src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
+
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.0.0" Condition=" '$(TargetFramework)'=='net462' " />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+</Project>

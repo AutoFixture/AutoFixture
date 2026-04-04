@@ -71,6 +71,7 @@ partial class Build : NukeBuild
     bool IsContinuousIntegration => IsServerBuild || CI;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
+    AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     AbsolutePath TestResultsDirectory => ArtifactsDirectory / "testresults";
     AbsolutePath ReportsDirectory => ArtifactsDirectory / "reports";
@@ -81,6 +82,10 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             SourceDirectory
+                .GlobDirectories("**/bin", "**/obj")
+                .ForEach(DeleteDirectory);
+
+            TestsDirectory
                 .GlobDirectories("**/bin", "**/obj")
                 .ForEach(DeleteDirectory);
 

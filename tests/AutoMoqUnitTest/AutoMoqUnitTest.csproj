@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Common.props" />
+  <Import Project="..\..\Common.Test.props" />
+  <Import Project="..\..\Common.Test.xUnit.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;net48;net5.0;net6.0</TargetFrameworks>
+    <AssemblyTitle>AutoMoqUnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.AutoMoq.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoMoq.UnitTest</RootNamespace>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is a Moq dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'net48'">
+      <ItemGroup>
+        <PackageReference Include="Moq" Version="4.20.70" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoMoq\AutoMoq.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Moq" Version="4.20.70" />
+
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\..\src\AutoMoq\AutoMoq.csproj" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+</Project>
