@@ -35,7 +35,7 @@ namespace AutoFixture;
 /// </remarks>
 public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISpecimenBuilderTransformation>
 {
-    private readonly Func<ISpecimenBuilderNode, bool> isWrappedGraph;
+    private readonly Func<ISpecimenBuilderNode, bool> _isWrappedGraph;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -67,11 +67,11 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISp
     {
         if (transformations == null) throw new ArgumentNullException(nameof(transformations));
 
-        this.Graph = graph ?? throw new ArgumentNullException(nameof(graph));
-        this.isWrappedGraph = wrappedGraphPredicate ?? throw new ArgumentNullException(nameof(wrappedGraphPredicate));
+        Graph = graph ?? throw new ArgumentNullException(nameof(graph));
+        _isWrappedGraph = wrappedGraphPredicate ?? throw new ArgumentNullException(nameof(wrappedGraphPredicate));
 
         foreach (var t in transformations)
-            this.Add(t);
+            Add(t);
     }
 
     /// <summary>
@@ -106,10 +106,10 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISp
     /// </remarks>
     protected override void ClearItems()
     {
-        var wasNotEmpty = this.Count > 0;
+        var wasNotEmpty = Count > 0;
         base.ClearItems();
         if (wasNotEmpty)
-            this.UpdateGraph();
+            UpdateGraph();
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISp
     protected override void InsertItem(int index, ISpecimenBuilderTransformation item)
     {
         base.InsertItem(index, item);
-        this.UpdateGraph();
+        UpdateGraph();
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISp
     protected override void RemoveItem(int index)
     {
         base.RemoveItem(index);
-        this.UpdateGraph();
+        UpdateGraph();
     }
 
     /// <summary>Replaces the element at the specified index.</summary>
@@ -166,7 +166,7 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISp
     protected override void SetItem(int index, ISpecimenBuilderTransformation item)
     {
         base.SetItem(index, item);
-        this.UpdateGraph();
+        UpdateGraph();
     }
 
     /// <summary>Raises the <see cref="GraphChanged" /> event.</summary>
@@ -176,18 +176,18 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISp
     /// </param>
     protected virtual void OnGraphChanged(SpecimenBuilderNodeEventArgs e)
     {
-        var handler = this.GraphChanged;
+        var handler = GraphChanged;
         if (handler != null)
             handler(this, e);
     }
 
     private void UpdateGraph()
     {
-        ISpecimenBuilderNode g = this.Graph.FindFirstNode(this.isWrappedGraph);
+        ISpecimenBuilderNode g = Graph.FindFirstNode(_isWrappedGraph);
         ISpecimenBuilderNode builder = this.Aggregate(g, (b, t) => t.Transform(b));
 
-        this.Graph = builder;
+        Graph = builder;
 
-        this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
+        OnGraphChanged(new SpecimenBuilderNodeEventArgs(Graph));
     }
 }

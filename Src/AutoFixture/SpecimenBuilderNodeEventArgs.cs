@@ -17,7 +17,7 @@ public class SpecimenBuilderNodeEventArgs : EventArgs
     /// <exception cref="System.ArgumentNullException">graph.</exception>
     public SpecimenBuilderNodeEventArgs(ISpecimenBuilderNode graph)
     {
-        this.Graph = graph ?? throw new ArgumentNullException(nameof(graph));
+        Graph = graph ?? throw new ArgumentNullException(nameof(graph));
     }
 
     /// <summary>

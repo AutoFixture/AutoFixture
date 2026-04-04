@@ -26,8 +26,8 @@ public class FreezeOnMatchCustomization : ICustomization
     /// </exception>
     public FreezeOnMatchCustomization(object request)
     {
-        this.Request = request ?? throw new ArgumentNullException(nameof(request));
-        this.Matcher = new EqualRequestSpecification(request);
+        Request = request ?? throw new ArgumentNullException(nameof(request));
+        Matcher = new EqualRequestSpecification(request);
     }
 
     /// <summary>
@@ -45,15 +45,15 @@ public class FreezeOnMatchCustomization : ICustomization
         object request,
         IRequestSpecification matcher)
     {
-        this.Request = request ?? throw new ArgumentNullException(nameof(request));
-        this.Matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
+        Request = request ?? throw new ArgumentNullException(nameof(request));
+        Matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
     }
 
     /// <summary>
     /// The <see cref="Type"/> of the frozen specimen.
     /// </summary>
     [Obsolete("Please use the Request property instead.")]
-    public Type TargetType => this.Request as Type;
+    public Type TargetType => Request as Type;
 
     /// <summary>
     /// The request used to resolve specimens. By default that is TargetType.
@@ -74,7 +74,7 @@ public class FreezeOnMatchCustomization : ICustomization
     {
         if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-        this.FreezeSpecimenForMatchingRequests(fixture);
+        FreezeSpecimenForMatchingRequests(fixture);
     }
 
     private void FreezeSpecimenForMatchingRequests(IFixture fixture)
@@ -82,14 +82,14 @@ public class FreezeOnMatchCustomization : ICustomization
         fixture.Customizations.Insert(
             0,
             new FilteringSpecimenBuilder(
-                this.FreezeSpecimen(fixture),
-                this.Matcher));
+                FreezeSpecimen(fixture),
+                Matcher));
     }
 
     private ISpecimenBuilder FreezeSpecimen(IFixture fixture)
     {
         var context = new SpecimenContext(fixture);
-        var specimen = context.Resolve(this.Request);
+        var specimen = context.Resolve(Request);
         return new FixedBuilder(specimen);
     }
 }

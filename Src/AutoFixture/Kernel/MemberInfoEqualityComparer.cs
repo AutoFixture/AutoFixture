@@ -101,7 +101,7 @@ public class MemberInfoEqualityComparer : IEqualityComparer<MemberInfo>, IEquali
             return false;
         }
 
-        return this.Equals(miX, miY);
+        return Equals(miX, miY);
     }
 
     int IEqualityComparer.GetHashCode(object obj)
@@ -110,7 +110,7 @@ public class MemberInfoEqualityComparer : IEqualityComparer<MemberInfo>, IEquali
 
         return obj switch
         {
-            MemberInfo mi => this.GetHashCode(mi),
+            MemberInfo mi => GetHashCode(mi),
             _ => obj.GetHashCode()
         };
     }

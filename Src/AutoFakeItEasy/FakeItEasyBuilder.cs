@@ -23,7 +23,7 @@ public class FakeItEasyBuilder : ISpecimenBuilder
     /// <seealso cref="Builder" />
     public FakeItEasyBuilder(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class FakeItEasyBuilder : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        var fake = this.Builder.Create(request, context);
+        var fake = Builder.Create(request, context);
 
         return type.IsInstanceOfType(fake) ? fake : NoSpecimen.Instance;
     }

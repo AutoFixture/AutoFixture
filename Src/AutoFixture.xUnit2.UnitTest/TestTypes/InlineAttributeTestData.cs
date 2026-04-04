@@ -54,5 +54,5 @@ internal abstract class InlineAttributeTestData : IEnumerable<object[]>
     }
 
     public abstract IEnumerator<object[]> GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

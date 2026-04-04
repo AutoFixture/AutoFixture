@@ -8,14 +8,14 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class NoConstructorsSpecification : IRequestSpecification
 {
-    private readonly IMethodQuery modestConstructorQuery;
+    private readonly IMethodQuery _modestConstructorQuery;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NoConstructorsSpecification"/> class.
     /// </summary>
     public NoConstructorsSpecification()
     {
-        this.modestConstructorQuery = new ModestConstructorQuery();
+        _modestConstructorQuery = new ModestConstructorQuery();
     }
 
     /// <summary>
@@ -31,6 +31,6 @@ public class NoConstructorsSpecification : IRequestSpecification
         if (request == null) throw new ArgumentNullException(nameof(request));
 
         var type = request as Type;
-        return type != null && !this.modestConstructorQuery.SelectMethods(type).Any();
+        return type != null && !_modestConstructorQuery.SelectMethods(type).Any();
     }
 }

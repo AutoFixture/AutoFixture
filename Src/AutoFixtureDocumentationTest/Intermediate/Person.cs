@@ -4,7 +4,7 @@ namespace AutoFixtureDocumentationTest.Intermediate;
 
 public class Person
 {
-    private Person spouse;
+    private Person _spouse;
 
     public DateTime BirthDay { get; set; }
 
@@ -12,13 +12,13 @@ public class Person
 
     public Person Spouse
     {
-        get => this.spouse;
+        get => _spouse;
         set
         {
-            this.spouse = value;
+            _spouse = value;
             if (value != null)
             {
-                value.spouse = this;
+                value._spouse = this;
             }
         }
     }

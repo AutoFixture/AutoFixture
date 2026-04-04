@@ -23,8 +23,8 @@ public class CallResultData
     /// </summary>
     public CallResultData(Maybe<object> returnValue, IEnumerable<ArgumentValue> argumentValues)
     {
-        this.ReturnValue = returnValue;
-        this.ArgumentValues = argumentValues;
+        ReturnValue = returnValue;
+        ArgumentValues = argumentValues;
     }
 
     /// <summary>
@@ -47,8 +47,8 @@ public class CallResultData
         /// </summary>
         public ArgumentValue(int index, object value)
         {
-            this.Index = index;
-            this.Value = value;
+            Index = index;
+            Value = value;
         }
     }
 }

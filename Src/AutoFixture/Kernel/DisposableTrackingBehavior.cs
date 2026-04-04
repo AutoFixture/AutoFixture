@@ -10,14 +10,14 @@ namespace AutoFixture.Kernel;
 /// <seealso cref="DisposableTracker"/>
 public class DisposableTrackingBehavior : ISpecimenBuilderTransformation, IDisposable
 {
-    private readonly List<DisposableTracker> trackers;
+    private readonly List<DisposableTracker> _trackers;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DisposableTrackingBehavior"/> class.
     /// </summary>
     public DisposableTrackingBehavior()
     {
-        this.trackers = new List<DisposableTracker>();
+        _trackers = new List<DisposableTracker>();
     }
 
     /// <summary>
@@ -25,7 +25,7 @@ public class DisposableTrackingBehavior : ISpecimenBuilderTransformation, IDispo
     /// invoked, a new <see cref="DisposableTracker"/> instance is created and added to this
     /// list.
     /// </summary>
-    public IEnumerable<DisposableTracker> Trackers => this.trackers;
+    public IEnumerable<DisposableTracker> Trackers => _trackers;
 
     /// <summary>
     /// Decorates the supplied builder with a <see cref="DisposableTracker"/>.
@@ -43,7 +43,7 @@ public class DisposableTrackingBehavior : ISpecimenBuilderTransformation, IDispo
     public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
     {
         var tracker = new DisposableTracker(builder);
-        this.trackers.Add(tracker);
+        _trackers.Add(tracker);
         return tracker;
     }
 
@@ -52,7 +52,7 @@ public class DisposableTrackingBehavior : ISpecimenBuilderTransformation, IDispo
     /// </summary>
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 
@@ -67,11 +67,11 @@ public class DisposableTrackingBehavior : ISpecimenBuilderTransformation, IDispo
     {
         if (disposing)
         {
-            foreach (var t in this.Trackers)
+            foreach (var t in Trackers)
             {
                 t.Dispose();
             }
-            this.trackers.Clear();
+            _trackers.Clear();
         }
     }
 }

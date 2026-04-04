@@ -16,14 +16,14 @@ namespace AutoFixture;
 /// </remarks>
 public class RandomTimeOnlySequenceGenerator : ISpecimenBuilder
 {
-    private static readonly TimeOnly Default = new(12, 0);
-    private readonly RandomNumericSequenceGenerator randomizer;
+    private static readonly TimeOnly s_default = new(12, 0);
+    private readonly RandomNumericSequenceGenerator _randomizer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RandomTimeOnlySequenceGenerator"/> class.
     /// </summary>
     public RandomTimeOnlySequenceGenerator()
-        : this(Default.AddHours(-6), Default.AddHours(6))
+        : this(s_default.AddHours(-6), s_default.AddHours(6))
     {
     }
 
@@ -43,7 +43,7 @@ public class RandomTimeOnlySequenceGenerator : ISpecimenBuilder
             throw new ArgumentException("The 'minTime' argument must be less than the 'maxTime'.");
         }
 
-        this.randomizer = new RandomNumericSequenceGenerator(minTime.Ticks, maxTime.Ticks);
+        _randomizer = new RandomNumericSequenceGenerator(minTime.Ticks, maxTime.Ticks);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class RandomTimeOnlySequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        var ticks = (long)this.randomizer.Create(typeof(long), context);
+        var ticks = (long)_randomizer.Create(typeof(long), context);
         return new TimeOnly(ticks);
     }
 }

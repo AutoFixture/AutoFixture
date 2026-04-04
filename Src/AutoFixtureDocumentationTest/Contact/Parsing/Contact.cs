@@ -4,8 +4,8 @@ public class Contact
 {
     public Contact(string name, string phoneNumber)
     {
-        this.Name = name;
-        this.PhoneNumber =
+        Name = name;
+        PhoneNumber =
             Contact.ParsePhoneNumber(phoneNumber);
     }
 

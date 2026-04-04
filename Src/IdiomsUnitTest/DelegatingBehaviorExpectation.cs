@@ -7,13 +7,13 @@ public class DelegatingBehaviorExpectation : IBehaviorExpectation
 {
     public DelegatingBehaviorExpectation()
     {
-        this.OnVerify = c => { };
+        OnVerify = c => { };
     }
 
     public Action<IGuardClauseCommand> OnVerify { get; set; }
 
     public void Verify(IGuardClauseCommand command)
     {
-        this.OnVerify(command);
+        OnVerify(command);
     }
 }

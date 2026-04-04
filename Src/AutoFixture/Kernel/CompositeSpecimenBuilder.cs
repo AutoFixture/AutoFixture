@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel;
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
 public class CompositeSpecimenBuilder : ISpecimenBuilderNode
 {
-    private readonly ISpecimenBuilder[] composedBuilders;
+    private readonly ISpecimenBuilder[] _composedBuilders;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CompositeSpecimenBuilder"/> class with the
@@ -29,13 +29,13 @@ public class CompositeSpecimenBuilder : ISpecimenBuilderNode
     /// <param name="builders">The child builders.</param>
     public CompositeSpecimenBuilder(params ISpecimenBuilder[] builders)
     {
-        this.composedBuilders = builders ?? throw new ArgumentNullException(nameof(builders));
+        _composedBuilders = builders ?? throw new ArgumentNullException(nameof(builders));
     }
 
     /// <summary>
     /// Gets the child builders.
     /// </summary>
-    public IEnumerable<ISpecimenBuilder> Builders => this.composedBuilders;
+    public IEnumerable<ISpecimenBuilder> Builders => _composedBuilders;
 
     /// <summary>
     /// Creates a new specimen by delegating to <see cref="Builders"/>.
@@ -47,9 +47,9 @@ public class CompositeSpecimenBuilder : ISpecimenBuilderNode
     {
         // This is performance-sensitive code when used repeatedly over many requests.
         // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
-        for (int i = 0; i < this.composedBuilders.Length; i++)
+        for (int i = 0; i < _composedBuilders.Length; i++)
         {
-            var result = this.composedBuilders[i].Create(request, context);
+            var result = _composedBuilders[i].Create(request, context);
             if (!(result is NoSpecimen)) return result;
         }
 
@@ -76,7 +76,7 @@ public class CompositeSpecimenBuilder : ISpecimenBuilderNode
     /// </returns>
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        return this.composedBuilders.AsEnumerable().GetEnumerator();
+        return _composedBuilders.AsEnumerable().GetEnumerator();
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class CompositeSpecimenBuilder : ISpecimenBuilderNode
     /// </returns>
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     internal static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)
@@ -142,10 +142,10 @@ public class CompositeSpecimenBuilder : ISpecimenBuilderNode
         var c = node as CompositeSpecimenBuilder;
         if (c == null)
             return node;
-        var isSingle = c.composedBuilders.Length == 1;
+        var isSingle = c._composedBuilders.Length == 1;
         if (isSingle)
         {
-            if (c.composedBuilders[0] is ISpecimenBuilderNode n)
+            if (c._composedBuilders[0] is ISpecimenBuilderNode n)
                 return n;
         }
         return node;

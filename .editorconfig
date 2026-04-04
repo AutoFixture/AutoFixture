@@ -9,8 +9,48 @@ indent_size = 2
 indent_style = space
 
 [*.cs]
-# Require "this." keyword qualification in code
-dotnet_style_qualification_for_field = true:suggestion
-dotnet_style_qualification_for_property = true:suggestion
-dotnet_style_qualification_for_method = true:suggestion
-dotnet_style_qualification_for_event = true:suggestion
+# Disallow "this." keyword qualification in code
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+
+
+# Require "_" prefix for private instance fields
+dotnet_naming_symbols.private_instance_fields.applicable_kinds = field
+dotnet_naming_symbols.private_instance_fields.applicable_accessibilities = private
+dotnet_naming_style.private_instance_fields_underscore.required_prefix = _
+dotnet_naming_style.private_instance_fields_underscore.capitalization = camel_case
+dotnet_naming_rule.private_instance_fields_should_be_underscored.symbols = private_instance_fields
+dotnet_naming_rule.private_instance_fields_should_be_underscored.style = private_instance_fields_underscore
+dotnet_naming_rule.private_instance_fields_should_be_underscored.severity = error
+
+# Require PascalCase for private constants
+dotnet_naming_symbols.private_constants.applicable_kinds = field
+dotnet_naming_symbols.private_constants.applicable_accessibilities = private
+dotnet_naming_symbols.private_constants.required_modifiers = const
+dotnet_naming_style.private_constants_pascal_case.capitalization = pascal_case
+dotnet_naming_rule.private_constants_should_be_pascal_case.symbols = private_constants
+dotnet_naming_rule.private_constants_should_be_pascal_case.style = private_constants_pascal_case
+dotnet_naming_rule.private_constants_should_be_pascal_case.severity = error
+
+# Require "s_" prefix for private static fields
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = static
+dotnet_naming_style.private_static_fields_prefixed.required_prefix = s_
+dotnet_naming_style.private_static_fields_prefixed.capitalization = camel_case
+dotnet_naming_rule.private_static_fields_should_be_prefixed.symbols = private_static_fields
+dotnet_naming_rule.private_static_fields_should_be_prefixed.style = private_static_fields_prefixed
+dotnet_naming_rule.private_static_fields_should_be_prefixed.severity = suggestion
+
+# Require properties to start with uppercase
+dotnet_naming_symbols.properties.applicable_kinds = property
+dotnet_naming_symbols.properties.applicable_accessibilities = *
+dotnet_naming_style.properties_pascal_case.capitalization = pascal_case
+dotnet_naming_rule.properties_should_be_pascal_case.symbols = properties
+dotnet_naming_rule.properties_should_be_pascal_case.style = properties_pascal_case
+dotnet_naming_rule.properties_should_be_pascal_case.severity = error
+
+# Enable code style warnings
+dotnet_diagnostic.IDE1006.severity = warning

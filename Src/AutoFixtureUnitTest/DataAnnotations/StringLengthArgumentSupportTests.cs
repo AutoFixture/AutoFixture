@@ -45,7 +45,7 @@ public class StringLengthArgumentSupportTests
         public ClassWithShortStringLengthConstrainedConstructorArgument(
             [StringLength(ShortTextMaximumLength)] string shortText)
         {
-            this.ShortText = shortText;
+            ShortText = shortText;
         }
     }
 
@@ -57,7 +57,7 @@ public class StringLengthArgumentSupportTests
         public ClassWithLongStringLengthConstrainedConstructorArgument(
             [StringLength(LongTextLength, MinimumLength = LongTextLength)] string longText)
         {
-            this.LongText = longText;
+            LongText = longText;
         }
     }
 }

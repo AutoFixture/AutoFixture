@@ -10,7 +10,7 @@ namespace AutoFixture;
 public class OmitOnRecursionBehavior : ISpecimenBuilderTransformation
 {
     private const int DefaultRecursionDepth = 1;
-    private readonly int recursionDepth;
+    private readonly int _recursionDepth;
 
     /// <summary>
     /// Initializes new instance of the <see cref="OmitOnRecursionBehavior" /> class with default recursion depth.
@@ -31,7 +31,7 @@ public class OmitOnRecursionBehavior : ISpecimenBuilderTransformation
         if (recursionDepth < 1)
             throw new ArgumentOutOfRangeException(nameof(recursionDepth), "Recursion depth must be greater than 0.");
 
-        this.recursionDepth = recursionDepth;
+        _recursionDepth = recursionDepth;
     }
 
     /// <summary>
@@ -47,6 +47,6 @@ public class OmitOnRecursionBehavior : ISpecimenBuilderTransformation
     {
         if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-        return new RecursionGuard(builder, new OmitOnRecursionHandler(), this.recursionDepth);
+        return new RecursionGuard(builder, new OmitOnRecursionHandler(), _recursionDepth);
     }
 }

@@ -10,8 +10,8 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class FiniteSequenceRequest : IEquatable<FiniteSequenceRequest>
 {
-    private readonly object request;
-    private readonly int count;
+    private readonly object _request;
+    private readonly int _count;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FiniteSequenceRequest"/> class.
@@ -24,8 +24,8 @@ public class FiniteSequenceRequest : IEquatable<FiniteSequenceRequest>
         if (count < 0)
             throw new ArgumentOutOfRangeException(nameof(count), string.Format(CultureInfo.CurrentCulture, "The requested count must be a positive number (or zero), but was {0}.", count));
 
-        this.request = request;
-        this.count = count;
+        _request = request;
+        _count = count;
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class FiniteSequenceRequest : IEquatable<FiniteSequenceRequest>
     {
         if (obj is FiniteSequenceRequest other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
         return base.Equals(obj);
     }
@@ -57,7 +57,7 @@ public class FiniteSequenceRequest : IEquatable<FiniteSequenceRequest>
     /// </returns>
     public override int GetHashCode()
     {
-        return this.request.GetHashCode() ^ this.count.GetHashCode();
+        return _request.GetHashCode() ^ _count.GetHashCode();
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class FiniteSequenceRequest : IEquatable<FiniteSequenceRequest>
     /// <returns>A number of similar requests.</returns>
     public IEnumerable<object> CreateRequests()
     {
-        return Enumerable.Repeat(this.request, this.count);
+        return Enumerable.Repeat(_request, _count);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class FiniteSequenceRequest : IEquatable<FiniteSequenceRequest>
             return false;
         }
 
-        return this.request.Equals(other.request)
-               && this.count == other.count;
+        return _request.Equals(other._request)
+               && _count == other._count;
     }
 }

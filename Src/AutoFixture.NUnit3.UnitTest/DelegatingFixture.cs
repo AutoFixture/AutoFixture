@@ -7,14 +7,14 @@ namespace AutoFixture.NUnit3.UnitTest;
 
 internal class DelegatingFixture : IFixture
 {
-    private readonly List<ISpecimenBuilder> customizations;
-    private readonly List<ISpecimenBuilder> residueCollectors;
+    private readonly List<ISpecimenBuilder> _customizations;
+    private readonly List<ISpecimenBuilder> _residueCollectors;
 
     public DelegatingFixture()
     {
-        this.customizations = new List<ISpecimenBuilder>();
-        this.residueCollectors = new List<ISpecimenBuilder>();
-        this.OnCreate = (r, s) => new object();
+        _customizations = new List<ISpecimenBuilder>();
+        _residueCollectors = new List<ISpecimenBuilder>();
+        OnCreate = (r, s) => new object();
     }
 
     public IList<ISpecimenBuilderTransformation> Behaviors
@@ -24,7 +24,7 @@ internal class DelegatingFixture : IFixture
 
     public IList<ISpecimenBuilder> Customizations
     {
-        get { return this.customizations; }
+        get { return _customizations; }
     }
 
     public bool OmitAutoProperties { get; set; }
@@ -33,7 +33,7 @@ internal class DelegatingFixture : IFixture
 
     public IList<ISpecimenBuilder> ResidueCollectors
     {
-        get { return this.residueCollectors; }
+        get { return _residueCollectors; }
     }
 
     public void AddManyTo<T>(ICollection<T> collection, Func<T> creator)
@@ -58,7 +58,7 @@ internal class DelegatingFixture : IFixture
 
     public IFixture Customize(ICustomization customization)
     {
-        return this.OnCustomize(customization);
+        return OnCustomize(customization);
     }
 
     public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
@@ -98,7 +98,7 @@ internal class DelegatingFixture : IFixture
 
     public object Create(object request, ISpecimenContext context)
     {
-        return this.OnCreate(request, context);
+        return OnCreate(request, context);
     }
 
     internal Func<object, ISpecimenContext, object> OnCreate { get; set; }

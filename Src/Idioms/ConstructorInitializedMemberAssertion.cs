@@ -43,9 +43,9 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
         IEqualityComparer comparer,
         IEqualityComparer<IReflectionElement> parameterMemberMatcher)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-        this.ParameterMemberMatcher = parameterMemberMatcher ??
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+        ParameterMemberMatcher = parameterMemberMatcher ??
                                       throw new ArgumentNullException(nameof(parameterMemberMatcher));
     }
 
@@ -114,10 +114,10 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
         // matcher with one that behaves the similar to the previous
         // behaviour
         IEqualityComparer<IReflectionElement> matcher =
-            this.ParameterMemberMatcher is DefaultParameterMemberMatcher
+            ParameterMemberMatcher is DefaultParameterMemberMatcher
                 ? new DefaultParameterMemberMatcher(
                     new DefaultParameterMemberMatcher.NameIgnoreCaseAndTypeEqualComparer())
-                : this.ParameterMemberMatcher;
+                : ParameterMemberMatcher;
 
         var firstParameterNotExposed = parameters.FirstOrDefault(
             p => !publicPropertiesAndFields.Any(m =>
@@ -150,7 +150,7 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
     {
         if (propertyInfo == null) throw new ArgumentNullException(nameof(propertyInfo));
 
-        var matchingConstructors = this.GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
+        var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
 
         if (!matchingConstructors.Any())
         {
@@ -173,10 +173,10 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
         }
 
         var expectedAndActual = matchingConstructors
-            .Select(ctor => this.BuildSpecimenFromConstructor(ctor, propertyInfo));
+            .Select(ctor => BuildSpecimenFromConstructor(ctor, propertyInfo));
 
         // Compare the value passed into the constructor with the value returned from the property
-        if (expectedAndActual.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
+        if (expectedAndActual.Any(s => !Comparer.Equals(s.Expected, s.Actual)))
         {
             throw new ConstructorInitializedMemberException(propertyInfo);
         }
@@ -203,7 +203,7 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
     {
         if (fieldInfo == null) throw new ArgumentNullException(nameof(fieldInfo));
 
-        var matchingConstructors = this.GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
+        var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
         if (!matchingConstructors.Any())
         {
             if (RequiresConstructorInitialization(fieldInfo))
@@ -224,10 +224,10 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
         }
 
         var expectedAndActual = matchingConstructors
-            .Select(ctor => this.BuildSpecimenFromConstructor(ctor, fieldInfo));
+            .Select(ctor => BuildSpecimenFromConstructor(ctor, fieldInfo));
 
         // Compare the value passed into the constructor with the value returned from the property
-        if (expectedAndActual.Any(s => !this.Comparer.Equals(s.Expected, s.Actual)))
+        if (expectedAndActual.Any(s => !Comparer.Equals(s.Expected, s.Actual)))
         {
             throw new ConstructorInitializedMemberException(fieldInfo);
         }
@@ -269,13 +269,13 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
             .Select(pi => new
             {
                 Parameter = pi,
-                Value = this.GetParameterValue(pi)
+                Value = GetParameterValue(pi)
             })
             .ToArray();
 
         // Get the value expected to be assigned to the matching member
         var expectedValueForMember = parametersAndValues
-            .Single(p => this.IsMatchingParameterAndMember(p.Parameter, propertyOrField))
+            .Single(p => IsMatchingParameterAndMember(p.Parameter, propertyOrField))
             .Value;
 
         // Construct an instance of the specimen class
@@ -296,13 +296,13 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
         => parameterInfo.ParameterType switch
         {
             { } t when t == typeof(bool) => true,
-            { IsEnum: true } => this.GetEnumParameterValue(parameterInfo),
-            _ => this.Builder.CreateAnonymous(parameterInfo)
+            { IsEnum: true } => GetEnumParameterValue(parameterInfo),
+            _ => Builder.CreateAnonymous(parameterInfo)
         };
 
     private object GetEnumParameterValue(ParameterInfo parameterInfo)
     {
-        var value = this.Builder.CreateAnonymous(parameterInfo);
+        var value = Builder.CreateAnonymous(parameterInfo);
 
         // Ensure enum isn't getting the default value, otherwise
         // we won't be able to determine whether initialization
@@ -312,15 +312,15 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
 
         // If the second consecutive attempt does not yield a non-default result,
         // then the value must have been frozen, so no point trying again.
-        return this.Builder.CreateAnonymous(parameterInfo);
+        return Builder.CreateAnonymous(parameterInfo);
     }
 
     private class ExpectedAndActual
     {
         public ExpectedAndActual(object expected, object actual)
         {
-            this.Expected = expected;
-            this.Actual = actual;
+            Expected = expected;
+            Actual = actual;
         }
 
         public object Expected { get; }
@@ -331,19 +331,19 @@ public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
     private IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
     {
         return member.ReflectedType?.GetConstructors()
-            .Where(ci => this.IsConstructorWithMatchingArgument(ci, member));
+            .Where(ci => IsConstructorWithMatchingArgument(ci, member));
     }
 
     private bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
     {
-        return this.ParameterMemberMatcher.Equals(
+        return ParameterMemberMatcher.Equals(
             fieldOrProperty.ToReflectionElement(), parameter.ToReflectionElement());
     }
 
     private bool IsConstructorWithMatchingArgument(ConstructorInfo ci, MemberInfo memberInfo)
     {
         return ci.GetParameters().Any(parameterElement =>
-            this.IsMatchingParameterAndMember(parameterElement, memberInfo));
+            IsMatchingParameterAndMember(parameterElement, memberInfo));
     }
 
     private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)

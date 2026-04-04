@@ -21,8 +21,8 @@ public class MultiUnorderedConstructorType
             throw new ArgumentNullException(nameof(text));
         }
 
-        this.Text = text;
-        this.Number = number;
+        Text = text;
+        Number = number;
     }
 
     public string Text { get; }
@@ -38,8 +38,8 @@ public class MultiUnorderedConstructorType
                 throw new ArgumentNullException(nameof(text));
             }
 
-            this.Text = text;
-            this.Number = number;
+            Text = text;
+            Number = number;
         }
 
         public string Text { get; }

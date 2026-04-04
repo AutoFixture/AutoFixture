@@ -16,7 +16,7 @@ public class ReflectionExceptionUnwrappingCommand : IGuardClauseCommand
     /// <param name="command">The decorated command.</param>
     public ReflectionExceptionUnwrappingCommand(IGuardClauseCommand command)
     {
-        this.Command = command;
+        Command = command;
     }
 
     /// <summary>
@@ -25,10 +25,10 @@ public class ReflectionExceptionUnwrappingCommand : IGuardClauseCommand
     public IGuardClauseCommand Command { get; }
 
     /// <inheritdoc />
-    public Type RequestedType => this.Command.RequestedType;
+    public Type RequestedType => Command.RequestedType;
 
     /// <inheritdoc />
-    public string RequestedParameterName => this.Command.RequestedParameterName;
+    public string RequestedParameterName => Command.RequestedParameterName;
 
     /// <summary>
     /// Executes the action on the decorated <see cref="Command" />. If a
@@ -40,7 +40,7 @@ public class ReflectionExceptionUnwrappingCommand : IGuardClauseCommand
     {
         try
         {
-            this.Command.Execute(value);
+            Command.Execute(value);
         }
         catch (TargetInvocationException e)
         {
@@ -51,18 +51,18 @@ public class ReflectionExceptionUnwrappingCommand : IGuardClauseCommand
     /// <inheritdoc />
     public Exception CreateException(string value)
     {
-        return this.Command.CreateException(value);
+        return Command.CreateException(value);
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value, Exception innerException)
     {
-        return this.Command.CreateException(value, innerException);
+        return Command.CreateException(value, innerException);
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value, string customError, Exception innerException)
     {
-        return this.Command.CreateException(value, customError, innerException);
+        return Command.CreateException(value, customError, innerException);
     }
 }

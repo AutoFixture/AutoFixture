@@ -528,7 +528,7 @@ public class Scenario
             yield return new object[] { "dim", "sum", "dimsum" };
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     public class MixedDataClass : IEnumerable<object[]>
@@ -540,27 +540,27 @@ public class Scenario
             yield return new object[] { 20, "otherValue", new PropertyHolder<string> { Property = "testValue1" } };
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     public class ParameterizedDataClass : IEnumerable<object[]>
     {
-        private readonly int p1;
-        private readonly string p2;
-        private readonly double p3;
+        private readonly int _p1;
+        private readonly string _p2;
+        private readonly double _p3;
 
         public ParameterizedDataClass(int p1, string p2, double p3)
         {
-            this.p1 = p1;
-            this.p2 = p2;
-            this.p3 = p3;
+            _p1 = p1;
+            _p2 = p2;
+            _p3 = p3;
         }
 
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { this.p1, this.p2, this.p3 };
+            yield return new object[] { _p1, _p2, _p3 };
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

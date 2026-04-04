@@ -13,7 +13,7 @@ namespace AutoFixture.AutoMoq;
 /// </remarks>
 public class AutoMoqCustomization : ICustomization
 {
-    private ISpecimenBuilder relay;
+    private ISpecimenBuilder _relay;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AutoMoqCustomization"/> class.
@@ -39,7 +39,7 @@ public class AutoMoqCustomization : ICustomization
               "Please use the AutoMoqCustomization() overload (without arguments) instead and set the Relay property.")]
     public AutoMoqCustomization(ISpecimenBuilder relay)
     {
-        this.relay = relay ?? throw new ArgumentNullException(nameof(relay));
+        _relay = relay ?? throw new ArgumentNullException(nameof(relay));
     }
 
     /// <summary>
@@ -59,8 +59,8 @@ public class AutoMoqCustomization : ICustomization
     /// </summary>
     public ISpecimenBuilder Relay
     {
-        get => this.relay;
-        set => this.relay = value ?? throw new ArgumentNullException(nameof(value));
+        get => _relay;
+        set => _relay = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class AutoMoqCustomization : ICustomization
                 new MockConstructorQuery()));
 
         // If members should be automatically configured, wrap the builder with members setup postprocessor.
-        if (this.ConfigureMembers)
+        if (ConfigureMembers)
         {
             mockBuilder = new Postprocessor(
                 builder: mockBuilder,
@@ -87,9 +87,9 @@ public class AutoMoqCustomization : ICustomization
         }
 
         fixture.Customizations.Add(mockBuilder);
-        fixture.ResidueCollectors.Add(this.Relay);
+        fixture.ResidueCollectors.Add(Relay);
 
-        if (this.GenerateDelegates)
+        if (GenerateDelegates)
         {
             fixture.Customizations.Add(new MockRelay(new DelegateSpecification()));
         }

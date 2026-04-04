@@ -7,24 +7,24 @@ namespace AutoFixture.AutoNSubstitute;
           "Use the NSubstituteRegisterCallHandlerCommand class and its dependencies instead.")]
 internal class NoSetupCallbackHandler : ICallHandler
 {
-    private readonly ISubstituteState state;
-    private readonly Action action;
+    private readonly ISubstituteState _state;
+    private readonly Action _action;
 
     public NoSetupCallbackHandler(ISubstituteState state, Action action)
     {
-        this.state = state ?? throw new ArgumentNullException(nameof(state));
-        this.action = action ?? throw new ArgumentNullException(nameof(action));
+        _state = state ?? throw new ArgumentNullException(nameof(state));
+        _action = action ?? throw new ArgumentNullException(nameof(action));
     }
 
     public bool HasResultFor(ICall call)
     {
-        return CompatShim.CallResults_HasCallResultFor(this.state.CallResults, call);
+        return CompatShim.CallResults_HasCallResultFor(_state.CallResults, call);
     }
 
     RouteAction ICallHandler.Handle(ICall call)
     {
-        if (!this.HasResultFor(call))
-            this.action();
+        if (!HasResultFor(call))
+            _action();
 
         return RouteAction.Continue();
     }

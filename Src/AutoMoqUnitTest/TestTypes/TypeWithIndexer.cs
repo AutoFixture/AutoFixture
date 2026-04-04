@@ -2,11 +2,11 @@
 
 public class TypeWithIndexer
 {
-    private readonly int[] array = new[] { -99, -99, -99 };
+    private readonly int[] _array = new[] { -99, -99, -99 };
 
     public int this[int index]
     {
-        get { return this.array[index]; }
-        set { this.array[index] = value; }
+        get { return _array[index]; }
+        set { _array[index] = value; }
     }
 }

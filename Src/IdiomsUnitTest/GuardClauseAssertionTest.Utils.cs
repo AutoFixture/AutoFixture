@@ -26,7 +26,7 @@ public partial class GuardClauseAssertionTest
     {
         public MemberRef(T member)
         {
-            this.Member = member;
+            Member = member;
         }
 
         public T Member { get; }
@@ -34,12 +34,12 @@ public partial class GuardClauseAssertionTest
         public override string ToString()
         {
             var str = new StringBuilder();
-            str.Append(GetNonMangledTypeName(this.Member.DeclaringType));
+            str.Append(GetNonMangledTypeName(Member.DeclaringType));
             str.Append('.');
 
-            str.Append(this.Member.Name);
+            str.Append(Member.Name);
 
-            var methodBase = this.Member as MethodBase;
+            var methodBase = Member as MethodBase;
             if (methodBase != null)
             {
                 str.Append('(');

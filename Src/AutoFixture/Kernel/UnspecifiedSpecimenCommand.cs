@@ -16,7 +16,7 @@ public class UnspecifiedSpecimenCommand<T> : ISpecifiedSpecimenCommand<T>
     /// <param name="action">The action to perform on a specimen.</param>
     public UnspecifiedSpecimenCommand(Action<T> action)
     {
-        this.Action = action ?? throw new ArgumentNullException(nameof(action));
+        Action = action ?? throw new ArgumentNullException(nameof(action));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class UnspecifiedSpecimenCommand<T> : ISpecifiedSpecimenCommand<T>
     /// </param>
     public void Execute(T specimen, ISpecimenContext context)
     {
-        this.Action(specimen);
+        Action(specimen);
     }
 
     /// <summary>

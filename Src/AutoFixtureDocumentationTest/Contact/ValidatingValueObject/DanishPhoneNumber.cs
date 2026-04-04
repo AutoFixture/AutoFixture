@@ -12,7 +12,7 @@ public class DanishPhoneNumber
         {
             throw new ArgumentOutOfRangeException(nameof(number));
         }
-        this.RawNumber = number;
+        RawNumber = number;
     }
 
     public static bool IsValid(int number)

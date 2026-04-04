@@ -29,7 +29,7 @@ public class SpecifiedNullCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
     {
         if (propertyPicker == null) throw new ArgumentNullException(nameof(propertyPicker));
 
-        this.Member = propertyPicker.GetWritableMember().Member;
+        Member = propertyPicker.GetWritableMember().Member;
     }
 
     /// <summary>
@@ -60,6 +60,6 @@ public class SpecifiedNullCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
         if (request == null) throw new ArgumentNullException(nameof(request));
 
         IEqualityComparer comparer = new MemberInfoEqualityComparer();
-        return comparer.Equals(this.Member, request);
+        return comparer.Equals(Member, request);
     }
 }

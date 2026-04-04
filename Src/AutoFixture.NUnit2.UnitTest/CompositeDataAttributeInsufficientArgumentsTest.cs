@@ -12,11 +12,11 @@ namespace AutoFixture.NUnit2.UnitTest;
 [TestFixture]
 public class CompositeDataAttributeInsufficientArgumentsTest : IEnumerable<object[]>
 {
-    private readonly MethodInfo method;
+    private readonly MethodInfo _method;
 
     public CompositeDataAttributeInsufficientArgumentsTest()
     {
-        this.method = typeof(TypeWithOverloadedMembers)
+        _method = typeof(TypeWithOverloadedMembers)
             .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
     }
 
@@ -26,7 +26,7 @@ public class CompositeDataAttributeInsufficientArgumentsTest : IEnumerable<objec
         // Arrange
         // Act & Assert
         Assert.Throws<InvalidOperationException>(
-            () => { new CompositeDataAttribute(attributes).GetData(this.method).ToList(); });
+            () => { new CompositeDataAttribute(attributes).GetData(_method).ToList(); });
     }
 
     public IEnumerator<object[]> GetEnumerator()
@@ -35,53 +35,53 @@ public class CompositeDataAttributeInsufficientArgumentsTest : IEnumerable<objec
         yield return CreateTestCase(
             data: new[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 3, 4 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 3, 4 } })
             });
 
         yield return CreateTestCase(
             data: new[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1    } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1    } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 2, 3 } })
             });
 
         yield return CreateTestCase(
             data: new[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1    } }),
-                new FakeDataAttribute(this.method, new[] { new object[] {      } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1    } }),
+                new FakeDataAttribute(_method, new[] { new object[] {      } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 2, 3 } })
             });
 
         yield return CreateTestCase(
             data: new[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 2 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 3 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 2 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 3 } })
             });
 
         yield return CreateTestCase(
             data: new[]
             {
-                new FakeDataAttribute(this.method, new[] {  new object[] { 1, 2    },  new object[] {  3,  4     }, new object[] { 5, 6 } }),
-                new FakeDataAttribute(this.method, new[] {  new object[] { 7, 8, 9 },  new object[] { 10, 11, 12 }                        })
+                new FakeDataAttribute(_method, new[] {  new object[] { 1, 2    },  new object[] {  3,  4     }, new object[] { 5, 6 } }),
+                new FakeDataAttribute(_method, new[] {  new object[] { 7, 8, 9 },  new object[] { 10, 11, 12 }                        })
             });
 
         yield return CreateTestCase(
             data: new[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] {  1,  2     }, new object[] {  3,  4     }, new object[] { 5, 6 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] {  7,  8,  9 }, new object[] { 10, 11, 12 }                        }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 13, 14, 15 }                                                     })
+                new FakeDataAttribute(_method, new[] { new object[] {  1,  2     }, new object[] {  3,  4     }, new object[] { 5, 6 } }),
+                new FakeDataAttribute(_method, new[] { new object[] {  7,  8,  9 }, new object[] { 10, 11, 12 }                        }),
+                new FakeDataAttribute(_method, new[] { new object[] { 13, 14, 15 }                                                     })
             });
 #pragma warning restore SA1025 // Code should not contain multiple whitespace in a row
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     private static object[] CreateTestCase(object[] data)

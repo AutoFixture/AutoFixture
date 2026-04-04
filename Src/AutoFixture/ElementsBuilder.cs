@@ -10,8 +10,8 @@ namespace AutoFixture;
 /// </summary>
 public sealed class ElementsBuilder<T> : ISpecimenBuilder
 {
-    private readonly T[] elements;
-    private readonly RandomNumericSequenceGenerator sequence;
+    private readonly T[] _elements;
+    private readonly RandomNumericSequenceGenerator _sequence;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
@@ -28,9 +28,9 @@ public sealed class ElementsBuilder<T> : ISpecimenBuilder
     {
         if (elements == null) throw new ArgumentNullException(nameof(elements));
 
-        this.elements = elements.ToArray();
+        _elements = elements.ToArray();
 
-        if (this.elements.Length < 1)
+        if (_elements.Length < 1)
         {
             throw new ArgumentException(
                 "The supplied collection of elements must contain at least one element. " +
@@ -40,8 +40,8 @@ public sealed class ElementsBuilder<T> : ISpecimenBuilder
         }
 
         // The RandomNumericSequenceGenerator is only created for collections of minimum 2 elements
-        if (this.elements.Length > 1)
-            this.sequence = new RandomNumericSequenceGenerator(0, this.elements.Length - 1);
+        if (_elements.Length > 1)
+            _sequence = new RandomNumericSequenceGenerator(0, _elements.Length - 1);
     }
 
     /// <summary>
@@ -58,14 +58,14 @@ public sealed class ElementsBuilder<T> : ISpecimenBuilder
         if (!typeof(T).Equals(request))
             return NoSpecimen.Instance;
 
-        return this.elements[this.GetNextIndex()];
+        return _elements[GetNextIndex()];
     }
 
     private int GetNextIndex()
     {
-        if (this.elements.Length == 1)
+        if (_elements.Length == 1)
             return 0;
         else
-            return (int)this.sequence.Create(typeof(int));
+            return (int)_sequence.Create(typeof(int));
     }
 }

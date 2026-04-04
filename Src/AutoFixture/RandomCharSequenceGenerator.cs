@@ -9,7 +9,7 @@ namespace AutoFixture;
 /// </summary>
 public class RandomCharSequenceGenerator : ISpecimenBuilder
 {
-    private readonly RandomNumericSequenceGenerator randomPrintableCharNumbers;
+    private readonly RandomNumericSequenceGenerator _randomPrintableCharNumbers;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -17,7 +17,7 @@ public class RandomCharSequenceGenerator : ISpecimenBuilder
     /// </summary>
     public RandomCharSequenceGenerator()
     {
-        this.randomPrintableCharNumbers = new RandomNumericSequenceGenerator(33, 126);
+        _randomPrintableCharNumbers = new RandomNumericSequenceGenerator(33, 126);
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public class RandomCharSequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
 
         return Convert.ToChar(
-            this.randomPrintableCharNumbers.Create(typeof(int), context),
+            _randomPrintableCharNumbers.Create(typeof(int), context),
             CultureInfo.CurrentCulture);
     }
 }

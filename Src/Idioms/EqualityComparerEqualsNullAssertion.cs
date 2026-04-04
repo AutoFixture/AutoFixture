@@ -42,8 +42,8 @@ public class EqualityComparerEqualsNullAssertion : EqualityComparerEqualsAsserti
         if (argumentType == null) throw new ArgumentNullException(nameof(argumentType));
         if (methodInfo.ReflectedType!.IsValueType) return;
 
-        var comparer = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
-        var testSubject = this.Builder.CreateAnonymous(argumentType);
+        var comparer = Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var testSubject = Builder.CreateAnonymous(argumentType);
 
         var result = (bool)methodInfo.Invoke(comparer, new[] { testSubject, null });
 

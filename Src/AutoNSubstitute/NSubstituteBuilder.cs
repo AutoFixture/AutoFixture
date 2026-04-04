@@ -31,8 +31,8 @@ public class NSubstituteBuilder : ISpecimenBuilder
     /// <seealso cref="SubstitutionSpecification"/>
     public NSubstituteBuilder(ISpecimenBuilder builder, IRequestSpecification substitutionSpecification)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.SubstitutionSpecification = substitutionSpecification ?? throw new ArgumentNullException(nameof(substitutionSpecification));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        SubstitutionSpecification = substitutionSpecification ?? throw new ArgumentNullException(nameof(substitutionSpecification));
     }
 
     /// <summary>Gets the decorated builder supplied through the constructor.</summary>
@@ -60,10 +60,10 @@ public class NSubstituteBuilder : ISpecimenBuilder
     /// </remarks>
     public object Create(object request, ISpecimenContext context)
     {
-        if (!this.SubstitutionSpecification.IsSatisfiedBy(request))
+        if (!SubstitutionSpecification.IsSatisfiedBy(request))
             return NoSpecimen.Instance;
 
-        var substitute = this.Builder.Create(request, context);
+        var substitute = Builder.Create(request, context);
         if (substitute == null)
             return NoSpecimen.Instance;
 

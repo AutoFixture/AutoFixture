@@ -38,8 +38,8 @@ public class FieldTypeAndNameCriterion : IEquatable<FieldInfo>
     /// </exception>
     public FieldTypeAndNameCriterion(IEquatable<Type> typeCriterion, IEquatable<string> nameCriterion)
     {
-        this.TypeCriterion = typeCriterion ?? throw new ArgumentNullException(nameof(typeCriterion));
-        this.NameCriterion = nameCriterion ?? throw new ArgumentNullException(nameof(nameCriterion));
+        TypeCriterion = typeCriterion ?? throw new ArgumentNullException(nameof(typeCriterion));
+        NameCriterion = nameCriterion ?? throw new ArgumentNullException(nameof(nameCriterion));
     }
 
     /// <summary>
@@ -67,8 +67,8 @@ public class FieldTypeAndNameCriterion : IEquatable<FieldInfo>
         if (other == null)
             return false;
 
-        return this.TypeCriterion.Equals(other.FieldType)
-               && this.NameCriterion.Equals(other.Name);
+        return TypeCriterion.Equals(other.FieldType)
+               && NameCriterion.Equals(other.Name);
     }
 
     /// <summary>
@@ -95,8 +95,8 @@ public class FieldTypeAndNameCriterion : IEquatable<FieldInfo>
         if (other == null)
             return base.Equals(obj);
 
-        return object.Equals(this.TypeCriterion, other.TypeCriterion)
-               && object.Equals(this.NameCriterion, other.NameCriterion);
+        return object.Equals(TypeCriterion, other.TypeCriterion)
+               && object.Equals(NameCriterion, other.NameCriterion);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class FieldTypeAndNameCriterion : IEquatable<FieldInfo>
     public override int GetHashCode()
     {
         return
-            this.TypeCriterion.GetHashCode() ^
-            this.NameCriterion.GetHashCode();
+            TypeCriterion.GetHashCode() ^
+            NameCriterion.GetHashCode();
     }
 }

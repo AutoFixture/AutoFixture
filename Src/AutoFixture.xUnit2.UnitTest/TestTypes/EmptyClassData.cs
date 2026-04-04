@@ -10,5 +10,5 @@ public class EmptyClassData : IEnumerable<object[]>
         yield break;
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

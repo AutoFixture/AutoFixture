@@ -24,7 +24,7 @@ public class SubstituteRequestHandler : ISpecimenBuilder
     /// </param>
     public SubstituteRequestHandler(ISpecimenBuilder substituteFactory)
     {
-        this.SubstituteFactory = substituteFactory ?? throw new ArgumentNullException(nameof(substituteFactory));
+        SubstituteFactory = substituteFactory ?? throw new ArgumentNullException(nameof(substituteFactory));
     }
 
     /// <summary>
@@ -48,6 +48,6 @@ public class SubstituteRequestHandler : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        return this.SubstituteFactory.Create(substituteRequest.TargetType, context);
+        return SubstituteFactory.Create(substituteRequest.TargetType, context);
     }
 }

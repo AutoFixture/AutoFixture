@@ -4,15 +4,15 @@ namespace AutoFixtureDocumentationTest.Intermediate;
 
 public class MyClass
 {
-    private readonly IMyInterface d;
+    private readonly IMyInterface _d;
 
     public MyClass(IMyInterface mi)
     {
-        this.d = mi;
+        _d = mi;
     }
 
     public int CalculateSumOfThings()
     {
-        return this.d.ThingNumbers.Sum();
+        return _d.ThingNumbers.Sum();
     }
 }

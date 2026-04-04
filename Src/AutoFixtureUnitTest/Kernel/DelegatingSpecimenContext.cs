@@ -7,12 +7,12 @@ internal class DelegatingSpecimenContext : ISpecimenContext
 {
     public DelegatingSpecimenContext()
     {
-        this.OnResolve = r => null;
+        OnResolve = r => null;
     }
 
     public object Resolve(object request)
     {
-        return this.OnResolve(request);
+        return OnResolve(request);
     }
 
     internal Func<object, object> OnResolve { get; set; }

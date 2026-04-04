@@ -11,12 +11,12 @@ namespace AutoFixtureUnitTest;
 
 public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
 {
-    private readonly ISpecimenBuilderNode graph;
-    private readonly SingletonSpecimenBuilderNodeStackAdapterCollection sut;
+    private readonly ISpecimenBuilderNode _graph;
+    private readonly SingletonSpecimenBuilderNodeStackAdapterCollection _sut;
 
     public SingletonSpecimenBuilderNodeStackAdapterCollectionTest()
     {
-        this.graph = new MarkerNode(
+        _graph = new MarkerNode(
             new CompositeSpecimenBuilder(
                 new CompositeSpecimenBuilder(
                     new DelegatingSpecimenBuilder(),
@@ -28,19 +28,19 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
                 new CompositeSpecimenBuilder(new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder())));
-        this.sut = new SingletonSpecimenBuilderNodeStackAdapterCollection(this.graph, n => n is MarkerNode);
+        _sut = new SingletonSpecimenBuilderNodeStackAdapterCollection(_graph, n => n is MarkerNode);
     }
 
     [Fact]
     public void SutIsSpecimenBuilderTransformationList()
     {
-        Assert.IsAssignableFrom<IList<ISpecimenBuilderTransformation>>(this.sut);
+        Assert.IsAssignableFrom<IList<ISpecimenBuilderTransformation>>(_sut);
     }
 
     [Fact]
     public void SutIsCollection()
     {
-        Assert.IsAssignableFrom<Collection<ISpecimenBuilderTransformation>>(this.sut);
+        Assert.IsAssignableFrom<Collection<ISpecimenBuilderTransformation>>(_sut);
     }
 
     [Fact]
@@ -48,9 +48,9 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     {
         // Arrange
         // Act
-        ISpecimenBuilderNode actual = this.sut.Graph;
+        ISpecimenBuilderNode actual = _sut.Graph;
         // Assert
-        Assert.Equal(this.graph, actual);
+        Assert.Equal(_graph, actual);
     }
 
     [Fact]
@@ -58,11 +58,11 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == _sut.Graph;
         // Act
         var dummyIndex = 0;
         var dummyItem = new DelegatingSpecimenBuilderTransformation();
-        this.sut.Insert(dummyIndex, dummyItem);
+        _sut.Insert(dummyIndex, dummyItem);
         // Assert
         Assert.True(verified);
     }
@@ -71,12 +71,12 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void RemoveAtRaisesGraphChanged()
     {
         // Arrange
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation());
+        _sut.Add(new DelegatingSpecimenBuilderTransformation());
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == _sut.Graph;
         // Act
         var dummyIndex = 0;
-        this.sut.RemoveAt(dummyIndex);
+        _sut.RemoveAt(dummyIndex);
         // Assert
         Assert.True(verified);
     }
@@ -85,13 +85,13 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void SetItemRaisesGraphChanged()
     {
         // Arrange
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation());
+        _sut.Add(new DelegatingSpecimenBuilderTransformation());
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == _sut.Graph;
         // Act
         var dummyIndex = 0;
         var dummyItem = new DelegatingSpecimenBuilderTransformation();
-        this.sut[dummyIndex] = dummyItem;
+        _sut[dummyIndex] = dummyItem;
         // Assert
         Assert.True(verified);
     }
@@ -101,10 +101,10 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == _sut.Graph;
         // Act
         var dummyItem = new DelegatingSpecimenBuilderTransformation();
-        this.sut.Add(dummyItem);
+        _sut.Add(dummyItem);
         // Assert
         Assert.True(verified);
     }
@@ -113,11 +113,11 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void ClearNonEmptyCollectionRaisesGraphChanged()
     {
         // Arrange
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation());
+        _sut.Add(new DelegatingSpecimenBuilderTransformation());
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == _sut.Graph;
         // Act
-        this.sut.Clear();
+        _sut.Clear();
         // Assert
         Assert.True(verified);
     }
@@ -126,11 +126,11 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void ClearEmptyCollectionDoesNotRaiseGraphChanged()
     {
         // Arrange
-        this.sut.Clear();
+        _sut.Clear();
         var invoked = false;
-        this.sut.GraphChanged += (s, e) => invoked = true;
+        _sut.GraphChanged += (s, e) => invoked = true;
         // Act
-        this.sut.Clear();
+        _sut.Clear();
         // Assert
         Assert.False(invoked);
     }
@@ -140,12 +140,12 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     {
         // Arrange
         var item = new DelegatingSpecimenBuilderTransformation();
-        this.sut.Add(item);
+        _sut.Add(item);
 
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == this.sut.Graph;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null && e.Graph == _sut.Graph;
         // Act
-        this.sut.Remove(item);
+        _sut.Remove(item);
         // Assert
         Assert.True(verified);
     }
@@ -156,9 +156,9 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
         // Arrange
         var item = new DelegatingSpecimenBuilderTransformation();
         var invoked = false;
-        this.sut.GraphChanged += (s, e) => invoked = true;
+        _sut.GraphChanged += (s, e) => invoked = true;
         // Act
-        this.sut.Remove(item);
+        _sut.Remove(item);
         // Assert
         Assert.False(invoked);
     }
@@ -170,18 +170,18 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void InsertItemCorrectlyChangesGraph(int index)
     {
         // Arrange
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
         // Act
         var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(index, b) };
-        this.sut.Insert(index, item);
+        _sut.Insert(index, item);
         // Assert
-        var expected = this.sut.Aggregate(
-            this.graph,
+        var expected = _sut.Aggregate(
+            _graph,
             (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
-        Assert.True(expected.GraphEquals(this.sut.Graph,
+        Assert.True(expected.GraphEquals(_sut.Graph,
             new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
     }
 
@@ -189,13 +189,13 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void ClearCorrectlyChangesGraph()
     {
         // Arrange
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
         // Act
-        this.sut.Clear();
+        _sut.Clear();
         // Assert
-        Assert.True(this.graph.GraphEquals(this.sut.Graph,
+        Assert.True(_graph.GraphEquals(_sut.Graph,
             new TrueComparer<ISpecimenBuilder>()));
     }
 
@@ -206,17 +206,17 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void RemoveAtCorrectlyChangesGraph(int index)
     {
         // Arrange
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
         // Act
-        this.sut.RemoveAt(index);
+        _sut.RemoveAt(index);
         // Assert
-        var expected = this.sut.Aggregate(
-            this.graph,
+        var expected = _sut.Aggregate(
+            _graph,
             (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
-        Assert.True(expected.GraphEquals(this.sut.Graph,
+        Assert.True(expected.GraphEquals(_sut.Graph,
             new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
     }
 
@@ -227,18 +227,18 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     public void SetItemCorrectlyChangesGraph(int index)
     {
         // Arrange
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
-        this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
+        _sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
         // Act
         var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(index, b) };
-        this.sut[index] = item;
+        _sut[index] = item;
         // Assert
-        var expected = this.sut.Aggregate(
-            this.graph,
+        var expected = _sut.Aggregate(
+            _graph,
             (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
-        Assert.True(expected.GraphEquals(this.sut.Graph,
+        Assert.True(expected.GraphEquals(_sut.Graph,
             new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
     }
 
@@ -251,7 +251,7 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
         var z = new DelegatingSpecimenBuilderTransformation();
         // Act
         var s = new SingletonSpecimenBuilderNodeStackAdapterCollection(
-            this.graph, n => n is MarkerNode, x, y, z);
+            _graph, n => n is MarkerNode, x, y, z);
         // Assert
         Assert.True(new[] { x, y, z }.SequenceEqual(s));
     }

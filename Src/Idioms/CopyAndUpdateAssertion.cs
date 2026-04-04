@@ -54,9 +54,9 @@ public class CopyAndUpdateAssertion : IdiomaticAssertion
         IEqualityComparer comparer,
         IEqualityComparer<IReflectionElement> parameterMemberMatcher)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-        this.ParameterMemberMatcher = parameterMemberMatcher ?? throw new ArgumentNullException(nameof(parameterMemberMatcher));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+        ParameterMemberMatcher = parameterMemberMatcher ?? throw new ArgumentNullException(nameof(parameterMemberMatcher));
     }
 
     /// <summary>
@@ -134,8 +134,8 @@ public class CopyAndUpdateAssertion : IdiomaticAssertion
                 select new
                 {
                     Parameter = parameter,
-                    Member = publicMembers.FirstOrDefault(m => this.IsMatchingParameterAndMember(parameter, m)),
-                    Value = this.Builder.CreateAnonymous(parameter)
+                    Member = publicMembers.FirstOrDefault(m => IsMatchingParameterAndMember(parameter, m)),
+                    Value = Builder.CreateAnonymous(parameter)
                 })
             .ToArray();
 
@@ -148,7 +148,7 @@ public class CopyAndUpdateAssertion : IdiomaticAssertion
         }
 
         // Build a specimen and invoke the 'Copy and update' method
-        var specimen = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var specimen = Builder.CreateAnonymous(methodInfo.ReflectedType);
         var copiedAndUpdatedSpecimen = methodInfo.Invoke(specimen, parameters.Select(p => p.Value).ToArray());
         VerifyCopiedAndUpdatedSpecimenType(methodInfo, copiedAndUpdatedSpecimen, specimen);
 
@@ -164,7 +164,7 @@ public class CopyAndUpdateAssertion : IdiomaticAssertion
                     .Value
                     .Single()
             })
-            .FirstOrDefault(p => !this.Comparer.Equals(p.Expected, p.Actual));
+            .FirstOrDefault(p => !Comparer.Equals(p.Expected, p.Actual));
 
         if (firstUpdatedParameterWithUnexpectedValue != null)
         {
@@ -174,7 +174,7 @@ public class CopyAndUpdateAssertion : IdiomaticAssertion
         // Verify each member without a matching update parameter, remained unchanged
         var firstNonEqualMemberExpectedToBeEqual = publicMembers
             .Except(parameters.Select(p => p.Member))
-            .FirstOrDefault(m => !this.AreMemberValuesEqual(specimen, copiedAndUpdatedSpecimen, m));
+            .FirstOrDefault(m => !AreMemberValuesEqual(specimen, copiedAndUpdatedSpecimen, m));
 
         if (firstNonEqualMemberExpectedToBeEqual != null)
         {
@@ -237,7 +237,7 @@ public class CopyAndUpdateAssertion : IdiomaticAssertion
             copiedAndUpdatedMemberValue = fieldInfo.GetValue(copiedAndUpdatedSpecimen);
         }
 
-        return this.Comparer.Equals(specimenMemberValue, copiedAndUpdatedMemberValue);
+        return Comparer.Equals(specimenMemberValue, copiedAndUpdatedMemberValue);
     }
 
     private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
@@ -249,7 +249,7 @@ public class CopyAndUpdateAssertion : IdiomaticAssertion
 
     private bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
     {
-        return this.ParameterMemberMatcher.Equals(
+        return ParameterMemberMatcher.Equals(
             parameter.ToReflectionElement(), fieldOrProperty.ToReflectionElement());
     }
 

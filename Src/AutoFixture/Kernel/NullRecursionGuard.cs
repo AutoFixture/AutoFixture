@@ -52,6 +52,6 @@ public class NullRecursionGuard : RecursionGuard
         if (builders == null) throw new ArgumentNullException(nameof(builders));
 
         var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-        return new NullRecursionGuard(builder, this.Comparer);
+        return new NullRecursionGuard(builder, Comparer);
     }
 }

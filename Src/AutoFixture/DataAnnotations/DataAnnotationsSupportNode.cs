@@ -28,13 +28,13 @@ public class DataAnnotationsSupportNode : ISpecimenBuilderNode
     /// <param name="builder">Builder that handles all the data annotation related requests.</param>
     public DataAnnotationsSupportNode(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
-        return this.Builder.Create(request, context);
+        return Builder.Create(request, context);
     }
 
     /// <inheritdoc />
@@ -48,9 +48,9 @@ public class DataAnnotationsSupportNode : ISpecimenBuilderNode
     /// <inheritdoc />
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     /// <inheritdoc />
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

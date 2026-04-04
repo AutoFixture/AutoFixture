@@ -4,7 +4,7 @@ public class TypeWithPrivateProperty
 {
     public TypeWithPrivateProperty()
     {
-        this.PrivateProperty = "Awesome string";
+        PrivateProperty = "Awesome string";
     }
 
     // ReSharper disable UnusedAutoPropertyAccessor.Local

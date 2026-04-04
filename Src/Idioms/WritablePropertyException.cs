@@ -15,7 +15,7 @@ namespace AutoFixture.Idioms;
 public class WritablePropertyException : Exception
 {
     [NonSerialized]
-    private readonly PropertyInfo propertyInfo;
+    private readonly PropertyInfo _propertyInfo;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WritablePropertyException"/> class.
@@ -36,7 +36,7 @@ public class WritablePropertyException : Exception
     public WritablePropertyException(PropertyInfo propertyInfo, string message)
         : base(message)
     {
-        this.propertyInfo = propertyInfo;
+        _propertyInfo = propertyInfo;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class WritablePropertyException : Exception
     public WritablePropertyException(PropertyInfo propertyInfo, string message, Exception innerException)
         : base(message, innerException)
     {
-        this.propertyInfo = propertyInfo;
+        _propertyInfo = propertyInfo;
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public class WritablePropertyException : Exception
         : base(info, context)
     {
 #if SERIALIZABLE_MEMBERINFO
-            this.propertyInfo = (PropertyInfo)info.GetValue("PropertyInfo", typeof(PropertyInfo));
+            _propertyInfo = (PropertyInfo)info.GetValue("PropertyInfo", typeof(PropertyInfo));
 #endif
     }
 
@@ -81,7 +81,7 @@ public class WritablePropertyException : Exception
     /// Notice, value might null after deserialization on platforms that don't support <see cref="PropertyInfo"/> serialization.
     /// </remarks>
     /// </summary>
-    public PropertyInfo PropertyInfo => this.propertyInfo;
+    public PropertyInfo PropertyInfo => _propertyInfo;
 
     /// <summary>
     /// Adds <see cref="PropertyInfo" /> to a
@@ -101,7 +101,7 @@ public class WritablePropertyException : Exception
         base.GetObjectData(info, context);
 
 #if SERIALIZABLE_MEMBERINFO
-        info.AddValue("PropertyInfo", this.propertyInfo);
+        info.AddValue("PropertyInfo", _propertyInfo);
 #endif
     }
 

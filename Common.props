@@ -17,6 +17,8 @@
 
     <Deterministic>true</Deterministic>
 
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
     <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
     <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
 

@@ -7,12 +7,12 @@ public class DelegatingSpecimenBuilderTransformation : ISpecimenBuilderTransform
 {
     public DelegatingSpecimenBuilderTransformation()
     {
-        this.OnTransform = b => (ISpecimenBuilderNode)b;
+        OnTransform = b => (ISpecimenBuilderNode)b;
     }
 
     public ISpecimenBuilderNode Transform(ISpecimenBuilder builder)
     {
-        return this.OnTransform(builder);
+        return OnTransform(builder);
     }
 
     internal Func<ISpecimenBuilder, ISpecimenBuilderNode> OnTransform { get; set; }

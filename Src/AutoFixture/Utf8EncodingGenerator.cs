@@ -11,7 +11,7 @@ namespace AutoFixture;
 [Obsolete("Please use a 'AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]
 public class Utf8EncodingGenerator : ISpecimenBuilder
 {
-    private readonly ExactTypeSpecification encodingTypeSpecification = new ExactTypeSpecification(typeof(Encoding));
+    private readonly ExactTypeSpecification _encodingTypeSpecification = new ExactTypeSpecification(typeof(Encoding));
 
     /// <summary>
     /// Generates a Encoding specimen based on a <see cref="Encoding"/> type request.
@@ -31,7 +31,7 @@ public class Utf8EncodingGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        if (!this.encodingTypeSpecification.IsSatisfiedBy(request))
+        if (!_encodingTypeSpecification.IsSatisfiedBy(request))
         {
             return NoSpecimen.Instance;
         }

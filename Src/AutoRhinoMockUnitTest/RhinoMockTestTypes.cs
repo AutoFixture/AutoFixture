@@ -4,11 +4,11 @@ public class RhinoMockTestTypes
 {
     public abstract class AnotherAbstractTypeWithNonDefaultConstructor<T>
     {
-        private readonly T value;
+        private readonly T _value;
 
         protected AnotherAbstractTypeWithNonDefaultConstructor(T value)
         {
-            this.value = value;
+            _value = value;
         }
     }
 
@@ -16,7 +16,7 @@ public class RhinoMockTestTypes
     {
         public ConcreteGenericType(T value)
         {
-            this.Value = value;
+            Value = value;
         }
 
         public T Value { get; }
@@ -26,8 +26,8 @@ public class RhinoMockTestTypes
     {
         public ConcreteDoublyGenericType(T1 value1, T2 value2)
         {
-            this.Value1 = value1;
-            this.Value2 = value2;
+            Value1 = value1;
+            Value2 = value2;
         }
 
         public T1 Value1 { get; }

@@ -34,7 +34,7 @@ public class UriScheme : IEquatable<UriScheme>
                 "a letter and followed by any combination of letters, digits, plus ('+'), period ('.'), or hyphen ('-').");
         }
 
-        this.Scheme = scheme;
+        Scheme = scheme;
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class UriScheme : IEquatable<UriScheme>
     /// </returns>
     public override string ToString()
     {
-        return this.Scheme;
+        return Scheme;
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class UriScheme : IEquatable<UriScheme>
     {
         if (obj is UriScheme other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
 
         return base.Equals(obj);
@@ -80,7 +80,7 @@ public class UriScheme : IEquatable<UriScheme>
     /// </returns>
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Scheme);
+        return HashCode.Combine(Scheme);
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public class UriScheme : IEquatable<UriScheme>
             return false;
         }
 
-        return this.Scheme.Equals(other.Scheme, StringComparison.Ordinal);
+        return Scheme.Equals(other.Scheme, StringComparison.Ordinal);
     }
 
     private static bool IsValid(string scheme)

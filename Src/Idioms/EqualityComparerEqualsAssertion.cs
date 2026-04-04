@@ -31,7 +31,7 @@ public abstract class EqualityComparerEqualsAssertion : IdiomaticAssertion
     /// </remarks>
     protected EqualityComparerEqualsAssertion(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public abstract class EqualityComparerEqualsAssertion : IdiomaticAssertion
         if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
         if (!IsEqualityComparerEqualsMethod(methodInfo)) return;
 
-        this.VerifyEquals(methodInfo, methodInfo.GetParameters()[0].ParameterType);
+        VerifyEquals(methodInfo, methodInfo.GetParameters()[0].ParameterType);
     }
 
     /// <summary>

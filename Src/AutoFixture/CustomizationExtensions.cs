@@ -21,18 +21,18 @@ public static class CustomizationExtensions
 
     private class InsertCustomization : ICustomization
     {
-        private readonly ISpecimenBuilder builder;
+        private readonly ISpecimenBuilder _builder;
 
         public InsertCustomization(ISpecimenBuilder builder)
         {
-            this.builder = builder;
+            _builder = builder;
         }
 
         public void Customize(IFixture fixture)
         {
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-            fixture.Customizations.Insert(0, this.builder);
+            fixture.Customizations.Insert(0, _builder);
         }
     }
 }

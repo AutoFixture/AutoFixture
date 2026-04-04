@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class Int16SequenceGenerator : ISpecimenBuilder
 {
-    private short s;
-    private readonly object syncRoot;
+    private short _s;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Int16SequenceGenerator"/> class.
     /// </summary>
     public Int16SequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -26,9 +26,9 @@ public class Int16SequenceGenerator : ISpecimenBuilder
     [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
     public short Create()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.s;
+            return ++_s;
         }
     }
 
@@ -40,7 +40,7 @@ public class Int16SequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public short CreateAnonymous()
     {
-        return this.Create();
+        return Create();
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class Int16SequenceGenerator : ISpecimenBuilder
         }
 
 #pragma warning disable 618
-        return this.Create();
+        return Create();
 #pragma warning restore 618
     }
 }

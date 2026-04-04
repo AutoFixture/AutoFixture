@@ -5,29 +5,29 @@ namespace AutoFixtureDocumentationTest.Simple;
 
 public class MyViewModel
 {
-    private readonly List<MyClass> availableItems;
-    private MyClass selectedItem;
+    private readonly List<MyClass> _availableItems;
+    private MyClass _selectedItem;
 
     public MyViewModel()
     {
-        this.availableItems = new List<MyClass>();
+        _availableItems = new List<MyClass>();
     }
 
     public ICollection<MyClass> AvailableItems
     {
-        get { return this.availableItems; }
+        get { return _availableItems; }
     }
 
     public MyClass SelectedItem
     {
-        get => this.selectedItem;
+        get => _selectedItem;
         set
         {
-            if (!this.availableItems.Contains(value))
+            if (!_availableItems.Contains(value))
             {
                 throw new ArgumentException("...");
             }
-            this.selectedItem = value;
+            _selectedItem = value;
         }
     }
 }

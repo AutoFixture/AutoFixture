@@ -4,8 +4,8 @@ namespace AutoFixtureDocumentationTest.Extension.Constraints;
 
 public class ConstrainedStringGenerator
 {
-    private readonly int minimumLength;
-    private readonly int maximumLength;
+    private readonly int _minimumLength;
+    private readonly int _maximumLength;
 
     public ConstrainedStringGenerator(int minimumLength,
         int maximumLength)
@@ -19,20 +19,20 @@ public class ConstrainedStringGenerator
             throw new ArgumentOutOfRangeException("...");
         }
 
-        this.minimumLength = minimumLength;
-        this.maximumLength = maximumLength;
+        _minimumLength = minimumLength;
+        _maximumLength = maximumLength;
     }
 
     public string CreateaAnonymous(string seed)
     {
         var s = string.Empty;
-        while (s.Length < this.minimumLength)
+        while (s.Length < _minimumLength)
         {
             s += ConstrainedStringGenerator.CreateAnonymous(seed);
         }
-        if (s.Length > this.maximumLength)
+        if (s.Length > _maximumLength)
         {
-            s = s.Substring(0, this.maximumLength);
+            s = s.Substring(0, _maximumLength);
         }
         return s;
     }

@@ -15,7 +15,7 @@ public class TestNameStrategiesFixture
     {
         public AutoDataFixedNameAttribute()
         {
-            this.TestMethodBuilder = new FixedNameTestMethodBuilder();
+            TestMethodBuilder = new FixedNameTestMethodBuilder();
         }
     }
 
@@ -24,7 +24,7 @@ public class TestNameStrategiesFixture
         public AutoDataVolatileNameAttribute()
             : base(CreateFixtureWithInjectedValues)
         {
-            this.TestMethodBuilder = new VolatileNameTestMethodBuilder();
+            TestMethodBuilder = new VolatileNameTestMethodBuilder();
         }
     }
 
@@ -33,7 +33,7 @@ public class TestNameStrategiesFixture
         public InlineAutoDataFixedNameAttribute(params object[] arguments)
             : base(arguments)
         {
-            this.TestMethodBuilder = new FixedNameTestMethodBuilder();
+            TestMethodBuilder = new FixedNameTestMethodBuilder();
         }
     }
 
@@ -42,7 +42,7 @@ public class TestNameStrategiesFixture
         public InlineAutoDataVolatileNameAttribute(params object[] arguments)
             : base(CreateFixtureWithInjectedValues, arguments)
         {
-            this.TestMethodBuilder = new VolatileNameTestMethodBuilder();
+            TestMethodBuilder = new VolatileNameTestMethodBuilder();
         }
     }
 

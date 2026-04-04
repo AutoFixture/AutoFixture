@@ -51,8 +51,8 @@ public class FreezingCustomization : ICustomization
             throw new ArgumentException(message);
         }
 
-        this.TargetType = targetType;
-        this.RegisteredType = registeredType;
+        TargetType = targetType;
+        RegisteredType = registeredType;
     }
 
     /// <summary>
@@ -78,13 +78,13 @@ public class FreezingCustomization : ICustomization
         if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
         var specimen = fixture.Create(
-            this.TargetType);
+            TargetType);
         var fixedBuilder = new FixedBuilder(specimen);
 
         var types = new[]
         {
-            this.TargetType,
-            this.RegisteredType
+            TargetType,
+            RegisteredType
         };
 
         var builder = new CompositeSpecimenBuilder(

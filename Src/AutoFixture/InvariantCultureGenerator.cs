@@ -11,7 +11,7 @@ namespace AutoFixture;
 [Obsolete("Please use a 'AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]
 public class InvariantCultureGenerator : ISpecimenBuilder
 {
-    private readonly ExactTypeSpecification cultureTypeSpecification
+    private readonly ExactTypeSpecification _cultureTypeSpecification
         = new ExactTypeSpecification(typeof(CultureInfo));
 
     /// <summary>
@@ -30,7 +30,7 @@ public class InvariantCultureGenerator : ISpecimenBuilder
         if (request == null)
             return NoSpecimen.Instance;
 
-        if (!this.cultureTypeSpecification.IsSatisfiedBy(request))
+        if (!_cultureTypeSpecification.IsSatisfiedBy(request))
             return NoSpecimen.Instance;
 
         return CultureInfo.InvariantCulture;

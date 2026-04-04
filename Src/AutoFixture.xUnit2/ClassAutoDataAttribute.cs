@@ -79,9 +79,9 @@ public class ClassAutoDataAttribute : DataAttribute
     /// </example>
     protected ClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object[] parameters)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
-        this.Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
+        Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
     }
 
     /// <summary>
@@ -103,8 +103,8 @@ public class ClassAutoDataAttribute : DataAttribute
     public override IEnumerable<object[]> GetData(MethodInfo testMethod)
     {
         var source = new AutoDataSource(
-            this.FixtureFactory,
-            new ClassDataSource(this.SourceType, this.Parameters));
+            FixtureFactory,
+            new ClassDataSource(SourceType, Parameters));
 
         return source.GetData(testMethod);
     }

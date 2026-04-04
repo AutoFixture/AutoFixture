@@ -30,7 +30,7 @@ public class Omitter : ISpecimenBuilder
     /// <seealso cref="Specification" />
     public Omitter(IRequestSpecification specification)
     {
-        this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
+        Specification = specification ?? throw new ArgumentNullException(nameof(specification));
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class Omitter : ISpecimenBuilder
     {
         if (request == null) throw new ArgumentNullException(nameof(request));
 
-        if (this.Specification.IsSatisfiedBy(request))
+        if (Specification.IsSatisfiedBy(request))
             return new OmitSpecimen();
 
         return NoSpecimen.Instance;

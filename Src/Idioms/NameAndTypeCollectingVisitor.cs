@@ -11,15 +11,15 @@ namespace AutoFixture.Idioms;
 /// </summary>
 internal class NameAndTypeCollectingVisitor : ReflectionVisitor<IEnumerable<NameAndType>>
 {
-    private readonly NameAndType[] values;
+    private readonly NameAndType[] _values;
 
     public NameAndTypeCollectingVisitor(
         params NameAndType[] values)
     {
-        this.values = values;
+        _values = values;
     }
 
-    public override IEnumerable<NameAndType> Value => this.values;
+    public override IEnumerable<NameAndType> Value => _values;
 
     public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
         FieldInfoElement fieldInfoElement)
@@ -29,7 +29,7 @@ internal class NameAndTypeCollectingVisitor : ReflectionVisitor<IEnumerable<Name
             fieldInfoElement.FieldInfo.Name,
             fieldInfoElement.FieldInfo.FieldType);
         return new NameAndTypeCollectingVisitor(
-            this.values.Concat(new[] { v }).ToArray());
+            _values.Concat(new[] { v }).ToArray());
     }
 
     public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
@@ -40,7 +40,7 @@ internal class NameAndTypeCollectingVisitor : ReflectionVisitor<IEnumerable<Name
             parameterInfoElement.ParameterInfo.Name,
             parameterInfoElement.ParameterInfo.ParameterType);
         return new NameAndTypeCollectingVisitor(
-            this.values.Concat(new[] { v }).ToArray());
+            _values.Concat(new[] { v }).ToArray());
     }
 
     public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
@@ -51,6 +51,6 @@ internal class NameAndTypeCollectingVisitor : ReflectionVisitor<IEnumerable<Name
             propertyInfoElement.PropertyInfo.Name,
             propertyInfoElement.PropertyInfo.PropertyType);
         return new NameAndTypeCollectingVisitor(
-            this.values.Concat(new[] { v }).ToArray());
+            _values.Concat(new[] { v }).ToArray());
     }
 }

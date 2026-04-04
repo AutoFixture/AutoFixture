@@ -26,9 +26,9 @@ public class RangedNumberRequest : IEquatable<RangedNumberRequest>
             throw new ArgumentOutOfRangeException(nameof(minimum), "Minimum must be lower or equal Maximum.");
         }
 
-        this.OperandType = operandType;
-        this.Minimum = minimum;
-        this.Maximum = maximum;
+        OperandType = operandType;
+        Minimum = minimum;
+        Maximum = maximum;
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class RangedNumberRequest : IEquatable<RangedNumberRequest>
     {
         if (obj is RangedNumberRequest other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
 
         return base.Equals(obj);
@@ -77,9 +77,9 @@ public class RangedNumberRequest : IEquatable<RangedNumberRequest>
     /// </returns>
     public override int GetHashCode()
     {
-        return this.OperandType.GetHashCode()
-               ^ this.Minimum.GetHashCode()
-               ^ this.Maximum.GetHashCode();
+        return OperandType.GetHashCode()
+               ^ Minimum.GetHashCode()
+               ^ Maximum.GetHashCode();
     }
 
     /// <summary>
@@ -96,9 +96,9 @@ public class RangedNumberRequest : IEquatable<RangedNumberRequest>
             return false;
         }
 
-        return this.OperandType == other.OperandType
-               && object.Equals(this.Minimum, other.Minimum)
-               && object.Equals(this.Maximum, other.Maximum);
+        return OperandType == other.OperandType
+               && object.Equals(Minimum, other.Minimum)
+               && object.Equals(Maximum, other.Maximum);
     }
 
     /// <inheritdoc />
@@ -108,10 +108,10 @@ public class RangedNumberRequest : IEquatable<RangedNumberRequest>
         return string.Format(
             CultureInfo.CurrentCulture,
             "RangedNumberRequest (OperandType: {0}, Minimum: [{1}] {2}, Maximum: [{3}] {4})",
-            this.OperandType.FullName,
-            this.Minimum.GetType().Name,
-            this.Minimum,
-            this.Maximum.GetType().Name,
-            this.Maximum);
+            OperandType.FullName,
+            Minimum.GetType().Name,
+            Minimum,
+            Maximum.GetType().Name,
+            Maximum);
     }
 }

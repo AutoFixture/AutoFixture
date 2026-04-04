@@ -9,15 +9,15 @@ namespace AutoFixture.DataAnnotations;
 /// </summary>
 public class StringLengthAttributeRelay : ISpecimenBuilder
 {
-    private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
+    private IRequestMemberTypeResolver _requestMemberTypeResolver = new RequestMemberTypeResolver();
 
     /// <summary>
     /// Gets or sets the current IRequestMemberTypeResolver.
     /// </summary>
     public IRequestMemberTypeResolver RequestMemberTypeResolver
     {
-        get => this.requestMemberTypeResolver;
-        set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+        get => _requestMemberTypeResolver;
+        set => _requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class StringLengthAttributeRelay : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
+        if (!RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
         {
             return NoSpecimen.Instance;
         }

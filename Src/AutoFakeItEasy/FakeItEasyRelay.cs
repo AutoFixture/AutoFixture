@@ -28,7 +28,7 @@ public class FakeItEasyRelay : ISpecimenBuilder
     /// </param>
     public FakeItEasyRelay(IRequestSpecification fakeableSpecification)
     {
-        this.FakeableSpecification = fakeableSpecification ?? throw new ArgumentNullException(nameof(fakeableSpecification));
+        FakeableSpecification = fakeableSpecification ?? throw new ArgumentNullException(nameof(fakeableSpecification));
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class FakeItEasyRelay : ISpecimenBuilder
     {
         if (context is null) throw new ArgumentNullException(nameof(context));
 
-        if (!this.FakeableSpecification.IsSatisfiedBy(request))
+        if (!FakeableSpecification.IsSatisfiedBy(request))
             return NoSpecimen.Instance;
 
         if (request is not Type type)

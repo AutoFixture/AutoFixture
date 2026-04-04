@@ -7,15 +7,15 @@ namespace AutoFixture;
 /// </summary>
 public class CharSequenceGenerator : ISpecimenBuilder
 {
-    private char c = '!';
-    private readonly object syncRoot;
+    private char _c = '!';
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CharSequenceGenerator"/> class.
     /// </summary>
     public CharSequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -33,19 +33,19 @@ public class CharSequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        return this.Create();
+        return Create();
     }
 
     private char Create()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            if (this.c > 126)
+            if (_c > 126)
             {
-                this.c = '!';
+                _c = '!';
             }
 
-            return this.c++;
+            return _c++;
         }
     }
 }

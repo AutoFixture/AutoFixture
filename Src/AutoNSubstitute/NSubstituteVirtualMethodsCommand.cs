@@ -39,7 +39,7 @@ namespace AutoFixture.AutoNSubstitute;
           "Use the NSubstituteRegisterCallHandlerCommand class and its dependencies instead.")]
 public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
 {
-    private static readonly MethodInfo[] ObjectMethods = typeof(object).GetMethods();
+    private static readonly MethodInfo[] s_objectMethods = typeof(object).GetMethods();
 
     /// <summary>
     /// Sets up a substitute object's methods so that the return values will be retrieved from a fixture,
@@ -79,12 +79,12 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
             .Where(method => method.IsOverridable() &&
                              !method.IsGenericMethod &&
                              !method.IsVoid() &&
-                             !ObjectMethods.Contains(method.GetBaseDefinition()));
+                             !s_objectMethods.Contains(method.GetBaseDefinition()));
     }
 
     private class SubstituteValueFactory
     {
-        private static readonly IMethod ReturnsMethodInfo =
+        private static readonly IMethod s_returnsMethodInfo =
             GetNSubstituteMethod("Returns");
 
         private static IMethod GetNSubstituteMethod(string methodName)
@@ -136,28 +136,28 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
             return type.Name;
         }
 
-        private readonly object substitute;
-        private readonly ISpecimenContext context;
+        private readonly object _substitute;
+        private readonly ISpecimenContext _context;
 
         public SubstituteValueFactory(object substitute, ISpecimenContext context)
         {
-            this.substitute = substitute ?? throw new ArgumentNullException(nameof(substitute));
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            _substitute = substitute ?? throw new ArgumentNullException(nameof(substitute));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public object Substitute
         {
-            get { return this.substitute; }
+            get { return _substitute; }
         }
 
         public ISpecimenContext Context
         {
-            get { return this.context; }
+            get { return _context; }
         }
 
         public static void Returns<T>(T value, Func<CallInfo, T> returnThis)
         {
-            ReturnsMethodInfo.Invoke(new object[] { value, returnThis });
+            s_returnsMethodInfo.Invoke(new object[] { value, returnThis });
         }
 
         public void ReturnsUsingContext(MethodInfo methodInfo)
@@ -187,31 +187,31 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
             //    That is because Do() {} callback is executed before known return values are returned.
             //    After our substitute is configured in When-Do, NSubstitute checks whether there is return value for current call.
             //    Return value is, of course, present and it returns that value to the consumer.
-            this.Substitute
-                .WhenForAnyArgs(_ => this.InvokeMethod(methodInfo))
+            Substitute
+                .WhenForAnyArgs(_ => InvokeMethod(methodInfo))
                 .Do(callInfo =>
                 {
                     var arguments = callInfo.Args();
 
                     var callRouter =
-                        SubstitutionContext.Current.GetCallRouterFor(this.Substitute);
+                        SubstitutionContext.Current.GetCallRouterFor(Substitute);
 
                     callRouter.SetRoute(state => CompatShim.Route_CreateNew(
                         new ICallHandler[]
                         {
                             new NoSetupCallbackHandler(state, () =>
                             {
-                                var value = this.Resolve(methodInfo.ReturnType);
+                                var value = Resolve(methodInfo.ReturnType);
                                 if (value is OmitSpecimen)
                                     return;
 
-                                this.ReturnsFixedValue(methodInfo, value);
-                                this.InvokeMethod(methodInfo, arguments);
+                                ReturnsFixedValue(methodInfo, value);
+                                InvokeMethod(methodInfo, arguments);
                             }),
                             new ReturnDefaultForReturnTypeHandler(
                                 new DefaultForType())
                         }));
-                    this.InvokeMethod(methodInfo, arguments);
+                    InvokeMethod(methodInfo, arguments);
                 });
         }
 
@@ -232,7 +232,7 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
                 // Run task on default scheduler to prevent attach to the context scheduler.
                 // User could execute this code in context of its own scheduler that performs aggressive inling
                 // and our task will be inlined by that scheduler.
-                var task = Task.Factory.StartNew(() => this.Context.Resolve(type), cancelableToken,
+                var task = Task.Factory.StartNew(() => Context.Resolve(type), cancelableToken,
                     TaskCreationOptions.None, TaskScheduler.Default);
 
                 // It could happen that task above is inlined on the current thread.
@@ -247,7 +247,7 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
 
         private void ReturnsFixedValue(MethodInfo methodInfo, object value)
         {
-            var refValues = this.GetFixedRefValues(methodInfo);
+            var refValues = GetFixedRefValues(methodInfo);
             Returns(null, x =>
             {
                 SetRefValues(x, refValues);
@@ -259,7 +259,7 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
         {
             return GetRefParameters(methodInfo)
                 .Select(t => Tuple.Create(t.Item1,
-                    new Lazy<object>(() => this.Context.Resolve(t.Item2.ParameterType.GetElementType()))))
+                    new Lazy<object>(() => Context.Resolve(t.Item2.ParameterType.GetElementType()))))
                 .ToList();
         }
 
@@ -268,7 +268,7 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
             if (methodInfo.IsVoid())
                 return;
 
-            this.ReturnsUsingContext(methodInfo);
+            ReturnsUsingContext(methodInfo);
         }
 
         private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
@@ -289,7 +289,7 @@ public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
 
         private void InvokeMethod(MethodInfo methodInfo, object[] parameters = null)
         {
-            methodInfo.Invoke(this.Substitute, parameters ?? GetDefaultParameters(methodInfo));
+            methodInfo.Invoke(Substitute, parameters ?? GetDefaultParameters(methodInfo));
         }
 
         private static object[] GetDefaultParameters(MethodInfo methodInfo)

@@ -33,7 +33,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
 
         foreach (var a in assemblies)
         {
-            this.Verify(a);
+            Verify(a);
         }
     }
 
@@ -44,7 +44,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     /// <param name="assemblies">The assemblies.</param>
     public virtual void Verify(IEnumerable<Assembly> assemblies)
     {
-        this.Verify(assemblies.ToArray());
+        Verify(assemblies.ToArray());
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     {
         if (assembly == null) throw new ArgumentNullException(nameof(assembly));
 
-        this.Verify(assembly.GetExportedTypes());
+        Verify(assembly.GetExportedTypes());
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
 
         foreach (var t in types)
         {
-            this.Verify(t);
+            Verify(t);
         }
     }
 
@@ -79,7 +79,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     /// <param name="types">The types.</param>
     public virtual void Verify(IEnumerable<Type> types)
     {
-        this.Verify(types.ToArray());
+        Verify(types.ToArray());
     }
 
     /// <summary>
@@ -92,10 +92,10 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     {
         if (type == null) throw new ArgumentNullException(nameof(type));
 
-        this.Verify(type.GetConstructors());
-        this.Verify(GetMethodsForAssertion(type));
-        this.Verify(type.GetProperties());
-        this.Verify(type.GetFields());
+        Verify(type.GetConstructors());
+        Verify(GetMethodsForAssertion(type));
+        Verify(type.GetProperties());
+        Verify(type.GetFields());
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
 
         foreach (var m in memberInfos)
         {
-            this.Verify(m);
+            Verify(m);
         }
     }
 
@@ -120,7 +120,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     /// <param name="memberInfos">The members.</param>
     public virtual void Verify(IEnumerable<MemberInfo> memberInfos)
     {
-        this.Verify(memberInfos.ToArray());
+        Verify(memberInfos.ToArray());
     }
 
     /// <summary>
@@ -134,19 +134,19 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
         switch (memberInfo)
         {
             case ConstructorInfo c:
-                this.Verify(c);
+                Verify(c);
                 break;
 
             case MethodInfo m:
-                this.Verify(m);
+                Verify(m);
                 break;
 
             case PropertyInfo p:
-                this.Verify(p);
+                Verify(p);
                 break;
 
             case FieldInfo f:
-                this.Verify(f);
+                Verify(f);
                 break;
         }
     }
@@ -162,7 +162,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
 
         foreach (var c in constructorInfos)
         {
-            this.Verify(c);
+            Verify(c);
         }
     }
 
@@ -173,7 +173,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     /// <param name="constructorInfos">The constructors.</param>
     public virtual void Verify(IEnumerable<ConstructorInfo> constructorInfos)
     {
-        this.Verify(constructorInfos.ToArray());
+        Verify(constructorInfos.ToArray());
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
 
         foreach (var f in fieldInfos)
         {
-            this.Verify(f);
+            Verify(f);
         }
     }
 
@@ -206,7 +206,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     /// <param name="fieldInfos">The Fields.</param>
     public virtual void Verify(IEnumerable<FieldInfo> fieldInfos)
     {
-        this.Verify(fieldInfos.ToArray());
+        Verify(fieldInfos.ToArray());
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
 
         foreach (var m in methodInfos)
         {
-            this.Verify(m);
+            Verify(m);
         }
     }
 
@@ -239,7 +239,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     /// <param name="methodInfos">The methods.</param>
     public virtual void Verify(IEnumerable<MethodInfo> methodInfos)
     {
-        this.Verify(methodInfos.ToArray());
+        Verify(methodInfos.ToArray());
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
 
         foreach (var p in propertyInfos)
         {
-            this.Verify(p);
+            Verify(p);
         }
     }
 
@@ -272,7 +272,7 @@ public abstract class IdiomaticAssertion : IIdiomaticAssertion
     /// <param name="propertyInfos">The properties.</param>
     public virtual void Verify(IEnumerable<PropertyInfo> propertyInfos)
     {
-        this.Verify(propertyInfos.ToArray());
+        Verify(propertyInfos.ToArray());
     }
 
     /// <summary>

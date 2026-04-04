@@ -9,8 +9,8 @@ namespace AutoFixture;
 /// </summary>
 public class StrictlyMonotonicallyIncreasingDateTimeGenerator : ISpecimenBuilder
 {
-    private readonly DateTime seed;
-    private int baseValue;
+    private readonly DateTime _seed;
+    private int _baseValue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StrictlyMonotonicallyIncreasingDateTimeGenerator"/> class.
@@ -18,7 +18,7 @@ public class StrictlyMonotonicallyIncreasingDateTimeGenerator : ISpecimenBuilder
     /// <param name="seed">The base <see cref="DateTime"/> value used to generate <see cref="DateTime"/> specimens.</param>
     public StrictlyMonotonicallyIncreasingDateTimeGenerator(DateTime seed)
     {
-        this.seed = seed;
+        _seed = seed;
     }
 
     /// <summary>
@@ -37,11 +37,11 @@ public class StrictlyMonotonicallyIncreasingDateTimeGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        return this.seed.AddDays(this.GetNextNumberInSequence());
+        return _seed.AddDays(GetNextNumberInSequence());
     }
 
     private int GetNextNumberInSequence()
     {
-        return Interlocked.Increment(ref this.baseValue);
+        return Interlocked.Increment(ref _baseValue);
     }
 }

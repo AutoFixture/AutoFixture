@@ -28,7 +28,7 @@ public class MockRelay : ISpecimenBuilder
     /// </param>
     public MockRelay(IRequestSpecification mockableSpecification)
     {
-        this.MockableSpecification = mockableSpecification ?? throw new ArgumentNullException(nameof(mockableSpecification));
+        MockableSpecification = mockableSpecification ?? throw new ArgumentNullException(nameof(mockableSpecification));
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class MockRelay : ISpecimenBuilder
     {
         if (context == null) throw new ArgumentNullException(nameof(context));
 
-        if (!this.MockableSpecification.IsSatisfiedBy(request))
+        if (!MockableSpecification.IsSatisfiedBy(request))
             return NoSpecimen.Instance;
 
         var t = request as Type;

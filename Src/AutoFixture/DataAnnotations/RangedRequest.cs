@@ -21,10 +21,10 @@ public class RangedRequest : IEquatable<RangedRequest>
     /// <param name="maximum">The maximum.</param>
     public RangedRequest(Type memberType, Type operandType, object minimum, object maximum)
     {
-        this.MemberType = memberType ?? throw new ArgumentNullException(nameof(memberType));
-        this.OperandType = operandType ?? throw new ArgumentNullException(nameof(operandType));
-        this.Minimum = minimum ?? throw new ArgumentNullException(nameof(minimum));
-        this.Maximum = maximum ?? throw new ArgumentNullException(nameof(maximum));
+        MemberType = memberType ?? throw new ArgumentNullException(nameof(memberType));
+        OperandType = operandType ?? throw new ArgumentNullException(nameof(operandType));
+        Minimum = minimum ?? throw new ArgumentNullException(nameof(minimum));
+        Maximum = maximum ?? throw new ArgumentNullException(nameof(maximum));
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class RangedRequest : IEquatable<RangedRequest>
     {
         if (obj is RangedRequest other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
 
         return false;
@@ -68,10 +68,10 @@ public class RangedRequest : IEquatable<RangedRequest>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return this.MemberType == other.MemberType &&
-               this.OperandType == other.OperandType &&
-               Equals(this.Minimum, other.Minimum) &&
-               Equals(this.Maximum, other.Maximum);
+        return MemberType == other.MemberType &&
+               OperandType == other.OperandType &&
+               Equals(Minimum, other.Minimum) &&
+               Equals(Maximum, other.Maximum);
     }
 
     /// <inheritdoc />
@@ -79,10 +79,10 @@ public class RangedRequest : IEquatable<RangedRequest>
     {
         unchecked
         {
-            var hashCode = this.MemberType.GetHashCode();
-            hashCode = (hashCode * 397) ^ this.OperandType.GetHashCode();
-            hashCode = (hashCode * 397) ^ this.Minimum.GetHashCode();
-            hashCode = (hashCode * 397) ^ this.Maximum.GetHashCode();
+            var hashCode = MemberType.GetHashCode();
+            hashCode = (hashCode * 397) ^ OperandType.GetHashCode();
+            hashCode = (hashCode * 397) ^ Minimum.GetHashCode();
+            hashCode = (hashCode * 397) ^ Maximum.GetHashCode();
             return hashCode;
         }
     }
@@ -94,7 +94,7 @@ public class RangedRequest : IEquatable<RangedRequest>
     {
         if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
-        return GetConvertedRangeBoundary(this.Minimum, targetType);
+        return GetConvertedRangeBoundary(Minimum, targetType);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class RangedRequest : IEquatable<RangedRequest>
     {
         if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
-        return GetConvertedRangeBoundary(this.Maximum, targetType);
+        return GetConvertedRangeBoundary(Maximum, targetType);
     }
 
     /// <inheritdoc />
@@ -113,12 +113,12 @@ public class RangedRequest : IEquatable<RangedRequest>
         return string.Format(
             CultureInfo.CurrentCulture,
             "RangedRequest (MemberType: {0}, OperandType: {1} Minimum: [{2}] {3}, Maximum: [{4}] {5})",
-            this.MemberType.FullName,
-            this.OperandType.FullName,
-            this.Minimum.GetType().Name,
-            this.Minimum,
-            this.Maximum.GetType().Name,
-            this.Maximum);
+            MemberType.FullName,
+            OperandType.FullName,
+            Minimum.GetType().Name,
+            Minimum,
+            Maximum.GetType().Name,
+            Maximum);
     }
 
     private static object GetConvertedRangeBoundary(object attributeValue, Type conversionType)

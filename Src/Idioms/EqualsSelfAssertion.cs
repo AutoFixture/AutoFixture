@@ -27,7 +27,7 @@ public class EqualsSelfAssertion : IdiomaticAssertion
     /// </remarks>
     public EqualsSelfAssertion(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class EqualsSelfAssertion : IdiomaticAssertion
             return;
         }
 
-        var instance = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var instance = Builder.CreateAnonymous(methodInfo.ReflectedType);
         var equalsResult = instance.Equals(instance);
         if (!equalsResult)
         {

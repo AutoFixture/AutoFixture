@@ -18,19 +18,19 @@ namespace AutoFixture.NUnit3;
 [AttributeUsage(AttributeTargets.Method)]
 public class AutoDataAttribute : Attribute, ITestBuilder
 {
-    private readonly Lazy<IFixture> fixtureLazy;
+    private readonly Lazy<IFixture> _fixtureLazy;
 
-    private IFixture Fixture => this.fixtureLazy.Value;
+    private IFixture Fixture => _fixtureLazy.Value;
 
-    private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
+    private ITestMethodBuilder _testMethodBuilder = new FixedNameTestMethodBuilder();
 
     /// <summary>
     /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
     /// </summary>
     public ITestMethodBuilder TestMethodBuilder
     {
-        get => this.testMethodBuilder;
-        set => this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value));
+        get => _testMethodBuilder;
+        set => _testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class AutoDataAttribute : Attribute, ITestBuilder
             throw new ArgumentNullException(nameof(fixture));
         }
 
-        this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
+        _fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class AutoDataAttribute : Attribute, ITestBuilder
     {
         if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
 
-        this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
+        _fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
     }
 
     /// <summary>
@@ -80,21 +80,21 @@ public class AutoDataAttribute : Attribute, ITestBuilder
     {
         if (method == null) throw new ArgumentNullException(nameof(method));
 
-        var test = this.TestMethodBuilder.Build(method, suite, this.GetParameterValues(method), 0);
+        var test = TestMethodBuilder.Build(method, suite, GetParameterValues(method), 0);
 
         yield return test;
     }
 
     private IEnumerable<object> GetParameterValues(IMethodInfo method)
     {
-        return method.GetParameters().Select(this.Resolve);
+        return method.GetParameters().Select(Resolve);
     }
 
     private object Resolve(IParameterInfo parameterInfo)
     {
-        this.CustomizeFixtureByParameter(parameterInfo);
+        CustomizeFixtureByParameter(parameterInfo);
 
-        return new SpecimenContext(this.Fixture)
+        return new SpecimenContext(Fixture)
             .Resolve(parameterInfo.ParameterInfo);
     }
 
@@ -107,7 +107,7 @@ public class AutoDataAttribute : Attribute, ITestBuilder
         foreach (var ca in customizeAttributes)
         {
             var customization = ca.GetCustomization(parameter.ParameterInfo);
-            this.Fixture.Customize(customization);
+            Fixture.Customize(customization);
         }
     }
 }

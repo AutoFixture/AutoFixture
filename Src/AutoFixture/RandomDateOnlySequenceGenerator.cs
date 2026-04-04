@@ -16,7 +16,7 @@ namespace AutoFixture;
 /// </remarks>
 public class RandomDateOnlySequenceGenerator : ISpecimenBuilder
 {
-    private readonly RandomNumericSequenceGenerator randomizer;
+    private readonly RandomNumericSequenceGenerator _randomizer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RandomDateOnlySequenceGenerator"/> class.
@@ -43,7 +43,7 @@ public class RandomDateOnlySequenceGenerator : ISpecimenBuilder
             throw new ArgumentException("The 'minDate' argument must be less than the 'maxDate'.");
         }
 
-        this.randomizer = new RandomNumericSequenceGenerator(minDate.DayNumber, maxDate.DayNumber);
+        _randomizer = new RandomNumericSequenceGenerator(minDate.DayNumber, maxDate.DayNumber);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class RandomDateOnlySequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        var dayNumber = (int)this.randomizer.Create(typeof(int), context);
+        var dayNumber = (int)_randomizer.Create(typeof(int), context);
         return DateOnly.FromDayNumber(dayNumber);
     }
 }

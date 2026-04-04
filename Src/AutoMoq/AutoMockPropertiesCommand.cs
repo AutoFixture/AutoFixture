@@ -10,7 +10,7 @@ namespace AutoFixture.AutoMoq;
 /// </summary>
 public class AutoMockPropertiesCommand : ISpecimenCommand
 {
-    private readonly ISpecimenCommand autoPropertiesCommand =
+    private readonly ISpecimenCommand _autoPropertiesCommand =
         new AutoPropertiesCommand(new IgnoreProxyMembersSpecification());
 
     /// <summary>
@@ -26,7 +26,7 @@ public class AutoMockPropertiesCommand : ISpecimenCommand
         if (mock == null)
             return;
 
-        this.autoPropertiesCommand.Execute(mock.Object, context);
+        _autoPropertiesCommand.Execute(mock.Object, context);
     }
 
     /// <summary>

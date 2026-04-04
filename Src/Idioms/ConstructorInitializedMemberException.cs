@@ -15,10 +15,10 @@ namespace AutoFixture.Idioms;
 public class ConstructorInitializedMemberException : Exception
 {
     [NonSerialized]
-    private readonly MemberInfo memberInfo;
+    private readonly MemberInfo _memberInfo;
 
     [NonSerialized]
-    private readonly ParameterInfo missingParameter;
+    private readonly ParameterInfo _missingParameter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
@@ -41,8 +41,8 @@ public class ConstructorInitializedMemberException : Exception
     public ConstructorInitializedMemberException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message)
         : base(message)
     {
-        this.memberInfo = constructorInfo;
-        this.missingParameter = missingParameter;
+        _memberInfo = constructorInfo;
+        _missingParameter = missingParameter;
     }
 
     /// <summary>
@@ -60,8 +60,8 @@ public class ConstructorInitializedMemberException : Exception
         ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message, Exception innerException)
         : base(message, innerException)
     {
-        this.memberInfo = constructorInfo;
-        this.missingParameter = missingParameter;
+        _memberInfo = constructorInfo;
+        _missingParameter = missingParameter;
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public class ConstructorInitializedMemberException : Exception
     public ConstructorInitializedMemberException(FieldInfo fieldInfo, string message)
         : base(message)
     {
-        this.memberInfo = fieldInfo;
+        _memberInfo = fieldInfo;
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class ConstructorInitializedMemberException : Exception
     public ConstructorInitializedMemberException(FieldInfo fieldInfo, string message, Exception innerException)
         : base(message, innerException)
     {
-        this.memberInfo = fieldInfo;
+        _memberInfo = fieldInfo;
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ public class ConstructorInitializedMemberException : Exception
     public ConstructorInitializedMemberException(PropertyInfo propertyInfo, string message)
         : base(message)
     {
-        this.memberInfo = propertyInfo;
+        _memberInfo = propertyInfo;
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ public class ConstructorInitializedMemberException : Exception
     public ConstructorInitializedMemberException(PropertyInfo propertyInfo, string message, Exception innerException)
         : base(message, innerException)
     {
-        this.memberInfo = propertyInfo;
+        _memberInfo = propertyInfo;
     }
 
     /// <summary>
@@ -155,33 +155,33 @@ public class ConstructorInitializedMemberException : Exception
     protected ConstructorInitializedMemberException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
-        this.memberInfo = (PropertyInfo)info.GetValue("memberInfo", typeof(MemberInfo));
+        _memberInfo = (PropertyInfo)info.GetValue("memberInfo", typeof(MemberInfo));
     }
 
     /// <summary>
     /// Gets the property or field supplied via the constructor.
     /// </summary>
-    public MemberInfo MemberInfo => this.memberInfo;
+    public MemberInfo MemberInfo => _memberInfo;
 
     /// <summary>
     /// Gets the property supplied via the constructor.
     /// </summary>
-    public PropertyInfo PropertyInfo => this.memberInfo as PropertyInfo;
+    public PropertyInfo PropertyInfo => _memberInfo as PropertyInfo;
 
     /// <summary>
     /// Gets the property supplied via the constructor.
     /// </summary>
-    public FieldInfo FieldInfo => this.memberInfo as FieldInfo;
+    public FieldInfo FieldInfo => _memberInfo as FieldInfo;
 
     /// <summary>
     /// Gets the constructor which has a <see cref="MissingParameter"/>.
     /// </summary>
-    public ConstructorInfo ConstructorInfo => this.memberInfo as ConstructorInfo;
+    public ConstructorInfo ConstructorInfo => _memberInfo as ConstructorInfo;
 
     /// <summary>
     /// Gets the parameter that was not exposed as a field or property.
     /// </summary>
-    public ParameterInfo MissingParameter => this.missingParameter;
+    public ParameterInfo MissingParameter => _missingParameter;
 
     /// <summary>
     /// Adds <see cref="PropertyInfo" /> to a
@@ -200,7 +200,7 @@ public class ConstructorInitializedMemberException : Exception
     {
         base.GetObjectData(info, context);
 
-        info.AddValue("memberInfo", this.memberInfo);
+        info.AddValue("memberInfo", _memberInfo);
     }
 
     private static string FormatDefaultMessage(ConstructorInfo constructorInfo, ParameterInfo missingParameter)

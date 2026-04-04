@@ -9,12 +9,12 @@ public class TaggedNode : CompositeSpecimenBuilder
     public TaggedNode(object tag, params ISpecimenBuilder[] builders)
         : base(builders)
     {
-        this.Tag = tag;
+        Tag = tag;
     }
 
     public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
     {
-        return new TaggedNode(this.Tag, builders.ToArray());
+        return new TaggedNode(Tag, builders.ToArray());
     }
 
     public object Tag { get; }

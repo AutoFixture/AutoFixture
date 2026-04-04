@@ -16,10 +16,10 @@ namespace AutoFixture.Kernel;
     Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
 public class RecursionGuard : ISpecimenBuilderNode
 {
-    private readonly ThreadLocal<Stack<object>> requestsByThread
+    private readonly ThreadLocal<Stack<object>> _requestsByThread
         = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-    private Stack<object> GetMonitoredRequestsForCurrentThread() => this.requestsByThread.Value;
+    private Stack<object> GetMonitoredRequestsForCurrentThread() => _requestsByThread.Value;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -65,9 +65,9 @@ public class RecursionGuard : ISpecimenBuilderNode
     [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
     public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-        this.RecursionDepth = 1;
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+        RecursionDepth = 1;
     }
 
     /// <summary>
@@ -99,10 +99,10 @@ public class RecursionGuard : ISpecimenBuilderNode
         if (recursionDepth < 1)
             throw new ArgumentOutOfRangeException(nameof(recursionDepth), "Recursion depth must be greater than 0.");
 
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.RecursionHandler = recursionHandler ?? throw new ArgumentNullException(nameof(recursionHandler));
-        this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-        this.RecursionDepth = recursionDepth;
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        RecursionHandler = recursionHandler ?? throw new ArgumentNullException(nameof(recursionHandler));
+        Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+        RecursionDepth = recursionDepth;
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public class RecursionGuard : ISpecimenBuilderNode
     public IEqualityComparer Comparer { get; }
 
     /// <summary> Gets the recorded requests so far. </summary>
-    protected IEnumerable RecordedRequests => this.GetMonitoredRequestsForCurrentThread();
+    protected IEnumerable RecordedRequests => GetMonitoredRequestsForCurrentThread();
 
     /// <summary>
     /// Handles a request that would cause recursion.
@@ -132,15 +132,15 @@ public class RecursionGuard : ISpecimenBuilderNode
     [Obsolete("This method will be removed in a future version of AutoFixture. Use IRecursionHandler.HandleRecursiveRequest instead.", true)]
     public virtual object HandleRecursiveRequest(object request)
     {
-        return this.RecursionHandler.HandleRecursiveRequest(
+        return RecursionHandler.HandleRecursiveRequest(
             request,
-            this.GetMonitoredRequestsForCurrentThread());
+            GetMonitoredRequestsForCurrentThread());
     }
 
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
-        var requestsForCurrentThread = this.GetMonitoredRequestsForCurrentThread();
+        var requestsForCurrentThread = GetMonitoredRequestsForCurrentThread();
         if (requestsForCurrentThread.Count > 0)
         {
             // This is performance-sensitive code when used repeatedly over many requests.
@@ -150,12 +150,12 @@ public class RecursionGuard : ISpecimenBuilderNode
             for (int i = 0; i < requestsArray.Length; i++)
             {
                 var existingRequest = requestsArray[i];
-                if (this.Comparer.Equals(existingRequest, request))
+                if (Comparer.Equals(existingRequest, request))
                 {
                     numRequestsSameAsThisOne++;
                 }
 
-                if (numRequestsSameAsThisOne >= this.RecursionDepth)
+                if (numRequestsSameAsThisOne >= RecursionDepth)
                 {
 #pragma warning disable 618
                     return ObsoletedMemberShims.RecursionGuard_HandleRecursiveRequest(this, request);
@@ -167,7 +167,7 @@ public class RecursionGuard : ISpecimenBuilderNode
         requestsForCurrentThread.Push(request);
         try
         {
-            return this.Builder.Create(request, context);
+            return Builder.Create(request, context);
         }
         finally
         {
@@ -183,20 +183,20 @@ public class RecursionGuard : ISpecimenBuilderNode
         var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
         return new RecursionGuard(
             composedBuilder,
-            this.RecursionHandler,
-            this.Comparer,
-            this.RecursionDepth);
+            RecursionHandler,
+            Comparer,
+            RecursionDepth);
     }
 
     /// <inheritdoc />
     public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     /// <inheritdoc />
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

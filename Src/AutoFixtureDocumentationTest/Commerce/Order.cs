@@ -6,8 +6,8 @@ public class Order
 {
     public Order(uint id)
     {
-        this.Id = id;
-        this.OrderLines = new List<OrderLine>();
+        Id = id;
+        OrderLines = new List<OrderLine>();
     }
 
     public Address BillingAddress { get; set; }

@@ -21,8 +21,8 @@ public class AutoDataSource : IDataSource
     /// </exception>
     public AutoDataSource(Func<IFixture> createFixture, IDataSource? source = default)
     {
-        this.CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
-        this.Source = source;
+        CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
+        Source = source;
     }
 
     /// <summary>
@@ -42,15 +42,15 @@ public class AutoDataSource : IDataSource
     /// <returns>Returns a sequence of argument collections.</returns>
     public IEnumerable<object[]> GetData(MethodInfo method)
     {
-        return this.Source is null
-            ? this.GenerateValues(method)
-            : this.CombineValues(method, this.Source);
+        return Source is null
+            ? GenerateValues(method)
+            : CombineValues(method, Source);
     }
 
     private IEnumerable<object[]> GenerateValues(MethodBase methodInfo)
     {
         var parameters = Array.ConvertAll(methodInfo.GetParameters(), TestParameter.From);
-        var fixture = this.CreateFixture();
+        var fixture = CreateFixture();
         yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
     }
 
@@ -65,7 +65,7 @@ public class AutoDataSource : IDataSource
                 .Select(argument => argument.GetCustomization())
                 .Where(x => x is not NullCustomization);
 
-            var fixture = this.CreateFixture();
+            var fixture = CreateFixture();
             foreach (var customization in customizations)
             {
                 fixture.Customize(customization);

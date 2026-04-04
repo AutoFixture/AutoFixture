@@ -37,8 +37,8 @@ public class InlineAutoDataAttribute : DataAttribute
     /// <exception cref="ArgumentNullException"></exception>
     protected InlineAutoDataAttribute(Func<IFixture> fixtureFactory, params object[] values)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.Values = values ?? throw new ArgumentNullException(nameof(values));
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        Values = values ?? throw new ArgumentNullException(nameof(values));
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class InlineAutoDataAttribute : DataAttribute
     /// <inheritdoc />
     public override IEnumerable<object[]> GetData(MethodInfo testMethod)
     {
-        var source = new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values));
+        var source = new AutoDataSource(FixtureFactory, new InlineDataSource(Values));
 
         return source.GetData(testMethod);
     }

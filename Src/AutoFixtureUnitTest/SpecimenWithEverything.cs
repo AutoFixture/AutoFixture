@@ -34,9 +34,9 @@ internal class SpecimenWithEverything
         string stringReadOnlyAssignedByCtorOnly,
         List<ConcreteType> listOfConcreteTypesAssignedByCtorOnly)
     {
-        this.StringReadOnlyFieldAssignedByCtorOnly = stringReadOnlyFieldAssignedByCtorOnly;
-        this.StringReadOnlyAssignedByCtorOnly = stringReadOnlyAssignedByCtorOnly;
-        this.ListOfConcreteTypesAssignedByCtorOnly = listOfConcreteTypesAssignedByCtorOnly;
+        StringReadOnlyFieldAssignedByCtorOnly = stringReadOnlyFieldAssignedByCtorOnly;
+        StringReadOnlyAssignedByCtorOnly = stringReadOnlyAssignedByCtorOnly;
+        ListOfConcreteTypesAssignedByCtorOnly = listOfConcreteTypesAssignedByCtorOnly;
     }
 
     // public fields

@@ -35,9 +35,9 @@ public class RangedSequenceRequest : IEquatable<RangedSequenceRequest>
         if (maxLength < minLength)
             throw new ArgumentOutOfRangeException(nameof(maxLength), maxLength, "Max length cannot be less than min length.");
 
-        this.Request = request ?? throw new ArgumentNullException(nameof(request));
-        this.MinLength = minLength;
-        this.MaxLength = maxLength;
+        Request = request ?? throw new ArgumentNullException(nameof(request));
+        MinLength = minLength;
+        MaxLength = maxLength;
     }
 
     /// <inheritdoc />
@@ -46,15 +46,15 @@ public class RangedSequenceRequest : IEquatable<RangedSequenceRequest>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return this.Request.Equals(other.Request)
-               && this.MinLength == other.MinLength
-               && this.MaxLength == other.MaxLength;
+        return Request.Equals(other.Request)
+               && MinLength == other.MinLength
+               && MaxLength == other.MaxLength;
     }
 
     /// <inheritdoc />
     public override bool Equals(object obj)
     {
-        return obj is RangedSequenceRequest sequenceRequest && this.Equals(sequenceRequest);
+        return obj is RangedSequenceRequest sequenceRequest && Equals(sequenceRequest);
     }
 
     /// <inheritdoc />
@@ -62,9 +62,9 @@ public class RangedSequenceRequest : IEquatable<RangedSequenceRequest>
     {
         unchecked
         {
-            var hashCode = this.Request.GetHashCode();
-            hashCode = (hashCode * 397) ^ this.MinLength;
-            hashCode = (hashCode * 397) ^ this.MaxLength;
+            var hashCode = Request.GetHashCode();
+            hashCode = (hashCode * 397) ^ MinLength;
+            hashCode = (hashCode * 397) ^ MaxLength;
             return hashCode;
         }
     }

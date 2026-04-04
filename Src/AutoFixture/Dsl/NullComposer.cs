@@ -12,7 +12,7 @@ namespace AutoFixture.Dsl;
 /// <typeparam name="T"></typeparam>
 public class NullComposer<T> : ICustomizationComposer<T>
 {
-    private readonly Func<ISpecimenBuilder> compose;
+    private readonly Func<ISpecimenBuilder> _compose;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NullComposer&lt;T&gt;"/> class.
@@ -30,7 +30,7 @@ public class NullComposer<T> : ICustomizationComposer<T>
     {
         if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-        this.compose = () => builder;
+        _compose = () => builder;
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class NullComposer<T> : ICustomizationComposer<T>
     /// </summary>
     public NullComposer(Func<ISpecimenBuilder> factory)
     {
-        this.compose = factory ?? throw new ArgumentNullException(nameof(factory));
+        _compose = factory ?? throw new ArgumentNullException(nameof(factory));
     }
 
     /// <inheritdoc />
@@ -101,12 +101,12 @@ public class NullComposer<T> : ICustomizationComposer<T>
     /// </remarks>
     public ISpecimenBuilder Compose()
     {
-        return this.compose();
+        return _compose();
     }
 
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
-        return this.compose().Create(request, context);
+        return _compose().Create(request, context);
     }
 }

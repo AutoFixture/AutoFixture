@@ -8,39 +8,39 @@ namespace AutoFixture.AutoFakeItEasy;
 
 internal class MethodCall
 {
-    private readonly Type declaringType;
-    private readonly string methodName;
-    private readonly IList<Type> parameterTypes;
-    private readonly IList<object> arguments;
+    private readonly Type _declaringType;
+    private readonly string _methodName;
+    private readonly IList<Type> _parameterTypes;
+    private readonly IList<object> _arguments;
 
     public MethodCall(Type declaringType, string methodName, IEnumerable<ParameterInfo> parameters, IEnumerable<object> arguments)
     {
-        this.declaringType = declaringType;
-        this.methodName = methodName;
+        _declaringType = declaringType;
+        _methodName = methodName;
         var parametersList = parameters.ToList();
-        this.parameterTypes = parametersList.Select(p => p.ParameterType).ToList();
-        this.arguments = ExpandParamsArgument(parametersList, arguments).ToList();
+        _parameterTypes = parametersList.Select(p => p.ParameterType).ToList();
+        _arguments = ExpandParamsArgument(parametersList, arguments).ToList();
     }
 
     public override bool Equals(object obj)
     {
         return obj is MethodCall call
-               && this.declaringType == call.declaringType
-               && this.methodName.Equals(call.methodName, StringComparison.Ordinal)
-               && this.parameterTypes.SequenceEqual(call.parameterTypes)
-               && this.arguments.SequenceEqual(call.arguments);
+               && _declaringType == call._declaringType
+               && _methodName.Equals(call._methodName, StringComparison.Ordinal)
+               && _parameterTypes.SequenceEqual(call._parameterTypes)
+               && _arguments.SequenceEqual(call._arguments);
     }
 
     public override int GetHashCode()
     {
         var hashCode = default(HashCode);
-        hashCode.Add(this.declaringType);
-        hashCode.Add(this.methodName);
-        foreach (var argument in this.arguments)
+        hashCode.Add(_declaringType);
+        hashCode.Add(_methodName);
+        foreach (var argument in _arguments)
         {
             hashCode.Add(argument);
         }
-        foreach (var argumentType in this.parameterTypes)
+        foreach (var argumentType in _parameterTypes)
         {
             hashCode.Add(argumentType);
         }

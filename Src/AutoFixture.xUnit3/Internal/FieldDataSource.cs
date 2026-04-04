@@ -21,7 +21,7 @@ public class FieldDataSource : DataSource
     /// </exception>
     public FieldDataSource(FieldInfo fieldInfo)
     {
-        this.FieldInfo = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
+        FieldInfo = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class FieldDataSource : DataSource
     /// </exception>
     protected override IEnumerable<object[]> GetData()
     {
-        var value = this.FieldInfo.GetValue(null);
+        var value = FieldInfo.GetValue(null);
         if (value is not IEnumerable<object[]> enumerable)
             throw new InvalidCastException("Member does not return an enumerable value.");
 

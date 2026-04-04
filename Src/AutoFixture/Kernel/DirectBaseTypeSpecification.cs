@@ -21,7 +21,7 @@ public class DirectBaseTypeSpecification : IRequestSpecification
     /// </exception>
     public DirectBaseTypeSpecification(Type targetType)
     {
-        this.TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+        TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class DirectBaseTypeSpecification : IRequestSpecification
         if (request == null) throw new ArgumentNullException(nameof(request));
 
         return IsRequestForType(request) &&
-               this.IsTargetTypeOrItsDirectBase(request);
+               IsTargetTypeOrItsDirectBase(request);
     }
 
     private static bool IsRequestForType(object request)
@@ -53,17 +53,17 @@ public class DirectBaseTypeSpecification : IRequestSpecification
 
     private bool IsTargetTypeOrItsDirectBase(object request)
     {
-        return this.IsSameAsTargetType(request) ||
-               this.IsDirectBaseOfTargetType(request);
+        return IsSameAsTargetType(request) ||
+               IsDirectBaseOfTargetType(request);
     }
 
     private bool IsSameAsTargetType(object request)
     {
-        return (Type)request == this.TargetType;
+        return (Type)request == TargetType;
     }
 
     private bool IsDirectBaseOfTargetType(object request)
     {
-        return (Type)request == this.TargetType.GetTypeInfo().BaseType;
+        return (Type)request == TargetType.GetTypeInfo().BaseType;
     }
 }

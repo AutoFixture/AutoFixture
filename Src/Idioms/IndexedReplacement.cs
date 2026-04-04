@@ -28,8 +28,8 @@ public class IndexedReplacement<T> : IExpansion<T>
     /// <seealso cref="Expand" />
     public IndexedReplacement(int replacementIndex, params T[] source)
     {
-        this.ReplacementIndex = replacementIndex;
-        this.Source = source;
+        ReplacementIndex = replacementIndex;
+        Source = source;
     }
 
     /// <summary>
@@ -70,8 +70,8 @@ public class IndexedReplacement<T> : IExpansion<T>
     /// </remarks>
     public IEnumerable<T> Expand(T value)
     {
-        var list = this.Source.ToList();
-        list[this.ReplacementIndex] = value;
+        var list = Source.ToList();
+        list[ReplacementIndex] = value;
         return list;
     }
 

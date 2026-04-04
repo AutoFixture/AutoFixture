@@ -7,11 +7,11 @@ public class DelegatingGuardClauseCommand : IGuardClauseCommand
 {
     public DelegatingGuardClauseCommand()
     {
-        this.RequestedType = typeof(object);
-        this.OnExecute = v => { };
-        this.OnCreateException = v => new Exception();
-        this.OnCreateExceptionWithInner = (v, e) => new Exception();
-        this.OnCreateExceptionWithFailureReason = (v, r, e) => new Exception();
+        RequestedType = typeof(object);
+        OnExecute = v => { };
+        OnCreateException = v => new Exception();
+        OnCreateExceptionWithInner = (v, e) => new Exception();
+        OnCreateExceptionWithFailureReason = (v, r, e) => new Exception();
     }
 
     public Action<object> OnExecute { get; set; }
@@ -28,21 +28,21 @@ public class DelegatingGuardClauseCommand : IGuardClauseCommand
 
     public void Execute(object value)
     {
-        this.OnExecute(value);
+        OnExecute(value);
     }
 
     public Exception CreateException(string value)
     {
-        return this.OnCreateException(value);
+        return OnCreateException(value);
     }
 
     public Exception CreateException(string value, Exception innerException)
     {
-        return this.OnCreateExceptionWithInner(value, innerException);
+        return OnCreateExceptionWithInner(value, innerException);
     }
 
     public Exception CreateException(string value, string customError, Exception innerException)
     {
-        return this.OnCreateExceptionWithFailureReason(value, customError, innerException);
+        return OnCreateExceptionWithFailureReason(value, customError, innerException);
     }
 }

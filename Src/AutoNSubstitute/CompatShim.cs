@@ -12,20 +12,20 @@ namespace AutoFixture.AutoNSubstitute;
 /// </summary>
 internal static class CompatShim
 {
-    private static readonly Func<ISubstituteState, ISubstitutionContext, ICallSpecificationFactory> CallSpecificationFactoryResolver = GetCallSpecificationFactoryResolver();
+    private static readonly Func<ISubstituteState, ISubstitutionContext, ICallSpecificationFactory> s_callSpecificationFactoryResolver = GetCallSpecificationFactoryResolver();
 
-    private static readonly Func<ICallResults, ICall, bool> HasCallResultForResolver = GetHasCallResultForResolver();
+    private static readonly Func<ICallResults, ICall, bool> s_hasCallResultForResolver = GetHasCallResultForResolver();
 
-    private static readonly Func<ICallHandler[], Route> RouteFactory = GetRouteFactory();
+    private static readonly Func<ICallHandler[], Route> s_routeFactory = GetRouteFactory();
 
     public static ICallSpecificationFactory GetCallSpecificationFactory(ISubstituteState substituteState, ISubstitutionContext substitutionContext) =>
-        CallSpecificationFactoryResolver.Invoke(substituteState, substitutionContext);
+        s_callSpecificationFactoryResolver.Invoke(substituteState, substitutionContext);
 
     public static bool CallResults_HasCallResultFor(ICallResults callResults, ICall call) =>
-        HasCallResultForResolver.Invoke(callResults, call);
+        s_hasCallResultForResolver.Invoke(callResults, call);
 
     public static Route Route_CreateNew(ICallHandler[] handlers) =>
-        RouteFactory.Invoke(handlers);
+        s_routeFactory.Invoke(handlers);
 
     private static Func<ISubstituteState, ISubstitutionContext, ICallSpecificationFactory> GetCallSpecificationFactoryResolver()
     {

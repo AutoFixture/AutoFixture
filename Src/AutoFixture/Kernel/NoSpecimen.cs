@@ -44,7 +44,7 @@ public sealed class NoSpecimen : IEquatable<NoSpecimen>
     {
         if (obj is NoSpecimen other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
         return false;
     }

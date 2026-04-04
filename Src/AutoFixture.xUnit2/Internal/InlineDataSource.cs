@@ -12,7 +12,7 @@ namespace AutoFixture.Xunit2.Internal;
     Justification = "Type is not a collection.")]
 public sealed class InlineDataSource : IDataSource
 {
-    private readonly object[] values;
+    private readonly object[] _values;
 
     /// <summary>
     /// Creates an instance of type <see cref="InlineDataSource" />.
@@ -23,13 +23,13 @@ public sealed class InlineDataSource : IDataSource
     /// </exception>
     public InlineDataSource(object[] values)
     {
-        this.values = values ?? throw new ArgumentNullException(nameof(values));
+        _values = values ?? throw new ArgumentNullException(nameof(values));
     }
 
     /// <summary>
     /// The collection of inline values.
     /// </summary>
-    public IReadOnlyList<object> Values => Array.AsReadOnly(this.values);
+    public IReadOnlyList<object> Values => Array.AsReadOnly(_values);
 
     /// <inheritdoc />
     public IEnumerable<object[]> GetData(MethodInfo method)
@@ -37,12 +37,12 @@ public sealed class InlineDataSource : IDataSource
         if (method is null) throw new ArgumentNullException(nameof(method));
 
         var parameters = method.GetParameters();
-        if (this.values.Length > parameters.Length)
+        if (_values.Length > parameters.Length)
         {
             throw new InvalidOperationException(
                 "The number of arguments provided exceeds the number of parameters.");
         }
 
-        return new[] { this.values };
+        return new[] { _values };
     }
 }

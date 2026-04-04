@@ -8,11 +8,11 @@ internal class MyClassFixture : Fixture
 {
     internal MyClassFixture()
     {
-        this.Things = new List<Thing>();
+        Things = new List<Thing>();
         this.Register<IMyInterface>(() =>
         {
             var fake = new FakeMyInterface();
-            this.Things.ToList().ForEach(t =>
+            Things.ToList().ForEach(t =>
                 fake.AddThing(t));
             return fake;
         });

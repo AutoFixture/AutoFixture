@@ -4,32 +4,32 @@ namespace AutoFixtureDocumentationTest.Simple;
 
 public class Filter
 {
-    private int max;
-    private int min;
+    private int _max;
+    private int _min;
 
     public int Max
     {
-        get => this.max;
+        get => _max;
         set
         {
-            if (value < this.Min)
+            if (value < Min)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
-            this.max = value;
+            _max = value;
         }
     }
 
     public int Min
     {
-        get => this.min;
+        get => _min;
         set
         {
-            if (value > this.Max)
+            if (value > Max)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
-            this.min = value;
+            _min = value;
         }
     }
 }

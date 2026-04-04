@@ -6,20 +6,20 @@ namespace AutoFixture.Xunit2.Internal;
 
 internal class FrozenValueCustomization : ICustomization
 {
-    private readonly IRequestSpecification specification;
-    private readonly object? value;
+    private readonly IRequestSpecification _specification;
+    private readonly object? _value;
 
     public FrozenValueCustomization(IRequestSpecification specification, object? value)
     {
-        this.specification = specification ?? throw new ArgumentNullException(nameof(specification));
-        this.value = value;
+        _specification = specification ?? throw new ArgumentNullException(nameof(specification));
+        _value = value;
     }
 
     public void Customize(IFixture fixture)
     {
         var builder = new FilteringSpecimenBuilder(
-            builder: new FixedBuilder(this.value),
-            specification: this.specification);
+            builder: new FixedBuilder(_value),
+            specification: _specification);
 
         fixture.Customizations.Insert(0, builder);
     }

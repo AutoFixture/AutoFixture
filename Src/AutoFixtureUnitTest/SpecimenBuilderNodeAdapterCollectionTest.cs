@@ -10,12 +10,12 @@ namespace AutoFixtureUnitTest;
 
 public class SpecimenBuilderNodeAdapterCollectionTest
 {
-    private readonly ISpecimenBuilderNode graph;
-    private readonly SpecimenBuilderNodeAdapterCollection sut;
+    private readonly ISpecimenBuilderNode _graph;
+    private readonly SpecimenBuilderNodeAdapterCollection _sut;
 
     public SpecimenBuilderNodeAdapterCollectionTest()
     {
-        this.graph = new CompositeSpecimenBuilder(
+        _graph = new CompositeSpecimenBuilder(
             new CompositeSpecimenBuilder(
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder(),
@@ -29,7 +29,7 @@ public class SpecimenBuilderNodeAdapterCollectionTest
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder()));
-        this.sut = new SpecimenBuilderNodeAdapterCollection(this.graph, s => s is MarkerNode);
+        _sut = new SpecimenBuilderNodeAdapterCollection(_graph, s => s is MarkerNode);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class SpecimenBuilderNodeAdapterCollectionTest
         // Arrange
         // Act
         // Assert
-        Assert.IsAssignableFrom<IList<ISpecimenBuilder>>(this.sut);
+        Assert.IsAssignableFrom<IList<ISpecimenBuilder>>(_sut);
     }
 
     [Theory]
@@ -48,9 +48,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void IndexOfReturnsCorrectResult(int expected)
     {
         // Arrange
-        var item = this.FindMarkedNode().ElementAt(expected);
+        var item = FindMarkedNode().ElementAt(expected);
         // Act
-        var actual = this.sut.IndexOf(item);
+        var actual = _sut.IndexOf(item);
         // Assert
         Assert.Equal(expected, actual);
     }
@@ -61,7 +61,7 @@ public class SpecimenBuilderNodeAdapterCollectionTest
         // Arrange
         var item = new DelegatingSpecimenBuilder();
         // Act
-        var actual = this.sut.IndexOf(item);
+        var actual = _sut.IndexOf(item);
         // Assert
         Assert.Equal(-1, actual);
     }
@@ -75,9 +75,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
         // Arrange
         var item = new DelegatingSpecimenBuilder();
         // Act
-        this.sut.Insert(expected, item);
+        _sut.Insert(expected, item);
         // Assert
-        var actual = this.sut.IndexOf(item);
+        var actual = _sut.IndexOf(item);
         Assert.Equal(expected, actual);
     }
 
@@ -88,9 +88,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void ContainsReturnsTrueForContainedItem(int index)
     {
         // Arrange
-        var item = this.FindMarkedNode().ElementAt(index);
+        var item = FindMarkedNode().ElementAt(index);
         // Act
-        var actual = this.sut.Contains(item);
+        var actual = _sut.Contains(item);
         // Assert
         Assert.True(actual);
     }
@@ -101,7 +101,7 @@ public class SpecimenBuilderNodeAdapterCollectionTest
         // Arrange
         var uncontainedItem = new DelegatingSpecimenBuilder();
         // Act
-        var actual = this.sut.Contains(uncontainedItem);
+        var actual = _sut.Contains(uncontainedItem);
         // Assert
         Assert.False(actual);
     }
@@ -113,11 +113,11 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void RemoveAtCorrectlyRemovesItem(int index)
     {
         // Arrange
-        var itemToBeRemoved = this.FindMarkedNode().ElementAt(index);
+        var itemToBeRemoved = FindMarkedNode().ElementAt(index);
         // Act
-        this.sut.RemoveAt(index);
+        _sut.RemoveAt(index);
         // Assert
-        Assert.DoesNotContain(itemToBeRemoved, this.sut);
+        Assert.DoesNotContain(itemToBeRemoved, _sut);
     }
 
     [Theory]
@@ -127,9 +127,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void GetItemReturnsCorrectResult(int index)
     {
         // Arrange
-        var expected = this.FindMarkedNode().ElementAt(index);
+        var expected = FindMarkedNode().ElementAt(index);
         // Act
-        var actual = this.sut[index];
+        var actual = _sut[index];
         // Assert
         Assert.Equal(expected, actual);
     }
@@ -138,7 +138,7 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void GetItemForIncorrectIndexThrows()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
-            this.sut[1337]);
+            _sut[1337]);
     }
 
     [Theory]
@@ -150,9 +150,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
         // Arrange
         var item = new DelegatingSpecimenBuilder();
         // Act
-        this.sut[expected] = item;
+        _sut[expected] = item;
         // Assert
-        Assert.Equal(expected, this.sut.IndexOf(item));
+        Assert.Equal(expected, _sut.IndexOf(item));
     }
 
     [Theory]
@@ -162,11 +162,11 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void SetItemCorrectlyRemovesExistingItem(int index)
     {
         // Arrange
-        var itemToReplace = this.FindMarkedNode().ElementAt(index);
+        var itemToReplace = FindMarkedNode().ElementAt(index);
         // Act
-        this.sut[index] = new DelegatingSpecimenBuilder();
+        _sut[index] = new DelegatingSpecimenBuilder();
         // Assert
-        Assert.DoesNotContain(itemToReplace, this.sut);
+        Assert.DoesNotContain(itemToReplace, _sut);
     }
 
     [Theory]
@@ -176,16 +176,16 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void SetItemForIncorrectIndexThrows(int invalidIndex)
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
-            this.sut[invalidIndex] = new DelegatingSpecimenBuilder());
+            _sut[invalidIndex] = new DelegatingSpecimenBuilder());
     }
 
     [Fact]
     public void SutYieldsCorrectItems()
     {
-        var expected = (ISpecimenBuilderNode)this.graph
+        var expected = (ISpecimenBuilderNode)_graph
             .OfType<MarkerNode>().Single().Single();
-        Assert.True(expected.SequenceEqual(this.sut));
-        Assert.True(expected.Cast<object>().SequenceEqual(((System.Collections.IEnumerable)this.sut).Cast<object>()));
+        Assert.True(expected.SequenceEqual(_sut));
+        Assert.True(expected.Cast<object>().SequenceEqual(((System.Collections.IEnumerable)_sut).Cast<object>()));
     }
 
     [Fact]
@@ -193,9 +193,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         // Act
-        var actual = this.sut.Count;
+        var actual = _sut.Count;
         // Assert
-        var expected = this.FindMarkedNode().Count();
+        var expected = FindMarkedNode().Count();
         Assert.Equal(expected, actual);
     }
 
@@ -204,9 +204,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         // Act
-        this.sut.Clear();
+        _sut.Clear();
         // Assert
-        Assert.Empty(this.sut);
+        Assert.Empty(_sut);
     }
 
     [Fact]
@@ -214,11 +214,11 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         var item = new DelegatingSpecimenBuilder();
-        var expected = this.FindMarkedNode().Concat(new[] { item });
+        var expected = FindMarkedNode().Concat(new[] { item });
         // Act
-        this.sut.Add(item);
+        _sut.Add(item);
         // Assert
-        Assert.True(expected.SequenceEqual(this.sut));
+        Assert.True(expected.SequenceEqual(_sut));
     }
 
     [Theory]
@@ -228,10 +228,10 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void CopyToCorrectlyCopiesItems(int index)
     {
         // Arrange
-        var expected = this.FindMarkedNode().ToArray();
+        var expected = FindMarkedNode().ToArray();
         var a = new ISpecimenBuilder[expected.Length + index];
         // Act
-        this.sut.CopyTo(a, index);
+        _sut.CopyTo(a, index);
         // Assert
         Assert.True(expected.SequenceEqual(a.Skip(index)));
     }
@@ -239,7 +239,7 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     [Fact]
     public void IsReadOnlyReturnsCorrectResult()
     {
-        Assert.False(this.sut.IsReadOnly);
+        Assert.False(_sut.IsReadOnly);
     }
 
     [Theory]
@@ -249,11 +249,11 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void RemoveCorrectlyRemovesItem(int index)
     {
         // Arrange
-        var item = this.FindMarkedNode().ElementAt(index);
+        var item = FindMarkedNode().ElementAt(index);
         // Act
-        this.sut.Remove(item);
+        _sut.Remove(item);
         // Assert
-        Assert.DoesNotContain(item, this.sut);
+        Assert.DoesNotContain(item, _sut);
     }
 
     [Theory]
@@ -263,9 +263,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     public void RemoveReturnsTrueForContainedItem(int index)
     {
         // Arrange
-        var item = this.FindMarkedNode().ElementAt(index);
+        var item = FindMarkedNode().ElementAt(index);
         // Act
-        var actual = this.sut.Remove(item);
+        var actual = _sut.Remove(item);
         // Assert
         Assert.True(actual);
     }
@@ -276,7 +276,7 @@ public class SpecimenBuilderNodeAdapterCollectionTest
         // Arrange
         var uncontainedItem = new DelegatingSpecimenBuilder();
         // Act
-        var actual = this.sut.Remove(uncontainedItem);
+        var actual = _sut.Remove(uncontainedItem);
         // Assert
         Assert.False(actual);
     }
@@ -286,9 +286,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         // Act
-        ISpecimenBuilderNode actual = this.sut.Graph;
+        ISpecimenBuilderNode actual = _sut.Graph;
         // Assert
-        Assert.Equal(this.graph, actual);
+        Assert.Equal(_graph, actual);
     }
 
     [Fact]
@@ -296,11 +296,11 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null;
         // Act
         var dummyIndex = 1;
         var dummyItem = new DelegatingSpecimenBuilder();
-        this.sut.Insert(dummyIndex, dummyItem);
+        _sut.Insert(dummyIndex, dummyItem);
         // Assert
         Assert.True(verified);
     }
@@ -310,10 +310,10 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null;
         // Act
         var dummyIndex = 1;
-        this.sut.RemoveAt(dummyIndex);
+        _sut.RemoveAt(dummyIndex);
         // Assert
         Assert.True(verified);
     }
@@ -323,11 +323,11 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null;
         // Act
         var dummyIndex = 1;
         var dummyItem = new DelegatingSpecimenBuilder();
-        this.sut[dummyIndex] = dummyItem;
+        _sut[dummyIndex] = dummyItem;
         // Assert
         Assert.True(verified);
     }
@@ -337,10 +337,10 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null;
         // Act
         var dummyItem = new DelegatingSpecimenBuilder();
-        this.sut.Add(dummyItem);
+        _sut.Add(dummyItem);
         // Assert
         Assert.True(verified);
     }
@@ -350,9 +350,9 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null;
         // Act
-        this.sut.Clear();
+        _sut.Clear();
         // Assert
         Assert.True(verified);
     }
@@ -365,18 +365,18 @@ public class SpecimenBuilderNodeAdapterCollectionTest
     {
         // Arrange
         var verified = false;
-        this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+        _sut.GraphChanged += (s, e) => verified = s != null && e != null;
 
-        var item = this.FindMarkedNode().ElementAt(index);
+        var item = FindMarkedNode().ElementAt(index);
         // Act
-        this.sut.Remove(item);
+        _sut.Remove(item);
         // Assert
         Assert.True(verified);
     }
 
     private ISpecimenBuilderNode FindMarkedNode()
     {
-        return (ISpecimenBuilderNode)this.graph
+        return (ISpecimenBuilderNode)_graph
             .OfType<MarkerNode>()
             .Single()
             .Single();

@@ -7,11 +7,11 @@ namespace AutoFixture.NUnit2.UnitTest;
 [TestFixture]
 public class AutoDataProviderTest
 {
-    private readonly MethodInfo method;
+    private readonly MethodInfo _method;
 
     public AutoDataProviderTest()
     {
-        this.method = typeof(FakeAutoDataFixture).GetMethod("DoSomething");
+        _method = typeof(FakeAutoDataFixture).GetMethod("DoSomething");
     }
 
     [Test]
@@ -20,7 +20,7 @@ public class AutoDataProviderTest
         // Arrange
         // Act
         var sut = new AutoDataProvider();
-        var actual = sut.HasTestCasesFor(this.method);
+        var actual = sut.HasTestCasesFor(_method);
         // Assert
         Assert.True(actual);
     }
@@ -31,7 +31,7 @@ public class AutoDataProviderTest
         // Arrange
         // Act
         var sut = new AutoDataProvider();
-        var actual = sut.GetTestCasesFor(this.method);
+        var actual = sut.GetTestCasesFor(_method);
         // Assert
         Assert.NotNull(actual);
     }

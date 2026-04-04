@@ -2,11 +2,11 @@
 {
     public abstract class TypeWithPrivateField
     {
-        private string field = string.Empty;
+        private string _field = string.Empty;
 
         public string GetPrivateField()
         {
-            return this.field;
+            return _field;
         }
     }
 }

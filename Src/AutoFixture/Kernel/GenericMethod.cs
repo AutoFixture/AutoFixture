@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class GenericMethod : IMethod
 {
-    private readonly ParameterInfo[] parametersInfo;
+    private readonly ParameterInfo[] _parametersInfo;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GenericMethod"/> class.
@@ -25,15 +25,15 @@ public class GenericMethod : IMethod
         if (method == null) throw new ArgumentNullException(nameof(method));
         if (factory == null) throw new ArgumentNullException(nameof(factory));
 
-        this.Method = method;
-        this.Factory = factory;
-        this.parametersInfo = method.GetParameters();
+        Method = method;
+        Factory = factory;
+        _parametersInfo = method.GetParameters();
     }
 
     /// <summary>
     /// Gets information about the parameters of the method.
     /// </summary>
-    public IEnumerable<ParameterInfo> Parameters => this.parametersInfo;
+    public IEnumerable<ParameterInfo> Parameters => _parametersInfo;
 
     /// <summary>
     /// Gets information about the method.
@@ -109,7 +109,7 @@ public class GenericMethod : IMethod
     public object Invoke(IEnumerable<object> parameters)
     {
         var arguments = parameters.ToArray();
-        return this.Factory.Create(InferMethodInfo(this.Method, arguments))
+        return Factory.Create(InferMethodInfo(Method, arguments))
             .Invoke(arguments);
     }
 }

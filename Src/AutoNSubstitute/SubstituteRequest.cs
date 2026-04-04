@@ -21,7 +21,7 @@ public class SubstituteRequest
     /// </param>
     public SubstituteRequest(Type targetType)
     {
-        this.TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+        TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
     }
 
     /// <summary>
@@ -32,5 +32,5 @@ public class SubstituteRequest
     /// <summary>
     /// Add user friendly request message.
     /// </summary>
-    public override string ToString() => "NSubstituteRequest: " + this.TargetType;
+    public override string ToString() => "NSubstituteRequest: " + TargetType;
 }

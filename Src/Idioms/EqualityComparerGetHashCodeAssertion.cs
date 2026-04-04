@@ -33,7 +33,7 @@ public class EqualityComparerGetHashCodeAssertion : IdiomaticAssertion
     /// </remarks>
     public EqualityComparerGetHashCodeAssertion(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -46,8 +46,8 @@ public class EqualityComparerGetHashCodeAssertion : IdiomaticAssertion
         if (methodInfo == null) throw new ArgumentNullException(nameof(methodInfo));
         if (!IsEqualityComparerGetHashCode(methodInfo)) return;
 
-        var comparer = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
-        var testSubject = this.Builder.CreateAnonymous(methodInfo.GetParameters()[0].ParameterType);
+        var comparer = Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var testSubject = Builder.CreateAnonymous(methodInfo.GetParameters()[0].ParameterType);
 
         var firstHashCode = (int)methodInfo.Invoke(comparer, new[] { testSubject });
         var secondHashCode = (int)methodInfo.Invoke(comparer, new[] { testSubject });

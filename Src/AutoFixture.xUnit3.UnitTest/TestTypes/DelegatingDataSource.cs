@@ -10,6 +10,6 @@ public class DelegatingDataSource : DataSource
 
     protected override IEnumerable<object[]> GetData()
     {
-        return this.TestData;
+        return TestData;
     }
 }

@@ -13,7 +13,7 @@ public class SeedRequestSpecification : IRequestSpecification
     /// <param name="type">The target type.</param>
     public SeedRequestSpecification(Type type)
     {
-        this.TargetType = type ?? throw new ArgumentNullException(nameof(type));
+        TargetType = type ?? throw new ArgumentNullException(nameof(type));
     }
 
     /// <summary>
@@ -34,6 +34,6 @@ public class SeedRequestSpecification : IRequestSpecification
         if (request == null) throw new ArgumentNullException(nameof(request));
 
         return request is SeededRequest seededRequest &&
-               this.TargetType.Equals(seededRequest.Request);
+               TargetType.Equals(seededRequest.Request);
     }
 }

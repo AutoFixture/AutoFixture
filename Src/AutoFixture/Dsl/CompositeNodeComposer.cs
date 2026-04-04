@@ -41,7 +41,7 @@ public class CompositeNodeComposer<T> :
     /// <seealso cref="Node" />
     public CompositeNodeComposer(ISpecimenBuilderNode node)
     {
-        this.Node = node ?? throw new ArgumentNullException(nameof(node));
+        Node = node ?? throw new ArgumentNullException(nameof(node));
     }
 
     /// <inheritdoc />
@@ -219,15 +219,15 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
-        return this.Node.Create(request, context);
+        return Node.Create(request, context);
     }
 
     /// <inheritdoc />
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Node;
+        yield return Node;
     }
 
     /// <inheritdoc />
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

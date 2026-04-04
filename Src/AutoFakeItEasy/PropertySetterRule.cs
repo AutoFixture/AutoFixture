@@ -11,11 +11,11 @@ namespace AutoFixture.AutoFakeItEasy;
 /// </summary>
 internal class PropertySetterRule : IFakeObjectCallRule
 {
-    private readonly CallResultCache resultCache;
+    private readonly CallResultCache _resultCache;
 
     public PropertySetterRule(CallResultCache resultCache)
     {
-        this.resultCache = resultCache;
+        _resultCache = resultCache;
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ internal class PropertySetterRule : IFakeObjectCallRule
         if (fakeObjectCall is null) throw new ArgumentNullException(nameof(fakeObjectCall));
 
         var methodCall = CreateMethodCallForGetter(fakeObjectCall);
-        this.resultCache.Put(methodCall, new MethodCallResult(fakeObjectCall.Arguments.Last()));
+        _resultCache.Put(methodCall, new MethodCallResult(fakeObjectCall.Arguments.Last()));
     }
 
     private static bool IsSetter(MethodInfo method) =>

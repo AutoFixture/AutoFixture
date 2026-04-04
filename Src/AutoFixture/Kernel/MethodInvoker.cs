@@ -19,7 +19,7 @@ public class MethodInvoker : ISpecimenBuilder
     /// </param>
     public MethodInvoker(IMethodQuery query)
     {
-        this.Query = query ?? throw new ArgumentNullException(nameof(query));
+        Query = query ?? throw new ArgumentNullException(nameof(query));
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class MethodInvoker : ISpecimenBuilder
     {
         if (context == null) throw new ArgumentNullException(nameof(context));
 
-        foreach (var ci in this.GetConstructors(request))
+        foreach (var ci in GetConstructors(request))
         {
             var paramValues = (from pi in ci.Parameters
                 select context.Resolve(pi)).ToList();
@@ -70,7 +70,7 @@ public class MethodInvoker : ISpecimenBuilder
             return Enumerable.Empty<IMethod>();
         }
 
-        return this.Query.SelectMethods(requestedType);
+        return Query.SelectMethods(requestedType);
     }
 
     private static bool IsValueValid(object value)

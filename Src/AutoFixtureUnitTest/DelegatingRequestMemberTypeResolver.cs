@@ -7,12 +7,12 @@ internal class DelegatingRequestMemberTypeResolver : IRequestMemberTypeResolver
 {
     public DelegatingRequestMemberTypeResolver()
     {
-        this.OnTryGetMemberType = r => null;
+        OnTryGetMemberType = r => null;
     }
 
     public bool TryGetMemberType(object request, out Type memberType)
     {
-        memberType = this.OnTryGetMemberType(request);
+        memberType = OnTryGetMemberType(request);
         return memberType != null;
     }
 

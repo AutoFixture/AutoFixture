@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class UInt32SequenceGenerator : ISpecimenBuilder
 {
-    private readonly object syncRoot;
-    private uint u;
+    private readonly object _syncRoot;
+    private uint _u;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UInt32SequenceGenerator"/> class.
     /// </summary>
     public UInt32SequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class UInt32SequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public uint CreateAnonymous()
     {
-        return (uint)this.Create(typeof(uint), null);
+        return (uint)Create(typeof(uint), null);
     }
 
     /// <summary>
@@ -46,9 +46,9 @@ public class UInt32SequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.u;
+            return ++_u;
         }
     }
 }

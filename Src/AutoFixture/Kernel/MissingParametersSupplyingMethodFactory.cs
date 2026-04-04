@@ -16,7 +16,7 @@ public class MissingParametersSupplyingMethodFactory : IMethodFactory
     /// <param name="owner">The owner.</param>
     public MissingParametersSupplyingMethodFactory(object owner)
     {
-        this.Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        Owner = owner ?? throw new ArgumentNullException(nameof(owner));
     }
 
     /// <summary>
@@ -33,6 +33,6 @@ public class MissingParametersSupplyingMethodFactory : IMethodFactory
     /// <returns>Method for <paramref name="methodInfo"/>.</returns>
     public IMethod Create(MethodInfo methodInfo)
     {
-        return new MissingParametersSupplyingMethod(new InstanceMethod(methodInfo, this.Owner));
+        return new MissingParametersSupplyingMethod(new InstanceMethod(methodInfo, Owner));
     }
 }

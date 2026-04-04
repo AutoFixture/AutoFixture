@@ -6,8 +6,8 @@ public abstract class AbstractTypeWithConstructorWithMultipleParameters<T1, T2>
         T1 parameter1,
         T2 parameter2)
     {
-        this.Property1 = parameter1;
-        this.Property2 = parameter2;
+        Property1 = parameter1;
+        Property2 = parameter2;
     }
 
     public T1 Property1 { get; }

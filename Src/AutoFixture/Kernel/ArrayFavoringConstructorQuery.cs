@@ -47,14 +47,14 @@ public class ArrayFavoringConstructorQuery : IMethodQuery
 
     private class ArrayParameterScore : IComparable<ArrayParameterScore>
     {
-        private readonly int score;
+        private readonly int _score;
 
         public ArrayParameterScore(IEnumerable<ParameterInfo> parameters)
         {
             if (parameters == null)
                 throw new ArgumentNullException(nameof(parameters));
 
-            this.score = CalculateScore(parameters);
+            _score = CalculateScore(parameters);
         }
 
         public int CompareTo(ArrayParameterScore other)
@@ -64,7 +64,7 @@ public class ArrayFavoringConstructorQuery : IMethodQuery
                 return 1;
             }
 
-            return this.score.CompareTo(other.score);
+            return _score.CompareTo(other._score);
         }
 
         private static int CalculateScore(IEnumerable<ParameterInfo> parameters)

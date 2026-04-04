@@ -46,18 +46,18 @@ public class AsyncEnumerableRelay : ISpecimenBuilder
         Justification = "It's activated via reflection.")]
     private class SynchronousAsyncEnumerable<T> : IAsyncEnumerable<T>
     {
-        private readonly IEnumerable<T> enumerable;
+        private readonly IEnumerable<T> _enumerable;
 
         public SynchronousAsyncEnumerable(IEnumerable<object> enumerable)
         {
             if (enumerable is null) throw new ArgumentNullException(nameof(enumerable));
 
-            this.enumerable = enumerable.OfType<T>().ToList();
+            _enumerable = enumerable.OfType<T>().ToList();
         }
 
         public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
-            return new SynchronousAsyncEnumerator<T>(this.enumerable.GetEnumerator());
+            return new SynchronousAsyncEnumerator<T>(_enumerable.GetEnumerator());
         }
     }
 
@@ -65,13 +65,13 @@ public class AsyncEnumerableRelay : ISpecimenBuilder
         Justification = "It's activated via reflection.")]
     private class SynchronousAsyncEnumerator<T> : IAsyncEnumerator<T>
     {
-        private readonly IEnumerator<T> enumerator;
+        private readonly IEnumerator<T> _enumerator;
 
-        public T Current => this.enumerator.Current;
+        public T Current => _enumerator.Current;
 
         public SynchronousAsyncEnumerator(IEnumerator<T> enumerator)
         {
-            this.enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
+            _enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
         }
 
         public ValueTask DisposeAsync()
@@ -81,7 +81,7 @@ public class AsyncEnumerableRelay : ISpecimenBuilder
 
         public ValueTask<bool> MoveNextAsync()
         {
-            return new ValueTask<bool>(Task.FromResult(this.enumerator.MoveNext()));
+            return new ValueTask<bool>(Task.FromResult(_enumerator.MoveNext()));
         }
     }
 }

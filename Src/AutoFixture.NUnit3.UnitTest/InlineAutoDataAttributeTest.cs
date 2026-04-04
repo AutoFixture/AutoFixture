@@ -53,9 +53,9 @@ public class InlineAutoDataAttributeTest
         // DummyFixture is set up to throw DummyException when invoked by AutoDataAttribute
         var inlineAutoDataAttributeStub = new InlineAutoDataAttributeStub(() => new ThrowingStubFixture());
 
-        var fixtureType = this.GetType();
+        var fixtureType = GetType();
 
-        var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod(nameof(this.DummyTestMethod)));
+        var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod(nameof(DummyTestMethod)));
         var testSuite = new TestSuite(fixtureType);
 
         // Act
@@ -81,8 +81,8 @@ public class InlineAutoDataAttributeTest
         });
         sut.TestMethodBuilder = new TestMethodBuilderWithoutParametersUsage();
 
-        var methodWrapper = new MethodWrapper(this.GetType(), nameof(this.DummyTestMethod));
-        var testSuite = new TestSuite(this.GetType());
+        var methodWrapper = new MethodWrapper(GetType(), nameof(DummyTestMethod));
+        var testSuite = new TestSuite(GetType());
 
         // Assert
         var dummy = sut.BuildFrom(methodWrapper, testSuite).ToArray();
@@ -140,7 +140,7 @@ public class InlineAutoDataAttributeTest
         };
         var sut = new InlineAutoDataAttributeStub(() => fixture);
         // Act
-        sut.BuildFrom(method, new TestSuite(this.GetType())).Single();
+        sut.BuildFrom(method, new TestSuite(GetType())).Single();
         // Assert
         Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
         Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
@@ -202,7 +202,7 @@ public class InlineAutoDataAttributeTest
         var sut = new InlineAutoDataAttributeStub(() => fixture, new[] { 42 });
 
         // Act
-        sut.BuildFrom(method, new TestSuite(this.GetType())).ToArray();
+        sut.BuildFrom(method, new TestSuite(GetType())).ToArray();
         // Assert
         Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
     }

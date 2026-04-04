@@ -13,7 +13,7 @@ public class DomainName
     /// </summary>
     public DomainName(string domainName)
     {
-        this.Domain = domainName ?? throw new ArgumentNullException(nameof(domainName));
+        Domain = domainName ?? throw new ArgumentNullException(nameof(domainName));
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class DomainName
     /// </returns>
     public override string ToString()
     {
-        return this.Domain;
+        return Domain;
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class DomainName
     {
         if (obj is DomainName other)
         {
-            return this.Domain.Equals(other.Domain, StringComparison.Ordinal);
+            return Domain.Equals(other.Domain, StringComparison.Ordinal);
         }
         return base.Equals(obj);
     }
@@ -62,6 +62,6 @@ public class DomainName
     /// </returns>
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Domain);
+        return HashCode.Combine(Domain);
     }
 }

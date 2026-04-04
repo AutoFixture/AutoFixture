@@ -60,6 +60,6 @@ public class OmitOnRecursionGuard : RecursionGuard
         if (builders == null) throw new ArgumentNullException(nameof(builders));
 
         var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-        return new OmitOnRecursionGuard(composedBuilder, this.Comparer);
+        return new OmitOnRecursionGuard(composedBuilder, Comparer);
     }
 }

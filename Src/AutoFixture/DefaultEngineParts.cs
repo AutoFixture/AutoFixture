@@ -12,7 +12,7 @@ namespace AutoFixture;
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is not a 'collection' - it can't be modified.")]
 public class DefaultEngineParts : DefaultRelays
 {
-    private readonly IEnumerable<ISpecimenBuilder> primitiveBuilders;
+    private readonly IEnumerable<ISpecimenBuilder> _primitiveBuilders;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultEngineParts"/> class with
@@ -49,7 +49,7 @@ public class DefaultEngineParts : DefaultRelays
             throw new ArgumentNullException(nameof(primitiveBuilders));
         }
 
-        this.primitiveBuilders = primitiveBuilders;
+        _primitiveBuilders = primitiveBuilders;
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class DefaultEngineParts : DefaultRelays
     /// </returns>
     public override IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        var l = this.primitiveBuilders.ToList();
+        var l = _primitiveBuilders.ToList();
         var be = base.GetEnumerator();
         while (be.MoveNext())
         {

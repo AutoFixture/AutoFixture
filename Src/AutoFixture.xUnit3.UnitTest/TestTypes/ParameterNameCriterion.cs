@@ -13,7 +13,7 @@ internal class ParameterNameCriterion : IEquatable<ParameterInfo>
 
     public ParameterNameCriterion(IEquatable<string> nameCriterion)
     {
-        this.NameCriterion = nameCriterion ?? throw new ArgumentNullException(nameof(nameCriterion));
+        NameCriterion = nameCriterion ?? throw new ArgumentNullException(nameof(nameCriterion));
     }
 
     /// <summary>
@@ -24,6 +24,6 @@ internal class ParameterNameCriterion : IEquatable<ParameterInfo>
     public bool Equals(ParameterInfo other)
     {
         return other is not null
-               && this.NameCriterion.Equals(other.Name);
+               && NameCriterion.Equals(other.Name);
     }
 }

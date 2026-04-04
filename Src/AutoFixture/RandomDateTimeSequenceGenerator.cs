@@ -14,7 +14,7 @@ namespace AutoFixture;
 /// </remarks>
 public class RandomDateTimeSequenceGenerator : ISpecimenBuilder
 {
-    private readonly RandomNumericSequenceGenerator randomizer;
+    private readonly RandomNumericSequenceGenerator _randomizer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RandomDateTimeSequenceGenerator"/> class.
@@ -40,7 +40,7 @@ public class RandomDateTimeSequenceGenerator : ISpecimenBuilder
             throw new ArgumentException("The 'minDate' argument must be less than the 'maxDate'.");
         }
 
-        this.randomizer = new RandomNumericSequenceGenerator(minDate.Ticks, maxDate.Ticks);
+        _randomizer = new RandomNumericSequenceGenerator(minDate.Ticks, maxDate.Ticks);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class RandomDateTimeSequenceGenerator : ISpecimenBuilder
 
         return IsNotDateTimeRequest(request)
             ? NoSpecimen.Instance
-            : this.CreateRandomDate(context);
+            : CreateRandomDate(context);
     }
 
     private static bool IsNotDateTimeRequest(object request)
@@ -68,11 +68,11 @@ public class RandomDateTimeSequenceGenerator : ISpecimenBuilder
 
     private object CreateRandomDate(ISpecimenContext context)
     {
-        return new DateTime(this.GetRandomNumberOfTicks(context));
+        return new DateTime(GetRandomNumberOfTicks(context));
     }
 
     private long GetRandomNumberOfTicks(ISpecimenContext context)
     {
-        return (long)this.randomizer.Create(typeof(long), context);
+        return (long)_randomizer.Create(typeof(long), context);
     }
 }

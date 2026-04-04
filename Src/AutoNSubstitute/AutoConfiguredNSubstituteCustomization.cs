@@ -17,7 +17,7 @@ public class AutoConfiguredNSubstituteCustomization : AutoNSubstituteCustomizati
     /// <remarks>Uses a new instance of <see cref="NSubstituteBuilder"/> as the builder.</remarks>
     public AutoConfiguredNSubstituteCustomization()
     {
-        this.ConfigureMembers = true;
+        ConfigureMembers = true;
     }
 
     /// <summary>
@@ -27,6 +27,6 @@ public class AutoConfiguredNSubstituteCustomization : AutoNSubstituteCustomizati
     public AutoConfiguredNSubstituteCustomization(ISpecimenBuilder relay)
         : base(relay)
     {
-        this.ConfigureMembers = true;
+        ConfigureMembers = true;
     }
 }

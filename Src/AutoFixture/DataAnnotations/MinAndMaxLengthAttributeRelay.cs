@@ -10,15 +10,15 @@ namespace AutoFixture.DataAnnotations;
 /// </summary>
 public class MinAndMaxLengthAttributeRelay : ISpecimenBuilder
 {
-    private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
+    private IRequestMemberTypeResolver _requestMemberTypeResolver = new RequestMemberTypeResolver();
 
     /// <summary>
     /// Gets or sets the current IRequestMemberTypeResolver.
     /// </summary>
     public IRequestMemberTypeResolver RequestMemberTypeResolver
     {
-        get => this.requestMemberTypeResolver;
-        set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+        get => _requestMemberTypeResolver;
+        set => _requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class MinAndMaxLengthAttributeRelay : ISpecimenBuilder
     {
         if (context is null) throw new ArgumentNullException(nameof(context));
 
-        if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
+        if (!RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
         {
             return NoSpecimen.Instance;
         }
@@ -72,9 +72,9 @@ public class MinAndMaxLengthAttributeRelay : ISpecimenBuilder
 
         public Range(int? min, int? max)
         {
-            this.Min = min;
-            this.Max = max;
-            this.IsConstrained = min.HasValue || max.HasValue;
+            Min = min;
+            Max = max;
+            IsConstrained = min.HasValue || max.HasValue;
         }
 
         public int? Min { get; }
@@ -85,8 +85,8 @@ public class MinAndMaxLengthAttributeRelay : ISpecimenBuilder
 
         public ConstrainedStringRequest ToStringRequest()
         {
-            var min = this.Min ?? 0;
-            var max = this.Max ?? min * 2;
+            var min = Min ?? 0;
+            var max = Max ?? min * 2;
             min = min == 0 && max != 0 ? FallbackMin : min;
             max = max < 0 ? int.MaxValue : max;
             return new ConstrainedStringRequest(min, max);
@@ -94,8 +94,8 @@ public class MinAndMaxLengthAttributeRelay : ISpecimenBuilder
 
         public RangedSequenceRequest ToSequenceRequest(Type elementType)
         {
-            var min = this.Min ?? 0;
-            var max = this.Max ?? min * 2;
+            var min = Min ?? 0;
+            var max = Max ?? min * 2;
             min = min == 0 && max != 0 ? FallbackMin : min;
             const int fallbackMax = 3;
             max = max < 0 ? fallbackMax : max;

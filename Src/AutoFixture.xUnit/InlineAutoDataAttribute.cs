@@ -91,7 +91,7 @@ public class InlineAutoDataAttribute : CompositeDataAttribute
     protected InlineAutoDataAttribute(DataAttribute autoDataAttribute, params object[] values)
         : base(new InlineDataAttribute(values), autoDataAttribute)
     {
-        this.AutoDataAttribute = autoDataAttribute;
-        this.Values = values;
+        AutoDataAttribute = autoDataAttribute;
+        Values = values;
     }
 }

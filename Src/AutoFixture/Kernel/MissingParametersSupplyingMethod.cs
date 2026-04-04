@@ -15,7 +15,7 @@ public class MissingParametersSupplyingMethod : IMethod, IEquatable<MissingParam
     /// </summary>
     public MissingParametersSupplyingMethod(IMethod method)
     {
-        this.Method = method ?? throw new ArgumentNullException(nameof(method));
+        Method = method ?? throw new ArgumentNullException(nameof(method));
     }
 
     /// <summary>
@@ -26,19 +26,19 @@ public class MissingParametersSupplyingMethod : IMethod, IEquatable<MissingParam
     /// <summary>
     /// Gets information about the parameters of the method.
     /// </summary>
-    public IEnumerable<ParameterInfo> Parameters => this.Method.Parameters;
+    public IEnumerable<ParameterInfo> Parameters => Method.Parameters;
 
     /// <inheritdoc />
     public override bool Equals(object obj)
     {
-        return obj is MissingParametersSupplyingMethod other && this.Equals(other);
+        return obj is MissingParametersSupplyingMethod other && Equals(other);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return this.Method.GetHashCode()
-               ^ this.Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
+        return Method.GetHashCode()
+               ^ Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
     }
 
     /// <inheritdoc />
@@ -49,8 +49,8 @@ public class MissingParametersSupplyingMethod : IMethod, IEquatable<MissingParam
             return false;
         }
 
-        return this.Method.Equals(other.Method)
-               && this.Parameters.SequenceEqual(other.Parameters);
+        return Method.Equals(other.Method)
+               && Parameters.SequenceEqual(other.Parameters);
     }
 
     private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters, object[] arguments)
@@ -79,7 +79,7 @@ public class MissingParametersSupplyingMethod : IMethod, IEquatable<MissingParam
     /// <returns>The result of the method call.</returns>
     public object Invoke(IEnumerable<object> parameters)
     {
-        var arguments = GetArguments(this.Method.Parameters, parameters.ToArray());
-        return this.Method.Invoke(arguments);
+        var arguments = GetArguments(Method.Parameters, parameters.ToArray());
+        return Method.Invoke(arguments);
     }
 }

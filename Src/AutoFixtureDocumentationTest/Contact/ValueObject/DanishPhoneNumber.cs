@@ -4,7 +4,7 @@ public class DanishPhoneNumber
 {
     public DanishPhoneNumber(int number)
     {
-        this.RawNumber = number;
+        RawNumber = number;
     }
 
     public int RawNumber { get; }

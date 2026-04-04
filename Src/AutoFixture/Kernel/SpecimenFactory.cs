@@ -14,7 +14,7 @@ public class SpecimenFactory<T> : ISpecimenBuilder
     /// <param name="factory">The func that will create specimens.</param>
     public SpecimenFactory(Func<T> factory)
     {
-        this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        Factory = factory ?? throw new ArgumentNullException(nameof(factory));
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class SpecimenFactory<T> : ISpecimenBuilder
     /// </remarks>
     public object Create(object request, ISpecimenContext context)
     {
-        return this.Factory();
+        return Factory();
     }
 }
 
@@ -61,7 +61,7 @@ public class SpecimenFactory<TInput, T> : ISpecimenBuilder
     /// </remarks>
     public SpecimenFactory(Func<TInput, T> factory)
     {
-        this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        Factory = factory ?? throw new ArgumentNullException(nameof(factory));
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class SpecimenFactory<TInput, T> : ISpecimenBuilder
         if (context == null) throw new ArgumentNullException(nameof(context));
 
         var p = (TInput)context.Resolve(typeof(TInput));
-        return this.Factory(p);
+        return Factory(p);
     }
 }
 
@@ -117,7 +117,7 @@ public class SpecimenFactory<TInput1, TInput2, T> : ISpecimenBuilder
     /// </remarks>
     public SpecimenFactory(Func<TInput1, TInput2, T> factory)
     {
-        this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        Factory = factory ?? throw new ArgumentNullException(nameof(factory));
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public class SpecimenFactory<TInput1, TInput2, T> : ISpecimenBuilder
 
         var p1 = (TInput1)context.Resolve(typeof(TInput1));
         var p2 = (TInput2)context.Resolve(typeof(TInput2));
-        return this.Factory(p1, p2);
+        return Factory(p1, p2);
     }
 }
 
@@ -175,7 +175,7 @@ public class SpecimenFactory<TInput1, TInput2, TInput3, T> : ISpecimenBuilder
     /// </remarks>
     public SpecimenFactory(Func<TInput1, TInput2, TInput3, T> factory)
     {
-        this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        Factory = factory ?? throw new ArgumentNullException(nameof(factory));
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public class SpecimenFactory<TInput1, TInput2, TInput3, T> : ISpecimenBuilder
         var p1 = (TInput1)context.Resolve(typeof(TInput1));
         var p2 = (TInput2)context.Resolve(typeof(TInput2));
         var p3 = (TInput3)context.Resolve(typeof(TInput3));
-        return this.Factory(p1, p2, p3);
+        return Factory(p1, p2, p3);
     }
 }
 
@@ -235,7 +235,7 @@ public class SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> : ISpecimenB
     /// </remarks>
     public SpecimenFactory(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
     {
-        this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        Factory = factory ?? throw new ArgumentNullException(nameof(factory));
     }
 
     /// <summary>
@@ -266,7 +266,7 @@ public class SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> : ISpecimenB
         var p2 = (TInput2)context.Resolve(typeof(TInput2));
         var p3 = (TInput3)context.Resolve(typeof(TInput3));
         var p4 = (TInput4)context.Resolve(typeof(TInput4));
-        return this.Factory(p1, p2, p3, p4);
+        return Factory(p1, p2, p3, p4);
     }
 }
 #pragma warning restore SA1402 // File may only contain a single type

@@ -4,7 +4,7 @@ public class ComplexParent
 {
     public ComplexParent(ComplexChild child)
     {
-        this.Child = child;
+        Child = child;
     }
 
     public ComplexChild Child { get; }

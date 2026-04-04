@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class DoubleSequenceGenerator : ISpecimenBuilder
 {
-    private double d;
-    private readonly object syncRoot;
+    private double _d;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DoubleSequenceGenerator"/> class.
     /// </summary>
     public DoubleSequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -25,9 +25,9 @@ public class DoubleSequenceGenerator : ISpecimenBuilder
     [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
     public double Create()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.d;
+            return ++_d;
         }
     }
 
@@ -37,7 +37,7 @@ public class DoubleSequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public double CreateAnonymous()
     {
-        return this.Create();
+        return Create();
     }
 
     /// <inheritdoc />
@@ -49,7 +49,7 @@ public class DoubleSequenceGenerator : ISpecimenBuilder
         }
 
 #pragma warning disable 618
-        return this.Create();
+        return Create();
 #pragma warning restore 618
     }
 }

@@ -18,7 +18,7 @@ namespace AutoFixture.Kernel;
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
 public class DisposableTracker : ISpecimenBuilderNode, IDisposable
 {
-    private readonly HashSet<IDisposable> disposables;
+    private readonly HashSet<IDisposable> _disposables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DisposableTracker"/> class.
@@ -32,8 +32,8 @@ public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     /// </remarks>
     public DisposableTracker(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.disposables = new HashSet<IDisposable>();
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        _disposables = new HashSet<IDisposable>();
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     /// method.
     /// </para>
     /// </remarks>
-    public IEnumerable<IDisposable> Disposables => this.disposables;
+    public IEnumerable<IDisposable> Disposables => _disposables;
 
     /// <summary>
     /// Creates a new specimen based on a request.
@@ -77,10 +77,10 @@ public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     /// </remarks>
     public object Create(object request, ISpecimenContext context)
     {
-        var specimen = this.Builder.Create(request, context);
+        var specimen = Builder.Create(request, context);
         if (specimen is IDisposable d)
         {
-            this.disposables.Add(d);
+            _disposables.Add(d);
         }
         return specimen;
     }
@@ -97,7 +97,7 @@ public class DisposableTracker : ISpecimenBuilderNode, IDisposable
 
         var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
         var d = new DisposableTracker(composedBuilder);
-        this.disposables.Add(d);
+        _disposables.Add(d);
         return d;
     }
 
@@ -110,12 +110,12 @@ public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     /// </returns>
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     /// </summary>
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 
@@ -140,11 +140,11 @@ public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     {
         if (disposing)
         {
-            foreach (var d in this.Disposables)
+            foreach (var d in Disposables)
             {
                 d.Dispose();
             }
-            this.disposables.Clear();
+            _disposables.Clear();
         }
     }
 }

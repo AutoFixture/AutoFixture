@@ -8,14 +8,14 @@ public class DelegatingRecursionHandler : IRecursionHandler
 {
     public DelegatingRecursionHandler()
     {
-        this.OnHandleRecursiveRequest = (r, rs) => new object();
+        OnHandleRecursiveRequest = (r, rs) => new object();
     }
 
     public object HandleRecursiveRequest(
         object request,
         IEnumerable<object> recordedRequests)
     {
-        return this.OnHandleRecursiveRequest(request, recordedRequests);
+        return OnHandleRecursiveRequest(request, recordedRequests);
     }
 
     internal Func<object, IEnumerable<object>, object> OnHandleRecursiveRequest { get; set; }

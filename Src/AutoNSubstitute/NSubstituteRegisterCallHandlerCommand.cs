@@ -58,9 +58,9 @@ public class NSubstituteRegisterCallHandlerCommand : ISpecimenCommand
         ICallResultCacheFactory callResultCacheFactory,
         ICallResultResolverFactory callResultResolverFactory)
     {
-        this.SubstitutionContext = substitutionContext ?? throw new ArgumentNullException(nameof(substitutionContext));
-        this.CallResultCacheFactory = callResultCacheFactory ?? throw new ArgumentNullException(nameof(callResultCacheFactory));
-        this.CallResultResolverFactory = callResultResolverFactory ?? throw new ArgumentNullException(nameof(callResultResolverFactory));
+        SubstitutionContext = substitutionContext ?? throw new ArgumentNullException(nameof(substitutionContext));
+        CallResultCacheFactory = callResultCacheFactory ?? throw new ArgumentNullException(nameof(callResultCacheFactory));
+        CallResultResolverFactory = callResultResolverFactory ?? throw new ArgumentNullException(nameof(callResultResolverFactory));
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class NSubstituteRegisterCallHandlerCommand : ISpecimenCommand
 
         try
         {
-            router = this.SubstitutionContext.GetCallRouterFor(specimen);
+            router = SubstitutionContext.GetCallRouterFor(specimen);
         }
         catch (NotASubstituteException)
         {
@@ -86,14 +86,14 @@ public class NSubstituteRegisterCallHandlerCommand : ISpecimenCommand
         // Add extensibility point for users to allow to use different cache implementation.
         // For instance users might want to disable results caching, as was proposed here:
         // https://github.com/AutoFixture/AutoFixture/issues/625
-        var resultsCacheForSubstitution = this.CallResultCacheFactory.CreateCache();
-        var callResultsResolver = this.CallResultResolverFactory.Create(context);
+        var resultsCacheForSubstitution = CallResultCacheFactory.CreateCache();
+        var callResultsResolver = CallResultResolverFactory.Create(context);
 
         router.RegisterCustomCallHandlerFactory(
             substituteState =>
                 new AutoFixtureValuesHandler(
                     callResultsResolver,
                     resultsCacheForSubstitution,
-                    CompatShim.GetCallSpecificationFactory(substituteState, this.SubstitutionContext)));
+                    CompatShim.GetCallSpecificationFactory(substituteState, SubstitutionContext)));
     }
 }

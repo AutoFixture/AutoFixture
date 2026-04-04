@@ -68,10 +68,10 @@ public class MemberAutoDataAttribute : DataAttribute
     /// <exception cref="ArgumentNullException">Thrown when arguments are null.</exception>
     protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, Type? memberType, string memberName, params object[]? parameters)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
-        this.Parameters = parameters ?? new object[] { null! };
-        this.MemberType = memberType;
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
+        Parameters = parameters ?? new object[] { null! };
+        MemberType = memberType;
     }
 
     /// <summary>
@@ -100,12 +100,12 @@ public class MemberAutoDataAttribute : DataAttribute
     {
         if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
 
-        var sourceType = this.MemberType ?? testMethod.DeclaringType
+        var sourceType = MemberType ?? testMethod.DeclaringType
             ?? throw new InvalidOperationException("Source type cannot be null.");
 
         var source = new AutoDataSource(
-            createFixture: this.FixtureFactory,
-            source: new MemberDataSource(sourceType, this.MemberName, this.Parameters));
+            createFixture: FixtureFactory,
+            source: new MemberDataSource(sourceType, MemberName, Parameters));
 
         return source.GetData(testMethod)
             .Select(row => new TheoryDataRow(row))

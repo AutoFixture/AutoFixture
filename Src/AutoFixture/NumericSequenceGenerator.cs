@@ -9,7 +9,7 @@ namespace AutoFixture;
 /// </summary>
 public class NumericSequenceGenerator : ISpecimenBuilder
 {
-    private long value;
+    private long _value;
 
     /// <summary>
     /// Creates an anonymous number.
@@ -26,7 +26,7 @@ public class NumericSequenceGenerator : ISpecimenBuilder
         if (type == null)
             return NoSpecimen.Instance;
 
-        return this.CreateNumericSpecimen(type);
+        return CreateNumericSpecimen(type);
     }
 
     private object CreateNumericSpecimen(Type request)
@@ -36,27 +36,27 @@ public class NumericSequenceGenerator : ISpecimenBuilder
         switch (typeCode)
         {
             case TypeCode.Byte:
-                return (byte)this.GetNextNumber();
+                return (byte)GetNextNumber();
             case TypeCode.Decimal:
-                return (decimal)this.GetNextNumber();
+                return (decimal)GetNextNumber();
             case TypeCode.Double:
-                return (double)this.GetNextNumber();
+                return (double)GetNextNumber();
             case TypeCode.Int16:
-                return (short)this.GetNextNumber();
+                return (short)GetNextNumber();
             case TypeCode.Int32:
-                return (int)this.GetNextNumber();
+                return (int)GetNextNumber();
             case TypeCode.Int64:
-                return this.GetNextNumber();
+                return GetNextNumber();
             case TypeCode.SByte:
-                return (sbyte)this.GetNextNumber();
+                return (sbyte)GetNextNumber();
             case TypeCode.Single:
-                return (float)this.GetNextNumber();
+                return (float)GetNextNumber();
             case TypeCode.UInt16:
-                return (ushort)this.GetNextNumber();
+                return (ushort)GetNextNumber();
             case TypeCode.UInt32:
-                return (uint)this.GetNextNumber();
+                return (uint)GetNextNumber();
             case TypeCode.UInt64:
-                return (ulong)this.GetNextNumber();
+                return (ulong)GetNextNumber();
             default:
                 return NoSpecimen.Instance;
         }
@@ -64,6 +64,6 @@ public class NumericSequenceGenerator : ISpecimenBuilder
 
     private long GetNextNumber()
     {
-        return Interlocked.Increment(ref this.value);
+        return Interlocked.Increment(ref _value);
     }
 }

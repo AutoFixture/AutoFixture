@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class ByteSequenceGenerator : ISpecimenBuilder
 {
-    private byte b;
-    private readonly object syncRoot;
+    private byte _b;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ByteSequenceGenerator"/> class.
     /// </summary>
     public ByteSequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -26,9 +26,9 @@ public class ByteSequenceGenerator : ISpecimenBuilder
     [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
     public byte Create()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.b;
+            return ++_b;
         }
     }
 
@@ -40,7 +40,7 @@ public class ByteSequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public byte CreateAnonymous()
     {
-        return this.Create();
+        return Create();
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class ByteSequenceGenerator : ISpecimenBuilder
         }
 
 #pragma warning disable 618
-        return this.Create();
+        return Create();
 #pragma warning restore 618
     }
 }

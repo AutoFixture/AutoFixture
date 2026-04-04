@@ -11,7 +11,7 @@ namespace AutoFixture.Xunit2.Internal;
     Justification = "Type is not a collection.")]
 public class ClassDataSource : DataSource
 {
-    private readonly object[] parameters;
+    private readonly object[] _parameters;
 
     /// <summary>
     /// Creates an instance of type <see cref="ClassDataSource" />.
@@ -21,8 +21,8 @@ public class ClassDataSource : DataSource
     /// <exception cref="ArgumentNullException">Thrown when arguments are <see langword="null" />.</exception>
     public ClassDataSource(Type type, object[] parameters)
     {
-        this.Type = type ?? throw new ArgumentNullException(nameof(type));
-        this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+        Type = type ?? throw new ArgumentNullException(nameof(type));
+        _parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
     }
 
     /// <summary>
@@ -33,14 +33,14 @@ public class ClassDataSource : DataSource
     /// <summary>
     /// Gets the constructor parameters for test data source type.
     /// </summary>
-    public IReadOnlyList<object> Parameters => Array.AsReadOnly(this.parameters);
+    public IReadOnlyList<object> Parameters => Array.AsReadOnly(_parameters);
 
     /// <inheritdoc />
     protected override IEnumerable<object[]> GetData()
     {
-        var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
+        var instance = Activator.CreateInstance(type: Type, args: _parameters);
         if (instance is not IEnumerable<object[]> enumerable)
-            throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
+            throw new InvalidOperationException($"Data source type \"{Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
 
         return enumerable;
     }

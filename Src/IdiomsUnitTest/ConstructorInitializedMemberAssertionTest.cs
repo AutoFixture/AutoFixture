@@ -601,7 +601,7 @@ public class ConstructorInitializedMemberAssertionTest
     {
         public IllBehavedPropertyMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
         {
-            this.Member1 = member1;
+            Member1 = member1;
         }
 
         public T1 Member1 { get; }
@@ -613,7 +613,7 @@ public class ConstructorInitializedMemberAssertionTest
     {
         public IllBehavedFieldMatchedByEvenPositionConstructorParameter(T1 member1, T2 member2)
         {
-            this.Member1 = member1;
+            Member1 = member1;
         }
 
         public readonly T1 Member1;
@@ -646,23 +646,23 @@ public class ConstructorInitializedMemberAssertionTest
 
     private class WriteOnlyPropertyHolder<T>
     {
-        private T writeOnlyPropertyBackingField;
+        private T _writeOnlyPropertyBackingField;
 
         public WriteOnlyPropertyHolder(T writeOnlyProperty)
         {
-            this.writeOnlyPropertyBackingField = writeOnlyProperty;
+            _writeOnlyPropertyBackingField = writeOnlyProperty;
         }
 
         public T GetWriteOnlyProperty()
         {
-            return this.writeOnlyPropertyBackingField;
+            return _writeOnlyPropertyBackingField;
         }
 
         public T WriteOnlyProperty
         {
             set
             {
-                this.writeOnlyPropertyBackingField = value;
+                _writeOnlyPropertyBackingField = value;
             }
         }
     }
@@ -671,7 +671,7 @@ public class ConstructorInitializedMemberAssertionTest
     {
         public ComplexType()
         {
-            this.Children = new Collection<ComplexTypeChild>();
+            Children = new Collection<ComplexTypeChild>();
         }
 
         public ICollection<ComplexTypeChild> Children { get; set; }
@@ -684,16 +684,16 @@ public class ConstructorInitializedMemberAssertionTest
 
     private class PropertyIsAssignableFromConstructorArgumentType
     {
-        private readonly IEnumerable<string> bribbets;
+        private readonly IEnumerable<string> _bribbets;
 
         public PropertyIsAssignableFromConstructorArgumentType(params string[] bribbets)
         {
-            this.bribbets = bribbets;
+            _bribbets = bribbets;
         }
 
         public IEnumerable<string> Bribbets
         {
-            get { return this.bribbets; }
+            get { return _bribbets; }
         }
     }
 
@@ -703,7 +703,7 @@ public class ConstructorInitializedMemberAssertionTest
 
         public ReadOnlyFieldInitializedViaConstructorWithDifferentType(int value)
         {
-            this.Field = value.ToString(CultureInfo.CurrentCulture);
+            Field = value.ToString(CultureInfo.CurrentCulture);
         }
     }
 
@@ -713,7 +713,7 @@ public class ConstructorInitializedMemberAssertionTest
 
         public ReadOnlyFieldInitializedViaConstructor(T field)
         {
-            this.Field = field;
+            Field = field;
         }
     }
 
@@ -732,24 +732,24 @@ public class ConstructorInitializedMemberAssertionTest
     {
         public ReadOnlyPropertiesInitializedViaConstructor(T1 property1)
         {
-            this.Property1 = property1;
+            Property1 = property1;
         }
 
         public ReadOnlyPropertiesInitializedViaConstructor(T2 property2)
         {
-            this.Property2 = property2;
+            Property2 = property2;
         }
 
         public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2)
         {
-            this.Property1 = property1;
-            this.Property2 = property2;
+            Property1 = property1;
+            Property2 = property2;
         }
 
         public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2, TriState noMatchingProperty)
         {
-            this.Property1 = property1;
-            this.Property2 = property2;
+            Property1 = property1;
+            Property2 = property2;
         }
 
         public T1 Property1 { get; private set; }
@@ -778,24 +778,24 @@ public class ConstructorInitializedMemberAssertionTest
     {
         public FieldsInitializedViaConstructor(T1 field1)
         {
-            this.Field1 = field1;
+            Field1 = field1;
         }
 
         public FieldsInitializedViaConstructor(T2 field2)
         {
-            this.Field2 = field2;
+            Field2 = field2;
         }
 
         public FieldsInitializedViaConstructor(T1 field1, T2 field2)
         {
-            this.Field1 = field1;
-            this.Field2 = field2;
+            Field1 = field1;
+            Field2 = field2;
         }
 
         public FieldsInitializedViaConstructor(T1 field1, T2 field2, TriState noMatchingField)
         {
-            this.Field1 = field1;
-            this.Field2 = field2;
+            Field1 = field1;
+            Field2 = field2;
         }
 
         public T1 Field1;
@@ -806,7 +806,7 @@ public class ConstructorInitializedMemberAssertionTest
     {
         public ReadOnlyPropertyInitializedViaConstructor(T property)
         {
-            this.Property = property;
+            Property = property;
         }
 
         public T Property { get; private set; }

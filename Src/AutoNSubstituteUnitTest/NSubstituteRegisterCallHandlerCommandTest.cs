@@ -200,7 +200,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
 
             public void RegisterCustomCallHandlerFactory(CallHandlerFactory factory)
             {
-                this.RegisteredFactory = factory;
+                RegisteredFactory = factory;
             }
 
             public void Clear(ClearOptions clear) => throw new NotImplementedException();

@@ -10,9 +10,9 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class ParameterSpecification : IRequestSpecification
 {
-    private readonly Type targetType;
-    private readonly string targetName;
-    private readonly IEquatable<ParameterInfo> target;
+    private readonly Type _targetType;
+    private readonly string _targetName;
+    private readonly IEquatable<ParameterInfo> _target;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ParameterSpecification"/> class.
@@ -32,8 +32,8 @@ public class ParameterSpecification : IRequestSpecification
     public ParameterSpecification(Type targetType, string targetName)
         : this(CreateDefaultTarget(targetType, targetName))
     {
-        this.targetType = targetType;
-        this.targetName = targetName;
+        _targetType = targetType;
+        _targetName = targetName;
     }
 
     private static IEquatable<ParameterInfo> CreateDefaultTarget(
@@ -67,7 +67,7 @@ public class ParameterSpecification : IRequestSpecification
     public ParameterSpecification(
         IEquatable<ParameterInfo> target)
     {
-        this.target = target ?? throw new ArgumentNullException(nameof(target));
+        _target = target ?? throw new ArgumentNullException(nameof(target));
     }
 
     /// <summary>
@@ -75,14 +75,14 @@ public class ParameterSpecification : IRequestSpecification
     /// <see cref="ParameterInfo"/> type should be compatible.
     /// </summary>
     [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", true)]
-    public Type TargetType => this.targetType;
+    public Type TargetType => _targetType;
 
     /// <summary>
     /// The name which the requested <see cref="ParameterInfo"/> name
     /// should match exactly.
     /// </summary>
     [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", true)]
-    public string TargetName => this.targetName;
+    public string TargetName => _targetName;
 
     /// <summary>
     /// Evaluates a request for a specimen.
@@ -101,7 +101,7 @@ public class ParameterSpecification : IRequestSpecification
         if (p == null)
             return false;
 
-        return this.target.Equals(p);
+        return _target.Equals(p);
     }
 
     private class DerivesFromTypeComparer : IEqualityComparer<Type>

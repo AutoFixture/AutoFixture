@@ -8,7 +8,7 @@ namespace AutoFixture;
 /// </summary>
 public class NoAutoPropertiesCustomization : ICustomization
 {
-    private readonly Type targetType;
+    private readonly Type _targetType;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NoAutoPropertiesCustomization"/> class.
@@ -21,11 +21,11 @@ public class NoAutoPropertiesCustomization : ICustomization
     {
         if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
-        this.targetType = targetType;
+        _targetType = targetType;
     }
 
     /// <summary>
-    /// Customizes the fixture by creating a <see cref="targetType"/> that has no auto populated properties.
+    /// Customizes the fixture by creating a <see cref="_targetType"/> that has no auto populated properties.
     /// </summary>
     /// <param name="fixture">The fixture to customize.</param>
     /// <exception cref="ArgumentNullException">
@@ -41,7 +41,7 @@ public class NoAutoPropertiesCustomization : ICustomization
         var constructor = new MethodInvoker(new ModestConstructorQuery());
 
         var builder = SpecimenBuilderNodeFactory.CreateTypedNode(
-            this.targetType, constructor);
+            _targetType, constructor);
 
         fixture.Customizations.Insert(0, builder);
     }

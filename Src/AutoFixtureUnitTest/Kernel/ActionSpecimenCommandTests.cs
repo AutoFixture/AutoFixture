@@ -17,7 +17,7 @@ public abstract class ActionSpecimenCommandTests<T>
     public void ExecuteCorrectlyInvokesSingleAction()
     {
         // Arrange
-        var specimen = this.CreateSpecimen();
+        var specimen = CreateSpecimen();
 
         var verified = false;
         Action<T> mock = x => verified = specimen.Equals(x);
@@ -34,7 +34,7 @@ public abstract class ActionSpecimenCommandTests<T>
     public void ExecuteCorrectlyInvokeDoubleAction()
     {
         // Arrange
-        var specimen = this.CreateSpecimen();
+        var specimen = CreateSpecimen();
         var context = new DelegatingSpecimenContext();
 
         var verified = false;

@@ -28,7 +28,7 @@ public class EqualsNullAssertion : IdiomaticAssertion
     /// </remarks>
     public EqualsNullAssertion(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class EqualsNullAssertion : IdiomaticAssertion
             return;
         }
 
-        var instance = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var instance = Builder.CreateAnonymous(methodInfo.ReflectedType);
         var equalsResult = instance.Equals(null);
         if (equalsResult)
         {

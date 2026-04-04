@@ -10,8 +10,8 @@ public class DelegatingMethod : IMethod
 {
     public DelegatingMethod()
     {
-        this.Parameters = Enumerable.Empty<ParameterInfo>();
-        this.OnInvoke = p => new object();
+        Parameters = Enumerable.Empty<ParameterInfo>();
+        OnInvoke = p => new object();
     }
 
     public Func<IEnumerable<object>, object> OnInvoke { get; set; }
@@ -20,6 +20,6 @@ public class DelegatingMethod : IMethod
 
     public object Invoke(IEnumerable<object> parameters)
     {
-        return this.OnInvoke(parameters);
+        return OnInvoke(parameters);
     }
 }

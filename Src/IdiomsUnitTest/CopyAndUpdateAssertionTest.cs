@@ -177,24 +177,24 @@ public class CopyAndUpdateAssertionTest
 
         public ImmutableWellBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
         {
-            this.First = first;
-            this.Second = second;
-            this.Third = third;
+            First = first;
+            Second = second;
+            Third = third;
         }
 
         public ImmutableWellBehavedCopyMethods WithFirst(int first)
         {
-            return new ImmutableWellBehavedCopyMethods(first, this.Second, this.Third);
+            return new ImmutableWellBehavedCopyMethods(first, Second, Third);
         }
 
         public ImmutableWellBehavedCopyMethods WithSecond(string second)
         {
-            return new ImmutableWellBehavedCopyMethods(this.First, second, this.Third);
+            return new ImmutableWellBehavedCopyMethods(First, second, Third);
         }
 
         public ImmutableWellBehavedCopyMethods WithThird(ComplexMutable<int, int, int> third)
         {
-            return new ImmutableWellBehavedCopyMethods(this.First, this.Second, third);
+            return new ImmutableWellBehavedCopyMethods(First, Second, third);
         }
     }
 
@@ -206,24 +206,24 @@ public class CopyAndUpdateAssertionTest
 
         public MutableWellBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
         {
-            this.First = first;
-            this.Second = second;
-            this.Third = third;
+            First = first;
+            Second = second;
+            Third = third;
         }
 
         public MutableWellBehavedCopyMethods WithFirst(int first)
         {
-            return new MutableWellBehavedCopyMethods(first, this.Second, this.Third);
+            return new MutableWellBehavedCopyMethods(first, Second, Third);
         }
 
         public MutableWellBehavedCopyMethods WithSecond(string second)
         {
-            return new MutableWellBehavedCopyMethods(this.First, second, this.Third);
+            return new MutableWellBehavedCopyMethods(First, second, Third);
         }
 
         public MutableWellBehavedCopyMethods WithThird(ComplexMutable<int, int, int> third)
         {
-            return new MutableWellBehavedCopyMethods(this.First, this.Second, third);
+            return new MutableWellBehavedCopyMethods(First, Second, third);
         }
     }
 
@@ -235,24 +235,24 @@ public class CopyAndUpdateAssertionTest
 
         public ImmutableIllBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
         {
-            this.First = first;
-            this.Second = second;
-            this.Third = third;
+            First = first;
+            Second = second;
+            Third = third;
         }
 
         public ImmutableIllBehavedCopyMethods WithFirstButSecondDefault(int first)
         {
-            return new ImmutableIllBehavedCopyMethods(first, default(string), this.Third);
+            return new ImmutableIllBehavedCopyMethods(first, default(string), Third);
         }
 
         public ImmutableIllBehavedCopyMethods WithSecondButThirdDefault(string second)
         {
-            return new ImmutableIllBehavedCopyMethods(this.First, second, default(ComplexMutable<int, int, int>));
+            return new ImmutableIllBehavedCopyMethods(First, second, default(ComplexMutable<int, int, int>));
         }
 
         public ImmutableIllBehavedCopyMethods WithThirdButFirstDefault(ComplexMutable<int, int, int> third)
         {
-            return new ImmutableIllBehavedCopyMethods(default(int), this.Second, third);
+            return new ImmutableIllBehavedCopyMethods(default(int), Second, third);
         }
     }
 
@@ -264,19 +264,19 @@ public class CopyAndUpdateAssertionTest
 
         public MutableIllBehavedCopyMethods(int first, string second, ComplexMutable<int, int, int> third)
         {
-            this.First = first;
-            this.Second = second;
-            this.Third = third;
+            First = first;
+            Second = second;
+            Third = third;
         }
 
         public MutableIllBehavedCopyMethods WithFirstButFirstDifferent(int first)
         {
-            return new MutableIllBehavedCopyMethods(first + 1, this.Second, this.Third);
+            return new MutableIllBehavedCopyMethods(first + 1, Second, Third);
         }
 
         public MutableIllBehavedCopyMethods WithSecondButSecondDifferent(string second)
         {
-            return new MutableIllBehavedCopyMethods(this.First, second + "extra unexpected", this.Third);
+            return new MutableIllBehavedCopyMethods(First, second + "extra unexpected", Third);
         }
 
         public MutableIllBehavedCopyMethods WithThirdButThirdDifferent(ComplexMutable<int, int, int> third)
@@ -287,22 +287,22 @@ public class CopyAndUpdateAssertionTest
                 Second = third.Second,
                 Third = third.Third,
             };
-            return new MutableIllBehavedCopyMethods(this.First, this.Second, differentThird);
+            return new MutableIllBehavedCopyMethods(First, Second, differentThird);
         }
 
         public MutableIllBehavedCopyMethods WithFirstButSecondDefault(int first)
         {
-            return new MutableIllBehavedCopyMethods(first, default(string), this.Third);
+            return new MutableIllBehavedCopyMethods(first, default(string), Third);
         }
 
         public MutableIllBehavedCopyMethods WithSecondButThirdDefault(string second)
         {
-            return new MutableIllBehavedCopyMethods(this.First, second, default(ComplexMutable<int, int, int>));
+            return new MutableIllBehavedCopyMethods(First, second, default(ComplexMutable<int, int, int>));
         }
 
         public MutableIllBehavedCopyMethods WithThirdButFirstDefault(ComplexMutable<int, int, int> third)
         {
-            return new MutableIllBehavedCopyMethods(default(int), this.Second, third);
+            return new MutableIllBehavedCopyMethods(default(int), Second, third);
         }
     }
 
@@ -313,13 +313,13 @@ public class CopyAndUpdateAssertionTest
 
         public ImmutableWithDifferentName(int sameName, int differentName)
         {
-            this.SameName = sameName;
-            this.DifferentNameX = differentName;
+            SameName = sameName;
+            DifferentNameX = differentName;
         }
 
         public ImmutableWithDifferentName With(int differentName)
         {
-            return new ImmutableWithDifferentName(this.SameName, differentName);
+            return new ImmutableWithDifferentName(SameName, differentName);
         }
     }
 
@@ -330,13 +330,13 @@ public class CopyAndUpdateAssertionTest
 
         public ImmutableWithDifferentType(int sameType, int differentType)
         {
-            this.SameType = sameType;
-            this.DifferentType = differentType.ToString(CultureInfo.InvariantCulture);
+            SameType = sameType;
+            DifferentType = differentType.ToString(CultureInfo.InvariantCulture);
         }
 
         public ImmutableWithDifferentType With(int differentType)
         {
-            return new ImmutableWithDifferentType(this.SameType, differentType);
+            return new ImmutableWithDifferentType(SameType, differentType);
         }
     }
 
@@ -347,8 +347,8 @@ public class CopyAndUpdateAssertionTest
 
         public ImmutableWithDifferentBoth(int sameBoth, int differentBoth)
         {
-            this.SameBoth = sameBoth;
-            this.DifferentBothX = differentBoth.ToString(CultureInfo.InvariantCulture);
+            SameBoth = sameBoth;
+            DifferentBothX = differentBoth.ToString(CultureInfo.InvariantCulture);
         }
 
         public ImmutableWithDifferentBoth With(int sameBoth, int differentBoth)

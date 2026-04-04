@@ -9,11 +9,11 @@ public class DelegatingPropertyQuery : IPropertyQuery
 {
     public DelegatingPropertyQuery()
     {
-        this.OnSelectProperties = t => t.GetTypeInfo().GetProperties();
+        OnSelectProperties = t => t.GetTypeInfo().GetProperties();
     }
 
     public IEnumerable<PropertyInfo> SelectProperties(Type type)
-        => this.OnSelectProperties?.Invoke(type);
+        => OnSelectProperties?.Invoke(type);
 
     internal Func<Type, IEnumerable<PropertyInfo>> OnSelectProperties { get; set; }
 }

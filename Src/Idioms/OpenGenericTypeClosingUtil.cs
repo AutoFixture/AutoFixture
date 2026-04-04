@@ -18,18 +18,18 @@ internal class OpenGenericTypeClosingUtil
 
     public OpenGenericTypeClosingUtil(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     public ConstructorInfo CloseGenericType(ConstructorInfo constructorInfo)
     {
-        return (ConstructorInfo)this.ResolveUnclosedGenericType(constructorInfo, t => t.GetConstructors());
+        return (ConstructorInfo)ResolveUnclosedGenericType(constructorInfo, t => t.GetConstructors());
     }
 
     public PropertyInfo CloseGenericType(PropertyInfo propertyInfo)
     {
         return propertyInfo.ReflectedType.ContainsGenericParameters
-            ? new AutoGenericType(this.Builder, propertyInfo.ReflectedType)
+            ? new AutoGenericType(Builder, propertyInfo.ReflectedType)
                 .Value
                 .GetProperties()
                 .Single(pi => string.Equals(pi.Name, propertyInfo.Name, StringComparison.Ordinal))
@@ -39,14 +39,14 @@ internal class OpenGenericTypeClosingUtil
     public MethodInfo CloseGenericMethod(MethodInfo methodInfo)
     {
         return methodInfo.ContainsGenericParameters
-            ? new AutoGenericMethod(this.Builder, methodInfo)
+            ? new AutoGenericMethod(Builder, methodInfo)
                 .Value
             : methodInfo;
     }
 
     public MethodInfo CloseGenericType(MethodInfo methodInfo)
     {
-        return (MethodInfo)this.ResolveUnclosedGenericType(methodInfo, t => t.GetMethods());
+        return (MethodInfo)ResolveUnclosedGenericType(methodInfo, t => t.GetMethods());
     }
 
     private MethodBase ResolveUnclosedGenericType(MethodBase method,
@@ -57,7 +57,7 @@ internal class OpenGenericTypeClosingUtil
             return method;
         }
 
-        var autoGenericType = new AutoGenericType(this.Builder, method.ReflectedType);
+        var autoGenericType = new AutoGenericType(Builder, method.ReflectedType);
         return methodSetToMatch(autoGenericType.Value).Single(c => IsMatched(c, method, autoGenericType));
     }
 
@@ -71,24 +71,24 @@ internal class OpenGenericTypeClosingUtil
 
     private class AutoGenericType
     {
-        private readonly ISpecimenBuilder specimenBuilder;
-        private readonly Type unclosedGenericType;
-        private readonly AutoGenericArgumentCollection autoGenericArguments;
+        private readonly ISpecimenBuilder _specimenBuilder;
+        private readonly Type _unclosedGenericType;
+        private readonly AutoGenericArgumentCollection _autoGenericArguments;
 
         public AutoGenericType(ISpecimenBuilder specimenBuilder, Type unclosedGenericType)
         {
-            this.specimenBuilder = specimenBuilder;
-            this.unclosedGenericType = unclosedGenericType;
-            this.autoGenericArguments = new AutoGenericArgumentCollection();
+            _specimenBuilder = specimenBuilder;
+            _unclosedGenericType = unclosedGenericType;
+            _autoGenericArguments = new AutoGenericArgumentCollection();
         }
 
         public Type Value
         {
             get
             {
-                return this.unclosedGenericType
+                return _unclosedGenericType
                     .GetGenericTypeDefinition()
-                    .MakeGenericType(this.GetTypedArguments());
+                    .MakeGenericType(GetTypedArguments());
             }
         }
 
@@ -96,24 +96,24 @@ internal class OpenGenericTypeClosingUtil
         {
             return parameterInfos.Select(
                 pi => pi.ParameterType.IsByRef
-                    ? this.ResolveUnclosedParameterType(pi.ParameterType.GetElementType()).MakeByRefType()
-                    : this.ResolveUnclosedParameterType(pi.ParameterType));
+                    ? ResolveUnclosedParameterType(pi.ParameterType.GetElementType()).MakeByRefType()
+                    : ResolveUnclosedParameterType(pi.ParameterType));
         }
 
         private Type ResolveUnclosedParameterType(Type parameterType)
         {
             if (parameterType.IsArray)
-                return this.ResolveNestedArrayParameterType(parameterType);
+                return ResolveNestedArrayParameterType(parameterType);
 
             if (parameterType.IsGenericType)
-                return this.ReosolveNestedGenericParameterType(parameterType);
+                return ReosolveNestedGenericParameterType(parameterType);
 
-            return this.ResolveGenericParameter(parameterType);
+            return ResolveGenericParameter(parameterType);
         }
 
         private Type ResolveNestedArrayParameterType(Type parameterType)
         {
-            var elementType = this.ResolveUnclosedParameterType(parameterType.GetElementType());
+            var elementType = ResolveUnclosedParameterType(parameterType.GetElementType());
             var rank = parameterType.GetArrayRank();
             return rank == 1 ? elementType.MakeArrayType() : elementType.MakeArrayType(rank);
         }
@@ -121,26 +121,26 @@ internal class OpenGenericTypeClosingUtil
         private Type ReosolveNestedGenericParameterType(Type parameterType)
         {
             var genericArguments = parameterType.GetGenericArguments();
-            var typeArguments = genericArguments.Select(this.ResolveUnclosedParameterType).ToArray();
+            var typeArguments = genericArguments.Select(ResolveUnclosedParameterType).ToArray();
             return parameterType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
         }
 
         private Type ResolveGenericParameter(Type parameterType)
         {
-            return this.IsGenericTypeParameter(parameterType)
-                ? this.autoGenericArguments[parameterType.Name].Value
+            return IsGenericTypeParameter(parameterType)
+                ? _autoGenericArguments[parameterType.Name].Value
                 : parameterType;
         }
 
         private bool IsGenericTypeParameter(Type parameterType)
         {
             return parameterType.IsGenericParameter
-                   && this.autoGenericArguments.Contains(parameterType.Name);
+                   && _autoGenericArguments.Contains(parameterType.Name);
         }
 
         private Type[] GetTypedArguments()
         {
-            return this.unclosedGenericType
+            return _unclosedGenericType
                 .GetGenericArguments()
                 .Select(t =>
                 {
@@ -149,8 +149,8 @@ internal class OpenGenericTypeClosingUtil
                         return t;
                     }
 
-                    var autoGenericArgument = new AutoGenericArgument(this.specimenBuilder, t);
-                    this.autoGenericArguments.Add(autoGenericArgument);
+                    var autoGenericArgument = new AutoGenericArgument(_specimenBuilder, t);
+                    _autoGenericArguments.Add(autoGenericArgument);
                     return autoGenericArgument.Value;
                 })
                 .ToArray();
@@ -159,30 +159,30 @@ internal class OpenGenericTypeClosingUtil
 
     private class AutoGenericMethod
     {
-        private readonly ISpecimenBuilder specimenBuilder;
-        private readonly MethodInfo unclosedGenericMethod;
+        private readonly ISpecimenBuilder _specimenBuilder;
+        private readonly MethodInfo _unclosedGenericMethod;
 
         public AutoGenericMethod(ISpecimenBuilder specimenBuilder, MethodInfo unclosedGenericMethod)
         {
-            this.specimenBuilder = specimenBuilder;
-            this.unclosedGenericMethod = unclosedGenericMethod;
+            _specimenBuilder = specimenBuilder;
+            _unclosedGenericMethod = unclosedGenericMethod;
         }
 
         public MethodInfo Value
         {
             get
             {
-                return this.unclosedGenericMethod
-                    .MakeGenericMethod(this.GetTypedArguments());
+                return _unclosedGenericMethod
+                    .MakeGenericMethod(GetTypedArguments());
             }
         }
 
         private Type[] GetTypedArguments()
         {
-            return this.unclosedGenericMethod
+            return _unclosedGenericMethod
                 .GetGenericArguments()
                 .Select(t => t.IsGenericParameter
-                    ? new AutoGenericArgument(this.specimenBuilder, t).Value
+                    ? new AutoGenericArgument(_specimenBuilder, t).Value
                     : t)
                 .ToArray();
         }
@@ -200,13 +200,13 @@ internal class OpenGenericTypeClosingUtil
 
     private class AutoGenericArgument
     {
-        private readonly ISpecimenBuilder specimenBuilder;
-        private Type value;
+        private readonly ISpecimenBuilder _specimenBuilder;
+        private Type _value;
 
         public AutoGenericArgument(ISpecimenBuilder specimenBuilder, Type genericArgument)
         {
-            this.specimenBuilder = specimenBuilder;
-            this.GenericArgument = genericArgument;
+            _specimenBuilder = specimenBuilder;
+            GenericArgument = genericArgument;
         }
 
         public Type GenericArgument { get; }
@@ -215,44 +215,44 @@ internal class OpenGenericTypeClosingUtil
         {
             get
             {
-                if (this.value == null)
+                if (_value == null)
                 {
-                    this.value = new DynamicDummyType(
-                            this.specimenBuilder, this.GetBaseType(), this.GetInterfaces())
+                    _value = new DynamicDummyType(
+                            _specimenBuilder, GetBaseType(), GetInterfaces())
                         .Value;
                 }
 
-                return this.value;
+                return _value;
             }
         }
 
         private Type GetBaseType()
         {
-            if (this.HasClassConstraint())
+            if (HasClassConstraint())
             {
                 return typeof(object);
             }
 
-            return this.GetConstraintType() ?? typeof(ValueType);
+            return GetConstraintType() ?? typeof(ValueType);
         }
 
         private Type GetConstraintType()
         {
-            return this.GenericArgument
+            return GenericArgument
                 .GetGenericParameterConstraints()
                 .SingleOrDefault(t => !t.IsInterface);
         }
 
         private bool HasClassConstraint()
         {
-            return (this.GenericArgument.GenericParameterAttributes
+            return (GenericArgument.GenericParameterAttributes
                     & GenericParameterAttributes.ReferenceTypeConstraint)
                    == GenericParameterAttributes.ReferenceTypeConstraint;
         }
 
         private Type[] GetInterfaces()
         {
-            return this.GenericArgument
+            return GenericArgument
                 .GetGenericParameterConstraints()
                 .Where(t => t.IsInterface)
                 .ToArray();
@@ -263,97 +263,97 @@ internal class OpenGenericTypeClosingUtil
     {
         private const string SpecimenBuilderFieldName = "specimenBuilder";
 
-        private static readonly AssemblyBuilder AssemblyBuilder =
+        private static readonly AssemblyBuilder s_assemblyBuilder =
             AssemblyBuilder.DefineDynamicAssembly(
                 new AssemblyName("AutoFixture.DynamicProxyAssembly"),
                 AssemblyBuilderAccess.Run);
 
-        private static readonly ModuleBuilder ModuleBuilder =
-            AssemblyBuilder.DefineDynamicModule("DynamicProxyModule");
+        private static readonly ModuleBuilder s_moduleBuilder =
+            s_assemblyBuilder.DefineDynamicModule("DynamicProxyModule");
 
-        private static readonly MethodInfo FixtureCreateGenericMethod =
+        private static readonly MethodInfo s_fixtureCreateGenericMethod =
             typeof(SpecimenFactory).GetMethod("Create", new[] { typeof(ISpecimenBuilder) });
 
-        private readonly ISpecimenBuilder specimenBuilder;
-        private readonly Type baseType;
-        private readonly Type[] interfaces;
-        private ConstructorBuilder constructorBuilder;
-        private TypeBuilder typeBuilder;
-        private MethodBuilder methodBuilder;
-        private MethodInfo methodInfo;
-        private FieldBuilder specimenBuilderFieldBuilder;
-        private ConstructorInfo baseTypeConstructor;
+        private readonly ISpecimenBuilder _specimenBuilder;
+        private readonly Type _baseType;
+        private readonly Type[] _interfaces;
+        private ConstructorBuilder _constructorBuilder;
+        private TypeBuilder _typeBuilder;
+        private MethodBuilder _methodBuilder;
+        private MethodInfo _methodInfo;
+        private FieldBuilder _specimenBuilderFieldBuilder;
+        private ConstructorInfo _baseTypeConstructor;
 
         public DynamicDummyType(ISpecimenBuilder specimenBuilder, Type baseType, Type[] interfaces)
         {
-            this.specimenBuilder = specimenBuilder;
-            this.baseType = baseType;
-            this.interfaces = interfaces;
+            _specimenBuilder = specimenBuilder;
+            _baseType = baseType;
+            _interfaces = interfaces;
         }
 
         public Type Value
         {
             get
             {
-                this.DefineTypeBuilder();
-                this.ImplementDefaultConstructor();
-                this.ImplementAbstractMethods();
-                this.ImplementInterfaceMethods();
-                var dummyType = this.typeBuilder.CreateTypeInfo();
-                this.SetStaticSpecimenBuilderField(dummyType);
+                DefineTypeBuilder();
+                ImplementDefaultConstructor();
+                ImplementAbstractMethods();
+                ImplementInterfaceMethods();
+                var dummyType = _typeBuilder.CreateTypeInfo();
+                SetStaticSpecimenBuilderField(dummyType);
                 return dummyType;
             }
         }
 
         private void DefineTypeBuilder()
         {
-            lock (ModuleBuilder)
+            lock (s_moduleBuilder)
             {
-                this.typeBuilder = ModuleBuilder.DefineType(
-                    this.GetBaseTypeName(),
+                _typeBuilder = s_moduleBuilder.DefineType(
+                    GetBaseTypeName(),
                     TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.Sealed,
-                    this.baseType,
-                    this.interfaces);
+                    _baseType,
+                    _interfaces);
             }
         }
 
         private string GetBaseTypeName()
         {
 #if NET5_0_OR_GREATER
-                return this.baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty, StringComparison.OrdinalIgnoreCase);
+                return _baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty, StringComparison.OrdinalIgnoreCase);
 #else
-            return this.baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty);
+            return _baseType.Name + Guid.NewGuid().ToString().Replace("-", string.Empty);
 #endif
         }
 
         private void ImplementDefaultConstructor()
         {
-            this.DefineConstructorBuilder();
-            this.SetBaseTypeConstructor();
-            this.EmitDefaultConstructor();
+            DefineConstructorBuilder();
+            SetBaseTypeConstructor();
+            EmitDefaultConstructor();
         }
 
         private void DefineConstructorBuilder()
         {
-            this.constructorBuilder = this.typeBuilder.DefineConstructor(
+            _constructorBuilder = _typeBuilder.DefineConstructor(
                 MethodAttributes.Public, CallingConventions.Standard, new Type[0]);
         }
 
         private void SetBaseTypeConstructor()
         {
-            this.baseTypeConstructor =
-                this.baseType
+            _baseTypeConstructor =
+                _baseType
                     .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(c => c.IsPublic || c.IsFamilyOrAssembly || c.IsFamily)
                     .OrderBy(c => c.GetParameters().Length)
                     .FirstOrDefault();
 
-            this.EnsureBaseTypeConstructorIsAccessible();
+            EnsureBaseTypeConstructorIsAccessible();
         }
 
         private void EnsureBaseTypeConstructorIsAccessible()
         {
-            if (this.baseTypeConstructor != null)
+            if (_baseTypeConstructor != null)
             {
                 return;
             }
@@ -364,16 +364,16 @@ internal class OpenGenericTypeClosingUtil
             throw new ArgumentException(string.Format(
                 CultureInfo.CurrentCulture,
                 message,
-                this.typeBuilder.BaseType));
+                _typeBuilder.BaseType));
         }
 
         private void EmitDefaultConstructor()
         {
-            var generator = this.constructorBuilder.GetILGenerator();
-            if (this.baseTypeConstructor.GetParameters().Any())
+            var generator = _constructorBuilder.GetILGenerator();
+            if (_baseTypeConstructor.GetParameters().Any())
             {
-                this.DefineStaticSpecimenBuilderFieldBuilder();
-                this.EmitCallBaseTypeConstructor(generator);
+                DefineStaticSpecimenBuilderFieldBuilder();
+                EmitCallBaseTypeConstructor(generator);
             }
 
             generator.Emit(OpCodes.Ret);
@@ -381,12 +381,12 @@ internal class OpenGenericTypeClosingUtil
 
         private void DefineStaticSpecimenBuilderFieldBuilder()
         {
-            if (this.specimenBuilderFieldBuilder != null)
+            if (_specimenBuilderFieldBuilder != null)
             {
                 return;
             }
 
-            this.specimenBuilderFieldBuilder = this.typeBuilder.DefineField(
+            _specimenBuilderFieldBuilder = _typeBuilder.DefineField(
                 SpecimenBuilderFieldName,
                 typeof(IFixture),
                 FieldAttributes.Private | FieldAttributes.Static);
@@ -395,34 +395,34 @@ internal class OpenGenericTypeClosingUtil
         private void EmitCallBaseTypeConstructor(ILGenerator generator)
         {
             generator.Emit(OpCodes.Ldarg_0);
-            foreach (var parameterInfo in this.baseTypeConstructor.GetParameters())
+            foreach (var parameterInfo in _baseTypeConstructor.GetParameters())
             {
-                this.EmitCallFixtureCreate(generator, parameterInfo.ParameterType);
+                EmitCallFixtureCreate(generator, parameterInfo.ParameterType);
             }
 
-            generator.Emit(OpCodes.Call, this.baseTypeConstructor);
+            generator.Emit(OpCodes.Call, _baseTypeConstructor);
         }
 
         private void EmitCallFixtureCreate(ILGenerator generator, Type returnType)
         {
-            generator.Emit(OpCodes.Ldsfld, this.specimenBuilderFieldBuilder);
-            generator.Emit(OpCodes.Call, FixtureCreateGenericMethod.MakeGenericMethod(returnType));
+            generator.Emit(OpCodes.Ldsfld, _specimenBuilderFieldBuilder);
+            generator.Emit(OpCodes.Call, s_fixtureCreateGenericMethod.MakeGenericMethod(returnType));
         }
 
         private void ImplementAbstractMethods()
         {
-            foreach (MethodInfo method in this.GetAbstractMethods())
+            foreach (MethodInfo method in GetAbstractMethods())
             {
-                this.methodInfo = method;
-                this.ImplementMethod();
+                _methodInfo = method;
+                ImplementMethod();
             }
         }
 
         private void ImplementInterfaceMethods()
         {
-            foreach (var @interface in this.interfaces)
+            foreach (var @interface in _interfaces)
             {
-                this.ImplementInterfaceMethods(@interface);
+                ImplementInterfaceMethods(@interface);
             }
         }
 
@@ -430,48 +430,48 @@ internal class OpenGenericTypeClosingUtil
         {
             foreach (var method in @interface.GetMethods())
             {
-                this.methodInfo = method;
-                this.ImplementMethod();
+                _methodInfo = method;
+                ImplementMethod();
             }
 
             foreach (Type parentType in @interface.GetInterfaces())
             {
-                this.ImplementInterfaceMethods(parentType);
+                ImplementInterfaceMethods(parentType);
             }
         }
 
         private IEnumerable<MethodInfo> GetAbstractMethods()
         {
-            return this.typeBuilder.BaseType
+            return _typeBuilder.BaseType
                 .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(m => m.IsAbstract);
         }
 
         private void ImplementMethod()
         {
-            this.DefineMethodBuilder();
-            this.DefineMethodGenericParameters();
-            this.DefineStaticSpecimenBuilderFieldBuilder();
-            this.EmitReturningDefaultValue();
+            DefineMethodBuilder();
+            DefineMethodGenericParameters();
+            DefineStaticSpecimenBuilderFieldBuilder();
+            EmitReturningDefaultValue();
         }
 
         private void DefineMethodBuilder()
         {
-            this.methodBuilder = this.typeBuilder.DefineMethod(
-                this.methodInfo.Name,
+            _methodBuilder = _typeBuilder.DefineMethod(
+                _methodInfo.Name,
                 MethodAttributes.Public | MethodAttributes.Virtual,
                 CallingConventions.Standard,
-                this.methodInfo.ReturnType,
-                this.methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
+                _methodInfo.ReturnType,
+                _methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
         }
 
         private void DefineMethodGenericParameters()
         {
-            var genericArguments = this.methodInfo.GetGenericArguments();
+            var genericArguments = _methodInfo.GetGenericArguments();
             if (genericArguments.Any())
             {
                 var typeParameters =
-                    this.methodBuilder.DefineGenericParameters(genericArguments.Select(a => a.Name).ToArray());
+                    _methodBuilder.DefineGenericParameters(genericArguments.Select(a => a.Name).ToArray());
                 for (int i = 0; i < genericArguments.Length; i++)
                 {
                     DefineMethodGenericConstraints(genericArguments[i], typeParameters[i]);
@@ -489,10 +489,10 @@ internal class OpenGenericTypeClosingUtil
 
         private void EmitReturningDefaultValue()
         {
-            var generator = this.methodBuilder.GetILGenerator();
-            if (this.methodBuilder.ReturnType != typeof(void))
+            var generator = _methodBuilder.GetILGenerator();
+            if (_methodBuilder.ReturnType != typeof(void))
             {
-                this.EmitCallFixtureCreate(generator, this.methodInfo.ReturnType);
+                EmitCallFixtureCreate(generator, _methodInfo.ReturnType);
             }
 
             generator.Emit(OpCodes.Ret);
@@ -500,13 +500,13 @@ internal class OpenGenericTypeClosingUtil
 
         private void SetStaticSpecimenBuilderField(Type dummyType)
         {
-            if (this.specimenBuilderFieldBuilder == null)
+            if (_specimenBuilderFieldBuilder == null)
             {
                 return;
             }
 
             dummyType.GetField(SpecimenBuilderFieldName, BindingFlags.Static | BindingFlags.NonPublic)
-                .SetValue(null, this.specimenBuilder);
+                .SetValue(null, _specimenBuilder);
         }
     }
 }

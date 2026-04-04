@@ -43,7 +43,7 @@ public class AutoDataAttribute : DataAttribute
     /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
     protected AutoDataAttribute(Func<IFixture> fixtureFactory)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class AutoDataAttribute : DataAttribute
     {
         if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
 
-        var source = new AutoDataSource(this.FixtureFactory);
+        var source = new AutoDataSource(FixtureFactory);
 
         return source.GetData(testMethod)
             .Select(x => new TheoryDataRow(x))

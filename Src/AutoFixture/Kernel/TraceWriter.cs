@@ -11,9 +11,9 @@ namespace AutoFixture.Kernel;
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
 public class TraceWriter : ISpecimenBuilderNode
 {
-    private readonly TextWriter writer;
-    private Action<TextWriter, object, int> writeRequest;
-    private Action<TextWriter, object, int> writeSpecimen;
+    private readonly TextWriter _writer;
+    private Action<TextWriter, object, int> _writeRequest;
+    private Action<TextWriter, object, int> _writeSpecimen;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TraceWriter"/> class.
@@ -25,13 +25,13 @@ public class TraceWriter : ISpecimenBuilderNode
         if (writer == null) throw new ArgumentNullException(nameof(writer));
         if (tracer == null) throw new ArgumentNullException(nameof(tracer));
 
-        this.Tracer = tracer;
-        this.Tracer.SpecimenRequested += (sender, e) => this.writeRequest(writer, e.Request, e.Depth);
-        this.Tracer.SpecimenCreated += (sender, e) => this.writeSpecimen(writer, e.Specimen, e.Depth);
+        Tracer = tracer;
+        Tracer.SpecimenRequested += (sender, e) => _writeRequest(writer, e.Request, e.Depth);
+        Tracer.SpecimenCreated += (sender, e) => _writeSpecimen(writer, e.Specimen, e.Depth);
 
-        this.writer = writer;
-        this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Requested: " + r);
-        this.TraceSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Created: " + r);
+        _writer = writer;
+        TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Requested: " + r);
+        TraceSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Created: " + r);
     }
 
     /// <summary>
@@ -45,8 +45,8 @@ public class TraceWriter : ISpecimenBuilderNode
     /// <value>The request trace formatter.</value>
     public Action<TextWriter, object, int> TraceRequestFormatter
     {
-        get => this.writeRequest;
-        set => this.writeRequest = value ?? throw new ArgumentNullException(nameof(value));
+        get => _writeRequest;
+        set => _writeRequest = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -55,8 +55,8 @@ public class TraceWriter : ISpecimenBuilderNode
     /// <value>The created specimen trace formatter.</value>
     public Action<TextWriter, object, int> TraceSpecimenFormatter
     {
-        get => this.writeSpecimen;
-        set => this.writeSpecimen = value ?? throw new ArgumentNullException(nameof(value));
+        get => _writeSpecimen;
+        set => _writeSpecimen = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class TraceWriter : ISpecimenBuilderNode
     /// </returns>
     public object Create(object request, ISpecimenContext context)
     {
-        return this.Tracer.Create(request, context);
+        return Tracer.Create(request, context);
     }
 
     /// <summary>Composes the supplied builders.</summary>
@@ -85,7 +85,7 @@ public class TraceWriter : ISpecimenBuilderNode
         var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
 
         return new TraceWriter(
-            this.writer,
+            _writer,
             new TracingBuilder(
                 builder));
     }
@@ -99,11 +99,11 @@ public class TraceWriter : ISpecimenBuilderNode
     /// </returns>
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Tracer.Builder;
+        yield return Tracer.Builder;
     }
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

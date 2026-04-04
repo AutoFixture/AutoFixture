@@ -19,7 +19,7 @@ public class SpecimenCreatedEventArgs : RequestTraceEventArgs
     public SpecimenCreatedEventArgs(object request, object specimen, int depth)
         : base(request, depth)
     {
-        this.Specimen = specimen;
+        Specimen = specimen;
     }
 
     /// <summary>

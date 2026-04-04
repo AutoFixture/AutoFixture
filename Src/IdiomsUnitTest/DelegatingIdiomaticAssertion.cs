@@ -9,27 +9,27 @@ public class DelegatingIdiomaticAssertion : IdiomaticAssertion
 {
     public DelegatingIdiomaticAssertion()
     {
-        this.OnAssemblyArrayVerify = a => { };
-        this.OnAssembliesVerify = a => { };
-        this.OnAssemblyVerify = a => { };
-        this.OnTypeArrayVerify = t => { };
-        this.OnTypesVerify = t => { };
-        this.OnTypeVerify = t => { };
-        this.OnMemberInfoArrayVerify = m => { };
-        this.OnMemberInfosVerify = m => { };
-        this.OnMemberInfoVerify = m => { };
-        this.OnConstructorInfoArrayVerify = c => { };
-        this.OnConstructorInfosVerify = c => { };
-        this.OnConstructorInfoVerify = c => { };
-        this.OnMethodInfoArrayVerify = m => { };
-        this.OnMethodInfosVerify = m => { };
-        this.OnMethodInfoVerify = m => { };
-        this.OnPropertyInfoArrayVerify = p => { };
-        this.OnPropertyInfosVerify = p => { };
-        this.OnPropertyInfoVerify = p => { };
-        this.OnFieldInfoArrayVerify = p => { };
-        this.OnFieldInfosVerify = p => { };
-        this.OnFieldInfoVerify = p => { };
+        OnAssemblyArrayVerify = a => { };
+        OnAssembliesVerify = a => { };
+        OnAssemblyVerify = a => { };
+        OnTypeArrayVerify = t => { };
+        OnTypesVerify = t => { };
+        OnTypeVerify = t => { };
+        OnMemberInfoArrayVerify = m => { };
+        OnMemberInfosVerify = m => { };
+        OnMemberInfoVerify = m => { };
+        OnConstructorInfoArrayVerify = c => { };
+        OnConstructorInfosVerify = c => { };
+        OnConstructorInfoVerify = c => { };
+        OnMethodInfoArrayVerify = m => { };
+        OnMethodInfosVerify = m => { };
+        OnMethodInfoVerify = m => { };
+        OnPropertyInfoArrayVerify = p => { };
+        OnPropertyInfosVerify = p => { };
+        OnPropertyInfoVerify = p => { };
+        OnFieldInfoArrayVerify = p => { };
+        OnFieldInfosVerify = p => { };
+        OnFieldInfoVerify = p => { };
     }
 
     public Action<Assembly[]> OnAssemblyArrayVerify { get; set; }
@@ -76,127 +76,127 @@ public class DelegatingIdiomaticAssertion : IdiomaticAssertion
 
     public override void Verify(params Assembly[] assemblies)
     {
-        this.OnAssemblyArrayVerify(assemblies);
+        OnAssemblyArrayVerify(assemblies);
         base.Verify(assemblies);
     }
 
     public override void Verify(IEnumerable<Assembly> assemblies)
     {
-        this.OnAssembliesVerify(assemblies);
+        OnAssembliesVerify(assemblies);
         base.Verify(assemblies);
     }
 
     public override void Verify(Assembly assembly)
     {
-        this.OnAssemblyVerify(assembly);
+        OnAssemblyVerify(assembly);
         base.Verify(assembly);
     }
 
     public override void Verify(params Type[] types)
     {
-        this.OnTypeArrayVerify(types);
+        OnTypeArrayVerify(types);
         base.Verify(types);
     }
 
     public override void Verify(IEnumerable<Type> types)
     {
-        this.OnTypesVerify(types);
+        OnTypesVerify(types);
         base.Verify(types);
     }
 
     public override void Verify(Type type)
     {
-        this.OnTypeVerify(type);
+        OnTypeVerify(type);
         base.Verify(type);
     }
 
     public override void Verify(params MemberInfo[] memberInfos)
     {
-        this.OnMemberInfoArrayVerify(memberInfos);
+        OnMemberInfoArrayVerify(memberInfos);
         base.Verify(memberInfos);
     }
 
     public override void Verify(IEnumerable<MemberInfo> memberInfos)
     {
-        this.OnMemberInfosVerify(memberInfos);
+        OnMemberInfosVerify(memberInfos);
         base.Verify(memberInfos);
     }
 
     public override void Verify(MemberInfo memberInfo)
     {
-        this.OnMemberInfoVerify(memberInfo);
+        OnMemberInfoVerify(memberInfo);
         base.Verify(memberInfo);
     }
 
     public override void Verify(params ConstructorInfo[] constructorInfos)
     {
-        this.OnConstructorInfoArrayVerify(constructorInfos);
+        OnConstructorInfoArrayVerify(constructorInfos);
         base.Verify(constructorInfos);
     }
 
     public override void Verify(IEnumerable<ConstructorInfo> constructorInfos)
     {
-        this.OnConstructorInfosVerify(constructorInfos);
+        OnConstructorInfosVerify(constructorInfos);
         base.Verify(constructorInfos);
     }
 
     public override void Verify(ConstructorInfo constructorInfo)
     {
-        this.OnConstructorInfoVerify(constructorInfo);
+        OnConstructorInfoVerify(constructorInfo);
         base.Verify(constructorInfo);
     }
 
     public override void Verify(params MethodInfo[] methodInfos)
     {
-        this.OnMethodInfoArrayVerify(methodInfos);
+        OnMethodInfoArrayVerify(methodInfos);
         base.Verify(methodInfos);
     }
 
     public override void Verify(IEnumerable<MethodInfo> methodInfos)
     {
-        this.OnMethodInfosVerify(methodInfos);
+        OnMethodInfosVerify(methodInfos);
         base.Verify(methodInfos);
     }
 
     public override void Verify(MethodInfo methodInfo)
     {
-        this.OnMethodInfoVerify(methodInfo);
+        OnMethodInfoVerify(methodInfo);
         base.Verify(methodInfo);
     }
 
     public override void Verify(params PropertyInfo[] propertyInfos)
     {
-        this.OnPropertyInfoArrayVerify(propertyInfos);
+        OnPropertyInfoArrayVerify(propertyInfos);
         base.Verify(propertyInfos);
     }
 
     public override void Verify(IEnumerable<PropertyInfo> propertyInfos)
     {
-        this.OnPropertyInfosVerify(propertyInfos);
+        OnPropertyInfosVerify(propertyInfos);
         base.Verify(propertyInfos);
     }
 
     public override void Verify(PropertyInfo propertyInfo)
     {
-        this.OnPropertyInfoVerify(propertyInfo);
+        OnPropertyInfoVerify(propertyInfo);
         base.Verify(propertyInfo);
     }
 
     public override void Verify(params FieldInfo[] fieldInfos)
     {
-        this.OnFieldInfoArrayVerify(fieldInfos);
+        OnFieldInfoArrayVerify(fieldInfos);
         base.Verify(fieldInfos);
     }
 
     public override void Verify(IEnumerable<FieldInfo> fieldInfos)
     {
-        this.OnFieldInfosVerify(fieldInfos);
+        OnFieldInfosVerify(fieldInfos);
         base.Verify(fieldInfos);
     }
 
     public override void Verify(FieldInfo fieldInfo)
     {
-        this.OnFieldInfoVerify(fieldInfo);
+        OnFieldInfoVerify(fieldInfo);
         base.Verify(fieldInfo);
     }
 }

@@ -30,7 +30,7 @@ public class ReadonlyCollectionPropertiesBehavior : ISpecimenBuilderTransformati
     /// <param name="propertyQuery">The query that will be applied to select readonly collection properties.</param>
     public ReadonlyCollectionPropertiesBehavior(IPropertyQuery propertyQuery)
     {
-        this.PropertyQuery = propertyQuery;
+        PropertyQuery = propertyQuery;
     }
 
     /// <summary>
@@ -58,9 +58,9 @@ public class ReadonlyCollectionPropertiesBehavior : ISpecimenBuilderTransformati
 
         return new Postprocessor(
             builder,
-            new ReadonlyCollectionPropertiesCommand(this.PropertyQuery),
+            new ReadonlyCollectionPropertiesCommand(PropertyQuery),
             new AndRequestSpecification(
-                new ReadonlyCollectionPropertiesSpecification(this.PropertyQuery),
+                new ReadonlyCollectionPropertiesSpecification(PropertyQuery),
                 new OmitFixtureSpecification()));
     }
 }

@@ -9,7 +9,7 @@ namespace AutoFixture;
 /// </summary>
 public class Int32SequenceGenerator : ISpecimenBuilder
 {
-    private int i;
+    private int _i;
 
     /// <summary>
     /// Creates an anonymous number.
@@ -18,7 +18,7 @@ public class Int32SequenceGenerator : ISpecimenBuilder
     [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
     public int Create()
     {
-        return Interlocked.Increment(ref this.i);
+        return Interlocked.Increment(ref _i);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class Int32SequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public int CreateAnonymous()
     {
-        return this.Create();
+        return Create();
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class Int32SequenceGenerator : ISpecimenBuilder
         }
 
 #pragma warning disable 618
-        return this.Create();
+        return Create();
 #pragma warning restore 618
     }
 }

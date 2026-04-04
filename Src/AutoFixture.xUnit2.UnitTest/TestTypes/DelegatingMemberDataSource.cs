@@ -10,5 +10,5 @@ public class DelegatingMemberDataSource : MemberDataSource
     {
     }
 
-    public DataSource GetSource() => this.Source;
+    public DataSource GetSource() => Source;
 }

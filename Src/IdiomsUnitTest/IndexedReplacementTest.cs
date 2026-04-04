@@ -24,7 +24,7 @@ public abstract class IndexedReplacementTest<T>
     {
         // Arrange
         var dummyIndex = 0;
-        var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToList().AsEnumerable();
+        var source = Enumerable.Range(1, 3).Select(i => CreateItem()).ToList().AsEnumerable();
         var sut = new IndexedReplacement<T>(dummyIndex, source);
         // Act
         IEnumerable<T> result = sut.Source;
@@ -37,7 +37,7 @@ public abstract class IndexedReplacementTest<T>
     {
         // Arrange
         var dummyIndex = 0;
-        var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToArray();
+        var source = Enumerable.Range(1, 3).Select(i => CreateItem()).ToArray();
         var sut = new IndexedReplacement<T>(dummyIndex, source);
         // Act
         IEnumerable<T> result = sut.Source;
@@ -82,10 +82,10 @@ public abstract class IndexedReplacementTest<T>
     public void ExpandReturnsCorrectResult(int replacementIndex)
     {
         // Arrange
-        var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToList();
+        var source = Enumerable.Range(1, 3).Select(i => CreateItem()).ToList();
         var sut = new IndexedReplacement<T>(replacementIndex, source);
         // Act
-        var replacementValue = this.CreateItem();
+        var replacementValue = CreateItem();
         var result = sut.Expand(replacementValue);
         // Assert
         var expected = source.ToList();
@@ -106,11 +106,11 @@ public class IndexedReplacementTestOfObject : IndexedReplacementTest<object>
 
 public class IndexedReplacementTestOfInt : IndexedReplacementTest<int>
 {
-    private int i;
+    private int _i;
 
     protected override int CreateItem()
     {
-        return this.i++;
+        return _i++;
     }
 }
 

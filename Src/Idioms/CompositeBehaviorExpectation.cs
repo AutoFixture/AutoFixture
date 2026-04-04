@@ -17,7 +17,7 @@ public class CompositeBehaviorExpectation : IBehaviorExpectation
     /// <seealso cref="BehaviorExpectations" />
     public CompositeBehaviorExpectation(params IBehaviorExpectation[] behaviorExpectations)
     {
-        this.BehaviorExpectations = behaviorExpectations;
+        BehaviorExpectations = behaviorExpectations;
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class CompositeBehaviorExpectation : IBehaviorExpectation
     /// <param name="command">The command whose behavior must be examined.</param>
     public void Verify(IGuardClauseCommand command)
     {
-        foreach (var be in this.BehaviorExpectations)
+        foreach (var be in BehaviorExpectations)
         {
             be.Verify(command);
         }

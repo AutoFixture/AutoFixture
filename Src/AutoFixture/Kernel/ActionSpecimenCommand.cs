@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel;
 /// </typeparam>
 public class ActionSpecimenCommand<T> : ISpecimenCommand
 {
-    private readonly Action<T, ISpecimenContext> action;
+    private readonly Action<T, ISpecimenContext> _action;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -22,7 +22,7 @@ public class ActionSpecimenCommand<T> : ISpecimenCommand
     /// <seealso cref="ActionSpecimenCommand(Action{T, ISpecimenContext})" />
     public ActionSpecimenCommand(Action<T> action)
     {
-        this.action = (s, c) => action(s);
+        _action = (s, c) => action(s);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class ActionSpecimenCommand<T> : ISpecimenCommand
     /// <seealso cref="ActionSpecimenCommand(Action{T})" />
     public ActionSpecimenCommand(Action<T, ISpecimenContext> action)
     {
-        this.action = action;
+        _action = action;
     }
 
     /// <summary>Invokes the adapted action on the specimen.</summary>
@@ -54,6 +54,6 @@ public class ActionSpecimenCommand<T> : ISpecimenCommand
     /// <seealso cref="ActionSpecimenCommand(Action{T, ISpecimenContext})" />
     public void Execute(object specimen, ISpecimenContext context)
     {
-        this.action((T)specimen, context);
+        _action((T)specimen, context);
     }
 }
