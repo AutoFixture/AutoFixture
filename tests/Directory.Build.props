@@ -1,4 +1,6 @@
 <Project>
+  <Import Project="..\Directory.Build.props" />
+
   <PropertyGroup>
     <SignAssembly>False</SignAssembly>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
@@ -31,6 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/AutoFixture.Tests.globalconfig" />
+    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)tests.stylecop.globalconfig" />
   </ItemGroup>
 </Project>
