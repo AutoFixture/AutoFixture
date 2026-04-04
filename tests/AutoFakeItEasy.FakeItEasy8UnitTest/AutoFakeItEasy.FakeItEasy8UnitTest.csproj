@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Common.props" />
+  <Import Project="..\..\Common.Test.props" />
+  <Import Project="..\..\Common.Test.xUnit.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;net48;net5.0;net6.0</TargetFrameworks>
+    <AssemblyTitle>AutoFakeItEasy.FakeItEasy8.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.AutoFakeItEasy.FakeItEasy8UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AutoFakeItEasyUnitTest\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Remove="..\AutoFakeItEasyUnitTest\obj\**" />
+  </ItemGroup>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)'=='net48'">
+      <ItemGroup>
+        <PackageReference Include="FakeItEasy" Version="[8.1.0]" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0"/>
+
+        <ProjectReference Include="..\..\Src\AutoFakeItEasy\AutoFakeItEasy.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="FakeItEasy" Version="[8.1.0]" />
+
+        <ProjectReference Include="..\..\Src\AutoFakeItEasy\AutoFakeItEasy.csproj" />
+        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+</Project>

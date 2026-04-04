@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Common.props" />
+  <Import Project="..\..\Common.Test.props" />
+  <Import Project="..\..\Common.Test.xUnit.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;net48;net5.0;net6.0</TargetFrameworks>
+    <AssemblyTitle>AutoFixture.SeedExtensions.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.SeedExtensions.UnitTest</AssemblyName>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)'=='net48'">
+      <ItemGroup>
+        <ProjectReference Include="..\..\Src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="..\..\Src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
+        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+</Project>
+
