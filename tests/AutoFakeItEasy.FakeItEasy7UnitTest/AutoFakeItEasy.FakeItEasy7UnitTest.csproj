@@ -20,18 +20,18 @@
       <ItemGroup>
         <PackageReference Include="FakeItEasy" Version="[7.4.0]" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0"/>
 
-        <ProjectReference Include="..\..\Src\AutoFakeItEasy\AutoFakeItEasy.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoFakeItEasy\AutoFakeItEasy.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
       </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
         <PackageReference Include="FakeItEasy" Version="[7.4.0]" />
 
-        <ProjectReference Include="..\..\Src\AutoFakeItEasy\AutoFakeItEasy.csproj" />
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\..\src\AutoFakeItEasy\AutoFakeItEasy.csproj" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>

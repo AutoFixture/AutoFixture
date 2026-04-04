@@ -23,18 +23,18 @@
       <ItemGroup>
         <PackageReference Include="NSubstitute" Version="[4.4.0]" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard1.3"/>
 
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\AutoNSubstitute\AutoNSubstitute.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoNSubstitute\AutoNSubstitute.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
       </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
         <PackageReference Include="NSubstitute" Version="[4.4.0]" />
 
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
-        <ProjectReference Include="..\..\Src\AutoNSubstitute\AutoNSubstitute.csproj" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\..\src\AutoNSubstitute\AutoNSubstitute.csproj" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>

@@ -12,14 +12,14 @@
   <Choose>
     <When Condition="'$(TargetFramework)'=='net48'">
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
       </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\..\src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>

@@ -12,7 +12,7 @@
   <Choose>
     <When Condition="'$(TargetFramework)'=='net462'">
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj">
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj">
           <SetTargetFramework>TargetFramework=net462</SetTargetFramework>
           <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
         </ProjectReference>
@@ -22,7 +22,7 @@
     </When>
     <When Condition="'$(TargetFramework)'=='net48'">
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj">
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj">
           <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
           <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
         </ProjectReference>
@@ -32,14 +32,14 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>
 
   <ItemGroup>
     <PackageReference Include="System.Linq.Async" Version="4.0.0" />
-    <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+    <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

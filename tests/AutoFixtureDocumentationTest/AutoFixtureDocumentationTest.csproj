@@ -11,8 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
-    <ProjectReference Include="..\..\Src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
+    <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\..\src\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
 
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.0.0" Condition=" '$(TargetFramework)'=='net462' " />
   </ItemGroup>

@@ -17,16 +17,16 @@
         <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
       </PropertyGroup>
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
       </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
-        <ProjectReference Include="..\..\Src\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\..\src\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>

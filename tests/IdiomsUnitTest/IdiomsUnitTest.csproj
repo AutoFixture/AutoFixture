@@ -13,16 +13,16 @@
   <Choose>
     <When Condition="'$(TargetFramework)' == 'net48'">
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\Idioms\Idioms.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\Idioms\Idioms.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
       </ItemGroup>
     </When>
     <Otherwise>
       <ItemGroup>
-        <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
-        <ProjectReference Include="..\..\Src\Idioms\Idioms.csproj" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+        <ProjectReference Include="..\..\src\Idioms\Idioms.csproj" />
+        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>
