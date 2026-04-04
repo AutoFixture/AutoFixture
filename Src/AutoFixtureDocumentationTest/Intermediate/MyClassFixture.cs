@@ -9,7 +9,7 @@ internal class MyClassFixture : Fixture
     internal MyClassFixture()
     {
         Things = new List<Thing>();
-        Register<IMyInterface>(() =>
+        this.Register<IMyInterface>(() =>
         {
             var fake = new FakeMyInterface();
             Things.ToList().ForEach(t =>

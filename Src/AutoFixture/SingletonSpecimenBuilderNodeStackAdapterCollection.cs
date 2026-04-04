@@ -184,7 +184,7 @@ public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISp
     private void UpdateGraph()
     {
         ISpecimenBuilderNode g = Graph.FindFirstNode(_isWrappedGraph);
-        ISpecimenBuilderNode builder = Aggregate(g, (b, t) => t.Transform(b));
+        ISpecimenBuilderNode builder = this.Aggregate(g, (b, t) => t.Transform(b));
 
         Graph = builder;
 

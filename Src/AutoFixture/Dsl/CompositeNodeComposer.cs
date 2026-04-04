@@ -47,7 +47,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).FromSeed(factory),
             when: n => n is NodeComposer<T>);
@@ -56,7 +56,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).FromFactory(factory),
             when: n => n is NodeComposer<T>);
@@ -65,7 +65,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory(Func<T> factory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).FromFactory(factory),
             when: n => n is NodeComposer<T>);
@@ -74,7 +74,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).FromFactory(factory),
             when: n => n is NodeComposer<T>);
@@ -83,7 +83,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).FromFactory(factory),
             when: n => n is NodeComposer<T>);
@@ -93,7 +93,7 @@ public class CompositeNodeComposer<T> :
     public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(
         Func<TInput1, TInput2, TInput3, T> factory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).FromFactory(factory),
             when: n => n is NodeComposer<T>);
@@ -103,7 +103,7 @@ public class CompositeNodeComposer<T> :
     public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(
         Func<TInput1, TInput2, TInput3, TInput4, T> factory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).FromFactory(factory),
             when: n => n is NodeComposer<T>);
@@ -122,7 +122,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> Do(Action<T> action)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).Do(action),
             when: n => n is NodeComposer<T>);
@@ -131,7 +131,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> OmitAutoProperties()
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).OmitAutoProperties(),
             when: n => n is NodeComposer<T>);
@@ -140,7 +140,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker),
             when: n => n is NodeComposer<T>);
@@ -149,7 +149,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, value),
             when: n => n is NodeComposer<T>);
@@ -158,7 +158,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueFactory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, valueFactory),
             when: n => n is NodeComposer<T>);
@@ -167,7 +167,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, valueFactory),
             when: n => n is NodeComposer<T>);
@@ -176,7 +176,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, builder),
             when: n => n is NodeComposer<T>);
@@ -185,7 +185,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> WithAutoProperties()
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).WithAutoProperties(),
             when: n => n is NodeComposer<T>);
@@ -194,7 +194,7 @@ public class CompositeNodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
     {
-        return (CompositeNodeComposer<T>)ReplaceNodes(
+        return (CompositeNodeComposer<T>)this.ReplaceNodes(
             with: n =>
                 (NodeComposer<T>)((NodeComposer<T>)n).Without(propertyPicker),
             when: n => n is NodeComposer<T>);

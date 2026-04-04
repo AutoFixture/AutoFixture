@@ -147,7 +147,7 @@ public class NodeComposer<T> :
         // If user later decide to enable properties population, we'll need this information
         // (e.g. if user does smth like fixture.Build().Without(x => x.P).OmitAutoProperties().WithAutoProperties()
         // the information from "Without" should not be missed)
-        return (NodeComposer<T>)ReplaceNodes(
+        return (NodeComposer<T>)this.ReplaceNodes(
             with: n => new Postprocessor(
                 autoPropertiesNode.Builder,
                 autoPropertiesNode.Command,
@@ -275,7 +275,7 @@ public class NodeComposer<T> :
 
     private NodeComposer<T> WithFactory(ISpecimenBuilder factory)
     {
-        return (NodeComposer<T>)ReplaceNodes(
+        return (NodeComposer<T>)this.ReplaceNodes(
             with: n => n.Compose(new[] { factory }),
             when: n => n is NoSpecimenOutputGuard);
     }
