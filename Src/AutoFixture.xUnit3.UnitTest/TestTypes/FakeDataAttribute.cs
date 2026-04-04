@@ -10,19 +10,19 @@ namespace AutoFixture.Xunit3.UnitTest.TestTypes;
 
 public class FakeDataAttribute : DataAttribute
 {
-    private readonly MethodInfo expectedMethod;
-    private readonly IEnumerable<object[]> output;
+    private readonly MethodInfo _expectedMethod;
+    private readonly IEnumerable<object[]> _output;
 
     public FakeDataAttribute(MethodInfo expectedMethod, IEnumerable<object[]> output)
     {
-        this.expectedMethod = expectedMethod;
-        this.output = output;
+        _expectedMethod = expectedMethod;
+        _output = output;
     }
 
     public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(MethodInfo testMethod, DisposalTracker disposalTracker)
     {
-        Assert.Same(this.expectedMethod, testMethod);
-        return this.output.Select(row => new TheoryDataRow(row))
+        Assert.Same(_expectedMethod, testMethod);
+        return _output.Select(row => new TheoryDataRow(row))
             .Cast<ITheoryDataRow>().AsReadOnlyCollection()
             .ToValueTask();
     }

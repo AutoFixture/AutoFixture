@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class StaticMethod : IMethod, IEquatable<StaticMethod>
 {
-    private readonly ParameterInfo[] paramInfos;
+    private readonly ParameterInfo[] _paramInfos;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StaticMethod"/> class.
@@ -28,8 +28,8 @@ public class StaticMethod : IMethod, IEquatable<StaticMethod>
     /// <param name="methodParameters">The method parameters.</param>
     public StaticMethod(MethodInfo methodInfo, ParameterInfo[] methodParameters)
     {
-        this.Method = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
-        this.paramInfos = methodParameters ?? throw new ArgumentNullException(nameof(methodParameters));
+        Method = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
+        _paramInfos = methodParameters ?? throw new ArgumentNullException(nameof(methodParameters));
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class StaticMethod : IMethod, IEquatable<StaticMethod>
     /// <summary>
     /// Gets information about the parameters of the method.
     /// </summary>
-    public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
+    public IEnumerable<ParameterInfo> Parameters => _paramInfos;
 
     /// <summary>
     /// Determines whether the specified <see cref="object"/> is equal to this instance.
@@ -56,7 +56,7 @@ public class StaticMethod : IMethod, IEquatable<StaticMethod>
     {
         if (obj is StaticMethod other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
         return base.Equals(obj);
     }
@@ -70,8 +70,8 @@ public class StaticMethod : IMethod, IEquatable<StaticMethod>
     /// </returns>
     public override int GetHashCode()
     {
-        return this.Method.GetHashCode()
-               ^ this.Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
+        return Method.GetHashCode()
+               ^ Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class StaticMethod : IMethod, IEquatable<StaticMethod>
     /// <returns>The result of the method call.</returns>
     public object Invoke(IEnumerable<object> parameters)
     {
-        return this.Method.Invoke(null, parameters.ToArray());
+        return Method.Invoke(null, parameters.ToArray());
     }
 
     /// <summary>
@@ -98,8 +98,8 @@ public class StaticMethod : IMethod, IEquatable<StaticMethod>
             return false;
         }
 
-        return this.Method.Equals(other.Method)
-               && this.Parameters.SequenceEqual(other.Parameters);
+        return Method.Equals(other.Method)
+               && Parameters.SequenceEqual(other.Parameters);
     }
 
     private static ParameterInfo[] GetMethodParameters(MethodInfo methodInfo)

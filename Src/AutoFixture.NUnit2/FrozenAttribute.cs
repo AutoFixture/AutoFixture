@@ -14,7 +14,7 @@ namespace AutoFixture.NUnit2;
 public sealed class FrozenAttribute : CustomizeAttribute
 {
     [Obsolete("The As property is deprecated.")]
-    private Type @as;
+    private Type _as;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
@@ -38,7 +38,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
     /// </param>
     public FrozenAttribute(Matching by)
     {
-        this.By = by;
+        By = by;
     }
 
     /// <summary>
@@ -48,8 +48,8 @@ public sealed class FrozenAttribute : CustomizeAttribute
     [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].", true)]
     public Type As
     {
-        get => this.@as;
-        set => this.@as = value;
+        get => _as;
+        set => _as = value;
     }
 
     /// <summary>
@@ -75,15 +75,15 @@ public sealed class FrozenAttribute : CustomizeAttribute
     {
         if (parameter == null) throw new ArgumentNullException(nameof(parameter));
 
-        return this.ShouldMatchBySpecificType()
-            ? this.FreezeAsType(parameter.ParameterType)
-            : this.FreezeByCriteria(parameter);
+        return ShouldMatchBySpecificType()
+            ? FreezeAsType(parameter.ParameterType)
+            : FreezeByCriteria(parameter);
     }
 
     private bool ShouldMatchBySpecificType()
     {
 #pragma warning disable 618
-        return this.@as != null;
+        return _as != null;
 #pragma warning restore 618
     }
 
@@ -92,7 +92,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
         return new FreezingCustomization(
             type,
 #pragma warning disable 618
-            this.@as ?? type);
+            _as ?? type);
 #pragma warning restore 618
     }
 
@@ -102,12 +102,12 @@ public sealed class FrozenAttribute : CustomizeAttribute
         var name = parameter.Name;
 
         var filter = new Filter(ByEqual(parameter))
-            .Or(this.ByExactType(type))
-            .Or(this.ByBaseType(type))
-            .Or(this.ByImplementedInterfaces(type))
-            .Or(this.ByPropertyName(type, name))
-            .Or(this.ByParameterName(type, name))
-            .Or(this.ByFieldName(type, name));
+            .Or(ByExactType(type))
+            .Or(ByBaseType(type))
+            .Or(ByImplementedInterfaces(type))
+            .Or(ByPropertyName(type, name))
+            .Or(ByParameterName(type, name))
+            .Or(ByFieldName(type, name));
 
         return new FreezeOnMatchCustomization(parameter, filter);
     }
@@ -119,7 +119,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private IRequestSpecification ByExactType(Type type)
     {
-        return this.ShouldMatchBy(Matching.ExactType)
+        return ShouldMatchBy(Matching.ExactType)
             ? new OrRequestSpecification(
                 new ExactTypeSpecification(type),
                 new SeedRequestSpecification(type))
@@ -128,7 +128,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private IRequestSpecification ByBaseType(Type type)
     {
-        return this.ShouldMatchBy(Matching.DirectBaseType)
+        return ShouldMatchBy(Matching.DirectBaseType)
             ? new AndRequestSpecification(
                 new InverseRequestSpecification(
                     new ExactTypeSpecification(type)),
@@ -138,7 +138,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private IRequestSpecification ByImplementedInterfaces(Type type)
     {
-        return this.ShouldMatchBy(Matching.ImplementedInterfaces)
+        return ShouldMatchBy(Matching.ImplementedInterfaces)
             ? new AndRequestSpecification(
                 new InverseRequestSpecification(
                     new ExactTypeSpecification(type)),
@@ -148,7 +148,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private IRequestSpecification ByParameterName(Type type, string name)
     {
-        return this.ShouldMatchBy(Matching.ParameterName)
+        return ShouldMatchBy(Matching.ParameterName)
             ? new ParameterSpecification(
                 new ParameterTypeAndNameCriterion(
                     DerivesFrom(type),
@@ -158,7 +158,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private IRequestSpecification ByPropertyName(Type type, string name)
     {
-        return this.ShouldMatchBy(Matching.PropertyName)
+        return ShouldMatchBy(Matching.PropertyName)
             ? new PropertySpecification(
                 new PropertyTypeAndNameCriterion(
                     DerivesFrom(type),
@@ -168,7 +168,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private IRequestSpecification ByFieldName(Type type, string name)
     {
-        return this.ShouldMatchBy(Matching.FieldName)
+        return ShouldMatchBy(Matching.FieldName)
             ? new FieldSpecification(
                 new FieldTypeAndNameCriterion(
                     DerivesFrom(type),
@@ -178,7 +178,7 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private bool ShouldMatchBy(Matching criteria)
     {
-        return this.By.HasFlag(criteria);
+        return By.HasFlag(criteria);
     }
 
     private static IRequestSpecification NoMatch()
@@ -202,24 +202,24 @@ public sealed class FrozenAttribute : CustomizeAttribute
 
     private class Filter : IRequestSpecification
     {
-        private readonly IRequestSpecification criteria;
+        private readonly IRequestSpecification _criteria;
 
         public Filter(IRequestSpecification criteria)
         {
-            this.criteria = criteria;
+            _criteria = criteria;
         }
 
         public Filter Or(IRequestSpecification condition)
         {
             return new Filter(
                 new OrRequestSpecification(
-                    this.criteria,
+                    _criteria,
                     condition));
         }
 
         public bool IsSatisfiedBy(object request)
         {
-            return this.criteria.IsSatisfiedBy(request);
+            return _criteria.IsSatisfiedBy(request);
         }
     }
 

@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class BooleanSwitch : ISpecimenBuilder
 {
-    private bool b;
-    private readonly object syncRoot;
+    private bool _b;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BooleanSwitch"/> class.
     /// </summary>
     public BooleanSwitch()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -29,10 +29,10 @@ public class BooleanSwitch : ISpecimenBuilder
     [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
     public bool Create()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            this.b = !this.b;
-            return this.b;
+            _b = !_b;
+            return _b;
         }
     }
 
@@ -48,7 +48,7 @@ public class BooleanSwitch : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public bool CreateAnonymous()
     {
-        return this.Create();
+        return Create();
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class BooleanSwitch : ISpecimenBuilder
         }
 
 #pragma warning disable 618
-        return this.Create();
+        return Create();
 #pragma warning restore 618
     }
 }

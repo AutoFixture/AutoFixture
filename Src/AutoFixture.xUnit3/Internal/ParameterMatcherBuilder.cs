@@ -11,7 +11,7 @@ namespace AutoFixture.Xunit3.Internal;
 /// </summary>
 public class ParameterMatcherBuilder
 {
-    private readonly ParameterInfo parameterInfo;
+    private readonly ParameterInfo _parameterInfo;
 
     /// <summary>
     /// Creates an instance of type <see cref="ParameterMatcherBuilder"/>.
@@ -22,7 +22,7 @@ public class ParameterMatcherBuilder
     /// </exception>
     public ParameterMatcherBuilder(ParameterInfo parameterInfo)
     {
-        this.parameterInfo = parameterInfo
+        _parameterInfo = parameterInfo
                              ?? throw new ArgumentNullException(nameof(parameterInfo));
     }
 
@@ -73,12 +73,12 @@ public class ParameterMatcherBuilder
     /// <returns>The current <see cref="ParameterMatcherBuilder"/> instance.</returns>
     public ParameterMatcherBuilder SetFlags(Matching flags)
     {
-        this.MatchExactType = flags.HasFlag(Matching.ExactType);
-        this.MatchDirectBaseType = flags.HasFlag(Matching.DirectBaseType);
-        this.MatchImplementedInterfaces = flags.HasFlag(Matching.ImplementedInterfaces);
-        this.MatchParameter = flags.HasFlag(Matching.ParameterName);
-        this.MatchProperty = flags.HasFlag(Matching.PropertyName);
-        this.MatchField = flags.HasFlag(Matching.FieldName);
+        MatchExactType = flags.HasFlag(Matching.ExactType);
+        MatchDirectBaseType = flags.HasFlag(Matching.DirectBaseType);
+        MatchImplementedInterfaces = flags.HasFlag(Matching.ImplementedInterfaces);
+        MatchParameter = flags.HasFlag(Matching.ParameterName);
+        MatchProperty = flags.HasFlag(Matching.PropertyName);
+        MatchField = flags.HasFlag(Matching.FieldName);
         return this;
     }
 
@@ -91,26 +91,26 @@ public class ParameterMatcherBuilder
     public IRequestSpecification Build()
     {
         var specifications = new List<IRequestSpecification>(7);
-        if (this.MatchExactRequest)
-            specifications.Add(this.AsExactRequest());
+        if (MatchExactRequest)
+            specifications.Add(AsExactRequest());
 
-        if (this.MatchExactType)
-            specifications.Add(this.AsExactType());
+        if (MatchExactType)
+            specifications.Add(AsExactType());
 
-        if (this.MatchDirectBaseType)
-            specifications.Add(this.AsDirectBaseType());
+        if (MatchDirectBaseType)
+            specifications.Add(AsDirectBaseType());
 
-        if (this.MatchImplementedInterfaces)
-            specifications.Add(this.AsImplementedInterfaces());
+        if (MatchImplementedInterfaces)
+            specifications.Add(AsImplementedInterfaces());
 
-        if (this.MatchProperty)
-            specifications.Add(this.AsProperty());
+        if (MatchProperty)
+            specifications.Add(AsProperty());
 
-        if (this.MatchParameter)
-            specifications.Add(this.AsParameter());
+        if (MatchParameter)
+            specifications.Add(AsParameter());
 
-        if (this.MatchField)
-            specifications.Add(this.AsField());
+        if (MatchField)
+            specifications.Add(AsField());
 
         return specifications.Count == 1
             ? specifications[0]
@@ -119,54 +119,54 @@ public class ParameterMatcherBuilder
 
     private IRequestSpecification AsExactRequest()
     {
-        return new EqualRequestSpecification(this.parameterInfo);
+        return new EqualRequestSpecification(_parameterInfo);
     }
 
     private IRequestSpecification AsExactType()
     {
         return new OrRequestSpecification(
-            new ExactTypeSpecification(this.parameterInfo.ParameterType),
-            new SeedRequestSpecification(this.parameterInfo.ParameterType));
+            new ExactTypeSpecification(_parameterInfo.ParameterType),
+            new SeedRequestSpecification(_parameterInfo.ParameterType));
     }
 
     private IRequestSpecification AsDirectBaseType()
     {
         return new AndRequestSpecification(
             new InverseRequestSpecification(
-                new ExactTypeSpecification(this.parameterInfo.ParameterType)),
-            new DirectBaseTypeSpecification(this.parameterInfo.ParameterType));
+                new ExactTypeSpecification(_parameterInfo.ParameterType)),
+            new DirectBaseTypeSpecification(_parameterInfo.ParameterType));
     }
 
     private IRequestSpecification AsImplementedInterfaces()
     {
         return new AndRequestSpecification(
             new InverseRequestSpecification(
-                new ExactTypeSpecification(this.parameterInfo.ParameterType)),
-            new ImplementedInterfaceSpecification(this.parameterInfo.ParameterType));
+                new ExactTypeSpecification(_parameterInfo.ParameterType)),
+            new ImplementedInterfaceSpecification(_parameterInfo.ParameterType));
     }
 
     private IRequestSpecification AsParameter()
     {
         return new ParameterSpecification(
             new ParameterTypeAndNameCriterion(
-                new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
     }
 
     private IRequestSpecification AsProperty()
     {
         return new PropertySpecification(
             new PropertyTypeAndNameCriterion(
-                new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
     }
 
     private IRequestSpecification AsField()
     {
         return new FieldSpecification(
             new FieldTypeAndNameCriterion(
-                new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
     }
 
     private class DerivesFromTypeComparer : IEqualityComparer<Type>

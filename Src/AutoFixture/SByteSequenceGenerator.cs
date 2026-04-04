@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class SByteSequenceGenerator : ISpecimenBuilder
 {
-    private sbyte s;
-    private readonly object syncRoot;
+    private sbyte _s;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SByteSequenceGenerator"/> class.
     /// </summary>
     public SByteSequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -27,9 +27,9 @@ public class SByteSequenceGenerator : ISpecimenBuilder
     [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
     public sbyte Create()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.s;
+            return ++_s;
         }
     }
 
@@ -42,7 +42,7 @@ public class SByteSequenceGenerator : ISpecimenBuilder
     [CLSCompliant(false)]
     public sbyte CreateAnonymous()
     {
-        return this.Create();
+        return Create();
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class SByteSequenceGenerator : ISpecimenBuilder
         }
 
 #pragma warning disable 618
-        return this.Create();
+        return Create();
 #pragma warning restore 618
     }
 }

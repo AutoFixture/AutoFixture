@@ -28,7 +28,7 @@ public class EqualsSuccessiveAssertion : IdiomaticAssertion
     /// </remarks>
     public EqualsSuccessiveAssertion(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -53,8 +53,8 @@ public class EqualsSuccessiveAssertion : IdiomaticAssertion
             return;
         }
 
-        var instance = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
-        var other = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var instance = Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var other = Builder.CreateAnonymous(methodInfo.ReflectedType);
 
         var results = Enumerable.Range(1, 3)
             .Select(i => instance.Equals(other))

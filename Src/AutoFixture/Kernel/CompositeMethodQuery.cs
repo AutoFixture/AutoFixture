@@ -24,7 +24,7 @@ public class CompositeMethodQuery : IMethodQuery
     /// <param name="queries">The queries.</param>
     public CompositeMethodQuery(params IMethodQuery[] queries)
     {
-        this.Queries = queries ?? throw new ArgumentNullException(nameof(queries));
+        Queries = queries ?? throw new ArgumentNullException(nameof(queries));
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class CompositeMethodQuery : IMethodQuery
     /// <returns>Methods for <paramref name="type"/>.</returns>
     public IEnumerable<IMethod> SelectMethods(Type type)
     {
-        return from q in this.Queries
+        return from q in Queries
             from m in q.SelectMethods(type)
             select m;
     }

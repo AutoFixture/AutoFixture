@@ -29,7 +29,7 @@ namespace AutoFixture.AutoMoq;
 /// </remarks>
 public class MockVirtualMethodsCommand : ISpecimenCommand
 {
-    private static readonly DelegateSpecification DelegateSpecification = new DelegateSpecification();
+    private static readonly DelegateSpecification s_delegateSpecification = new DelegateSpecification();
 
     /// <summary>
     /// Sets up a mocked object's methods so that the return values will be retrieved from a fixture,
@@ -58,14 +58,14 @@ public class MockVirtualMethodsCommand : ISpecimenCommand
             {
                 if (method.IsVoid())
                 {
-                    this.GetType()
+                    GetType()
                         .GetMethod(nameof(SetupVoidMethod), BindingFlags.NonPublic | BindingFlags.Static)
                         .MakeGenericMethod(mockedType)
                         .Invoke(this, new object[] { mock, methodInvocationLambda });
                 }
                 else
                 {
-                    this.GetType()
+                    GetType()
                         .GetMethod(nameof(SetupMethod), BindingFlags.NonPublic | BindingFlags.Static)
                         .MakeGenericMethod(mockedType, returnType)
                         .Invoke(this, new object[] { mock, methodInvocationLambda, context });
@@ -113,7 +113,7 @@ public class MockVirtualMethodsCommand : ISpecimenCommand
     private static IEnumerable<MethodInfo> GetConfigurableMethods(Type type)
     {
         // If "type" is a delegate, return "Invoke" method only and skip the rest of the methods.
-        var methods = DelegateSpecification.IsSatisfiedBy(type)
+        var methods = s_delegateSpecification.IsSatisfiedBy(type)
             ? new[] { type.GetTypeInfo().GetMethod("Invoke") }
             : type.GetAllMethods();
 
@@ -164,7 +164,7 @@ public class MockVirtualMethodsCommand : ISpecimenCommand
             return null;
 
         Expression methodCall;
-        if (DelegateSpecification.IsSatisfiedBy(mockedType))
+        if (s_delegateSpecification.IsSatisfiedBy(mockedType))
         {
             // e.g. "x(It.IsAny<string>(), out parameter)"
             methodCall = Expression.Invoke(lambdaParam, methodCallParams);

@@ -38,8 +38,8 @@ public class InlineAutoDataAttribute : DataAttribute
     /// <exception cref="ArgumentNullException"></exception>
     protected InlineAutoDataAttribute(Func<IFixture> fixtureFactory, params object[] values)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.Values = values ?? new object[] { null };
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        Values = values ?? new object[] { null };
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class InlineAutoDataAttribute : DataAttribute
     public override ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(
         MethodInfo testMethod, DisposalTracker disposalTracker)
     {
-        return new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
+        return new AutoDataSource(FixtureFactory, new InlineDataSource(Values))
             .GetData(testMethod).Select(row => new TheoryDataRow(row))
             .Cast<ITheoryDataRow>().ToArray()
             .AsReadOnlyCollection().ToValueTask();

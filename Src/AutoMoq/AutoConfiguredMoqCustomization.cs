@@ -16,7 +16,7 @@ public class AutoConfiguredMoqCustomization : AutoMoqCustomization
     /// </summary>
     public AutoConfiguredMoqCustomization()
     {
-        this.ConfigureMembers = true;
+        ConfigureMembers = true;
     }
 
     /// <summary>
@@ -25,6 +25,6 @@ public class AutoConfiguredMoqCustomization : AutoMoqCustomization
     public AutoConfiguredMoqCustomization(ISpecimenBuilder relay)
         : base(relay)
     {
-        this.ConfigureMembers = true;
+        ConfigureMembers = true;
     }
 }

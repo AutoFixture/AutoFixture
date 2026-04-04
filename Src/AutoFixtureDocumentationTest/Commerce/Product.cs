@@ -4,7 +4,7 @@ public class Product
 {
     public Product(uint id)
     {
-        this.Id = id;
+        Id = id;
     }
 
     public uint Id { get; private set; }

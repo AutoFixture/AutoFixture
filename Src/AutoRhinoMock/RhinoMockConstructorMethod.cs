@@ -33,8 +33,8 @@ public class RhinoMockConstructorMethod : IMethod
     /// </param>
     public RhinoMockConstructorMethod(Type mockTargetType, ParameterInfo[] parameterInfos)
     {
-        this.MockTargetType = mockTargetType ?? throw new ArgumentNullException(nameof(mockTargetType));
-        this.Parameters = parameterInfos ?? throw new ArgumentNullException(nameof(parameterInfos));
+        MockTargetType = mockTargetType ?? throw new ArgumentNullException(nameof(mockTargetType));
+        Parameters = parameterInfos ?? throw new ArgumentNullException(nameof(parameterInfos));
     }
 
     /// <summary>
@@ -58,6 +58,6 @@ public class RhinoMockConstructorMethod : IMethod
     /// <returns>A mock instance created with Rhino Mocks.</returns>
     public object Invoke(IEnumerable<object> parameters)
     {
-        return MockRepository.GenerateMock(this.MockTargetType, new Type[0], parameters.ToArray());
+        return MockRepository.GenerateMock(MockTargetType, new Type[0], parameters.ToArray());
     }
 }

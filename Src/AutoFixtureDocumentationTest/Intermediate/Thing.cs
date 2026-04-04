@@ -6,7 +6,7 @@ public class Thing
 {
     public Thing()
     {
-        this.Id = Guid.NewGuid();
+        Id = Guid.NewGuid();
     }
 
     public Guid Id { get; private set; }

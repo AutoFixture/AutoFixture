@@ -4,27 +4,27 @@ namespace AutoFixtureDocumentationTest.Simple;
 
 public class SomeImp : IBadDesign
 {
-    private MyClass mc;
-    private string message;
+    private MyClass _mc;
+    private string _message;
 
     public string Message
     {
-        get => this.message;
+        get => _message;
         set
         {
-            if (this.mc == null)
+            if (_mc == null)
             {
                 throw new InvalidOperationException("...");
             }
 
-            this.message = value;
-            this.TransformedMessage = this.mc.DoStuff(value);
+            _message = value;
+            TransformedMessage = _mc.DoStuff(value);
         }
     }
 
     public void Initialize(MyClass mc)
     {
-        this.mc = mc;
+        _mc = mc;
     }
 
     public string TransformedMessage { get; private set; }

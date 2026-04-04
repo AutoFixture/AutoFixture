@@ -19,7 +19,7 @@ namespace AutoFixture.Xunit;
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
 public class AutoDataAttribute : DataAttribute
 {
-    private readonly Lazy<IFixture> fixtureLazy;
+    private readonly Lazy<IFixture> _fixtureLazy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class.
@@ -61,7 +61,7 @@ public class AutoDataAttribute : DataAttribute
     {
         if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-        this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
+        _fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class AutoDataAttribute : DataAttribute
     {
         if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
 
-        this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
+        _fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public class AutoDataAttribute : DataAttribute
     /// </summary>
     [Obsolete("Fixture is created lazily for the performance efficiency, so this property is deprecated as it activates the fixture immediately. " +
               "If you need to customize the fixture, do that in the factory method passed to the constructor.")]
-    public IFixture Fixture => this.fixtureLazy.Value;
+    public IFixture Fixture => _fixtureLazy.Value;
 
     /// <summary>
     /// Gets the type of <see cref="Fixture"/>.
@@ -91,7 +91,7 @@ public class AutoDataAttribute : DataAttribute
     public Type FixtureType
     {
 #pragma warning disable 618
-        get { return this.Fixture.GetType(); }
+        get { return Fixture.GetType(); }
 #pragma warning restore 618
     }
 
@@ -108,9 +108,9 @@ public class AutoDataAttribute : DataAttribute
         var specimens = new List<object>();
         foreach (var p in methodUnderTest.GetParameters())
         {
-            this.CustomizeFixture(p);
+            CustomizeFixture(p);
 
-            var specimen = this.Resolve(p);
+            var specimen = Resolve(p);
             specimens.Add(specimen);
         }
 
@@ -127,7 +127,7 @@ public class AutoDataAttribute : DataAttribute
         {
             var c = ca.GetCustomization(p);
 #pragma warning disable 618
-            this.Fixture.Customize(c);
+            Fixture.Customize(c);
 #pragma warning restore 618
         }
     }
@@ -135,7 +135,7 @@ public class AutoDataAttribute : DataAttribute
     private object Resolve(ParameterInfo p)
     {
 #pragma warning disable 618
-        var context = new SpecimenContext(this.Fixture);
+        var context = new SpecimenContext(Fixture);
 #pragma warning restore 618
         return context.Resolve(p);
     }

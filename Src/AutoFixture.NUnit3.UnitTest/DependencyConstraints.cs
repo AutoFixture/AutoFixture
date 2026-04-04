@@ -39,7 +39,7 @@ public class DependencyConstraints
     {
         // Arrange
         // Act
-        var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
+        var references = GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
         // Assert
         Assert.False(references.Any(an => an.Name == assemblyName));
     }

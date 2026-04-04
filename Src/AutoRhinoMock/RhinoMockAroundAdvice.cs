@@ -24,7 +24,7 @@ public class RhinoMockAroundAdvice : ISpecimenBuilder
     /// <seealso cref="Builder" />
     public RhinoMockAroundAdvice(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class RhinoMockAroundAdvice : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        var built = this.Builder.Create(request, context);
+        var built = Builder.Create(request, context);
         var m = built as IMockedObject;
         if (m == null)
         {

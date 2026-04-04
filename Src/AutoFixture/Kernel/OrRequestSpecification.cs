@@ -9,7 +9,7 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class OrRequestSpecification : IRequestSpecification
 {
-    private readonly IRequestSpecification[] specifications;
+    private readonly IRequestSpecification[] _specifications;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OrRequestSpecification"/> class with the
@@ -18,7 +18,7 @@ public class OrRequestSpecification : IRequestSpecification
     /// <param name="specifications">An array of <see cref="IRequestSpecification"/>.</param>
     public OrRequestSpecification(params IRequestSpecification[] specifications)
     {
-        this.specifications = specifications ?? throw new ArgumentNullException(nameof(specifications));
+        _specifications = specifications ?? throw new ArgumentNullException(nameof(specifications));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class OrRequestSpecification : IRequestSpecification
     /// <summary>
     /// Gets the decorated specifications.
     /// </summary>
-    public IEnumerable<IRequestSpecification> Specifications => this.specifications;
+    public IEnumerable<IRequestSpecification> Specifications => _specifications;
 
     /// <summary>
     /// Evaluates a request for a specimen.
@@ -48,10 +48,10 @@ public class OrRequestSpecification : IRequestSpecification
     {
         // This is performance-sensitive code when used repeatedly over many requests.
         // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
-        if (this.specifications.Length == 0) return true;
-        for (int i = 0; i < this.specifications.Length; i++)
+        if (_specifications.Length == 0) return true;
+        for (int i = 0; i < _specifications.Length; i++)
         {
-            var satisfied = this.specifications[i].IsSatisfiedBy(request);
+            var satisfied = _specifications[i].IsSatisfiedBy(request);
             if (satisfied) return true;
         }
         return false;

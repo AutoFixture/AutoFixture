@@ -27,7 +27,7 @@ public class ReadonlyCollectionPropertiesCommand : ISpecimenCommand
     /// <param name="propertyQuery">The query that will be applied to select readonly collection properties.</param>
     public ReadonlyCollectionPropertiesCommand(IPropertyQuery propertyQuery)
     {
-        this.PropertyQuery = propertyQuery;
+        PropertyQuery = propertyQuery;
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class ReadonlyCollectionPropertiesCommand : ISpecimenCommand
         if (context == null) throw new ArgumentNullException(nameof(context));
 
         var specimenType = specimen.GetType();
-        foreach (var pi in this.PropertyQuery.SelectProperties(specimenType))
+        foreach (var pi in PropertyQuery.SelectProperties(specimenType))
         {
             var addMethod = new InstanceMethodQuery(pi.GetValue(specimen), nameof(ICollection<object>.Add))
                 .SelectMethods()

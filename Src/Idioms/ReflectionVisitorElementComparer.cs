@@ -13,25 +13,25 @@ namespace AutoFixture.Idioms;
 /// <typeparam name="T"></typeparam>
 internal abstract class ReflectionVisitorElementComparer<T> : IEqualityComparer<IReflectionElement>
 {
-    private readonly IReflectionVisitor<IEnumerable<T>> visitor;
-    private readonly IEqualityComparer<T> comparer;
+    private readonly IReflectionVisitor<IEnumerable<T>> _visitor;
+    private readonly IEqualityComparer<T> _comparer;
 
     internal ReflectionVisitorElementComparer(
         IReflectionVisitor<IEnumerable<T>> visitor,
         IEqualityComparer<T> comparer = null)
     {
-        this.visitor = visitor;
-        this.comparer = comparer ?? EqualityComparer<T>.Default;
+        _visitor = visitor;
+        _comparer = comparer ?? EqualityComparer<T>.Default;
     }
 
     bool IEqualityComparer<IReflectionElement>.Equals(IReflectionElement x, IReflectionElement y)
     {
         var values = new CompositeReflectionElement(x, y)
-            .Accept(this.visitor)
+            .Accept(_visitor)
             .Value
             .ToArray();
 
-        var distinctValues = values.Distinct(this.comparer);
+        var distinctValues = values.Distinct(_comparer);
 
         return values.Length == 2
                && distinctValues.Count() == 1;
@@ -41,7 +41,7 @@ internal abstract class ReflectionVisitorElementComparer<T> : IEqualityComparer<
     {
         if (obj == null) throw new ArgumentNullException(nameof(obj));
         return obj
-            .Accept(this.visitor)
+            .Accept(_visitor)
             .Value
             .Single()
             .GetHashCode();

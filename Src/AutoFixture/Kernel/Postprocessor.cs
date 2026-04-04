@@ -101,7 +101,7 @@ public class Postprocessor : Postprocessor<object>
         if (builders == null) throw new ArgumentNullException(nameof(builders));
 
         var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-        var pp = new Postprocessor(composedBuilder, this.Command, this.Specification);
+        var pp = new Postprocessor(composedBuilder, Command, Specification);
 #pragma warning disable 618
         ObsoletedMemberShims.Postprocessor_SetAction(pp, ObsoletedMemberShims.Postprocessor_GetAction(this));
 #pragma warning restore 618
@@ -117,7 +117,7 @@ public class Postprocessor : Postprocessor<object>
 [Obsolete("The generic version of the Postprocessor is no longer used and will be removed in future versions. Please use the non-generic version of the Postprocessor type.")]
 public class Postprocessor<T> : ISpecimenBuilderNode
 {
-    private Action<T, ISpecimenContext> action;
+    private Action<T, ISpecimenContext> _action;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
@@ -184,10 +184,10 @@ public class Postprocessor<T> : ISpecimenBuilderNode
             throw new ArgumentNullException(nameof(specification));
         }
 
-        this.Builder = builder;
-        this.action = action;
-        this.Command = new ActionSpecimenCommand<T>(this.action);
-        this.Specification = specification;
+        Builder = builder;
+        _action = action;
+        Command = new ActionSpecimenCommand<T>(_action);
+        Specification = specification;
     }
 
     /// <summary>
@@ -219,10 +219,10 @@ public class Postprocessor<T> : ISpecimenBuilderNode
         if (specification == null)
             throw new ArgumentNullException(nameof(specification));
 
-        this.Builder = builder;
-        this.Command = command;
-        this.Specification = specification;
-        this.action = (s, c) => this.Command.Execute(s, c);
+        Builder = builder;
+        Command = command;
+        Specification = specification;
+        _action = (s, c) => Command.Execute(s, c);
     }
 
     /// <summary>
@@ -231,8 +231,8 @@ public class Postprocessor<T> : ISpecimenBuilderNode
     [Obsolete("Use the Command property instead.", true)]
     public Action<T, ISpecimenContext> Action
     {
-        get => this.action;
-        internal set => this.action = value;
+        get => _action;
+        internal set => _action = value;
     }
 
     /// <summary>
@@ -268,7 +268,7 @@ public class Postprocessor<T> : ISpecimenBuilderNode
     /// </remarks>
     public object Create(object request, ISpecimenContext context)
     {
-        var specimen = this.Builder.Create(request, context);
+        var specimen = Builder.Create(request, context);
         if (specimen == null)
             return specimen;
 
@@ -276,7 +276,7 @@ public class Postprocessor<T> : ISpecimenBuilderNode
         if (ns != null)
             return ns;
 
-        if (!this.Specification.IsSatisfiedBy(request))
+        if (!Specification.IsSatisfiedBy(request))
             return specimen;
 
         if (!(specimen is T))
@@ -285,7 +285,7 @@ public class Postprocessor<T> : ISpecimenBuilderNode
                 "The specimen returned by the decorated ISpecimenBuilder is not compatible with {0}.", typeof(T)));
         }
 
-        this.Command.Execute(specimen, context);
+        Command.Execute(specimen, context);
         return specimen;
     }
 
@@ -300,8 +300,8 @@ public class Postprocessor<T> : ISpecimenBuilderNode
         if (builders == null) throw new ArgumentNullException(nameof(builders));
 
         var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-        var pp = new Postprocessor<T>(composedBuilder, this.Command, this.Specification);
-        pp.action = this.action;
+        var pp = new Postprocessor<T>(composedBuilder, Command, Specification);
+        pp._action = _action;
         return pp;
     }
 
@@ -314,12 +314,12 @@ public class Postprocessor<T> : ISpecimenBuilderNode
     /// </returns>
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }
 #pragma warning restore SA1402 // File may only contain a single type

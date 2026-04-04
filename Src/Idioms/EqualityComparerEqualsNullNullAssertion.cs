@@ -42,7 +42,7 @@ public class EqualityComparerEqualsNullNullAssertion : EqualityComparerEqualsAss
         if (argumentType == null) throw new ArgumentNullException(nameof(argumentType));
         if (methodInfo.ReflectedType!.IsValueType) return;
 
-        var comparer = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var comparer = Builder.CreateAnonymous(methodInfo.ReflectedType);
 
         var result = (bool)methodInfo.Invoke(comparer, new object[] { null, null });
 

@@ -26,7 +26,7 @@ public class EmailAddressLocalPart
         if (localPart == null) throw new ArgumentNullException(nameof(localPart));
         if (localPart.Length == 0) throw new ArgumentException("Value cannot be empty", nameof(localPart));
 
-        this.LocalPart = localPart;
+        LocalPart = localPart;
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class EmailAddressLocalPart
     {
         if (obj is EmailAddressLocalPart other)
         {
-            return this.LocalPart.Equals(other.LocalPart, StringComparison.Ordinal);
+            return LocalPart.Equals(other.LocalPart, StringComparison.Ordinal);
         }
 
         return base.Equals(obj);
@@ -65,7 +65,7 @@ public class EmailAddressLocalPart
     /// </returns>
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.LocalPart);
+        return HashCode.Combine(LocalPart);
     }
 
     /// <summary>
@@ -76,6 +76,6 @@ public class EmailAddressLocalPart
     /// </returns>
     public override string ToString()
     {
-        return this.LocalPart;
+        return LocalPart;
     }
 }

@@ -21,7 +21,7 @@ public class MockPostprocessor : ISpecimenBuilder
     /// </param>
     public MockPostprocessor(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class MockPostprocessor : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        var specimen = this.Builder.Create(request, context);
+        var specimen = Builder.Create(request, context);
         if (specimen is NoSpecimen || specimen is OmitSpecimen || specimen == null)
             return specimen;
 

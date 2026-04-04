@@ -16,7 +16,7 @@ public class Bastard
             throw new ArgumentNullException(nameof(foo));
         }
 
-        this.Foo = foo;
+        Foo = foo;
     }
 
     public IFoo Foo { get; }

@@ -34,7 +34,7 @@ public class ReadonlyCollectionPropertiesSpecification : IRequestSpecification
     /// <param name="propertyQuery">The query that will be applied to select readonly collection properties.</param>
     public ReadonlyCollectionPropertiesSpecification(IPropertyQuery propertyQuery)
     {
-        this.PropertyQuery = propertyQuery;
+        PropertyQuery = propertyQuery;
     }
 
     /// <summary>
@@ -55,6 +55,6 @@ public class ReadonlyCollectionPropertiesSpecification : IRequestSpecification
     /// </returns>
     public bool IsSatisfiedBy(object request)
     {
-        return request is Type requestType && this.PropertyQuery.SelectProperties(requestType).Any();
+        return request is Type requestType && PropertyQuery.SelectProperties(requestType).Any();
     }
 }

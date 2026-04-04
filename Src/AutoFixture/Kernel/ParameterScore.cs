@@ -9,7 +9,7 @@ namespace AutoFixture.Kernel;
     Justification = "This type implements IComparable to be sortable. It's used in limited number of places, so operators overload is not needed.")]
 internal class ParameterScore : IComparable<ParameterScore>
 {
-    private readonly int score;
+    private readonly int _score;
 
     internal ParameterScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
     {
@@ -17,7 +17,7 @@ internal class ParameterScore : IComparable<ParameterScore>
         if (targetType == null) throw new ArgumentNullException(nameof(targetType));
         if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-        this.score = CalculateScore(parentType, targetType, parameters);
+        _score = CalculateScore(parentType, targetType, parameters);
     }
 
     public int CompareTo(ParameterScore other)
@@ -27,17 +27,17 @@ internal class ParameterScore : IComparable<ParameterScore>
             return 1;
         }
 
-        return this.score.CompareTo(other.score);
+        return _score.CompareTo(other._score);
     }
 
     public override bool Equals(object obj)
     {
-        return this.CompareTo(obj as ParameterScore) == 0;
+        return CompareTo(obj as ParameterScore) == 0;
     }
 
     public override int GetHashCode()
     {
-        return this.score.GetHashCode();
+        return _score.GetHashCode();
     }
 
     private static int CalculateScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)

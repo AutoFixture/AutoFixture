@@ -13,14 +13,14 @@ namespace AutoFixture;
 /// </summary>
 public class RandomRangedNumberGenerator : ISpecimenBuilder
 {
-    private readonly ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder> generatorMap;
+    private readonly ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder> _generatorMap;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class.
     /// </summary>
     public RandomRangedNumberGenerator()
     {
-        this.generatorMap = new ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder>();
+        _generatorMap = new ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder>();
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class RandomRangedNumberGenerator : ISpecimenBuilder
 
         try
         {
-            return this.SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);
+            return SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);
         }
         catch (ArgumentException)
         {
@@ -60,7 +60,7 @@ public class RandomRangedNumberGenerator : ISpecimenBuilder
     /// <returns></returns>
     private ISpecimenBuilder SelectGenerator(RangedNumberRequest request)
     {
-        return this.generatorMap.GetOrAdd(request, CreateRandomGenerator);
+        return _generatorMap.GetOrAdd(request, CreateRandomGenerator);
     }
 
     private static ISpecimenBuilder CreateRandomGenerator(RangedNumberRequest request)
@@ -109,33 +109,33 @@ public class RandomRangedNumberGenerator : ISpecimenBuilder
     {
         private const long RandomValueRange = int.MaxValue;
 
-        private readonly double factor;
-        private readonly double minimum;
-        private readonly double maximum;
-        private readonly TypeCode resultTypeCode;
-        private readonly RandomNumericSequenceGenerator generator;
+        private readonly double _factor;
+        private readonly double _minimum;
+        private readonly double _maximum;
+        private readonly TypeCode _resultTypeCode;
+        private readonly RandomNumericSequenceGenerator _generator;
 
         public FloatingPointRangedGenerator(object minimum, object maximum, TypeCode resultTypeCode)
         {
-            this.minimum = Convert.ToDouble(minimum, CultureInfo.CurrentCulture);
-            this.maximum = Convert.ToDouble(maximum, CultureInfo.CurrentCulture);
-            this.resultTypeCode = resultTypeCode;
-            this.generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
+            _minimum = Convert.ToDouble(minimum, CultureInfo.CurrentCulture);
+            _maximum = Convert.ToDouble(maximum, CultureInfo.CurrentCulture);
+            _resultTypeCode = resultTypeCode;
+            _generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
 
             // (max - min) could lead to overflow, so we divide each part on range individually.
-            this.factor = Math.Abs((this.maximum / RandomValueRange) - (this.minimum / RandomValueRange));
+            _factor = Math.Abs((_maximum / RandomValueRange) - (_minimum / RandomValueRange));
         }
 
         public object Create(object request, ISpecimenContext context)
         {
-            var randomValue = this.generator.Create(typeof(double), context);
+            var randomValue = _generator.Create(typeof(double), context);
             if (randomValue is NoSpecimen) return NoSpecimen.Instance;
 
             // Half offset is needed to avoid overflow - full offset might be larger than double range.
-            double halfOffset = (this.factor / 2) * (double)randomValue;
-            double result = Math.Min(this.minimum + halfOffset + halfOffset, this.maximum);
+            double halfOffset = (_factor / 2) * (double)randomValue;
+            double result = Math.Min(_minimum + halfOffset + halfOffset, _maximum);
 
-            return Convert.ChangeType(result, this.resultTypeCode, CultureInfo.CurrentCulture);
+            return Convert.ChangeType(result, _resultTypeCode, CultureInfo.CurrentCulture);
         }
     }
 
@@ -143,33 +143,33 @@ public class RandomRangedNumberGenerator : ISpecimenBuilder
     {
         private const long RandomValueRange = int.MaxValue;
 
-        private readonly decimal factor;
-        private readonly decimal minimum;
-        private readonly decimal maximum;
-        private readonly TypeCode resultTypeCode;
-        private readonly RandomNumericSequenceGenerator generator;
+        private readonly decimal _factor;
+        private readonly decimal _minimum;
+        private readonly decimal _maximum;
+        private readonly TypeCode _resultTypeCode;
+        private readonly RandomNumericSequenceGenerator _generator;
 
         public HighPrecisionRangedGenerator(object minimum, object maximum, TypeCode resultTypeCode)
         {
-            this.minimum = Convert.ToDecimal(minimum, CultureInfo.CurrentCulture);
-            this.maximum = Convert.ToDecimal(maximum, CultureInfo.CurrentCulture);
-            this.resultTypeCode = resultTypeCode;
-            this.generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
+            _minimum = Convert.ToDecimal(minimum, CultureInfo.CurrentCulture);
+            _maximum = Convert.ToDecimal(maximum, CultureInfo.CurrentCulture);
+            _resultTypeCode = resultTypeCode;
+            _generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
 
             // (max - min) could lead to overflow, so we divide each part on range individually.
-            this.factor = Math.Abs((this.maximum / RandomValueRange) - (this.minimum / RandomValueRange));
+            _factor = Math.Abs((_maximum / RandomValueRange) - (_minimum / RandomValueRange));
         }
 
         public object Create(object request, ISpecimenContext context)
         {
-            var randomValue = this.generator.Create(typeof(decimal), context);
+            var randomValue = _generator.Create(typeof(decimal), context);
             if (randomValue is NoSpecimen) return NoSpecimen.Instance;
 
             // Half offset is needed to avoid overflow - full offset might be larger than decimal range.
-            var halfOffset = (this.factor / 2) * (decimal)randomValue;
+            var halfOffset = (_factor / 2) * (decimal)randomValue;
 
-            decimal result = Math.Min(this.minimum + halfOffset + halfOffset, this.maximum);
-            return Convert.ChangeType(result, this.resultTypeCode, CultureInfo.CurrentCulture);
+            decimal result = Math.Min(_minimum + halfOffset + halfOffset, _maximum);
+            return Convert.ChangeType(result, _resultTypeCode, CultureInfo.CurrentCulture);
         }
     }
 }

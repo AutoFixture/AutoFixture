@@ -32,8 +32,8 @@ public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShi
     {
         if (propertyPicker is null) throw new ArgumentNullException(nameof(propertyPicker));
 
-        this.Member = propertyPicker.GetWritableMember().Member;
-        this.ValueCreator = this.CreateAnonymousValue;
+        Member = propertyPicker.GetWritableMember().Member;
+        ValueCreator = CreateAnonymousValue;
     }
 
     /// <summary>
@@ -65,8 +65,8 @@ public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShi
         if (propertyPicker is null) throw new ArgumentNullException(nameof(propertyPicker));
         if (valueCreator is null) throw new ArgumentNullException(nameof(valueCreator));
 
-        this.Member = propertyPicker.GetWritableMember().Member;
-        this.ValueCreator = valueCreator;
+        Member = propertyPicker.GetWritableMember().Member;
+        ValueCreator = valueCreator;
     }
 
     /// <summary>
@@ -104,14 +104,14 @@ public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShi
         if (specimen is null) throw new ArgumentNullException(nameof(specimen));
         if (context is null) throw new ArgumentNullException(nameof(context));
 
-        var bindingValue = this.ValueCreator(context);
+        var bindingValue = ValueCreator(context);
 
-        if (this.Member is PropertyInfo pi)
+        if (Member is PropertyInfo pi)
         {
             pi.SetValue(specimen, bindingValue, null);
         }
 
-        if (this.Member is FieldInfo fi)
+        if (Member is FieldInfo fi)
         {
             fi.SetValue(specimen, bindingValue);
         }
@@ -132,12 +132,12 @@ public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShi
         if (request is null) throw new ArgumentNullException(nameof(request));
 
         IEqualityComparer comparer = new MemberInfoEqualityComparer();
-        return comparer.Equals(this.Member, request);
+        return comparer.Equals(Member, request);
     }
 
     private TProperty CreateAnonymousValue(ISpecimenContext container)
     {
-        var bindingValue = container.Resolve(this.Member);
+        var bindingValue = container.Resolve(Member);
         if (bindingValue is not null and not TProperty)
         {
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
@@ -163,9 +163,9 @@ public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShi
         if (specimen is null) throw new ArgumentNullException(nameof(specimen));
         if (context is null) throw new ArgumentNullException(nameof(context));
 
-        var bindingValue = this.ValueCreator(context);
+        var bindingValue = ValueCreator(context);
 
-        if (this.Member is PropertyInfo pi)
+        if (Member is PropertyInfo pi)
         {
             TrySetValue(
                 specimen,
@@ -174,7 +174,7 @@ public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShi
                 (s, v) => pi.SetValue(s, v, null));
         }
 
-        if (this.Member is FieldInfo fi)
+        if (Member is FieldInfo fi)
         {
             TrySetValue(
                 specimen,

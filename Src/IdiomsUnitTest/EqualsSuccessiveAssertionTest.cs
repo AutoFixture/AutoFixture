@@ -99,7 +99,7 @@ public class EqualsSuccessiveAssertionTest
 
         public override bool Equals(object obj)
         {
-            return ++this.EqualsCallCount % 2 == 0;
+            return ++EqualsCallCount % 2 == 0;
         }
     }
 #pragma warning restore 659

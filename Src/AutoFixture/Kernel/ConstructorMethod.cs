@@ -11,7 +11,7 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class ConstructorMethod : IMethod, IEquatable<ConstructorMethod>
 {
-    private readonly ParameterInfo[] paramInfos;
+    private readonly ParameterInfo[] _paramInfos;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -19,8 +19,8 @@ public class ConstructorMethod : IMethod, IEquatable<ConstructorMethod>
     /// <param name="constructor">The constructor.</param>
     public ConstructorMethod(ConstructorInfo constructor)
     {
-        this.Constructor = constructor ?? throw new ArgumentNullException(nameof(constructor));
-        this.paramInfos = this.Constructor.GetParameters();
+        Constructor = constructor ?? throw new ArgumentNullException(nameof(constructor));
+        _paramInfos = Constructor.GetParameters();
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class ConstructorMethod : IMethod, IEquatable<ConstructorMethod>
     {
         if (obj is ConstructorMethod other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
         return base.Equals(obj);
     }
@@ -54,13 +54,13 @@ public class ConstructorMethod : IMethod, IEquatable<ConstructorMethod>
     /// </returns>
     public override int GetHashCode()
     {
-        return this.Constructor.GetHashCode();
+        return Constructor.GetHashCode();
     }
 
     /// <summary>
     /// Gets information about the parameters of the method.
     /// </summary>
-    public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
+    public IEnumerable<ParameterInfo> Parameters => _paramInfos;
 
     /// <summary>
     /// Invokes the method with the supplied parameters.
@@ -69,7 +69,7 @@ public class ConstructorMethod : IMethod, IEquatable<ConstructorMethod>
     /// <returns>The result of the method call.</returns>
     public object Invoke(IEnumerable<object> parameters)
     {
-        if (this.Constructor.DeclaringType.GetTypeInfo().IsAbstract && this.Constructor.IsPublic)
+        if (Constructor.DeclaringType.GetTypeInfo().IsAbstract && Constructor.IsPublic)
         {
             throw new ObjectCreationException(
                 string.Format(
@@ -86,9 +86,9 @@ fixture.Customizations.Add(
         typeof(TestDouble)));
 
 This will cause AutoFixture to create an instance of TestDouble every time AbstractClassWithPublicConstructor is requested. However, please keep in mind that this is only a workaround for the case where you can't address the root cause, which is that an abstract class has a public constructor.",
-                    this.Constructor.DeclaringType.Name));
+                    Constructor.DeclaringType.Name));
         }
-        return this.Constructor.Invoke(parameters.ToArray());
+        return Constructor.Invoke(parameters.ToArray());
     }
 
     /// <summary>
@@ -106,6 +106,6 @@ This will cause AutoFixture to create an instance of TestDouble every time Abstr
             return false;
         }
 
-        return this.Constructor.Equals(other.Constructor);
+        return Constructor.Equals(other.Constructor);
     }
 }

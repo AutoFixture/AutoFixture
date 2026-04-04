@@ -11,7 +11,7 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
 {
-    private readonly ParameterInfo[] paramInfos;
+    private readonly ParameterInfo[] _paramInfos;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InstanceMethod"/> class.
@@ -32,9 +32,9 @@ public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
         if (instanceMethod == null) throw new ArgumentNullException(nameof(instanceMethod));
         if (owner == null) throw new ArgumentNullException(nameof(owner));
 
-        this.Method = instanceMethod;
-        this.paramInfos = instanceMethod.GetParameters();
-        this.Owner = owner;
+        Method = instanceMethod;
+        _paramInfos = instanceMethod.GetParameters();
+        Owner = owner;
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
     {
         if (obj is InstanceMethod other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
         return base.Equals(obj);
     }
@@ -78,13 +78,13 @@ public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
     /// </returns>
     public override int GetHashCode()
     {
-        return this.Method.GetHashCode() ^ this.Owner.GetHashCode();
+        return Method.GetHashCode() ^ Owner.GetHashCode();
     }
 
     /// <summary>
     /// Gets information about the parameters of the method.
     /// </summary>
-    public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
+    public IEnumerable<ParameterInfo> Parameters => _paramInfos;
 
     /// <summary>
     /// Invokes the method with the supplied parameters.
@@ -93,7 +93,7 @@ public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
     /// <returns>The result of the method call.</returns>
     public object Invoke(IEnumerable<object> parameters)
     {
-        return this.Method.Invoke(this.Owner, parameters.ToArray());
+        return Method.Invoke(Owner, parameters.ToArray());
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
             return false;
         }
 
-        return object.Equals(this.Method, other.Method)
-               && object.Equals(this.Owner, other.Owner);
+        return object.Equals(Method, other.Method)
+               && object.Equals(Owner, other.Owner);
     }
 }

@@ -105,7 +105,7 @@ public class ClassDataSourceTests
             yield return new object[] { "Han", 3, new RecordType<string>("Solo") };
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     [Fact]

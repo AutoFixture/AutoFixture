@@ -10,13 +10,13 @@ namespace AutoFixture;
 /// </summary>
 public class RandomNumericSequenceGenerator : ISpecimenBuilder
 {
-    private readonly long[] limits;
-    private readonly object syncRoot;
-    private readonly Random random;
-    private readonly HashSet<long> numbers;
-    private long lower;
-    private long upper;
-    private long count;
+    private readonly long[] _limits;
+    private readonly object _syncRoot;
+    private readonly Random _random;
+    private readonly HashSet<long> _numbers;
+    private long _lower;
+    private long _upper;
+    private long _count;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
@@ -50,11 +50,11 @@ public class RandomNumericSequenceGenerator : ISpecimenBuilder
 
         ValidateThatLimitsAreStrictlyAscending(limits);
 
-        this.limits = limits;
-        this.syncRoot = new object();
-        this.random = new Random();
-        this.numbers = new HashSet<long>();
-        this.CreateRange();
+        _limits = limits;
+        _syncRoot = new object();
+        _random = new Random();
+        _numbers = new HashSet<long>();
+        CreateRange();
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class RandomNumericSequenceGenerator : ISpecimenBuilder
     /// </value>
     public IEnumerable<long> Limits
     {
-        get { return this.limits; }
+        get { return _limits; }
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public class RandomNumericSequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        return this.CreateRandom(type);
+        return CreateRandom(type);
     }
 
     private static void ValidateThatLimitsAreStrictlyAscending(long[] limits)
@@ -101,38 +101,38 @@ public class RandomNumericSequenceGenerator : ISpecimenBuilder
         switch (Type.GetTypeCode(request))
         {
             case TypeCode.Byte:
-                return (byte)this.GetNextRandom();
+                return (byte)GetNextRandom();
 
             case TypeCode.Decimal:
-                return (decimal)this.GetNextRandom();
+                return (decimal)GetNextRandom();
 
             case TypeCode.Double:
-                return (double)this.GetNextRandom();
+                return (double)GetNextRandom();
 
             case TypeCode.Int16:
-                return (short)this.GetNextRandom();
+                return (short)GetNextRandom();
 
             case TypeCode.Int32:
-                return (int)this.GetNextRandom();
+                return (int)GetNextRandom();
 
             case TypeCode.Int64:
                 return
-                    this.GetNextRandom();
+                    GetNextRandom();
 
             case TypeCode.SByte:
-                return (sbyte)this.GetNextRandom();
+                return (sbyte)GetNextRandom();
 
             case TypeCode.Single:
-                return (float)this.GetNextRandom();
+                return (float)GetNextRandom();
 
             case TypeCode.UInt16:
-                return (ushort)this.GetNextRandom();
+                return (ushort)GetNextRandom();
 
             case TypeCode.UInt32:
-                return (uint)this.GetNextRandom();
+                return (uint)GetNextRandom();
 
             case TypeCode.UInt64:
-                return (ulong)this.GetNextRandom();
+                return (ulong)GetNextRandom();
 
             default:
                 return NoSpecimen.Instance;
@@ -141,56 +141,56 @@ public class RandomNumericSequenceGenerator : ISpecimenBuilder
 
     private long GetNextRandom()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            this.EvaluateRange();
+            EvaluateRange();
 
             long result;
             do
             {
-                if (this.lower >= int.MinValue &&
-                    this.upper <= int.MaxValue)
+                if (_lower >= int.MinValue &&
+                    _upper <= int.MaxValue)
                 {
-                    result = this.random.Next((int)this.lower, (int)this.upper);
+                    result = _random.Next((int)_lower, (int)_upper);
                 }
                 else
                 {
-                    result = this.GetNextInt64InRange();
+                    result = GetNextInt64InRange();
                 }
             }
-            while (this.numbers.Contains(result));
+            while (_numbers.Contains(result));
 
-            this.numbers.Add(result);
+            _numbers.Add(result);
             return result;
         }
     }
 
     private void EvaluateRange()
     {
-        if (this.count == (this.upper - this.lower))
+        if (_count == (_upper - _lower))
         {
-            this.count = 0;
-            this.CreateRange();
+            _count = 0;
+            CreateRange();
         }
 
-        this.count++;
+        _count++;
     }
 
     private void CreateRange()
     {
-        var remaining = this.limits.Where(x => x > this.upper - 1).ToArray();
-        if (remaining.Any() && this.numbers.Any())
+        var remaining = _limits.Where(x => x > _upper - 1).ToArray();
+        if (remaining.Any() && _numbers.Any())
         {
-            this.lower = this.upper;
-            this.upper = remaining.Min() + 1;
+            _lower = _upper;
+            _upper = remaining.Min() + 1;
         }
         else
         {
-            this.lower = this.limits[0];
-            this.upper = this.GetUpperRangeFromLimits();
+            _lower = _limits[0];
+            _upper = GetUpperRangeFromLimits();
         }
 
-        this.numbers.Clear();
+        _numbers.Clear();
     }
 
     /// <summary>
@@ -202,23 +202,23 @@ public class RandomNumericSequenceGenerator : ISpecimenBuilder
     /// <returns></returns>
     private long GetUpperRangeFromLimits()
     {
-        return this.limits[1] >= int.MaxValue
-            ? this.limits[1]
-            : this.limits[1] + 1;
+        return _limits[1] >= int.MaxValue
+            ? _limits[1]
+            : _limits[1] + 1;
     }
 
     private long GetNextInt64InRange()
     {
-        var range = (ulong)(this.upper - this.lower);
+        var range = (ulong)(_upper - _lower);
         ulong limit = ulong.MaxValue - (ulong.MaxValue % range);
         ulong number;
         do
         {
             var buffer = new byte[sizeof(ulong)];
-            this.random.NextBytes(buffer);
+            _random.NextBytes(buffer);
             number = BitConverter.ToUInt64(buffer, 0);
         }
         while (number > limit);
-        return (long)((number % range) + (ulong)this.lower);
+        return (long)((number % range) + (ulong)_lower);
     }
 }

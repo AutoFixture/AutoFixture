@@ -7,12 +7,12 @@ internal class DelegatingRequestSpecification : IRequestSpecification
 {
     public DelegatingRequestSpecification()
     {
-        this.OnIsSatisfiedBy = r => false;
+        OnIsSatisfiedBy = r => false;
     }
 
     public bool IsSatisfiedBy(object request)
     {
-        return this.OnIsSatisfiedBy(request);
+        return OnIsSatisfiedBy(request);
     }
 
     internal Predicate<object> OnIsSatisfiedBy { get; set; }

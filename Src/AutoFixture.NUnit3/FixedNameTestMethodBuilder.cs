@@ -85,12 +85,12 @@ public class FixedNameTestMethodBuilder : ITestMethodBuilder
 
         public TypeNameRenderer(Type type)
         {
-            this.Type = type ?? throw new ArgumentNullException(nameof(type));
+            Type = type ?? throw new ArgumentNullException(nameof(type));
         }
 
         public override string ToString()
         {
-            return "auto<" + this.Type.Name + ">";
+            return "auto<" + Type.Name + ">";
         }
     }
 }

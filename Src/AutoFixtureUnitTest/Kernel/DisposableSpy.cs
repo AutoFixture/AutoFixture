@@ -8,7 +8,7 @@ public class DisposableSpy : IDisposable
 
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 
@@ -16,7 +16,7 @@ public class DisposableSpy : IDisposable
     {
         if (disposing)
         {
-            this.Disposed = true;
+            Disposed = true;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace AutoFixture.Xunit3;
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
 public class CompositeDataAttribute : DataAttribute
 {
-    private readonly DataAttribute[] attributes;
+    private readonly DataAttribute[] _attributes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
@@ -37,13 +37,13 @@ public class CompositeDataAttribute : DataAttribute
     /// <param name="attributes">The attributes representing a data source for a data theory.</param>
     public CompositeDataAttribute(params DataAttribute[] attributes)
     {
-        this.attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
+        _attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
     }
 
     /// <summary>
     /// Gets the attributes supplied through one of the constructors.
     /// </summary>
-    public IReadOnlyList<DataAttribute> Attributes => Array.AsReadOnly(this.attributes);
+    public IReadOnlyList<DataAttribute> Attributes => Array.AsReadOnly(_attributes);
 
     /// <inheritdoc />
     public override async ValueTask<IReadOnlyCollection<ITheoryDataRow>> GetData(
@@ -51,7 +51,7 @@ public class CompositeDataAttribute : DataAttribute
     {
         if (testMethod is null) throw new ArgumentNullException(nameof(testMethod));
 
-        var dataRowSources = this.attributes
+        var dataRowSources = _attributes
             .Select(attr => attr.GetData(testMethod, disposalTracker).AsTask())
             .ToArray();
         var results = await Task.WhenAll(dataRowSources);

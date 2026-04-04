@@ -95,11 +95,11 @@ public class GetHashCodeSuccessiveAssertionTest
 
     private class IllBehavedEqualsSelfObjectOverride
     {
-        private static readonly Random HashCodeGenerator = new Random();
+        private static readonly Random s_hashCodeGenerator = new Random();
 
         public override int GetHashCode()
         {
-            return HashCodeGenerator.Next();
+            return s_hashCodeGenerator.Next();
         }
     }
 #pragma warning restore 659

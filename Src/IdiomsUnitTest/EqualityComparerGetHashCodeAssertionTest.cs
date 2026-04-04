@@ -102,7 +102,7 @@ public class EqualityComparerGetHashCodeAssertionTest
 
     private class IllBehavedEqualityComparer : IEqualityComparer<PropertyHolder<int>>
     {
-        private static readonly Random HashCodeGenerator = new Random();
+        private static readonly Random s_hashCodeGenerator = new Random();
 
         public bool Equals(PropertyHolder<int> x, PropertyHolder<int> y)
         {
@@ -111,7 +111,7 @@ public class EqualityComparerGetHashCodeAssertionTest
 
         public int GetHashCode(PropertyHolder<int> obj)
         {
-            return HashCodeGenerator.Next();
+            return s_hashCodeGenerator.Next();
         }
     }
 #pragma warning restore 659

@@ -13,16 +13,16 @@ namespace AutoFixture;
 /// </summary>
 public class EnumGenerator : ISpecimenBuilder
 {
-    private readonly Dictionary<Type, IEnumerator> enumerators;
-    private readonly object syncRoot;
+    private readonly Dictionary<Type, IEnumerator> _enumerators;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EnumGenerator"/> class.
     /// </summary>
     public EnumGenerator()
     {
-        this.syncRoot = new object();
-        this.enumerators = new Dictionary<Type, IEnumerator>();
+        _syncRoot = new object();
+        _enumerators = new Dictionary<Type, IEnumerator>();
     }
 
     /// <summary>
@@ -52,15 +52,15 @@ public class EnumGenerator : ISpecimenBuilder
         if (!type.GetTypeInfo().IsEnum)
             return NoSpecimen.Instance;
 
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return this.CreateValue(type);
+            return CreateValue(type);
         }
     }
 
     private object CreateValue(Type t)
     {
-        var generator = this.EnsureGenerator(t);
+        var generator = EnsureGenerator(t);
         generator.MoveNext();
         return generator.Current;
     }
@@ -68,10 +68,10 @@ public class EnumGenerator : ISpecimenBuilder
     private IEnumerator EnsureGenerator(Type t)
     {
         IEnumerator enumerator = null;
-        if (!this.enumerators.TryGetValue(t, out enumerator))
+        if (!_enumerators.TryGetValue(t, out enumerator))
         {
             enumerator = new RoundRobinEnumEnumerable(t).GetEnumerator();
-            this.enumerators.Add(t, enumerator);
+            _enumerators.Add(t, enumerator);
         }
         return enumerator;
     }
@@ -80,7 +80,7 @@ public class EnumGenerator : ISpecimenBuilder
         Justification = "This is not a usual enumerable and for our purpose generic interface is not required.")]
     private class RoundRobinEnumEnumerable : IEnumerable
     {
-        private readonly IEnumerable<object> values;
+        private readonly IEnumerable<object> _values;
 
         internal RoundRobinEnumEnumerable(Type enumType)
         {
@@ -89,9 +89,9 @@ public class EnumGenerator : ISpecimenBuilder
                 throw new ArgumentNullException(nameof(enumType));
             }
 
-            this.values = Enum.GetValues(enumType).Cast<object>();
+            _values = Enum.GetValues(enumType).Cast<object>();
 
-            if (!this.values.Any())
+            if (!_values.Any())
             {
                 throw new ObjectCreationException(
                     string.Format(
@@ -106,7 +106,7 @@ public class EnumGenerator : ISpecimenBuilder
         {
             while (true)
             {
-                foreach (var obj in this.values)
+                foreach (var obj in _values)
                 {
                     yield return obj;
                 }

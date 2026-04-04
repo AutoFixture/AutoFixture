@@ -4,8 +4,8 @@ public class Contact
 {
     public Contact(string name, DanishPhoneNumber phoneNumber)
     {
-        this.Name = name;
-        this.PhoneNumber = phoneNumber;
+        Name = name;
+        PhoneNumber = phoneNumber;
     }
 
     public string Name { get; set; }

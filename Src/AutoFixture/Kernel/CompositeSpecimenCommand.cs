@@ -10,7 +10,7 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class CompositeSpecimenCommand : ISpecimenCommand
 {
-    private readonly ISpecimenCommand[] commands;
+    private readonly ISpecimenCommand[] _commands;
 
     /// <summary>
     /// Initializes a new instance of <see cref="CompositeSpecimenCommand"/> class with the supplied set of commands.
@@ -27,13 +27,13 @@ public class CompositeSpecimenCommand : ISpecimenCommand
     /// <param name="commands">The child commands.</param>
     public CompositeSpecimenCommand(params ISpecimenCommand[] commands)
     {
-        this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
+        _commands = commands ?? throw new ArgumentNullException(nameof(commands));
     }
 
     /// <summary>
     /// Gets the child commands.
     /// </summary>
-    public IEnumerable<ISpecimenCommand> Commands => this.commands;
+    public IEnumerable<ISpecimenCommand> Commands => _commands;
 
     /// <summary>
     /// Executes all child commands using a given specimen and context.
@@ -42,7 +42,7 @@ public class CompositeSpecimenCommand : ISpecimenCommand
     /// <param name="context">The context of <paramref name="specimen"/>.</param>
     public void Execute(object specimen, ISpecimenContext context)
     {
-        foreach (var command in this.commands)
+        foreach (var command in _commands)
         {
             command.Execute(specimen, context);
         }

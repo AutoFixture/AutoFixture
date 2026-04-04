@@ -9,7 +9,7 @@ public class StringLengthValidatedConstructorHost<T>
 {
     public StringLengthValidatedConstructorHost([StringLength(5)] T value)
     {
-        this.Value = value;
+        Value = value;
     }
 
     public T Value { get; private set; }

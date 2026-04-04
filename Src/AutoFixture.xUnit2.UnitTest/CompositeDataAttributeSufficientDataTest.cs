@@ -11,7 +11,7 @@ namespace AutoFixture.Xunit2.UnitTest;
 
 public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
 {
-    private readonly MethodInfo method = typeof(TypeWithOverloadedMembers)
+    private readonly MethodInfo _method = typeof(TypeWithOverloadedMembers)
         .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething),
             new[] { typeof(object), typeof(object), typeof(object) });
 
@@ -22,7 +22,7 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
     {
         // Arrange
         // Act
-        var result = new CompositeDataAttribute(attributes.ToArray()).GetData(this.method).ToList();
+        var result = new CompositeDataAttribute(attributes.ToArray()).GetData(_method).ToList();
 
         // Assert
         Assert.True(expectedResult.SequenceEqual(result, new TheoryComparer()));
@@ -33,7 +33,7 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2, 3 } })
             },
             expected: new[]
             {
@@ -43,8 +43,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 4, 5, 6 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2, 3 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 4, 5, 6 } })
             },
             expected: new[]
             {
@@ -54,8 +54,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 2, 3, 4 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 2, 3, 4 } })
             },
             expected: new[]
             {
@@ -65,8 +65,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 3, 4, 5 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 3, 4, 5 } })
             },
             expected: new[]
             {
@@ -76,7 +76,7 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
             },
             expected: new[]
             {
@@ -86,8 +86,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
-                new FakeDataAttribute(this.method,
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
+                new FakeDataAttribute(_method,
                     new[] { new object[] { 7, 8 }, new object[] { 9, 10 }, new object[] { 11, 12 } })
             },
             expected: new[]
@@ -98,9 +98,9 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method,
+                new FakeDataAttribute(_method,
                     new[] { new object[] { 1, 2 }, new object[] { 3, 4 }, new object[] { 5, 6 } }),
-                new FakeDataAttribute(this.method,
+                new FakeDataAttribute(_method,
                     new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
             },
             expected: new[]
@@ -112,8 +112,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 7, 8, 9 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 7, 8, 9 } })
             },
             expected: new[]
             {
@@ -124,8 +124,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 4, 5, 6 }, new object[] { 7, 8, 9 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2, 3 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 4, 5, 6 }, new object[] { 7, 8, 9 } })
             },
             expected: new[]
             {
@@ -137,8 +137,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 3, 4 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 3, 4 } })
             },
             expected: new[]
             {
@@ -148,8 +148,8 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 2, 3 } })
             },
             expected: new[]
             {
@@ -159,9 +159,9 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 2, 3 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 2, 3 } })
             },
             expected: new[]
             {
@@ -171,9 +171,9 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 2 } }),
-                new FakeDataAttribute(this.method, new[] { new object[] { 3 } })
+                new FakeDataAttribute(_method, new[] { new object[] { 1 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 2 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 3 } })
             },
             expected: new[]
             {
@@ -183,7 +183,7 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
         yield return CreateTestData(
             data: new DataAttribute[]
             {
-                new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3, 4 } }),
+                new FakeDataAttribute(_method, new[] { new object[] { 1, 2, 3, 4 } }),
             },
             expected: new[]
             {
@@ -193,7 +193,7 @@ public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     private static object[] CreateTestData(DataAttribute[] data, object[][] expected)

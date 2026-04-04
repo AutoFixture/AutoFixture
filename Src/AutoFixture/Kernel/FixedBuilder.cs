@@ -5,7 +5,7 @@
 /// </summary>
 public class FixedBuilder : ISpecimenBuilder
 {
-    private readonly object specimen;
+    private readonly object _specimen;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FixedBuilder"/> class.
@@ -15,7 +15,7 @@ public class FixedBuilder : ISpecimenBuilder
     /// </param>
     public FixedBuilder(object specimen)
     {
-        this.specimen = specimen;
+        _specimen = specimen;
     }
 
     /// <summary>
@@ -31,6 +31,6 @@ public class FixedBuilder : ISpecimenBuilder
     /// <seealso cref="FixedBuilder(object)"/>
     public object Create(object request, ISpecimenContext context)
     {
-        return this.specimen;
+        return _specimen;
     }
 }

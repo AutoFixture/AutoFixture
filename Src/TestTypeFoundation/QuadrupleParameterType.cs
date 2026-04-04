@@ -4,10 +4,10 @@ public class QuadrupleParameterType<T1, T2, T3, T4>
 {
     public QuadrupleParameterType(T1 parameter1, T2 parameter2, T3 parameter3, T4 parameter4)
     {
-        this.Parameter1 = parameter1;
-        this.Parameter2 = parameter2;
-        this.Parameter3 = parameter3;
-        this.Parameter4 = parameter4;
+        Parameter1 = parameter1;
+        Parameter2 = parameter2;
+        Parameter3 = parameter3;
+        Parameter4 = parameter4;
     }
 
     public T1 Parameter1 { get; private set; }

@@ -8,7 +8,7 @@ namespace AutoFixture;
 /// </summary>
 public class DomainNameGenerator : ISpecimenBuilder
 {
-    private readonly ElementsBuilder<string> fictitiousDomainBuilder = new ElementsBuilder<string>(
+    private readonly ElementsBuilder<string> _fictitiousDomainBuilder = new ElementsBuilder<string>(
         "example.com",
         "example.net",
         "example.org");
@@ -21,7 +21,7 @@ public class DomainNameGenerator : ISpecimenBuilder
         if (request == null || !typeof(DomainName).Equals(request))
             return NoSpecimen.Instance;
 
-        var domainName = this.fictitiousDomainBuilder.Create(typeof(string), context) as string;
+        var domainName = _fictitiousDomainBuilder.Create(typeof(string), context) as string;
         if (domainName == null)
             return NoSpecimen.Instance;
 

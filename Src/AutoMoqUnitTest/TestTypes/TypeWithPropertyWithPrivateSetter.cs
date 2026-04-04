@@ -4,7 +4,7 @@ public class TypeWithPropertyWithPrivateSetter
 {
     public TypeWithPropertyWithPrivateSetter()
     {
-        this.PropertyWithPrivateSetter = "Awesome string";
+        PropertyWithPrivateSetter = "Awesome string";
     }
 
     public string PropertyWithPrivateSetter { get; private set; }

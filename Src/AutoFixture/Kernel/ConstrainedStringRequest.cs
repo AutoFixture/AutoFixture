@@ -29,8 +29,8 @@ public class ConstrainedStringRequest : IEquatable<ConstrainedStringRequest>
             throw new ArgumentOutOfRangeException(nameof(maximumLength), "Maximum length must be equal or greater than Minimum length.");
         }
 
-        this.MinimumLength = minimumLength;
-        this.MaximumLength = maximumLength;
+        MinimumLength = minimumLength;
+        MaximumLength = maximumLength;
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class ConstrainedStringRequest : IEquatable<ConstrainedStringRequest>
     {
         if (obj is ConstrainedStringRequest other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
 
         return base.Equals(obj);
@@ -80,8 +80,8 @@ public class ConstrainedStringRequest : IEquatable<ConstrainedStringRequest>
     /// </returns>
     public override int GetHashCode()
     {
-        return this.MinimumLength.GetHashCode()
-               ^ this.MaximumLength.GetHashCode();
+        return MinimumLength.GetHashCode()
+               ^ MaximumLength.GetHashCode();
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class ConstrainedStringRequest : IEquatable<ConstrainedStringRequest>
             return false;
         }
 
-        return this.MinimumLength == other.MinimumLength &&
-               this.MaximumLength == other.MaximumLength;
+        return MinimumLength == other.MinimumLength &&
+               MaximumLength == other.MaximumLength;
     }
 }

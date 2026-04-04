@@ -37,7 +37,7 @@ public class WritablePropertyAssertion : IdiomaticAssertion
     /// </remarks>
     public WritablePropertyAssertion(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -70,8 +70,8 @@ public class WritablePropertyAssertion : IdiomaticAssertion
         if (propertyInfo.GetSetMethod() == null)
             return;
 
-        var specimen = this.Builder.CreateAnonymous(propertyInfo.ReflectedType);
-        var propertyValue = this.Builder.CreateAnonymous(propertyInfo.PropertyType);
+        var specimen = Builder.CreateAnonymous(propertyInfo.ReflectedType);
+        var propertyValue = Builder.CreateAnonymous(propertyInfo.PropertyType);
 
         propertyInfo.SetValue(specimen, propertyValue, null);
         var result = propertyInfo.GetValue(specimen, null);

@@ -7,12 +7,12 @@ namespace AutoFixture.AutoMoq;
 
 internal class MockConstructorMethod : IMethod
 {
-    private readonly ConstructorInfo ctor;
+    private readonly ConstructorInfo _ctor;
 
     internal MockConstructorMethod(ConstructorInfo ctor, ParameterInfo[] paramInfos)
     {
-        this.ctor = ctor ?? throw new ArgumentNullException(nameof(ctor));
-        this.Parameters = paramInfos ?? throw new ArgumentNullException(nameof(paramInfos));
+        _ctor = ctor ?? throw new ArgumentNullException(nameof(ctor));
+        Parameters = paramInfos ?? throw new ArgumentNullException(nameof(paramInfos));
     }
 
     public IEnumerable<ParameterInfo> Parameters { get; }
@@ -20,6 +20,6 @@ internal class MockConstructorMethod : IMethod
     public object Invoke(IEnumerable<object> parameters)
     {
         var paramsArray = new object[] { parameters };
-        return this.ctor.Invoke(paramsArray);
+        return _ctor.Invoke(paramsArray);
     }
 }

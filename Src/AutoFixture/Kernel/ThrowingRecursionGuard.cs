@@ -49,8 +49,8 @@ fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
 fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
                 ",
-                this.RecordedRequests.Cast<object>().First().GetType()),
-            this.RecordedRequests.Cast<object>());
+                RecordedRequests.Cast<object>().First().GetType()),
+            RecordedRequests.Cast<object>());
     }
 
     /// <summary>Composes the supplied builders.</summary>
@@ -64,6 +64,6 @@ fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         if (builders == null) throw new ArgumentNullException(nameof(builders));
 
         var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-        return new ThrowingRecursionGuard(builder, this.Comparer);
+        return new ThrowingRecursionGuard(builder, Comparer);
     }
 }

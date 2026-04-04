@@ -14,7 +14,7 @@ public class SeededFactory<T> : ISpecimenBuilder
     /// <param name="factory">The function that will create the specimen from a seed.</param>
     public SeededFactory(Func<T, T> factory)
     {
-        this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        Factory = factory ?? throw new ArgumentNullException(nameof(factory));
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class SeededFactory<T> : ISpecimenBuilder
     {
         if (request != null && request.Equals(typeof(T)))
         {
-            return this.Factory(default(T));
+            return Factory(default(T));
         }
 
         var seededRequest = request as SeededRequest;
@@ -57,6 +57,6 @@ public class SeededFactory<T> : ISpecimenBuilder
         }
         var seed = (T)seededRequest.Seed;
 
-        return this.Factory(seed);
+        return Factory(seed);
     }
 }

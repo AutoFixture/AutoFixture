@@ -40,8 +40,8 @@ public class PropertyTypeAndNameCriterion : IEquatable<PropertyInfo>
         IEquatable<Type> typeCriterion,
         IEquatable<string> nameCriterion)
     {
-        this.TypeCriterion = typeCriterion ?? throw new ArgumentNullException(nameof(typeCriterion));
-        this.NameCriterion = nameCriterion ?? throw new ArgumentNullException(nameof(nameCriterion));
+        TypeCriterion = typeCriterion ?? throw new ArgumentNullException(nameof(typeCriterion));
+        NameCriterion = nameCriterion ?? throw new ArgumentNullException(nameof(nameCriterion));
     }
 
     /// <summary>
@@ -69,8 +69,8 @@ public class PropertyTypeAndNameCriterion : IEquatable<PropertyInfo>
         if (other == null)
             return false;
 
-        return this.TypeCriterion.Equals(other.PropertyType)
-               && this.NameCriterion.Equals(other.Name);
+        return TypeCriterion.Equals(other.PropertyType)
+               && NameCriterion.Equals(other.Name);
     }
 
     /// <summary>
@@ -87,8 +87,8 @@ public class PropertyTypeAndNameCriterion : IEquatable<PropertyInfo>
         if (other == null)
             return base.Equals(obj);
 
-        return object.Equals(this.TypeCriterion, other.TypeCriterion)
-               && object.Equals(this.NameCriterion, other.NameCriterion);
+        return object.Equals(TypeCriterion, other.TypeCriterion)
+               && object.Equals(NameCriterion, other.NameCriterion);
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class PropertyTypeAndNameCriterion : IEquatable<PropertyInfo>
     public override int GetHashCode()
     {
         return
-            this.TypeCriterion.GetHashCode() ^
-            this.NameCriterion.GetHashCode();
+            TypeCriterion.GetHashCode() ^
+            NameCriterion.GetHashCode();
     }
 }

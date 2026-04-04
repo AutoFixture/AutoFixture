@@ -4,7 +4,7 @@ public abstract class AbstractGenericType<T>
 {
     protected AbstractGenericType(T t)
     {
-        this.Value = t;
+        Value = t;
     }
 
     public T Value { get; }

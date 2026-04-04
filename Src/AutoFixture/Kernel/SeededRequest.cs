@@ -14,8 +14,8 @@ public class SeededRequest : IEquatable<SeededRequest>
     /// <param name="seed">The seed.</param>
     public SeededRequest(object request, object seed)
     {
-        this.Request = request ?? throw new ArgumentNullException(nameof(request));
-        this.Seed = seed;
+        Request = request ?? throw new ArgumentNullException(nameof(request));
+        Seed = seed;
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class SeededRequest : IEquatable<SeededRequest>
     {
         if (obj is SeededRequest other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
         return base.Equals(obj);
     }
@@ -51,7 +51,7 @@ public class SeededRequest : IEquatable<SeededRequest>
     /// <returns>The hash code for the instance.</returns>
     public override int GetHashCode()
     {
-        return this.Request.GetHashCode() ^ (this.Seed == null ? 0 : this.Seed.GetHashCode());
+        return Request.GetHashCode() ^ (Seed == null ? 0 : Seed.GetHashCode());
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class SeededRequest : IEquatable<SeededRequest>
             return false;
         }
 
-        return this.Request == other.Request
-               && object.Equals(this.Seed, other.Seed);
+        return Request == other.Request
+               && object.Equals(Seed, other.Seed);
     }
 }

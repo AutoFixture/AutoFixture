@@ -6,12 +6,12 @@ public class DelegatingCriterion<T> : IEquatable<T>
 {
     public DelegatingCriterion()
     {
-        this.OnEquals = _ => false;
+        OnEquals = _ => false;
     }
 
     public bool Equals(T other)
     {
-        return this.OnEquals(other);
+        return OnEquals(other);
     }
 
     public Func<T, bool> OnEquals { get; set; }

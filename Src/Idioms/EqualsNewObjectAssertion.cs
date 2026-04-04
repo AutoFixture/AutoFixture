@@ -27,7 +27,7 @@ public class EqualsNewObjectAssertion : IdiomaticAssertion
     /// </remarks>
     public EqualsNewObjectAssertion(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class EqualsNewObjectAssertion : IdiomaticAssertion
             return;
         }
 
-        var instance = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+        var instance = Builder.CreateAnonymous(methodInfo.ReflectedType);
         var equalsResult = instance.Equals(new object());
         if (equalsResult)
         {

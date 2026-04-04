@@ -27,7 +27,7 @@ public class SubstituteRelay : ISpecimenBuilder
     /// <param name="specification">Specification to test whether request should be relayed.</param>
     public SubstituteRelay(IRequestSpecification specification)
     {
-        this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
+        Specification = specification ?? throw new ArgumentNullException(nameof(specification));
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class SubstituteRelay : ISpecimenBuilder
     {
         if (context == null) throw new ArgumentNullException(nameof(context));
 
-        if (!this.Specification.IsSatisfiedBy(request))
+        if (!Specification.IsSatisfiedBy(request))
             return NoSpecimen.Instance;
 
         var requestedType = request as Type;

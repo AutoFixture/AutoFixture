@@ -12,7 +12,7 @@ namespace AutoFixture.AutoNSubstitute;
 /// </remarks>
 public class AutoNSubstituteCustomization : ICustomization
 {
-    private ISpecimenBuilder relay;
+    private ISpecimenBuilder _relay;
 
     /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.
     /// <para>
@@ -33,18 +33,18 @@ public class AutoNSubstituteCustomization : ICustomization
               "Please use the AutoNSubstituteCustomization() overload (without arguments) instead and set the Relay property.")]
     public AutoNSubstituteCustomization(ISpecimenBuilder relay)
     {
-        this.relay = relay ?? throw new ArgumentNullException(nameof(relay));
+        _relay = relay ?? throw new ArgumentNullException(nameof(relay));
     }
 
     /// <summary>Gets the builder that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
     [Obsolete("This property is obsolete - use the Relay property instead.")]
-    public ISpecimenBuilder Builder => this.relay;
+    public ISpecimenBuilder Builder => _relay;
 
     /// <summary>Gets or sets the relay that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
     public ISpecimenBuilder Relay
     {
-        get => this.relay;
-        set => this.relay = value ?? throw new ArgumentNullException(nameof(value));
+        get => _relay;
+        set => _relay = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class AutoNSubstituteCustomization : ICustomization
             new MethodInvoker(
                 new NSubstituteMethodQuery()));
 
-        if (this.ConfigureMembers)
+        if (ConfigureMembers)
         {
             substituteBuilder = new Postprocessor(
                 substituteBuilder,
@@ -78,9 +78,9 @@ public class AutoNSubstituteCustomization : ICustomization
 
         fixture.Customizations.Insert(0, substituteBuilder);
         fixture.Customizations.Insert(0, new SubstituteAttributeRelay());
-        fixture.ResidueCollectors.Add(this.Relay);
+        fixture.ResidueCollectors.Add(Relay);
 
-        if (this.GenerateDelegates)
+        if (GenerateDelegates)
         {
             fixture.Customizations.Add(new SubstituteRelay(new DelegateSpecification()));
         }

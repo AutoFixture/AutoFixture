@@ -8,14 +8,14 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class MultipleRelay : ISpecimenBuilder
 {
-    private int count;
+    private int _count;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MultipleRelay"/> class.
     /// </summary>
     public MultipleRelay()
     {
-        this.count = 3;
+        _count = 3;
     }
 
     /// <summary>
@@ -23,14 +23,14 @@ public class MultipleRelay : ISpecimenBuilder
     /// </summary>
     public int Count
     {
-        get => this.count;
+        get => _count;
         set
         {
             if (value < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), "Count cannot be negative.");
             }
-            this.count = value;
+            _count = value;
         }
     }
 
@@ -57,6 +57,6 @@ public class MultipleRelay : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        return context.Resolve(new FiniteSequenceRequest(manyRequest.Request, this.Count));
+        return context.Resolve(new FiniteSequenceRequest(manyRequest.Request, Count));
     }
 }

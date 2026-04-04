@@ -11,17 +11,17 @@ namespace AutoFixture.AutoNSubstitute.CustomCallHandler;
 /// <inheritdoc />
 public class CallResultResolver : ICallResultResolver
 {
-    private static readonly Type DelegateCallType;
-    private static readonly FieldInfo DelegateTypeFieldInfo;
+    private static readonly Type s_delegateCallType;
+    private static readonly FieldInfo s_delegateTypeFieldInfo;
 
     [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline",
         Justification = "One field initialization depends on other one - order should be guaranteed.")]
     static CallResultResolver()
     {
         const string delegateCallTypeName = "NSubstitute.Proxies.DelegateProxy.DelegateCall";
-        DelegateCallType = typeof(Substitute).GetTypeInfo().Assembly.GetType(delegateCallTypeName, throwOnError: false);
-        DelegateTypeFieldInfo =
-            DelegateCallType?.GetField("_delegateType", BindingFlags.Instance | BindingFlags.NonPublic);
+        s_delegateCallType = typeof(Substitute).GetTypeInfo().Assembly.GetType(delegateCallTypeName, throwOnError: false);
+        s_delegateTypeFieldInfo =
+            s_delegateCallType?.GetField("_delegateType", BindingFlags.Instance | BindingFlags.NonPublic);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class CallResultResolver : ICallResultResolver
     /// </summary>
     public CallResultResolver(ISpecimenContext specimenContext)
     {
-        this.SpecimenContext = specimenContext ?? throw new ArgumentNullException(nameof(specimenContext));
+        SpecimenContext = specimenContext ?? throw new ArgumentNullException(nameof(specimenContext));
     }
 
     /// <inheritdoc />
@@ -42,7 +42,7 @@ public class CallResultResolver : ICallResultResolver
     {
         if (callInfo == null) throw new ArgumentNullException(nameof(callInfo));
 
-        var returnValue = this.ResolveReturnValue(callInfo);
+        var returnValue = ResolveReturnValue(callInfo);
         var returnMaybe = returnValue is OmitSpecimen ? Maybe.Nothing<object>() : Maybe.Just(returnValue);
 
         // Resolve ref/out parameter values.
@@ -55,7 +55,7 @@ public class CallResultResolver : ICallResultResolver
             if (!parameterInfo.ParameterType.IsByRef) continue;
 
             // Unwrap parameter type, because it is Type& for ref/out methods.
-            var value = this.SpecimenContext.Resolve(parameterInfo.ParameterType.GetElementType());
+            var value = SpecimenContext.Resolve(parameterInfo.ParameterType.GetElementType());
             if (value is OmitSpecimen) continue;
 
             argumentValues.Add(new CallResultData.ArgumentValue(i, value));
@@ -72,10 +72,10 @@ public class CallResultResolver : ICallResultResolver
         var propertyInfo = call.GetMethodInfo().GetPropertyFromGetterCallOrNull();
         if (propertyInfo != null)
         {
-            return this.SpecimenContext.Resolve(propertyInfo);
+            return SpecimenContext.Resolve(propertyInfo);
         }
 
-        return this.SpecimenContext.Resolve(call.GetReturnType());
+        return SpecimenContext.Resolve(call.GetReturnType());
     }
 
     private static ParameterInfo[] GetMethodParameters(ICall call)
@@ -83,9 +83,9 @@ public class CallResultResolver : ICallResultResolver
         // A workaround for the older versions of NSubstitute to retrieve the original delegate signature.
         // The related issue has been fixed in v4, so no tweaks are required there.
         // The workaround will be self disabled in v4+ due to the internal NSubstitute refactoring.
-        if (call.Target().GetType() == DelegateCallType && DelegateTypeFieldInfo != null)
+        if (call.Target().GetType() == s_delegateCallType && s_delegateTypeFieldInfo != null)
         {
-            var delegateType = (Type)DelegateTypeFieldInfo.GetValue(call.Target());
+            var delegateType = (Type)s_delegateTypeFieldInfo.GetValue(call.Target());
             return delegateType.GetMethod("Invoke").GetParameters();
         }
 

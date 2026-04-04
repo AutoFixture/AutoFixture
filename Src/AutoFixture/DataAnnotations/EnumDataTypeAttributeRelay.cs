@@ -11,8 +11,8 @@ namespace AutoFixture.DataAnnotations;
 /// </summary>
 public class EnumDataTypeAttributeRelay : ISpecimenBuilder
 {
-    private readonly ISpecimenBuilder enumGenerator;
-    private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
+    private readonly ISpecimenBuilder _enumGenerator;
+    private IRequestMemberTypeResolver _requestMemberTypeResolver = new RequestMemberTypeResolver();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EnumDataTypeAttributeRelay" /> class.
@@ -28,7 +28,7 @@ public class EnumDataTypeAttributeRelay : ISpecimenBuilder
     /// <param name="enumGenerator">The <see langword="enum" /> value builder.</param>
     public EnumDataTypeAttributeRelay(ISpecimenBuilder enumGenerator)
     {
-        this.enumGenerator = enumGenerator
+        _enumGenerator = enumGenerator
                              ?? throw new ArgumentNullException(nameof(enumGenerator));
     }
 
@@ -37,8 +37,8 @@ public class EnumDataTypeAttributeRelay : ISpecimenBuilder
     /// </summary>
     public IRequestMemberTypeResolver RequestMemberTypeResolver
     {
-        get => this.requestMemberTypeResolver;
-        set => this.requestMemberTypeResolver = value
+        get => _requestMemberTypeResolver;
+        set => _requestMemberTypeResolver = value
                                                 ?? throw new ArgumentNullException(nameof(value));
     }
 
@@ -57,10 +57,10 @@ public class EnumDataTypeAttributeRelay : ISpecimenBuilder
         var attribute = TypeEnvy.GetAttribute<EnumDataTypeAttribute>(request);
         if (attribute == null || !attribute.EnumType.GetTypeInfo().IsEnum) return NoSpecimen.Instance;
 
-        var enumValue = this.enumGenerator.Create(attribute.EnumType, context);
+        var enumValue = _enumGenerator.Create(attribute.EnumType, context);
         if (enumValue is NoSpecimen) return enumValue;
 
-        if (!this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
+        if (!RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
         {
             return NoSpecimen.Instance;
         }

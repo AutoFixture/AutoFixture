@@ -57,22 +57,22 @@ public class EnumerableRelay : ISpecimenBuilder
         Justification = "It's activated via reflection.")]
     private class ConvertedEnumerable<T> : IEnumerable<T>
     {
-        private readonly IEnumerable<object> enumerable;
+        private readonly IEnumerable<object> _enumerable;
 
         public ConvertedEnumerable(IEnumerable<object> enumerable)
         {
-            this.enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
+            _enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var item in this.enumerable)
+            foreach (var item in _enumerable)
             {
                 if (item is T variable)
                     yield return variable;
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

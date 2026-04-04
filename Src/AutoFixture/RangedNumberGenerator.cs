@@ -10,16 +10,16 @@ namespace AutoFixture;
 /// </summary>
 public class RangedNumberGenerator : ISpecimenBuilder
 {
-    private readonly object syncRoot;
-    private object rangedValue;
+    private readonly object _syncRoot;
+    private object _rangedValue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RangedNumberGenerator"/> class.
     /// </summary>
     public RangedNumberGenerator()
     {
-        this.syncRoot = new object();
-        this.rangedValue = null;
+        _syncRoot = new object();
+        _rangedValue = null;
     }
 
     /// <summary>
@@ -53,47 +53,47 @@ public class RangedNumberGenerator : ISpecimenBuilder
 
         try
         {
-            this.CreateAnonymous(range, value);
+            CreateAnonymous(range, value);
         }
         catch (InvalidOperationException)
         {
             return NoSpecimen.Instance;
         }
 
-        return this.rangedValue;
+        return _rangedValue;
     }
 
     private void CreateAnonymous(RangedNumberRequest range, IComparable value)
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
             var minimum = (IComparable)range.Minimum;
             var maximum = (IComparable)range.Maximum;
 
-            if (this.rangedValue != null)
+            if (_rangedValue != null)
             {
                 object target;
                 if ((range.OperandType == typeof(byte) &&
                      Convert.ToInt32(
-                         this.rangedValue,
+                         _rangedValue,
                          CultureInfo.CurrentCulture) > byte.MaxValue) ||
                     (range.OperandType == typeof(short) &&
                      Convert.ToInt32(
-                         this.rangedValue,
+                         _rangedValue,
                          CultureInfo.CurrentCulture) > short.MaxValue))
                     target = minimum;
                 else
-                    target = this.rangedValue;
+                    target = _rangedValue;
 
-                this.rangedValue = Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
+                _rangedValue = Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
             }
 
-            if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
+            if (_rangedValue != null && (minimum.CompareTo(_rangedValue) <= 0 && maximum.CompareTo(_rangedValue) > 0))
             {
-                this.rangedValue =
+                _rangedValue =
                     Convert.ChangeType(
                         RangedNumberGenerator.Add(
-                            this.rangedValue,
+                            _rangedValue,
                             Convert.ChangeType(
                                 1,
                                 range.OperandType,
@@ -101,9 +101,9 @@ public class RangedNumberGenerator : ISpecimenBuilder
                         range.OperandType,
                         CultureInfo.CurrentCulture);
 
-                if (maximum.CompareTo(this.rangedValue) < 0)
+                if (maximum.CompareTo(_rangedValue) < 0)
                 {
-                    this.rangedValue = Convert.ChangeType(
+                    _rangedValue = Convert.ChangeType(
                         maximum,
                         range.OperandType,
                         CultureInfo.CurrentCulture);
@@ -111,36 +111,36 @@ public class RangedNumberGenerator : ISpecimenBuilder
             }
             else if (minimum.CompareTo(value) == 0)
             {
-                this.rangedValue = minimum;
+                _rangedValue = minimum;
             }
             else if (maximum.CompareTo(value) == 0)
             {
-                this.rangedValue = maximum;
+                _rangedValue = maximum;
             }
             else if (minimum.CompareTo(value) <= 0 && maximum.CompareTo(value) <= 0)
             {
-                this.rangedValue = minimum;
+                _rangedValue = minimum;
             }
-            else if (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) <= 0)
+            else if (minimum.CompareTo(_rangedValue) <= 0 && maximum.CompareTo(_rangedValue) <= 0)
             {
-                this.rangedValue = minimum;
+                _rangedValue = minimum;
             }
             else if (minimum.CompareTo(value) < 0)
             {
-                this.rangedValue = value;
+                _rangedValue = value;
             }
             else
             {
-                this.rangedValue = RangedNumberGenerator.Add(minimum, value);
+                _rangedValue = RangedNumberGenerator.Add(minimum, value);
 
-                if (minimum.CompareTo(this.rangedValue) > 0 ||
-                    maximum.CompareTo(this.rangedValue) < 0)
+                if (minimum.CompareTo(_rangedValue) > 0 ||
+                    maximum.CompareTo(_rangedValue) < 0)
                 {
-                    this.rangedValue = minimum;
+                    _rangedValue = minimum;
                 }
             }
 
-            this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
+            _rangedValue = Convert.ChangeType(_rangedValue, range.OperandType, CultureInfo.CurrentCulture);
         }
     }
 

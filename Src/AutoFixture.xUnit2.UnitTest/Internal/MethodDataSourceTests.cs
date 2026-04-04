@@ -22,7 +22,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(this.SutIsTestDataSource));
+            .GetMethod(nameof(SutIsTestDataSource));
 
         // Act
         var sut = new MethodDataSource(methodInfo);
@@ -44,7 +44,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(this.SutIsTestDataSource));
+            .GetMethod(nameof(SutIsTestDataSource));
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() =>
@@ -56,7 +56,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(this.SutIsTestDataSource));
+            .GetMethod(nameof(SutIsTestDataSource));
         var arguments = new[] { new object() };
 
         // Act
@@ -78,7 +78,7 @@ public class MethodDataSourceTests
             new object[] { "Han", 3, new RecordType<string>("Solo") }
         };
         var testDataSource = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(this.GetTestDataFieldWithMixedValues));
+            .GetMethod(nameof(GetTestDataFieldWithMixedValues));
         var testData = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
         var sut = new MethodDataSource(testDataSource);

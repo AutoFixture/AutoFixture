@@ -35,7 +35,7 @@ public class AutoPropertiesCommand : AutoPropertiesCommand<object>
     /// </remarks>
     public AutoPropertiesCommand()
     {
-        this.ExplicitSpecimenType = null;
+        ExplicitSpecimenType = null;
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class AutoPropertiesCommand : AutoPropertiesCommand<object>
     /// <param name="specimenType">The specimen type on which properties are assigned.</param>
     public AutoPropertiesCommand(Type specimenType)
     {
-        this.ExplicitSpecimenType = specimenType ?? throw new ArgumentNullException(nameof(specimenType));
+        ExplicitSpecimenType = specimenType ?? throw new ArgumentNullException(nameof(specimenType));
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class AutoPropertiesCommand : AutoPropertiesCommand<object>
     public AutoPropertiesCommand(IRequestSpecification specification)
         : base(specification)
     {
-        this.ExplicitSpecimenType = null;
+        ExplicitSpecimenType = null;
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class AutoPropertiesCommand : AutoPropertiesCommand<object>
     public AutoPropertiesCommand(Type specimenType, IRequestSpecification specification)
         : base(specification)
     {
-        this.ExplicitSpecimenType = specimenType ?? throw new ArgumentNullException(nameof(specimenType));
+        ExplicitSpecimenType = specimenType ?? throw new ArgumentNullException(nameof(specimenType));
     }
 
     /// <inheritdoc />
@@ -92,7 +92,7 @@ public class AutoPropertiesCommand : AutoPropertiesCommand<object>
     {
         if (specimen == null) throw new ArgumentNullException(nameof(specimen));
 
-        return this.ExplicitSpecimenType ?? specimen.GetType();
+        return ExplicitSpecimenType ?? specimen.GetType();
     }
 }
 
@@ -136,7 +136,7 @@ public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.I
             throw new ArgumentNullException(nameof(specification));
         }
 
-        this.Specification = specification;
+        Specification = specification;
     }
 
     /// <summary>
@@ -160,14 +160,14 @@ public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.I
             throw new ArgumentNullException(nameof(context));
         }
 
-        foreach (var pi in this.GetProperties(specimen))
+        foreach (var pi in GetProperties(specimen))
         {
             var propertyValue = context.Resolve(pi);
             if (!(propertyValue is OmitSpecimen))
                 pi.SetValue(specimen, propertyValue, null);
         }
 
-        foreach (var fi in this.GetFields(specimen))
+        foreach (var fi in GetFields(specimen))
         {
             var fieldValue = context.Resolve(fi);
             if (!(fieldValue is OmitSpecimen))
@@ -192,12 +192,12 @@ public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.I
             throw new ArgumentNullException(nameof(request));
         }
 
-        if (this.GetProperties(request).Any(pi => pi.Equals(request)))
+        if (GetProperties(request).Any(pi => pi.Equals(request)))
         {
             return true;
         }
 
-        if (this.GetFields(request).Any(fi => fi.Equals(request)))
+        if (GetFields(request).Any(fi => fi.Equals(request)))
         {
             return true;
         }
@@ -223,18 +223,18 @@ public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.I
 
     private IEnumerable<FieldInfo> GetFields(object specimen)
     {
-        return from fi in this.GetSpecimenType(specimen).GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance)
+        return from fi in GetSpecimenType(specimen).GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance)
             where !fi.IsInitOnly
-                  && this.Specification.IsSatisfiedBy(fi)
+                  && Specification.IsSatisfiedBy(fi)
             select fi;
     }
 
     private IEnumerable<PropertyInfo> GetProperties(object specimen)
     {
-        return from pi in this.GetSpecimenType(specimen).GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+        return from pi in GetSpecimenType(specimen).GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance)
             where pi.GetSetMethod() != null
                   && pi.GetIndexParameters().Length == 0
-                  && this.Specification.IsSatisfiedBy(pi)
+                  && Specification.IsSatisfiedBy(pi)
             select pi;
     }
 
@@ -248,14 +248,14 @@ public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.I
         if (context == null)
             throw new ArgumentNullException(nameof(context));
 
-        foreach (var pi in this.GetProperties(specimen))
+        foreach (var pi in GetProperties(specimen))
         {
             var propertyValue = context.Resolve(pi);
             if (!(propertyValue is OmitSpecimen))
                 pi.SetValue(specimen, propertyValue, null);
         }
 
-        foreach (var fi in this.GetFields(specimen))
+        foreach (var fi in GetFields(specimen))
         {
             var fieldValue = context.Resolve(fi);
             if (!(fieldValue is OmitSpecimen))

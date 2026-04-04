@@ -18,7 +18,7 @@ public class AndPropertyQuery : IPropertyQuery
     /// <param name="queries">The queries that should be used to select properties.</param>
     public AndPropertyQuery(params IPropertyQuery[] queries)
     {
-        this.Queries = queries;
+        Queries = queries;
     }
 
     /// <summary>
@@ -33,9 +33,9 @@ public class AndPropertyQuery : IPropertyQuery
     /// <returns>Properties belonging to <paramref name="type"/> that meet <see cref="Queries"/>.</returns>
     public IEnumerable<PropertyInfo> SelectProperties(Type type)
     {
-        var properties = new HashSet<PropertyInfo>(this.Queries.First().SelectProperties(type));
+        var properties = new HashSet<PropertyInfo>(Queries.First().SelectProperties(type));
 
-        foreach (var query in this.Queries.Skip(1))
+        foreach (var query in Queries.Skip(1))
         {
             properties.IntersectWith(query.SelectProperties(type));
         }

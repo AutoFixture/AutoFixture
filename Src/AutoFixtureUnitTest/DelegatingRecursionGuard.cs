@@ -31,7 +31,7 @@ public class DelegatingRecursionGuard : RecursionGuard
     [Obsolete]
     public override object HandleRecursiveRequest(object request)
     {
-        return this.OnHandleRecursiveRequest(request);
+        return OnHandleRecursiveRequest(request);
     }
 
     public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
@@ -41,7 +41,7 @@ public class DelegatingRecursionGuard : RecursionGuard
 
     internal IEnumerable<object> UnprotectedRecordedRequests
     {
-        get { return this.RecordedRequests.Cast<object>(); }
+        get { return RecordedRequests.Cast<object>(); }
     }
 
     internal Func<object, object> OnHandleRecursiveRequest { get; set; }

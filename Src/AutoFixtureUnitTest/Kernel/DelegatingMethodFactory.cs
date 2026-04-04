@@ -8,12 +8,12 @@ public class DelegatingMethodFactory : IMethodFactory
 {
     public DelegatingMethodFactory()
     {
-        this.OnCreate = m => null;
+        OnCreate = m => null;
     }
 
     public IMethod Create(MethodInfo methodInfo)
     {
-        return this.OnCreate(methodInfo);
+        return OnCreate(methodInfo);
     }
 
     internal Func<MethodInfo, IMethod> OnCreate { get; set; }

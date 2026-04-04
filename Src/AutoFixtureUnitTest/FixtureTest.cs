@@ -5329,21 +5329,21 @@ public class FixtureTest
 
     private class RecursiveSequenceNode : IEnumerable<RecursiveSequenceNode>
     {
-        private readonly IEnumerable<RecursiveSequenceNode> nodes;
+        private readonly IEnumerable<RecursiveSequenceNode> _nodes;
 
         public RecursiveSequenceNode(IEnumerable<RecursiveSequenceNode> nodes)
         {
-            this.nodes = nodes;
+            _nodes = nodes;
         }
 
         public IEnumerator<RecursiveSequenceNode> GetEnumerator()
         {
-            return this.nodes.GetEnumerator();
+            return _nodes.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
     }
 
@@ -5423,21 +5423,21 @@ public class FixtureTest
 
     private class RecursiveArrayNode : IEnumerable<RecursiveArrayNode>
     {
-        private readonly RecursiveArrayNode[] nodes;
+        private readonly RecursiveArrayNode[] _nodes;
 
         public RecursiveArrayNode(RecursiveArrayNode[] nodes)
         {
-            this.nodes = nodes;
+            _nodes = nodes;
         }
 
         public IEnumerator<RecursiveArrayNode> GetEnumerator()
         {
-            return this.nodes.AsEnumerable().GetEnumerator();
+            return _nodes.AsEnumerable().GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
     }
 
@@ -5572,7 +5572,7 @@ public class FixtureTest
 
         public RecursionTestObjectWithConstructorReferenceOutA(RecursionTestObjectWithConstructorReferenceOutB b)
         {
-            this.ReferenceToB = b;
+            ReferenceToB = b;
         }
     }
 
@@ -5586,7 +5586,7 @@ public class FixtureTest
 
         public RecursionTestObjectWithConstructorReferenceOutB(RecursionTestObjectWithConstructorReferenceOutA a)
         {
-            this.ReferenceToA = a;
+            ReferenceToA = a;
         }
     }
 

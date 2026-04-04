@@ -44,8 +44,8 @@ public class Criterion<T> : IEquatable<T>
     /// <seealso cref="Comparer" />
     public Criterion(T target, IEqualityComparer<T> comparer)
     {
-        this.Target = target;
-        this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+        Target = target;
+        Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class Criterion<T> : IEquatable<T>
     /// </remarks>
     public bool Equals(T other)
     {
-        return this.Comparer.Equals(this.Target, other);
+        return Comparer.Equals(Target, other);
     }
 
     /// <summary>
@@ -84,8 +84,8 @@ public class Criterion<T> : IEquatable<T>
     public override bool Equals(object obj)
     {
         if (obj is Criterion<T> other &&
-            Equals(this.Target, other.Target) &&
-            Equals(this.Comparer, other.Comparer))
+            Equals(Target, other.Target) &&
+            Equals(Comparer, other.Comparer))
         {
             return true;
         }
@@ -110,6 +110,6 @@ public class Criterion<T> : IEquatable<T>
     /// <returns>The hash code.</returns>
     public override int GetHashCode()
     {
-        return this.Target.GetHashCode() ^ this.Comparer.GetHashCode();
+        return Target.GetHashCode() ^ Comparer.GetHashCode();
     }
 }

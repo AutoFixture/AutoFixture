@@ -16,8 +16,8 @@ internal class NameAndType
 
     public NameAndType(string name, Type type)
     {
-        this.Name = name;
-        this.Type = type;
+        Name = name;
+        Type = type;
     }
 
     public override bool Equals(object obj)
@@ -27,16 +27,16 @@ internal class NameAndType
         if (other == null)
             return base.Equals(obj);
 
-        return object.Equals(this.Type, other.Type)
-               && string.Equals(this.Name, other.Name,
+        return object.Equals(Type, other.Type)
+               && string.Equals(Name, other.Name,
                    StringComparison.OrdinalIgnoreCase);
     }
 
     public override int GetHashCode()
     {
         HashCode hashCode = default;
-        hashCode.Add(this.Type);
-        hashCode.Add(this.Name.ToUpperInvariant());
+        hashCode.Add(Type);
+        hashCode.Add(Name.ToUpperInvariant());
         return hashCode.ToHashCode();
     }
 }

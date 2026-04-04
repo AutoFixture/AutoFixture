@@ -11,13 +11,13 @@ namespace AutoFixture.AutoFakeItEasy;
 /// </summary>
 internal class MethodRule : IFakeObjectCallRule
 {
-    private readonly ISpecimenContext context;
-    private readonly CallResultCache resultSource;
+    private readonly ISpecimenContext _context;
+    private readonly CallResultCache _resultSource;
 
     public MethodRule(ISpecimenContext context, CallResultCache resultSource)
     {
-        this.context = context;
-        this.resultSource = resultSource;
+        _context = context;
+        _resultSource = resultSource;
     }
 
     /// <summary>
@@ -44,9 +44,9 @@ internal class MethodRule : IFakeObjectCallRule
     {
         if (fakeObjectCall is null) throw new ArgumentNullException(nameof(fakeObjectCall));
 
-        this.resultSource.GetOrAdd(
+        _resultSource.GetOrAdd(
                 CreateMethodCall(fakeObjectCall),
-                () => this.CreateMethodCallResult(fakeObjectCall))
+                () => CreateMethodCallResult(fakeObjectCall))
             .ApplyToCall(fakeObjectCall);
     }
 
@@ -58,15 +58,15 @@ internal class MethodRule : IFakeObjectCallRule
 
     private MethodCallResult CreateMethodCallResult(IFakeObjectCall fakeObjectCall)
     {
-        var result = new MethodCallResult(this.ResolveReturnValue(fakeObjectCall));
-        this.AddOutAndRefValues(result, fakeObjectCall);
+        var result = new MethodCallResult(ResolveReturnValue(fakeObjectCall));
+        AddOutAndRefValues(result, fakeObjectCall);
         return result;
     }
 
     private object ResolveReturnValue(IFakeObjectCall fakeObjectCall)
     {
         var methodReturnType = fakeObjectCall.Method.ReturnType;
-        return methodReturnType == typeof(void) ? null : this.context.Resolve(methodReturnType);
+        return methodReturnType == typeof(void) ? null : _context.Resolve(methodReturnType);
     }
 
     private void AddOutAndRefValues(MethodCallResult result, IFakeObjectCall fakeObjectCall)
@@ -77,7 +77,7 @@ internal class MethodRule : IFakeObjectCallRule
             var parameterParameterType = parameters[index].ParameterType;
             if (parameterParameterType.IsByRef)
             {
-                var value = this.context.Resolve(parameterParameterType.GetElementType());
+                var value = _context.Resolve(parameterParameterType.GetElementType());
                 result.AddOutOrRefValue(index, value);
             }
         }

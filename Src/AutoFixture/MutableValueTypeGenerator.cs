@@ -8,14 +8,14 @@ namespace AutoFixture;
 /// </summary>
 public class MutableValueTypeGenerator : ISpecimenBuilder
 {
-    private readonly IRequestSpecification valueTypeWithoutConstructorsSpecification;
+    private readonly IRequestSpecification _valueTypeWithoutConstructorsSpecification;
 
     /// <summary>
     /// Creates new instance.
     /// </summary>
     public MutableValueTypeGenerator()
     {
-        this.valueTypeWithoutConstructorsSpecification = new AndRequestSpecification(new ValueTypeSpecification(),
+        _valueTypeWithoutConstructorsSpecification = new AndRequestSpecification(new ValueTypeSpecification(),
             new NoConstructorsSpecification());
     }
 
@@ -30,7 +30,7 @@ public class MutableValueTypeGenerator : ISpecimenBuilder
     public object Create(object request, ISpecimenContext context)
     {
         Type type = request as Type;
-        if (type == null || !this.valueTypeWithoutConstructorsSpecification.IsSatisfiedBy(type))
+        if (type == null || !_valueTypeWithoutConstructorsSpecification.IsSatisfiedBy(type))
         {
             return NoSpecimen.Instance;
         }

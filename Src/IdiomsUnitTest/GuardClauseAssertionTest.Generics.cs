@@ -449,8 +449,8 @@ public partial class GuardClauseAssertionTest
 
         public ParameterizedConstructorTestType(object argument1, string argument2)
         {
-            this.Argument1 = argument1;
-            this.Argument2 = argument2;
+            Argument1 = argument1;
+            Argument2 = argument2;
         }
 
         public object Argument1 { get; }

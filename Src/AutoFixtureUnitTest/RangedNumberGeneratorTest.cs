@@ -511,7 +511,7 @@ public class RangedNumberGeneratorTest
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         private static object[] CreateTestCase(Type operandType, object minimum, object maximum, object contextValue, object expectedResult)

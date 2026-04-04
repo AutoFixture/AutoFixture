@@ -26,7 +26,7 @@ public class TracingBehavior : ISpecimenBuilderTransformation
     /// <param name="writer">The writer to which diagnostics is written.</param>
     public TracingBehavior(TextWriter writer)
     {
-        this.Writer = writer ?? throw new ArgumentNullException(nameof(writer));
+        Writer = writer ?? throw new ArgumentNullException(nameof(writer));
     }
 
     /// <summary>
@@ -46,6 +46,6 @@ public class TracingBehavior : ISpecimenBuilderTransformation
     {
         if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-        return new TraceWriter(this.Writer, new TracingBuilder(builder));
+        return new TraceWriter(Writer, new TracingBuilder(builder));
     }
 }

@@ -4,22 +4,22 @@ namespace TestTypeFoundation;
 
 public class TypeWithIndexer
 {
-    private readonly Dictionary<string, string> dict;
+    private readonly Dictionary<string, string> _dict;
 
     public TypeWithIndexer()
     {
-        this.dict = new Dictionary<string, string>();
+        _dict = new Dictionary<string, string>();
     }
 
     public string this[string index]
     {
         get
         {
-            return this.dict[index];
+            return _dict[index];
         }
         set
         {
-            this.dict[index] = value;
+            _dict[index] = value;
         }
     }
 }

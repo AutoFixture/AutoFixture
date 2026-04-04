@@ -22,7 +22,7 @@ public class ImplementedInterfaceSpecification : IRequestSpecification
     /// </exception>
     public ImplementedInterfaceSpecification(Type targetType)
     {
-        this.TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+        TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class ImplementedInterfaceSpecification : IRequestSpecification
         if (request == null) throw new ArgumentNullException(nameof(request));
 
         return IsRequestForType(request) &&
-               this.IsTargetTypeOrImplementedInterface(request);
+               IsTargetTypeOrImplementedInterface(request);
     }
 
     private static bool IsRequestForType(object request)
@@ -54,18 +54,18 @@ public class ImplementedInterfaceSpecification : IRequestSpecification
 
     private bool IsTargetTypeOrImplementedInterface(object request)
     {
-        return this.IsSameAsTargetType(request) ||
-               this.IsInterfaceImplementedByTargetType(request);
+        return IsSameAsTargetType(request) ||
+               IsInterfaceImplementedByTargetType(request);
     }
 
     private bool IsSameAsTargetType(object request)
     {
-        return (Type)request == this.TargetType;
+        return (Type)request == TargetType;
     }
 
     private bool IsInterfaceImplementedByTargetType(object request)
     {
-        return this.TargetType
+        return TargetType
             .GetTypeInfo()
             .GetInterfaces()
             .Contains((Type)request);

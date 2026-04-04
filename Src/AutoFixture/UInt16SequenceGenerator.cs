@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class UInt16SequenceGenerator : ISpecimenBuilder
 {
-    private ushort u;
-    private readonly object syncRoot;
+    private ushort _u;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UInt16SequenceGenerator"/> class.
     /// </summary>
     public UInt16SequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class UInt16SequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public ushort CreateAnonymous()
     {
-        return (ushort)this.Create(typeof(ushort), null);
+        return (ushort)Create(typeof(ushort), null);
     }
 
     /// <summary>
@@ -46,9 +46,9 @@ public class UInt16SequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.u;
+            return ++_u;
         }
     }
 }

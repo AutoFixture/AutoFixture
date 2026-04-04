@@ -14,13 +14,13 @@ namespace AutoFixture.Idioms;
 public class CopyAndUpdateException : Exception
 {
     [NonSerialized]
-    private readonly MethodInfo methodInfo;
+    private readonly MethodInfo _methodInfo;
 
     [NonSerialized]
-    private readonly MemberInfo memberWithInvalidValue;
+    private readonly MemberInfo _memberWithInvalidValue;
 
     [NonSerialized]
-    private ParameterInfo argumentWithNoMatchingPublicMember;
+    private ParameterInfo _argumentWithNoMatchingPublicMember;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CopyAndUpdateException"/> class.
@@ -38,7 +38,7 @@ public class CopyAndUpdateException : Exception
     public CopyAndUpdateException(string message, MethodInfo methodInfo)
         : this(message)
     {
-        this.methodInfo = methodInfo;
+        _methodInfo = methodInfo;
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class CopyAndUpdateException : Exception
     public CopyAndUpdateException(MethodInfo methodInfo, MemberInfo memberWithInvalidValue)
         : this(FormatMessageForMethodAndMember(methodInfo, memberWithInvalidValue), methodInfo)
     {
-        this.memberWithInvalidValue = memberWithInvalidValue;
+        _memberWithInvalidValue = memberWithInvalidValue;
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class CopyAndUpdateException : Exception
     public CopyAndUpdateException(MethodInfo methodInfo, ParameterInfo argumentWithNoMatchingPublicMember)
         : this(FormatMessageForMethodAndArgument(methodInfo, argumentWithNoMatchingPublicMember), methodInfo)
     {
-        this.ArgumentWithNoMatchingPublicMember = argumentWithNoMatchingPublicMember;
+        ArgumentWithNoMatchingPublicMember = argumentWithNoMatchingPublicMember;
     }
 
     /// <summary>
@@ -107,12 +107,12 @@ public class CopyAndUpdateException : Exception
     /// <summary>
     /// Gets the 'copy and update' method which is ill-behaved.
     /// </summary>
-    public MethodInfo MethodInfo => this.methodInfo;
+    public MethodInfo MethodInfo => _methodInfo;
 
     /// <summary>
     /// Gets the member which was found to have an incorrect value.
     /// </summary>
-    public MemberInfo MemberWithInvalidValue => this.memberWithInvalidValue;
+    public MemberInfo MemberWithInvalidValue => _memberWithInvalidValue;
 
     /// <summary>
     /// Gets the argument of the 'copy and update' method for which no matching public
@@ -120,8 +120,8 @@ public class CopyAndUpdateException : Exception
     /// </summary>
     public ParameterInfo ArgumentWithNoMatchingPublicMember
     {
-        get => this.argumentWithNoMatchingPublicMember;
-        set => this.argumentWithNoMatchingPublicMember = value;
+        get => _argumentWithNoMatchingPublicMember;
+        set => _argumentWithNoMatchingPublicMember = value;
     }
 
     /// <summary>
@@ -140,9 +140,9 @@ public class CopyAndUpdateException : Exception
     public override void GetObjectData(SerializationInfo info, StreamingContext context)
     {
         base.GetObjectData(info, context);
-        info.AddValue("methodInfo", this.MethodInfo);
-        info.AddValue("memberWithInvalidValue", this.MemberWithInvalidValue);
-        info.AddValue("argumentWithNoMatchingPublicMember", this.ArgumentWithNoMatchingPublicMember);
+        info.AddValue("methodInfo", MethodInfo);
+        info.AddValue("memberWithInvalidValue", MemberWithInvalidValue);
+        info.AddValue("argumentWithNoMatchingPublicMember", ArgumentWithNoMatchingPublicMember);
     }
 
     private static string FormatMessageForMethodAndArgument(MethodInfo methodInfo, ParameterInfo argumentWithNoMatchingPublicMember)

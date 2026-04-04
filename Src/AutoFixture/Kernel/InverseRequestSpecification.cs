@@ -16,7 +16,7 @@ public class InverseRequestSpecification : IRequestSpecification
     /// </param>
     public InverseRequestSpecification(IRequestSpecification specification)
     {
-        this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
+        Specification = specification ?? throw new ArgumentNullException(nameof(specification));
     }
 
     /// <summary>
@@ -39,6 +39,6 @@ public class InverseRequestSpecification : IRequestSpecification
     /// </returns>
     public bool IsSatisfiedBy(object request)
     {
-        return !this.Specification.IsSatisfiedBy(request);
+        return !Specification.IsSatisfiedBy(request);
     }
 }

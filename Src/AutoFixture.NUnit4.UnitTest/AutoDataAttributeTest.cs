@@ -65,7 +65,7 @@ public class AutoDataAttributeTest
     {
         // Arrange
         var autoDataAttribute = new AutoDataAttribute();
-        var fixtureType = this.GetType();
+        var fixtureType = GetType();
 
         var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod("DummyTestMethod"));
         var testSuite = new TestSuite(fixtureType);
@@ -90,8 +90,8 @@ public class AutoDataAttributeTest
         });
         sut.TestMethodBuilder = new TestMethodBuilderWithoutParametersUsage();
 
-        var methodWrapper = new MethodWrapper(this.GetType(), nameof(this.DummyTestMethod));
-        var testSuite = new TestSuite(this.GetType());
+        var methodWrapper = new MethodWrapper(GetType(), nameof(DummyTestMethod));
+        var testSuite = new TestSuite(GetType());
 
         // Act
         var dummy = sut.BuildFrom(methodWrapper, testSuite).ToArray();
@@ -124,7 +124,7 @@ public class AutoDataAttributeTest
         // DummyFixture is set up to throw DummyException when invoked by AutoDataAttribute
         var autoDataAttributeStub = new AutoDataAttributeStub(() => new ThrowingStubFixture());
 
-        var fixtureType = this.GetType();
+        var fixtureType = GetType();
 
         var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod("DummyTestMethod"));
         var testSuite = new TestSuite(fixtureType);
@@ -164,7 +164,7 @@ public class AutoDataAttributeTest
         };
         var sut = new AutoDataAttributeStub(() => fixture);
         // Assert
-        sut.BuildFrom(method, new TestSuite(this.GetType())).Single();
+        sut.BuildFrom(method, new TestSuite(GetType())).Single();
         // Assert
         ClassicAssert.False(customizationLog[0] is FreezeOnMatchCustomization);
         ClassicAssert.True(customizationLog[1] is FreezeOnMatchCustomization);
@@ -219,7 +219,7 @@ public class AutoDataAttributeTest
         var sut = new AutoDataAttributeStub(() => fixture);
 
         // Assert
-        sut.BuildFrom(method, new TestSuite(this.GetType())).ToArray();
+        sut.BuildFrom(method, new TestSuite(GetType())).ToArray();
         // Assert
         ClassicAssert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
     }

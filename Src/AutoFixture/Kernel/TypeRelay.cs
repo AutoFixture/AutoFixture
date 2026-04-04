@@ -8,7 +8,7 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class TypeRelay : ISpecimenBuilder
 {
-    private readonly IRequestSpecification fromSpecification;
+    private readonly IRequestSpecification _fromSpecification;
 
     /// <summary>
     /// Gets the type which is relayed from.
@@ -54,8 +54,8 @@ public class TypeRelay : ISpecimenBuilder
     /// </example>
     public TypeRelay(Type from, Type to)
     {
-        this.From = from ?? throw new ArgumentNullException(nameof(from));
-        this.To = to ?? throw new ArgumentNullException(nameof(to));
+        From = from ?? throw new ArgumentNullException(nameof(from));
+        To = to ?? throw new ArgumentNullException(nameof(to));
 
         if (from.GetTypeInfo().IsGenericTypeDefinition ^ to.GetTypeInfo().IsGenericTypeDefinition)
         {
@@ -63,7 +63,7 @@ public class TypeRelay : ISpecimenBuilder
                                         "or from closed type to closed type are supported only.");
         }
 
-        this.fromSpecification = new ExactTypeSpecification(from);
+        _fromSpecification = new ExactTypeSpecification(from);
     }
 
     /// <summary>
@@ -91,18 +91,18 @@ public class TypeRelay : ISpecimenBuilder
     {
         if (context == null) throw new ArgumentNullException(nameof(context));
 
-        if (request is Type t && this.fromSpecification.IsSatisfiedBy(request))
-            return context.Resolve(this.GetRedirectedTypeRequest(t));
+        if (request is Type t && _fromSpecification.IsSatisfiedBy(request))
+            return context.Resolve(GetRedirectedTypeRequest(t));
 
         return NoSpecimen.Instance;
     }
 
     private Type GetRedirectedTypeRequest(Type originalRequest)
     {
-        if (!this.From.GetTypeInfo().IsGenericTypeDefinition)
-            return this.To;
+        if (!From.GetTypeInfo().IsGenericTypeDefinition)
+            return To;
 
         var genericArguments = originalRequest.GetTypeInfo().GenericTypeArguments;
-        return this.To.GetTypeInfo().MakeGenericType(genericArguments);
+        return To.GetTypeInfo().MakeGenericType(genericArguments);
     }
 }

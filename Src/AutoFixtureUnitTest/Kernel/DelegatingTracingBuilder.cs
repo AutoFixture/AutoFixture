@@ -16,11 +16,11 @@ internal class DelegatingTracingBuilder : TracingBuilder
 
     internal void RaiseSpecimenCreated(SpecimenCreatedEventArgs e)
     {
-        this.OnSpecimenCreated(e);
+        OnSpecimenCreated(e);
     }
 
     internal void RaiseSpecimenRequested(RequestTraceEventArgs e)
     {
-        this.OnSpecimenRequested(e);
+        OnSpecimenRequested(e);
     }
 }

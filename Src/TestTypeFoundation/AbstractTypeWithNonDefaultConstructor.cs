@@ -11,7 +11,7 @@ public abstract class AbstractTypeWithNonDefaultConstructor<T>
             throw new ArgumentNullException(nameof(value));
         }
 
-        this.Property = value;
+        Property = value;
     }
 
     public T Property { get; }

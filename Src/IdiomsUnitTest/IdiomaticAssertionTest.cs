@@ -43,7 +43,7 @@ public class IdiomaticAssertionTest
     public void VerifyAssemblyArrayCorrectlyInvokesNextVerify()
     {
         // Arrange
-        var assemblies = new[] { this.GetType().Assembly, typeof(IdiomaticAssertion).GetType().Assembly, typeof(Fixture).GetType().Assembly };
+        var assemblies = new[] { GetType().Assembly, typeof(IdiomaticAssertion).GetType().Assembly, typeof(Fixture).GetType().Assembly };
 
         var observedAssemblies = new List<Assembly>();
         var sut = new DelegatingIdiomaticAssertion { OnAssemblyVerify = observedAssemblies.Add };
@@ -57,7 +57,7 @@ public class IdiomaticAssertionTest
     public void VerifyAssembliesCorrectlyInvokesNextVerify()
     {
         // Arrange
-        var assemblies = new[] { typeof(IdiomaticAssertion).GetType().Assembly, this.GetType().Assembly, typeof(Fixture).GetType().Assembly }.AsEnumerable();
+        var assemblies = new[] { typeof(IdiomaticAssertion).GetType().Assembly, GetType().Assembly, typeof(Fixture).GetType().Assembly }.AsEnumerable();
 
         var observedAssemblies = new List<Assembly>();
         var sut = new DelegatingIdiomaticAssertion { OnAssemblyVerify = observedAssemblies.Add };
@@ -81,7 +81,7 @@ public class IdiomaticAssertionTest
     public void VerifyAssemblyCorrectlyInvokesNextVerify()
     {
         // Arrange
-        var assembly = this.GetType().Assembly;
+        var assembly = GetType().Assembly;
         var expectedTypes = assembly.GetExportedTypes();
 
         var mockVerified = false;

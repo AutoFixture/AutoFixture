@@ -23,13 +23,13 @@ namespace AutoFixture;
                     "Besides, fixing this CA error would be a breaking change.")]
 public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
 {
-    private readonly MultipleRelay multiple;
+    private readonly MultipleRelay _multiple;
 
-    private ISpecimenBuilderNode graph;
+    private ISpecimenBuilderNode _graph;
 
-    private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
-    private SpecimenBuilderNodeAdapterCollection customizer;
-    private SpecimenBuilderNodeAdapterCollection residueCollector;
+    private SingletonSpecimenBuilderNodeStackAdapterCollection _behaviors;
+    private SpecimenBuilderNodeAdapterCollection _customizer;
+    private SpecimenBuilderNodeAdapterCollection _residueCollector;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Fixture"/> class.
@@ -61,8 +61,8 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
         Justification = "This is the Façade that binds everything else together, so being coupled to many other types must follow.")]
     public Fixture(ISpecimenBuilder engine, MultipleRelay multiple)
     {
-        this.Engine = engine ?? throw new ArgumentNullException(nameof(engine));
-        this.multiple = multiple ?? throw new ArgumentNullException(nameof(multiple));
+        Engine = engine ?? throw new ArgumentNullException(nameof(engine));
+        _multiple = multiple ?? throw new ArgumentNullException(nameof(multiple));
 
         ISpecimenBuilderNode newGraph =
             new BehaviorRoot(
@@ -174,16 +174,16 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
                             new ValueTypeSpecification(),
                             new NoConstructorsSpecification())))));
 
-        this.UpdateGraphAndSetupAdapters(newGraph, Enumerable.Empty<ISpecimenBuilderTransformation>());
+        UpdateGraphAndSetupAdapters(newGraph, Enumerable.Empty<ISpecimenBuilderTransformation>());
 
-        this.Behaviors.Add(new ThrowingRecursionBehavior());
+        Behaviors.Add(new ThrowingRecursionBehavior());
     }
 
     /// <inheritdoc />
-    public IList<ISpecimenBuilderTransformation> Behaviors => this.behaviors;
+    public IList<ISpecimenBuilderTransformation> Behaviors => _behaviors;
 
     /// <inheritdoc />
-    public IList<ISpecimenBuilder> Customizations => this.customizer;
+    public IList<ISpecimenBuilder> Customizations => _customizer;
 
     /// <summary>
     /// Gets the core engine of the <see cref="Fixture"/> instance.
@@ -203,14 +203,14 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
     /// <inheritdoc />
     public bool OmitAutoProperties
     {
-        get => this.FindAutoPropertiesPostProcessor().Specification is FalseRequestSpecification;
+        get => FindAutoPropertiesPostProcessor().Specification is FalseRequestSpecification;
         set
         {
             IRequestSpecification newSpecification = value
                 ? new FalseRequestSpecification()
                 : new AnyTypeSpecification();
 
-            var existingPostProcessor = this.FindAutoPropertiesPostProcessor();
+            var existingPostProcessor = FindAutoPropertiesPostProcessor();
 
             // Optimization. Do nothing if no change is required (i.e. you set property to its current value).
             if (existingPostProcessor.Specification.GetType() == newSpecification.GetType())
@@ -221,11 +221,11 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
                 existingPostProcessor.Command,
                 newSpecification);
 
-            var updatedGraph = this.graph.ReplaceNodes(
+            var updatedGraph = _graph.ReplaceNodes(
                 with: updatedPostProcessor,
                 when: existingPostProcessor.Equals);
 
-            this.UpdateGraphAndSetupAdapters(updatedGraph);
+            UpdateGraphAndSetupAdapters(updatedGraph);
         }
     }
 
@@ -236,21 +236,21 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
     /// </summary>
     public int RepeatCount
     {
-        get => this.multiple.Count;
-        set => this.multiple.Count = value;
+        get => _multiple.Count;
+        set => _multiple.Count = value;
     }
 
     /// <inheritdoc />
-    public IList<ISpecimenBuilder> ResidueCollectors => this.residueCollector;
+    public IList<ISpecimenBuilder> ResidueCollectors => _residueCollector;
 
     /// <inheritdoc />
     [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
         Justification = "This method is required to be generic by design, so there is no way to refactor it.")]
     public ICustomizationComposer<T> Build<T>()
     {
-        var g = this.graph.ReplaceNodes(
+        var g = _graph.ReplaceNodes(
             with: n => new CompositeSpecimenBuilder(
-                SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties),
+                SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(EnableAutoProperties),
                 n),
             when: n => n is BehaviorRoot);
 
@@ -271,8 +271,8 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
     {
         if (composerTransformation == null) throw new ArgumentNullException(nameof(composerTransformation));
 
-        var c = composerTransformation(SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties));
-        this.customizer.Insert(0, c);
+        var c = composerTransformation(SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(EnableAutoProperties));
+        _customizer.Insert(0, c);
     }
 
     /// <inheritdoc />
@@ -281,7 +281,7 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
         if (request == null) throw new ArgumentNullException(nameof(request));
         if (context == null) throw new ArgumentNullException(nameof(context));
 
-        return this.graph.Create(request, context);
+        return _graph.Create(request, context);
     }
 
     /// <summary>
@@ -292,66 +292,66 @@ public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
     /// </returns>
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.graph;
+        yield return _graph;
     }
 
     /// <inheritdoc />
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
-    private bool EnableAutoProperties => !this.OmitAutoProperties;
+    private bool EnableAutoProperties => !OmitAutoProperties;
 
     private void UpdateGraphAndSetupAdapters(ISpecimenBuilderNode newGraph)
     {
-        if (this.Behaviors == null)
+        if (Behaviors == null)
         {
             throw new InvalidOperationException(
                 "Behaviors should be already initialized. Please verify the method invocation logic to fix that.");
         }
 
-        this.UpdateGraphAndSetupAdapters(newGraph, this.Behaviors);
+        UpdateGraphAndSetupAdapters(newGraph, Behaviors);
     }
 
     private void UpdateGraphAndSetupAdapters(
         ISpecimenBuilderNode newGraph, IEnumerable<ISpecimenBuilderTransformation> existingBehaviors)
     {
-        this.graph = newGraph;
+        _graph = newGraph;
 
-        this.UpdateCustomizer();
-        this.UpdateResidueCollector();
-        this.UpdateBehaviors(existingBehaviors.ToArray());
+        UpdateCustomizer();
+        UpdateResidueCollector();
+        UpdateBehaviors(existingBehaviors.ToArray());
     }
 
     private void UpdateCustomizer()
     {
-        this.customizer =
+        _customizer =
             new SpecimenBuilderNodeAdapterCollection(
-                this.graph,
+                _graph,
                 n => n is CustomizationNode);
-        this.customizer.GraphChanged += (_, args) => this.UpdateGraphAndSetupAdapters(args.Graph);
+        _customizer.GraphChanged += (_, args) => UpdateGraphAndSetupAdapters(args.Graph);
     }
 
     private void UpdateResidueCollector()
     {
-        this.residueCollector =
+        _residueCollector =
             new SpecimenBuilderNodeAdapterCollection(
-                this.graph,
+                _graph,
                 n => n is ResidueCollectorNode);
-        this.residueCollector.GraphChanged += (_, args) => this.UpdateGraphAndSetupAdapters(args.Graph);
+        _residueCollector.GraphChanged += (_, args) => UpdateGraphAndSetupAdapters(args.Graph);
     }
 
     private void UpdateBehaviors(ISpecimenBuilderTransformation[] existingTransformations)
     {
-        this.behaviors =
+        _behaviors =
             new SingletonSpecimenBuilderNodeStackAdapterCollection(
-                this.graph,
+                _graph,
                 n => n is BehaviorRoot,
                 existingTransformations);
-        this.behaviors.GraphChanged += (_, args) => this.UpdateGraphAndSetupAdapters(args.Graph);
+        _behaviors.GraphChanged += (_, args) => UpdateGraphAndSetupAdapters(args.Graph);
     }
 
     private Postprocessor FindAutoPropertiesPostProcessor()
     {
-        var postprocessorHolder = (AutoPropertiesTarget)this.graph.FindFirstNode(b => b is AutoPropertiesTarget);
+        var postprocessorHolder = (AutoPropertiesTarget)_graph.FindFirstNode(b => b is AutoPropertiesTarget);
         return (Postprocessor)postprocessorHolder.Builder;
     }
 

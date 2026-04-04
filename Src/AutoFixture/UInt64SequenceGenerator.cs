@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class UInt64SequenceGenerator : ISpecimenBuilder
 {
-    private readonly object syncRoot;
-    private ulong u;
+    private readonly object _syncRoot;
+    private ulong _u;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UInt64SequenceGenerator"/> class.
     /// </summary>
     public UInt64SequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class UInt64SequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public ulong CreateAnonymous()
     {
-        return (ulong)this.Create(typeof(ulong), null);
+        return (ulong)Create(typeof(ulong), null);
     }
 
     /// <summary>
@@ -46,9 +46,9 @@ public class UInt64SequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.u;
+            return ++_u;
         }
     }
 }

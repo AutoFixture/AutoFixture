@@ -11,11 +11,11 @@ internal class TextGuidRegex : Regex
 
     internal string GetGuid(string s)
     {
-        return this.Match(s).Groups["guid"].Value;
+        return Match(s).Groups["guid"].Value;
     }
 
     internal string GetText(string s)
     {
-        return this.Match(s).Groups["text"].Value;
+        return Match(s).Groups["text"].Value;
     }
 }

@@ -31,7 +31,7 @@ public class CompositePostprocessComposer<T> : IPostprocessComposer<T>
     /// <param name="composers">The composers to aggregate.</param>
     public CompositePostprocessComposer(params IPostprocessComposer<T>[] composers)
     {
-        this.Composers = composers ?? throw new ArgumentNullException(nameof(composers));
+        Composers = composers ?? throw new ArgumentNullException(nameof(composers));
     }
 
     /// <summary>
@@ -42,70 +42,70 @@ public class CompositePostprocessComposer<T> : IPostprocessComposer<T>
     /// <inheritdoc />
     public IPostprocessComposer<T> Do(Action<T> action)
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.Do(action));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> OmitAutoProperties()
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.OmitAutoProperties());
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.With(propertyPicker));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.With(propertyPicker, value));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueFactory)
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.With(propertyPicker, valueFactory));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory)
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.With(propertyPicker, valueFactory));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.With(propertyPicker, builder));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> WithAutoProperties()
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.WithAutoProperties());
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
     {
-        return new CompositePostprocessComposer<T>(from c in this.Composers
+        return new CompositePostprocessComposer<T>(from c in Composers
             select c.Without(propertyPicker));
     }
 
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
-        return new CompositeSpecimenBuilder(this.Composers)
+        return new CompositeSpecimenBuilder(Composers)
             .Create(request, context);
     }
 }

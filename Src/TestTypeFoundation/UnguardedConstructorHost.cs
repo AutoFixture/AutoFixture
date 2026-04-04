@@ -7,7 +7,7 @@ public class UnguardedConstructorHost<T>
 {
     public UnguardedConstructorHost(T item)
     {
-        this.Item = item;
+        Item = item;
     }
 
     public T Item { get; }

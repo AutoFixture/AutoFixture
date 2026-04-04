@@ -16,9 +16,9 @@ public abstract class MarkerNodeTests<T>
     {
         // Arrange
         var expected = new DelegatingSpecimenBuilder();
-        var sut = this.CreateSut(expected);
+        var sut = CreateSut(expected);
         // Act
-        ISpecimenBuilder actual = this.GetBuilder(sut);
+        ISpecimenBuilder actual = GetBuilder(sut);
         // Assert
         Assert.Equal(expected, actual);
     }
@@ -28,7 +28,7 @@ public abstract class MarkerNodeTests<T>
     {
         // Arrange
         var dummy = new DelegatingSpecimenBuilder();
-        var sut = this.CreateSut(dummy);
+        var sut = CreateSut(dummy);
         // Act
         var expected = new[]
         {
@@ -41,7 +41,7 @@ public abstract class MarkerNodeTests<T>
         var mn = Assert.IsAssignableFrom<T>(actual);
         var builders =
             Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(
-                this.GetBuilder(mn));
+                GetBuilder(mn));
         Assert.True(expected.SequenceEqual(builders));
     }
 
@@ -50,13 +50,13 @@ public abstract class MarkerNodeTests<T>
     {
         // Arrange
         var dummy = new DelegatingSpecimenBuilder();
-        var sut = this.CreateSut(dummy);
+        var sut = CreateSut(dummy);
         var expected = new DelegatingSpecimenBuilder();
         // Act
         var actual = sut.Compose(new[] { expected });
         // Assert
         var mn = Assert.IsAssignableFrom<T>(actual);
-        Assert.Equal(expected, this.GetBuilder(mn));
+        Assert.Equal(expected, GetBuilder(mn));
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public abstract class MarkerNodeTests<T>
                 return expected;
             }
         };
-        var sut = this.CreateSut(stub);
+        var sut = CreateSut(stub);
         // Act
         var actual = sut.Create(request, context);
         // Assert
@@ -88,7 +88,7 @@ public abstract class MarkerNodeTests<T>
         // Arrange
         var expected = new DelegatingSpecimenBuilder();
         // Act
-        var sut = this.CreateSut(expected);
+        var sut = CreateSut(expected);
         // Assert
         Assert.True(new[] { expected }.SequenceEqual(sut));
         Assert.True(new object[] { expected }.SequenceEqual(
@@ -99,7 +99,7 @@ public abstract class MarkerNodeTests<T>
     public void ConstructWithNullBuilderThrows()
     {
         Assert.Throws<ArgumentNullException>(() =>
-            this.CreateSut(null));
+            CreateSut(null));
     }
 
     public abstract T CreateSut(ISpecimenBuilder builder);

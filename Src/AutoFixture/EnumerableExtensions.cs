@@ -9,7 +9,7 @@ namespace AutoFixture;
 
 internal static class EnumerableExtensions
 {
-    private static readonly MethodInfo BuildTypedArrayMethodInfo =
+    private static readonly MethodInfo s_buildTypedArrayMethodInfo =
         typeof(EnumerableExtensions).GetTypeInfo().GetMethod(
             nameof(BuildTypedArray),
             BindingFlags.Static | BindingFlags.NonPublic);
@@ -51,7 +51,7 @@ internal static class EnumerableExtensions
 
     public static object ToTypedArray(this IEnumerable items, Type elementType)
     {
-        return BuildTypedArrayMethodInfo.MakeGenericMethod(elementType).Invoke(null, new object[] { items });
+        return s_buildTypedArrayMethodInfo.MakeGenericMethod(elementType).Invoke(null, new object[] { items });
     }
 
     private static object BuildTypedArray<TElementType>(IEnumerable items)

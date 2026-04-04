@@ -9,12 +9,12 @@ public class DelegatingMethodQuery : IMethodQuery
 {
     public DelegatingMethodQuery()
     {
-        this.OnSelectMethods = t => Enumerable.Empty<IMethod>();
+        OnSelectMethods = t => Enumerable.Empty<IMethod>();
     }
 
     public IEnumerable<IMethod> SelectMethods(Type type)
     {
-        return this.OnSelectMethods(type);
+        return OnSelectMethods(type);
     }
 
     internal Func<Type, IEnumerable<IMethod>> OnSelectMethods { get; set; }

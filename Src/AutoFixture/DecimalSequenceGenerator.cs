@@ -8,15 +8,15 @@ namespace AutoFixture;
 /// </summary>
 public class DecimalSequenceGenerator : ISpecimenBuilder
 {
-    private decimal d;
-    private readonly object syncRoot;
+    private decimal _d;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Int64SequenceGenerator"/> class.
     /// </summary>
     public DecimalSequenceGenerator()
     {
-        this.syncRoot = new object();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -25,9 +25,9 @@ public class DecimalSequenceGenerator : ISpecimenBuilder
     [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
     public decimal Create()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return ++this.d;
+            return ++_d;
         }
     }
 
@@ -37,7 +37,7 @@ public class DecimalSequenceGenerator : ISpecimenBuilder
     [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
     public decimal CreateAnonymous()
     {
-        return this.Create();
+        return Create();
     }
 
     /// <inheritdoc />
@@ -49,7 +49,7 @@ public class DecimalSequenceGenerator : ISpecimenBuilder
         }
 
 #pragma warning disable 618
-        return this.Create();
+        return Create();
 #pragma warning restore 618
     }
 }

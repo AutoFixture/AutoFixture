@@ -141,8 +141,8 @@ public class Scenario
         public PublicPropertiesAreAssignableFromConstructorParameterTypes(
             string[] bribbets, int[] numbers)
         {
-            this.Bribbets = bribbets;
-            this.Numbers = numbers;
+            Bribbets = bribbets;
+            Numbers = numbers;
         }
 
         public IEnumerable<string> Bribbets { get; private set; }
@@ -157,7 +157,7 @@ public class Scenario
         public PublicPropertiesAreAssignableFromConstructorParameterTypes WithNumbers(int[] numbers)
         {
             return new PublicPropertiesAreAssignableFromConstructorParameterTypes(
-                (string[])this.Bribbets, numbers);
+                (string[])Bribbets, numbers);
         }
     }
 
@@ -165,8 +165,8 @@ public class Scenario
     {
         public NameAndType(string name, Type type)
         {
-            this.Name = name;
-            this.Type = type;
+            Name = name;
+            Type = type;
         }
 
         public string Name { get; private set; }
@@ -190,17 +190,17 @@ public class Scenario
     private class NameAndTypeCollectingVisitor
         : ReflectionVisitor<IEnumerable<NameAndType>>
     {
-        private readonly NameAndType[] values;
+        private readonly NameAndType[] _values;
 
         public NameAndTypeCollectingVisitor(
             params NameAndType[] values)
         {
-            this.values = values;
+            _values = values;
         }
 
         public override IEnumerable<NameAndType> Value
         {
-            get { return this.values; }
+            get { return _values; }
         }
 
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
@@ -211,7 +211,7 @@ public class Scenario
                 fieldInfoElement.FieldInfo.Name,
                 fieldInfoElement.FieldInfo.FieldType);
             return new NameAndTypeCollectingVisitor(
-                this.values.Concat(new[] { v }).ToArray());
+                _values.Concat(new[] { v }).ToArray());
         }
 
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
@@ -222,7 +222,7 @@ public class Scenario
                 parameterInfoElement.ParameterInfo.Name,
                 parameterInfoElement.ParameterInfo.ParameterType);
             return new NameAndTypeCollectingVisitor(
-                this.values.Concat(new[] { v }).ToArray());
+                _values.Concat(new[] { v }).ToArray());
         }
 
         public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
@@ -233,31 +233,31 @@ public class Scenario
                 propertyInfoElement.PropertyInfo.Name,
                 propertyInfoElement.PropertyInfo.PropertyType);
             return new NameAndTypeCollectingVisitor(
-                this.values.Concat(new[] { v }).ToArray());
+                _values.Concat(new[] { v }).ToArray());
         }
     }
 
     private class VisitorEqualityComparer<T> : IEqualityComparer<IReflectionElement>
     {
-        private readonly IReflectionVisitor<IEnumerable<T>> visitor;
-        private readonly IEqualityComparer<T> comparer;
+        private readonly IReflectionVisitor<IEnumerable<T>> _visitor;
+        private readonly IEqualityComparer<T> _comparer;
 
         internal VisitorEqualityComparer(
             IReflectionVisitor<IEnumerable<T>> visitor,
             IEqualityComparer<T> comparer)
         {
-            this.visitor = visitor;
-            this.comparer = comparer;
+            _visitor = visitor;
+            _comparer = comparer;
         }
 
         bool IEqualityComparer<IReflectionElement>.Equals(IReflectionElement x, IReflectionElement y)
         {
             var values = new CompositeReflectionElement(x, y)
-                .Accept(this.visitor)
+                .Accept(_visitor)
                 .Value
                 .ToArray();
 
-            var distinctValues = values.Distinct(this.comparer);
+            var distinctValues = values.Distinct(_comparer);
             return values.Length == 2
                    && distinctValues.Count() == 1;
         }
@@ -266,7 +266,7 @@ public class Scenario
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             return obj
-                .Accept(this.visitor)
+                .Accept(_visitor)
                 .Value
                 .Single()
                 .GetHashCode();

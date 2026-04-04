@@ -41,7 +41,7 @@ public abstract class DataSource : IDataSource
                 yield break;
             }
 
-            var enumerable = this.GetData()
+            var enumerable = GetData()
                              ?? throw new InvalidOperationException("The source member yielded no test data.");
 
             foreach (var testData in enumerable)

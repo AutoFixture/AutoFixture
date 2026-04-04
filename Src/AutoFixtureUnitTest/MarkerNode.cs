@@ -6,11 +6,11 @@ namespace AutoFixtureUnitTest;
 
 public class MarkerNode : ISpecimenBuilderNode
 {
-    private readonly ISpecimenBuilder builder;
+    private readonly ISpecimenBuilder _builder;
 
     public MarkerNode(ISpecimenBuilder builder)
     {
-        this.builder = builder;
+        _builder = builder;
     }
 
     public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
@@ -23,16 +23,16 @@ public class MarkerNode : ISpecimenBuilderNode
 
     public object Create(object request, ISpecimenContext context)
     {
-        return this.builder.Create(request, context);
+        return _builder.Create(request, context);
     }
 
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.builder;
+        yield return _builder;
     }
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

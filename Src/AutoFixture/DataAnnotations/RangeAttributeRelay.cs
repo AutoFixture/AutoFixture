@@ -9,15 +9,15 @@ namespace AutoFixture.DataAnnotations;
 /// </summary>
 public class RangeAttributeRelay : ISpecimenBuilder
 {
-    private IRequestMemberTypeResolver requestMemberTypeResolver = new RequestMemberTypeResolver();
+    private IRequestMemberTypeResolver _requestMemberTypeResolver = new RequestMemberTypeResolver();
 
     /// <summary>
     /// Gets or sets the current IRequestMemberTypeResolver.
     /// </summary>
     public IRequestMemberTypeResolver RequestMemberTypeResolver
     {
-        get => this.requestMemberTypeResolver;
-        set => this.requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
+        get => _requestMemberTypeResolver;
+        set => _requestMemberTypeResolver = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class RangeAttributeRelay : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        var memberType = this.GetMemberType(rangeAttribute, request);
+        var memberType = GetMemberType(rangeAttribute, request);
         var rangedRequest = new RangedRequest(
             memberType,
             rangeAttribute.OperandType,
@@ -52,7 +52,7 @@ public class RangeAttributeRelay : ISpecimenBuilder
 
     private Type GetMemberType(RangeAttribute rangeAttribute, object request)
     {
-        if (this.RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
+        if (RequestMemberTypeResolver.TryGetMemberType(request, out var memberType))
         {
             return memberType;
         }

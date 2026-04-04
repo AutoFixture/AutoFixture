@@ -6,13 +6,13 @@ internal class Argument
 {
     public Argument(TestParameter parameter, object value)
     {
-        this.Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
-        this.Value = value;
+        Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
+        Value = value;
     }
 
     public TestParameter Parameter { get; }
 
     public object Value { get; }
 
-    public ICustomization GetCustomization() => this.Parameter.GetCustomization(this.Value);
+    public ICustomization GetCustomization() => Parameter.GetCustomization(Value);
 }

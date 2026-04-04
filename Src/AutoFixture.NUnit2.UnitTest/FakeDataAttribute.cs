@@ -7,19 +7,19 @@ namespace AutoFixture.NUnit2.UnitTest;
 
 public class FakeDataAttribute : DataAttribute
 {
-    private readonly MethodInfo expectedMethod;
-    private readonly IEnumerable<object[]> output;
+    private readonly MethodInfo _expectedMethod;
+    private readonly IEnumerable<object[]> _output;
 
     public FakeDataAttribute(MethodInfo expectedMethod, IEnumerable<object[]> output)
     {
-        this.expectedMethod = expectedMethod;
-        this.output = output;
+        _expectedMethod = expectedMethod;
+        _output = output;
     }
 
     public override IEnumerable<object[]> GetData(MethodInfo method)
     {
-        Assert.AreEqual(this.expectedMethod, method);
+        Assert.AreEqual(_expectedMethod, method);
 
-        return this.output;
+        return _output;
     }
 }

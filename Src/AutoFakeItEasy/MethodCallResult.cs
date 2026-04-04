@@ -5,20 +5,20 @@ namespace AutoFixture.AutoFakeItEasy;
 
 internal class MethodCallResult
 {
-    private List<PositionedValue> outAndRefValues;
-    private readonly object returnValue;
+    private List<PositionedValue> _outAndRefValues;
+    private readonly object _returnValue;
 
     public MethodCallResult(object returnValue)
     {
-        this.returnValue = returnValue;
+        _returnValue = returnValue;
     }
 
     public void ApplyToCall(IInterceptedFakeObjectCall fakeObjectCall)
     {
-        fakeObjectCall.SetReturnValue(this.returnValue);
-        if (this.outAndRefValues is null) return;
+        fakeObjectCall.SetReturnValue(_returnValue);
+        if (_outAndRefValues is null) return;
 
-        foreach (var positionedValue in this.outAndRefValues)
+        foreach (var positionedValue in _outAndRefValues)
         {
             fakeObjectCall.SetArgumentValue(positionedValue.Position, positionedValue.Value);
         }
@@ -26,16 +26,16 @@ internal class MethodCallResult
 
     public void AddOutOrRefValue(int position, object value)
     {
-        this.outAndRefValues ??= new List<PositionedValue>();
-        this.outAndRefValues.Add(new PositionedValue(position, value));
+        _outAndRefValues ??= new List<PositionedValue>();
+        _outAndRefValues.Add(new PositionedValue(position, value));
     }
 
     private class PositionedValue
     {
         public PositionedValue(int position, object value)
         {
-            this.Position = position;
-            this.Value = value;
+            Position = position;
+            Value = value;
         }
 
         public int Position { get; }

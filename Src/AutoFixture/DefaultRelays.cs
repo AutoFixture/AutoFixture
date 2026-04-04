@@ -44,6 +44,6 @@ public class DefaultRelays : IEnumerable<ISpecimenBuilder>
     /// </returns>
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

@@ -11,7 +11,7 @@ namespace AutoFixture.AutoNSubstitute;
 /// <summary>Selects appropriate methods to create substitutes.</summary>
 public class NSubstituteMethodQuery : IMethodQuery
 {
-    private static readonly IRequestSpecification DelegateSpecification = new DelegateSpecification();
+    private static readonly IRequestSpecification s_delegateSpecification = new DelegateSpecification();
 
     /// <summary>Selects the methods for the supplied type.</summary>
     /// <param name="type">The type.</param>
@@ -20,7 +20,7 @@ public class NSubstituteMethodQuery : IMethodQuery
     {
         if (type == null) throw new ArgumentNullException(nameof(type));
 
-        if (type.GetTypeInfo().IsInterface || DelegateSpecification.IsSatisfiedBy(type))
+        if (type.GetTypeInfo().IsInterface || s_delegateSpecification.IsSatisfiedBy(type))
             return new[] { SubstituteMethod.Create(type) };
 
         return from ci in type.GetPublicAndProtectedConstructors()
@@ -54,7 +54,7 @@ public class NSubstituteMethodQuery : IMethodQuery
     {
         public SubstituteMethod(IEnumerable<ParameterInfo> parameterInfos)
         {
-            this.Parameters = parameterInfos;
+            Parameters = parameterInfos;
         }
 
         public IEnumerable<ParameterInfo> Parameters { get; }

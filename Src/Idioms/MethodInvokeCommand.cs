@@ -21,9 +21,9 @@ public class MethodInvokeCommand : IGuardClauseCommand
     /// <param name="parameterInfo">The parameter.</param>
     public MethodInvokeCommand(IMethod method, IExpansion<object> expansion, ParameterInfo parameterInfo)
     {
-        this.Method = method;
-        this.Expansion = expansion;
-        this.ParameterInfo = parameterInfo;
+        Method = method;
+        Expansion = expansion;
+        ParameterInfo = parameterInfo;
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class MethodInvokeCommand : IGuardClauseCommand
     /// the <see cref="Execute"/> method - in this case the type of the
     /// <see cref="ParameterInfo" />.
     /// </remarks>
-    public Type RequestedType => this.ParameterInfo.ParameterType;
+    public Type RequestedType => ParameterInfo.ParameterType;
 
     /// <summary>
     /// Gets the parameter name of the requested value.
@@ -60,7 +60,7 @@ public class MethodInvokeCommand : IGuardClauseCommand
     /// the <see cref="Execute"/> method - in this case the name of the
     /// <see cref="ParameterInfo" />.
     /// </remarks>
-    public string RequestedParameterName => this.ParameterInfo.Name;
+    public string RequestedParameterName => ParameterInfo.Name;
 
     /// <summary>
     /// Invokes the method with the specified value.
@@ -74,25 +74,25 @@ public class MethodInvokeCommand : IGuardClauseCommand
     /// </remarks>
     public void Execute(object value)
     {
-        this.Method.Invoke(this.Expansion.Expand(value));
+        Method.Invoke(Expansion.Expand(value));
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value)
     {
-        return new GuardClauseException(this.CreateExceptionMessage(value));
+        return new GuardClauseException(CreateExceptionMessage(value));
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value, Exception innerException)
     {
-        return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
+        return new GuardClauseException(CreateExceptionMessage(value), innerException);
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value, string customError, Exception innerException)
     {
-        return new GuardClauseException(this.CreateExceptionMessage(value, customError), innerException);
+        return new GuardClauseException(CreateExceptionMessage(value, customError), innerException);
     }
 
     private string CreateExceptionMessage(string value,
@@ -104,11 +104,11 @@ public class MethodInvokeCommand : IGuardClauseCommand
             Environment.NewLine,
             value,
             failureReason,
-            this.ParameterInfo.Name,
-            this.ParameterInfo.Member.Name,
-            this.ParameterInfo.Member,
-            this.ParameterInfo.ParameterType.AssemblyQualifiedName,
-            this.ParameterInfo.Member.DeclaringType.AssemblyQualifiedName,
-            this.ParameterInfo.Member.ReflectedType.AssemblyQualifiedName);
+            ParameterInfo.Name,
+            ParameterInfo.Member.Name,
+            ParameterInfo.Member,
+            ParameterInfo.ParameterType.AssemblyQualifiedName,
+            ParameterInfo.Member.DeclaringType.AssemblyQualifiedName,
+            ParameterInfo.Member.ReflectedType.AssemblyQualifiedName);
     }
 }

@@ -23,8 +23,8 @@ public class PropertySetCommand : IGuardClauseCommand
     /// </remarks>
     public PropertySetCommand(PropertyInfo propertyInfo, object owner)
     {
-        this.PropertyInfo = propertyInfo;
-        this.Owner = owner;
+        PropertyInfo = propertyInfo;
+        Owner = owner;
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class PropertySetCommand : IGuardClauseCommand
     /// the <see cref="Execute"/> method - in this case the type of the
     /// <see cref="PropertyInfo" />.
     /// </remarks>
-    public Type RequestedType => this.PropertyInfo.PropertyType;
+    public Type RequestedType => PropertyInfo.PropertyType;
 
     /// <summary>
     /// Gets the parameter name of the requested value.
@@ -65,25 +65,25 @@ public class PropertySetCommand : IGuardClauseCommand
     /// </remarks>
     public void Execute(object value)
     {
-        this.PropertyInfo.SetValue(this.Owner, value, null);
+        PropertyInfo.SetValue(Owner, value, null);
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value)
     {
-        return new GuardClauseException(this.CreateExceptionMessage(value));
+        return new GuardClauseException(CreateExceptionMessage(value));
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value, Exception innerException)
     {
-        return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
+        return new GuardClauseException(CreateExceptionMessage(value), innerException);
     }
 
     /// <inheritdoc />
     public Exception CreateException(string value, string customError, Exception innerException)
     {
-        return new GuardClauseException(this.CreateExceptionMessage(value, customError), innerException);
+        return new GuardClauseException(CreateExceptionMessage(value, customError), innerException);
     }
 
     private string CreateExceptionMessage(string value,
@@ -95,9 +95,9 @@ public class PropertySetCommand : IGuardClauseCommand
             Environment.NewLine,
             value,
             failureReason,
-            this.PropertyInfo.Name,
-            this.PropertyInfo.PropertyType.AssemblyQualifiedName,
-            this.PropertyInfo.DeclaringType.AssemblyQualifiedName,
-            this.PropertyInfo.ReflectedType.AssemblyQualifiedName);
+            PropertyInfo.Name,
+            PropertyInfo.PropertyType.AssemblyQualifiedName,
+            PropertyInfo.DeclaringType.AssemblyQualifiedName,
+            PropertyInfo.ReflectedType.AssemblyQualifiedName);
     }
 }

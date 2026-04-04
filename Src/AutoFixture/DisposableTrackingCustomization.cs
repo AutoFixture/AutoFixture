@@ -16,21 +16,21 @@ namespace AutoFixture;
 /// <seealso cref="DisposableTrackingBehavior"/>
 public class DisposableTrackingCustomization : ICustomization, IDisposable
 {
-    private readonly DisposableTrackingBehavior behavior;
+    private readonly DisposableTrackingBehavior _behavior;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DisposableTrackingCustomization"/> class.
     /// </summary>
     public DisposableTrackingCustomization()
     {
-        this.behavior = new DisposableTrackingBehavior();
+        _behavior = new DisposableTrackingBehavior();
     }
 
     /// <summary>
     /// Gets the behavior that this customization adds to <see cref="IFixture"/> instances.
     /// </summary>
     /// <seealso cref="DisposableTrackingBehavior"/>
-    public DisposableTrackingBehavior Behavior => this.behavior;
+    public DisposableTrackingBehavior Behavior => _behavior;
 
     /// <summary>
     /// Customizes the specified fixture by applying <see cref="Behavior"/>.
@@ -40,7 +40,7 @@ public class DisposableTrackingCustomization : ICustomization, IDisposable
     {
         if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-        fixture.Behaviors.Add(this.Behavior);
+        fixture.Behaviors.Add(Behavior);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class DisposableTrackingCustomization : ICustomization, IDisposable
     /// </summary>
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 
@@ -63,7 +63,7 @@ public class DisposableTrackingCustomization : ICustomization, IDisposable
     {
         if (disposing)
         {
-            this.behavior.Dispose();
+            _behavior.Dispose();
         }
     }
 }

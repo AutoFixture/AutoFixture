@@ -10,22 +10,22 @@ namespace AutoFixtureUnitTest.Kernel;
 
 internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 {
-    private readonly IEqualityComparer<IRequestSpecification> specificationComparer;
-    private readonly IEqualityComparer<IMethodQuery> queryComparer;
-    private readonly IEqualityComparer<ISpecimenCommand> commandComparer;
+    private readonly IEqualityComparer<IRequestSpecification> _specificationComparer;
+    private readonly IEqualityComparer<IMethodQuery> _queryComparer;
+    private readonly IEqualityComparer<ISpecimenCommand> _commandComparer;
 
     public NodeComparer()
     {
-        this.specificationComparer = new SpecificationComparer();
-        this.queryComparer = new QueryComparer();
-        this.commandComparer = new CommandComparer(this.specificationComparer);
+        _specificationComparer = new SpecificationComparer();
+        _queryComparer = new QueryComparer();
+        _commandComparer = new CommandComparer(_specificationComparer);
     }
 
     public bool Equals(ISpecimenBuilder x, ISpecimenBuilder y)
     {
         if (x is FilteringSpecimenBuilder fx &&
             y is FilteringSpecimenBuilder fy &&
-            this.specificationComparer.Equals(fx.Specification, fy.Specification))
+            _specificationComparer.Equals(fx.Specification, fy.Specification))
             return true;
 
         if (x is CompositeSpecimenBuilder && y is CompositeSpecimenBuilder)
@@ -33,7 +33,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         if (x is NoSpecimenOutputGuard gx &&
             y is NoSpecimenOutputGuard gy &&
-            this.specificationComparer.Equals(gx.Specification, gy.Specification))
+            _specificationComparer.Equals(gx.Specification, gy.Specification))
             return true;
 
         if (x is SeedIgnoringRelay && y is SeedIgnoringRelay)
@@ -43,12 +43,12 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         if (x is MethodInvoker mix &&
             y is MethodInvoker miy &&
-            this.queryComparer.Equals(mix.Query, miy.Query))
+            _queryComparer.Equals(mix.Query, miy.Query))
             return true;
 
         if (x is Omitter omx &&
             y is Omitter omy &&
-            this.specificationComparer.Equals(omx.Specification, omy.Specification))
+            _specificationComparer.Equals(omx.Specification, omy.Specification))
             return true;
 
         if (x is DelegatingSpecimenBuilder dx &&
@@ -58,8 +58,8 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         if (x is Postprocessor px &&
             y is Postprocessor py &&
-            this.commandComparer.Equals(px.Command, py.Command) &&
-            this.specificationComparer.Equals(px.Specification, py.Specification))
+            _commandComparer.Equals(px.Command, py.Command) &&
+            _specificationComparer.Equals(px.Specification, py.Specification))
             return true;
 
         if (GenericComparer.CreateFromTemplate(x).Equals(y))
@@ -75,18 +75,18 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
     private class SpecificationComparer : IEqualityComparer<IRequestSpecification>
     {
-        private readonly IEqualityComparer<IEqualityComparer> comparerComparer;
+        private readonly IEqualityComparer<IEqualityComparer> _comparerComparer;
 
         public SpecificationComparer()
         {
-            this.comparerComparer = new ComparerComparer();
+            _comparerComparer = new ComparerComparer();
         }
 
         public bool Equals(IRequestSpecification x, IRequestSpecification y)
         {
             if (x is InverseRequestSpecification invx &&
                 y is InverseRequestSpecification invy &&
-                this.Equals(invx.Specification, invy.Specification))
+                Equals(invx.Specification, invy.Specification))
                 return true;
 
             if (x is OrRequestSpecification ox &&
@@ -118,7 +118,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
             if (x is EqualRequestSpecification eqx &&
                 y is EqualRequestSpecification eqy &&
                 object.Equals(eqx.Target, eqy.Target) &&
-                this.comparerComparer.Equals(eqx.Comparer, eqy.Comparer))
+                _comparerComparer.Equals(eqx.Comparer, eqy.Comparer))
                 return true;
 
             return EqualityComparer<IRequestSpecification>.Default.Equals(x, y);
@@ -166,11 +166,11 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
     private class CommandComparer : IEqualityComparer<ISpecimenCommand>
     {
-        private readonly IEqualityComparer<IRequestSpecification> specificationComparer;
+        private readonly IEqualityComparer<IRequestSpecification> _specificationComparer;
 
         public CommandComparer(IEqualityComparer<IRequestSpecification> specificationComparer)
         {
-            this.specificationComparer = specificationComparer;
+            _specificationComparer = specificationComparer;
         }
 
         public bool Equals(ISpecimenCommand x, ISpecimenCommand y)
@@ -179,7 +179,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
                 y is AutoPropertiesCommand apy)
             {
                 return
-                    this.specificationComparer.Equals(apx.Specification, apy.Specification) &&
+                    _specificationComparer.Equals(apx.Specification, apy.Specification) &&
                     apx.ExplicitSpecimenType == apy.ExplicitSpecimenType;
             }
 
@@ -194,7 +194,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
     private static class GenericComparer
     {
-        private static readonly Dictionary<Type, Type> Equatables =
+        private static readonly Dictionary<Type, Type> s_equatables =
             new Dictionary<Type, Type>
             {
                 { typeof(SeededFactory<>), typeof(SeededFactoryEquatable<>) },
@@ -214,7 +214,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
             if (!t.GetTypeInfo().IsGenericType)
                 return new object();
 
-            if (Equatables.TryGetValue(t.GetGenericTypeDefinition(), out Type equatableType))
+            if (s_equatables.TryGetValue(t.GetGenericTypeDefinition(), out Type equatableType))
             {
                 var typeArguments = t.GetGenericArguments();
                 return equatableType.MakeGenericType(typeArguments)
@@ -235,7 +235,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         protected override bool EqualsInstance(SeededFactory<T> other)
         {
-            return this.Item.Factory.Equals(other.Factory);
+            return Item.Factory.Equals(other.Factory);
         }
     }
 
@@ -248,7 +248,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         protected override bool EqualsInstance(SpecimenFactory<T> other)
         {
-            return this.Item.Factory.Equals(other.Factory);
+            return Item.Factory.Equals(other.Factory);
         }
     }
 
@@ -261,7 +261,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         protected override bool EqualsInstance(SpecimenFactory<TInput, T> other)
         {
-            return this.Item.Factory.Equals(other.Factory);
+            return Item.Factory.Equals(other.Factory);
         }
     }
 
@@ -274,7 +274,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         protected override bool EqualsInstance(SpecimenFactory<TInput1, TInput2, T> other)
         {
-            return this.Item.Factory.Equals(other.Factory);
+            return Item.Factory.Equals(other.Factory);
         }
     }
 
@@ -287,7 +287,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         protected override bool EqualsInstance(SpecimenFactory<TInput1, TInput2, TInput3, T> other)
         {
-            return this.Item.Factory.Equals(other.Factory);
+            return Item.Factory.Equals(other.Factory);
         }
     }
 
@@ -300,7 +300,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         protected override bool EqualsInstance(SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> other)
         {
-            return this.Item.Factory.Equals(other.Factory);
+            return Item.Factory.Equals(other.Factory);
         }
     }
 
@@ -339,7 +339,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
 
         protected override bool EqualsInstance(BindingCommand<T, TProperty> other)
         {
-            return this.Item.Member == other.Member;
+            return Item.Member == other.Member;
         }
     }
 
@@ -348,7 +348,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
     {
         public GenericEquatable(T item)
         {
-            this.Item = item;
+            Item = item;
         }
 
         public T Item { get; }
@@ -356,13 +356,13 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
         public override bool Equals(object obj)
         {
             if (obj is T other)
-                return this.Equals(other);
+                return Equals(other);
             return base.Equals(obj);
         }
 
         public override int GetHashCode()
         {
-            return this.Item.GetHashCode();
+            return Item.GetHashCode();
         }
 
         public bool Equals(T other)
@@ -370,7 +370,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
             if (other == null)
                 return false;
 
-            return this.EqualsInstance(other);
+            return EqualsInstance(other);
         }
 
         protected abstract bool EqualsInstance(T other);

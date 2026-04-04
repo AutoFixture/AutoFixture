@@ -36,7 +36,7 @@ public class CustomizationNode : ISpecimenBuilderNode
         if (builder == null)
             throw new ArgumentNullException(nameof(builder));
 
-        this.Builder = builder;
+        Builder = builder;
     }
 
     /// <summary>Composes the supplied builders.</summary>
@@ -74,7 +74,7 @@ public class CustomizationNode : ISpecimenBuilderNode
     /// </remarks>
     public object Create(object request, ISpecimenContext context)
     {
-        return this.Builder.Create(request, context);
+        return Builder.Create(request, context);
     }
 
     /// <summary>Returns the decorated builder as a sequence.</summary>
@@ -82,7 +82,7 @@ public class CustomizationNode : ISpecimenBuilderNode
     /// <seealso cref="Builder" />
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public class CustomizationNode : ISpecimenBuilderNode
     /// <seealso cref="GetEnumerator()" />
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     /// <summary>Gets the builder decorated by this instance.</summary>

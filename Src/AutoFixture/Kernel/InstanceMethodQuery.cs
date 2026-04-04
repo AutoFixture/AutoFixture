@@ -17,8 +17,8 @@ public class InstanceMethodQuery : IMethodQuery
     /// <param name="methodName">The name of the method that should be selected.</param>
     public InstanceMethodQuery(object owner, string methodName)
     {
-        this.Owner = owner ?? throw new ArgumentNullException(nameof(owner));
-        this.MethodName = methodName ?? throw new ArgumentNullException(nameof(methodName));
+        Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        MethodName = methodName ?? throw new ArgumentNullException(nameof(methodName));
     }
 
     /// <summary>
@@ -39,10 +39,10 @@ public class InstanceMethodQuery : IMethodQuery
     /// returns an enumerable containing a single <see cref="InstanceMethod"/> otherwise.</returns>
     public IEnumerable<IMethod> SelectMethods(Type type = default)
     {
-        var method = this.Owner.GetType().GetTypeInfo().GetMethod(this.MethodName);
+        var method = Owner.GetType().GetTypeInfo().GetMethod(MethodName);
 
         return method == null
             ? new IMethod[0]
-            : new IMethod[] { new InstanceMethod(method, this.Owner) };
+            : new IMethod[] { new InstanceMethod(method, Owner) };
     }
 }

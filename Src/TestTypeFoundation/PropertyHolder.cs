@@ -8,7 +8,7 @@ public class PropertyHolder<T>
 
     public void SetProperty(T value)
     {
-        this.Property = value;
+        Property = value;
     }
 
     public static PropertyInfo GetProperty()

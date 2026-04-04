@@ -29,7 +29,7 @@ public class DelegateGenerator : ISpecimenBuilder
     /// </summary>
     public DelegateGenerator(IRequestSpecification delegateSpecification)
     {
-        this.Specification = delegateSpecification ?? throw new ArgumentNullException(nameof(delegateSpecification));
+        Specification = delegateSpecification ?? throw new ArgumentNullException(nameof(delegateSpecification));
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class DelegateGenerator : ISpecimenBuilder
         if (delegateType == null)
             return NoSpecimen.Instance;
 
-        if (!this.Specification.IsSatisfiedBy(delegateType))
+        if (!Specification.IsSatisfiedBy(delegateType))
             return NoSpecimen.Instance;
 
         var delegateMethod = delegateType.GetTypeInfo().GetMethod("Invoke");

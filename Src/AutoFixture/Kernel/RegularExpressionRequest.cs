@@ -13,7 +13,7 @@ public class RegularExpressionRequest : IEquatable<RegularExpressionRequest>
     /// <param name="pattern">The pattern.</param>
     public RegularExpressionRequest(string pattern)
     {
-        this.Pattern = pattern ?? throw new ArgumentNullException(nameof(pattern));
+        Pattern = pattern ?? throw new ArgumentNullException(nameof(pattern));
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class RegularExpressionRequest : IEquatable<RegularExpressionRequest>
     {
         if (obj is RegularExpressionRequest other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
 
         return base.Equals(obj);
@@ -49,7 +49,7 @@ public class RegularExpressionRequest : IEquatable<RegularExpressionRequest>
     /// </returns>
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Pattern);
+        return HashCode.Combine(Pattern);
     }
 
     /// <summary>
@@ -66,6 +66,6 @@ public class RegularExpressionRequest : IEquatable<RegularExpressionRequest>
             return false;
         }
 
-        return string.Equals(this.Pattern, other.Pattern, StringComparison.Ordinal);
+        return string.Equals(Pattern, other.Pattern, StringComparison.Ordinal);
     }
 }

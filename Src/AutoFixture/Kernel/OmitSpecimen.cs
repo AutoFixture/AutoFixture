@@ -36,7 +36,7 @@ public class OmitSpecimen : IEquatable<OmitSpecimen>
     public override bool Equals(object obj)
     {
         if (obj is OmitSpecimen other)
-            return this.Equals(other);
+            return Equals(other);
 
         return base.Equals(obj);
     }

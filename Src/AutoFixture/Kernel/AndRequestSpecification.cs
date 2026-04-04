@@ -16,7 +16,7 @@ public class AndRequestSpecification : IRequestSpecification
     /// <param name="specifications">An array of <see cref="IRequestSpecification"/>.</param>
     public AndRequestSpecification(params IRequestSpecification[] specifications)
     {
-        this.Specifications = specifications ?? throw new ArgumentNullException(nameof(specifications));
+        Specifications = specifications ?? throw new ArgumentNullException(nameof(specifications));
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class AndRequestSpecification : IRequestSpecification
     /// </returns>
     public bool IsSatisfiedBy(object request)
     {
-        return this.Specifications
+        return Specifications
             .Select(s => s.IsSatisfiedBy(request))
             .DefaultIfEmpty(false)
             .All(b => b);

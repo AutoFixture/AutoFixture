@@ -6,7 +6,7 @@ public class CollectionHolder<T>
 {
     public CollectionHolder()
     {
-        this.Collection = new List<T>();
+        Collection = new List<T>();
     }
 
     public ICollection<T> Collection { get; private set; }

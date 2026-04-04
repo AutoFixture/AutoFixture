@@ -15,7 +15,7 @@ public class ExactTypeSpecification : IRequestSpecification
     /// <param name="type">The target type.</param>
     public ExactTypeSpecification(Type type)
     {
-        this.TargetType = type ?? throw new ArgumentNullException(nameof(type));
+        TargetType = type ?? throw new ArgumentNullException(nameof(type));
     }
 
     /// <summary>
@@ -39,10 +39,10 @@ public class ExactTypeSpecification : IRequestSpecification
         if (typeRequest == null)
             return false;
 
-        if (this.TargetType == typeRequest)
+        if (TargetType == typeRequest)
             return true;
 
-        if (this.IsOpenGenericDefinitionEqual(typeRequest))
+        if (IsOpenGenericDefinitionEqual(typeRequest))
             return true;
 
         return false;
@@ -50,8 +50,8 @@ public class ExactTypeSpecification : IRequestSpecification
 
     private bool IsOpenGenericDefinitionEqual(Type request)
     {
-        return this.TargetType.GetTypeInfo().IsGenericTypeDefinition
+        return TargetType.GetTypeInfo().IsGenericTypeDefinition
                && request.GetTypeInfo().IsGenericType
-               && request.GetTypeInfo().GetGenericTypeDefinition() == this.TargetType;
+               && request.GetTypeInfo().GetGenericTypeDefinition() == TargetType;
     }
 }

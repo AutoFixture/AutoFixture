@@ -20,10 +20,10 @@ namespace AutoFixture.Kernel;
     Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
 public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
 {
-    private readonly ThreadLocal<Stack<object>> requestsByThread
+    private readonly ThreadLocal<Stack<object>> _requestsByThread
         = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-    private Stack<object> GetPathForCurrentThread() => this.requestsByThread.Value;
+    private Stack<object> GetPathForCurrentThread() => _requestsByThread.Value;
 
     /// <summary>
     /// Creates a new <see cref="TerminatingWithPathSpecimenBuilder"/> instance.
@@ -31,7 +31,7 @@ public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
     /// <param name="builder">The specimen builder which creation requests are redirected to.</param>
     public TerminatingWithPathSpecimenBuilder(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
     /// <summary>
     /// Gets the observed specimen requests, in the order they were requested.
     /// </summary>
-    public IEnumerable<object> SpecimenRequests => this.GetPathForCurrentThread().Reverse();
+    public IEnumerable<object> SpecimenRequests => GetPathForCurrentThread().Reverse();
 
     /// <summary>
     /// Creates a new specimen based on a request by delegating to its decorated builder.
@@ -54,10 +54,10 @@ public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
     /// </returns>
     public object Create(object request, ISpecimenContext context)
     {
-        this.GetPathForCurrentThread().Push(request);
+        GetPathForCurrentThread().Push(request);
         try
         {
-            var result = this.Builder.Create(request, context);
+            var result = Builder.Create(request, context);
             if (result is NoSpecimen)
             {
                 throw new ObjectCreationExceptionWithPath(
@@ -66,7 +66,7 @@ public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
                         BuildCoreMessageTemplate(request, null),
                         request,
                         Environment.NewLine),
-                    this.SpecimenRequests);
+                    SpecimenRequests);
             }
 
             return result;
@@ -84,12 +84,12 @@ public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
                     BuildCoreMessageTemplate(request, ex),
                     request,
                     Environment.NewLine),
-                this.SpecimenRequests,
+                SpecimenRequests,
                 ex);
         }
         finally
         {
-            this.GetPathForCurrentThread().Pop();
+            GetPathForCurrentThread().Pop();
         }
     }
 
@@ -183,8 +183,8 @@ public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
     /// </returns>
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

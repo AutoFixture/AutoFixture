@@ -21,8 +21,8 @@ public class ConstructorCustomization : ICustomization
     /// </param>
     public ConstructorCustomization(Type targetType, IMethodQuery query)
     {
-        this.TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
-        this.Query = query ?? throw new ArgumentNullException(nameof(query));
+        TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+        Query = query ?? throw new ArgumentNullException(nameof(query));
     }
 
     /// <summary>
@@ -45,9 +45,9 @@ public class ConstructorCustomization : ICustomization
     {
         if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-        var factory = new MethodInvoker(this.Query);
+        var factory = new MethodInvoker(Query);
         var builder = SpecimenBuilderNodeFactory.CreateTypedNode(
-            this.TargetType,
+            TargetType,
             factory);
 
         fixture.Customizations.Insert(0, builder);

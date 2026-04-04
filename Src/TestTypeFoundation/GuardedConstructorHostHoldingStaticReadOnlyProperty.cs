@@ -17,7 +17,7 @@ public class GuardedConstructorHostHoldingStaticReadOnlyProperty<TItem, TStaticP
             throw new ArgumentNullException(nameof(item));
         }
 
-        this.Item = item;
+        Item = item;
     }
 
     public static TStaticProperty Property { get; private set; }

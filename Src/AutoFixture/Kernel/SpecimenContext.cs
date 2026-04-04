@@ -14,7 +14,7 @@ public class SpecimenContext : ISpecimenContext
     /// <param name="builder">The builder that will handle requests.</param>
     public SpecimenContext(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -30,6 +30,6 @@ public class SpecimenContext : ISpecimenContext
     /// <returns>The result of a request to the contained <see cref="Builder"/>.</returns>
     public object Resolve(object request)
     {
-        return this.Builder.Create(request, this);
+        return Builder.Create(request, this);
     }
 }

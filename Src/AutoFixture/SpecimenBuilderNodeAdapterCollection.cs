@@ -20,9 +20,9 @@ namespace AutoFixture;
 /// </remarks>
 public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
 {
-    private readonly Func<ISpecimenBuilderNode, bool> isAdaptedBuilder;
-    private ISpecimenBuilderNode adaptedBuilderNode;
-    private ISpecimenBuilderNode graph;
+    private readonly Func<ISpecimenBuilderNode, bool> _isAdaptedBuilder;
+    private ISpecimenBuilderNode _adaptedBuilderNode;
+    private ISpecimenBuilderNode _graph;
 
     private ISpecimenBuilderNode AdaptedBuilderNode
     {
@@ -33,20 +33,20 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
             // Some of the collections are not even touched after the construction and are immediately
             // recreated again after a subsequent customization.
             // To cover such scenarios we evaluate value on demand only saving the initialization time.
-            if (this.adaptedBuilderNode != null)
-                return this.adaptedBuilderNode;
+            if (_adaptedBuilderNode != null)
+                return _adaptedBuilderNode;
 
             // The intermediate "result" variable is needed to ensure that null value can be never returned
             // in case of concurrency (we can set field to null). While current collection implementation doesn't
             // seem to support concurrency, the additional guard adds more safety.
-            var result = this.adaptedBuilderNode = this.FindAdaptedSpecimenBuilderNode();
+            var result = _adaptedBuilderNode = FindAdaptedSpecimenBuilderNode();
             return result;
         }
     }
 
-    private void InvalidateCachedAdaptedBuilderNode() => this.adaptedBuilderNode = null;
+    private void InvalidateCachedAdaptedBuilderNode() => _adaptedBuilderNode = null;
 
-    private IEnumerable<ISpecimenBuilder> AdaptedBuilders => this.AdaptedBuilderNode;
+    private IEnumerable<ISpecimenBuilder> AdaptedBuilders => AdaptedBuilderNode;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -74,8 +74,8 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
         ISpecimenBuilderNode graph,
         Func<ISpecimenBuilderNode, bool> adaptedBuilderPredicate)
     {
-        this.graph = graph ?? throw new ArgumentNullException(nameof(graph));
-        this.isAdaptedBuilder = adaptedBuilderPredicate ?? throw new ArgumentNullException(nameof(adaptedBuilderPredicate));
+        _graph = graph ?? throw new ArgumentNullException(nameof(graph));
+        _isAdaptedBuilder = adaptedBuilderPredicate ?? throw new ArgumentNullException(nameof(adaptedBuilderPredicate));
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     {
         if (item == null) throw new ArgumentNullException(nameof(item));
 
-        return this.AdaptedBuilders.IndexOf(item);
+        return AdaptedBuilders.IndexOf(item);
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     {
         if (item == null) throw new ArgumentNullException(nameof(item));
 
-        this.Mutate(this.AdaptedBuilders.Insert(index, item));
+        Mutate(AdaptedBuilders.Insert(index, item));
     }
 
     /// <summary>
@@ -171,7 +171,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
     public void RemoveAt(int index)
     {
-        this.Mutate(this.AdaptedBuilders.RemoveAt(index));
+        Mutate(AdaptedBuilders.RemoveAt(index));
     }
 
     /// <summary>
@@ -193,8 +193,8 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// </returns>
     public ISpecimenBuilder this[int index]
     {
-        get => this.AdaptedBuilders.ElementAt(index);
-        set => this.Mutate(this.AdaptedBuilders.SetItem(index, value));
+        get => AdaptedBuilders.ElementAt(index);
+        set => Mutate(AdaptedBuilders.SetItem(index, value));
     }
 
     /// <summary>
@@ -219,7 +219,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     {
         if (item == null) throw new ArgumentNullException(nameof(item));
 
-        this.Mutate(this.AdaptedBuilders.Concat(new[] { item }));
+        Mutate(AdaptedBuilders.Concat(new[] { item }));
     }
 
     /// <summary>
@@ -241,7 +241,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
     public void Clear()
     {
-        this.Mutate(Enumerable.Empty<ISpecimenBuilder>());
+        Mutate(Enumerable.Empty<ISpecimenBuilder>());
     }
 
     /// <summary>
@@ -266,7 +266,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     {
         if (item == null) throw new ArgumentNullException(nameof(item));
 
-        return this.AdaptedBuilders.Contains(item);
+        return AdaptedBuilders.Contains(item);
     }
 
     /// <summary>Copies the elements of the collection to an
@@ -292,7 +292,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
     public void CopyTo(ISpecimenBuilder[] array, int arrayIndex)
     {
-        this.AdaptedBuilders.ToArray().CopyTo(array, arrayIndex);
+        AdaptedBuilders.ToArray().CopyTo(array, arrayIndex);
     }
 
     /// <summary>
@@ -311,7 +311,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
     public int Count
     {
-        get { return this.AdaptedBuilders.Count(); }
+        get { return AdaptedBuilders.Count(); }
     }
 
     /// <summary>
@@ -358,10 +358,10 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     {
         if (item == null) throw new ArgumentNullException(nameof(item));
 
-        var contained = this.Contains(item);
+        var contained = Contains(item);
 
-        var index = this.IndexOf(item);
-        this.RemoveAt(index);
+        var index = IndexOf(item);
+        RemoveAt(index);
 
         return contained;
     }
@@ -385,7 +385,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        return this.AdaptedBuilders.GetEnumerator();
+        return AdaptedBuilders.GetEnumerator();
     }
 
     /// <summary>
@@ -407,7 +407,7 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     /// <summary>
@@ -428,12 +428,12 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
     public ISpecimenBuilderNode Graph
     {
-        get => this.graph;
+        get => _graph;
         private set
         {
-            this.graph = value;
-            this.InvalidateCachedAdaptedBuilderNode();
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(value));
+            _graph = value;
+            InvalidateCachedAdaptedBuilderNode();
+            OnGraphChanged(new SpecimenBuilderNodeEventArgs(value));
         }
     }
 
@@ -444,21 +444,21 @@ public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     /// </param>
     protected virtual void OnGraphChanged(SpecimenBuilderNodeEventArgs e)
     {
-        this.GraphChanged?.Invoke(this, e);
+        GraphChanged?.Invoke(this, e);
     }
 
     private void Mutate(IEnumerable<ISpecimenBuilder> builders)
     {
-        var adaptedNode = this.AdaptedBuilderNode;
+        var adaptedNode = AdaptedBuilderNode;
 
-        this.Graph = this.Graph.ReplaceNodes(
+        Graph = Graph.ReplaceNodes(
             with: builders,
             when: adaptedNode.Equals);
     }
 
     private ISpecimenBuilderNode FindAdaptedSpecimenBuilderNode()
     {
-        var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
+        var markerNode = Graph.FindFirstNode(_isAdaptedBuilder);
         return (ISpecimenBuilderNode)markerNode.First();
     }
 }

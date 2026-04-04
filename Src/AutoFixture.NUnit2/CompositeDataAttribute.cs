@@ -33,7 +33,7 @@ public class CompositeDataAttribute : DataAttribute
     /// </param>
     public CompositeDataAttribute(params DataAttribute[] attributes)
     {
-        this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
+        Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class CompositeDataAttribute : DataAttribute
 
         do
         {
-            foreach (var attribute in this.Attributes)
+            foreach (var attribute in Attributes)
             {
                 var attributeData = attribute.GetData(method).ToArray();
 

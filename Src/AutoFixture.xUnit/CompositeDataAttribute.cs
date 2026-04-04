@@ -32,7 +32,7 @@ public class CompositeDataAttribute : DataAttribute
     /// </param>
     public CompositeDataAttribute(params DataAttribute[] attributes)
     {
-        this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
+        Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class CompositeDataAttribute : DataAttribute
         if (methodUnderTest == null) throw new ArgumentNullException(nameof(methodUnderTest));
         if (parameterTypes == null) throw new ArgumentNullException(nameof(parameterTypes));
 
-        return this.Attributes
+        return Attributes
             .Select(attr => attr.GetData(methodUnderTest, parameterTypes))
             .Zip(dataSets => dataSets.Collapse().ToArray());
     }

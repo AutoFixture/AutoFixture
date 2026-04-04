@@ -26,7 +26,7 @@ public class MultipleRequest : IEquatable<MultipleRequest>
     /// <param name="request">A single request which will be multiplied.</param>
     public MultipleRequest(object request)
     {
-        this.Request = request ?? throw new ArgumentNullException(nameof(request));
+        Request = request ?? throw new ArgumentNullException(nameof(request));
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class MultipleRequest : IEquatable<MultipleRequest>
     {
         if (obj is MultipleRequest other)
         {
-            return this.Equals(other);
+            return Equals(other);
         }
         return base.Equals(obj);
     }
@@ -62,7 +62,7 @@ public class MultipleRequest : IEquatable<MultipleRequest>
     /// </returns>
     public override int GetHashCode()
     {
-        return this.Request.GetHashCode();
+        return Request.GetHashCode();
     }
 
     /// <summary>
@@ -81,6 +81,6 @@ public class MultipleRequest : IEquatable<MultipleRequest>
             return false;
         }
 
-        return this.Request.Equals(other.Request);
+        return Request.Equals(other.Request);
     }
 }

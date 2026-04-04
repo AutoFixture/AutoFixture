@@ -8,7 +8,7 @@ namespace AutoFixture;
 /// </summary>
 public class RandomBooleanSequenceGenerator : ISpecimenBuilder
 {
-    private readonly RandomNumericSequenceGenerator randomBooleanNumbers;
+    private readonly RandomNumericSequenceGenerator _randomBooleanNumbers;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -16,7 +16,7 @@ public class RandomBooleanSequenceGenerator : ISpecimenBuilder
     /// </summary>
     public RandomBooleanSequenceGenerator()
     {
-        this.randomBooleanNumbers = new RandomNumericSequenceGenerator(0, 1);
+        _randomBooleanNumbers = new RandomNumericSequenceGenerator(0, 1);
     }
 
     /// <summary>
@@ -35,11 +35,11 @@ public class RandomBooleanSequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        return this.GenerateBoolean(context);
+        return GenerateBoolean(context);
     }
 
     private bool GenerateBoolean(ISpecimenContext context)
     {
-        return (int)this.randomBooleanNumbers.Create(typeof(int), context) == 0;
+        return (int)_randomBooleanNumbers.Create(typeof(int), context) == 0;
     }
 }

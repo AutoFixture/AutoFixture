@@ -26,7 +26,7 @@ public class DependencyConstraints
     {
         // Arrange
         // Act
-        var references = this.GetType().Assembly.GetReferencedAssemblies();
+        var references = GetType().Assembly.GetReferencedAssemblies();
         // Assert
         Assert.DoesNotContain(references, an => an.Name == assemblyName);
     }

@@ -4,9 +4,9 @@ public class TripleParameterType<T1, T2, T3>
 {
     public TripleParameterType(T1 parameter1, T2 parameter2, T3 parameter3)
     {
-        this.Parameter1 = parameter1;
-        this.Parameter2 = parameter2;
-        this.Parameter3 = parameter3;
+        Parameter1 = parameter1;
+        Parameter2 = parameter2;
+        Parameter3 = parameter3;
     }
 
     public T1 Parameter1 { get; private set; }

@@ -13,7 +13,7 @@ namespace AutoFixture.AutoMoq;
 [Obsolete("This class will be removed in a future version of AutoFixture. Use AutoMockPropertiesCommand instead, which will populate both sealed and overridable properties.", true)]
 public class MockSealedPropertiesCommand : ISpecimenCommand
 {
-    private readonly ISpecimenCommand autoPropertiesCommand =
+    private readonly ISpecimenCommand _autoPropertiesCommand =
         new AutoPropertiesCommand(new MockSealedPropertySpecification());
 
     /// <summary>
@@ -31,7 +31,7 @@ public class MockSealedPropertiesCommand : ISpecimenCommand
         if (mock == null)
             return;
 
-        this.autoPropertiesCommand.Execute(mock.Object, context);
+        _autoPropertiesCommand.Execute(mock.Object, context);
     }
 
     private class MockSealedPropertySpecification : IRequestSpecification

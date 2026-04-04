@@ -17,8 +17,8 @@ public class RequestTraceEventArgs : EventArgs
     /// </param>
     public RequestTraceEventArgs(object request, int depth)
     {
-        this.Request = request;
-        this.Depth = depth;
+        Request = request;
+        Depth = depth;
     }
 
     /// <summary>

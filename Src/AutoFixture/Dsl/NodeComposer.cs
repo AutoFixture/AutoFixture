@@ -39,49 +39,49 @@ public class NodeComposer<T> :
     /// <seealso cref="Builder" />
     public NodeComposer(ISpecimenBuilder builder)
     {
-        this.Builder = builder;
+        Builder = builder;
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
     {
-        return this.WithFactory(new SeededFactory<T>(factory));
+        return WithFactory(new SeededFactory<T>(factory));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
     {
-        return this.WithFactory(factory);
+        return WithFactory(factory);
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory(Func<T> factory)
     {
-        return this.WithFactory(new SpecimenFactory<T>(factory));
+        return WithFactory(new SpecimenFactory<T>(factory));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
     {
-        return this.WithFactory(new SpecimenFactory<TInput, T>(factory));
+        return WithFactory(new SpecimenFactory<TInput, T>(factory));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
     {
-        return this.WithFactory(new SpecimenFactory<TInput1, TInput2, T>(factory));
+        return WithFactory(new SpecimenFactory<TInput1, TInput2, T>(factory));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(Func<TInput1, TInput2, TInput3, T> factory)
     {
-        return this.WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, T>(factory));
+        return WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, T>(factory));
     }
 
     /// <inheritdoc />
     public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
     {
-        return this.WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
+        return WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public class NodeComposer<T> :
         // If user later decide to enable properties population, we'll need this information
         // (e.g. if user does smth like fixture.Build().Without(x => x.P).OmitAutoProperties().WithAutoProperties()
         // the information from "Without" should not be missed)
-        return (NodeComposer<T>)this.ReplaceNodes(
+        return (NodeComposer<T>)ReplaceNodes(
             with: n => new Postprocessor(
                 autoPropertiesNode.Builder,
                 autoPropertiesNode.Command,
@@ -159,7 +159,7 @@ public class NodeComposer<T> :
     public IPostprocessComposer<T> With<TProperty>(
         Expression<Func<T, TProperty>> propertyPicker)
     {
-        return this.WithCommand(
+        return WithCommand(
             propertyPicker,
             new BindingCommand<T, TProperty>(propertyPicker));
     }
@@ -168,7 +168,7 @@ public class NodeComposer<T> :
     public IPostprocessComposer<T> With<TProperty>(
         Expression<Func<T, TProperty>> propertyPicker, TProperty value)
     {
-        return this.WithCommand(
+        return WithCommand(
             propertyPicker,
             new BindingCommand<T, TProperty>(propertyPicker, value));
     }
@@ -176,7 +176,7 @@ public class NodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueFactory)
     {
-        return this.WithCommand(
+        return WithCommand(
             propertyPicker,
             new BindingCommand<T, TProperty>(propertyPicker, _ => valueFactory.Invoke()));
     }
@@ -184,7 +184,7 @@ public class NodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty, TInput>(Expression<Func<T, TProperty>> propertyPicker, Func<TInput, TProperty> valueFactory)
     {
-        return this.WithCommand(
+        return WithCommand(
             propertyPicker,
             new BindingCommand<T, TProperty>(propertyPicker, context =>
             {
@@ -196,7 +196,7 @@ public class NodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, ISpecimenBuilder builder)
     {
-        return this.WithCommand(
+        return WithCommand(
             propertyPicker,
             new BindingCommand<T, TProperty>(propertyPicker,
                 c => (TProperty)builder.Create(typeof(TProperty), c)));
@@ -206,7 +206,7 @@ public class NodeComposer<T> :
     {
         ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
 
-        var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
+        var graphWithAutoPropertiesNode = GetGraphWithAutoPropertiesNode();
         var graphWithoutSeedIgnoringRelay = WithoutSeedIgnoringRelay(graphWithAutoPropertiesNode);
 
         var container = FindContainer(graphWithoutSeedIgnoringRelay);
@@ -230,7 +230,7 @@ public class NodeComposer<T> :
     /// <inheritdoc />
     public IPostprocessComposer<T> WithAutoProperties()
     {
-        var g = this.GetGraphWithAutoPropertiesNode();
+        var g = GetGraphWithAutoPropertiesNode();
         var autoProperties = FindAutoPropertiesNode(g);
 
         return (NodeComposer<T>)g.ReplaceNodes(
@@ -249,7 +249,7 @@ public class NodeComposer<T> :
         ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
 
         var member = propertyPicker.GetWritableMember().Member;
-        var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
+        var graphWithAutoPropertiesNode = GetGraphWithAutoPropertiesNode();
 
         return (NodeComposer<T>)ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
     }
@@ -268,14 +268,14 @@ public class NodeComposer<T> :
     public NodeComposer<T> WithAutoProperties(bool enable)
     {
         if (!enable)
-            return (NodeComposer<T>)this.OmitAutoProperties();
+            return (NodeComposer<T>)OmitAutoProperties();
 
-        return (NodeComposer<T>)this.WithAutoProperties();
+        return (NodeComposer<T>)WithAutoProperties();
     }
 
     private NodeComposer<T> WithFactory(ISpecimenBuilder factory)
     {
-        return (NodeComposer<T>)this.ReplaceNodes(
+        return (NodeComposer<T>)ReplaceNodes(
             with: n => n.Compose(new[] { factory }),
             when: n => n is NoSpecimenOutputGuard);
     }
@@ -300,17 +300,17 @@ public class NodeComposer<T> :
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
-        return this.Builder.Create(request, context);
+        return Builder.Create(request, context);
     }
 
     /// <inheritdoc />
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     /// <inheritdoc />
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
     /// Looks for the AutoProperties postprocessor in the current graph.

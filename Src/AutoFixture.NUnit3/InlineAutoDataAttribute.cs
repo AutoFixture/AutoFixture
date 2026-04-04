@@ -18,20 +18,20 @@ namespace AutoFixture.NUnit3;
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
 public class InlineAutoDataAttribute : Attribute, ITestBuilder
 {
-    private readonly object[] existingParameterValues;
-    private readonly Lazy<IFixture> fixtureLazy;
+    private readonly object[] _existingParameterValues;
+    private readonly Lazy<IFixture> _fixtureLazy;
 
-    private IFixture Fixture => this.fixtureLazy.Value;
+    private IFixture Fixture => _fixtureLazy.Value;
 
-    private ITestMethodBuilder testMethodBuilder = new FixedNameTestMethodBuilder();
+    private ITestMethodBuilder _testMethodBuilder = new FixedNameTestMethodBuilder();
 
     /// <summary>
     /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
     /// </summary>
     public ITestMethodBuilder TestMethodBuilder
     {
-        get => this.testMethodBuilder;
-        set => this.testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value));
+        get => _testMethodBuilder;
+        set => _testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public class InlineAutoDataAttribute : Attribute, ITestBuilder
     {
         if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
-        this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
-        this.existingParameterValues = arguments ?? new object[] { null };
+        _fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
+        _existingParameterValues = arguments ?? new object[] { null };
     }
 
     /// <summary>
@@ -65,14 +65,14 @@ public class InlineAutoDataAttribute : Attribute, ITestBuilder
     {
         if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
 
-        this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
-        this.existingParameterValues = arguments ?? new object[] { null };
+        _fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
+        _existingParameterValues = arguments ?? new object[] { null };
     }
 
     /// <summary>
     /// Gets the parameter values for the test method.
     /// </summary>
-    public IEnumerable<object> Arguments => this.existingParameterValues;
+    public IEnumerable<object> Arguments => _existingParameterValues;
 
     /// <summary>
     ///     Construct one or more TestMethods from a given MethodInfo,
@@ -85,8 +85,8 @@ public class InlineAutoDataAttribute : Attribute, ITestBuilder
     {
         if (method == null) throw new ArgumentNullException(nameof(method));
 
-        var test = this.TestMethodBuilder.Build(
-            method, suite, this.GetParameterValues(method), this.existingParameterValues.Length);
+        var test = TestMethodBuilder.Build(
+            method, suite, GetParameterValues(method), _existingParameterValues.Length);
 
         yield return test;
     }
@@ -97,14 +97,14 @@ public class InlineAutoDataAttribute : Attribute, ITestBuilder
     private IEnumerable<object> GetParameterValues(IMethodInfo method)
     {
         var parameters = method.GetParameters();
-        return this.existingParameterValues.Concat(this.GetMissingValues(parameters));
+        return _existingParameterValues.Concat(GetMissingValues(parameters));
     }
 
     private IEnumerable<object> GetMissingValues(IEnumerable<IParameterInfo> parameters)
     {
-        var parametersWithoutValues = parameters.Skip(this.existingParameterValues.Length);
+        var parametersWithoutValues = parameters.Skip(_existingParameterValues.Length);
 
-        return parametersWithoutValues.Select(this.GetValueForParameter);
+        return parametersWithoutValues.Select(GetValueForParameter);
     }
 
     /// <summary>
@@ -112,9 +112,9 @@ public class InlineAutoDataAttribute : Attribute, ITestBuilder
     /// </summary>
     private object GetValueForParameter(IParameterInfo parameterInfo)
     {
-        this.CustomizeFixtureByParameter(parameterInfo);
+        CustomizeFixtureByParameter(parameterInfo);
 
-        return new SpecimenContext(this.Fixture)
+        return new SpecimenContext(Fixture)
             .Resolve(parameterInfo.ParameterInfo);
     }
 
@@ -127,7 +127,7 @@ public class InlineAutoDataAttribute : Attribute, ITestBuilder
         foreach (var ca in customizeAttributes)
         {
             var customization = ca.GetCustomization(parameter.ParameterInfo);
-            this.Fixture.Customize(customization);
+            Fixture.Customize(customization);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace AutoFixtureUnitTest;
 
 public class TaggedNodeComparer : IEqualityComparer<ISpecimenBuilder>
 {
-    private readonly IEqualityComparer<ISpecimenBuilder> nonTaggedComparer;
+    private readonly IEqualityComparer<ISpecimenBuilder> _nonTaggedComparer;
 
     public TaggedNodeComparer()
         : this(EqualityComparer<ISpecimenBuilder>.Default)
@@ -14,7 +14,7 @@ public class TaggedNodeComparer : IEqualityComparer<ISpecimenBuilder>
 
     public TaggedNodeComparer(IEqualityComparer<ISpecimenBuilder> nonTaggedComparer)
     {
-        this.nonTaggedComparer = nonTaggedComparer;
+        _nonTaggedComparer = nonTaggedComparer;
     }
 
     public bool Equals(ISpecimenBuilder x, ISpecimenBuilder y)
@@ -23,7 +23,7 @@ public class TaggedNodeComparer : IEqualityComparer<ISpecimenBuilder>
         var n2 = y as TaggedNode;
         if (n1 != null && n2 != null)
             return n1.Tag.Equals(n2.Tag);
-        return this.nonTaggedComparer.Equals(x, y);
+        return _nonTaggedComparer.Equals(x, y);
     }
 
     public int GetHashCode(ISpecimenBuilder obj)
@@ -31,6 +31,6 @@ public class TaggedNodeComparer : IEqualityComparer<ISpecimenBuilder>
         var tn = obj as TaggedNode;
         if (tn != null)
             return tn.Tag.GetHashCode();
-        return this.nonTaggedComparer.GetHashCode(obj);
+        return _nonTaggedComparer.GetHashCode(obj);
     }
 }

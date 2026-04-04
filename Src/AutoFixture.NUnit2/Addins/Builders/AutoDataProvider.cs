@@ -29,7 +29,7 @@ public class AutoDataProvider : ITestCaseProvider2
     /// <returns></returns>
     public IEnumerable GetTestCasesFor(MethodInfo method)
     {
-        return this.GetTestCasesFor(method, null);
+        return GetTestCasesFor(method, null);
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class AutoDataProvider : ITestCaseProvider2
     /// <returns>True if any cases are available, otherwise false.</returns>
     public bool HasTestCasesFor(MethodInfo method, Test suite)
     {
-        return this.HasTestCasesFor(method);
+        return HasTestCasesFor(method);
     }
 
     /// <summary>

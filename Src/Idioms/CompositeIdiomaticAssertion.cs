@@ -17,7 +17,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="assertions">The encapsulated assertions.</param>
     public CompositeIdiomaticAssertion(params IIdiomaticAssertion[] assertions)
     {
-        this.Assertions = assertions;
+        Assertions = assertions;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="constructorInfo">The constructor whose behavior must be verified.</param>
     public void Verify(ConstructorInfo constructorInfo)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(constructorInfo);
         }
@@ -55,7 +55,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="constructorInfos">The constructors whose behavior must be verified.</param>
     public void Verify(IEnumerable<ConstructorInfo> constructorInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(constructorInfos);
         }
@@ -68,7 +68,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="assemblies">The assemblies whose behaviour must be verified.</param>
     public void Verify(params Assembly[] assemblies)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(assemblies);
         }
@@ -81,7 +81,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="assemblies">The assemblies whose behaviour must be verified.</param>
     public void Verify(IEnumerable<Assembly> assemblies)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(assemblies);
         }
@@ -94,7 +94,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="assembly">The assembly whose behaviour must be verified.</param>
     public void Verify(Assembly assembly)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(assembly);
         }
@@ -107,7 +107,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="types">The types whose behaviour must be verified.</param>
     public void Verify(params Type[] types)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(types);
         }
@@ -120,7 +120,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="types">The types whose behaviour must be verified.</param>
     public void Verify(IEnumerable<Type> types)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(types);
         }
@@ -133,7 +133,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="type">The type whose behaviour must be verified.</param>
     public void Verify(Type type)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(type);
         }
@@ -146,7 +146,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="memberInfos">The members whose behaviour must be verified.</param>
     public void Verify(params MemberInfo[] memberInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(memberInfos);
         }
@@ -159,7 +159,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="memberInfos">The members whose behaviour must be verified.</param>
     public void Verify(IEnumerable<MemberInfo> memberInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(memberInfos);
         }
@@ -172,7 +172,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="memberInfo">The member whose behaviour must be verified.</param>
     public void Verify(MemberInfo memberInfo)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(memberInfo);
         }
@@ -185,7 +185,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="constructorInfos">The constructors whose behavior must be verified.</param>
     public void Verify(params ConstructorInfo[] constructorInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(constructorInfos);
         }
@@ -198,7 +198,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="methodInfo">The method whose behavior must be verified.</param>
     public void Verify(MethodInfo methodInfo)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(methodInfo);
         }
@@ -211,7 +211,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="methodInfos">The methods whose behavior must be verified.</param>
     public void Verify(IEnumerable<MethodInfo> methodInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(methodInfos);
         }
@@ -224,7 +224,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="methodInfos">The methods whose behavior must be verified.</param>
     public void Verify(params MethodInfo[] methodInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(methodInfos);
         }
@@ -237,7 +237,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="propertyInfo">The property whose behavior must be verified.</param>
     public void Verify(PropertyInfo propertyInfo)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(propertyInfo);
         }
@@ -250,7 +250,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="propertyInfos">The properties whose behavior must be verified.</param>
     public void Verify(IEnumerable<PropertyInfo> propertyInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(propertyInfos);
         }
@@ -263,7 +263,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="propertyInfos">The properties whose behavior must be verified.</param>
     public void Verify(params PropertyInfo[] propertyInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(propertyInfos);
         }
@@ -276,7 +276,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="fieldInfo">The field whose behavior must be verified.</param>
     public void Verify(FieldInfo fieldInfo)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(fieldInfo);
         }
@@ -289,7 +289,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="fieldInfos">The fields whose behavior must be verified.</param>
     public void Verify(IEnumerable<FieldInfo> fieldInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(fieldInfos);
         }
@@ -302,7 +302,7 @@ public class CompositeIdiomaticAssertion : IIdiomaticAssertion
     /// <param name="fieldInfos">The fields whose behavior must be verified.</param>
     public void Verify(params FieldInfo[] fieldInfos)
     {
-        foreach (var assertion in this.Assertions)
+        foreach (var assertion in Assertions)
         {
             assertion.Verify(fieldInfos);
         }

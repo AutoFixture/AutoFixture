@@ -2,20 +2,20 @@
 
 public class EqualityResponder
 {
-    private readonly bool equals;
+    private readonly bool _equals;
 
     public EqualityResponder(bool equals)
     {
-        this.equals = equals;
+        _equals = equals;
     }
 
     public override bool Equals(object obj)
     {
-        return this.equals;
+        return _equals;
     }
 
     public override int GetHashCode()
     {
-        return this.equals.GetHashCode();
+        return _equals.GetHashCode();
     }
 }

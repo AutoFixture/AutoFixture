@@ -10,16 +10,16 @@ namespace AutoFixture;
 /// </summary>
 public class RegularExpressionGenerator : ISpecimenBuilder
 {
-    private readonly Random random;
-    private readonly object syncRoot;
+    private readonly Random _random;
+    private readonly object _syncRoot;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RegularExpressionGenerator"/> class.
     /// </summary>
     public RegularExpressionGenerator()
     {
-        this.random = new Random();
-        this.syncRoot = new object();
+        _random = new Random();
+        _syncRoot = new object();
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class RegularExpressionGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        return this.GenerateRegularExpression(regularExpressionRequest);
+        return GenerateRegularExpression(regularExpressionRequest);
     }
 
     private object GenerateRegularExpression(RegularExpressionRequest request)
@@ -51,7 +51,7 @@ public class RegularExpressionGenerator : ISpecimenBuilder
         {
             // Use the Xeger constructor overload that that takes an instance of Random.
             // Otherwise identically strings can be generated, if regex are generated within short time.
-            string regex = new Xeger(pattern, new Random(this.GenerateSeed())).Generate();
+            string regex = new Xeger(pattern, new Random(GenerateSeed())).Generate();
             if (Regex.IsMatch(regex, pattern))
             {
                 return regex;
@@ -71,9 +71,9 @@ public class RegularExpressionGenerator : ISpecimenBuilder
 
     private int GenerateSeed()
     {
-        lock (this.syncRoot)
+        lock (_syncRoot)
         {
-            return this.random.Next();
+            return _random.Next();
         }
     }
 }

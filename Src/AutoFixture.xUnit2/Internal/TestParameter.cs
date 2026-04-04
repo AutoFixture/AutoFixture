@@ -6,33 +6,33 @@ namespace AutoFixture.Xunit2.Internal;
 
 internal class TestParameter
 {
-    private readonly Lazy<ICustomization> lazyCustomization;
-    private readonly Lazy<FrozenAttribute> lazyFrozenAttribute;
+    private readonly Lazy<ICustomization> _lazyCustomization;
+    private readonly Lazy<FrozenAttribute> _lazyFrozenAttribute;
 
     public TestParameter(ParameterInfo parameterInfo)
     {
-        this.ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
+        ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
 
-        this.lazyCustomization = new Lazy<ICustomization>(
+        _lazyCustomization = new Lazy<ICustomization>(
             () => GetCustomization(parameterInfo));
-        this.lazyFrozenAttribute = new Lazy<FrozenAttribute>(
+        _lazyFrozenAttribute = new Lazy<FrozenAttribute>(
             () => parameterInfo.GetCustomAttributes()
                 .OfType<FrozenAttribute>().FirstOrDefault());
     }
 
     public ParameterInfo ParameterInfo { get; }
 
-    public ICustomization GetCustomization() => this.lazyCustomization.Value;
+    public ICustomization GetCustomization() => _lazyCustomization.Value;
 
     public ICustomization GetCustomization(object value)
     {
-        var frozenAttribute = this.lazyFrozenAttribute.Value;
+        var frozenAttribute = _lazyFrozenAttribute.Value;
 
         if (frozenAttribute is null)
             return NullCustomization.Instance;
 
         return new FrozenValueCustomization(
-            new ParameterFilter(this.ParameterInfo, frozenAttribute.By),
+            new ParameterFilter(ParameterInfo, frozenAttribute.By),
             value);
     }
 

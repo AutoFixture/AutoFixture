@@ -758,14 +758,14 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         private class Issue630_TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
         {
             private const int DelayMSec = 100;
-            private readonly object syncRoot = new object();
+            private readonly object _syncRoot = new object();
             private HashSet<Task> Tasks { get; } = new HashSet<Task>();
 
             protected override void QueueTask(Task task)
             {
-                lock (this.syncRoot)
+                lock (_syncRoot)
                 {
-                    this.Tasks.Add(task);
+                    Tasks.Add(task);
                 }
 
                 ThreadPool.QueueUserWorkItem(_ =>
@@ -773,39 +773,39 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
                     Thread.Sleep(DelayMSec);
 
                     // If task cannot be dequeued - it was already executed.
-                    if (this.TryDequeue(task))
+                    if (TryDequeue(task))
                     {
-                        this.TryExecuteTask(task);
+                        TryExecuteTask(task);
                     }
                 });
             }
 
             protected override bool TryDequeue(Task task)
             {
-                lock (this.syncRoot)
+                lock (_syncRoot)
                 {
-                    return this.Tasks.Remove(task);
+                    return Tasks.Remove(task);
                 }
             }
 
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
             {
                 // If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
-                if (taskWasPreviouslyQueued && !this.TryDequeue(task))
+                if (taskWasPreviouslyQueued && !TryDequeue(task))
                 {
                     return false;
                 }
 
-                this.TryExecuteTask(task);
+                TryExecuteTask(task);
                 return true;
             }
 
             protected override IEnumerable<Task> GetScheduledTasks()
             {
-                lock (this.syncRoot)
+                lock (_syncRoot)
                 {
                     // Create copy to ensure that it's not modified during enumeration
-                    return this.Tasks.ToArray();
+                    return Tasks.ToArray();
                 }
             }
         }
@@ -840,7 +840,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
         {
             protected override void QueueTask(Task task)
             {
-                this.TryExecuteTask(task);
+                TryExecuteTask(task);
             }
 
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)

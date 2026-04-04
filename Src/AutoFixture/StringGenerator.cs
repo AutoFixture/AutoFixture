@@ -19,7 +19,7 @@ public class StringGenerator : ISpecimenBuilder
     /// </param>
     public StringGenerator(Func<object> specimenFactory)
     {
-        this.Factory = specimenFactory ?? throw new ArgumentNullException(nameof(specimenFactory));
+        Factory = specimenFactory ?? throw new ArgumentNullException(nameof(specimenFactory));
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class StringGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-        var specimen = this.Factory();
+        var specimen = Factory();
         if (specimen == null)
         {
             return NoSpecimen.Instance;

@@ -27,7 +27,7 @@ public class TemplateMethodQuery : IMethodQuery
     /// <param name="template">The method info to compare.</param>
     public TemplateMethodQuery(MethodInfo template)
     {
-        this.Template = template ?? throw new ArgumentNullException(nameof(template));
+        Template = template ?? throw new ArgumentNullException(nameof(template));
     }
 
     /// <summary>
@@ -37,8 +37,8 @@ public class TemplateMethodQuery : IMethodQuery
     /// <param name="owner">The owner.</param>
     public TemplateMethodQuery(MethodInfo template, object owner)
     {
-        this.Owner = owner ?? throw new ArgumentNullException(nameof(owner));
-        this.Template = template ?? throw new ArgumentNullException(nameof(template));
+        Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        Template = template ?? throw new ArgumentNullException(nameof(template));
     }
 
     /// <summary>
@@ -81,17 +81,17 @@ public class TemplateMethodQuery : IMethodQuery
         if (type == null) throw new ArgumentNullException(nameof(type));
 
         return from method in type.GetTypeInfo().GetMethods()
-            where string.Equals(method.Name, this.Template.Name, StringComparison.Ordinal) && (this.Owner != null || method.IsStatic)
+            where string.Equals(method.Name, Template.Name, StringComparison.Ordinal) && (Owner != null || method.IsStatic)
             let methodParameters = method.GetParameters()
-            let templateParameters = this.Template.GetParameters()
+            let templateParameters = Template.GetParameters()
             where methodParameters.Length >= templateParameters.Length
             let score = new LateBindingParameterScore(methodParameters, templateParameters)
             orderby score descending
             where methodParameters.All(p =>
                 p.Position >= templateParameters.Length ?
                     p.IsOptional || p.IsDefined(typeof(ParamArrayAttribute), true) :
-                    this.Compare(p.ParameterType, templateParameters[p.Position].ParameterType))
-            select new GenericMethod(method, this.GetMethodFactory(method));
+                    Compare(p.ParameterType, templateParameters[p.Position].ParameterType))
+            select new GenericMethod(method, GetMethodFactory(method));
     }
 
     private IMethodFactory GetMethodFactory(MethodInfo method)
@@ -99,7 +99,7 @@ public class TemplateMethodQuery : IMethodQuery
         if (method.IsStatic)
             return new MissingParametersSupplyingStaticMethodFactory();
 
-        return new MissingParametersSupplyingMethodFactory(this.Owner);
+        return new MissingParametersSupplyingMethodFactory(Owner);
     }
 
     private bool Compare(Type parameterType, Type templateParameterType)
@@ -119,7 +119,7 @@ public class TemplateMethodQuery : IMethodQuery
         if (genericArguments.Length == 0 || genericArguments.Length != templateGenericArguments.Length)
             return false;
 
-        return genericArguments.Zip(templateGenericArguments, this.Compare).All(x => x);
+        return genericArguments.Zip(templateGenericArguments, Compare).All(x => x);
     }
 
     private static Type[] GetTypeArguments(Type type)
@@ -131,7 +131,7 @@ public class TemplateMethodQuery : IMethodQuery
 
     private class LateBindingParameterScore : IComparable<LateBindingParameterScore>
     {
-        private readonly int score;
+        private readonly int _score;
 
         internal LateBindingParameterScore(IEnumerable<ParameterInfo> methodParameters,
             IEnumerable<ParameterInfo> templateParameters)
@@ -142,7 +142,7 @@ public class TemplateMethodQuery : IMethodQuery
             if (templateParameters == null)
                 throw new ArgumentNullException(nameof(templateParameters));
 
-            this.score = CalculateScore(methodParameters.Select(p => p.ParameterType),
+            _score = CalculateScore(methodParameters.Select(p => p.ParameterType),
                 templateParameters.Select(p => p.ParameterType));
         }
 
@@ -151,7 +151,7 @@ public class TemplateMethodQuery : IMethodQuery
             if (other == null)
                 return 1;
 
-            return this.score.CompareTo(other.score);
+            return _score.CompareTo(other._score);
         }
 
         private static int CalculateScore(IEnumerable<Type> methodParameters,

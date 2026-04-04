@@ -21,7 +21,7 @@ namespace AutoFixture;
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "A Generator is (or ought to be) a generally known concept, based on the Iterator design pattern.")]
 public class Generator<T> : IEnumerable<T>
 {
-    private readonly ISpecimenBuilder builder;
+    private readonly ISpecimenBuilder _builder;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Generator{T}" />
@@ -35,7 +35,7 @@ public class Generator<T> : IEnumerable<T>
     /// </exception>
     public Generator(ISpecimenBuilder builder)
     {
-        this.builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        _builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class Generator<T> : IEnumerable<T>
     public IEnumerator<T> GetEnumerator()
     {
         while (true)
-            yield return this.builder.Create<T>();
+            yield return _builder.Create<T>();
     }
 
     /// <summary>
@@ -55,6 +55,6 @@ public class Generator<T> : IEnumerable<T>
     /// </returns>
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

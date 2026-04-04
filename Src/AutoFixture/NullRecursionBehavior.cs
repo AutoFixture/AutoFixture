@@ -9,7 +9,7 @@ namespace AutoFixture;
 public class NullRecursionBehavior : ISpecimenBuilderTransformation
 {
     private const int DefaultRecursionDepth = 1;
-    private readonly int recursionDepth;
+    private readonly int _recursionDepth;
 
     /// <summary>
     /// Initializes new instance of the <see cref="NullRecursionBehavior" /> class with default recursion depth.
@@ -26,7 +26,7 @@ public class NullRecursionBehavior : ISpecimenBuilderTransformation
     /// <param name="recursionDepth">The recursion depth at which the request will be assigned null.</param>
     public NullRecursionBehavior(int recursionDepth)
     {
-        this.recursionDepth = recursionDepth;
+        _recursionDepth = recursionDepth;
     }
 
     /// <summary>
@@ -41,6 +41,6 @@ public class NullRecursionBehavior : ISpecimenBuilderTransformation
     {
         if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-        return new RecursionGuard(builder, new NullRecursionHandler(), this.recursionDepth);
+        return new RecursionGuard(builder, new NullRecursionHandler(), _recursionDepth);
     }
 }

@@ -5,13 +5,13 @@ namespace TestTypeFoundation;
 public class GuardedPropertyHolder<T>
     where T : class
 {
-    private T property;
+    private T _property;
 
     public T Property
     {
         get
         {
-            return this.property;
+            return _property;
         }
 
         set
@@ -21,7 +21,7 @@ public class GuardedPropertyHolder<T>
                 throw new ArgumentNullException(nameof(value));
             }
 
-            this.property = value;
+            _property = value;
         }
     }
 }

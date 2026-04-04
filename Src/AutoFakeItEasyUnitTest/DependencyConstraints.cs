@@ -26,7 +26,7 @@ namespace AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Arrange
             // Act
-            var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
+            var references = GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Assert
             Assert.DoesNotContain(references, an => an.Name == assemblyName);
         }

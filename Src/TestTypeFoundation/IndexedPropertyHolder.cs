@@ -4,16 +4,16 @@ namespace TestTypeFoundation;
 
 public class IndexedPropertyHolder<T>
 {
-    private readonly List<T> items;
+    private readonly List<T> _items;
 
     public IndexedPropertyHolder()
     {
-        this.items = new List<T>();
+        _items = new List<T>();
     }
 
     public T this[int index]
     {
-        get { return this.items[index]; }
-        set { this.items[index] = value; }
+        get { return _items[index]; }
+        set { _items[index] = value; }
     }
 }

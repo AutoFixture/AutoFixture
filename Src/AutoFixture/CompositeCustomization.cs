@@ -24,7 +24,7 @@ public class CompositeCustomization : ICustomization
     /// <param name="customizations">The customizations.</param>
     public CompositeCustomization(params ICustomization[] customizations)
     {
-        this.Customizations = customizations ?? throw new ArgumentNullException(nameof(customizations));
+        Customizations = customizations ?? throw new ArgumentNullException(nameof(customizations));
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class CompositeCustomization : ICustomization
     /// <param name="fixture">The fixture to customize.</param>
     public void Customize(IFixture fixture)
     {
-        foreach (var c in this.Customizations)
+        foreach (var c in Customizations)
         {
             c.Customize(fixture);
         }

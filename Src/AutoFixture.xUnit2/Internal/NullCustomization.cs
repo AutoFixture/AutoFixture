@@ -9,10 +9,10 @@ internal sealed class NullCustomization : ICustomization
         // prevent external instantiation
     }
 
-    private static readonly Lazy<NullCustomization> LazyInstance = new(
+    private static readonly Lazy<NullCustomization> s_lazyInstance = new(
         () => new NullCustomization(), isThreadSafe: true);
 
-    public static NullCustomization Instance => LazyInstance.Value;
+    public static NullCustomization Instance => s_lazyInstance.Value;
 
     public void Customize(IFixture fixture)
     {

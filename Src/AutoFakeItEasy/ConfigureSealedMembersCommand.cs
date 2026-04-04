@@ -9,7 +9,7 @@ namespace AutoFixture.AutoFakeItEasy;
 /// </summary>
 public class ConfigureSealedMembersCommand : ISpecimenCommand
 {
-    private readonly ISpecimenCommand autoPropertiesCommand =
+    private readonly ISpecimenCommand _autoPropertiesCommand =
         new AutoPropertiesCommand(new FieldOrSealedPropertySpecification());
 
     /// <summary>
@@ -25,7 +25,7 @@ public class ConfigureSealedMembersCommand : ISpecimenCommand
         var fake = specimen.GetType().GetProperty("FakedObject")?.GetValue(specimen, null);
         if (fake is null) return;
 
-        this.autoPropertiesCommand.Execute(fake, context);
+        _autoPropertiesCommand.Execute(fake, context);
     }
 
     /// <summary>

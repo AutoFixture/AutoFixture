@@ -13,7 +13,7 @@ namespace AutoFixture.AutoFakeItEasy;
 /// </remarks>
 public class AutoFakeItEasyCustomization : ICustomization
 {
-    private ISpecimenBuilder relay;
+    private ISpecimenBuilder _relay;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AutoFakeItEasyCustomization"/> class.
@@ -39,7 +39,7 @@ public class AutoFakeItEasyCustomization : ICustomization
               "Please use the AutoFakeItEasyCustomization() overload (without arguments) instead and set the Relay property.")]
     public AutoFakeItEasyCustomization(ISpecimenBuilder relay)
     {
-        this.Relay = relay ?? throw new ArgumentNullException(nameof(relay));
+        Relay = relay ?? throw new ArgumentNullException(nameof(relay));
     }
 
     /// <summary>
@@ -48,8 +48,8 @@ public class AutoFakeItEasyCustomization : ICustomization
     /// </summary>
     public ISpecimenBuilder Relay
     {
-        get => this.relay;
-        set => this.relay = value ?? throw new ArgumentNullException(nameof(value));
+        get => _relay;
+        set => _relay = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -70,14 +70,14 @@ public class AutoFakeItEasyCustomization : ICustomization
     {
         if (fixture is null) throw new ArgumentNullException(nameof(fixture));
 
-        if (this.GenerateDelegates)
+        if (GenerateDelegates)
         {
             fixture.Customizations.Add(new FakeItEasyRelay(new DelegateSpecification()));
         }
 
         ISpecimenBuilder fakeBuilder = new FakeItEasyBuilder(new MethodInvoker(new FakeItEasyMethodQuery()));
 
-        if (this.ConfigureMembers)
+        if (ConfigureMembers)
         {
             fakeBuilder = new Postprocessor(
                 builder: fakeBuilder,
@@ -87,6 +87,6 @@ public class AutoFakeItEasyCustomization : ICustomization
         }
 
         fixture.Customizations.Add(fakeBuilder);
-        fixture.ResidueCollectors.Add(this.Relay);
+        fixture.ResidueCollectors.Add(Relay);
     }
 }

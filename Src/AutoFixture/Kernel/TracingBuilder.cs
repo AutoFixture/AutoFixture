@@ -8,8 +8,8 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class TracingBuilder : ISpecimenBuilder
 {
-    private IRequestSpecification filter;
-    private int depth;
+    private IRequestSpecification _filter;
+    private int _depth;
 
     /// <summary>
     /// Raised when a specimen is requested.
@@ -28,8 +28,8 @@ public class TracingBuilder : ISpecimenBuilder
     /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
     public TracingBuilder(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.filter = new TrueRequestSpecification();
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        _filter = new TrueRequestSpecification();
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public class TracingBuilder : ISpecimenBuilder
     /// </remarks>
     public IRequestSpecification Filter
     {
-        get => this.filter;
-        set => this.filter = value ?? throw new ArgumentNullException(nameof(value));
+        get => _filter;
+        set => _filter = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -72,17 +72,17 @@ public class TracingBuilder : ISpecimenBuilder
     /// </remarks>
     public object Create(object request, ISpecimenContext context)
     {
-        var isFilterSatisfied = this.filter.IsSatisfiedBy(request);
+        var isFilterSatisfied = _filter.IsSatisfiedBy(request);
         if (isFilterSatisfied)
         {
-            this.OnSpecimenRequested(new RequestTraceEventArgs(request, ++this.depth));
+            OnSpecimenRequested(new RequestTraceEventArgs(request, ++_depth));
         }
 
         bool specimenWasCreated = false;
         object specimen = null;
         try
         {
-            specimen = this.Builder.Create(request, context);
+            specimen = Builder.Create(request, context);
             specimenWasCreated = true;
             return specimen;
         }
@@ -92,9 +92,9 @@ public class TracingBuilder : ISpecimenBuilder
             {
                 if (specimenWasCreated)
                 {
-                    this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth));
+                    OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, _depth));
                 }
-                this.depth--;
+                _depth--;
             }
         }
     }
@@ -105,7 +105,7 @@ public class TracingBuilder : ISpecimenBuilder
     /// <param name="e">The event arguments for the event.</param>
     protected virtual void OnSpecimenCreated(SpecimenCreatedEventArgs e)
     {
-        this.SpecimenCreated?.Invoke(this, e);
+        SpecimenCreated?.Invoke(this, e);
     }
 
     /// <summary>
@@ -114,6 +114,6 @@ public class TracingBuilder : ISpecimenBuilder
     /// <param name="e">The event arguments for the event.</param>
     protected virtual void OnSpecimenRequested(RequestTraceEventArgs e)
     {
-        this.SpecimenRequested?.Invoke(this, e);
+        SpecimenRequested?.Invoke(this, e);
     }
 }

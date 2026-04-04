@@ -9,7 +9,7 @@ namespace AutoFixture.Xunit2.Internal;
 /// </summary>
 internal class ParameterFilter : IRequestSpecification
 {
-    private readonly IRequestSpecification matcherSpecification;
+    private readonly IRequestSpecification _matcherSpecification;
 
     /// <summary>
     /// Creates an instance of type <see cref="ParameterFilter"/>.
@@ -19,10 +19,10 @@ internal class ParameterFilter : IRequestSpecification
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="parameterInfo"/> is null.</exception>
     public ParameterFilter(ParameterInfo parameterInfo, Matching flags)
     {
-        this.ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
-        this.Flags = flags;
-        this.matcherSpecification = new ParameterMatcherBuilder(this.ParameterInfo)
-            .SetFlags(this.Flags).Build();
+        ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
+        Flags = flags;
+        _matcherSpecification = new ParameterMatcherBuilder(ParameterInfo)
+            .SetFlags(Flags).Build();
     }
 
     /// <summary>
@@ -38,6 +38,6 @@ internal class ParameterFilter : IRequestSpecification
     /// <inheritdoc />
     public bool IsSatisfiedBy(object request)
     {
-        return this.matcherSpecification.IsSatisfiedBy(request);
+        return _matcherSpecification.IsSatisfiedBy(request);
     }
 }

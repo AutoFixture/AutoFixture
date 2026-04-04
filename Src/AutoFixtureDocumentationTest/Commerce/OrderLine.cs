@@ -4,8 +4,8 @@ public class OrderLine
 {
     public OrderLine(Product product)
     {
-        this.Product = product;
-        this.Quantity = 1;
+        Product = product;
+        Quantity = 1;
     }
 
     public Product Product { get; private set; }

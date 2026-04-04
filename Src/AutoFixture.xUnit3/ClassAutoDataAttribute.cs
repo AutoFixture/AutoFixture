@@ -80,9 +80,9 @@ public class ClassAutoDataAttribute : DataAttribute
     /// </example>
     protected ClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object[] parameters)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
-        this.Parameters = parameters ?? new object[] { null };
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
+        Parameters = parameters ?? new object[] { null };
     }
 
     /// <summary>
@@ -105,8 +105,8 @@ public class ClassAutoDataAttribute : DataAttribute
         MethodInfo testMethod, DisposalTracker disposalTracker)
     {
         var source = new AutoDataSource(
-            this.FixtureFactory,
-            new ClassDataSource(this.SourceType, this.Parameters));
+            FixtureFactory,
+            new ClassDataSource(SourceType, Parameters));
 
         return source.GetData(testMethod)
             .Select(row => new TheoryDataRow(row))

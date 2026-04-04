@@ -7,7 +7,7 @@ public class ItemContainer<T>
 {
     public ItemContainer(params T[] items)
     {
-        this.Items = items;
+        Items = items;
     }
 
     public ItemContainer(IEnumerable<T> items)

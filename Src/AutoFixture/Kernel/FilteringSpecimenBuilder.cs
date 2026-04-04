@@ -19,8 +19,8 @@ public class FilteringSpecimenBuilder : ISpecimenBuilderNode
     /// </param>
     public FilteringSpecimenBuilder(ISpecimenBuilder builder, IRequestSpecification specification)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        this.Specification = specification ?? throw new ArgumentNullException(nameof(specification));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Specification = specification ?? throw new ArgumentNullException(nameof(specification));
     }
 
     /// <summary>
@@ -45,12 +45,12 @@ public class FilteringSpecimenBuilder : ISpecimenBuilderNode
     /// </returns>
     public object Create(object request, ISpecimenContext context)
     {
-        if (!this.Specification.IsSatisfiedBy(request))
+        if (!Specification.IsSatisfiedBy(request))
         {
             return NoSpecimen.Instance;
         }
 
-        return this.Builder.Create(request, context);
+        return Builder.Create(request, context);
     }
 
     /// <summary>Composes the supplied builders.</summary>
@@ -64,7 +64,7 @@ public class FilteringSpecimenBuilder : ISpecimenBuilderNode
         if (builders == null) throw new ArgumentNullException(nameof(builders));
 
         var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-        return new FilteringSpecimenBuilder(composedBuilder, this.Specification);
+        return new FilteringSpecimenBuilder(composedBuilder, Specification);
     }
 
     /// <summary>
@@ -76,11 +76,11 @@ public class FilteringSpecimenBuilder : ISpecimenBuilderNode
     /// </returns>
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

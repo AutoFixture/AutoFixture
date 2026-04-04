@@ -33,7 +33,7 @@ public class AutoPropertiesTarget : ISpecimenBuilderNode
     /// <seealso cref="Builder"/>
     public AutoPropertiesTarget(ISpecimenBuilder builder)
     {
-        this.Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
     }
 
     /// <summary>Composes the supplied builders.</summary>
@@ -70,7 +70,7 @@ public class AutoPropertiesTarget : ISpecimenBuilderNode
     /// </remarks>
     public object Create(object request, ISpecimenContext context)
     {
-        return this.Builder.Create(request, context);
+        return Builder.Create(request, context);
     }
 
     /// <summary>Returns the decorated builder as a sequence.</summary>
@@ -78,7 +78,7 @@ public class AutoPropertiesTarget : ISpecimenBuilderNode
     /// <seealso cref="Builder" />
     public IEnumerator<ISpecimenBuilder> GetEnumerator()
     {
-        yield return this.Builder;
+        yield return Builder;
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class AutoPropertiesTarget : ISpecimenBuilderNode
     /// <seealso cref="GetEnumerator()" />
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     /// <summary>Gets the builder decorated by this instance.</summary>

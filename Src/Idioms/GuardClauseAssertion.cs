@@ -15,7 +15,7 @@ namespace AutoFixture.Idioms;
 /// </summary>
 public class GuardClauseAssertion : IdiomaticAssertion
 {
-    private readonly OpenGenericTypeClosingUtil openGenericTypeClosingUtil;
+    private readonly OpenGenericTypeClosingUtil _openGenericTypeClosingUtil;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GuardClauseAssertion" /> class.
@@ -51,10 +51,10 @@ public class GuardClauseAssertion : IdiomaticAssertion
     /// </remarks>
     public GuardClauseAssertion(ISpecimenBuilder builder, IBehaviorExpectation behaviorExpectation)
     {
-        this.Builder = builder;
-        this.BehaviorExpectation = behaviorExpectation;
+        Builder = builder;
+        BehaviorExpectation = behaviorExpectation;
 
-        this.openGenericTypeClosingUtil = new OpenGenericTypeClosingUtil(builder);
+        _openGenericTypeClosingUtil = new OpenGenericTypeClosingUtil(builder);
     }
 
     /// <summary>
@@ -91,10 +91,10 @@ public class GuardClauseAssertion : IdiomaticAssertion
         if (constructorInfo == null)
             throw new ArgumentNullException(nameof(constructorInfo));
 
-        constructorInfo = this.openGenericTypeClosingUtil.CloseGenericType(constructorInfo);
+        constructorInfo = _openGenericTypeClosingUtil.CloseGenericType(constructorInfo);
 
         var method = new ConstructorMethod(constructorInfo);
-        this.DoVerify(method, isReturnValueDeferable: false, isReturnValueTask: false);
+        DoVerify(method, isReturnValueDeferable: false, isReturnValueTask: false);
     }
 
     /// <summary>
@@ -119,10 +119,10 @@ public class GuardClauseAssertion : IdiomaticAssertion
             methodInfo.IsAbstract)
             return;
 
-        methodInfo = this.openGenericTypeClosingUtil.CloseGenericType(methodInfo);
-        methodInfo = this.openGenericTypeClosingUtil.CloseGenericMethod(methodInfo);
+        methodInfo = _openGenericTypeClosingUtil.CloseGenericType(methodInfo);
+        methodInfo = _openGenericTypeClosingUtil.CloseGenericMethod(methodInfo);
 
-        var method = this.CreateMethod(methodInfo);
+        var method = CreateMethod(methodInfo);
         var returnType = methodInfo.ReturnType;
 
         // According to MSDN method with yield could have only 4 possible types:
@@ -139,7 +139,7 @@ public class GuardClauseAssertion : IdiomaticAssertion
         var isReturnValueTask =
             typeof(System.Threading.Tasks.Task).IsAssignableFrom(returnType);
 
-        this.DoVerify(method, isReturnValueDeferable, isReturnValueTask);
+        DoVerify(method, isReturnValueDeferable, isReturnValueTask);
     }
 
     /// <summary>
@@ -161,17 +161,17 @@ public class GuardClauseAssertion : IdiomaticAssertion
         if (propertyInfo.GetSetMethod() == null)
             return;
 
-        propertyInfo = this.openGenericTypeClosingUtil.CloseGenericType(propertyInfo);
+        propertyInfo = _openGenericTypeClosingUtil.CloseGenericType(propertyInfo);
 
-        var owner = this.CreateOwner(propertyInfo);
+        var owner = CreateOwner(propertyInfo);
         var command = new PropertySetCommand(propertyInfo, owner);
         var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
-        this.BehaviorExpectation.Verify(unwrapper);
+        BehaviorExpectation.Verify(unwrapper);
     }
 
     private IMethod CreateMethod(MethodInfo methodInfo)
     {
-        var owner = this.CreateOwner(methodInfo);
+        var owner = CreateOwner(methodInfo);
         return owner != null
             ? (IMethod)new InstanceMethod(methodInfo, owner)
             : new StaticMethod(methodInfo);
@@ -179,19 +179,19 @@ public class GuardClauseAssertion : IdiomaticAssertion
 
     private object CreateOwner(PropertyInfo property)
     {
-        return this.CreateOwner(property.GetSetMethod());
+        return CreateOwner(property.GetSetMethod());
     }
 
     private object CreateOwner(MethodBase method)
     {
-        return method.IsStatic ? null : this.CreateOwner(method.ReflectedType);
+        return method.IsStatic ? null : CreateOwner(method.ReflectedType);
     }
 
     private object CreateOwner(Type type)
     {
         try
         {
-            return this.Builder.CreateAnonymous(type);
+            return Builder.CreateAnonymous(type);
         }
         catch (ObjectCreationException e)
         {
@@ -207,40 +207,40 @@ public class GuardClauseAssertion : IdiomaticAssertion
     private void DoVerify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
     {
         if (isReturnValueDeferable)
-            this.VerifyDeferrableIterator(method);
+            VerifyDeferrableIterator(method);
         else if (isReturnValueTask)
-            this.VerifyDeferrableTask(method);
+            VerifyDeferrableTask(method);
         else
-            this.VerifyNormal(method);
+            VerifyNormal(method);
     }
 
     private void VerifyDeferrableIterator(IMethod method)
     {
-        foreach (var command in this.GetParameterGuardCommands(method))
+        foreach (var command in GetParameterGuardCommands(method))
         {
-            this.BehaviorExpectation.Verify(new IteratorMethodInvokeCommand(command));
+            BehaviorExpectation.Verify(new IteratorMethodInvokeCommand(command));
         }
     }
 
     private void VerifyDeferrableTask(IMethod method)
     {
-        foreach (var command in this.GetParameterGuardCommands(method))
+        foreach (var command in GetParameterGuardCommands(method))
         {
-            this.BehaviorExpectation.Verify(new TaskReturnMethodInvokeCommand(command));
+            BehaviorExpectation.Verify(new TaskReturnMethodInvokeCommand(command));
         }
     }
 
     private void VerifyNormal(IMethod method)
     {
-        foreach (var command in this.GetParameterGuardCommands(method))
+        foreach (var command in GetParameterGuardCommands(method))
         {
-            this.BehaviorExpectation.Verify(command);
+            BehaviorExpectation.Verify(command);
         }
     }
 
     private IEnumerable<ReflectionExceptionUnwrappingCommand> GetParameterGuardCommands(IMethod method)
     {
-        var arguments = this.GetParameters(method);
+        var arguments = GetParameters(method);
         return from pi in method.Parameters
             where !pi.IsOut
             let expansion = new IndexedReplacement<object>(pi.Position, arguments)
@@ -256,7 +256,7 @@ public class GuardClauseAssertion : IdiomaticAssertion
         {
             try
             {
-                result.Add(this.Builder.CreateAnonymous(GetParameterType(pi)));
+                result.Add(Builder.CreateAnonymous(GetParameterType(pi)));
             }
             catch (ObjectCreationException e)
             {
@@ -288,34 +288,34 @@ public class GuardClauseAssertion : IdiomaticAssertion
         private const string Message = @"A Guard Clause test was performed on a method that returns a Task, Task<T> (possibly in an 'async' method), but the test failed. See the inner exception for more details. However, because of the async nature of the task, this test failure may look like a false positive. Perhaps you already have a Guard Clause in place, but inside the Task or inside a method marked with the 'async' keyword (if you're using C#); if this is the case, the Guard Clause is dormant, and will first be triggered when a client accesses the Result of the Task. This doesn't adhere to the Fail Fast principle, so should be addressed.
 See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
 
-        private readonly IGuardClauseCommand command;
+        private readonly IGuardClauseCommand _command;
 
         public TaskReturnMethodInvokeCommand(IGuardClauseCommand command)
         {
-            this.command = command;
+            _command = command;
         }
 
-        public Type RequestedType => this.command.RequestedType;
+        public Type RequestedType => _command.RequestedType;
 
-        public string RequestedParameterName => this.command.RequestedParameterName;
+        public string RequestedParameterName => _command.RequestedParameterName;
 
-        public void Execute(object value) => this.command.Execute(value);
+        public void Execute(object value) => _command.Execute(value);
 
         public Exception CreateException(string value)
         {
-            var e = this.command.CreateException(value);
+            var e = _command.CreateException(value);
             return new GuardClauseException(Message, e);
         }
 
         public Exception CreateException(string value, Exception innerException)
         {
-            var e = this.command.CreateException(value, innerException);
+            var e = _command.CreateException(value, innerException);
             return new GuardClauseException(Message, e);
         }
 
         public Exception CreateException(string value, string customError, Exception innerException)
         {
-            var e = this.command.CreateException(value, customError, innerException);
+            var e = _command.CreateException(value, customError, innerException);
             return new GuardClauseException(Message, e);
         }
     }
@@ -325,34 +325,34 @@ See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
         private const string Message = @"A Guard Clause test was performed on a method that may contain a deferred iterator block, but the test failed. See the inner exception for more details. However, because of the deferred nature of the iterator block, this test failure may look like a false positive. Perhaps you already have a Guard Clause in place, but in conjunction with the 'yield' keyword (if you're using C#); if this is the case, the Guard Clause is dormant, and will first be triggered when a client starts looping over the iterator. This doesn't adhere to the Fail Fast principle, so should be addressed.
 See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-parameter-checking/ for more details.";
 
-        private readonly IGuardClauseCommand command;
+        private readonly IGuardClauseCommand _command;
 
         public IteratorMethodInvokeCommand(IGuardClauseCommand command)
         {
-            this.command = command;
+            _command = command;
         }
 
-        public Type RequestedType => this.command.RequestedType;
+        public Type RequestedType => _command.RequestedType;
 
-        public string RequestedParameterName => this.command.RequestedParameterName;
+        public string RequestedParameterName => _command.RequestedParameterName;
 
-        public void Execute(object value) => this.command.Execute(value);
+        public void Execute(object value) => _command.Execute(value);
 
         public Exception CreateException(string value)
         {
-            var e = this.command.CreateException(value);
+            var e = _command.CreateException(value);
             return new GuardClauseException(Message, e);
         }
 
         public Exception CreateException(string value, Exception innerException)
         {
-            var e = this.command.CreateException(value, innerException);
+            var e = _command.CreateException(value, innerException);
             return new GuardClauseException(Message, e);
         }
 
         public Exception CreateException(string value, string customError, Exception innerException)
         {
-            var e = this.command.CreateException(value, customError, innerException);
+            var e = _command.CreateException(value, customError, innerException);
             return new GuardClauseException(Message, e);
         }
     }

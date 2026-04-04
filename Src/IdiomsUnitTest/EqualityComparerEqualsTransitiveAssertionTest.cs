@@ -115,14 +115,14 @@ public class EqualityComparerEqualsTransitiveAssertionTest
     private class IllBehavedEqualityComparer : IEqualityComparer<PropertyHolder<int>>
     {
 #pragma warning disable CA1805 // This explicitly initializes the flag to false.
-        private static bool flag = false;
+        private static bool s_flag = false;
 #pragma warning restore CA1805
 
         public bool Equals(PropertyHolder<int> x, PropertyHolder<int> y)
         {
-            flag = !flag;
+            s_flag = !s_flag;
 
-            return flag;
+            return s_flag;
         }
 
         public int GetHashCode(PropertyHolder<int> obj)

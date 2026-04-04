@@ -9,12 +9,12 @@ namespace AutoFixtureUnitTest;
 public class UseCultureAttribute : BeforeAfterTestAttribute
 {
     [ThreadStatic]
-    private static CultureInfo originalCulture;
+    private static CultureInfo t_originalCulture;
     [ThreadStatic]
-    private static CultureInfo originalUiCulture;
+    private static CultureInfo t_originalUiCulture;
 
-    private readonly CultureInfo culture;
-    private readonly CultureInfo uiCulture;
+    private readonly CultureInfo _culture;
+    private readonly CultureInfo _uiCulture;
 
     public UseCultureAttribute(string culture)
         : this(culture, culture)
@@ -23,21 +23,21 @@ public class UseCultureAttribute : BeforeAfterTestAttribute
 
     public UseCultureAttribute(string culture, string uiCulture)
     {
-        this.culture = new CultureInfo(culture);
-        this.uiCulture = new CultureInfo(uiCulture);
+        _culture = new CultureInfo(culture);
+        _uiCulture = new CultureInfo(uiCulture);
     }
 
     public override void Before(MethodInfo methodUnderTest)
     {
-        originalCulture = CultureInfo.CurrentCulture;
-        originalUiCulture = CultureInfo.CurrentCulture;
+        t_originalCulture = CultureInfo.CurrentCulture;
+        t_originalUiCulture = CultureInfo.CurrentCulture;
 
-        SetCurrentCulture(this.culture, this.uiCulture);
+        SetCurrentCulture(_culture, _uiCulture);
     }
 
     public override void After(MethodInfo methodUnderTest)
     {
-        SetCurrentCulture(originalCulture, originalUiCulture);
+        SetCurrentCulture(t_originalCulture, t_originalUiCulture);
     }
 
     private static void SetCurrentCulture(CultureInfo culture, CultureInfo uiCulture)

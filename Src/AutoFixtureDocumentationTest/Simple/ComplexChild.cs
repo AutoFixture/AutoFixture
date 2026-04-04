@@ -4,13 +4,13 @@ public class ComplexChild
 {
     public ComplexChild(string name)
     {
-        this.Name = name;
+        Name = name;
     }
 
     public ComplexChild(string name, int number)
     {
-        this.Name = name;
-        this.Number = number;
+        Name = name;
+        Number = number;
     }
 
     public string Name { get; }

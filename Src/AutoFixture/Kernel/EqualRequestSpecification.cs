@@ -22,8 +22,8 @@ public class EqualRequestSpecification : IRequestSpecification
     /// </summary>
     public EqualRequestSpecification(object target, IEqualityComparer comparer)
     {
-        this.Target = target ?? throw new ArgumentNullException(nameof(target));
-        this.Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+        Target = target ?? throw new ArgumentNullException(nameof(target));
+        Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public class EqualRequestSpecification : IRequestSpecification
     /// </summary>
     public bool IsSatisfiedBy(object request)
     {
-        return this.Comparer.Equals(this.Target, request);
+        return Comparer.Equals(Target, request);
     }
 
     /// <summary>

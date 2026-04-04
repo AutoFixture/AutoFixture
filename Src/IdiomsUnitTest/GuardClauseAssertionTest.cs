@@ -530,7 +530,7 @@ public partial class GuardClauseAssertionTest
         {
             public ReadOnlyCollection(params object[] items)
             {
-                this.InnerList.AddRange(items);
+                InnerList.AddRange(items);
             }
         }
 
@@ -748,12 +748,12 @@ public partial class GuardClauseAssertionTest
 
     private class TypeWithPropertyOfTypeWithoutImplementers
     {
-        private IHaveNoImplementers propertyOfTypeWithoutImplementers;
+        private IHaveNoImplementers _propertyOfTypeWithoutImplementers;
 
         public IHaveNoImplementers PropertyOfTypeWithoutImplementers
         {
-            get => this.propertyOfTypeWithoutImplementers;
-            set => this.propertyOfTypeWithoutImplementers = value ?? throw new ArgumentNullException(nameof(value));
+            get => _propertyOfTypeWithoutImplementers;
+            set => _propertyOfTypeWithoutImplementers = value ?? throw new ArgumentNullException(nameof(value));
         }
     }
 

@@ -36,9 +36,9 @@ public class AutoFixtureValuesHandler : ICallHandler
         if (resultCache == null) throw new ArgumentNullException(nameof(resultCache));
         if (callSpecificationFactory == null) throw new ArgumentNullException(nameof(callSpecificationFactory));
 
-        this.ResultResolver = resultResolver;
-        this.ResultCache = resultCache;
-        this.CallSpecificationFactory = callSpecificationFactory;
+        ResultResolver = resultResolver;
+        ResultCache = resultCache;
+        CallSpecificationFactory = callSpecificationFactory;
     }
 
     /// <summary>
@@ -50,12 +50,12 @@ public class AutoFixtureValuesHandler : ICallHandler
 
         // Don't care about concurrency. If race condition happens - simply use the latest result.
         CallResultData result;
-        if (!this.ResultCache.TryGetResult(call, out result))
+        if (!ResultCache.TryGetResult(call, out result))
         {
-            result = this.ResultResolver.ResolveResult(call);
-            var callSpec = this.CallSpecificationFactory.CreateFrom(call, MatchArgs.AsSpecifiedInCall);
+            result = ResultResolver.ResolveResult(call);
+            var callSpec = CallSpecificationFactory.CreateFrom(call, MatchArgs.AsSpecifiedInCall);
 
-            this.ResultCache.AddResult(callSpec, result);
+            ResultCache.AddResult(callSpec, result);
         }
 
         var callArguments = call.GetArguments();
