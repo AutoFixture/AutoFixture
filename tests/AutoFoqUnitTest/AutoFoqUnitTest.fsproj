@@ -30,7 +30,7 @@
 
         <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
         <ProjectReference Include="..\..\Src\AutoFoq\AutoFoq.fsproj" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'net48'">
@@ -41,7 +41,7 @@
 
         <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
         <ProjectReference Include="..\..\Src\AutoFoq\AutoFoq.fsproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
       </ItemGroup>
     </When>
     <Otherwise>
@@ -52,7 +52,7 @@
 
         <ProjectReference Include="..\..\Src\AutoFixture\AutoFixture.csproj" />
         <ProjectReference Include="..\..\Src\AutoFoq\AutoFoq.fsproj" />
-        <ProjectReference Include="..\..\Src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>

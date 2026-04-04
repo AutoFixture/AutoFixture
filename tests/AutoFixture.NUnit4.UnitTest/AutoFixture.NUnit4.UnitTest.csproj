@@ -18,7 +18,7 @@
 
     <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\..\src\AutoFixture.NUnit4\AutoFixture.NUnit4.csproj" />
-    <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>
