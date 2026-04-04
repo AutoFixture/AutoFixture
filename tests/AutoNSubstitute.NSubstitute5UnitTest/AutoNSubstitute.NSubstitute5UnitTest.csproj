@@ -24,7 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AutoNSubstitute\AutoNSubstitute.csproj" />
     <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
-    <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

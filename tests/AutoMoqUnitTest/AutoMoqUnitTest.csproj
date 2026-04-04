@@ -21,7 +21,7 @@
 
         <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
         <ProjectReference Include="..\..\src\AutoMoq\AutoMoq.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
       </ItemGroup>
     </When>
     <Otherwise>
@@ -30,7 +30,7 @@
 
         <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
         <ProjectReference Include="..\..\src\AutoMoq\AutoMoq.csproj" />
-        <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
+        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
       </ItemGroup>
     </Otherwise>
   </Choose>

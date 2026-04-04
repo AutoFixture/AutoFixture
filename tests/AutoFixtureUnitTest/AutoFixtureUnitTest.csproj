@@ -39,7 +39,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Linq.Async" Version="4.0.0" />
-    <ProjectReference Include="..\..\src\TestTypeFoundation\TestTypeFoundation.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>
