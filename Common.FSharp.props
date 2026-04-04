@@ -1,8 +1,0 @@
-<Project>
-    <PropertyGroup>
-        <!--Prevents restoring the latest version of FSharp.Core (i.e. FSharp.Core 5.0.0).
-            Should be safe to remove after dropping net4.5 runtime.-->
-        <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
-        <LangVersion>6</LangVersion>
-    </PropertyGroup>
-</Project>

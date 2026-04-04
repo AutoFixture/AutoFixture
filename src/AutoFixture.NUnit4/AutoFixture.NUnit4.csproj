@@ -1,6 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Common.props" />
-
   <PropertyGroup>
     <TargetFrameworks>net462;net6.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit4</AssemblyTitle>

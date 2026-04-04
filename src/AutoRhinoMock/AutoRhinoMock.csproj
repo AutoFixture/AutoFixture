@@ -1,6 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Common.props" />
-
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <AssemblyTitle>AutoFixture.AutoRhinoMock</AssemblyTitle>

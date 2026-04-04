@@ -1,0 +1,4 @@
+<Project>
+  <!-- Empty one to shadow parent Directory.Build.props.
+       This project is independent of the main solution.  -->
+</Project>

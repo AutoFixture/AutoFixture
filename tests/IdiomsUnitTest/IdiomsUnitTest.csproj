@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Common.props" />
-  <Import Project="..\..\Common.Test.props" />
-  <Import Project="..\..\Common.Test.xUnit.props" />
-
   <PropertyGroup>
+    <IsXUnit2>true</IsXUnit2>
     <TargetFrameworks>net462;net48;net5.0;net6.0</TargetFrameworks>
     <AssemblyTitle>IdiomsUnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.IdiomsUnitTest</AssemblyName>

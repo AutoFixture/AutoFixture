@@ -1,7 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Common.props" />
-  <Import Project="..\..\Common.FSharp.props" />
-
   <PropertyGroup>
     <TargetFrameworks>net462;netstandard2.0;net5.0;net6.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms.FsCheck</AssemblyTitle>
@@ -15,6 +12,9 @@
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects. And about wrong FSharp version during restore. -->
     <NoWarn>$(NoWarn);FS2003;NU1601</NoWarn>
     <Deterministic>false</Deterministic>
+    <LangVersion>6</LangVersion>
+    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <DisableImplicitSystemValueTupleReference>true</DisableImplicitSystemValueTupleReference>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.Idioms.FsCheck</PackageId>

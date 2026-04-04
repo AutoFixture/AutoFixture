@@ -1,7 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Common.props" />
-  <Import Project="..\..\Common.Test.props" />
-
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <AssemblyTitle>AutoFixture.xUnit.net.UnitTest</AssemblyTitle>
