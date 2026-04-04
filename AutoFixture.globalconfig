@@ -26,6 +26,7 @@ dotnet_diagnostic.CA5394.severity = none	# CA5394: Do not use insecure randomnes
 
 ## StyleCop Analyzers ##
 
+dotnet_diagnostic.SA1101.severity = none # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1116.severity = none # SA1116: The parameters should begin on the line after the declaration, whenever the parameter span across multiple line
 dotnet_diagnostic.SA1117.severity = none # SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line.
 dotnet_diagnostic.SA1118.severity = none # SA1118: The parameter spans multiple lines
@@ -35,6 +36,9 @@ dotnet_diagnostic.SA1202.severity = none # SA1202: 'public' members should come 
 dotnet_diagnostic.SA1203.severity = none # SA1203: Constant fields should appear before non-constant fields
 dotnet_diagnostic.SA1204.severity = none # SA1204: Static members should appear before non-static members
 dotnet_diagnostic.SA1214.severity = none # SA1214: Readonly fields should appear before non-readonly fields
+dotnet_diagnostic.SA1308.severity = none # SA1308: Variable names should not be prefixed
+dotnet_diagnostic.SA1309.severity = none # SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1311.severity = none # SA1311: Static readonly fields should begin with upper-case letter
 dotnet_diagnostic.SA1413.severity = none # SA1413: Use trailing comma in multi-line initializers
 dotnet_diagnostic.SA1501.severity = none # SA1501: Statement should not be on a single line
 dotnet_diagnostic.SA1503.severity = none # SA1503: Braces should not be omitted
