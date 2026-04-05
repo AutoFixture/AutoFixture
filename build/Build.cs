@@ -24,8 +24,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     AutoGenerate = false,
     OnPullRequestBranches = new[] { MasterBranch, ReleaseBranch },
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) },
-    EnableGitHubToken = true)]
+    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) })]
 [GitHubActions(
     "release",
     GitHubActionsImage.WindowsLatest,
@@ -33,7 +32,6 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     OnPushTags = new[] { "v*" },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
-    EnableGitHubToken = true,
     ImportSecrets = new[] { Secrets.NuGetApiKey })]
 partial class Build : NukeBuild
 {
@@ -50,7 +48,6 @@ partial class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [CI] readonly GitHubActions GitHubActions;
 
-    [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
     [Parameter("Forces the continuous integration build flag")] readonly bool CI;
 
     [Secret] [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
