@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsXUnit3>true</IsXUnit3>
-    <TargetFrameworks>net48;net6.0</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0;net8.0;net10.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.xUnit.net3.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit3.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Xunit3.UnitTest</RootNamespace>
