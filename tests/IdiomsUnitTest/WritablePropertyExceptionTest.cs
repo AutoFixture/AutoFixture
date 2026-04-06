@@ -112,6 +112,7 @@ public class WritablePropertyExceptionTest
         Assert.Equal<Exception>(expected, result);
     }
 
+#if !NET8_0_OR_GREATER
     [Fact]
     [Obsolete]
     public void MessageSerializesCorrectly()
@@ -182,5 +183,6 @@ public class WritablePropertyExceptionTest
                 Assert.Equal(property, e.PropertyInfo);
             }
         }
+#endif
 #endif
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 
@@ -211,7 +210,7 @@ internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
         public static object CreateFromTemplate(object obj)
         {
             var t = obj.GetType();
-            if (!t.GetTypeInfo().IsGenericType)
+            if (!t.IsGenericType)
                 return new object();
 
             if (s_equatables.TryGetValue(t.GetGenericTypeDefinition(), out Type equatableType))

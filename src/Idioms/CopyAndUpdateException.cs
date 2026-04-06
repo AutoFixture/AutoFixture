@@ -88,6 +88,7 @@ public class CopyAndUpdateException : Exception
     {
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="CopyAndUpdateException"/> class.
     /// </summary>
@@ -103,6 +104,7 @@ public class CopyAndUpdateException : Exception
         : base(info, context)
     {
     }
+#endif
 
     /// <summary>
     /// Gets the 'copy and update' method which is ill-behaved.
@@ -124,6 +126,7 @@ public class CopyAndUpdateException : Exception
         set => _argumentWithNoMatchingPublicMember = value;
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Adds <see cref="PropertyInfo" /> to a
     /// <see cref="System.Runtime.Serialization.SerializationInfo"/>.
@@ -144,6 +147,7 @@ public class CopyAndUpdateException : Exception
         info.AddValue("memberWithInvalidValue", MemberWithInvalidValue);
         info.AddValue("argumentWithNoMatchingPublicMember", ArgumentWithNoMatchingPublicMember);
     }
+#endif
 
     private static string FormatMessageForMethodAndArgument(MethodInfo methodInfo, ParameterInfo argumentWithNoMatchingPublicMember)
     {

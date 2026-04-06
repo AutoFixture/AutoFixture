@@ -18,6 +18,7 @@ using AutoFixtureUnitTest.DataAnnotations;
 using AutoFixtureUnitTest.Kernel;
 using TestTypeFoundation;
 using Xunit;
+using MethodInvoker = AutoFixture.Kernel.MethodInvoker;
 
 namespace AutoFixtureUnitTest;
 

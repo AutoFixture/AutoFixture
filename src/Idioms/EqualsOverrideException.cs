@@ -43,6 +43,7 @@ public class EqualsOverrideException : Exception
     {
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="EqualsOverrideException"/> class.
     /// </summary>
@@ -58,4 +59,5 @@ public class EqualsOverrideException : Exception
         : base(info, context)
     {
     }
+#endif
 }

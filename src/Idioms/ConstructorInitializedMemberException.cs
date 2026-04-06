@@ -140,6 +140,7 @@ public class ConstructorInitializedMemberException : Exception
         _memberInfo = propertyInfo;
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class with
     /// serialized data.
@@ -157,6 +158,7 @@ public class ConstructorInitializedMemberException : Exception
     {
         _memberInfo = (PropertyInfo)info.GetValue("memberInfo", typeof(MemberInfo));
     }
+#endif
 
     /// <summary>
     /// Gets the property or field supplied via the constructor.
@@ -183,6 +185,7 @@ public class ConstructorInitializedMemberException : Exception
     /// </summary>
     public ParameterInfo MissingParameter => _missingParameter;
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Adds <see cref="PropertyInfo" /> to a
     /// <see cref="System.Runtime.Serialization.SerializationInfo"/>.
@@ -202,6 +205,7 @@ public class ConstructorInitializedMemberException : Exception
 
         info.AddValue("memberInfo", _memberInfo);
     }
+#endif
 
     private static string FormatDefaultMessage(ConstructorInfo constructorInfo, ParameterInfo missingParameter)
     {
