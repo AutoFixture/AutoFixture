@@ -2,11 +2,11 @@ mode: ContinuousDelivery
 assembly-versioning-scheme: MajorMinorPatch
 tag-prefix: '[vV]'
 branches:
-  master:
+  main:
     tag: ''
     increment: Minor
   release:
-    source-branches: ['master']
+    source-branches: ['main']
     prevent-increment-of-merged-branch-version: true
     tag: 'preview'
 ignore:
