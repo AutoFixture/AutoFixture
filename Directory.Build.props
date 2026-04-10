@@ -22,6 +22,19 @@
     <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
     <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
 
+    <!--
+      Suppress CA rules newly promoted to 'latest-Recommended' by the .NET 10 SDK analyzer.
+      These are style/performance suggestions that would require widespread code changes;
+      suppressed globally to keep the diff minimal while staying on AnalysisLevel=latest-Recommended.
+
+      CA1510 - Use ArgumentNullException.ThrowIfNull instead of explicit null-check + throw
+      CA1852 - Seal internal types (prevents unnecessary virtual dispatch)
+      CA1859 - Use concrete type instead of interface/abstract on local variables/returns
+      CA1860 - Prefer Length/Count over LINQ Any() for collections
+      CA2263 - Prefer the generic Type.GetType overload over string-based overload
+    -->
+    <NoWarn>$(NoWarn);CA1510;CA1852;CA1859;CA1860;CA2263</NoWarn>
+
     <!-- Setup static code analysis mode. -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest-Recommended</AnalysisLevel>

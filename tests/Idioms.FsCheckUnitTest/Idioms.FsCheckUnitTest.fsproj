@@ -8,7 +8,9 @@
     <!-- Skip warning about invalid AssemblyInformationalVersion attribute in F# projects -->
     <NoWarn>$(NoWarn);FS2003</NoWarn>
     <Deterministic>false</Deterministic>
-    <LangVersion>6</LangVersion>
+    <!-- F# language versions tied to EOL .NET releases are rejected by .NET 10 SDK (FS3880).
+         Using 8.0 (aligned with .NET 8 LTS) as the minimum supported version. -->
+    <LangVersion>8.0</LangVersion>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
     <DisableImplicitSystemValueTupleReference>true</DisableImplicitSystemValueTupleReference>
   </PropertyGroup>

@@ -11,8 +11,6 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.IO.CompressionTasks;
-using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
@@ -33,7 +31,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
     ImportSecrets = new[] { Secrets.NuGetApiKey })]
-partial class Build : NukeBuild
+class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
 
@@ -59,10 +57,10 @@ partial class Build : NukeBuild
         Solution.GetProject("TestTypeFoundation")
     };
 
-    IEnumerable<Project> TestProjects => Solution.GetProjects("*Test");
+    IEnumerable<Project> TestProjects => Solution.GetAllProjects("*Test");
     IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
-    IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.Is(ProjectType.CSharpProject));
-    IEnumerable<Project> FSharpLibraries => Libraries.Where(x => x.Path.ToString().EndsWith(".fsproj"));
+    IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.FileName.ToString().EndsWith(".csproj"));
+    IEnumerable<Project> FSharpLibraries => Libraries.Where(x => x.FileName.ToString().EndsWith(".fsproj"));
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
 
     bool IsContinuousIntegration => IsServerBuild || CI;
@@ -80,13 +78,13 @@ partial class Build : NukeBuild
         {
             SourceDirectory
                 .GlobDirectories("**/bin", "**/obj")
-                .ForEach(DeleteDirectory);
+                .ForEach(x => x.DeleteDirectory());
 
             TestsDirectory
                 .GlobDirectories("**/bin", "**/obj")
-                .ForEach(DeleteDirectory);
+                .ForEach(x => x.DeleteDirectory());
 
-            EnsureCleanDirectory(ArtifactsDirectory);
+            ArtifactsDirectory.CreateOrCleanDirectory();
         });
 
     Target Restore => _ => _
@@ -94,8 +92,7 @@ partial class Build : NukeBuild
         {
             DotNetRestore(s => s
                 .SetProjectFile(Solution)
-                .SetProcessArgumentConfigurator(a => a
-                    .Add("/p:CheckEolTargetFramework=false")));
+                .SetProperty("CheckEolTargetFramework", "false"));
         });
 
     Target Verify => _ => _
@@ -108,8 +105,7 @@ partial class Build : NukeBuild
                 .SetConfiguration(Configuration.Verify)
                 .SetNoRestore(FinishedTargets.Contains(Restore))
                 .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetProcessArgumentConfigurator(a => a
-                    .Add("/p:CheckEolTargetFramework=false")));
+                .SetProperty("CheckEolTargetFramework", "false"));
         });
 
     Target Compile => _ => _
@@ -126,8 +122,7 @@ partial class Build : NukeBuild
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetNoRestore(FinishedTargets.Contains(Restore))
-                .SetProcessArgumentConfigurator(a => a
-                    .Add("/p:CheckEolTargetFramework=false")));
+                .SetProperty("CheckEolTargetFramework", "false"));
         });
 
     Target Test => _ => _
@@ -140,19 +135,19 @@ partial class Build : NukeBuild
                 .SetResultsDirectory(TestResultsDirectory)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
                 .SetLoggers("trx")
-                .SetProcessArgumentConfigurator(a => a
-                    .Add("/p:CheckEolTargetFramework=false")
-                    .Add("-- RunConfiguration.DisableAppDomain=true")
-                    .Add("-- RunConfiguration.NoAutoReporters=true"))
-                .When(InvokedTargets.Contains(Cover), _ => _
-                    .SetDataCollector("XPlat Code Coverage"))
+                .SetProperty("CheckEolTargetFramework", "false")
+                .SetProcessAdditionalArguments(
+                    "-- RunConfiguration.DisableAppDomain=true",
+                    "-- RunConfiguration.NoAutoReporters=true")
+                .When(
+                    _ => InvokedTargets.Contains(Cover),
+                    x => x.SetDataCollector("XPlat Code Coverage"))
                 .CombineWith(TestProjects, (s, p) => s.SetProjectFile(p)));
 
             var testArchive = TestResultsDirectory / "TestResults.zip";
-            if(testArchive.Exists())
-                DeleteFile(testArchive);
-
-            CompressZip(TestResultsDirectory, testArchive);
+            testArchive.DeleteFile();
+            
+            TestResultsDirectory.ZipTo(testArchive);
         });
 
     Target Cover => _ => _
@@ -163,17 +158,16 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(_ => _
-                .SetFramework("net5.0")
+                .SetFramework("net10.0")
                 .SetAssemblyFilters("-TestTypeFoundation*")
                 .SetReports(TestResultsDirectory / "**" / "coverage.cobertura.xml")
                 .SetTargetDirectory(ReportsDirectory)
                 .SetReportTypes("lcov", ReportTypes.HtmlInline));
 
             var coverageArchive = ReportsDirectory / "CoverageReport.zip";
-            if(coverageArchive.Exists())
-                DeleteFile(coverageArchive);
+            coverageArchive.DeleteFile();
 
-            CompressZip(ReportsDirectory, coverageArchive);
+            ReportsDirectory.ZipTo(coverageArchive);
         });
 
     Target Pack => _ => _
@@ -195,8 +189,7 @@ partial class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetProcessArgumentConfigurator(a => a
-                    .Add("/p:CheckEolTargetFramework=false"))
+                .SetProperty("CheckEolTargetFramework", "false")
                 .CombineWith(CSharpLibraries, (s, p) => s.SetProject(p)));
 
             DotNetPack(s => s
@@ -209,8 +202,7 @@ partial class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetProcessArgumentConfigurator(a => a
-                    .Add("/p:CheckEolTargetFramework=false"))
+                .SetProperty("CheckEolTargetFramework", "false")
                 .CombineWith(FSharpLibraries, (s, p) => s.SetProject(p)));
         });
 
@@ -222,11 +214,11 @@ partial class Build : NukeBuild
             DotNetNuGetPush(s => s
                 .EnableSkipDuplicate()
                 .When(
-                    GitHubActions.IsOnSemVerTag(),
+                    _ => GitHubActions.IsOnSemVerTag(),
                     v => v
                         .SetApiKey(NuGetApiKey)
                         .SetSource(NuGetSource))
-                .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
+                .CombineWith(Packages, (s, p) => s.SetTargetPath(p)));
         });
 
     public static class Secrets
