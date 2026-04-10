@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2009 Wilfred Springer
  * http://github.com/moodmosaic/Fare/
  * Original Java code:
@@ -95,7 +95,7 @@ namespace Fare
 
         private void Generate(StringBuilder builder, State state, int depth)
         {
-            if (depth == 10_000)
+            if (depth == 1_000)
             {
                 throw new InvalidOperationException("Potential stack overflow");
             }
