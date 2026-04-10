@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+<!--  <Import Project="..\Common.props" />-->
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyTitle>Fare</AssemblyTitle>
+    <AssemblyName>Fare</AssemblyName>
+    <Copyright>Copyright © Nikos Baxevanis 2016</Copyright>
+<!--    -->
+<!--    <SignAssembly>true</SignAssembly>-->
+<!--    <AssemblyOriginatorKeyFile>../Fare.snk</AssemblyOriginatorKeyFile>-->
+
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+<!--    <CodeAnalysisRuleSet>Fare.ruleset</CodeAnalysisRuleSet>-->
+
+    <!-- NuGet options -->
+    <PackageId>Fare</PackageId>
+    <Title>Fare - Finite Automata and Regular Expressions</Title>
+    <Description>.NET port of dk.brics.automaton - Project Fare is an effort to bring a DFA/NFA (finite-state automata) implementation from Java to .NET. There are quite a few implementations available in other languages today. This project aims to fill the gap in .NET.</Description>
+
+    <Authors>Nikos Baxevanis</Authors>
+    <PackageProjectUrl>https://github.com/moodmosaic/Fare</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/moodmosaic/Fare/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>Regex Test NFA DFA Automaton</PackageTags>
+  </PropertyGroup>
+</Project>
