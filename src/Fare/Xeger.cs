@@ -95,10 +95,8 @@ namespace Fare
 
         private void Generate(StringBuilder builder, State state, int depth)
         {
-            if (depth == 1000)
-            {
-                throw new InvalidOperationException("Potential stack overflow");
-            }
+            System.Runtime.CompilerServices.RuntimeHelpers.EnsureSufficientExecutionStack();
+
             
             var transitions = state.GetSortedTransitions(true);
             if (transitions.Count == 0)
