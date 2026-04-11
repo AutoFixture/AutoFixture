@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
 using Xunit;
@@ -178,7 +177,7 @@ public class MethodInvokerTest
             if (parameters.Any(r.Equals))
             {
                 mockVerified = true;
-                var pType = ((ParameterInfo)r).ParameterType;
+                var pType = ((System.Reflection.ParameterInfo)r).ParameterType;
                 if (typeof(long) == pType)
                 {
                     return default(long);
@@ -218,7 +217,7 @@ public class MethodInvokerTest
         {
             if (ctor2Params.Any(r.Equals))
             {
-                var pType = ((ParameterInfo)r).ParameterType;
+                var pType = ((System.Reflection.ParameterInfo)r).ParameterType;
                 if (typeof(string) == pType)
                 {
                     return expectedText;

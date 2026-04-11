@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsXUnit2>true</IsXUnit2>
-    <TargetFrameworks>net462;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net462;net5.0;net6.0;net8.0;net10.0</TargetFrameworks>
     <AssemblyTitle>AutoNSubstitute.NSubstitute4.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoNSubstitute.NSubstitute4UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoNSubstitute.UnitTest</RootNamespace>

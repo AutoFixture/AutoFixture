@@ -37,6 +37,7 @@ public class EqualityComparerImplementationException : Exception
     {
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Initializes a new instance of teh <see cref="EqualityComparerImplementationException"/> class.
     /// </summary>
@@ -52,4 +53,5 @@ public class EqualityComparerImplementationException : Exception
         : base(info, context)
     {
     }
+#endif
 }

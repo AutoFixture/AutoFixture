@@ -43,6 +43,7 @@ public class GetHashCodeOverrideException : Exception
     {
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="GetHashCodeOverrideException"/> class.
     /// </summary>
@@ -58,4 +59,5 @@ public class GetHashCodeOverrideException : Exception
         : base(info, context)
     {
     }
+#endif
 }

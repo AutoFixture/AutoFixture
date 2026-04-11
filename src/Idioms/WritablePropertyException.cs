@@ -55,6 +55,7 @@ public class WritablePropertyException : Exception
         _propertyInfo = propertyInfo;
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="WritablePropertyException"/> class with
     /// serialized data.
@@ -74,6 +75,7 @@ public class WritablePropertyException : Exception
             _propertyInfo = (PropertyInfo)info.GetValue("PropertyInfo", typeof(PropertyInfo));
 #endif
     }
+#endif
 
     /// <summary>
     /// Gets the property supplied via the constructor.
@@ -83,6 +85,7 @@ public class WritablePropertyException : Exception
     /// </summary>
     public PropertyInfo PropertyInfo => _propertyInfo;
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Adds <see cref="PropertyInfo" /> to a
     /// <see cref="System.Runtime.Serialization.SerializationInfo"/>.
@@ -104,6 +107,7 @@ public class WritablePropertyException : Exception
         info.AddValue("PropertyInfo", _propertyInfo);
 #endif
     }
+#endif
 
     private static string FormatDefaultMessage(PropertyInfo propertyInfo)
     {

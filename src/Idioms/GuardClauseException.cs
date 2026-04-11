@@ -42,6 +42,7 @@ public class GuardClauseException : Exception
     {
     }
 
+#if !NET8_0_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="GuardClauseException"/> class.
     /// </summary>
@@ -57,4 +58,5 @@ public class GuardClauseException : Exception
         : base(info, context)
     {
     }
+#endif
 }
