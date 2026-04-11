@@ -95,7 +95,7 @@ namespace Fare
 
         private void Generate(StringBuilder builder, State state, int depth)
         {
-            if (depth == 50)
+            if (depth == 200)
             {
                 throw new InvalidOperationException("Potential stack overflow");
             }
@@ -122,7 +122,7 @@ namespace Fare
             // Moving on to next transition.
             Transition transition = transitions[option - (state.Accept ? 1 : 0)];
             this.AppendChoice(builder, transition);
-            Generate(builder, transition.To, depth++);
+            Generate(builder, transition.To, depth+1);
         }
 
         private void AppendChoice(StringBuilder builder, Transition transition)
