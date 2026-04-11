@@ -95,7 +95,7 @@ namespace Fare
 
         private void Generate(StringBuilder builder, State state, int depth)
         {
-            if (depth == 200)
+            if (depth == 1000)
             {
                 throw new InvalidOperationException("Potential stack overflow");
             }
