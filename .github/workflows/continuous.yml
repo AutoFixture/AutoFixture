@@ -32,3 +32,22 @@ jobs:
 
       - name: Run './build.cmd Verify Cover Pack'
         run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+      - name: Run './build.cmd Verify Cover Pack'
+        run: ./build.cmd Cover --no-logo
+        
