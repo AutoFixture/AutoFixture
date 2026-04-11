@@ -134,11 +134,12 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetResultsDirectory(TestResultsDirectory)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
-                .SetLoggers("trx")
+                .SetLoggers("trx", "console;verbosity=normal")
                 .SetProperty("CheckEolTargetFramework", "false")
+                .SetProperty("VSTestVerbosity", "normal")
                 .SetProcessAdditionalArguments(
-                    "-- RunConfiguration.DisableAppDomain=true",
-                    "-- RunConfiguration.NoAutoReporters=true")
+                    "--verbosity", "normal",
+                    "-- RunConfiguration.DisableAppDomain=true")
                 .When(
                     _ => InvokedTargets.Contains(Cover),
                     x => x.SetDataCollector("XPlat Code Coverage"))

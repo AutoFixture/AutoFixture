@@ -4,11 +4,19 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using AutoFixtureUnitTest.Kernel;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace AutoFixtureUnitTest;
 
 public class RegularExpressionGeneratorTest
 {
+    private readonly ITestOutputHelper _output;
+
+    public RegularExpressionGeneratorTest(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     [Fact]
     public void SutIsSpecimenBuilder()
     {
@@ -94,6 +102,7 @@ public class RegularExpressionGeneratorTest
     [InlineData(@"^(?x:[a-z0-9])+$")]
     public void CreateWithRegularExpressionRequestReturnsCorrectResult(string pattern)
     {
+        _output.WriteLine("CreateWithRegularExpressionRequestReturnsCorrectResult input: " + pattern);
         // Arrange
         var sut = new RegularExpressionGenerator();
         var request = new RegularExpressionRequest(pattern);
@@ -108,6 +117,7 @@ public class RegularExpressionGeneratorTest
     [InlineData(@"^[A-Z]{27}$")]
     public void CreateMultipleWithRegularExpressionRequestReturnsDifferentResults(string pattern)
     {
+        _output.WriteLine("CreateMultipleWithRegularExpressionRequestReturnsDifferentResults input: " + pattern);
         // This test exposes an issue with Xeger/Random.
         // Xeger(pattern) internally creates an instance of Random with the default seed.
         // This means that the RegularExpressionGenerator might create identical strings
@@ -130,6 +140,7 @@ public class RegularExpressionGeneratorTest
     [InlineData(@"(?\[Test\]|\[Foo\]|\[Bar\])?(?:-)?(?\[[()a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?")]
     public void CreateWithNotSupportedRegularExpressionRequestReturnsCorrectResult(string pattern)
     {
+        _output.WriteLine("CreateWithNotSupportedRegularExpressionRequestReturnsCorrectResult input: " + pattern);
         // Arrange
         var sut = new RegularExpressionGenerator();
         var request = new RegularExpressionRequest(pattern);
