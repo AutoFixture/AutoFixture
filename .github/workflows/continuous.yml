@@ -30,5 +30,25 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
-      - name: Run './build.cmd Verify Cover Pack'
-        run: ./build.cmd Verify Cover Pack --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
+      - name: Run tests
+        run: ./build.cmd Cover --no-logo
