@@ -6,10 +6,10 @@ on:
       - 'v*'
 
 jobs:
-  windows-latest:  
-    name: windows-latest
+  publish:  
     runs-on: windows-latest
 
+    environment: nuget-push
     permissions:
       id-token: write
 
@@ -18,13 +18,6 @@ jobs:
         with:
           fetch-depth: 0
 
-        # Read more: https://devblogs.microsoft.com/dotnet/enhanced-security-is-here-with-the-new-trust-publishing-on-nuget-org/  
-      - name: NuGet login (OIDC → temp API key)
-        uses: NuGet/login@v1
-        id: nugetLogin
-        with:
-          user: ${{ secrets.NUGET_USER }}
-
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
@@ -32,15 +25,14 @@ jobs:
             6.0.x
             8.0.x
             10.0.x
-
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
           
+        # Read more: https://devblogs.microsoft.com/dotnet/enhanced-security-is-here-with-the-new-trust-publishing-on-nuget-org/  
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: nugetLogin
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Run './build.cmd Verify Cover Publish'
         run: ./build.cmd Verify Cover Publish --no-logo
         env:

@@ -16,21 +16,6 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
 [ShutdownDotNetAfterServerBuild]
 [DotNetVerbosityMapping]
-[GitHubActions(
-    "continuous",
-    GitHubActionsImage.WindowsLatest,
-    AutoGenerate = false,
-    OnPullRequestBranches = new[] { MasterBranch, ReleaseBranch },
-    PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) })]
-[GitHubActions(
-    "release",
-    GitHubActionsImage.WindowsLatest,
-    AutoGenerate = false,
-    OnPushTags = new[] { "v*" },
-    PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
-    ImportSecrets = new[] { Secrets.NuGetApiKey })]
 class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
