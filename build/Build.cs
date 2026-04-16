@@ -20,9 +20,6 @@ class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
 
-    const string MasterBranch = "master";
-    const string ReleaseBranch = "release/*";
-
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
@@ -44,8 +41,6 @@ class Build : NukeBuild
 
     IEnumerable<Project> TestProjects => Solution.GetAllProjects("*Test");
     IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
-    IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.FileName.ToString().EndsWith(".csproj"));
-    IEnumerable<Project> FSharpLibraries => Libraries.Where(x => x.FileName.ToString().EndsWith(".fsproj"));
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
 
     bool IsContinuousIntegration => IsServerBuild || CI;
@@ -175,20 +170,7 @@ class Build : NukeBuild
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetProperty("CheckEolTargetFramework", "false")
-                .CombineWith(CSharpLibraries, (s, p) => s.SetProject(p)));
-
-            DotNetPack(s => s
-                .SetConfiguration(Configuration)
-                .SetOutputDirectory(PackagesDirectory)
-                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
-                .EnableIncludeSymbols()
-                .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetVersion(GitVersion.NuGetVersionV2)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetProperty("CheckEolTargetFramework", "false")
-                .CombineWith(FSharpLibraries, (s, p) => s.SetProject(p)));
+                .CombineWith(Libraries, (s, p) => s.SetProject(p)));
         });
 
     Target Publish => _ => _

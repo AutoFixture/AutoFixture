@@ -15,7 +15,6 @@
     <Project Path="src/AutoFixture.xUnit3/AutoFixture.xUnit3.csproj" />
     <Project Path="src/AutoMoq/AutoMoq.csproj" />
     <Project Path="src/AutoNSubstitute/AutoNSubstitute.csproj" />
-    <Project Path="src/Idioms.FsCheck/Idioms.FsCheck.fsproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
@@ -40,7 +39,6 @@
     <Project Path="tests/AutoMoqUnitTest/AutoMoqUnitTest.csproj" />
     <Project Path="tests/AutoNSubstitute.NSubstitute5UnitTest/AutoNSubstitute.NSubstitute5UnitTest.csproj" />
     <Project Path="tests/AutoNSubstituteUnitTest/AutoNSubstituteUnitTest.csproj" />
-    <Project Path="tests/Idioms.FsCheckUnitTest/Idioms.FsCheckUnitTest.fsproj" />
     <Project Path="tests/IdiomsUnitTest/IdiomsUnitTest.csproj" />
     <Project Path="tests/TestTypeFoundation/TestTypeFoundation.csproj" />
   </Folder>
