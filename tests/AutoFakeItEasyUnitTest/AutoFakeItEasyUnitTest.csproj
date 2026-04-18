@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsXUnit2>true</IsXUnit2>
-    <TargetFrameworks>net462;net5.0;net6.0;net8.0;net10.0</TargetFrameworks>
-    <AssemblyTitle>AutoFakeItEasyUnitTest</AssemblyTitle>
+    <TargetFrameworks>net462;$(BaseTargetFrameworks)</TargetFrameworks>
+    <AssemblyTitle>AutoFakeItEasy.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoFakeItEasy.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="[6.2.1]" />
+    <PackageReference Include="FakeItEasy" Version="[9.0.1]" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,5 +16,4 @@
     <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
-
 </Project>

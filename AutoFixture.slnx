@@ -28,8 +28,6 @@
     <File Path="tests/tests.stylecop.globalconfig" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/AutoFakeItEasy.FakeItEasy7UnitTest/AutoFakeItEasy.FakeItEasy7UnitTest.csproj" />
-    <Project Path="tests/AutoFakeItEasy.FakeItEasy8UnitTest/AutoFakeItEasy.FakeItEasy8UnitTest.csproj" />
     <Project Path="tests/AutoFakeItEasyUnitTest/AutoFakeItEasyUnitTest.csproj" />
     <Project Path="tests/AutoFixture.NUnit4.UnitTest/AutoFixture.NUnit4.UnitTest.csproj" />
     <Project Path="tests/AutoFixture.SeedExtensions.UnitTest/AutoFixture.SeedExtensions.UnitTest.csproj" />
@@ -37,7 +35,6 @@
     <Project Path="tests/AutoFixtureDocumentationTest/AutoFixtureDocumentationTest.csproj" />
     <Project Path="tests/AutoFixtureUnitTest/AutoFixtureUnitTest.csproj" />
     <Project Path="tests/AutoMoqUnitTest/AutoMoqUnitTest.csproj" />
-    <Project Path="tests/AutoNSubstitute.NSubstitute5UnitTest/AutoNSubstitute.NSubstitute5UnitTest.csproj" />
     <Project Path="tests/AutoNSubstituteUnitTest/AutoNSubstituteUnitTest.csproj" />
     <Project Path="tests/IdiomsUnitTest/IdiomsUnitTest.csproj" />
     <Project Path="tests/TestTypeFoundation/TestTypeFoundation.csproj" />
