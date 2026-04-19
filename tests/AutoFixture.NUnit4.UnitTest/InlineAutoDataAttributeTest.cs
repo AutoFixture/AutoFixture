@@ -13,14 +13,6 @@ namespace AutoFixture.NUnit4.UnitTest;
 public class InlineAutoDataAttributeTest
 {
     [Test]
-    public void IfExtendedWithNullFixtureThenThrows()
-    {
-#pragma warning disable 612
-        Assert.Throws<ArgumentNullException>(() => new InlineAutoDataAttributeStub((IFixture)null));
-#pragma warning restore 612
-    }
-
-    [Test]
     public void InitializeWithNullFixtureFactoryThrows()
     {
         // Arrange

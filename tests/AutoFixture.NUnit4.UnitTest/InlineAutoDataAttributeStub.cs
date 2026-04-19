@@ -7,13 +7,7 @@ namespace AutoFixture.NUnit4.UnitTest;
 /// </summary>
 public class InlineAutoDataAttributeStub : InlineAutoDataAttribute
 {
-    [Obsolete]
-    public InlineAutoDataAttributeStub(IFixture fixture, params object[] arguments)
-        : base(fixture, arguments)
-    {
-    }
-
-    public InlineAutoDataAttributeStub(Func<IFixture> fixtureFactory, params object[] arguments)
+  public InlineAutoDataAttributeStub(Func<IFixture> fixtureFactory, params object[] arguments)
         : base(fixtureFactory, arguments)
     {
     }
