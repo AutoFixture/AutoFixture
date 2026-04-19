@@ -11,6 +11,7 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Utilities.Collections;
+using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
@@ -43,6 +44,13 @@ class Build : NukeBuild
     AbsolutePath TestResultsDirectory => ArtifactsDirectory / "testresults";
     AbsolutePath ReportsDirectory => ArtifactsDirectory / "reports";
     AbsolutePath PackagesDirectory => ArtifactsDirectory / "packages";
+
+    Target LogGitVersion => _ => _
+        .Before(Clean)
+        .Executes(() =>
+        {
+            Log.Information("Git version: {version}", GitVersion.ToString());
+        });
 
     Target Clean => _ => _
         .Before(Restore)

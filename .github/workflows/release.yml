@@ -32,7 +32,7 @@ jobs:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Run './build.cmd Verify Cover Publish'
-        run: ./build.cmd Verify Cover Publish --no-logo
+        run: ./build.cmd LogGitVersion Verify Cover Publish --no-logo
         env:
           NUGET_API_KEY: ${{ steps.nugetLogin.outputs.NUGET_API_KEY }}
 
