@@ -38,7 +38,7 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Assert
             Assert.False(sut.GenerateDelegates);
         }
-        
+
         [Fact]
         public void ThrowsIfNullRelayIsSet()
         {

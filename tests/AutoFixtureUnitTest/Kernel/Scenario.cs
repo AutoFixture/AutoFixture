@@ -78,58 +78,6 @@ public class Scenario
     }
 
     [Fact]
-    [Obsolete]
-    public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGeneratorObsolete()
-    {
-        // Arrange
-        var intGenerator = new Int32SequenceGenerator();
-        var builder = new CompositeSpecimenBuilder(
-            intGenerator,
-            new StringGenerator(() => intGenerator.CreateAnonymous()),
-            new Int64SequenceGenerator(),
-            new DecimalSequenceGenerator(),
-            new BooleanSwitch(),
-            new GuidGenerator(),
-            new MethodInvoker(new ModestConstructorQuery()),
-            new ParameterRequestRelay(),
-            new StringSeedRelay(),
-            new SeedIgnoringRelay());
-        var container = new SpecimenContext(builder);
-        // Act
-        var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
-        // Assert
-        Assert.Equal(1, result.Parameter1);
-        Assert.Equal("parameter22", result.Parameter2);
-        Assert.Equal(3, result.Parameter3);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
-    {
-        // Arrange
-        var intGenerator = new Int32SequenceGenerator();
-        var builder = new CompositeSpecimenBuilder(
-            intGenerator,
-            new StringGenerator(() => intGenerator.Create()),
-            new Int64SequenceGenerator(),
-            new DecimalSequenceGenerator(),
-            new BooleanSwitch(),
-            new GuidGenerator(),
-            new MethodInvoker(new ModestConstructorQuery()),
-            new ParameterRequestRelay(),
-            new StringSeedRelay(),
-            new SeedIgnoringRelay());
-        var container = new SpecimenContext(builder);
-        // Act
-        var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
-        // Assert
-        Assert.Equal(1, result.Parameter1);
-        Assert.Equal("parameter22", result.Parameter2);
-        Assert.Equal(3, result.Parameter3);
-    }
-
-    [Fact]
     public void CreateAndAddPropertyValues()
     {
         // Arrange
@@ -201,7 +149,7 @@ public class Scenario
         var expectedText = "Fnaah";
 
         var specifiedCommand = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, expectedText);
-        var reservedProperty = new InverseRequestSpecification(specifiedCommand);
+        var reservedProperty = new InverseRequestSpecification(new EqualRequestSpecification(specifiedCommand.Member));
 
         var customizedBuilder = new Postprocessor(
             new Postprocessor(
@@ -247,18 +195,6 @@ public class Scenario
     }
 
     [Fact]
-    [Obsolete]
-    public void CreateAnonymousReturnsCorrectResult()
-    {
-        // Arrange
-        var container = Scenario.CreateContainer();
-        // Act
-        var result = container.CreateAnonymous<int>();
-        // Assert
-        Assert.Equal(1, result);
-    }
-
-    [Fact]
     public void CreateReturnsCorrectResult()
     {
         // Arrange
@@ -290,23 +226,6 @@ public class Scenario
         var result = container.CreateMany<long>(count);
         // Assert
         Assert.True(Enumerable.Range(1, count).Select(i => (long)i).SequenceEqual(result));
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ComposeWithValueReturnsCorrectResultObsolete()
-    {
-        // Arrange
-        var expectedValue = 9;
-        var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>()
-            .With(x => x.Property, expectedValue);
-        var builder = new CompositeSpecimenBuilder(
-            customBuilder,
-            Scenario.CreateCoreBuilder());
-        // Act
-        var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<int>>();
-        // Assert
-        Assert.Equal(expectedValue, result.Property);
     }
 
     [Fact]
@@ -365,24 +284,6 @@ public class Scenario
     }
 
     [Fact]
-    [Obsolete]
-    public void ComposeWithAutoPropertiesAndExplicitPropertyObsolete()
-    {
-        // Arrange
-        var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
-            .WithAutoProperties()
-            .With(x => x.Property1, 8);
-        var builder = new CompositeSpecimenBuilder(
-            customBuilder,
-            Scenario.CreateCoreBuilder());
-        // Act
-        var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
-        // Assert
-        Assert.Equal(8, result.Property1);
-        Assert.Equal(1, result.Property2);
-    }
-
-    [Fact]
     public void ComposeWithAutoPropertiesAndExplicitProperty()
     {
         // Arrange
@@ -400,23 +301,6 @@ public class Scenario
     }
 
     [Fact]
-    [Obsolete]
-    public void ComposeWithAutoPropertiesObsolete()
-    {
-        // Arrange
-        var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
-            .WithAutoProperties();
-        var builder = new CompositeSpecimenBuilder(
-            customBuilder,
-            Scenario.CreateCoreBuilder());
-        // Act
-        var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
-        // Assert
-        Assert.Equal(1, result.Property1);
-        Assert.Equal(2, result.Property2);
-    }
-
-    [Fact]
     public void ComposeWithAutoProperties()
     {
         // Arrange
@@ -430,30 +314,6 @@ public class Scenario
         // Assert
         Assert.Equal(1, result.Property1);
         Assert.Equal(2, result.Property2);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ComposeComplexObjectWithAutoPropertiesAndSomeCustomizationsObsolete()
-    {
-        // Arrange
-        var builder = new CompositeSpecimenBuilder(
-            SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<long, long>>()
-                .With(x => x.Property2, 43)
-                .WithAutoProperties(),
-            SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, string>>()
-                .OmitAutoProperties()
-                .With(x => x.Property1),
-            SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>()
-                .WithAutoProperties(),
-            Scenario.CreateCoreBuilder());
-        // Act
-        var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>();
-        // Assert
-        Assert.Equal(1, result.Property1.Property1);
-        Assert.Equal(43, result.Property1.Property2);
-        Assert.Equal(1, result.Property2.Property1);
-        Assert.Null(result.Property2.Property2);
     }
 
     [Fact]
@@ -480,20 +340,6 @@ public class Scenario
     }
 
     [Fact]
-    [Obsolete]
-    public void CustomDoSetsCorrectPropertyObsolete()
-    {
-        // Arrange
-        var builder = new CompositeSpecimenBuilder(
-            SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)),
-            Scenario.CreateCoreBuilder());
-        // Act
-        var result = new SpecimenContext(builder).CreateAnonymous<SingleParameterType<PropertyHolder<decimal>>>();
-        // Assert
-        Assert.Equal(6789, result.Parameter.Property);
-    }
-
-    [Fact]
     public void CustomDoSetsCorrectProperty()
     {
         // Arrange
@@ -504,21 +350,6 @@ public class Scenario
         var result = new SpecimenContext(builder).Create<SingleParameterType<PropertyHolder<decimal>>>();
         // Assert
         Assert.Equal(6789, result.Parameter.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ComposeWithoutCorrectlyCreatesSpecimenObsolete()
-    {
-        // Arrange
-        var builder = new CompositeSpecimenBuilder(
-            SpecimenBuilderNodeFactory.CreateComposer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1),
-            Scenario.CreateCoreBuilder());
-        // Act
-        var result = new SpecimenContext(builder).CreateAnonymous<DoubleFieldHolder<string, int>>();
-        // Assert
-        Assert.Null(result.Field1);
-        Assert.Equal(1, result.Field2);
     }
 
     [Fact]
@@ -536,22 +367,6 @@ public class Scenario
     }
 
     [Fact]
-    [Obsolete]
-    public void CustomizeFromFactoryCorrectlyResolvesSpecimenObsolete()
-    {
-        // Arrange
-        var instance = new PropertyHolder<float> { Property = 89 };
-        var builder = new CompositeSpecimenBuilder(
-            SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties(),
-            Scenario.CreateCoreBuilder());
-        // Act
-        var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<float>>();
-        // Assert
-        Assert.Equal(instance, result);
-        Assert.Equal(89, result.Property);
-    }
-
-    [Fact]
     public void CustomizeFromFactoryCorrectlyResolvesSpecimen()
     {
         // Arrange
@@ -564,22 +379,6 @@ public class Scenario
         // Assert
         Assert.Equal(instance, result);
         Assert.Equal(89, result.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CustomizeAndComposeComplexTypeObsolete()
-    {
-        // Arrange
-        // Act
-        var result = new CompositeNodeComposer<DoublePropertyHolder<int, decimal>>(
-                new CompositeSpecimenBuilder(
-                    SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, decimal>>(),
-                    Scenario.CreateAutoPropertyBuilder()))
-            .With(x => x.Property2, 8m).WithAutoProperties().CreateAnonymous();
-        // Assert
-        Assert.Equal(1, result.Property1);
-        Assert.Equal(8, result.Property2);
     }
 
     [Fact]

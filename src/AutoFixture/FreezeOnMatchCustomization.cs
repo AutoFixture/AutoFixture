@@ -50,13 +50,7 @@ public class FreezeOnMatchCustomization : ICustomization
     }
 
     /// <summary>
-    /// The <see cref="Type"/> of the frozen specimen.
-    /// </summary>
-    [Obsolete("Please use the Request property instead.")]
-    public Type TargetType => Request as Type;
-
-    /// <summary>
-    /// The request used to resolve specimens. By default that is TargetType.
+    /// The request used to resolve specimens. By default, that is TargetType.
     /// </summary>
     public object Request { get; }
 

@@ -20,30 +20,6 @@ public class ByteSequenceGenerator : ISpecimenBuilder
     }
 
     /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
-    public byte Create()
-    {
-        lock (_syncRoot)
-        {
-            return ++_b;
-        }
-    }
-
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release.</remarks>
-    [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
-    public byte CreateAnonymous()
-    {
-        return Create();
-    }
-
-    /// <summary>
     /// Creates an anonymous byte.
     /// </summary>
     /// <param name="request">The request that describes what to create.</param>
@@ -59,8 +35,9 @@ public class ByteSequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-#pragma warning disable 618
-        return Create();
-#pragma warning restore 618
+        lock (_syncRoot)
+        {
+            return ++_b;
+        }
     }
 }

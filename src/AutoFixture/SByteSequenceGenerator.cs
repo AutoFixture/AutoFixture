@@ -20,32 +20,6 @@ public class SByteSequenceGenerator : ISpecimenBuilder
     }
 
     /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    [CLSCompliant(false)]
-    [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
-    public sbyte Create()
-    {
-        lock (_syncRoot)
-        {
-            return ++_s;
-        }
-    }
-
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release.</remarks>
-    [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
-    [CLSCompliant(false)]
-    public sbyte CreateAnonymous()
-    {
-        return Create();
-    }
-
-    /// <summary>
     /// Creates an anonymous <see cref="sbyte"/>.
     /// </summary>
     /// <param name="request">The request that describes what to create.</param>
@@ -61,8 +35,9 @@ public class SByteSequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-#pragma warning disable 618
-        return Create();
-#pragma warning restore 618
+        lock (_syncRoot)
+        {
+            return ++_s;
+        }
     }
 }

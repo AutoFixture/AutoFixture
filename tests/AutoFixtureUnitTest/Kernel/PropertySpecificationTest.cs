@@ -19,22 +19,6 @@ public class PropertySpecificationTest
     }
 
     [Fact]
-    [Obsolete]
-    public void InitializeWithPropertyTypeAndNameShouldSetCorrespondingProperties()
-    {
-        // Arrange
-        var type = typeof(string);
-        var name = "someName";
-        // Act
-        var sut = new PropertySpecification(type, name);
-        // Assert
-#pragma warning disable 618
-        Assert.Equal(type, sut.TargetType);
-        Assert.Equal(name, sut.TargetName);
-#pragma warning restore 618
-    }
-
-    [Fact]
     public void InitializeWithNullPropertyTypeShouldThrowArgumentNullException()
     {
         // Arrange

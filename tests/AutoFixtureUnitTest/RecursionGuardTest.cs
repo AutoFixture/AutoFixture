@@ -398,21 +398,6 @@ public class RecursionGuardTest
     }
 
     [Fact]
-    [Obsolete]
-    public void ConstructWithBuilderSetsRecursionDepthCorrectly()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        var dummyHandler = new DelegatingRecursionHandler();
-        // Act
-#pragma warning disable 618
-        var sut = new RecursionGuard(dummyBuilder);
-#pragma warning restore 618
-        // Assert
-        Assert.Equal(1, sut.RecursionDepth);
-    }
-
-    [Fact]
     public void ConstructWithBuilderAndHandlerSetsRecursionDepthCorrectly()
     {
         // Arrange
@@ -422,57 +407,6 @@ public class RecursionGuardTest
         var sut = new RecursionGuard(dummyBuilder, dummyHandler);
         // Assert
         Assert.Equal(1, sut.RecursionDepth);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ConstructWithBuilderAndHandlerAndComparerHasCorrectBuilder()
-    {
-        // Arrange
-        var expected = new DelegatingSpecimenBuilder();
-        var dummyHandler = new DelegatingRecursionHandler();
-        var dummyComparer = new DelegatingEqualityComparer();
-#pragma warning disable 618
-        var sut = new RecursionGuard(expected, dummyHandler, dummyComparer);
-#pragma warning restore 618
-        // Act
-        var actual = sut.Builder;
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ConstructWithBuilderAndHandlerAndComparerHasCorrectHandler()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        var expected = new DelegatingRecursionHandler();
-        var dummyComparer = new DelegatingEqualityComparer();
-#pragma warning disable 618
-        var sut = new RecursionGuard(dummyBuilder, expected, dummyComparer);
-#pragma warning restore 618
-        // Act
-        var actual = sut.RecursionHandler;
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ConstructWithBuilderAndHandlerAndComparerHasCorrectComparer()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        var dummyHandler = new DelegatingRecursionHandler();
-        var expected = new DelegatingEqualityComparer();
-#pragma warning disable 618
-        var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected);
-#pragma warning restore 618
-        // Act
-        var actual = sut.Comparer;
-        // Assert
-        Assert.Equal(expected, actual);
     }
 
     [Fact]

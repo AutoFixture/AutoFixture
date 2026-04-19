@@ -41,30 +41,6 @@ public class FreezeOnMatchCustomizationTest
     }
 
     [Fact]
-    public void InitializeWithTargetTypeShouldSetCorrespondingProperty()
-    {
-        // Arrange
-        var targetType = typeof(object);
-        // Act
-        var sut = new FreezeOnMatchCustomization(typeof(object));
-        // Assert
-#pragma warning disable 618
-        Assert.Equal(targetType, sut.TargetType);
-#pragma warning restore 618
-    }
-
-    [Fact]
-    public void InitializeWithTargetTypeAndMatcherShouldSetCorrespondingProperty()
-    {
-        var targetType = typeof(object);
-        var matcher = new TrueRequestSpecification();
-        var sut = new FreezeOnMatchCustomization(typeof(object), matcher);
-#pragma warning disable 618
-        Assert.Equal(targetType, sut.TargetType);
-#pragma warning restore 618
-    }
-
-    [Fact]
     public void InitializeWithMatcherShouldSetCorrespondingProperty()
     {
         // Arrange

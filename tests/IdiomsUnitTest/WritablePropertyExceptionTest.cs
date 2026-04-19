@@ -114,7 +114,6 @@ public class WritablePropertyExceptionTest
 
 #if !NET8_0_OR_GREATER
     [Fact]
-    [Obsolete]
     public void MessageSerializesCorrectly()
     {
         // Arrange
@@ -137,7 +136,6 @@ public class WritablePropertyExceptionTest
     }
 
     [Fact]
-    [Obsolete]
     public void InnerExceptionSerializesCorrectly()
     {
         // Arrange
@@ -162,7 +160,6 @@ public class WritablePropertyExceptionTest
 
 #if SERIALIZABLE_MEMBERINFO && !NET48 // Excluded .NET Framework 4.8 because in this project it is a runtime for .NET Standard 2.0
     [Fact]
-    [Obsolete]
     public void PropertyInfosSerializesCorrectly()
         {
             // Arrange

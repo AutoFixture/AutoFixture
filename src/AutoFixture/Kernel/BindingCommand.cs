@@ -13,9 +13,7 @@ namespace AutoFixture.Kernel;
 /// The type of the specimen on which the property or value will be set.
 /// </typeparam>
 /// <typeparam name="TProperty">The type of property or field.</typeparam>
-#pragma warning disable 618
-public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShims.ISpecifiedSpecimenCommand<T>
-#pragma warning restore 618
+public class BindingCommand<T, TProperty> : ISpecimenCommand
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
@@ -79,61 +77,6 @@ public class BindingCommand<T, TProperty> : ISpecimenCommand, ObsoletedMemberShi
     /// identified by <see cref="Member"/>.
     /// </summary>
     public Func<ISpecimenContext, TProperty> ValueCreator { get; }
-
-    /// <summary>
-    /// Executes the command on the supplied specimen by assigning the property of field the
-    /// correct value.
-    /// </summary>
-    /// <param name="specimen">
-    /// A specimen that should have its property or field assigned.
-    /// </param>
-    /// <param name="context">
-    /// An <see cref="ISpecimenContext"/> which can supply an anonymous value for the
-    /// property or field.
-    /// </param>
-    /// <remarks>
-    /// <para>
-    /// This method assigns a value to the property or field identified by the expression
-    /// supplied to the class' constructor. If no value (or creator) was supplied to the
-    /// constructor, <paramref name="context"/> will be used to create the value.
-    /// </para>
-    /// </remarks>
-    [Obsolete("This method is no longer used and will be removed in future versions. Please use the Execute(object, ISpecimenContext) overload instead.")]
-    public void Execute(T specimen, ISpecimenContext context)
-    {
-        if (specimen is null) throw new ArgumentNullException(nameof(specimen));
-        if (context is null) throw new ArgumentNullException(nameof(context));
-
-        var bindingValue = ValueCreator(context);
-
-        if (Member is PropertyInfo pi)
-        {
-            pi.SetValue(specimen, bindingValue, null);
-        }
-
-        if (Member is FieldInfo fi)
-        {
-            fi.SetValue(specimen, bindingValue);
-        }
-    }
-
-    /// <summary>
-    /// Evaluates whether a request matches the property or field affected by this command.
-    /// </summary>
-    /// <param name="request">The specimen request.</param>
-    /// <returns>
-    /// <see langword="true"/> if <paramref name="request"/> is a <see cref="PropertyInfo"/>
-    /// or <see cref="FieldInfo"/> that identifies the property or field affected by this
-    /// <see cref="BindingCommand{T, TProperty}"/>; otherwise, <see langword="false"/>.
-    /// </returns>
-    [Obsolete("This method is no longer used and will be removed in future versions. Please use this.Member property for specification instead.")]
-    public bool IsSatisfiedBy(object request)
-    {
-        if (request is null) throw new ArgumentNullException(nameof(request));
-
-        IEqualityComparer comparer = new MemberInfoEqualityComparer();
-        return comparer.Equals(Member, request);
-    }
 
     private TProperty CreateAnonymousValue(ISpecimenContext container)
     {
