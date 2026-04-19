@@ -21,13 +21,5 @@ jobs:
             8.0.x
             10.0.x
 
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-
       - name: Run './build.cmd Verify Cover Pack'
         run: ./build.cmd LogGitVersion Verify Cover Pack --no-logo
