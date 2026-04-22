@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462;net6.0;net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net462;$(BaseTargetFrameworks)</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit4.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit4.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.NUnit4.UnitTest</RootNamespace>
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="[4.1.0]" />
+    <PackageReference Include="NUnit" Version="[4.5.1]" />
 
     <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\..\src\AutoFixture.NUnit4\AutoFixture.NUnit4.csproj" />

@@ -1,5 +1,7 @@
 <Project>
   <PropertyGroup>
+    <BaseTargetFrameworks>net8.0;net10.0</BaseTargetFrameworks>
+    
     <Product>AutoFixture</Product>
     <Company>AutoFixture</Company>
     <Copyright>Copyright © AutoFixture</Copyright>
@@ -50,7 +52,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\build\assets\logo.png" Pack="true" PackagePath="logo.png"/>
   </ItemGroup>
 

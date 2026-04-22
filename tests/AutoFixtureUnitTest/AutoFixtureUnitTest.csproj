@@ -1,42 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsXUnit2>true</IsXUnit2>
-    <TargetFrameworks>net462;net48;net5.0;net6.0;net8.0;net10.0</TargetFrameworks>
-    <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
-    <AssemblyName>AutoFixtureUnitTest</AssemblyName>
+    <TargetFrameworks>net462;$(BaseTargetFrameworks)</TargetFrameworks>
+    <AssemblyTitle>AutoFixture.UnitTest</AssemblyTitle>
+    <PackageId>AutoFixtureUnitTest</PackageId>
+    <RootNamespace>AutoFixtureUnitTest</RootNamespace>
   </PropertyGroup>
 
-  <Choose>
-    <When Condition="'$(TargetFramework)'=='net462'">
-      <ItemGroup>
-        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj">
-          <SetTargetFramework>TargetFramework=net462</SetTargetFramework>
-          <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
-        </ProjectReference>
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
-      </ItemGroup>
-    </When>
-    <When Condition="'$(TargetFramework)'=='net48'">
-      <ItemGroup>
-        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj">
-          <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-          <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
-        </ProjectReference>
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
-
   <ItemGroup>
-    <PackageReference Include="System.Linq.Async" Version="4.0.0" Condition="'$(TargetFramework)' != 'net10.0'" />
+    <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+    <PackageReference Include="System.Linq.Async" Version="7.0.0" Condition="'$(TargetFramework)' != 'net10.0'" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
-
 </Project>
