@@ -21,6 +21,11 @@
 
     <!--Prevents failing cross target NuGet package restores-->
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+
+    <!--
+      xUnit1003: Theory methods must have test data - xUnit does not support our custom data attributes
+    -->
+    <NoWarn>$(NoWarn);xUnit1003</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
