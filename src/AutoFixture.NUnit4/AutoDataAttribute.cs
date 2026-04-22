@@ -42,21 +42,6 @@ public class AutoDataAttribute : Attribute, ITestBuilder
     }
 
     /// <summary>
-    /// Construct a <see cref="AutoDataAttribute"/> with an <see cref="IFixture"/>.
-    /// </summary>
-    [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
-              "Please use the AutoDataAttribute(Func<IFixture> fixtureFactory) overload, so fixture will be constructed only if needed.")]
-    protected AutoDataAttribute(IFixture fixture)
-    {
-        if (fixture == null)
-        {
-            throw new ArgumentNullException(nameof(fixture));
-        }
-
-        _fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
     /// with the supplied <paramref name="fixtureFactory"/>. Fixture will be created
     /// on demand using the provided factory.

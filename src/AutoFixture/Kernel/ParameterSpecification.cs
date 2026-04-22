@@ -10,8 +10,6 @@ namespace AutoFixture.Kernel;
 /// </summary>
 public class ParameterSpecification : IRequestSpecification
 {
-    private readonly Type _targetType;
-    private readonly string _targetName;
     private readonly IEquatable<ParameterInfo> _target;
 
     /// <summary>
@@ -32,8 +30,6 @@ public class ParameterSpecification : IRequestSpecification
     public ParameterSpecification(Type targetType, string targetName)
         : this(CreateDefaultTarget(targetType, targetName))
     {
-        _targetType = targetType;
-        _targetName = targetName;
     }
 
     private static IEquatable<ParameterInfo> CreateDefaultTarget(
@@ -69,20 +65,6 @@ public class ParameterSpecification : IRequestSpecification
     {
         _target = target ?? throw new ArgumentNullException(nameof(target));
     }
-
-    /// <summary>
-    /// The <see cref="Type"/> with which the requested
-    /// <see cref="ParameterInfo"/> type should be compatible.
-    /// </summary>
-    [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", true)]
-    public Type TargetType => _targetType;
-
-    /// <summary>
-    /// The name which the requested <see cref="ParameterInfo"/> name
-    /// should match exactly.
-    /// </summary>
-    [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", true)]
-    public string TargetName => _targetName;
 
     /// <summary>
     /// Evaluates a request for a specimen.

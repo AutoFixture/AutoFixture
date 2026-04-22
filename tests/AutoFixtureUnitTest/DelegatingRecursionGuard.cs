@@ -28,12 +28,6 @@ public class DelegatingRecursionGuard : RecursionGuard
     {
     }
 
-    [Obsolete]
-    public override object HandleRecursiveRequest(object request)
-    {
-        return OnHandleRecursiveRequest(request);
-    }
-
     public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
     {
         return new DelegatingRecursionGuard(new CompositeSpecimenBuilder(builders));
@@ -44,5 +38,8 @@ public class DelegatingRecursionGuard : RecursionGuard
         get { return RecordedRequests.Cast<object>(); }
     }
 
-    internal Func<object, object> OnHandleRecursiveRequest { get; set; }
+    internal Func<object, object> OnHandleRecursiveRequest
+    {
+        set => ((DelegatingRecursionHandler)RecursionHandler).OnHandleRecursiveRequest = (request, recordedRequests) => value(request);
+    }
 }

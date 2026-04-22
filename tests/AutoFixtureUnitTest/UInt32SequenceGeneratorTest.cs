@@ -9,27 +9,6 @@ namespace AutoFixtureUnitTest;
 public class UInt32SequenceGeneratorTest
 {
     [Fact]
-    [Obsolete]
-    public void CreateWillReturnOneOnFirstCall()
-    {
-        new LoopTest<UInt32SequenceGenerator, uint>(sut => sut.CreateAnonymous()).Execute(1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnTwoOnSecondCall()
-    {
-        new LoopTest<UInt32SequenceGenerator, uint>(sut => sut.CreateAnonymous()).Execute(2);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnTenOnTenthCall()
-    {
-        new LoopTest<UInt32SequenceGenerator, uint>(sut => sut.CreateAnonymous()).Execute(10);
-    }
-
-    [Fact]
     public void SutIsSpecimenBuilder()
     {
         // Arrange

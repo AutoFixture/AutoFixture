@@ -14,27 +14,6 @@ public class Int32SequenceGenerator : ISpecimenBuilder
     /// <summary>
     /// Creates an anonymous number.
     /// </summary>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
-    public int Create()
-    {
-        return Interlocked.Increment(ref _i);
-    }
-
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
-    /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release.</remarks>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
-    public int CreateAnonymous()
-    {
-        return Create();
-    }
-
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
     /// <param name="request">The request that describes what to create.</param>
     /// <param name="context">Not used.</param>
     /// <returns>
@@ -48,8 +27,6 @@ public class Int32SequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-#pragma warning disable 618
-        return Create();
-#pragma warning restore 618
+        return Interlocked.Increment(ref _i);
     }
 }

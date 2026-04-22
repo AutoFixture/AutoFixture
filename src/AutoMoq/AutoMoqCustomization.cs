@@ -24,22 +24,8 @@ public class AutoMoqCustomization : ICustomization
     /// </para>
     /// </summary>
     public AutoMoqCustomization()
-#pragma warning disable 618 // Type or member is obsolete
-        : this(new MockRelay())
-#pragma warning restore 618 // Type or member is obsolete
     {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AutoMoqCustomization"/> class with a
-    /// <see cref="MockRelay"/>.
-    /// </summary>
-    /// <param name="relay">The relay.</param>
-    [Obsolete("This constructor is obsolete and will be removed in a future version of the product. " +
-              "Please use the AutoMoqCustomization() overload (without arguments) instead and set the Relay property.")]
-    public AutoMoqCustomization(ISpecimenBuilder relay)
-    {
-        _relay = relay ?? throw new ArgumentNullException(nameof(relay));
+        _relay = new MockRelay();
     }
 
     /// <summary>

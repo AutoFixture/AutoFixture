@@ -16,19 +16,9 @@ namespace AutoFixture.Kernel;
     Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
 public class RecursionGuard : ISpecimenBuilderNode
 {
-    private readonly ThreadLocal<Stack<object>> _requestsByThread
-        = new ThreadLocal<Stack<object>>(() => new Stack<object>());
+    private readonly ThreadLocal<Stack<object>> _requestsByThread = new(() => new Stack<object>());
 
     private Stack<object> GetMonitoredRequestsForCurrentThread() => _requestsByThread.Value;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
-    /// </summary>
-    [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler) instead.", true)]
-    public RecursionGuard(ISpecimenBuilder builder)
-        : this(builder, EqualityComparer<object>.Default)
-    {
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RecursionGuard" /> class.
@@ -56,33 +46,6 @@ public class RecursionGuard : ISpecimenBuilderNode
             recursionHandler,
             EqualityComparer<object>.Default,
             recursionDepth)
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
-    /// </summary>
-    [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
-    public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
-    {
-        Builder = builder ?? throw new ArgumentNullException(nameof(builder));
-        Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-        RecursionDepth = 1;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RecursionGuard" /> class.
-    /// </summary>
-    [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
-    public RecursionGuard(
-        ISpecimenBuilder builder,
-        IRecursionHandler recursionHandler,
-        IEqualityComparer comparer)
-        : this(
-            builder,
-            recursionHandler,
-            comparer,
-            1)
     {
     }
 
@@ -126,17 +89,6 @@ public class RecursionGuard : ISpecimenBuilderNode
     /// <summary> Gets the recorded requests so far. </summary>
     protected IEnumerable RecordedRequests => GetMonitoredRequestsForCurrentThread();
 
-    /// <summary>
-    /// Handles a request that would cause recursion.
-    /// </summary>
-    [Obsolete("This method will be removed in a future version of AutoFixture. Use IRecursionHandler.HandleRecursiveRequest instead.", true)]
-    public virtual object HandleRecursiveRequest(object request)
-    {
-        return RecursionHandler.HandleRecursiveRequest(
-            request,
-            GetMonitoredRequestsForCurrentThread());
-    }
-
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
@@ -157,9 +109,9 @@ public class RecursionGuard : ISpecimenBuilderNode
 
                 if (numRequestsSameAsThisOne >= RecursionDepth)
                 {
-#pragma warning disable 618
-                    return ObsoletedMemberShims.RecursionGuard_HandleRecursiveRequest(this, request);
-#pragma warning restore 618
+                    return RecursionHandler.HandleRecursiveRequest(
+                        request,
+                        GetMonitoredRequestsForCurrentThread());
                 }
             }
         }

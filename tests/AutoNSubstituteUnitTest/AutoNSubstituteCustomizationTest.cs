@@ -39,15 +39,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             Assert.False(sut.GenerateDelegates);
         }
 
-        [Fact, Obsolete]
-        public void InitializeWithNullBuilderThrows()
-        {
-            // Arrange
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new AutoNSubstituteCustomization(null));
-        }
-
         [Fact]
         public void ThrowsIfNullRelayIsSet()
         {
@@ -68,28 +59,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             // Assert
             Assert.Equal(relay, sut.Relay);
         }
-        [Fact, Obsolete]
-        public void SpecificationIsCorrectWhenInitializedWithBuilder()
-        {
-            // Arrange
-            var expectedBuilder = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>());
-            var sut = new AutoNSubstituteCustomization(expectedBuilder);
-            // Act
-            ISpecimenBuilder result = sut.Builder;
-            // Assert
-            Assert.Equal(expectedBuilder, result);
-        }
-
-        [Fact, Obsolete]
-        public void BuilderIsNotNullWhenInitializedWithDefaultConstructor()
-        {
-            // Arrange
-            var sut = new AutoNSubstituteCustomization();
-            // Act
-            var result = sut.Builder;
-            // Assert
-            Assert.NotNull(result);
-        }
 
         [Fact]
         public void RelayIsNotNullWhenInitializedWithDefaultConstructor()
@@ -100,17 +69,6 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Relay;
             // Assert
             Assert.NotNull(result);
-        }
-
-        [Fact, Obsolete]
-        public void BuilderIsSubstituteRelay_WhenInitializedWithDefaultConstructor()
-        {
-            // Arrange
-            var sut = new AutoNSubstituteCustomization();
-            // Act
-            var result = sut.Builder;
-            // Assert
-            Assert.IsType<SubstituteRelay>(result);
         }
 
         [Fact]

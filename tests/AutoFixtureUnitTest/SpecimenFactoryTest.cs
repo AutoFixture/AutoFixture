@@ -12,16 +12,6 @@ namespace AutoFixtureUnitTest;
 public class SpecimenFactoryTest
 {
     [Fact]
-    [Obsolete]
-    public void CreateAnonymousFromNullSpecimenContextThrows()
-    {
-        // Arrange
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() =>
-            SpecimenFactory.CreateAnonymous<object>((ISpecimenContext)null));
-    }
-
-    [Fact]
     public void CreateFromNullSpecimenBuilderThrows()
     {
         Assert.Throws<ArgumentNullException>(() =>
@@ -35,19 +25,6 @@ public class SpecimenFactoryTest
         // Act & assert
         Assert.Throws<ArgumentNullException>(() =>
             SpecimenFactory.Create<object>((ISpecimenContext)null));
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousOnContainerReturnsCorrectResult()
-    {
-        // Arrange
-        object expectedResult = 1;
-        var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : NoSpecimen.Instance };
-        // Act
-        var result = container.CreateAnonymous<int>();
-        // Assert
-        Assert.Equal(expectedResult, result);
     }
 
     [Fact]
@@ -100,27 +77,6 @@ public class SpecimenFactoryTest
         DateTime actual = builder.Create<DateTime>();
         // Assert
         Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousOnPostprocessComposerReturnsCorrectResult()
-    {
-        // Arrange
-        var expectedResult = new DateTime(2010, 5, 31, 14, 52, 19);
-        var specimenBuilder = new DelegatingSpecimenBuilder();
-        specimenBuilder.OnCreate = (r, c) =>
-        {
-            Assert.NotNull(c);
-            Assert.Equal(new SeededRequest(typeof(DateTime), default(DateTime)), r);
-            return expectedResult;
-        };
-
-        var composer = new DelegatingComposer<DateTime> { OnCreate = specimenBuilder.OnCreate };
-        // Act
-        var result = composer.CreateAnonymous();
-        // Assert
-        Assert.Equal(expectedResult, result);
     }
 
     [Fact]

@@ -20,107 +20,6 @@ public class PostprocessorTest
     }
 
     [Fact]
-    [Obsolete]
-    public void SutIsPostProcessor()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        var dummyCommand = new DelegatingSpecimenCommand();
-        // Act
-        var sut = new Postprocessor(dummyBuilder, dummyCommand);
-        // Assert
-        Assert.IsAssignableFrom<Postprocessor<object>>(sut);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void SutCanBeInitializedWithDoubleAction()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        Action<object, ISpecimenContext> dummyAction = (s, c) => { };
-        // Act & assert
-        Assert.Null(Record.Exception(() => new Postprocessor(dummyBuilder, dummyAction)));
-    }
-
-    [Fact]
-    [Obsolete]
-    public void InitializeWithNullBuilderThrows()
-    {
-        // Arrange
-        Action<object> dummyAction = s => { };
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() => new Postprocessor(null, dummyAction));
-    }
-
-    [Fact]
-    [Obsolete]
-    public void InitializeWithNullActionThrows()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, (Action<object>)null));
-    }
-
-    [Fact]
-    [Obsolete]
-    public void InitializeWithNullSpecificationThrows()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        Action<object, ISpecimenContext> dummyAction = (s, c) => { };
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, dummyAction, null));
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuilderIsCorrect()
-    {
-        // Arrange
-        var expectedBuilder = new DelegatingSpecimenBuilder();
-        Action<object> dummyAction = s => { };
-
-        var sut = new Postprocessor<object>(expectedBuilder, dummyAction);
-        // Act
-        ISpecimenBuilder result = sut.Builder;
-        // Assert
-        Assert.Equal(expectedBuilder, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ActionIsCorrect()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        Action<object, ISpecimenContext> expectedAction = (s, c) => { };
-
-        var sut = new Postprocessor<object>(dummyBuilder, expectedAction);
-        // Act
-        Action<object, ISpecimenContext> result = sut.Action;
-        // Assert
-        Assert.Equal(expectedAction, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void SpecificationIsCorrect()
-    {
-        // Arrange
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        Action<object, ISpecimenContext> dummyAction = (s, c) => { };
-        var expectedSpec = new DelegatingRequestSpecification();
-
-        var sut = new Postprocessor<object>(dummyBuilder, dummyAction, expectedSpec);
-        // Act
-        IRequestSpecification result = sut.Specification;
-        // Assert
-        Assert.Equal(expectedSpec, result);
-    }
-
-    [Fact]
     public void BuilderIsCorrectWhenConstructedMinimallyNonGenerically()
     {
         // Arrange
@@ -283,21 +182,6 @@ public class PostprocessorTest
         // Assert
         var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
         Assert.Equal(expected, pp.Builder);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void ComposePreservesAction()
-    {
-        // Arrange
-        Action<object, ISpecimenContext> expected = (x, y) => { };
-        var dummyBuilder = new DelegatingSpecimenBuilder();
-        var sut = new Postprocessor(dummyBuilder, expected);
-        // Act
-        var actual = sut.Compose(new ISpecimenBuilder[0]);
-        // Assert
-        var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
-        Assert.Equal(expected, pp.Action);
     }
 
     [Fact]

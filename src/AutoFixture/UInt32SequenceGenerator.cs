@@ -22,17 +22,6 @@ public class UInt32SequenceGenerator : ISpecimenBuilder
     /// <summary>
     /// Creates an anonymous number.
     /// </summary>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    [CLSCompliant(false)]
-    [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
-    public uint CreateAnonymous()
-    {
-        return (uint)Create(typeof(uint), null);
-    }
-
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
     /// <param name="request">The request that describes what to create.</param>
     /// <param name="context">Not used.</param>
     /// <returns>

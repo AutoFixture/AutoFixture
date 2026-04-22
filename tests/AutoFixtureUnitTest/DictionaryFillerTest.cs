@@ -10,65 +10,6 @@ namespace AutoFixtureUnitTest;
 
 public class DictionaryFillerTest
 {
-    [Obsolete]
-    public class Obsoleted
-    {
-        [Fact]
-        public void AddManyToNullSpecimenThrows()
-        {
-            // Arrange
-            var dummyContext = new DelegatingSpecimenContext();
-            // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
-                DictionaryFiller.AddMany(null, dummyContext));
-        }
-
-        [Fact]
-        public void AddManyWithNullContextThrows()
-        {
-            // Arrange
-            var dummyDictionary = new Dictionary<object, object>();
-            // Act & assert
-            Assert.Throws<ArgumentNullException>(() =>
-                DictionaryFiller.AddMany(dummyDictionary, null));
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(1)]
-        [InlineData(true)]
-        [InlineData(false)]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(int))]
-        public void AddManyToNonDictionaryThrows(object specimen)
-        {
-            // Arrange
-            var dummyContext = new DelegatingSpecimenContext();
-            // Act & assert
-            Assert.Throws<ArgumentException>(() =>
-                DictionaryFiller.AddMany(specimen, dummyContext));
-        }
-
-        [Fact]
-        public void AddManyFillsDictionary()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>();
-
-            var expectedRequest = new MultipleRequest(typeof(KeyValuePair<int, string>));
-            var expectedResult = Enumerable.Range(1, 3).Select(i => new KeyValuePair<int, string>(i, i.ToString()));
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => expectedRequest.Equals(r) ? (object)expectedResult : NoSpecimen.Instance
-            };
-            // Act
-            DictionaryFiller.AddMany(dictionary, context);
-            // Assert
-            Assert.True(expectedResult.SequenceEqual(dictionary));
-        }
-    }
-
     [Fact]
     public void SutIsSpecimenCommand()
     {

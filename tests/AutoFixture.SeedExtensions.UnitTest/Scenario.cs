@@ -21,29 +21,6 @@ public class Scenario
     }
 
     [Fact]
-    [Obsolete]
-    public void CreateAnonymousWithSeedReturnsCorrectResult()
-    {
-        // Arrange
-        var container = new SpecimenContext(new Fixture());
-        // Act
-        var result = container.CreateAnonymous("Seed");
-        // Assert
-        Assert.Contains("Seed", result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousFromNullSpecimenContextWithSeedThrows()
-    {
-        // Arrange
-        var dummySeed = new object();
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() =>
-            CreateSeedExtensions.CreateAnonymous<object>((ISpecimenContext)null, dummySeed));
-    }
-
-    [Fact]
     public void CreateManyWithSeedWillCreateManyCorrectItems()
     {
         // Arrange

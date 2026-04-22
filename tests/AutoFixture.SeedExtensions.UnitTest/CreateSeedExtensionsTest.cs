@@ -9,20 +9,6 @@ namespace AutoFixture.SeedExtensions.UnitTest;
 public class CreateSeedExtensionsTest
 {
     [Fact]
-    [Obsolete]
-    public void CreateSeededAnonymousOnContainerReturnsCorrectResult()
-    {
-        // Arrange
-        var seed = TimeSpan.FromMinutes(8);
-        object expectedResult = TimeSpan.FromHours(2);
-        var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : NoSpecimen.Instance };
-        // Act
-        var result = container.CreateAnonymous(seed);
-        // Assert
-        Assert.Equal(expectedResult, result);
-    }
-
-    [Fact]
     public void CreateManyOnNullSpecimenBuilderWithSeedThrows()
     {
         // Arrange

@@ -20,22 +20,6 @@ public class ParameterSpecificationTest
     }
 
     [Fact]
-    [Obsolete]
-    public void InitializeWithParameterNameShouldSetCorrespondingProperty()
-    {
-        // Arrange
-        var type = typeof(object);
-        var name = "someName";
-        // Act
-        var sut = new ParameterSpecification(type, name);
-        // Assert
-#pragma warning disable 618
-        Assert.Equal(type, sut.TargetType);
-        Assert.Equal(name, sut.TargetName);
-#pragma warning restore 618
-    }
-
-    [Fact]
     public void InitializeWithNullParameterTypeShouldThrowArgumentNullException()
     {
         // Arrange

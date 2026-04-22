@@ -7,12 +7,6 @@ namespace AutoFixture.NUnit4.UnitTest;
 /// </summary>
 public class AutoDataAttributeStub : AutoDataAttribute
 {
-    [Obsolete]
-    public AutoDataAttributeStub(IFixture fixture)
-        : base(fixture)
-    {
-    }
-
     public AutoDataAttributeStub(Func<IFixture> fixtureFactory)
         : base(fixtureFactory)
     {

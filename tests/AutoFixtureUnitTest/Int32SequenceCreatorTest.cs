@@ -9,48 +9,6 @@ namespace AutoFixtureUnitTest;
 public class Int32SequenceCreatorTest
 {
     [Fact]
-    [Obsolete]
-    public void CreateAnonymousWillReturnOneOnFirstCall()
-    {
-        new LoopTest<Int32SequenceGenerator, int>(sut => sut.CreateAnonymous()).Execute(1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousWillReturnTwoOnSecondCall()
-    {
-        new LoopTest<Int32SequenceGenerator, int>(sut => sut.CreateAnonymous()).Execute(2);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousWillReturnTenOnTenthCall()
-    {
-        new LoopTest<Int32SequenceGenerator, int>(sut => sut.CreateAnonymous()).Execute(10);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnOneOnFirstCall()
-    {
-        new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnTwoOnSecondCall()
-    {
-        new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(2);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnTenOnTenthCall()
-    {
-        new LoopTest<Int32SequenceGenerator, int>(sut => sut.Create()).Execute(10);
-    }
-
-    [Fact]
     public void SutIsSpecimenBuilder()
     {
         // Arrange

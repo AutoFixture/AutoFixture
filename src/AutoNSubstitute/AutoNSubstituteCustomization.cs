@@ -22,23 +22,9 @@ public class AutoNSubstituteCustomization : ICustomization
     /// </para>
     /// </summary>
     public AutoNSubstituteCustomization()
-#pragma warning disable 618 // Type or member is obsolete
-        : this(new SubstituteRelay())
-#pragma warning restore 618 // Type or member is obsolete
     {
+        _relay = new SubstituteRelay();
     }
-
-    /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.</summary>
-    [Obsolete("This constructor is obsolete and will be removed in a future version of the product. " +
-              "Please use the AutoNSubstituteCustomization() overload (without arguments) instead and set the Relay property.")]
-    public AutoNSubstituteCustomization(ISpecimenBuilder relay)
-    {
-        _relay = relay ?? throw new ArgumentNullException(nameof(relay));
-    }
-
-    /// <summary>Gets the builder that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
-    [Obsolete("This property is obsolete - use the Relay property instead.")]
-    public ISpecimenBuilder Builder => _relay;
 
     /// <summary>Gets or sets the relay that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
     public ISpecimenBuilder Relay

@@ -11,23 +11,6 @@ namespace AutoFixture;
 /// </summary>
 public static class CreateSeedExtensions
 {
-    /// <summary>
-    /// Creates an anonymous object, potentially using the supplied seed as additional
-    /// information when creating the object.
-    /// </summary>
-    /// <typeparam name="T">The type of object to create.</typeparam>
-    /// <param name="seed">
-    /// Any data that adds additional information when creating the anonymous object.
-    /// </param>
-    /// <param name="context">The context used to resolve the type request.</param>
-    /// <returns>An anonymous object.</returns>
-    /// <remarks>Obsolete: Please move over to using <see cref="SpecimenFactory.Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create{T}()</see> as this method will be removed in the next release.</remarks>
-    [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
-    public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
-    {
-        return Create<T>(context, seed);
-    }
-
     /// <summary>Creates many anonymous objects.</summary>
     /// <typeparam name="T">The type of objects to create.</typeparam>
     /// <param name="builder">
@@ -49,10 +32,6 @@ public static class CreateSeedExtensions
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilder builder, T seed)
@@ -84,10 +63,6 @@ public static class CreateSeedExtensions
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed)
@@ -122,10 +97,6 @@ public static class CreateSeedExtensions
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
     /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
-    /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilder builder, T seed, int count)
     {
@@ -152,10 +123,6 @@ public static class CreateSeedExtensions
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed, int count)

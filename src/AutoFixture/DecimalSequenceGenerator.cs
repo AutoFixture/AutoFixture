@@ -19,27 +19,6 @@ public class DecimalSequenceGenerator : ISpecimenBuilder
         _syncRoot = new object();
     }
 
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
-    [Obsolete("Please use the Create(request, context) method as this overload will be removed to make API uniform.")]
-    public decimal Create()
-    {
-        lock (_syncRoot)
-        {
-            return ++_d;
-        }
-    }
-
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
-    [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
-    public decimal CreateAnonymous()
-    {
-        return Create();
-    }
-
     /// <inheritdoc />
     public object Create(object request, ISpecimenContext context)
     {
@@ -48,8 +27,9 @@ public class DecimalSequenceGenerator : ISpecimenBuilder
             return NoSpecimen.Instance;
         }
 
-#pragma warning disable 618
-        return Create();
-#pragma warning restore 618
+        lock (_syncRoot)
+        {
+            return ++_d;
+        }
     }
 }

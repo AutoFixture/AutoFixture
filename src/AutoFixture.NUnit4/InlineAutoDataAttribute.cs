@@ -43,20 +43,6 @@ public class InlineAutoDataAttribute : Attribute, ITestBuilder
     }
 
     /// <summary>
-    /// Construct a <see cref="InlineAutoDataAttribute"/> with an <see cref="IFixture"/>
-    /// and parameter values for test method.
-    /// </summary>
-    [Obsolete("This constructor overload is deprecated because it offers poor performance, and will be removed in a future version. " +
-              "Please use the overload with a factory method, so fixture will be constructed only if needed.")]
-    protected InlineAutoDataAttribute(IFixture fixture, params object[] arguments)
-    {
-        if (fixture == null) throw new ArgumentNullException(nameof(fixture));
-
-        _fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
-        _existingParameterValues = arguments ?? new object[] { null };
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
     /// with the supplied <paramref name="fixtureFactory"/>. Fixture will be created
     /// on demand using the provided factory.

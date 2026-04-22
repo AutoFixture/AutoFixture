@@ -51,7 +51,7 @@ public class NSubstituteRegisterCallHandlerCommand : ISpecimenCommand
     }
 
     /// <summary>
-    /// Creates an new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance.
+    /// Creates a new <see cref="NSubstituteRegisterCallHandlerCommand"/> instance.
     /// </summary>
     public NSubstituteRegisterCallHandlerCommand(
         ISubstitutionContext substitutionContext,
@@ -94,6 +94,6 @@ public class NSubstituteRegisterCallHandlerCommand : ISpecimenCommand
                 new AutoFixtureValuesHandler(
                     callResultsResolver,
                     resultsCacheForSubstitution,
-                    CompatShim.GetCallSpecificationFactory(substituteState, SubstitutionContext)));
+                    SubstitutionContext.CallSpecificationFactory));
     }
 }

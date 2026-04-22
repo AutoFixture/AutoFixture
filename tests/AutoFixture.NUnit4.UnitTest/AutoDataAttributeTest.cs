@@ -19,14 +19,6 @@ public class AutoDataAttributeTest
     }
 
     [Test]
-    public void IfExtendedWithNullFixtureThenThrows()
-    {
-#pragma warning disable 612
-        Assert.Throws<ArgumentNullException>(() => new AutoDataAttributeStub((IFixture)null));
-#pragma warning restore 612
-    }
-
-    [Test]
     public void InitializeWithNullFixtureFactoryThrows()
     {
         // Arrange
@@ -111,7 +103,7 @@ public class AutoDataAttributeTest
     public void CanBeExtendedToTakeAnIFixture()
     {
 #pragma warning disable 612
-        var stub = new AutoDataAttributeStub(new ThrowingStubFixture());
+        var stub = new AutoDataAttributeStub(() => new ThrowingStubFixture());
 #pragma warning restore 612
 
         Assert.That(stub, Is.AssignableTo<AutoDataAttribute>());

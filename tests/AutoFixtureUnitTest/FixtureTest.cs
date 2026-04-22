@@ -227,18 +227,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void CreateAnonymousCompatibilityExtensionWillCreateSimpleObject()
-    {
-        // Arrange
-        Fixture sut = new Fixture();
-        // Act
-        object result = sut.CreateAnonymous<object>();
-        // Assert
-        Assert.NotNull(result);
-    }
-
-    [Fact]
     public void CreateUnregisteredAbstractTypeWillThrow()
     {
         // Arrange
@@ -2659,22 +2647,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void FromFactoryWithOneParameterWillRespectPreviousCustomizationsObsolete()
-    {
-        // Arrange
-        string expectedText = Guid.NewGuid().ToString();
-        var sut = new Fixture();
-        sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-        // Act
-        var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-            .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal(expectedText, result.Parameter.Property);
-    }
-
-    [Fact]
     public void FromFactoryWithOneParameterWillRespectPreviousCustomizations()
     {
         // Arrange
@@ -2685,22 +2657,6 @@ public class FixtureTest
         var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
             .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
             .Create();
-        // Assert
-        Assert.Equal(expectedText, result.Parameter.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void FromFactoryWithTwoParametersWillRespectPreviousCustomizationsObsolete()
-    {
-        // Arrange
-        string expectedText = Guid.NewGuid().ToString();
-        var sut = new Fixture();
-        sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-        // Act
-        var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-            .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
-            .CreateAnonymous();
         // Assert
         Assert.Equal(expectedText, result.Parameter.Property);
     }
@@ -2721,22 +2677,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void FromFactoryWithThreeParametersWillRespectPreviousCustomizationsObsolete()
-    {
-        // Arrange
-        string expectedText = Guid.NewGuid().ToString();
-        var sut = new Fixture();
-        sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-        // Act
-        var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-            .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal(expectedText, result.Parameter.Property);
-    }
-
-    [Fact]
     public void FromFactoryWithThreeParametersWillRespectPreviousCustomizations()
     {
         // Arrange
@@ -2747,22 +2687,6 @@ public class FixtureTest
         var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
             .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
             .Create();
-        // Assert
-        Assert.Equal(expectedText, result.Parameter.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void FromFactoryWithFourParametersWillRespectPreviousCustomizationsObsolete()
-    {
-        // Arrange
-        string expectedText = Guid.NewGuid().ToString();
-        var sut = new Fixture();
-        sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
-        // Act
-        var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-            .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
-            .CreateAnonymous();
         // Assert
         Assert.Equal(expectedText, result.Parameter.Property);
     }
@@ -2963,21 +2887,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void OmitAutoPropertiesFollowedByOptInWillNotSetOtherPropertiesObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<DoublePropertyHolder<object, object>>()
-            .OmitAutoProperties()
-            .With(x => x.Property1)
-            .CreateAnonymous();
-        // Assert
-        Assert.Null(result.Property2);
-    }
-
-    [Fact]
     public void OmitAutoPropertiesFollowedByOptInWillNotSetOtherProperties()
     {
         // Arrange
@@ -2992,24 +2901,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void OmitAutoPropertiesFollowedByTwoOptInsWillNotSetAnyOtherPropertiesObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<TriplePropertyHolder<int, int, object>>()
-            .OmitAutoProperties()
-            .With(x => x.Property1, 42)
-            .With(x => x.Property2, 1337)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal(42, result.Property1);
-        Assert.Equal(1337, result.Property2);
-        Assert.Null(result.Property3);
-    }
-
-    [Fact]
     public void OmitAutoPropertiesFollowedByTwoOptInsWillNotSetAnyOtherProperties()
     {
         // Arrange
@@ -3020,24 +2911,6 @@ public class FixtureTest
             .With(x => x.Property1, 42)
             .With(x => x.Property2, 1337)
             .Create();
-        // Assert
-        Assert.Equal(42, result.Property1);
-        Assert.Equal(1337, result.Property2);
-        Assert.Null(result.Property3);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void WithTwoOptInsFollowedByOmitAutoPropertiesWillNotSetAnyOtherPropertiesObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<TriplePropertyHolder<int, int, object>>()
-            .With(x => x.Property1, 42)
-            .With(x => x.Property2, 1337)
-            .OmitAutoProperties()
-            .CreateAnonymous();
         // Assert
         Assert.Equal(42, result.Property1);
         Assert.Equal(1337, result.Property2);
@@ -3082,20 +2955,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithThrowingRecursionHandlerWillThrowOnReferenceRecursionPointObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        Assert.ThrowsAny<ObjectCreationException>(() =>
-            new SpecimenContext(
-                    new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithReferenceOutA>()))
-                .CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
-    }
-
-    [Fact]
     public void BuildWithThrowingRecursionHandlerWillThrowOnReferenceRecursionPoint()
     {
         // Arrange
@@ -3110,20 +2969,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithThrowingRecursionHandlerWillThrowOnConstructorRecursionPointObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        Assert.ThrowsAny<ObjectCreationException>(() =>
-            new SpecimenContext(
-                    new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()))
-                .CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
-    }
-
-    [Fact]
     public void BuildWithThrowingRecursionHandlerWillThrowOnConstructorRecursionPoint()
     {
         // Arrange
@@ -3135,21 +2980,6 @@ public class FixtureTest
                         sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
                         new ThrowingRecursionHandler()))
                 .Create<RecursionTestObjectWithConstructorReferenceOutA>());
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildWithNullRecursionHandlerWillCreateNullOnRecursionPointObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = new SpecimenContext(
-                new NullRecursionGuard(
-                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()))
-            .CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
-        // Assert
-        Assert.Null(result.ReferenceToB.ReferenceToA);
     }
 
     [Fact]
@@ -3270,19 +3100,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void CustomizeInstanceWithOmitAutoPropertiesWillReturnFactoryWithOmitAutoPropertiesObsolete()
-    {
-        // Arrange
-        var sut = new Fixture() { OmitAutoProperties = true };
-        // Act
-        var builder = sut.Build<PropertyHolder<object>>();
-        PropertyHolder<object> result = builder.CreateAnonymous();
-        // Assert
-        Assert.Null(result.Property);
-    }
-
-    [Fact]
     public void CustomizeInstanceWithOmitAutoPropertiesWillReturnFactoryWithOmitAutoProperties()
     {
         // Arrange
@@ -3351,19 +3168,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildFromSeedWillReturnCorrectResultObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        var expectedResult = new object();
-        // Act
-        var result = sut.Build<object>().FromSeed(s => expectedResult).CreateAnonymous();
-        // Assert
-        Assert.Equal(expectedResult, result);
-    }
-
-    [Fact]
     public void BuildFromSeedWillReturnCorrectResult()
     {
         // Arrange
@@ -3399,19 +3203,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousWillSetInt32Property()
-    {
-        // Arrange
-        int unexpectedNumber = default(int);
-        var sut = new Fixture();
-        // Act
-        PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().CreateAnonymous();
-        // Assert
-        Assert.NotEqual<int>(unexpectedNumber, result.Property);
-    }
-
-    [Fact]
     public void BuildAndCreateWillSetInt32Property()
     {
         // Arrange
@@ -3421,19 +3212,6 @@ public class FixtureTest
         PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().Create();
         // Assert
         Assert.NotEqual<int>(unexpectedNumber, result.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousWillSetInt32Field()
-    {
-        // Arrange
-        int unexpectedNumber = default(int);
-        var sut = new Fixture();
-        // Act
-        FieldHolder<int> result = sut.Build<FieldHolder<int>>().CreateAnonymous();
-        // Assert
-        Assert.NotEqual<int>(unexpectedNumber, result.Field);
     }
 
     [Fact]
@@ -3449,19 +3227,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyProperty()
-    {
-        // Arrange
-        int expectedNumber = default(int);
-        var sut = new Fixture();
-        // Act
-        ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().CreateAnonymous();
-        // Assert
-        Assert.Equal<int>(expectedNumber, result.Property);
-    }
-
-    [Fact]
     public void BuildAndCreateWillNotAttemptToSetReadOnlyProperty()
     {
         // Arrange
@@ -3471,19 +3236,6 @@ public class FixtureTest
         ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().Create();
         // Assert
         Assert.Equal<int>(expectedNumber, result.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyField()
-    {
-        // Arrange
-        int expectedNumber = default(int);
-        var sut = new Fixture();
-        // Act
-        ReadOnlyFieldHolder<int> result = sut.Build<ReadOnlyFieldHolder<int>>().CreateAnonymous();
-        // Assert
-        Assert.Equal<int>(expectedNumber, result.Field);
     }
 
     [Fact]
@@ -3499,21 +3251,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithWillSetPropertyOnCreatedObjectObsolete()
-    {
-        // Arrange
-        string expectedText = "Anonymous text";
-        var sut = new Fixture();
-        // Act
-        PropertyHolder<string> result = sut.Build<PropertyHolder<string>>()
-            .With(ph => ph.Property, expectedText)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal(expectedText, result.Property);
-    }
-
-    [Fact]
     public void BuildWithWillSetPropertyOnCreatedObject()
     {
         // Arrange
@@ -3525,21 +3262,6 @@ public class FixtureTest
             .Create();
         // Assert
         Assert.Equal(expectedText, result.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildWithWillSetFieldOnCreatedObjectObsolete()
-    {
-        // Arrange
-        string expectedText = "Anonymous text";
-        var fixture = new Fixture();
-        // Act
-        FieldHolder<string> result = fixture.Build<FieldHolder<string>>()
-            .With(fh => fh.Field, expectedText)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal(expectedText, result.Field);
     }
 
     [Fact]
@@ -3626,23 +3348,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAnonymousWithWillAssignPropertyEvenInCombinationWithOmitAutoPropertiesObsolete()
-    {
-        // Arrange
-        long unexpectedNumber = default(long);
-        var sut = new Fixture();
-        // Act
-        var result = sut
-            .Build<DoublePropertyHolder<long, long>>()
-            .With(ph => ph.Property1)
-            .OmitAutoProperties()
-            .CreateAnonymous();
-        // Assert
-        Assert.NotEqual<long>(unexpectedNumber, result.Property1);
-    }
-
-    [Fact]
     public void BuildAnonymousWithWillAssignPropertyEvenInCombinationWithOmitAutoProperties()
     {
         // Arrange
@@ -3656,23 +3361,6 @@ public class FixtureTest
             .Create();
         // Assert
         Assert.NotEqual<long>(unexpectedNumber, result.Property1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAnonymousWithWillAssignFieldEvenInCombinationWithOmitAutoProperties()
-    {
-        // Arrange
-        int unexpectedNumber = default(int);
-        var sut = new Fixture();
-        // Act
-        var result = sut
-            .Build<DoubleFieldHolder<int, decimal>>()
-            .With(fh => fh.Field1)
-            .OmitAutoProperties()
-            .CreateAnonymous();
-        // Assert
-        Assert.NotEqual<int>(unexpectedNumber, result.Field1);
     }
 
     [Fact]
@@ -3692,36 +3380,12 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithoutWillIgnorePropertyOnCreatedObjectObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
-        // Assert
-        Assert.Null(result.Property1);
-    }
-
-    [Fact]
     public void BuildWithoutWillIgnorePropertyOnCreatedObject()
     {
         // Arrange
         var sut = new Fixture();
         // Act
         var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).Create();
-        // Assert
-        Assert.Null(result.Property1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildWithoutWillIgnorePropertyOnCreatedObjectEvenInCombinationWithWithAutoPropertiesObsolete()
-    {
-        // Arrange
-        var sut = new Fixture() { OmitAutoProperties = true };
-        // Act
-        var result = sut.Build<DoublePropertyHolder<string, string>>().WithAutoProperties().Without(ph => ph.Property1).CreateAnonymous();
         // Assert
         Assert.Null(result.Property1);
     }
@@ -3738,18 +3402,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithoutWillIgnoreFieldOnCreatedObjectObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
-        // Assert
-        Assert.Null(result.Field1);
-    }
-
-    [Fact]
     public void BuildWithoutWillIgnoreFieldOnCreatedObject()
     {
         // Arrange
@@ -3758,18 +3410,6 @@ public class FixtureTest
         var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).Create();
         // Assert
         Assert.Null(result.Field1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildWithoutWillNotIgnoreOtherPropertyOnCreatedObjectObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
-        // Assert
-        Assert.NotNull(result.Property2);
     }
 
     [Fact]
@@ -3784,18 +3424,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithoutWillNotIgnoreOtherFieldOnCreatedObjectObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
-        // Assert
-        Assert.NotNull(result.Field2);
-    }
-
-    [Fact]
     public void BuildWithoutWillNotIgnoreOtherFieldOnCreatedObject()
     {
         // Arrange
@@ -3804,18 +3432,6 @@ public class FixtureTest
         var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).Create();
         // Assert
         Assert.NotNull(result.Field2);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndOmitAutoPropertiesWillNotAutoPopulatePropertyObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
-        // Assert
-        Assert.Null(result.Property);
     }
 
     [Fact]
@@ -3830,18 +3446,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithAutoPropertiesWillAutoPopulatePropertyObsolete()
-    {
-        // Arrange
-        var sut = new Fixture { OmitAutoProperties = true };
-        // Act
-        PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().WithAutoProperties().CreateAnonymous();
-        // Assert
-        Assert.NotNull(result.Property);
-    }
-
-    [Fact]
     public void BuildWithAutoPropertiesWillAutoPopulateProperty()
     {
         // Arrange
@@ -3850,19 +3454,6 @@ public class FixtureTest
         PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().WithAutoProperties().Create();
         // Assert
         Assert.NotNull(result.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndDoWillPerformOperationOnCreatedObjectObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        var expectedObject = new object();
-        // Act
-        var result = sut.Build<CollectionHolder<object>>().Do(x => x.Collection.Add(expectedObject)).CreateAnonymous().Collection.First();
-        // Assert
-        Assert.Equal<object>(expectedObject, result);
     }
 
     [Fact]
@@ -3875,23 +3466,6 @@ public class FixtureTest
         var result = sut.Build<CollectionHolder<object>>().Do(x => x.Collection.Add(expectedObject)).Create().Collection.First();
         // Assert
         Assert.Equal<object>(expectedObject, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuilderSequenceWillBePreservedObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        int expectedValue = 3;
-        // Act
-        var result = sut.Build<PropertyHolder<int>>()
-            .With(x => x.Property, 1)
-            .Do(x => x.SetProperty(2))
-            .With(x => x.Property, expectedValue)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal<int>(expectedValue, result.Property);
     }
 
     [Fact]
@@ -3908,28 +3482,6 @@ public class FixtureTest
             .Create();
         // Assert
         Assert.Equal<int>(expectedValue, result.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousWillInvokeResidueCollector()
-    {
-        // Arrange
-        bool resolveWasInvoked = false;
-
-        var residueCollector = new DelegatingSpecimenBuilder();
-        residueCollector.OnCreate = (r, c) =>
-        {
-            resolveWasInvoked = true;
-            return new ConcreteType();
-        };
-
-        var sut = new Fixture();
-        sut.ResidueCollectors.Add(residueCollector);
-        // Act
-        sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
-        // Assert
-        Assert.True(resolveWasInvoked, "Resolve");
     }
 
     [Fact]
@@ -3954,25 +3506,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillInvokeResidueCollectorWithCorrectType()
-    {
-        // Arrange
-        var residueCollector = new DelegatingSpecimenBuilder();
-        residueCollector.OnCreate = (r, c) =>
-        {
-            Assert.Equal(typeof(AbstractType), r);
-            return new ConcreteType();
-        };
-
-        var sut = new Fixture();
-        sut.ResidueCollectors.Add(residueCollector);
-        // Act
-        sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
-        // Assert (done by callback)
-    }
-
-    [Fact]
     public void BuildAndCreateOnUnregisteredAbstractionWillInvokeResidueCollectorWithCorrectType()
     {
         // Arrange
@@ -3988,24 +3521,6 @@ public class FixtureTest
         // Act
         sut.Build<PropertyHolder<AbstractType>>().Create();
         // Assert (done by callback)
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResidueCollector()
-    {
-        // Arrange
-        var expectedValue = new ConcreteType();
-
-        var residueCollector = new DelegatingSpecimenBuilder();
-        residueCollector.OnCreate = (r, c) => expectedValue;
-
-        var sut = new Fixture();
-        sut.ResidueCollectors.Add(residueCollector);
-        // Act
-        var result = sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous().Property;
-        // Assert
-        Assert.Equal<AbstractType>(expectedValue, result);
     }
 
     [Fact]
@@ -4026,20 +3541,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAndOmitAutoPropertiesWillNotMutateSutObsolete()
-    {
-        // Arrange
-        var fixture = new Fixture();
-        var sut = fixture.Build<PropertyHolder<string>>();
-        // Act
-        sut.OmitAutoProperties();
-        // Assert
-        var instance = sut.CreateAnonymous();
-        Assert.NotNull(instance.Property);
-    }
-
-    [Fact]
     public void BuildAndOmitAutoPropertiesWillNotMutateSut()
     {
         // Arrange
@@ -4053,20 +3554,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithAutoPropertiesWillNotMutateSutObsolete()
-    {
-        // Arrange
-        var fixture = new Fixture() { OmitAutoProperties = true };
-        var sut = fixture.Build<PropertyHolder<string>>();
-        // Act
-        sut.WithAutoProperties();
-        // Assert
-        var instance = sut.CreateAnonymous();
-        Assert.Null(instance.Property);
-    }
-
-    [Fact]
     public void BuildWithAutoPropertiesWillNotMutateSut()
     {
         // Arrange
@@ -4076,20 +3563,6 @@ public class FixtureTest
         sut.WithAutoProperties();
         // Assert
         var instance = sut.Create();
-        Assert.Null(instance.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAnonymousWithWillNotMutateSut()
-    {
-        // Arrange
-        var fixture = new Fixture();
-        var sut = fixture.Build<PropertyHolder<string>>().OmitAutoProperties();
-        // Act
-        sut.With(s => s.Property);
-        // Assert
-        var instance = sut.CreateAnonymous();
         Assert.Null(instance.Property);
     }
 
@@ -4107,21 +3580,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAnonymousWithUnexpectedWillNotMutateSut()
-    {
-        // Arrange
-        var fixture = new Fixture();
-        var unexpectedProperty = "Anonymous value";
-        var sut = fixture.Build<PropertyHolder<string>>();
-        // Act
-        sut.With(s => s.Property, unexpectedProperty);
-        // Assert
-        var instance = sut.CreateAnonymous();
-        Assert.NotEqual(unexpectedProperty, instance.Property);
-    }
-
-    [Fact]
     public void BuildWithUnexpectedWillNotMutateSut()
     {
         // Arrange
@@ -4136,20 +3594,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithoutWillNotMutateSutObsolete()
-    {
-        // Arrange
-        var fixture = new Fixture();
-        var sut = fixture.Build<PropertyHolder<string>>();
-        // Act
-        sut.Without(s => s.Property);
-        // Assert
-        var instance = sut.CreateAnonymous();
-        Assert.NotNull(instance.Property);
-    }
-
-    [Fact]
     public void BuildWithoutWillNotMutateSut()
     {
         // Arrange
@@ -4160,19 +3604,6 @@ public class FixtureTest
         // Assert
         var instance = sut.Create();
         Assert.NotNull(instance.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousWillReturnCreatedObject()
-    {
-        // Arrange
-        object expectedObject = new object();
-        var sut = new Fixture();
-        // Act
-        object result = sut.Build<object>().FromSeed(seed => expectedObject).CreateAnonymous();
-        // Assert
-        Assert.Equal<object>(expectedObject, result);
     }
 
     [Fact]
@@ -4216,18 +3647,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousWillCreateObject()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        object result = sut.Build<object>().CreateAnonymous();
-        // Assert
-        Assert.NotNull(result);
-    }
-
-    [Fact]
     public void BuildAndCreateWillCreateObject()
     {
         // Arrange
@@ -4236,21 +3655,6 @@ public class FixtureTest
         object result = sut.Build<object>().Create();
         // Assert
         Assert.NotNull(result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousAfterDefiningConstructorWithZeroParametersWillReturnDefinedObject()
-    {
-        // Arrange
-        var sut = new Fixture();
-        object expectedObject = new object();
-        // Act
-        var result = sut.Build<object>()
-            .FromFactory(() => expectedObject)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal<object>(expectedObject, result);
     }
 
     [Fact]
@@ -4268,21 +3672,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousAfterDefiningConstructorWithOneParameterWillReturnDefinedObject()
-    {
-        // Arrange
-        var sut = new Fixture();
-        SingleParameterType<object> expectedObject = new SingleParameterType<object>(new object());
-        // Act
-        var result = sut.Build<SingleParameterType<object>>()
-            .FromFactory<object>(obj => expectedObject)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal<SingleParameterType<object>>(expectedObject, result);
-    }
-
-    [Fact]
     public void BuildAndCreateAfterDefiningConstructorWithOneParameterWillReturnDefinedObject()
     {
         // Arrange
@@ -4294,21 +3683,6 @@ public class FixtureTest
             .Create();
         // Assert
         Assert.Equal<SingleParameterType<object>>(expectedObject, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousAfterDefiningConstructorWithTwoParametersWillReturnDefinedObject()
-    {
-        // Arrange
-        var sut = new Fixture();
-        DoubleParameterType<object, object> expectedObject = new DoubleParameterType<object, object>(new object(), new object());
-        // Act
-        var result = sut.Build<DoubleParameterType<object, object>>()
-            .FromFactory<object, object>((o1, o2) => expectedObject)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result);
     }
 
     [Fact]
@@ -4326,21 +3700,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousAfterDefiningConstructorWithThreeParametersWillReturnDefinedObject()
-    {
-        // Arrange
-        var sut = new Fixture();
-        TripleParameterType<object, object, object> expectedObject = new TripleParameterType<object, object, object>(new object(), new object(), new object());
-        // Act
-        var result = sut.Build<TripleParameterType<object, object, object>>()
-            .FromFactory<object, object, object>((o1, o2, o3) => expectedObject)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result);
-    }
-
-    [Fact]
     public void BuildAndCreateAfterDefiningConstructorWithThreeParametersWillReturnDefinedObject()
     {
         // Arrange
@@ -4352,21 +3711,6 @@ public class FixtureTest
             .Create();
         // Assert
         Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAndCreateAnonymousAfterDefiningConstructorWithFourParametersWillReturnDefinedObject()
-    {
-        // Arrange
-        var sut = new Fixture();
-        QuadrupleParameterType<object, object, object, object> expectedObject = new QuadrupleParameterType<object, object, object, object>(new object(), new object(), new object(), new object());
-        // Act
-        var result = sut.Build<QuadrupleParameterType<object, object, object, object>>()
-            .FromFactory<object, object, object, object>((o1, o2, o3, o4) => expectedObject)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result);
     }
 
     [Fact]
@@ -4384,20 +3728,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildFromFactoryStillAppliesAutoPropertiesObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<PropertyHolder<string>>()
-            .FromFactory(() => new PropertyHolder<string>())
-            .CreateAnonymous();
-        // Assert
-        Assert.NotNull(result.Property);
-    }
-
-    [Fact]
     public void BuildFromFactoryStillAppliesAutoProperties()
     {
         // Arrange
@@ -4408,19 +3738,6 @@ public class FixtureTest
             .Create();
         // Assert
         Assert.NotNull(result.Property);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildOverwritesPreviousFactoryBasedCustomizationObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customize<PropertyHolder<object>>(c => c.FromFactory(() => new PropertyHolder<object>()));
-        // Act
-        var result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
-        // Assert
-        Assert.Null(result.Property);
     }
 
     [Fact]
@@ -4468,17 +3785,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAbstractClassThrowsObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act & assert
-        Assert.Throws<ObjectCreationException>(() =>
-            sut.Build<AbstractType>().CreateAnonymous());
-    }
-
-    [Fact]
     public void BuildAbstractClassThrows()
     {
         // Arrange
@@ -4489,37 +3795,12 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAbstractTypeUsingStronglyTypedFactoryIsPossibleObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<AbstractType>().FromFactory(() => new ConcreteType()).CreateAnonymous();
-        // Assert
-        Assert.IsAssignableFrom<ConcreteType>(result);
-    }
-
-    [Fact]
     public void BuildAbstractTypeUsingStronglyTypedFactoryIsPossible()
     {
         // Arrange
         var sut = new Fixture();
         // Act
         var result = sut.Build<AbstractType>().FromFactory(() => new ConcreteType()).Create();
-        // Assert
-        Assert.IsAssignableFrom<ConcreteType>(result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void BuildAbstractTypeUsingBuilderIsPossibleObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new ConcreteType() };
-        // Act
-        var result = sut.Build<AbstractType>().FromFactory(builder).CreateAnonymous();
         // Assert
         Assert.IsAssignableFrom<ConcreteType>(result);
     }
@@ -4537,22 +3818,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildAbstractTypeCorrectlyAppliesPropertyObsolete()
-    {
-        // Arrange
-        var expected = new object();
-        var sut = new Fixture();
-        // Act
-        var result = sut.Build<AbstractType>()
-            .FromFactory(() => new ConcreteType())
-            .With(x => x.Property1, expected)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal(expected, result.Property1);
-    }
-
-    [Fact]
     public void BuildAbstractTypeCorrectlyAppliesProperty()
     {
         // Arrange
@@ -4565,19 +3830,6 @@ public class FixtureTest
             .Create();
         // Assert
         Assert.Equal(expected, result.Property1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void RegisterNullWillAssignCorrectPickedPropertyValueObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Register(() => (string)null);
-        // Act
-        var result = sut.Build<PropertyHolder<string>>().With(p => p.Property).CreateAnonymous();
-        // Assert
-        Assert.Null(result.Property);
     }
 
     [Fact]
@@ -4677,21 +3929,6 @@ public class FixtureTest
     }
 
     [Fact]
-    [Obsolete]
-    public void BuildWithOverriddenVirtualPropertyCorrectlySetsPropertyObsolete()
-    {
-        // Arrange
-        var sut = new Fixture();
-        var expected = Guid.NewGuid();
-        // Act
-        var result = sut.Build<ConcreteType>()
-            .With(x => x.Property4, expected)
-            .CreateAnonymous();
-        // Assert
-        Assert.Equal(expected, result.Property4);
-    }
-
-    [Fact]
     public void BuildWithOverriddenVirtualPropertyCorrectlySetsProperty()
     {
         // Arrange
@@ -4724,18 +3961,6 @@ public class FixtureTest
         Assert.NotEmpty(result);
     }
 
-    [Fact, Obsolete]
-    public void CreateAnonymousEnumerableWhenEnumerableRelayIsPresentReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.ResidueCollectors.Add(new EnumerableRelay());
-        // Act
-        var result = sut.Create<IEnumerable<decimal>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
     [Fact]
     public void CreateAnonymousListDoesFillWithItemsPerDefault()
     {
@@ -4745,111 +3970,6 @@ public class FixtureTest
         var result = sut.Create<List<string>>();
         // Assert
         Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateAnonymousListWithCustomizationsReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-        sut.ResidueCollectors.Add(new EnumerableRelay());
-        // Act
-        var result = sut.Create<List<string>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateAnonymousHashSetWithCustomizationsReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new HashSetSpecification()));
-        sut.ResidueCollectors.Add(new EnumerableRelay());
-        // Act
-        var result = sut.Create<HashSet<float>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateAnonymousIListWithCustomizationsReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-        sut.ResidueCollectors.Add(new EnumerableRelay());
-        sut.ResidueCollectors.Add(new ListRelay());
-        // Act
-        var result = sut.Create<IList<int>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateAnonymousICollectionWithCustomizationsReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-        sut.ResidueCollectors.Add(new EnumerableRelay());
-        sut.ResidueCollectors.Add(new CollectionRelay());
-        // Act
-        var result = sut.Create<ICollection<Version>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateAnonymousCollectionWithCustomizationsReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new ListFavoringConstructorQuery()), new CollectionSpecification()));
-        sut.ResidueCollectors.Add(new EnumerableRelay());
-        sut.ResidueCollectors.Add(new ListRelay());
-        // Act
-        var result = sut.Create<Collection<ConcreteType>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateAnonymousDictionaryWithCustomizationsReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
-        // Act
-        var result = sut.Create<Dictionary<int, string>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateAnonymousIDictionaryWithCustomizationsReturnsCorrectResult()
-    {
-        // Arrange
-        var sut = new Fixture();
-        sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
-        sut.ResidueCollectors.Add(new DictionaryRelay());
-        // Act
-        var result = sut.Create<IDictionary<TimeSpan, Version>>();
-        // Assert
-        Assert.True(result.Any());
-    }
-
-    [Fact, Obsolete]
-    public void CreateMultipleHoldersOfEnumsReturnsCorrectResultForLastItem()
-    {
-        // Arrange
-        var sut = new Fixture();
-        // Act
-        var result = sut.CreateMany<PropertyHolder<TriState>>(4);
-        // Assert
-        Assert.InRange(result.Last().Property, TriState.First, TriState.Third);
     }
 
     [Fact]
@@ -5151,20 +4271,6 @@ public class FixtureTest
         // Assert
         Assert.NotNull(result.Property1);
         Assert.NotNull(result.Property2);
-    }
-
-    [Fact, Obsolete]
-    public void CustomizingEnumerableCustomizedCreateManyWhenCreateManyIsMappedToEnumerable()
-    {
-        // Arrange
-        var fixture =
-            new Fixture().Customize(new MapCreateManyToEnumerable());
-        var expected = new[] { "a", "b", "c", "d" };
-        fixture.Register<IEnumerable<string>>(() => expected);
-        // Act
-        var actual = fixture.CreateMany<string>();
-        // Assert
-        Assert.Equal(expected, actual.ToArray());
     }
 
     [Fact]

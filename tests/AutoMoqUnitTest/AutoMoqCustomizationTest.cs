@@ -37,15 +37,6 @@ public class AutoMoqCustomizationTest
         Assert.False(sut.GenerateDelegates);
     }
 
-    [Fact, Obsolete]
-    public void InitializeWithNullRelayThrows()
-    {
-        // Arrange
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            new AutoMoqCustomization(null));
-    }
-
     [Fact]
     public void ThrowsIfNullRelayIsSet()
     {
@@ -66,18 +57,6 @@ public class AutoMoqCustomizationTest
         sut.Relay = relay;
         // Assert
         Assert.Equal(relay, sut.Relay);
-    }
-
-    [Fact, Obsolete]
-    public void SpecificationIsCorrectWhenInitializedWithRelay()
-    {
-        // Arrange
-        var expectedRelay = new MockRelay();
-        var sut = new AutoMoqCustomization(expectedRelay);
-        // Act
-        ISpecimenBuilder result = sut.Relay;
-        // Assert
-        Assert.Equal(expectedRelay, result);
     }
 
     [Fact]

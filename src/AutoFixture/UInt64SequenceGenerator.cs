@@ -22,17 +22,6 @@ public class UInt64SequenceGenerator : ISpecimenBuilder
     /// <summary>
     /// Creates an anonymous number.
     /// </summary>
-    /// <returns>The next number in a consecutive sequence.</returns>
-    [CLSCompliant(false)]
-    [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
-    public ulong CreateAnonymous()
-    {
-        return (ulong)Create(typeof(ulong), null);
-    }
-
-    /// <summary>
-    /// Creates an anonymous number.
-    /// </summary>
     /// <param name="request">The request that describes what to create.</param>
     /// <param name="context">Not used.</param>
     /// <returns>

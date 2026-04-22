@@ -19,22 +19,6 @@ public class FieldSpecificationTest
     }
 
     [Fact]
-    [Obsolete]
-    public void InitializeWithFieldNameShouldSetCorrespondingProperty()
-    {
-        // Arrange
-        var type = typeof(string);
-        var name = "someName";
-        // Act
-        var sut = new FieldSpecification(type, name);
-        // Assert
-#pragma warning disable 618
-        Assert.Equal(type, sut.TargetType);
-        Assert.Equal(name, sut.TargetName);
-#pragma warning restore 618
-    }
-
-    [Fact]
     public void InitializeWithNullFieldTypeShouldThrowArgumentNullException()
     {
         // Arrange

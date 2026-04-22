@@ -29,35 +29,6 @@ public static class SpecimenFactory
     /// Creates an anonymous variable of the requested type.
     /// </summary>
     /// <typeparam name="T">The type of object to create.</typeparam>
-    /// <param name="context">The context used to resolve the type request.</param>
-    /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
-    /// <remarks>Obsolete: Please move over to using <see cref="Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create&lt;T&gt;()</see> as this method will be removed in the next release.</remarks>
-    [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
-    public static T CreateAnonymous<T>(this ISpecimenContext context)
-    {
-        return Create<T>(context);
-    }
-
-    /// <summary>
-    /// Creates an anonymous variable of the requested type.
-    /// </summary>
-    /// <typeparam name="T">The type of object to create.</typeparam>
-    /// <param name="fixture">
-    /// The fixture used to resolve the type request.
-    /// </param>
-    /// <returns>
-    /// An anonymous object of type <typeparamref name="T"/>.
-    /// </returns>
-    [Obsolete("For compatibility to AutoFixture version 2. This method will be removed, please move to using Create<T>()", true)]
-    public static T CreateAnonymous<T>(this IFixture fixture)
-    {
-        return fixture.Create<T>();
-    }
-
-    /// <summary>
-    /// Creates an anonymous variable of the requested type.
-    /// </summary>
-    /// <typeparam name="T">The type of object to create.</typeparam>
     /// <param name="builder">
     /// The builder used to resolve the type request.
     /// </param>
@@ -86,21 +57,6 @@ public static class SpecimenFactory
         return Create<T>((ISpecimenBuilder)composer);
     }
 
-    /// <summary>
-    /// Creates an anonymous variable of the requested type.
-    /// </summary>
-    /// <typeparam name="T">The type of object to create.</typeparam>
-    /// <param name="composer">The composer used to resolve the type request.</param>
-    /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
-    /// <remarks>Obsolete: "Please move over to using <see cref="Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create{T}</see> as this method will be removed in the next release.
-    /// </remarks>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
-    [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
-    public static T CreateAnonymous<T>(this IPostprocessComposer<T> composer)
-    {
-        return Create<T>(composer);
-    }
-
     /// <summary>Creates many anonymous objects.</summary>
     /// <typeparam name="T">The type of objects to create.</typeparam>
     /// <param name="builder">
@@ -118,10 +74,6 @@ public static class SpecimenFactory
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilder builder)
@@ -144,10 +96,6 @@ public static class SpecimenFactory
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context)
@@ -173,10 +121,6 @@ public static class SpecimenFactory
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// <para>
     /// The only purpose of this explicit overload is to support type inferencing.
@@ -207,10 +151,6 @@ public static class SpecimenFactory
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
     /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
-    /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilder builder, int count)
     {
@@ -233,10 +173,6 @@ public static class SpecimenFactory
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// </remarks>
     public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, int count)
@@ -263,10 +199,6 @@ public static class SpecimenFactory
     /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
     /// CreateMany method returns a new, independent instance of
     /// IEnumerable&lt;T&gt;.
-    /// </para>
-    /// <para>
-    /// However, you can change this behavior, for example by applying the
-    /// <see cref="MapCreateManyToEnumerable" /> customization.
     /// </para>
     /// <para>
     /// The only purpose of this explicit overload is to support type inferencing.

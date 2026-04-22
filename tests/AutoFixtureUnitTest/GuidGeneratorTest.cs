@@ -9,54 +9,6 @@ namespace AutoFixtureUnitTest;
 public class GuidGeneratorTest
 {
     [Fact]
-    [Obsolete]
-    public void CreateAnonymousWillReturnNonDefaultGuid()
-    {
-        // Arrange
-        var unexpectedGuid = default(Guid);
-        // Act
-        var result = GuidGenerator.CreateAnonymous();
-        // Assert
-        Assert.NotEqual<Guid>(unexpectedGuid, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnNonDefaultGuid()
-    {
-        // Arrange
-        var unexpectedGuid = default(Guid);
-        // Act
-        var result = GuidGenerator.Create();
-        // Assert
-        Assert.NotEqual<Guid>(unexpectedGuid, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousTwiceWillReturnDifferentValues()
-    {
-        // Arrange
-        var unexpectedGuid = GuidGenerator.CreateAnonymous();
-        // Act
-        var result = GuidGenerator.CreateAnonymous();
-        // Assert
-        Assert.NotEqual<Guid>(unexpectedGuid, result);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateTwiceWillReturnDifferentValues()
-    {
-        // Arrange
-        var unexpectedGuid = GuidGenerator.Create();
-        // Act
-        var result = GuidGenerator.Create();
-        // Assert
-        Assert.NotEqual<Guid>(unexpectedGuid, result);
-    }
-
-    [Fact]
     public void SutIsSpecimenBuilder()
     {
         // Arrange

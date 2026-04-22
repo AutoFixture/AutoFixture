@@ -9,48 +9,6 @@ namespace AutoFixtureUnitTest;
 public class ByteSequenceGeneratorTest
 {
     [Fact]
-    [Obsolete]
-    public void CreateAnonymousWillReturnOneOnFirstCall()
-    {
-        new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousWillReturnTwoOnSecondCall()
-    {
-        new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(2);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateAnonymousWillReturnTenOnTenthCall()
-    {
-        new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(10);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnOneOnFirstCall()
-    {
-        new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(1);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnTwoOnSecondCall()
-    {
-        new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(2);
-    }
-
-    [Fact]
-    [Obsolete]
-    public void CreateWillReturnTenOnTenthCall()
-    {
-        new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(10);
-    }
-
-    [Fact]
     public void SutIsSpecimenBuilder()
     {
         // Arrange
