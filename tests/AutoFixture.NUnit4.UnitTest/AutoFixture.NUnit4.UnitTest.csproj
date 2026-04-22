@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462;$(BaseTargetFrameworks)</TargetFrameworks>
+    <TargetFrameworks>net48;$(BaseTargetFrameworks)</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit4.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.NUnit4.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.NUnit4.UnitTest</RootNamespace>

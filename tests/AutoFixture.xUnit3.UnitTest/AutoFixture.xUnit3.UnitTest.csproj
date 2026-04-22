@@ -5,7 +5,6 @@
     <AssemblyTitle>AutoFixture.xUnit.net3.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit3.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Xunit3.UnitTest</RootNamespace>
-    <RuntimeIdentifiers Condition="'$(TargetFramework)' == 'net48'">win-x86</RuntimeIdentifiers>
   </PropertyGroup>
   
   <ItemGroup>

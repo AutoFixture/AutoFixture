@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <IsXUnit2>true</IsXUnit2>
+    <IsXUnit3>true</IsXUnit3>
     <TargetFrameworks>$(BaseTargetFrameworks)</TargetFrameworks>
     <AssemblyTitle>AutoNSubstitute.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.AutoNSubstitute.UnitTest</AssemblyName>

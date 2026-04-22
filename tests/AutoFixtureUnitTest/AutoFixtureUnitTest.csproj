@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <IsXUnit2>true</IsXUnit2>
-    <TargetFrameworks>net462;$(BaseTargetFrameworks)</TargetFrameworks>
+    <IsXUnit3>true</IsXUnit3>
+    <TargetFrameworks>net48;$(BaseTargetFrameworks)</TargetFrameworks>
     <AssemblyTitle>AutoFixture.UnitTest</AssemblyTitle>
     <PackageId>AutoFixtureUnitTest</PackageId>
     <RootNamespace>AutoFixtureUnitTest</RootNamespace>

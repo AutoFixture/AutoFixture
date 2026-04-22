@@ -109,7 +109,7 @@ public class AsyncEnumerableRelayTest
 
         // Assert
         var actual = await Assert.IsAssignableFrom<IAsyncEnumerable<int>>(result)
-            .ToListAsync().ConfigureAwait(true);
+            .ToListAsync(cancellationToken: TestContext.Current.CancellationToken).ConfigureAwait(true);
         Assert.Equal(enumerable, actual);
     }
 
@@ -157,7 +157,7 @@ public class AsyncEnumerableRelayTest
 
         // Assert
         var actual = await Assert.IsAssignableFrom<IAsyncEnumerable<int>>(result)
-            .ToListAsync().ConfigureAwait(true);
+            .ToListAsync(cancellationToken: TestContext.Current.CancellationToken).ConfigureAwait(true);
         Assert.Equal(enumerable.OfType<int>(), actual);
     }
 }

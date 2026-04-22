@@ -47,14 +47,12 @@ public class NumericRangedRequestRelayTest
         Assert.IsType<NoSpecimen>(result);
     }
 
-    public static TheoryData<object> NonSupportedRequests => new TheoryData<object>
-    {
+    public static TheoryData<object> NonSupportedRequests => new TheoryData<object>(
         new object(),
         typeof(object),
         typeof(int),
         typeof(string),
-        new RangedNumberRequest(typeof(int), 0, 42)
-    };
+        new RangedNumberRequest(typeof(int), 0, 42));
 
     [Theory, MemberData(nameof(NonSupportedRequests))]
     public void ShouldReturnNoResultForNonSupportedRequests(object request)

@@ -26,6 +26,8 @@
       xUnit1003: Theory methods must have test data - xUnit does not support our custom data attributes
     -->
     <NoWarn>$(NoWarn);xUnit1003</NoWarn>
+
+    <RuntimeIdentifiers Condition="'$(TargetFramework)' == 'net48'">win-x86</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
