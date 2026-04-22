@@ -11,6 +11,7 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Utilities.Collections;
+using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 
@@ -33,14 +34,6 @@ class Build : NukeBuild
     [Secret] [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
-    IEnumerable<Project> Excluded => new[]
-    {
-        Solution.GetProject("_build"),
-        Solution.GetProject("TestTypeFoundation")
-    };
-
-    IEnumerable<Project> TestProjects => Solution.GetAllProjects("*Test");
-    IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
 
     bool IsContinuousIntegration => IsServerBuild || CI;
@@ -51,6 +44,13 @@ class Build : NukeBuild
     AbsolutePath TestResultsDirectory => ArtifactsDirectory / "testresults";
     AbsolutePath ReportsDirectory => ArtifactsDirectory / "reports";
     AbsolutePath PackagesDirectory => ArtifactsDirectory / "packages";
+
+    Target LogGitVersion => _ => _
+        .Before(Clean)
+        .Executes(() =>
+        {
+            Log.Information("Git version: {version}", GitVersion.ToString());
+        });
 
     Target Clean => _ => _
         .Before(Restore)
@@ -71,8 +71,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetRestore(s => s
-                .SetProjectFile(Solution)
-                .SetProperty("CheckEolTargetFramework", "false"));
+                .SetProjectFile(Solution));
         });
 
     Target Verify => _ => _
@@ -84,8 +83,7 @@ class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration.Verify)
                 .SetNoRestore(FinishedTargets.Contains(Restore))
-                .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetProperty("CheckEolTargetFramework", "false"));
+                .SetContinuousIntegrationBuild(IsContinuousIntegration));
         });
 
     Target Compile => _ => _
@@ -101,8 +99,7 @@ class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetNoRestore(FinishedTargets.Contains(Restore))
-                .SetProperty("CheckEolTargetFramework", "false"));
+                .SetNoRestore(FinishedTargets.Contains(Restore)));
         });
 
     Target Test => _ => _
@@ -111,18 +108,17 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
+                .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
                 .SetResultsDirectory(TestResultsDirectory)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
                 .SetLoggers("trx")
-                .SetProperty("CheckEolTargetFramework", "false")
                 .SetProcessAdditionalArguments(
                     "-- RunConfiguration.DisableAppDomain=true",
                     "-- RunConfiguration.NoAutoReporters=true")
                 .When(
                     _ => InvokedTargets.Contains(Cover),
-                    x => x.SetDataCollector("XPlat Code Coverage"))
-                .CombineWith(TestProjects, (s, p) => s.SetProjectFile(p)));
+                    x => x.SetDataCollector("XPlat Code Coverage")));
 
             var testArchive = TestResultsDirectory / "TestResults.zip";
             testArchive.DeleteFile();
@@ -158,6 +154,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetPack(s => s
+                .SetProject(Solution)
                 .SetConfiguration(Configuration)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
                 .SetOutputDirectory(PackagesDirectory)
@@ -168,9 +165,7 @@ class Build : NukeBuild
                 .SetVersion(GitVersion.NuGetVersionV2)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetProperty("CheckEolTargetFramework", "false")
-                .CombineWith(Libraries, (s, p) => s.SetProject(p)));
+                .SetInformationalVersion(GitVersion.InformationalVersion));
         });
 
     Target Publish => _ => _

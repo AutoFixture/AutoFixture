@@ -1,31 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsXUnit3>true</IsXUnit3>
-    <TargetFrameworks>net48;net6.0;net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net48;$(BaseTargetFrameworks)</TargetFrameworks>
     <AssemblyTitle>AutoFixture.xUnit.net3.UnitTest</AssemblyTitle>
     <AssemblyName>AutoFixture.Xunit3.UnitTest</AssemblyName>
     <RootNamespace>AutoFixture.Xunit3.UnitTest</RootNamespace>
+    <RuntimeIdentifiers Condition="'$(TargetFramework)' == 'net48'">win-x86</RuntimeIdentifiers>
   </PropertyGroup>
-
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'net48'">
-      <PropertyGroup>
-        <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
-      </PropertyGroup>
-      <ItemGroup>
-        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\..\src\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=netstandard2.0" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
-        <ProjectReference Include="..\..\src\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" />
-        <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
-
-
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\..\src\AutoFixture.xUnit3\AutoFixture.xUnit3.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+  </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0;net5.0;net6.0;net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;$(BaseTargetFrameworks)</TargetFrameworks>
     <AssemblyTitle>AutoFixture</AssemblyTitle>
     <AssemblyName>AutoFixture</AssemblyName>
     <RootNamespace>AutoFixture</RootNamespace>
@@ -13,12 +13,12 @@
 
   <ItemGroup>
     <PackageReference Include="Fare" Version="[2.2.2,3.0.0)" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
   <!-- Dependencies added to support newer BCL types in older version of .NET -->
   <ItemGroup Condition="'$(TargetFramework)'=='net462' Or '$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" />
   </ItemGroup>
 </Project>
