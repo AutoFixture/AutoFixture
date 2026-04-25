@@ -1,8 +1,7 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 using System.Threading;
-using Xunit.Sdk;
+using Xunit.v3;
 
 namespace AutoFixtureUnitTest;
 
@@ -26,7 +25,7 @@ public class UseCultureAttribute : BeforeAfterTestAttribute
         _uiCulture = new CultureInfo(uiCulture);
     }
 
-    public override void Before(MethodInfo methodUnderTest)
+    public override void Before(MethodInfo methodUnderTest, IXunitTest test)
     {
         _originalCulture = CultureInfo.CurrentCulture;
         _originalUiCulture = CultureInfo.CurrentCulture;
@@ -34,7 +33,7 @@ public class UseCultureAttribute : BeforeAfterTestAttribute
         SetCurrentCulture(_culture, _uiCulture);
     }
 
-    public override void After(MethodInfo methodUnderTest)
+    public override void After(MethodInfo methodUnderTest, IXunitTest test)
     {
         SetCurrentCulture(_originalCulture, _originalUiCulture);
     }

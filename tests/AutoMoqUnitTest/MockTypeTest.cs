@@ -105,13 +105,11 @@ public class MockTypeTest
     }
 
     public static TheoryData<object> UnexpectedSpecimens =>
-        new TheoryData<object>
-        {
+        new TheoryData<object>(
             new OmitSpecimen(),
             NoSpecimen.Instance,
             new object(),
-            new StringBuilder()
-        };
+            new StringBuilder());
 
     [Theory]
     [MemberData(nameof(UnexpectedSpecimens))]
