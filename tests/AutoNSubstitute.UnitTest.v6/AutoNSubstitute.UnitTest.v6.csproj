@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsXUnit3>true</IsXUnit3>
+    <TargetFrameworks>$(BaseTargetFrameworks)</TargetFrameworks>
+    <AssemblyTitle>AutoNSubstitute.UnitTest.v6</AssemblyTitle>
+    <AssemblyName>AutoFixture.AutoNSubstitute.UnitTest.v6</AssemblyName>
+    <RootNamespace>AutoFixture.AutoNSubstitute.UnitTest.v6</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSubstitute" Version="[6.0.0]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AutoNSubstituteUnitTest\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Remove="..\AutoNSubstituteUnitTest\obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AutoNSubstitute\AutoNSubstitute.csproj" />
+    <ProjectReference Include="..\..\src\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
+  </ItemGroup>
+</Project>
