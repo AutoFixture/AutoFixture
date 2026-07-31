@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSubstitute" Version="[5.0.0,6.0.0)" />
+    <PackageReference Include="NSubstitute" Version="[5.0.0,7.0.0)" />
   </ItemGroup>
 
   <!-- Dependencies added due to transitive vulnerabilities in NSubstitute -->

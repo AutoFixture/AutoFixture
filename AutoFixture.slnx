@@ -35,6 +35,7 @@
     <Project Path="tests/AutoFixtureDocumentationTest/AutoFixtureDocumentationTest.csproj" />
     <Project Path="tests/AutoFixtureUnitTest/AutoFixtureUnitTest.csproj" />
     <Project Path="tests/AutoMoqUnitTest/AutoMoqUnitTest.csproj" />
+    <Project Path="tests/AutoNSubstitute.UnitTest.v6/AutoNSubstitute.UnitTest.v6.csproj" />
     <Project Path="tests/AutoNSubstituteUnitTest/AutoNSubstituteUnitTest.csproj" />
     <Project Path="tests/IdiomsUnitTest/IdiomsUnitTest.csproj" />
     <Project Path="tests/TestTypeFoundation/TestTypeFoundation.csproj" />
