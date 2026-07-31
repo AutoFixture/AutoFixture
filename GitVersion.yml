@@ -10,7 +10,7 @@ branches:
     prevent-increment:
       of-merged-branch: true
       when-current-commit-tagged: true
-    label: 'preview'
+    label: 'rc'
 ignore:
   sha: []
 merge-message-formats: {}
