@@ -3,12 +3,14 @@ assembly-versioning-scheme: MajorMinorPatch
 tag-prefix: '[vV]'
 branches:
   main:
-    tag: ''
+    label: ''
     increment: Minor
   release:
     source-branches: ['main']
-    prevent-increment-of-merged-branch-version: true
-    tag: 'preview'
+    prevent-increment:
+      of-merged-branch: true
+      when-current-commit-tagged: true
+    label: 'preview'
 ignore:
   sha: []
 merge-message-formats: {}

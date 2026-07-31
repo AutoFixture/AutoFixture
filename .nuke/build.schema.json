@@ -27,6 +27,7 @@
         "Clean",
         "Compile",
         "Cover",
+        "LogGitVersion",
         "Pack",
         "Publish",
         "Restore",

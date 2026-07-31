@@ -95,7 +95,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetDeterministic(IsContinuousIntegration)
                 .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetVersion(GitVersion.NuGetVersionV2)
+                .SetVersion(GitVersion.SemVer)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
@@ -162,7 +162,7 @@ class Build : NukeBuild
                 .EnableIncludeSymbols()
                 .SetDeterministic(IsContinuousIntegration)
                 .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetVersion(GitVersion.NuGetVersionV2)
+                .SetVersion(GitVersion.SemVer)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
