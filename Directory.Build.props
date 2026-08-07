@@ -48,12 +48,14 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/79c882c3f4af3cf52ad43e5c95851f25d217ac17/AutoFixtureLogo200x200.png</PackageIconUrl>
     <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\build\assets\logo.png" Pack="true" PackagePath="logo.png"/>
+    <None Include="$(MSBuildThisFileDirectory)\docs\PackageReadme.md" Pack="true" PackagePath="PackageReadme.md"/>
   </ItemGroup>
 
   <ItemGroup>
