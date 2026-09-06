@@ -13,7 +13,14 @@ Write maintainable unit tests, faster.
 
 AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.
 
-Check the [testimonials](https://github.com/AutoFixture/AutoFixture/wiki/Who-uses-AutoFixture) to see what other people have to say about AutoFixture.
+<p align="center">
+  <a href="https://autofixture.com">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/lockup-dark.svg">
+      <img src="assets/lockup-light.svg" height="40" alt="AutoFixture" />
+    </picture>
+  </a>
+</p>
 
 ## Table of Contents
 
@@ -25,7 +32,7 @@ Check the [testimonials](https://github.com/AutoFixture/AutoFixture/wiki/Who-use
 
 ## Overview
 
-(Jump straight to the [CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet) if you just want to see some code samples right away.)
+(Jump straight to the [cheat sheet](https://autofixture.com/docs/reference/cheat-sheet) if you just want to see some code samples right away.)
 
 AutoFixture is designed to make Test-Driven Development more productive and unit tests more refactoring-safe. It does so by removing the need for hand-coding anonymous variables as part of a test's Fixture Setup phase. Among other features, it offers a generic implementation of the [Test Data Builder](http://www.natpryce.com/articles/000714.html) pattern.
 
@@ -118,7 +125,7 @@ These integrations enable such features as configuring mocks, auto-injecting moc
 | FakeItEasy | [AutoFixture.AutoFakeItEasy](http://www.nuget.org/packages/AutoFixture.AutoFakeItEasy) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.AutoFakeItEasy)](https://www.nuget.org/packages/AutoFixture.AutoFakeItEasy) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoFakeItEasy)](https://www.nuget.org/packages/AutoFixture.AutoFakeItEasy) | ![NuGet](https://img.shields.io/nuget/dt/autofixture.AutoFakeItEasy) |
 | Rhino Mocks | [AutoFixture.AutoRhinoMocks](http://www.nuget.org/packages/AutoFixture.AutoRhinoMocks) | [![NuGet](https://img.shields.io/nuget/v/AutoFixture.AutoRhinoMocks)](https://www.nuget.org/packages/AutoFixture.AutoRhinoMocks) | [![NuGet](https://img.shields.io/nuget/vpre/AutoFixture.AutoRhinoMocks)](https://www.nuget.org/packages/AutoFixture.AutoRhinoMocks) | ![NuGet](https://img.shields.io/nuget/dt/autofixture.AutoRhinoMocks) |
 
-> **NOTE:** 
+> **NOTE:**
 > Since AutoFixture tries maintain compatibility with a large number of package versions, the packages bundled with AutoFixture might not contain the latest features of your mocking library.<br />
 > Make sure to install the latest version of the mocking library package, alongside the AutoFixture package.
 
@@ -152,8 +159,14 @@ Make sure to enable the preview packages in your IDE in order to see the latest 
 
 ## Documentation
 
-* [CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet)
-* [FAQ](https://github.com/AutoFixture/AutoFixture/wiki/FAQ)
+Docs live on [autofixture.com](https://autofixture.com): guides for getting started and day-to-day use, plus a browsable API reference for the published packages.
+
+* [Get started](https://autofixture.com/docs/get-started/introduction) — install AutoFixture and write a first test
+* [Fundamentals](https://autofixture.com/docs/fundamentals/fixture-and-create) — `Fixture`, `Create`, Build, and customizations
+* [How-to](https://autofixture.com/docs/how-to/collections) — collections, circular references, Freeze/Inject, and similar recipes
+* [Integrations](https://autofixture.com/docs/integrations/overview) — xUnit, NUnit, Moq, NSubstitute, FakeItEasy, and more
+* [API reference](https://autofixture.com/api) — generated docs for public types across packages
+* [Cheat sheet](https://autofixture.com/docs/reference/cheat-sheet) and [FAQ](https://autofixture.com/docs/reference/faq)
 
 ### Additional resources
 
