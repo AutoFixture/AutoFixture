@@ -218,7 +218,7 @@ internal class OpenGenericTypeClosingUtil
                 if (_value == null)
                 {
                     _value = new DynamicDummyType(
-                            _specimenBuilder, GetBaseType(), GetInterfaces())
+                            _specimenBuilder, GenericArgument, GetBaseType(), GetInterfaces())
                         .Value;
                 }
 
@@ -275,6 +275,7 @@ internal class OpenGenericTypeClosingUtil
             typeof(SpecimenFactory).GetMethod("Create", new[] { typeof(ISpecimenBuilder) });
 
         private readonly ISpecimenBuilder _specimenBuilder;
+        private readonly Type _genericArgument;
         private readonly Type _baseType;
         private readonly Type[] _interfaces;
         private ConstructorBuilder _constructorBuilder;
@@ -284,9 +285,11 @@ internal class OpenGenericTypeClosingUtil
         private FieldBuilder _specimenBuilderFieldBuilder;
         private ConstructorInfo _baseTypeConstructor;
 
-        public DynamicDummyType(ISpecimenBuilder specimenBuilder, Type baseType, Type[] interfaces)
+        public DynamicDummyType(ISpecimenBuilder specimenBuilder, Type genericArgument,
+            Type baseType, Type[] interfaces)
         {
             _specimenBuilder = specimenBuilder;
+            _genericArgument = genericArgument;
             _baseType = baseType;
             _interfaces = interfaces;
         }
@@ -312,9 +315,42 @@ internal class OpenGenericTypeClosingUtil
                 _typeBuilder = s_moduleBuilder.DefineType(
                     GetBaseTypeName(),
                     TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.Sealed,
-                    _baseType,
-                    _interfaces);
+                    _baseType);
             }
+
+            foreach (var @interface in _interfaces)
+            {
+                _typeBuilder.AddInterfaceImplementation(ResolveSelfReference(@interface));
+            }
+        }
+
+        private Type ResolveSelfReference(Type type)
+        {
+            if (!type.ContainsGenericParameters)
+                return type;
+
+            if (type == _genericArgument)
+                return _typeBuilder;
+
+            if (type.IsByRef)
+                return ResolveSelfReference(type.GetElementType()).MakeByRefType();
+
+            if (type.IsArray)
+            {
+                var originalElementType = type.GetElementType();
+                var elementType = ResolveSelfReference(originalElementType);
+                return type == originalElementType.MakeArrayType()
+                    ? elementType.MakeArrayType()
+                    : elementType.MakeArrayType(type.GetArrayRank());
+            }
+
+            if (type.IsGenericType)
+            {
+                return type.GetGenericTypeDefinition()
+                    .MakeGenericType(type.GetGenericArguments().Select(ResolveSelfReference).ToArray());
+            }
+
+            return type;
         }
 
         private string GetBaseTypeName()
@@ -461,8 +497,8 @@ internal class OpenGenericTypeClosingUtil
                 _methodInfo.Name,
                 MethodAttributes.Public | MethodAttributes.Virtual,
                 CallingConventions.Standard,
-                _methodInfo.ReturnType,
-                _methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
+                ResolveSelfReference(_methodInfo.ReturnType),
+                _methodInfo.GetParameters().Select(p => ResolveSelfReference(p.ParameterType)).ToArray());
         }
 
         private void DefineMethodGenericParameters()
@@ -492,7 +528,7 @@ internal class OpenGenericTypeClosingUtil
             var generator = _methodBuilder.GetILGenerator();
             if (_methodBuilder.ReturnType != typeof(void))
             {
-                EmitCallFixtureCreate(generator, _methodInfo.ReturnType);
+                EmitCallFixtureCreate(generator, _methodBuilder.ReturnType);
             }
 
             generator.Emit(OpCodes.Ret);

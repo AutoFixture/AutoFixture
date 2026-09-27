@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using AutoFixture.Idioms;
 using AutoFixture.Kernel;
 using TestTypeFoundation;
@@ -24,7 +25,8 @@ public partial class GuardClauseAssertionTest
         typeof(ModestConstructorTestConstraint<>),
         typeof(ConstructorMatchTestType<,>),
         typeof(MethodMatchTestType<,>),
-        typeof(ByRefTestType<>)
+        typeof(ByRefTestType<>),
+        typeof(UnguardedSelfReferencingConstraint<>)
     };
 
     public static TheoryData<MemberRef<ConstructorInfo>> ConstructorsOnUnguardedOpenGenericTypes =>
@@ -91,7 +93,8 @@ public partial class GuardClauseAssertionTest
         typeof(StructureAndInterfacesContraint<>),
         typeof(ParameterizedConstructorTestConstraint<>),
         typeof(UnclosedGenericMethodTestType<>),
-        typeof(NestedGenericParameterTestType<,>)
+        typeof(NestedGenericParameterTestType<,>),
+        typeof(GuardedSelfReferencingConstraint<>)
     };
 
     public static TheoryData<MemberRef<ConstructorInfo>> ConstructorsOnGuardedOpenGenericTypes =>
@@ -235,6 +238,169 @@ public partial class GuardClauseAssertionTest
         var assembliesAfter = AppDomain.CurrentDomain.GetAssemblies();
 
         Assert.Equal(assembliesBefore, assembliesAfter);
+    }
+
+    [Theory]
+    [InlineData(nameof(SelfReferencingConstraintMethods.Equatable))]
+    [InlineData(nameof(SelfReferencingConstraintMethods.EquatableClass))]
+    [InlineData(nameof(SelfReferencingConstraintMethods.EquatableStruct))]
+    [InlineData(nameof(SelfReferencingConstraintMethods.EquatableWithDefaultConstructor))]
+    [InlineData(nameof(SelfReferencingConstraintMethods.CustomInterface))]
+    public void VerifyMethodWithSelfReferencingConstraintDoesNotThrow(string methodName)
+    {
+        // Arrange
+        var sut = new GuardClauseAssertion(new Fixture());
+        var method = typeof(SelfReferencingConstraintMethods).GetMethod(methodName);
+
+        // Act
+        var exception = Record.Exception(() => sut.Verify(method));
+
+        // Assert
+        Assert.Null(exception);
+    }
+
+    [Fact]
+    public void VerifyUnguardedMethodWithSelfReferencingConstraintThrows()
+    {
+        // Arrange
+        var sut = new GuardClauseAssertion(new Fixture());
+        var method = typeof(SelfReferencingConstraintMethods)
+            .GetMethod(nameof(SelfReferencingConstraintMethods.Unguarded));
+
+        // Act
+        var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(method));
+
+        // Assert
+        Assert.Contains("Are you missing a Guard Clause?", exception.Message);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void VerifyMethodWithNonVectorArrayInInterfaceConstraintThrowsGuardClauseException(bool selfReferencing)
+    {
+        // Arrange
+        // A rank-one non-vector array (T[*]) cannot be declared in C#.
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName("ArrayConstraint" + Guid.NewGuid()), AssemblyBuilderAccess.Run);
+        var module = assembly.DefineDynamicModule("ArrayConstraint");
+        var interfaceBuilder = module.DefineType("IArray`1",
+            TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract);
+        var elementType = interfaceBuilder.DefineGenericParameters("T")[0];
+        interfaceBuilder.DefineMethod("Accept",
+            MethodAttributes.Public | MethodAttributes.Abstract | MethodAttributes.Virtual,
+            typeof(void), new[] { elementType.MakeArrayType(1) });
+        var interfaceType = interfaceBuilder.CreateTypeInfo().AsType();
+
+        var owner = module.DefineType("Owner", TypeAttributes.Public);
+        var methodBuilder = owner.DefineMethod("Method", MethodAttributes.Public | MethodAttributes.Static,
+            typeof(void), new[] { typeof(object) });
+        var argument = methodBuilder.DefineGenericParameters("T")[0];
+        argument.SetInterfaceConstraints(interfaceType.MakeGenericType(selfReferencing ? argument : typeof(int)));
+        methodBuilder.GetILGenerator().Emit(OpCodes.Ret);
+        var method = owner.CreateTypeInfo().GetMethod("Method");
+        var sut = new GuardClauseAssertion(new Fixture());
+
+        // Act
+        var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(method));
+
+        // Assert
+        Assert.Contains("Are you missing a Guard Clause?", exception.Message);
+    }
+
+    public class SelfReferencingConstraintMethods
+    {
+        public void Equatable<T>(T value, object other)
+            where T : IEquatable<T>
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            value.Equals(value);
+            if (other == null) throw new ArgumentNullException(nameof(other));
+        }
+
+        public void EquatableClass<T>(T value, object other)
+            where T : class, IEquatable<T>
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            value.Equals(value);
+            if (other == null) throw new ArgumentNullException(nameof(other));
+        }
+
+        public void EquatableStruct<T>(T value, object other)
+            where T : struct, IEquatable<T>
+        {
+            value.Equals(value);
+            if (other == null) throw new ArgumentNullException(nameof(other));
+        }
+
+        public void EquatableWithDefaultConstructor<T>(T value, object other)
+            where T : IEquatable<T>, new()
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            value.Equals(new T());
+            if (other == null) throw new ArgumentNullException(nameof(other));
+        }
+
+        public void CustomInterface<T>(T value, object other)
+            where T : class, ISelfReferencingInterface<T>
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            value.Equals(value);
+            value.Copy().Equals(value);
+            value.Accept(ref value, new T[1, 1]);
+            if (!value.Create().Any()) throw new InvalidOperationException("Expected anonymous values.");
+            if (other == null) throw new ArgumentNullException(nameof(other));
+        }
+
+        public void Unguarded<T>(T value)
+            where T : class, IEquatable<T>
+        {
+        }
+    }
+
+    public interface ISelfReferencingInterface<T> : IEquatable<T>
+    {
+        T Copy();
+
+        IEnumerable<T[]> Create();
+
+        void Accept(ref T value, T[,] values);
+    }
+
+    private class UnguardedSelfReferencingConstraint<T>
+        where T : class, IEquatable<T>
+    {
+        public UnguardedSelfReferencingConstraint(T value)
+        {
+        }
+
+        public T Property { get; set; }
+
+        public void Method(T value)
+        {
+        }
+    }
+
+    private class GuardedSelfReferencingConstraint<T>
+        where T : class, IEquatable<T>
+    {
+        private T _value;
+
+        public GuardedSelfReferencingConstraint(T value)
+        {
+            _value = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public T Property
+        {
+            get => _value;
+            set => _value = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public void Method(T value)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+        }
     }
 
     private class NoContraint<T>
